@@ -1,0 +1,332 @@
+[
+  {
+    "code": "POLYGON_QUICKSWAP",
+    "name": "Quick Swap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/quickswap_color.png"
+  },
+  {
+    "code": "POLYGON_CURVE",
+    "name": "Curve",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/curve_color.png"
+  },
+  {
+    "code": "POLYGON_SUSHISWAP",
+    "name": "SushiSwap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/sushiswap_color.png"
+  },
+  {
+    "code": "POLYGON_AAVE_V2",
+    "name": "Aave V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/aave_color.png"
+  },
+  {
+    "code": "COMETH",
+    "name": "Cometh",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/cometh_color.png"
+  },
+  {
+    "code": "DFYN",
+    "name": "Dfyn",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/dfyn_color.png"
+  },
+  {
+    "code": "POLYGON_MSTABLE",
+    "name": "mStable",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/mstable_color.png"
+  },
+  {
+    "code": "FIREBIRD_FINANCE",
+    "name": "Firebird OneSwap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/firebird_color.png"
+  },
+  {
+    "code": "ONESWAP",
+    "name": "Firebird Swap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/firebird_color.png"
+  },
+  {
+    "code": "POLYDEX_FINANCE",
+    "name": "Polydex",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/polydex_color.png"
+  },
+  {
+    "code": "POLYGON_ONE_INCH_LIMIT_ORDER",
+    "name": "1inch Protocol",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/1inch_color.png"
+  },
+  {
+    "code": "POLYGON_ONE_INCH_LIMIT_ORDER_V2",
+    "name": "1inch Protocol V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/1inch_color.png"
+  },
+  {
+    "code": "POLYGON_ONE_INCH_LIMIT_ORDER_V3",
+    "name": "1inch Protocol V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/1inch_color.png"
+  },
+  {
+    "code": "POLYGON_WAULTSWAP",
+    "name": "Wault Swap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/waultswap_color.png"
+  },
+  {
+    "code": "POLYGON_BALANCER_V2",
+    "name": "Balancer V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/balancer_color.png"
+  },
+  {
+    "code": "POLYGON_KYBER_DMM",
+    "name": "Kyber DMM",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/kyber_color.png"
+  },
+  {
+    "code": "POLYGON_DODO",
+    "name": "DODO",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/dodo_color.png"
+  },
+  {
+    "code": "POLYGON_DODO_V2",
+    "name": "DODO V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/dodo_color.png"
+  },
+  {
+    "code": "POLYGON_JETSWAP",
+    "name": "JetSwap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/jetswap_color.png"
+  },
+  {
+    "code": "IRONSWAP",
+    "name": "IronSwap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/ironswap_color.png"
+  },
+  {
+    "code": "POLYGON_UNIFI",
+    "name": "Unifi",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/unifi_color.png"
+  },
+  {
+    "code": "POLYGON_DFX_FINANCE",
+    "name": "DFX Finance",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/dfx_color.png"
+  },
+  {
+    "code": "POLYGON_APESWAP",
+    "name": "ApeSwap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/apeswap_color.png"
+  },
+  {
+    "code": "POLYGON_SAFE_SWAP",
+    "name": "SafeSwap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/safeswap_color.png"
+  },
+  {
+    "code": "POLYCAT_FINANCE",
+    "name": "PolycatFinance",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/polycat_color.png"
+  },
+  {
+    "code": "POLYGON_CURVE_V2",
+    "name": "Curve V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/curve_color.png"
+  },
+  {
+    "code": "POLYGON_UNISWAP_V3",
+    "name": "Uniswap V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/uniswap_color.png"
+  },
+  {
+    "code": "POLYGON_ELK",
+    "name": "ELK",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/elk_color.png"
+  },
+  {
+    "code": "POLYGON_SYNAPSE",
+    "name": "Synapse",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/synapse_color.png"
+  },
+  {
+    "code": "POLYGON_GRAVITY",
+    "name": "Gravity",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/gravity_color.png"
+  },
+  {
+    "code": "POLYGON_NERVE",
+    "name": "Nerve Finance",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/nerve_color.png"
+  },
+  {
+    "code": "POLYGON_DYSTOPIA",
+    "name": "Dystopia",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/dystopia_color.png"
+  },
+  {
+    "code": "POLYGON_RADIOSHACK",
+    "name": "RadioShack",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/radioshack_color.png"
+  },
+  {
+    "code": "POLYGON_MESHSWAP",
+    "name": "MeshSwap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/meshswap_color.png"
+  },
+  {
+    "code": "POLYGON_KYBERSWAP_ELASTIC",
+    "name": "KyberSwap Elastic",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/kyber_color.png"
+  },
+  {
+    "code": "POLYGON_WOOFI",
+    "name": "WOOFi",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/woofi_color.png"
+  },
+  {
+    "code": "POLYGON_MAVERICK",
+    "name": "Maverick",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/maverick_color.png"
+  },
+  {
+    "code": "POLYGON_CLIPPER_COVES",
+    "name": "Clipper Coves",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/clipper_color.png"
+  },
+  {
+    "code": "POLYGON_SWAAP",
+    "name": "Swaap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/swaap_color.png"
+  },
+  {
+    "code": "MM_FINANCE",
+    "name": "MM Finance",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/mmfinance_color.png"
+  },
+  {
+    "code": "POLYGON_PMM8",
+    "name": "PMM8",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/pmm_color.png"
+  },
+  {
+    "code": "POLYGON_KYBER_DMM_STATIC",
+    "name": "Kyber DMM Static",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/kyber_color.png"
+  },
+  {
+    "code": "POLYGON_AAVE_V3",
+    "name": "Aave V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/aave_color.png"
+  },
+  {
+    "code": "POLYGON_QUICKSWAP_V3",
+    "name": "QuickSwap V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/quickswap_color.png"
+  },
+  {
+    "code": "POLYGON_ZK_BOB",
+    "name": "BobSwap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/zkbob_color.png"
+  },
+  {
+    "code": "POLYGON_TRIDENT",
+    "name": "Trident",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/sushiswap_color.png"
+  },
+  {
+    "code": "POLYGON_WOOFI_V2",
+    "name": "WOOFi V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/woofi_color.png"
+  },
+  {
+    "code": "POLYGON_DFX_FINANCE_V2",
+    "name": "DFX Finance V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/dfx_color.png"
+  },
+  {
+    "code": "POLYGON_SATIN",
+    "name": "Satin",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/satin_color.png"
+  },
+  {
+    "code": "POLYGON_SATIN_4POOL",
+    "name": "Satin 4Pool",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/satin_color.png"
+  },
+  {
+    "code": "POLYGON_METAVAULT_TRADE",
+    "name": "Metavault Trade",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/metavault_color.png"
+  },
+  {
+    "code": "POLYGON_NOMISWAPEPCS",
+    "name": "Nomiswap-epcs",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/nomiswap_color.png"
+  },
+  {
+    "code": "POLYGON_PEARL",
+    "name": "Pearl",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/pearl_color.png"
+  },
+  {
+    "code": "POLYGON_SUSHISWAP_V3",
+    "name": "SushiSwap V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/sushiswap_color.png"
+  },
+  {
+    "code": "POLYGON_RETRO",
+    "name": "Retro",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/retro_color.png"
+  }
+]

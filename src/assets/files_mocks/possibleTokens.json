@@ -1,0 +1,46 @@
+[
+    {
+        "name": "Avalanche",
+        "symbol": "AVAX",
+        "decimals": 18,
+        "address": "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+        "balance": "491.518618349255932385",
+        "weight": 25,
+        "id": "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+        "usdAmount": "0.0260",
+        "withdrawAmount": "0.000573"
+    },
+    {
+        "name": "SOLANA",
+        "symbol": "SOL",
+        "decimals": 18,
+        "address": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+        "balance": "250.26185762873347622",
+        "weight": 25,
+        "id": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+        "usdAmount": "0.0261",
+        "withdrawAmount": "0.000292"
+    },
+    {
+        "name": "BTCB Token",
+        "symbol": "BTCB",
+        "decimals": 18,
+        "address": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+        "balance": "0.504500941577361309",
+        "weight": 25,
+        "id": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+        "usdAmount": "0.0436",
+        "withdrawAmount": "0.000001"
+    },
+    {
+        "name": "Wrapped BNB",
+        "symbol": "WBNB",
+        "decimals": 18,
+        "address": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+        "balance": "80.522372388629606639",
+        "weight": 25,
+        "id": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+        "usdAmount": "0.0255",
+        "withdrawAmount": "0.000094"
+    }
+]

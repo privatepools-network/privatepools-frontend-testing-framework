@@ -1,0 +1,664 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
+    ],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "Paused",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "Unpaused",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "uniV2Buy", "type": "address" },
+      { "internalType": "address[]", "name": "pathBuy", "type": "address[]" },
+      { "internalType": "address", "name": "uniV2Sell", "type": "address" },
+      { "internalType": "address[]", "name": "pathSell", "type": "address[]" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" }
+    ],
+    "name": "arbFromETH",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "actualAmountOut",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "uniV2Buy", "type": "address" },
+      {
+        "components": [
+          { "internalType": "address", "name": "tokenIn", "type": "address" },
+          { "internalType": "address", "name": "tokenOut", "type": "address" },
+          { "internalType": "uint24", "name": "fee", "type": "uint24" },
+          { "internalType": "address", "name": "recipient", "type": "address" },
+          { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+          { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "amountOutMinimum",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint160",
+            "name": "sqrtPriceLimitX96",
+            "type": "uint160"
+          }
+        ],
+        "internalType": "struct ISwapRouter.ExactInputSingleParams",
+        "name": "paramsBuy",
+        "type": "tuple"
+      },
+      { "internalType": "address", "name": "uniV2Sell", "type": "address" },
+      {
+        "components": [
+          { "internalType": "address", "name": "tokenIn", "type": "address" },
+          { "internalType": "address", "name": "tokenOut", "type": "address" },
+          { "internalType": "uint24", "name": "fee", "type": "uint24" },
+          { "internalType": "address", "name": "recipient", "type": "address" },
+          { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+          { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "amountOutMinimum",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint160",
+            "name": "sqrtPriceLimitX96",
+            "type": "uint160"
+          }
+        ],
+        "internalType": "struct ISwapRouter.ExactInputSingleParams",
+        "name": "paramsSell",
+        "type": "tuple"
+      },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" }
+    ],
+    "name": "arbFromETHWithUniV3",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "actualAmountOut",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "router", "type": "address" },
+      { "internalType": "address[]", "name": "path", "type": "address[]" },
+      { "internalType": "address", "name": "univ3", "type": "address" },
+      {
+        "components": [
+          { "internalType": "address", "name": "tokenIn", "type": "address" },
+          { "internalType": "address", "name": "tokenOut", "type": "address" },
+          { "internalType": "uint24", "name": "fee", "type": "uint24" },
+          { "internalType": "address", "name": "recipient", "type": "address" },
+          { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+          { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "amountOutMinimum",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint160",
+            "name": "sqrtPriceLimitX96",
+            "type": "uint160"
+          }
+        ],
+        "internalType": "struct ISwapRouter.ExactInputSingleParams",
+        "name": "params",
+        "type": "tuple"
+      },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "selector", "type": "uint256" }
+    ],
+    "name": "arbFromETHWithUniV3AndUniV2",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "actualAmountOut",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "uniV3", "type": "address" },
+      {
+        "components": [
+          { "internalType": "address", "name": "tokenIn", "type": "address" },
+          { "internalType": "address", "name": "tokenOut", "type": "address" },
+          { "internalType": "uint24", "name": "fee", "type": "uint24" },
+          { "internalType": "address", "name": "recipient", "type": "address" },
+          { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+          { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "amountOutMinimum",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint160",
+            "name": "sqrtPriceLimitX96",
+            "type": "uint160"
+          }
+        ],
+        "internalType": "struct ISwapRouter.ExactInputSingleParams",
+        "name": "params",
+        "type": "tuple"
+      },
+      { "internalType": "address", "name": "vault", "type": "address" },
+      {
+        "components": [
+          { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+          {
+            "internalType": "uint256",
+            "name": "assetInIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "assetOutIndex",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "amount", "type": "uint256" },
+          { "internalType": "bytes", "name": "userData", "type": "bytes" }
+        ],
+        "internalType": "struct IVault.BatchSwapStep[]",
+        "name": "swaps",
+        "type": "tuple[]"
+      },
+      { "internalType": "address[]", "name": "assets", "type": "address[]" },
+      { "internalType": "int256[]", "name": "limits", "type": "int256[]" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "selector", "type": "uint256" }
+    ],
+    "name": "arbFromETHWithUniV3AndVault",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "actualAmountOut",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "vaultBuy", "type": "address" },
+      {
+        "components": [
+          { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+          {
+            "internalType": "uint256",
+            "name": "assetInIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "assetOutIndex",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "amount", "type": "uint256" },
+          { "internalType": "bytes", "name": "userData", "type": "bytes" }
+        ],
+        "internalType": "struct IVault.BatchSwapStep[]",
+        "name": "swapsBuy",
+        "type": "tuple[]"
+      },
+      { "internalType": "address", "name": "vaultSell", "type": "address" },
+      {
+        "components": [
+          { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+          {
+            "internalType": "uint256",
+            "name": "assetInIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "assetOutIndex",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "amount", "type": "uint256" },
+          { "internalType": "bytes", "name": "userData", "type": "bytes" }
+        ],
+        "internalType": "struct IVault.BatchSwapStep[]",
+        "name": "swapsSell",
+        "type": "tuple[]"
+      },
+      { "internalType": "address[]", "name": "assetsBuy", "type": "address[]" },
+      {
+        "internalType": "address[]",
+        "name": "assetsSell",
+        "type": "address[]"
+      },
+      { "internalType": "int256[]", "name": "limits", "type": "int256[]" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" }
+    ],
+    "name": "arbFromETHWithVault",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "actualAmountOut",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "uniV2Buy", "type": "address" },
+      { "internalType": "address[]", "name": "path", "type": "address[]" },
+      { "internalType": "address", "name": "uniV2Sell", "type": "address" },
+      {
+        "components": [
+          { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
+          {
+            "internalType": "uint256",
+            "name": "assetInIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "assetOutIndex",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "amount", "type": "uint256" },
+          { "internalType": "bytes", "name": "userData", "type": "bytes" }
+        ],
+        "internalType": "struct IVault.BatchSwapStep[]",
+        "name": "swaps",
+        "type": "tuple[]"
+      },
+      { "internalType": "address[]", "name": "assets", "type": "address[]" },
+      { "internalType": "int256[]", "name": "limits", "type": "int256[]" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "selector", "type": "uint256" }
+    ],
+    "name": "arbFromETHWithVaultAndUniV2",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "actualAmountOut",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "defaultUniV2Strategy",
+    "outputs": [
+      {
+        "internalType": "contract IUniV2Strategy",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "defaultUniV3Strategy",
+    "outputs": [
+      {
+        "internalType": "contract IUniV3Strategy",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "defaultVaultStrategy",
+    "outputs": [
+      {
+        "internalType": "contract IVaultStrategy",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "router", "type": "address" },
+      { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+      { "internalType": "address[]", "name": "path", "type": "address[]" }
+    ],
+    "name": "getAmountsOut",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "uniV2", "type": "address" }
+    ],
+    "name": "getUniV2Strategy",
+    "outputs": [
+      {
+        "internalType": "contract IUniV2Strategy",
+        "name": "strategy",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "uniV3", "type": "address" }
+    ],
+    "name": "getUniV3Strategy",
+    "outputs": [
+      {
+        "internalType": "contract IUniV3Strategy",
+        "name": "strategy",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "vault", "type": "address" }
+    ],
+    "name": "getVaultStrategy",
+    "outputs": [
+      {
+        "internalType": "contract IVaultStrategy",
+        "name": "strategy",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "paused",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IUniV2Strategy",
+        "name": "strategy",
+        "type": "address"
+      }
+    ],
+    "name": "setDefaultSwapStrategy",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IUniV3Strategy",
+        "name": "strategy",
+        "type": "address"
+      }
+    ],
+    "name": "setDefaultUniV3Strategy",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IVaultStrategy",
+        "name": "strategy",
+        "type": "address"
+      }
+    ],
+    "name": "setDefaultVaultStrategy",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "uniV2", "type": "address" },
+      {
+        "internalType": "contract IUniV2Strategy",
+        "name": "strategy",
+        "type": "address"
+      }
+    ],
+    "name": "setUniV2Strategy",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "uniV3", "type": "address" },
+      {
+        "internalType": "contract IUniV3Strategy",
+        "name": "strategy",
+        "type": "address"
+      }
+    ],
+    "name": "setUniV3Strategy",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "vault", "type": "address" },
+      {
+        "internalType": "contract IVaultStrategy",
+        "name": "strategy",
+        "type": "address"
+      }
+    ],
+    "name": "setVaultStrategy",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IUniV2Strategy",
+        "name": "swapStrategy",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IVaultStrategy",
+        "name": "vaultStrategy",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IUniV3Strategy",
+        "name": "uniV3Strategy",
+        "type": "address"
+      }
+    ],
+    "name": "setup",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "uniV2Strategies",
+    "outputs": [
+      {
+        "internalType": "contract IUniV2Strategy",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "uniV3Strategies",
+    "outputs": [
+      {
+        "internalType": "contract IUniV3Strategy",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "unpause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "vaultStrategies",
+    "outputs": [
+      {
+        "internalType": "contract IVaultStrategy",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdrawETH",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC20Upgradeable",
+        "name": "_token",
+        "type": "address"
+      }
+    ],
+    "name": "withdrawToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  { "stateMutability": "payable", "type": "receive" }
+]

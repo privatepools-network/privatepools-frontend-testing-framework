@@ -1,0 +1,83 @@
+// Variable overrides
+$sidebar-bg: #181C1F;
+$table-header-color: #C3C5CB;
+$primary: #181C1F;
+$color-green: #01b47e;
+$color-dark-green: #67AE27;
+$color-heavy-green: #01B42D;
+$color-gray: #58585E;
+$color-light-gray: #6C757D;
+$color-red: #F84747;
+$sidebar-base-color: #7EF6B2;
+$success: #00C087;
+$dropdown-bg: #22282C;
+
+$sidebar-nav-link-active-bg: rgba(177, 240, 134, 0.2);
+$sidebar-nav-link-active-color: $sidebar-base-color;
+$sidebar-nav-link-active-icon-color: $sidebar-base-color;
+$sidebar-bg: $sidebar-bg;
+$sidebar-nav-link-border-radius: 5px;
+
+$sidebar-nav-link-hover-color: $sidebar-base-color;
+$sidebar-nav-link-hover-icon-color: $sidebar-base-color;
+
+$header-bg: black;
+$breadcrumb-active-color: rgba(255, 255, 255, 0.7);
+$breadcrumb-divider-color: rgba(255, 255, 255, 0.7);
+
+$card-bg: $primary;
+$table-border-color: #1F2128;
+$table-border-width: 1px;
+
+$form-select-bg: #22282C;
+$form-select-color: $color-gray;
+
+$table-striped-bg: #172525;
+$table-striped-color: white;
+
+$xs: 0;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1400px;
+$xxl2: 1550px;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+  2lg: 1550px,
+);
+
+$font-size-base:              1rem; // Assumes the browser default, typically `16px`
+$h1-font-size:                $font-size-base * 2.5;
+$h2-font-size:                $font-size-base * 2;
+$h3-font-size:                $font-size-base * 1.75;
+$h4-font-size:                $font-size-base * 1.5;
+$h5-font-size:                $font-size-base * 1.25;
+$h6-font-size:                $font-size-base;
+$h7-font-size:                $font-size-base * 0.8;
+$h8-font-size:                $font-size-base * 0.6;
+
+$font-sizes: (
+  1: $h1-font-size,
+  2: $h2-font-size,
+  3: $h3-font-size,
+  4: $h4-font-size,
+  5: $h5-font-size,
+  6: $h6-font-size,
+  7: $h7-font-size,
+  8: $h8-font-size,
+);
+
+$table-hover-color: #777a7a;
+$table-hover-bg: #1d2124;
+
+
+// Select
+$form-select-indicator-color: #A3A4A5 !default;
+$form-select-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='16' viewBox='0 0 26 16'><path fill='#A3A4A5' stroke='#{$form-select-indicator-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3.055 0L13 9.88934L22.945 0L26 3.04453L13 16L0 3.04453L3.055 0Z'/></svg>") !default;

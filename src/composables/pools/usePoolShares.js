@@ -1,0 +1,33 @@
+import { useQuery } from '@tanstack/vue-query'
+import useGraphQLQuery from '../useQuery'
+import { configService } from '@/services/config/config.service'
+import { networkId } from '../useNetwork'
+import { PoolSharesQuery } from '../queries/poolSharesQuery'
+
+
+export async function GetPoolShares(poolId, account){
+    let config = configService.getNetworkConfig(networkId.value)
+    if (!config.poolsUrlV2) return []
+    let data = await useGraphQLQuery(
+      config.subgraph,
+      PoolSharesQuery(
+        account.value && typeof account.value == 'string' ? account.value : '',
+      ),
+    )
+    if (data['poolShares']) {
+      let shares = data['poolShares']
+      shares = shares.filter((p) => p.poolId.id == poolId)
+      return shares.length > 0 ? shares[0] : {}
+    }
+    return {}
+}
+
+export function usePoolShares(poolId, account, options = {}) {
+  return useQuery(['poolShares', account.value], () => GetPoolShares(poolId, account), {
+    ...options,
+    onError: (error) => {
+      console.error('GraphQL query error:', error)
+    },
+    onSuccess: () => {},
+  })
+}

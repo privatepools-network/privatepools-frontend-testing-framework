@@ -1,0 +1,260 @@
+[
+  {
+    "code": "ARBITRUM_BALANCER_V2",
+    "name": "Balancer V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/balancer_color.png"
+  },
+  {
+    "code": "ARBITRUM_ONE_INCH_LIMIT_ORDER",
+    "name": "1inch Protocol",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/1inch_color.png"
+  },
+  {
+    "code": "ARBITRUM_ONE_INCH_LIMIT_ORDER_V2",
+    "name": "1inch Protocol V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/1inch_color.png"
+  },
+  {
+    "code": "ARBITRUM_ONE_INCH_LIMIT_ORDER_V3",
+    "name": "1inch Protocol V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/1inch_color.png"
+  },
+  {
+    "code": "ARBITRUM_DODO",
+    "name": "DODO",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/dodo_color.png"
+  },
+  {
+    "code": "ARBITRUM_DODO_V2",
+    "name": "DODO V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/dodo_color.png"
+  },
+  {
+    "code": "ARBITRUM_SUSHISWAP",
+    "name": "SushiSwap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/sushiswap_color.png"
+  },
+  {
+    "code": "ARBITRUM_DXSWAP",
+    "name": "Swapr",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/swapr_color.png"
+  },
+  {
+    "code": "ARBITRUM_UNISWAP_V3",
+    "name": "Uniswap V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/uniswap_color.png"
+  },
+  {
+    "code": "ARBITRUM_CURVE",
+    "name": "Curve",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/curve_color.png"
+  },
+  {
+    "code": "ARBITRUM_CURVE_V2",
+    "name": "Curve V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/curve_color.png"
+  },
+  {
+    "code": "ARBITRUM_GMX",
+    "name": "GMX",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/gambit_color.png"
+  },
+  {
+    "code": "ARBITRUM_SYNAPSE",
+    "name": "Synapse",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/synapse_color.png"
+  },
+  {
+    "code": "ARBITRUM_PMM5",
+    "name": "Hashflow",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/hashflow_color.png"
+  },
+  {
+    "code": "ARBITRUM_SADDLE",
+    "name": "Saddle Finance",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/saddle_color.png"
+  },
+  {
+    "code": "ARBITRUM_KYBERSWAP_ELASTIC",
+    "name": "KyberSwap Elastic",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/kyber_color.png"
+  },
+  {
+    "code": "ARBITRUM_KYBER_DMM_STATIC",
+    "name": "Kyber DMM Static",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/kyber_color.png"
+  },
+  {
+    "code": "ARBITRUM_AAVE_V3",
+    "name": "Aave V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/aave_color.png"
+  },
+  {
+    "code": "ARBITRUM_ELK",
+    "name": "ELK",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/elk_color.png"
+  },
+  {
+    "code": "ARBITRUM_WOOFI_V2",
+    "name": "WOOFi V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/woofi_color.png"
+  },
+  {
+    "code": "ARBITRUM_CAMELOT",
+    "name": "Camelot",
+    "img": "",
+    "img_color": "https://assets-global.website-files.com/614c99cf4f23700c8aa3752a/63b7320c768e1e30bf7c79dc_public.png"
+  },
+  {
+    "code": "ARBITRUM_TRADERJOE",
+    "name": "TraderJoe",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/traderjoe_color.png"
+  },
+  {
+    "code": "ARBITRUM_TRADERJOE_V2",
+    "name": "TraderJoe V2",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/traderjoe_color.png"
+  },
+  {
+    "code": "ARBITRUM_SWAPFISH",
+    "name": "SwapFish",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/swapfish_color.png"
+  },
+  {
+    "code": "ARBITRUM_ZYBER",
+    "name": "Zyber",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/zyberswap_color.png"
+  },
+  {
+    "code": "ARBITRUM_ZYBER_STABLE",
+    "name": "Zyber Stable",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/zyberswap_color.png"
+  },
+  {
+    "code": "ARBITRUM_SOLIDLIZARD",
+    "name": "SolidLizard",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/solidlizard_color.png"
+  },
+  {
+    "code": "ARBITRUM_ZYBER_V3",
+    "name": "Zyber V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/zyberswap_color.png"
+  },
+  {
+    "code": "ARBITRUM_MYCELIUM",
+    "name": "Mycelium",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/mycelium_color.png"
+  },
+  {
+    "code": "ARBITRUM_TRIDENT",
+    "name": "Trident",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/sushiswap_color.png"
+  },
+  {
+    "code": "ARBITRUM_SHELL_OCEAN",
+    "name": "Shell",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/shell_color.png"
+  },
+  {
+    "code": "ARBITRUM_RAMSES",
+    "name": "Ramses Exchange",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/ramses_color.png"
+  },
+  {
+    "code": "ARBITRUM_TRADERJOE_V2_1",
+    "name": "TraderJoe V2.1",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/traderjoe_color.png"
+  },
+  {
+    "code": "ARBITRUM_NOMISWAPEPCS",
+    "name": "Nomiswap-epcs",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/nomiswap_color.png"
+  },
+  {
+    "code": "ARBITRUM_CAMELOT_V3",
+    "name": "Camelot V3",
+    "img": "",
+    "img_color": "https://assets-global.website-files.com/614c99cf4f23700c8aa3752a/63b7320c768e1e30bf7c79dc_public.png"
+  },
+  {
+    "code": "ARBITRUM_WOMBATSWAP",
+    "name": "Wombat",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/wombat_color.png"
+  },
+  {
+    "code": "ARBITRUM_CHRONOS",
+    "name": "Chronos",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/chronos_color.png"
+  },
+  {
+    "code": "ARBITRUM_LIGHTER",
+    "name": "Lighter",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/lighter_color.png"
+  },
+  {
+    "code": "ARBITRUM_ARBIDEX",
+    "name": "Arbidex",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/arbidex_color.png"
+  },
+  {
+    "code": "ARBITRUM_ARBIDEX_V3",
+    "name": "Arbidex V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/arbidex_color.png"
+  },
+  {
+    "code": "ARBSWAP",
+    "name": "ArbSwap",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/arbswap_color.png"
+  },
+  {
+    "code": "ARBSWAP_STABLE",
+    "name": "ArbSwap Stable",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/arbswap_color.png"
+  },
+  {
+    "code": "ARBITRUM_SUSHISWAP_V3",
+    "name": "SushiSwap V3",
+    "img": "",
+    "img_color": "https://cdn.1inch.io/liquidity-sources-logo/sushiswap_color.png"
+  }
+]
