@@ -1,5 +1,5 @@
 <template>
-  <CHeader position="sticky" class="header_main">
+  <CHeader position="static" class="header_main">
     <CContainer fluid class="header_container">
       <CHeaderNav v-if="width > 768" class="d-flex me-auto">
         <AppBreadcrumb :title="true" />
@@ -140,7 +140,7 @@
             <CNavItem>
               <div v-if="isConnectedToWeb3">
                 <Dropdown :distance="3" :placement="'bottom-end'">
-                  <CButton v-if="width > 768" color="success" variant="outline" class="header-button">
+                  <CButton v-if="width > 768" color="success" variant="standard" class="header-button">
                     <div class="d-flex align-items-center gap-2">
                       <CIcon :icon="cilUser" size="lg" /> {{ computedAddress }}
                     </div>
@@ -154,7 +154,7 @@
                         <div style="font-size: 14px; margin-left: 4px;">Account</div>
                         <div class="header-account__button" @click="disconnectFromWallet">
                           <!--                      <CButton @click="disconnectFromWallet" style="border-radius: 20px; color: white" color="success"-->
-                          <!--                        variant="outline">Disconnect-->
+                          <!--                        variant="standard">Disconnect-->
                           <!--                      </CButton>-->
                           Disconnect
                         </div>
@@ -228,18 +228,25 @@
               <div v-else>
                 <div v-if="isMetamaskSupported">
                   <Dropdown :distance="4" :placement="'bottom-end'">
-                    <CButton color="success" variant="outline" class="header-button">
-                      <div class="d-flex align-items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
-                          <path
-                            d="M14 6V3C14 2.73478 13.8946 2.48043 13.7071 2.29289C13.5196 2.10536 13.2652 2 13 2H3C2.46957 2 1.96086 2.21071 1.58579 2.58579C1.21071 2.96086 1 3.46957 1 4M1 4C1 4.53043 1.21071 5.03914 1.58579 5.41421C1.96086 5.78929 2.46957 6 3 6H15C15.2652 6 15.5196 6.10536 15.7071 6.29289C15.8946 6.48043 16 6.73478 16 7V10M1 4V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H15C15.2652 18 15.5196 17.8946 15.7071 17.7071C15.8946 17.5196 16 17.2652 16 17V14"
-                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                          <path
-                            d="M17 10V14H13C12.4696 14 11.9609 13.7893 11.5858 13.4142C11.2107 13.0391 11 12.5304 11 12C11 11.4696 11.2107 10.9609 11.5858 10.5858C11.9609 10.2107 12.4696 10 13 10H17Z"
-                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg> Connect Wallet
+                    <div class="d-flex">
+                      <div class="header-network-button">
+                        <img :src="arbIcon" alt="network" width="30" />
                       </div>
-                    </CButton>
+
+                      <CButton color="success" variant="standard" class="header-button" style="margin-left: 16px;">
+                        <div class="d-flex align-items-center gap-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                            <path
+                              d="M14 6V3C14 2.73478 13.8946 2.48043 13.7071 2.29289C13.5196 2.10536 13.2652 2 13 2H3C2.46957 2 1.96086 2.21071 1.58579 2.58579C1.21071 2.96086 1 3.46957 1 4M1 4C1 4.53043 1.21071 5.03914 1.58579 5.41421C1.96086 5.78929 2.46957 6 3 6H15C15.2652 6 15.5196 6.10536 15.7071 6.29289C15.8946 6.48043 16 6.73478 16 7V10M1 4V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H15C15.2652 18 15.5196 17.8946 15.7071 17.7071C15.8946 17.5196 16 17.2652 16 17V14"
+                              stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                              d="M17 10V14H13C12.4696 14 11.9609 13.7893 11.5858 13.4142C11.2107 13.0391 11 12.5304 11 12C11 11.4696 11.2107 10.9609 11.5858 10.5858C11.9609 10.2107 12.4696 10 13 10H17Z"
+                              stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg> Connect Wallet
+                        </div>
+                      </CButton>
+                    </div>
+
                     <template #popper>
                       <div class="header__popup">
                         <h4 style="font-size: 14px;margin-left: 12px; margin-bottom: 30px;">
@@ -254,7 +261,7 @@
                   </Dropdown>
                 </div>
                 <a v-else href="https://metamask.io/download/" target="_blank">
-                  <CButton color="warning" variant="outline">Metamask not found</CButton>
+                  <CButton color="warning" variant="standard">Metamask not found</CButton>
                 </a>
               </div>
             </CNavItem>
@@ -294,6 +301,8 @@ import { capitalizeFirstLetter } from "@/lib/utils/index"
 import { configService } from '@/services/config/config.service'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue';
+import arbIcon from '@/assets/images/tokens/arb.png'
+
 import 'vue3-toastify/dist/index.css';
 var emitter = require('tiny-emitter/instance');
 const { width } = useDevice()
@@ -552,7 +561,8 @@ const computedNetworkImage = computed(() =>
 
 .header_main {
   z-index: 12;
-
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .header_main_container {
@@ -581,11 +591,35 @@ const computedNetworkImage = computed(() =>
     }
   }
 
-  &-button {
-    padding: 8px 14px;
-    border-radius: 20px;
+
+  &-network-button {
+    padding: 8px 8px;
+    border-radius: 8px;
+    box-shadow: 0px 8px 10px 0px #00000033;
+    box-shadow: 0px 6px 30px 0px #0000001F;
+    box-shadow: 0px 16px 24px 0px #00000024;
+    background: radial-gradient(50% 50% at 26.04% 40.42%, rgba(0, 201, 255, 0.13) 0%, rgba(0, 201, 255, 0) 100%);
+    background-color: #1F1F1F;
     color: #fff;
     font-size: 14px;
+    font-family: 'Poppins';
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  &-button {
+    padding: 12px 16px;
+    border-radius: 8px;
+    box-shadow: 0px 8px 10px 0px #00000033;
+    box-shadow: 0px 6px 30px 0px #0000001F;
+    box-shadow: 0px 16px 24px 0px #00000024;
+    background: radial-gradient(50% 50% at 26.04% 40.42%, rgba(0, 201, 255, 0.13) 0%, rgba(0, 201, 255, 0) 100%);
+    background-color: #1F1F1F;
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Poppins';
 
     &:hover {
       color: #fff;
@@ -883,7 +917,7 @@ const computedNetworkImage = computed(() =>
     z-index: 100;
     appearance: none;
     cursor: pointer;
-    outline: none;
+    standard: none;
 
     span {
       display: block;
@@ -965,9 +999,21 @@ const computedNetworkImage = computed(() =>
       }
     }
 
+    &-network-button {
+      padding: 8px 8px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+
     &-button {
-      padding: 8px 14px;
-      border-radius: 20px;
+      padding: 12px 16px;
+      border-radius: 8px;
       color: #fff;
       font-size: 14px;
 

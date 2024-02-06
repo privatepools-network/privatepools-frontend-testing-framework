@@ -13,7 +13,7 @@
       <div class="wrapper d-flex flex-column min-vh-100" style="background-color: #101f3b;">
         <AppHeader />
 
-        <div class="body flex-grow-1 px-1 px-md-3 pt-1" style="background-color: #101f3b;">
+        <div class="body flex-grow-1 px-1 px-md-3 pt-1" style="background-color: #101f3b; padding-left: 2.5rem !important; padding-right: 2.5rem !important;">
           <router-view />
         </div>
       </div>
@@ -24,7 +24,7 @@
 import AppHeader from '@/components/AppHeader.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
 // import NewReleasesCard from "@/UI/NewReleasesCard.vue";
-// import { onMounted} from 'vue'
+// import { onMounted} from 'vue'rem !important
 
 // import { useSwipe } from '@vueuse/core'
 

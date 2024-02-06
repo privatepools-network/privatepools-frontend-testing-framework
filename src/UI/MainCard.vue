@@ -1,11 +1,11 @@
 <template>
-  <AppBreadcrumb :title="false" />
+  <!-- <AppBreadcrumb :title="false" /> -->
   <div :class="gradient_bg ? 'main_card_bg' : 'main_card'">
     <slot></slot>
   </div>
 </template>
 <script setup>
-import AppBreadcrumb from '@/components/AppBreadcrumb.vue';
+// import AppBreadcrumb from '@/components/AppBreadcrumb.vue';
 import { defineProps } from 'vue'
 defineProps(['gradient_bg', 'maxWidth'])
 

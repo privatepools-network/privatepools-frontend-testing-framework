@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <div v-else class="breadcrumb-list">
+    <div v-else class="breadcrumb-list grid">
       <div class="breadcrumb-list__el" v-for="(item, index) in breadcrumbs" :key="item">
         <div v-if="item.active || item.isDisabled">{{ item.name }}</div>
         <a v-else :href="item.path">
@@ -17,6 +17,9 @@
 
     </div>
 
+    <div class="breadcrumb-title text-[14px] family-ubuntu ml-[9px]" v-if="breadcrumbs && breadcrumbs.length > 0">
+      {{ breadcrumbs[breadcrumbs.length - 1].name }}
+    </div>
   </div>
 </template>
 
@@ -58,6 +61,8 @@ onMounted(() => {
     font-size: clamp(9px, 0.8vw, 12px)
     margin-bottom: 3px
     margin-left: 8px
+    font-family: 'Ubuntu'
+    font-weight: 500
     &__el
       display: flex
       a
@@ -69,5 +74,6 @@ onMounted(() => {
         color: #fff
   &-title
     color: #fff
-    padding-left: 26px
+    font-size: 16px
+    margin-left: 8px
 </style>
