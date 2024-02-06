@@ -1,9 +1,10 @@
 import { DashboardSvg } from '@/assets/icons/dashboardIcon'
 import { TrackIcon } from '@/assets/icons/TrackIcon'
+// import { LiquiditySvg } from '@/assets/icons/liquidityIcon'
 import { ManageSvg } from './assets/icons/manage'
 //import { AdminIcon } from './assets/icons/AdminIcon'
 // import { BotSvg } from './assets/icons/bot'
-// import { MyPortfolioIcon } from './assets/icons/MyPortfolioIcon'
+import { MyPortfolioIcon } from './assets/icons/MyPortfolioIcon'
 // import { SimulatorSvg } from './assets/icons/simulator'
 // import { botLiveFeedSvg } from './assets/icons/botLiveFeed'
 
@@ -64,7 +65,7 @@ export default [
     component: 'CNavItem',
     name: 'Rewards',
     to: '/rewards',
-    icon: ManageSvg,
+    icon: MyPortfolioIcon,
   },
   // {
   //   component: 'CNavItem',
