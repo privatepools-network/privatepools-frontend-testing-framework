@@ -5,14 +5,12 @@
         type: 'updateSidebarVisible',
         value: event,
       })
-
       ">
+    <div class="justify-content-center" style="margin-top: 10px;">
+      <CSidebarBrand class="flex-auto text-white fw-bolder fs-4" style="background-color: transparent">
 
-    <div class="d-flex justify-content-center" style="margin-top: 10px;">
-      <CSidebarBrand class="text-white fw-bolder fs-4" style="background-color: transparent">
-        <CAvatar :src="avatar" size="md" class="me-2 sidebar-brand-full sidebar-logo" />
-        <div class="sidebar-brand-full sidebar-d3">
-          <span class="sidebar-d3__top">Welcome!</span>
+        <div class="sidebar-d3 flex-auto ">
+          <span class="sidebar-d3__top ">Private Pools</span>
           <span class="sidebar-d3__bottom">{{ client }}</span>
         </div>
         <CAvatar :src="avatar" size="md" class="me-3 sidebar-brand-narrow sidebar-logo" style="margin-left: 12px" />
@@ -66,10 +64,9 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
+// import { useStore } from 'vuex'
 import { AppSidebarNav } from './AppSidebarNav'
 import { logoNegative } from '@/assets/brand/logo-negative'
-// import logo from '@/assets/images/d3v.png'
 import avatar from '@/assets/images/Avatar.png'
 import { sygnet } from '@/assets/brand/sygnet'
 
@@ -79,19 +76,16 @@ export default {
     AppSidebarNav,
   },
   setup() {
-    const store = useStore()
-
-
+    // const store = useStore()
     return {
       logoNegative,
       sygnet,
       avatar,
       sidebarNarrow: false,
-      sidebarUnfoldable: true,
-      sidebarVisible: () => store.state.sidebarVisible,
+      sidebarUnfoldable: false,
+      sidebarVisible: () => true,
       client: process.env.VUE_APP_NAME_OF_CLIENT_DEPLOYMENT
     }
-
   },
 }
 </script>
@@ -171,8 +165,10 @@ export default {
   flex-direction: column;
 
   &__top {
-    color: rgba(255, 255, 255, 0.32);
-    font-size: clamp(10px, 0.9vw, 12px);
+    color: rgba(255, 255, 255, 1);
+    font-size: clamp(24px, 0.9vw, 30px);
+    font-family: 'Ubuntu';
+    font-weight: 700;
   }
 
   &__bottom {
@@ -202,7 +198,7 @@ export default {
     height: 20px;
     margin-left: 8px;
     margin-right: 18px;
-    
+
     // padding-left: 17px !important;
   }
 

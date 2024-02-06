@@ -10,10 +10,10 @@
 
     <div  class="app_container">
       <AppSidebar />
-      <div class="wrapper d-flex flex-column min-vh-100 bg--black">
+      <div class="wrapper d-flex flex-column min-vh-100" style="background-color: #101f3b;">
         <AppHeader />
 
-        <div class="body flex-grow-1 px-1 px-md-3 bg--black pt-1">
+        <div class="body flex-grow-1 px-1 px-md-3 pt-1" style="background-color: #101f3b;">
           <router-view />
         </div>
       </div>

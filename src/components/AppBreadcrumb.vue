@@ -1,27 +1,22 @@
 <template>
-  <div class="breadcrumb">
-    <div v-if="title !== true" class="breadcrumb-list">
-      <div
-        class="breadcrumb-list__el"
-        v-for="(item, index) in breadcrumbs"
-        :key="item"
-      >
+  <div class="breadcrumb flex">
+    <div v-if="title !== true">
+      <div class="breadcrumb-title text-[14px] family-ubuntu" v-if="breadcrumbs && breadcrumbs.length > 0">
+        {{ breadcrumbs[breadcrumbs.length - 1].name }}
+      </div>
+    </div>
+
+    <div v-else class="breadcrumb-list">
+      <div class="breadcrumb-list__el" v-for="(item, index) in breadcrumbs" :key="item">
         <div v-if="item.active || item.isDisabled">{{ item.name }}</div>
         <a v-else :href="item.path">
           {{ item.name }}
         </a>
         <span v-if="index != breadcrumbs.length - 1">&nbsp;/&nbsp;</span>
       </div>
+
     </div>
-    <div v-else>
-      <div
-        class="breadcrumb-title"
-        v-if="breadcrumbs && breadcrumbs.length > 0"
-      >
-      Dark Pool
-        <!-- {{ breadcrumbs[breadcrumbs.length - 1].name }} -->
-      </div>
-    </div>
+
   </div>
 </template>
 
@@ -73,6 +68,6 @@ onMounted(() => {
       span
         color: #fff
   &-title
-    font-size: 24px
     color: #fff
+    padding-left: 26px
 </style>
