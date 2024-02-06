@@ -1,19 +1,11 @@
 <template>
-  <main>
-   
-    <!-- <div v-if="newReleaseCheck === 'non_checked' || newReleaseCheck === null" class="app_release_container">
-      <NewReleasesCard
-        :newReleaseCheck="newReleaseCheck"
-        
-      />
-    </div> -->
-
-    <div  class="app_container">
+  <main class="main_containter">
+    <div class="app_container">
       <AppSidebar />
-      <div class="wrapper d-flex flex-column min-vh-100" style="background-color: #101f3b;">
+      <div class="wrapper d-flex flex-column min-vh-100">
         <AppHeader />
-
-        <div class="body flex-grow-1 px-1 px-md-3 pt-1" style="background-color: #101f3b; padding-left: 2.5rem !important; padding-right: 2.5rem !important;">
+        <div class="body flex-grow-1 px-1 px-md-3 pt-1"
+          style="padding-left: 2.5rem !important; padding-right: 2.5rem !important;">
           <router-view />
         </div>
       </div>
@@ -54,38 +46,46 @@ import AppSidebar from '@/components/AppSidebar.vue'
   height: 100vh;
 }
 
-.body {
-  /* display: flex;
-  justify-content: center; */
+.main_containter {
+  background-image: URL('../assets/images/background-image.png');
+  background-size: cover;
+  backdrop-filter: blur(60px);
+  position: relative;
+  
 }
 
+
 .app_container {
+  background: linear-gradient(152.97deg, #142242 0%, rgb(41 43 56 / 50%) 100%);
+  backdrop-filter: blur(65px);
 }
 
 @media (max-width: $xxl) {
   html:not([dir='rtl']) .wrapper {
     padding-left: 33px;
   }
-  .app_container {
-  }
+
+  .app_container {}
 }
+
 @media (max-width: $md) {
   html:not([dir='rtl']) .wrapper {
     padding-left: 0px;
   }
-  .app_container {
-  }
+
+  .app_container {}
 }
 
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
-}
-</style>
+}</style>
