@@ -566,6 +566,7 @@ const computedNetworkImage = computed(() =>
 .header {
   border-bottom: none;
   padding: 16px 24px 0 24px;
+  background-color: transparent;
 
   &-nav {
     display: flex;
