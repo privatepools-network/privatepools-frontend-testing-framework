@@ -73,6 +73,8 @@ const {headers} = toRefs(props)
     width: 100%;
     display: table;
     table-layout: fixed;
+    background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%) !important;    
+
   }
 }
 </style>
