@@ -92,6 +92,9 @@ export default {
 <style lang="scss">
 @import '@/styles/_variables.scss';
 
+.sidebar {
+  height: 100vh;
+}
 
 .sidebar_helper_component {
   padding-bottom: 10px;
@@ -206,6 +209,7 @@ export default {
 @media (max-width: $xxl) {
   .sidebar {
     width: 190px;
+    height: 100vh;
   }
 
   .sidebar-nav .nav-link {
