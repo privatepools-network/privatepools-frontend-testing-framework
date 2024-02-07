@@ -57,6 +57,7 @@
             </VueDatePicker>
           </div>
         </div>
+        
         <div v-if="drawDownData.length > 0" v-for="item in drawDownData" :key="item" style="padding: 0px 8px">
           <div class="d-flex align-items-center justify-content-between" style="
               border-bottom: 1px solid rgba(44, 44, 44, 0.2);
@@ -289,8 +290,8 @@
             </VTooltip>
           </div>
         </div>
-
-        <DataTable :default_head_captions="['Period', 'ROI', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
+        <div v-if="roiData === null" style="margin-top: 10%; margin-bottom: 10%;"><LoaderPulse></LoaderPulse></div>
+        <DataTable v-else :default_head_captions="['Period', 'ROI', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
           :data="roiData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
           :header_cells_bg="'table_header_cell_bg'" :displayTable="roiData"
           :header_cells_inside="'table_header_cell_inside'">
@@ -362,8 +363,9 @@
             </VTooltip>
           </div>
         </div>
-
-        <DataTable :default_head_captions="['Period', 'APR', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
+        
+        <div v-if="aprData === null" style="margin-top: 10%; margin-bottom: 10%;"><LoaderPulse></LoaderPulse></div>
+        <DataTable v-else :default_head_captions="['Period', 'APR', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
           :data="aprData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
           :header_cells_bg="'table_header_cell_bg'" :displayTable="aprData"
           :header_cells_inside="'table_header_cell_inside'">
@@ -464,7 +466,7 @@
       </div> -->
     </div>
 
-    <div class="stats_column_charts" style="gap:30px">
+    <div class="stats_column_charts" style="">
       <div class="stats_column_inside">
         <div class="d-flex align-items-center justify-content-between"
           style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
@@ -511,13 +513,13 @@
           <div v-if="assets.length > 0">
             <apexchart v-if="AssetsChart === 'Assets Breakdown'" :options="dynamicDonut(
               assets.map(a => a.symbol),
-              assets.map((a) => stringToColor(a.symbol)), assets)" :series="assets.map(a => a.percent)" :height="410"
-              :width="370" />
+              assets.map((a) => stringToColor(a.symbol)), assets)" :series="assets.map(a => a.percent)" :height="350"
+              :width="355" />
             <apexchart v-else
               :options="dynamicDonut(
                 ['Bitcoin (BTC)', 'Ethereum (ETH)', 'RWAs', 'LSDs', 'Stablecoins', 'Infrastructure', 'L1s', 'L2s', 'DeFi'],
                 ['rgba(230, 177, 12, 1)', 'rgba(1, 180, 126, 1)', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)'])"
-              :series="[44, 55, 41, 17, 15, 22, 11, 8, 6]" :height="410" :width="415" />
+              :series="[44, 55, 41, 17, 15, 22, 11, 8, 6]" :height="350" :width="355" />
           </div>
           <div v-else style="height: 228px">
             <LoaderPulse></LoaderPulse>
@@ -573,12 +575,12 @@
           <div v-if="pairs.length > 0">
             <apexchart v-if="BreakdownChart === 'Pairs Breakdown'" :options="dynamicDonut(
               pairs.map(a => a.symbol),
-              pairs.map((a) => stringToColor(a.symbol)), pairs)" :series="pairs.map(a => a.percent)" :height="410"
-              :width="415" />
+              pairs.map((a) => stringToColor(a.symbol)), pairs)" :series="pairs.map(a => a.percent)" :height="350"
+              :width="355" />
             <apexchart v-else :options="dynamicDonut(
               ['USDT/BTC/ETH', 'SUSHI/DAI/FRAX', 'USDT/USDC'],
               ['rgba(0, 199, 242, 1)', 'rgba(194, 119, 237, 1)', 'rgba(251, 198, 47, 1)'])" :series="[44, 55, 41]"
-              :height="410" :width="415" />
+              :height="350" :width="355" />
           </div>
           <div v-else style="height: 228px">
             <LoaderPulse></LoaderPulse>
@@ -1015,13 +1017,14 @@ watch(chainSelected, async () => {
   display: flex;
   flex-direction: column;
   width: 500px;
-  gap: 100px !important;
+  // gap: 100px !important;
 }
 
 .stats_column_charts {
   display: flex;
   flex-direction: column;
   width: 500px;
+  gap: 55px;
 }
 
 .stats_column_tables {
@@ -1052,12 +1055,13 @@ watch(chainSelected, async () => {
   }
 
   .stats_column_tables {
-    gap: 0px;
+    gap: 12px;
     width: 35%;
   }
 
   .stats_column_charts {
     width: 30%;
+    gap: 67px;
   }
 }
 

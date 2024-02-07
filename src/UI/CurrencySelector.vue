@@ -58,14 +58,14 @@ watch((chainSelected), () => {
 
 :deep(.multiselect__tags) {
   background: none !important;
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
   border-radius: 20px;
   padding: 0px 34px 0 8px !important;
   min-height: 10px;
 }
 
 :deep(.multiselect__content-wrapper) {
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 
 :deep(.multiselect__single) {
@@ -83,7 +83,7 @@ watch((chainSelected), () => {
 }
 
 :deep(.multiselect__option:hover) {
-  background: rgba(1, 180, 126, 0.884) !important;
+  background: #00c8ffc4 !important;
 }
 
 :deep(.multiselect__select) {

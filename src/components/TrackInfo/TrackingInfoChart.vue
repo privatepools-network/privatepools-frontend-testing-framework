@@ -344,13 +344,13 @@ const series = computed(() => [
     type: 'bar',
     name: 'Revenue',
     data: dataRevenues.value,
-    color: '#01B47E',
+    color: '#00C9FF',
     sampling: 'lttb',
     areaStyle: {
       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
         {
           offset: 0,
-          color: '#01B47E',
+          color: '#00C9FF',
         },
         {
           offset: 1,
@@ -362,7 +362,7 @@ const series = computed(() => [
     showSymbol: false,
     itemStyle: {
       borderRadius: [5, 5, 0, 0],
-      color: '#01B47E',
+      color: '#00C9FF',
     },
     emphasis: {
       focus: 'series',
@@ -1138,7 +1138,7 @@ function getDefaultChainsMapValue() {
       }
 
       &:hover {
-        background-color: #01b47ecb;
+        background-color: #00C9FFcb;
         cursor: pointer;
         color: rgb(255, 255, 255);
         border-radius: 20px;
@@ -1160,11 +1160,11 @@ function getDefaultChainsMapValue() {
         margin-right: 2px;
 
         .chart-filters__title {
-          background: #01b47e;
+          background: #00C9FF;
           color: #fff;
 
           &:hover {
-            background-color: rgba(#01b47e, 0.5);
+            background-color: rgba(#00C9FF, 0.5);
             cursor: pointer;
             color: #fff;
           }
@@ -1192,7 +1192,7 @@ function getDefaultChainsMapValue() {
     }
 
     &__toggler {
-      color: #01b47e;
+      color: #00C9FF;
       font-size: 11px;
       font-weight: 300;
       text-decoration-line: underline;
@@ -1209,7 +1209,7 @@ function getDefaultChainsMapValue() {
       color: rgba(126, 246, 178, 1);
 
       &:hover {
-        background-color: rgba(#01b47e, 0.3);
+        background-color: rgba(#00C9FF, 0.3);
       }
     }
 
@@ -1229,7 +1229,7 @@ function getDefaultChainsMapValue() {
       }
 
       &:hover {
-        background-color: rgba(#01b47e, 0.3);
+        background-color: rgba(#00C9FF, 0.3);
       }
 
       &_selected {
@@ -1238,7 +1238,7 @@ function getDefaultChainsMapValue() {
         }
 
         &:hover {
-          background-color: rgba(#01b47e, 0.3);
+          background-color: rgba(#00C9FF, 0.3);
         }
       }
     }
@@ -1249,7 +1249,7 @@ function getDefaultChainsMapValue() {
       position: absolute;
       background: #000;
       z-index: 11;
-      border: 1px solid #7ef6b2;
+      border: 1px solid #00C9FF;
       border-top: none;
       border-radius: 0 0 12px 12px;
     }
@@ -1257,13 +1257,13 @@ function getDefaultChainsMapValue() {
 
   &-equivalent {
     padding: 0px;
-    color: rgba(126, 246, 178, 1);
+    color: #00C9FF;
     font-size: clamp(8px, 0.5vw, 12px);
     margin-right: 15px;
     display: flex;
     justify-self: flex-start;
     border-radius: 20px;
-    border: 1px solid #01b47e;
+    border: 1px solid #00C9FF;
 
     &__el {
       padding: 8px 15px;
@@ -1271,15 +1271,15 @@ function getDefaultChainsMapValue() {
       border-radius: 20px;
 
       &:hover {
-        background: rgba(#01b47e, 0.3);
+        background: rgba(#00C9FF, 0.3);
       }
 
       &_active {
-        background: #01b47e;
+        background: #00C9FF;
         color: #fff;
 
         &:hover {
-          background: #01b47e;
+          background: #00C9FF;
         }
       }
     }
@@ -1334,10 +1334,11 @@ function getDefaultChainsMapValue() {
 }
 
 .track_chart_card {
-  border: 1px solid rgba(163, 164, 165, 0.26);
+  // border: 1px solid rgba(163, 164, 165, 0.26);
   border-radius: 0px 20px 20px 0px;
   width: 100%;
   padding: 20px;
+  background: linear-gradient(361.2deg, #001b220e 0%, #000000 105.42%);
 }
 
 .timeline_container {
@@ -1386,7 +1387,7 @@ function getDefaultChainsMapValue() {
       display: flex;
       justify-self: flex-start;
       border-radius: 20px;
-      border: 1px solid #01b47e;
+      border: 1px solid #00C9FF;
     }
   }
 }
@@ -1431,7 +1432,7 @@ function getDefaultChainsMapValue() {
       display: flex;
       flex-direction: row;
       border-radius: 20px;
-      border: 1px solid #01b47e;
+      border: 1px solid #00C9FF;
     }
   }
 }

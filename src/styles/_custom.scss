@@ -373,15 +373,18 @@ input[type=number] {
 
 .nav-symbol {
   border-radius: 12px;
-  width: 30px;
   background-color: #00C9FF;
-  height: 30px;
   display: flex;
-  margin-right: 16px; // Adjust this value for more/less spacing
+  margin-right: 10px; // Adjust this value for more/less spacing
   align-items: center;
   justify-content: center;
-  margin-left: 13px;
+  padding-left: 6px;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 6px;
+  margin-left: 0px;
 }
+
 
 .info_icon {
   width: 0.9vw !important;

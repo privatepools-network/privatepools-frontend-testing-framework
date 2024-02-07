@@ -32,13 +32,15 @@ const {selectedTab, tabsOptions} = toRefs(props)
 .tabs {
   padding: 4px;
   border-radius: 23px;
-  border: 1px solid #01B47E;
+  background: linear-gradient(152.97deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
+
+  // border: 1px solid #00C9FF;
   display: flex;
   @media (max-width: $xxl) {
     padding: 2px;
   }
     &__el {
-    color: #7EF6B2;
+    color: #0082A5;
     padding: 3px 9px;
     font-size: 13px;
     @media (max-width: $xxl) {
@@ -48,12 +50,13 @@ const {selectedTab, tabsOptions} = toRefs(props)
     &_active {
       color: #fff;
       border-radius: 20px;
-      background: #01B47E;
+      background: linear-gradient(152.97deg, #001D24 0%, #00C9FF 100%);
+
     }
     &:hover {
       color: #fff;
       border-radius: 20px;
-      background: darken(#01B47E, 10%);
+      background: darken(#00C9FF, 10%);
       cursor: pointer;
     }
   }

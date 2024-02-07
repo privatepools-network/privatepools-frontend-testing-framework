@@ -493,20 +493,19 @@ function GetTokenPrice(address) {
 }
 
 .visible_head {
-  color: white;
+  color: #fff;
 }
-
 .visible_head:hover {
-  color: #009a6c;
+  color: #00A3FF;
 }
 
 .multiselect__tags {
   background: none !important;
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 
 .multiselect__content-wrapper {
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 
 .multiselect__single {
@@ -520,26 +519,26 @@ function GetTokenPrice(address) {
 }
 
 .multiselect__option:hover {
-  background: rgba(1, 180, 126, 0.884) !important;
+  background: #00c8ffb0 !important;
 }
 
 .arbitrage_bot_header {
-  font-size: clamp(clamp(10px, 0.8vw, 14px), 1vw, 20px);
+  font-size: clamp(10px, 0.7vw, 14px);
   font-weight: 700;
   font-family: Inter;
   color: white;
 }
 
 .arbitrage_bot_sections_text {
-  font-size: clamp(10px, 0.9vw, clamp(10px, 0.8vw, 14px));
+  font-size: clamp(10px, 0.7vw, 14px);
   margin-top: 10px;
   margin-bottom: 5px;
 }
 
 .arbitrage_bot_card {
   width: 30%;
-  /* background-color: rgba(7, 14, 15, 0.7); */
-  border: 1px solid rgba(163, 164, 165, 0.3);
+  background: linear-gradient(356.2deg, #001b220e 0%, #000000 105.42%);
+  // border: 1px solid rgba(163, 164, 165, 0.3);
   border-radius: 20px 0px 0px 20px;
 }
 

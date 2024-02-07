@@ -113,10 +113,10 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
               <path
                 d="M9.75 6.53646V9.38021C9.75 9.63161 9.63586 9.87272 9.4327 10.0505C9.22953 10.2283 8.95398 10.3281 8.66667 10.3281H2.70833C2.42102 10.3281 2.14547 10.2283 1.9423 10.0505C1.73914 9.87272 1.625 9.63161 1.625 9.38021V4.16667C1.625 3.91526 1.73914 3.67416 1.9423 3.49639C2.14547 3.31862 2.42102 3.21875 2.70833 3.21875H5.95833"
-                stroke="#01B47E" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M8.125 1.79688H11.375V4.64063" stroke="#01B47E" stroke-width="1.33333" stroke-linecap="round"
+                stroke="#00C9FF" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M8.125 1.79688H11.375V4.64063" stroke="#00C9FF" stroke-width="1.33333" stroke-linecap="round"
                 stroke-linejoin="round" />
-              <path d="M5.4165 7.01042L11.3748 1.79688" stroke="#01B47E" stroke-width="1.33333" stroke-linecap="round"
+              <path d="M5.4165 7.01042L11.3748 1.79688" stroke="#00C9FF" stroke-width="1.33333" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
           </a>
@@ -133,10 +133,10 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
               <path
                 d="M9.75 6.53646V9.38021C9.75 9.63161 9.63586 9.87272 9.4327 10.0505C9.22953 10.2283 8.95398 10.3281 8.66667 10.3281H2.70833C2.42102 10.3281 2.14547 10.2283 1.9423 10.0505C1.73914 9.87272 1.625 9.63161 1.625 9.38021V4.16667C1.625 3.91526 1.73914 3.67416 1.9423 3.49639C2.14547 3.31862 2.42102 3.21875 2.70833 3.21875H5.95833"
-                stroke="#01B47E" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M8.125 1.79688H11.375V4.64063" stroke="#01B47E" stroke-width="1.33333" stroke-linecap="round"
+                stroke="#00C9FF" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M8.125 1.79688H11.375V4.64063" stroke="#00C9FF" stroke-width="1.33333" stroke-linecap="round"
                 stroke-linejoin="round" />
-              <path d="M5.4165 7.01042L11.3748 1.79688" stroke="#01B47E" stroke-width="1.33333" stroke-linecap="round"
+              <path d="M5.4165 7.01042L11.3748 1.79688" stroke="#00C9FF" stroke-width="1.33333" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
           </a>
@@ -320,7 +320,7 @@ const visibleDetails = ref(false)
         font-size: 10px
         font-weight: 400
     &__value
-      color: #01B47E
+      color: #00C9FF
       margin-left: 5px
       cursor: pointer
       &:hover

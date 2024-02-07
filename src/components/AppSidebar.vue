@@ -7,9 +7,9 @@
       })
       ">
     <div class="justify-content-center" style="margin-top:15px;">
-      <CSidebarBrand class="flex-auto text-white fw-bolder fs-4" style="background-color: transparent">
-
-        <div class="sidebar-d3 flex-auto">
+      <CSidebarBrand class="text-white fw-bolder fs-4" style="background-color: transparent">
+        <CAvatar :src="avatar" size="md" class="me-2 sidebar-brand-full sidebar-logo" />
+        <div class="sidebar-brand-full sidebar-d3">
           <span class="sidebar-d3__top">Private Pools</span>
           <span class="sidebar-d3__bottom">{{ client }}</span>
         </div>
@@ -82,7 +82,7 @@ export default {
       sygnet,
       avatar,
       sidebarNarrow: false,
-      sidebarUnfoldable: false,
+      sidebarUnfoldable: true,
       sidebarVisible: () => store.state.sidebarVisible,
       client: process.env.VUE_APP_NAME_OF_CLIENT_DEPLOYMENT
     }
@@ -137,6 +137,9 @@ export default {
   background-color: #1f3034 !important;
 
 }
+.sidebar-nav .nav-group .nav-group-items .nav-link {
+  padding-left: 48px !important;
+}
 
 .sidebar_helper_icon {
   display: flex;
@@ -158,7 +161,6 @@ export default {
   background: lawngreen;
   width: 218px;
   height: 168px;
-
 }
 
 .helper_button {
@@ -206,6 +208,24 @@ export default {
 
 }
 
+
+.sidebar-narrow-unfoldable:not(:hover),
+.sidebar-narrow {
+  .nav-symbol {
+    border-radius: 12px;
+    background-color: #00C9FF;
+    display: flex;
+    margin-right: 20px; // Adjust this value for more/less spacing
+    align-items: center;
+    justify-content: center;
+    padding-left: 6px;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 6px;
+    margin-left: -12px;
+  }
+}
+
 @media (max-width: $xxl) {
   .sidebar {
     width: 190px;
@@ -230,6 +250,7 @@ export default {
   .sidebar-nav .nav-icon {
     height: 15px;
   }
+
 
   .sidebar-fixed.sidebar-narrow-unfoldable:not(:hover),
   .sidebar-fixed.sidebar-narrow {

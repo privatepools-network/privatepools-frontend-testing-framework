@@ -10,7 +10,7 @@
             <div class="pagination-select__title" :class="{'pagination-select__title_active':isPerPageSelectOpened==true}" @click="isPerPageSelectOpened=!isPerPageSelectOpened">
               {{perPage}}
               <svg style="margin-left: 10px;" xmlns="http://www.w3.org/2000/svg" width="11" height="7" viewBox="0 0 11 7" fill="none">
-                <path d="M0.929932 1.16992L5.42993 5.66992L9.92993 1.16992" stroke="#7EF6B2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M0.929932 1.16992L5.42993 5.66992L9.92993 1.16992" stroke="#00C9FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <div class="pagination-select__wrapper" :class="{'pagination-select__wrapper_active':isPerPageSelectOpened==true}">
@@ -28,16 +28,17 @@
       style="display: flex; gap: 5px; justify-content: end; align-items: center"
     >
       <CButton
-        class="text-success"
+     
         :disabled="currentPage === 1"
         @click="$emit('changePage', {isEquating: true, num: 1})"
-        style="border-radius: 20px;border: 1px solid #01B47E;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 8px;"
+        style="border-radius: 20px;color: #00C9FF !important;border: 1px solid #00C9FF;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 8px;"
       >First</CButton
       >
       <CButton
         :disabled="currentPage === 1"
         @click="$emit('changePage', {isEquating: false, num: -1})"
-        style="border-radius: 15px;border: 1px solid #01B47E;background: #01B47E;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;"
+        style="border-radius: 15px;color: #00C9FF !important;border: 1px solid #00C9FF;background: linear-gradient(152.97deg, #001A29 0%, #00C9FF 100%);
+;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;"
 
       >
         <svg
@@ -54,12 +55,13 @@
         </svg>
       </CButton>
       <CButton class="border-success text-white" style="border-radius: 20px;
-      border: 1px solid #01B47E;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;">{{ currentPage }}</CButton>
+      border: 1px solid #00C9FF !important;color: #FFFFFF !important;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;">{{ currentPage }}</CButton>
      {{ console.log('pools.length', pools) }}
      <CButton
         :disabled="currentPage >= pools.length / perPage"
         @click="$emit('changePage', {isEquating: false, num: 1})"
-        style="border-radius: 15px;border: 1px solid #01B47E;background: #01B47E;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;"
+        style="border-radius: 15px;color: #00C9FF !important;border: 1px solid #00C9FF;background: linear-gradient(152.97deg, #001A29 0%, #00C9FF 100%);
+;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;"
       >
         <svg
           width="7"
@@ -76,8 +78,8 @@
       </CButton>
 
       <CButton
-        class="text-success"
-        style="border-radius: 20px;border: 1px solid #01B47E;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 8px;"
+       
+        style="border-radius: 20px;color: #00C9FF !important;border: 1px solid #00C9FF;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 8px;"
         :disabled="currentPage === Math.ceil(pools.length / perPage)"
         @click="$emit('changePage', {isEquating: true, num: Math.ceil(pools.length / perPage)})"
       >Last
@@ -119,7 +121,7 @@ const isPerPageSelectOpened = ref(false)
   cursor: pointer
   &__wrapper
     position: absolute
-    border: 1px solid #01B47E
+    border: 1px solid #00C9FF
     width: 100%
     border-radius: 10px 10px 0 0
     top: -79px
@@ -133,7 +135,7 @@ const isPerPageSelectOpened = ref(false)
     padding: 4px 8px
     border-radius: 20px
     font-size: 12px
-    border: 1px solid #01B47E
+    border: 1px solid #00C9FF
     @media (max-width: 1400px)
       font-size: 10px
     &_active

@@ -35,9 +35,9 @@
       <div v-for="(item, i) in items" :key="`gas-fees-${i}`" class="widget_container_card">
         <div class="d-flex flex-column gap-1 align-items-center">
           <div class="d-flex align-items-center gap-2">
-            <!-- <div class="widget_image">
+            <div class="widget_image">
               <img :src="item.icon" width="12" />
-            </div> -->
+            </div>
             <div class="widget_timeline">{{ item.timeline }}</div>
           </div>
           <div v-if="item.value == null" class="totals_loader">
@@ -81,15 +81,16 @@ const { items } = toRefs(props)
   margin-top: 6px;
   margin-bottom: 6px;
 }
-
 .widget_container {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
-  border: 0.5px solid #a3a4a538;
-  border-radius: 20px;
+  /* border: 0.5px solid #a3a4a538; */
+  background: linear-gradient(356.2deg, #00c8ff0e 0%, #000000 105.42%);
+
+  border-radius: 15px;
   padding: 20px 25px;
   font-family: Poppins;
   letter-spacing: 0em;
@@ -122,7 +123,7 @@ const { items } = toRefs(props)
 .widget_image {
   display: flex;
   justify-content: center;
-  background: #01b47e;
+  background: #00BEF1;
   box-shadow: 0px 3.500000238418579px 5.500000476837158px 0px #00000005;
   width: 25px;
   height: 25px;

@@ -781,7 +781,7 @@ function getFilteredData() {
       }
 
       &:hover {
-        background-color: #01b47ecb;
+        background-color: #00C9FFcb;
         cursor: pointer;
         color: rgb(255, 255, 255);
         border-radius: 20px;
@@ -803,10 +803,11 @@ function getFilteredData() {
         margin-right: 2px;
 
         .chart-filters__title {
-          background: #01b47e;
+          background: #00C9FF;
+          color: #fff;
 
           &:hover {
-            background-color: rgba(#01b47e, 0.5);
+            background-color: rgba(#00C9FF, 0.5);
             cursor: pointer;
             color: #fff;
           }
@@ -834,7 +835,7 @@ function getFilteredData() {
     }
 
     &__toggler {
-      color: #01b47e;
+      color: #00C9FF;
       font-size: 11px;
       font-weight: 300;
       text-decoration-line: underline;
@@ -848,9 +849,10 @@ function getFilteredData() {
       padding: 8px 10px;
       border-radius: 20px;
       border: 1px solid #7ef6b2;
+      color: rgba(126, 246, 178, 1);
 
       &:hover {
-        background-color: rgba(#01b47e, 0.3);
+        background-color: rgba(#00C9FF, 0.3);
       }
     }
 
@@ -870,7 +872,7 @@ function getFilteredData() {
       }
 
       &:hover {
-        background-color: rgba(#01b47e, 0.3);
+        background-color: rgba(#00C9FF, 0.3);
       }
 
       &_selected {
@@ -879,18 +881,18 @@ function getFilteredData() {
         }
 
         &:hover {
-          background-color: rgba(#01b47e, 0.3);
+          background-color: rgba(#00C9FF, 0.3);
         }
       }
     }
 
     &__options {
-      width: 100%;
+      width: 120px;
       top: 100%;
       position: absolute;
       background: #000;
       z-index: 11;
-      border: 1px solid #7ef6b2;
+      border: 1px solid #00C9FF;
       border-top: none;
       border-radius: 0 0 12px 12px;
     }
@@ -898,29 +900,29 @@ function getFilteredData() {
 
   &-equivalent {
     padding: 0px;
-    color: rgba(126, 246, 178, 1);
-    font-size: 11px;
+    color: #00C9FF;
+    font-size: clamp(8px, 0.5vw, 12px);
     margin-right: 15px;
     display: flex;
     justify-self: flex-start;
     border-radius: 20px;
-    border: 1px solid #01b47e;
+    border: 1px solid #00C9FF;
 
     &__el {
       padding: 8px 15px;
       cursor: pointer;
-      border-radius: 12px;
+      border-radius: 20px;
 
       &:hover {
-        background: rgba(#01b47e, 0.3);
+        background: rgba(#00C9FF, 0.3);
       }
 
       &_active {
-        background: #01b47e;
-        color: white;
+        background: #00C9FF;
+        color: #fff;
 
         &:hover {
-          background: #01b47e;
+          background: #00C9FF;
         }
       }
     }
@@ -975,10 +977,11 @@ function getFilteredData() {
 }
 
 .track_chart_card {
-  border: 1px solid rgba(163, 164, 165, 0.26);
+  // border: 1px solid rgba(163, 164, 165, 0.26);
   border-radius: 0px 20px 20px 0px;
   width: 100%;
-  padding: 0px 20px;
+  padding: 20px;
+  background: linear-gradient(361.2deg, #001b220e 0%, #000000 105.42%);
 }
 
 .timeline_container {

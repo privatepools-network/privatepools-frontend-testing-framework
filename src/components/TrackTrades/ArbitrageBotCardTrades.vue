@@ -1,5 +1,5 @@
 <template>
-  <div class="arbitrage_bot_card">
+  <div class="arbitrage_bot_card  py-3 px-4">
     <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
       <div class="d-flex align-items-center justify-content-between w-100">
         <!-- <img :src="darkpool_logo" /> -->
@@ -286,6 +286,18 @@ onMounted(() => {
 <style lang="scss">
 @import '@/styles/_variables.scss';
 
+.totals_loader {
+  margin-right: 20px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.totals_loader_header {
+  margin-left: 20px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
 .toggle-down {
   transform: rotate(0deg);
   transition: all 0.3s;
@@ -296,47 +308,21 @@ onMounted(() => {
   transition: all 0.3s;
 }
 
-.arbitrage_bot_header {
-  font-size: clamp(10px, 0.9vw, 14px);
-  font-weight: 700;
-  font-family: Inter;
-  color: white;
-}
-
-.arbitrage_bot_sections_text {
-  font-size: clamp(10px, 0.9vw, 14px);
-  margin-top: 10px;
-  margin-bottom: 5px;
-}
-
 .visible_head {
   color: white;
 }
 
 .visible_head:hover {
-  color: #009a6c;
-}
-
-.totals_loader {
-  margin-right: 13px;
-  margin-top: 6px;
-  margin-bottom: 6px;
-  transform: scale(0.8);
-}
-
-.totals_loader_header {
-  margin-left: 20px;
-  margin-top: 6px;
-  margin-bottom: 6px;
+  color: #00A3FF;
 }
 
 .multiselect__tags {
   background: none !important;
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 
 .multiselect__content-wrapper {
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 
 .multiselect__single {
@@ -350,31 +336,47 @@ onMounted(() => {
 }
 
 .multiselect__option:hover {
-  background: rgba(1, 180, 126, 0.884) !important;
+  background: #00c8ffb0 !important;
+}
+
+.arbitrage_bot_header {
+  font-size: clamp(10px, 0.7vw, 14px);
+  font-weight: 700;
+  font-family: Inter;
+  color: white;
+}
+
+.arbitrage_bot_sections_text {
+  font-size: clamp(10px, 0.7vw, 14px);
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 .arbitrage_bot_card {
-  width: 100%;
-  padding: 20px;
-  /* background-color: rgba(7, 14, 15, 0.7); */
-  border: 1px solid rgba(163, 164, 165, 0.3);
+  width: 30%;
+  background: linear-gradient(356.2deg, #001b220e 0%, #000000 105.42%);
+  // border: 1px solid rgba(163, 164, 165, 0.3);
   border-radius: 20px 0px 0px 20px;
-}
-
-@media (min-width: $xxl) {
-  .arbitrage_bot_card {
-    width: 30%;
-  }
 }
 
 @media (max-width: $xxl) {
   .arbitrage_bot_card {
     width: 30%;
-    font-size: clamp(10px, 0.9vw, 14px);
+    font-size: clamp(10px, 0.7vw, 14px);
   }
 }
 
 @media (max-width: $xl) {
+  .timeline_container {
+    width: fit-content;
+    display: flex;
+    position: static;
+    z-index: 30;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
   .arbitrage_bot_card {
     width: 100%;
     font-size: 12px;

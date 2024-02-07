@@ -61,24 +61,24 @@ export default [
     //   },
     // ],
   },
-  {
-    component: 'CNavItem',
-    name: 'Rewards',
-    to: '/rewards',
-    icon: MyPortfolioIcon,
-  },
+  // {
+  //   component: 'CNavItem',
+  //   name: 'Rewards',
+  //   to: '/rewards',
+  //   icon: MyPortfolioIcon,
+  // },
   // {
   //   component: 'CNavItem',
   //   name: 'Changelog',
   //   to: '/changelog',
   //   icon: ManageSvg,
   // },
-  // {
-  //   component: 'CNavItem',
-  //   name: 'Portfolio',
-  //   to: '/portfolio',
-  //   icon: MyPortfolioIcon,
-  // },
+  {
+    component: 'CNavItem',
+    name: 'Portfolio',
+    to: '/portfolio',
+    icon: MyPortfolioIcon,
+  },
   // {
   //   component: 'CNavItem',
   //   name: 'Simulator',

@@ -221,6 +221,9 @@ export function FormatAllPairsToDisplay(allData, network) {
       TVL: p.TVL,
       Profit: p['Profit All Time'],
       Blockchain: p['Blockchain'],
+      ['%Deviation']: 0,
+      ['Market Ratio']: 0,
+      Ratio: 0,
       balance0: p.balance0,
       balance1: p.balance1,
     }))

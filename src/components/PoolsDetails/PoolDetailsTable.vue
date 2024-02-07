@@ -43,7 +43,7 @@
           'APR',
           'Profit',
         ]
-        : ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'Profit']
+        : selectedTab === 'Pairs' ? ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'Profit', 'Ratio', 'Market Ratio', '%Deviation' ] : ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'Profit']
         " :table_bg="''" :filterableHeaders="filterableHeaders" @filter-click="onFilterClick" :sortIcons="true"
         @table-header-click="onDatatableHeaderClick" :sortedHeader="sortedHeader" :headerDropdownSort="true"
         :isFullTable="true">
@@ -73,7 +73,7 @@
                 </div>
               </div>
             </div>
-            <div v-else-if="['APR'].includes(dataCellKey)" class="text-truncate file-table-cell" :class="tableData[dataRowIndex].Blockchain === trackCurrentNetwork
+            <div v-else-if="['APR', '%Deviation'].includes(dataCellKey)" class="text-truncate file-table-cell" :class="tableData[dataRowIndex].Blockchain === trackCurrentNetwork
               ? 'text-white'
               : 'text-secondary'
               " data-coreui-toggle="tooltip" data-coreui-placement="left" :title="dataCell">

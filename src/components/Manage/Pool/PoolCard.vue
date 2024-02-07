@@ -65,7 +65,7 @@ const { pool, index, inactive } = toRefs(props)
   position: relative
   overflow: hidden
   border-radius: 20px
-  border: 0.2px solid #01B47E
+  border: 0.2px solid #00C9FF
   background: linear-gradient(91deg, rgba(53, 192, 117, 0.05) 0.36%, rgba(53, 192, 84, 0.02) 99.41%)
   backdrop-filter: blur(4px)
   @media all and (max-width: 1400px)
@@ -80,7 +80,7 @@ const { pool, index, inactive } = toRefs(props)
     content: ''
     top: 0
     left: -1px
-    background: linear-gradient(89deg, #01B47E 0%, #7EF6B2 100%)
+    background: linear-gradient(89deg, #00C9FF 0%, #03A6E9 100%)
     position: absolute
   &__row
     display: flex

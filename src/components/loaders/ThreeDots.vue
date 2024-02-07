@@ -14,11 +14,11 @@ defineProps(['dots_size'])
   width: 8px;
   height: 8px;
   border-radius: 5px;
-  background-color: #01b47e;
-  color: #01b47e;
+  background-color: #00C9FF;
+  color: #00C9FF;
   animation: dot-flashing 1s infinite linear alternate;
   animation-delay: 0.5s;
-  filter: drop-shadow(0 0 0.3rem #01b47e);
+  filter: drop-shadow(0 0 0.3rem #00C9FF);
 }
 .dot-flashing::before,
 .dot-flashing::after {
@@ -32,8 +32,8 @@ defineProps(['dots_size'])
   width: 8px;
   height: 8px;
   border-radius: 5px;
-  background-color: #01b47e;
-  color: #01b47e;
+  background-color: #00C9FF;
+  color: #00C9FF;
   animation: dot-flashing 1s infinite alternate;
   animation-delay: 0s;
 }
@@ -42,15 +42,15 @@ defineProps(['dots_size'])
   width: 8px;
   height: 8px;
   border-radius: 5px;
-  background-color: #01b47e;
-  color: #01b47e;
+  background-color: #00C9FF;
+  color: #00C9FF;
   animation: dot-flashing 1s infinite alternate;
   animation-delay: 1s;
 }
 
 @keyframes dot-flashing {
   0% {
-    background-color: #01b47e;
+    background-color: #00C9FF;
   }
   50%,
   100% {
@@ -64,11 +64,11 @@ defineProps(['dots_size'])
 //     width: 5px;
 //     height: 5px;
 //     border-radius: 5px;
-//     background-color: #01b47e;
-//     color: #01b47e;
+//     background-color: #00C9FF;
+//     color: #00C9FF;
 //     animation: dot-flashing 1s infinite linear alternate;
 //     animation-delay: 0.5s;
-//     filter: drop-shadow(0 0 0.3rem #01b47e);
+//     filter: drop-shadow(0 0 0.3rem #00C9FF);
 //   }
 
 //   .dot-flashing::before {
@@ -76,8 +76,8 @@ defineProps(['dots_size'])
 //   width: 5px;
 //   height: 5px;
 //   border-radius: 5px;
-//   background-color: #01b47e;
-//   color: #01b47e;
+//   background-color: #00C9FF;
+//   color: #00C9FF;
 //   animation: dot-flashing 1s infinite alternate;
 //   animation-delay: 0s;
 // }
@@ -86,8 +86,8 @@ defineProps(['dots_size'])
 //   width: 5px;
 //   height: 5px;
 //   border-radius: 5px;
-//   background-color: #01b47e;
-//   color: #01b47e;
+//   background-color: #00C9FF;
+//   color: #00C9FF;
 //   animation: dot-flashing 1s infinite alternate;
 //   animation-delay: 1s;
 // }

@@ -245,15 +245,18 @@
             </div>
           </div>
         </div>
+
+
+        <!--  @click="$emit('changeVisibleSystemProfitModal')" -->
         <div
-          @click="$emit('changeVisibleSystemProfitModal')"
+         
           style="
             font-size: clamp(8px, 0.7vw, 12px);
             font-weight: 400;
             cursor: pointer;
             line-height: 20px;
             letter-spacing: 0em;
-            color: #7ef6b2;
+            color: #00c8ffad;
             width: 120px;
           "
         >

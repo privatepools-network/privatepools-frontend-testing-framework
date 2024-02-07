@@ -32,7 +32,7 @@ const path = computed(() => route.path)
 
 
 let chainOptions = [
-  { name: 'ALL', code: 'ALL', img: '' },
+  { name: 'All Chains', code: 'ALL', img: '' },
   process.env.VUE_APP_KEY_ARBITRUM ? { name: 'Arbitrum', code: 'ETH', img: arb } : undefined,
   process.env.VUE_APP_KEY_BINANCE ? { name: 'Binance', code: 'BNB', img: binance } : undefined,
   process.env.VUE_APP_KEY_POLYGON ? { name: 'Polygon', code: 'MATIC', img: polygon } : undefined,
