@@ -6,17 +6,17 @@
         value: event,
       })
       ">
-    <div class="justify-content-center" style="margin-top: 10px;">
+    <div class="justify-content-center" style="margin-top:15px;">
       <CSidebarBrand class="flex-auto text-white fw-bolder fs-4" style="background-color: transparent">
 
-        <div class="sidebar-d3 flex-auto ">
-          <span class="sidebar-d3__top ">Private Pools</span>
+        <div class="sidebar-d3 flex-auto">
+          <span class="sidebar-d3__top">Private Pools</span>
           <span class="sidebar-d3__bottom">{{ client }}</span>
         </div>
         <CAvatar :src="avatar" size="md" class="me-3 sidebar-brand-narrow sidebar-logo" style="margin-left: 12px" />
       </CSidebarBrand>
     </div>
-    <div class="mb-2 px-2">
+    <div class="mb-2 px-2 mt-1">
       <svg viewBox="0 0 234 1" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0 0.5H233.25" stroke="url(#paint0_linear_4369_14144)" />
         <defs>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-// import { useStore } from 'vuex'
+import { useStore } from 'vuex'
 import { AppSidebarNav } from './AppSidebarNav'
 import { logoNegative } from '@/assets/brand/logo-negative'
 import avatar from '@/assets/images/Avatar.png'
@@ -76,14 +76,14 @@ export default {
     AppSidebarNav,
   },
   setup() {
-    // const store = useStore()
+    const store = useStore()
     return {
       logoNegative,
       sygnet,
       avatar,
       sidebarNarrow: false,
       sidebarUnfoldable: false,
-      sidebarVisible: () => true,
+      sidebarVisible: () => store.state.sidebarVisible,
       client: process.env.VUE_APP_NAME_OF_CLIENT_DEPLOYMENT
     }
   },
@@ -92,26 +92,50 @@ export default {
 <style lang="scss">
 @import '@/styles/_variables.scss';
 
+.sidebar {
+  height: 100vh;
+}
 
 .sidebar_helper_component {
-  padding-left: 15px;
   padding-bottom: 10px;
   padding-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
   display: flex;
   gap: 15px;
   align-items: center;
+}
 
+
+.nav-item:hover {
+  background-color: transparent;
 }
 
 .sidebar_helper_component:hover {
   border-radius: 15px;
-  color: rgba(1, 180, 126, 1);
-
+  margin-left: 10px;
+  margin-right: 10px;
   cursor: pointer;
 }
 
 .sidebar-nav .nav-link {
   color: white !important;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+
+.sidebar-nav .nav-link.active {
+  background-color: #035368 !important;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.sidebar-nav .nav-link:hover {
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #1f3034 !important;
+
 }
 
 .sidebar_helper_icon {
@@ -185,6 +209,7 @@ export default {
 @media (max-width: $xxl) {
   .sidebar {
     width: 190px;
+    height: 100vh;
   }
 
   .sidebar-nav .nav-link {
@@ -194,11 +219,11 @@ export default {
   }
 
   .nav-symbol {
-    width: 4px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     margin-left: 8px;
-    margin-right: 18px;
-
+    margin-right: 8px;
+    background-color: #00C9FF;
     // padding-left: 17px !important;
   }
 

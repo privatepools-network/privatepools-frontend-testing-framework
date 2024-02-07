@@ -76,8 +76,8 @@ const AppSidebarNav = defineComponent({
                 [
                   h(resolveComponent('CIcon'), {
                     // The icon itself
-                    customClassName: 'nav-icon',
-                    // name: item.icon,
+                    // customClassName: 'nav-icon',
+                    name: item.icon,
                   }),
                 ],
               ),
@@ -118,8 +118,8 @@ const AppSidebarNav = defineComponent({
                           },
                           [
                             h(resolveComponent('CIcon'), {
-                              customClassName: 'nav-icon',
-                              // name: item.icon,
+                              // customClassName: 'nav-icon',
+                              name: item.icon,
                             }),
                           ],
                         ),
