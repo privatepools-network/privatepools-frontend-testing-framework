@@ -15,16 +15,16 @@ defineProps(['gradient_bg', 'maxWidth'])
 
 
 .main_card {
-
   max-width: v-bind(maxWidth);
-  border: 1px solid #a3a4a517;
   border-radius: 20px;
-  background: rgba(31, 31, 31, 0.22);
-  // background: linear-gradient(0deg, #02120A, #02120A),
-  //   linear-gradient(0deg, rgba(163, 164, 165, 0.4), rgba(163, 164, 165, 0.4));
   box-shadow: 0px 8px 10px 0px #00000033;
-    box-shadow: 0px 6px 30px 0px #0000001F;
-    box-shadow: 0px 16px 24px 0px #00000024;
+  box-shadow: 0px 6px 30px 0px #0000001F;
+  box-shadow: 0px 16px 24px 0px #00000024;
+
+  background: linear-gradient(152.97deg, rgba(19, 19, 19, 0) 30%, rgba(0, 0, 0, 0) 40%);
+  border-image-source: linear-gradient(90deg, rgba(11, 12, 13, 0) 0%, #E0E1E2 49.52%, rgba(224, 225, 226, 0.15625) 99.04%);
+  backdrop-filter: blur(20px);
+
   margin-bottom: 2%;
   padding: 1.3rem 2.3rem;
 
