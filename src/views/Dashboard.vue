@@ -1,63 +1,34 @@
 <template>
-  <SystemProfitDetailsModal
-    :SystemProfitModalVisible="SystemProfitModalVisible"
-    :SystemProfitTime="SystemProfitTime"
+  <SystemProfitDetailsModal :SystemProfitModalVisible="SystemProfitModalVisible" :SystemProfitTime="SystemProfitTime"
     @changeVisibleSystemProfitModal="changeVisibleSystemProfitModal('24 Hours')"
-    :profitsDetails="profitsDetails[SystemProfitTime]"
-    :symbol="currencySelected.symbol"
-    :currencyDecimals="currencyDecimals == 0 ? 3 : currencyDecimals"
-  />
+    :profitsDetails="profitsDetails[SystemProfitTime]" :symbol="currencySelected.symbol"
+    :currencyDecimals="currencyDecimals == 0 ? 3 : currencyDecimals" />
   <MainCard>
     <!-- NEW DESIGN -->
     <div class="d-flex justify-content-between mb-4">
       <div>
-        <ChainSelector
-          @updateChain="(newChain) => (chainSelected = newChain)"
-        />
+        <ChainSelector @updateChain="(newChain) => (chainSelected = newChain)" />
       </div>
       <div>
-        <CurrencySelector
-          @updateCurrency="(newCurrency) => (currencySelected = newCurrency)"
-        />
+        <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" />
       </div>
     </div>
 
-    <div
-      class="d-flex justify-content-between flex-wrap gap-2 mb-xl-3 mb-2 mt-md-0 mt-3"
-    >
-      <TotalWidget
-        :text_header="'Total Value Deposit'"
-        :text_value="numberToAposthrophe(tvlTotal, currencyDecimals)"
-        :widget_icon="valueDeposit"
-        :additional_symbol="currencySelected.symbol"
-      />
-      <TotalWidget
-        :text_header="'Total Profits'"
-        :additional_symbol="currencySelected.symbol"
-        :text_value="numberToAposthrophe(profitTotal, currencyDecimals)"
-        :widget_icon="ProfitsCart"
-      />
-      <TotalWidget
-        :text_header="'Total Revenue'"
-        :additional_symbol="currencySelected.symbol"
-        :text_value="numberToAposthrophe(revenueTotal, currencyDecimals)"
-        :widget_icon="RevenueGlobal"
-      />
-      <TotalWidget
-        :text_header="'Last 7 Days APR'"
-        :text_value="numberToAposthrophe(Number(weekApr).toFixed(0))"
-        :widget_icon="VolumeList"
-        :additional_symbol="'%'"
-      />
+    <div class="d-flex justify-content-between flex-wrap gap-2 mb-xl-3 mb-2 mt-md-0 mt-3">
+      <TotalWidget :text_header="'Total Value Deposit'" :text_value="numberToAposthrophe(tvlTotal, currencyDecimals)"
+        :widget_icon="valueDeposit" :additional_symbol="currencySelected.symbol" />
+      <TotalWidget :text_header="'Total Profits'" :additional_symbol="currencySelected.symbol"
+        :text_value="numberToAposthrophe(profitTotal, currencyDecimals)" :widget_icon="ProfitsCart" />
+      <TotalWidget :text_header="'Total Revenue'" :additional_symbol="currencySelected.symbol"
+        :text_value="numberToAposthrophe(revenueTotal, currencyDecimals)" :widget_icon="RevenueGlobal" />
+      <TotalWidget :text_header="'Last 7 Days APR'" :text_value="numberToAposthrophe(Number(weekApr).toFixed(0))"
+        :widget_icon="VolumeList" :additional_symbol="'%'" />
     </div>
     <CRow>
       <CCol lg="12" xl="8" xxl="8" class="dashboard_charts_first_column">
         <CRow>
           <CCol md="12" lg="8" class="dashboard_charts_first_column">
-            <StackedColumnChart
-              :data="numberOfTradesSeries()"
-              :dates="numberOfTradesDates"
-            />
+            <StackedColumnChart :data="numberOfTradesSeries()" :dates="numberOfTradesDates" />
           </CCol>
           <CCol md="12" lg="4">
             <WidgetPieChart :data="pieChartData()" />
@@ -65,11 +36,8 @@
         </CRow>
         <CRow>
           <CCol xs="12">
-            <ProfitRevenueChart
-              :symbol="currencySelected.symbol"
-              :data="profitRevenueSeries"
-              :dates="profitRevenueDates"
-            />
+            <ProfitRevenueChart :symbol="currencySelected.symbol" :data="profitRevenueSeries"
+              :dates="profitRevenueDates" />
           </CCol>
         </CRow>
       </CCol>
@@ -85,8 +53,7 @@
                     <img :src="info" class="info_icon" />
                   </div>
                   <template #popper>
-                    <div
-                      style="
+                    <div style="
                         background: linear-gradient(
                           rgba(89, 89, 89, 0.75),
                           rgba(73, 73, 73, 0.15)
@@ -95,18 +62,15 @@
                         padding: 10px;
                         border-radius: 4px;
                         width: 400px;
-                      "
-                    >
+                      ">
                       <div style="font-size: clamp(10px, 0.9vw, 16px)">
                         Information
                       </div>
-                      <p
-                        style="
+                      <p style="
                           display: flex;
                           flex-direction: column;
                           font-size: clamp(10px, 0.8vw, 14px);
-                        "
-                      >
+                        ">
                         This component displays profits segmented daily, weekly,
                         and monthly. Track and gauge the bot's effectiveness and
                         financial gains over different time intervals.
@@ -124,73 +88,43 @@
                 <LoaderPulse></LoaderPulse>
               </div> -->
                 <div>
-                  <BotVolumeCard
-                    :currencyDecimals="currencyDecimals"
-                    :SystemProfitModalVisible="SystemProfitModalVisible"
+                  <BotVolumeCard :currencyDecimals="currencyDecimals" :SystemProfitModalVisible="SystemProfitModalVisible"
                     @changeVisibleSystemProfitModal="
                       changeVisibleSystemProfitModal('24 Hours')
-                    "
-                    :symbol="currencySelected.symbol"
-                    :volumeArb="profitsInfo.arbitrum.daily"
-                    :volumeBsc="profitsInfo.binance.daily"
-                    :chainSelected="chainSelected"
-                    :volumeMatic="profitsInfo.polygon.daily"
-                    :title="'24 hours'"
+                      " :symbol="currencySelected.symbol" :volumeArb="profitsInfo.arbitrum.daily"
+                    :volumeBsc="profitsInfo.binance.daily" :chainSelected="chainSelected"
+                    :volumeMatic="profitsInfo.polygon.daily" :title="'24 hours'"
                     :previousVolumeArb="profitsInfo.arbitrum['day-past']"
                     :previousVolumeBsc="profitsInfo.binance['day-past']"
-                    :previousVolumeMatic="profitsInfo.polygon['day-past']"
-                    :tooltipTitle="'Daily System Profit'"
-                  />
-                  <BotVolumeCard
-                    :currencyDecimals="currencyDecimals"
-                    :SystemProfitModalVisible="SystemProfitModalVisible"
+                    :previousVolumeMatic="profitsInfo.polygon['day-past']" :tooltipTitle="'Daily System Profit'" />
+                  <BotVolumeCard :currencyDecimals="currencyDecimals" :SystemProfitModalVisible="SystemProfitModalVisible"
                     @changeVisibleSystemProfitModal="
                       changeVisibleSystemProfitModal('7 Days')
-                    "
-                    :symbol="currencySelected.symbol"
-                    :volumeArb="profitsInfo.arbitrum.weekly"
-                    :volumeBsc="profitsInfo.binance.weekly"
-                    :chainSelected="chainSelected"
-                    :volumeMatic="profitsInfo.polygon.weekly"
-                    :previousVolumeArb="profitsInfo.arbitrum['week-past']"
+                      " :symbol="currencySelected.symbol" :volumeArb="profitsInfo.arbitrum.weekly"
+                    :volumeBsc="profitsInfo.binance.weekly" :chainSelected="chainSelected"
+                    :volumeMatic="profitsInfo.polygon.weekly" :previousVolumeArb="profitsInfo.arbitrum['week-past']"
                     :previousVolumeBsc="profitsInfo.binance['week-past']"
-                    :previousVolumeMatic="profitsInfo.polygon['week-past']"
-                    :title="'7 days'"
-                    :tooltipTitle="'Weekly System Profit'"
-                  />
-                  <BotVolumeCard
-                    :currencyDecimals="currencyDecimals"
-                    :SystemProfitModalVisible="SystemProfitModalVisible"
+                    :previousVolumeMatic="profitsInfo.polygon['week-past']" :title="'7 days'"
+                    :tooltipTitle="'Weekly System Profit'" />
+                  <BotVolumeCard :currencyDecimals="currencyDecimals" :SystemProfitModalVisible="SystemProfitModalVisible"
                     @changeVisibleSystemProfitModal="
                       changeVisibleSystemProfitModal('30 Days')
-                    "
-                    :symbol="currencySelected.symbol"
-                    :volumeArb="profitsInfo.arbitrum.monthly"
-                    :volumeBsc="profitsInfo.binance.monthly"
-                    :chainSelected="chainSelected"
-                    :volumeMatic="profitsInfo.polygon.monthly"
-                    :previousVolumeArb="profitsInfo.arbitrum['month-past']"
+                      " :symbol="currencySelected.symbol" :volumeArb="profitsInfo.arbitrum.monthly"
+                    :volumeBsc="profitsInfo.binance.monthly" :chainSelected="chainSelected"
+                    :volumeMatic="profitsInfo.polygon.monthly" :previousVolumeArb="profitsInfo.arbitrum['month-past']"
                     :previousVolumeBsc="profitsInfo.binance['month-past']"
-                    :previousVolumeMatic="profitsInfo.polygon['month-past']"
-                    :title="'30 days'"
-                    :tooltipTitle="'Monthly System Profit'"
-                  />
+                    :previousVolumeMatic="profitsInfo.polygon['month-past']" :title="'30 days'"
+                    :tooltipTitle="'Monthly System Profit'" />
                 </div>
               </CCardBody>
             </CCard>
           </CCol>
           <CCol md="12" xl="12" xxl="12">
             <div>
-              <BotVolumeWidget
-                :currencyDecimals="currencyDecimals"
-                :symbol="currencySelected.symbol"
-                :items="volumeWidgetData"
-              />
-              <GasFeesWidget
-                :currencyDecimals="currencyDecimals"
-                :symbol="currencySelected.symbol"
-                :items="feeWidgetData"
-              />
+              <BotVolumeWidget :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
+                :items="volumeWidgetData" />
+              <GasFeesWidget :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
+                :items="feeWidgetData" />
             </div>
           </CCol>
         </div>
@@ -209,8 +143,7 @@
                     <img :src="info" class="info_icon" />
                   </div>
                   <template #popper>
-                    <div
-                      style="
+                    <div style="
                         background: linear-gradient(
                           rgba(89, 89, 89, 1),
                           rgba(73, 73, 73, 0.45)
@@ -218,19 +151,16 @@
                         backdrop-filter: blur(10px);
                         padding: 10px;
                         border-radius: 4px;
-                      "
-                    >
+                      ">
                       <div style="font-size: clamp(10px, 0.9vw, 16px)">
                         Information
                       </div>
-                      <div
-                        style="
+                      <div style="
                           display: flex;
                           flex-direction: column;
                           font-size: clamp(10px, 0.8vw, 14px);
                           width: 400px;
-                        "
-                      >
+                        ">
                         Explore the interplay between Profit and Revenue over
                         time. Presented as a line chart, you can analyze both
                         metrics on a daily, weekly, or monthly basis.
@@ -274,77 +204,43 @@
               </div>
             </div> -->
             <div class="table-wrapper">
-              <Table
-                class="table_trading-activity"
-                :headers="[
-                  'Trade',
-                  'Assets',
-                  'Strategy',
-                  'Route',
-                  'Volume',
-                  'Profit w Fees',
-                  'Gas Fees',
-                ]"
-              >
-                <div
-                  v-if="trackingTradesLoading === true"
-                  style="height: 500px"
-                >
+              <Table class="table_trading-activity" :headers="[
+                'Trade',
+                'Assets',
+                'Strategy',
+                'Route',
+                'Volume',
+                'Profit w Fees',
+                'Gas Fees',
+              ]">
+                <div v-if="trackingTradesLoading === true" style="height: 500px">
                   <LoaderPulse />
                 </div>
-                <CTableBody
-                  v-else-if="filteredList.length > 0 && !trackingTradesLoading"
-                  class="text-white table-body"
-                  :class="{ 'table-body_scroll': filteredList.length > 6 }"
-                >
-                  <CTableRow
-                    v-for="(item, i) in filteredList"
-                    :key="i"
-                    class="table-row"
-                  >
+                <CTableBody v-else-if="filteredList.length > 0 && !trackingTradesLoading" class="text-white table-body"
+                  :class="{ 'table-body_scroll': filteredList.length > 6 }">
+                  <CTableRow v-for="(item, i) in filteredList" :key="i" class="table-row">
                     <CTableDataCell scope="row" class="text-white table-cell">
-                      {{ dateFormat(item.date) }} <br />
+                      {{ getTimeDifferenceFormatted(item.date) }} <br />
                       <div class="d-flex align-items-center gap-2">
-                        <img
-                          :src="computedNetwork(item.chain)"
-                          :width="20"
-                          :alt="item.chain"
-                        />
-                        <a
-                          :href="
-                            getTransactionUrl(item.transactionHash, item.chain)
-                          "
-                          target="_blank"
-                          class="transaction-link"
-                        >
+                        <img :src="computedNetwork(item.chain)" :width="20" :alt="item.chain" />
+                        <a :href="getTransactionUrl(item.transactionHash, item.chain)
+                          " target="_blank" class="transaction-link">
                           {{ addressShorthand(item.transactionHash) }}
                         </a>
                       </div>
                     </CTableDataCell>
                     <CTableDataCell class="align-middle table-cell">
                       <div class="d-flex flex-column">
-                        <div
-                          class="text-white d-flex justify-content-center align-items-center"
-                        >
-                          <img
-                            width="22"
-                            class="p-1"
-                            :src="computedTokenImage(item.token)"
-                          />
+                        <div class="text-white d-flex justify-content-center align-items-center">
+                          <img width="22" class="p-1" :src="computedTokenImage(item.token)" />
                           {{
                             `-${item.valueIn.toFixed(
                               currencyDecimals == 0 ? 2 : currencyDecimals,
                             )}${item.token} `
                           }}
                         </div>
-                        <div
-                          class="text-green d-flex justify-content-center align-items-center"
-                        >
-                          <img
-                            width="22"
-                            class="p-1"
-                            :src="computedTokenImage(item.token)"
-                          />
+                        <div class="text-green d-flex justify-content-center align-items-center">
+                          <img width="22" class="p-1" :src="computedTokenImage(item.token)" />
                           <div class="d-flex">
                             {{
                               `+${item.valueOut.toFixed(
@@ -356,65 +252,35 @@
                       </div>
                     </CTableDataCell>
                     <CTableDataCell class="align-middle table-cell">
-                      <div
-                        class="text-white"
-                        v-if="
-                          item.strategie == 'arbFromTokensWith1InchAndVault'
-                        "
-                      >
+                      <div class="text-white" v-if="item.strategie == 'arbFromTokensWith1InchAndVault'
+                          ">
                         1inch
                       </div>
-                      <div
-                        class="text-white"
-                        v-else-if="item.strategie == 'arbFromTokensWithVault'"
-                      >
+                      <div class="text-white" v-else-if="item.strategie == 'arbFromTokensWithVault'">
                         1inch Fusion
                       </div>
-                      <div
-                        class="text-white"
-                        v-else-if="
-                          item.strategie ==
-                          'arbFromTokensWith1InchUniV3AndVault'
-                        "
-                      >
+                      <div class="text-white" v-else-if="item.strategie ==
+                        'arbFromTokensWith1InchUniV3AndVault'
+                        ">
                         1inch
                       </div>
-                      <div
-                        class="text-white"
-                        v-else-if="
-                          item.strategie == 'arbFromTokensWith1InchUniAndVault'
-                        "
-                      >
+                      <div class="text-white" v-else-if="item.strategie == 'arbFromTokensWith1InchUniAndVault'
+                        ">
                         1inch
                       </div>
-                      <div
-                        class="text-white"
-                        v-else-if="
-                          item.strategie == 'arbFromTokensWithOdosAndVault'
-                        "
-                      >
+                      <div class="text-white" v-else-if="item.strategie == 'arbFromTokensWithOdosAndVault'
+                        ">
                         Odos
                       </div>
-                      <div
-                        class="text-white"
-                        v-else-if="
-                          item.strategie == 'arbFromTokensWithFireBirdAndVault'
-                        "
-                      >
+                      <div class="text-white" v-else-if="item.strategie == 'arbFromTokensWithFireBirdAndVault'
+                        ">
                         Firebird
                       </div>
                     </CTableDataCell>
                     <CTableDataCell class="align-middle table-cell">
-                      <div
-                        class="d-flex align-items-center flex-column justify-content-center"
-                      >
+                      <div class="d-flex align-items-center flex-column justify-content-center">
                         <span class="text-danger">{{ item.buypath }}</span>
-                        <CIcon
-                          icon="cil-arrow-top"
-                          class="mx-1 text-white"
-                          size="xl"
-                          style="transform: rotate(180deg)"
-                        />
+                        <CIcon icon="cil-arrow-top" class="mx-1 text-white" size="xl" style="transform: rotate(180deg)" />
                         <span class="text-success">{{ item.sellpath }}</span>
                       </div>
                     </CTableDataCell>
@@ -435,17 +301,15 @@
                       </div>
                     </CTableDataCell>
                     <CTableDataCell class="align-middle table-cell">
-                      <div
-                        :class="{
-                          'd-flex align-items-center text-danger text-center justify-content-center':
-                            Number(item.valueOut) < Number(item.valueIn) ||
-                            Number(item.profit) < 0,
-                          'd-flex align-items-center text-success text-center justify-content-center':
-                            Number(item.valueOut) >= Number(item.valueIn) ||
-                            Number(item.profit) > 0,
-                        }"
-                      >
-                      <span v-if="currencySelected.symbol === '₿'">
+                      <div :class="{
+                            'd-flex align-items-center text-danger text-center justify-content-center':
+                              Number(item.valueOut) < Number(item.valueIn) ||
+                              Number(item.profit) < 0,
+                            'd-flex align-items-center text-success text-center justify-content-center':
+                              Number(item.valueOut) >= Number(item.valueIn) ||
+                              Number(item.profit) > 0,
+                          }">
+                        <span v-if="currencySelected.symbol === '₿'">
                           <img :src="btcSymbol" width="9" />
                         </span>
                         <span v-else-if="currencySelected.symbol === 'Ξ'">
@@ -459,20 +323,19 @@
                       </div>
                     </CTableDataCell>
                     <CTableDataCell class="table-cell align-middle">
-                      <span class="text-secondary"
-                        >{{
-                          item.chain == 'binance'
-                            ? item.gasFee.toFixed(
-                                currencyDecimals == 0 ? 2 : currencyDecimals,
-                              ) + ' BNB'
-                            : item.chain == 'arbitrum'
-                            ? item.gasFee.toFixed(
-                                currencyDecimals == 0 ? 2 : currencyDecimals,
-                              ) + ' ETH'
-                            : item.gasFee.toFixed(
-                                currencyDecimals == 0 ? 2 : currencyDecimals,
-                              ) + ' MATIC'
-                        }}
+                      <span class="text-secondary">{{
+                        item.chain == 'binance'
+                        ? item.gasFee.toFixed(
+                          currencyDecimals == 0 ? 2 : currencyDecimals,
+                        ) + ' BNB'
+                        : item.chain == 'arbitrum'
+                          ? item.gasFee.toFixed(
+                            currencyDecimals == 0 ? 2 : currencyDecimals,
+                          ) + ' ETH'
+                          : item.gasFee.toFixed(
+                            currencyDecimals == 0 ? 2 : currencyDecimals,
+                          ) + ' MATIC'
+                      }}
                       </span>
                     </CTableDataCell>
                   </CTableRow>
@@ -519,8 +382,7 @@
                   <img :src="info" class="info_icon" />
                 </div>
                 <template #popper>
-                  <div
-                    style="
+                  <div style="
                       background: linear-gradient(
                         rgba(89, 89, 89, 0.75),
                         rgba(73, 73, 73, 0.15)
@@ -529,18 +391,15 @@
                       padding: 10px;
                       border-radius: 4px;
                       width: 400px;
-                    "
-                  >
+                    ">
                     <div style="font-size: clamp(10px, 0.9vw, 16px)">
                       Information
                     </div>
-                    <div
-                      style="
+                    <div style="
                         display: flex;
                         flex-direction: column;
                         font-size: clamp(10px, 0.8vw, 14px);
-                      "
-                    >
+                      ">
                       <div>
                         Name: Full name of the asset along with used
                         abbreviation
@@ -562,47 +421,29 @@
           </div>
           <CCardBody>
             <div class="table-wrapper">
-              <Table
-                class="table_top-trading-tokens"
-                :headers="['Name', 'Price', 'Volume', 'Balance']"
-              >
+              <Table class="table_top-trading-tokens" :headers="['Name', 'Price', 'Volume', 'Balance']">
                 <div v-if="topTradingTokens.length === 0" style="height: 500px">
                   <LoaderPulse />
                 </div>
-                <CTableBody
-                  v-if="topTradingTokens.length > 0"
-                  class="table-body"
-                  :class="{ 'table-body_scroll': topTradingTokens.length > 6 }"
-                >
-                  <CTableRow
-                    v-for="item in topTradingTokens"
-                    :key="item"
-                    class="table-row"
-                  >
+                <CTableBody v-if="topTradingTokens.length > 0" class="table-body"
+                  :class="{ 'table-body_scroll': topTradingTokens.length > 6 }">
+                  <CTableRow v-for="item in topTradingTokens" :key="item" class="table-row">
                     <CTableDataCell class="align-middle table-cell">
-                      <DataTableCellTokenName
-                        :isSmall="true"
-                        :value="item['Name']"
-                      />
+                      <DataTableCellTokenName :isSmall="true" :value="item['Name']" />
                     </CTableDataCell>
                     <CTableDataCell class="align-middle table-cell">
-                      <div
-                        class="file-table-cell d-flex justify-content-center"
-                        v-if="item['Price']"
-                      >
-                        <span class="d-block"
-                          ><span v-if="currencySelected.symbol === '₿'">
-                          <img :src="btcSymbol" width="9" />
-                        </span>
-                        <span v-else-if="currencySelected.symbol === 'Ξ'">
-                          <img :src="ethSymbol" width="9" />
-                        </span>
-                        <span v-else>{{ currencySelected.symbol }} </span>{{
+                      <div class="file-table-cell d-flex justify-content-center" v-if="item['Price']">
+                        <span class="d-block"><span v-if="currencySelected.symbol === '₿'">
+                            <img :src="btcSymbol" width="9" />
+                          </span>
+                          <span v-else-if="currencySelected.symbol === 'Ξ'">
+                            <img :src="ethSymbol" width="9" />
+                          </span>
+                          <span v-else>{{ currencySelected.symbol }} </span>{{
                             item['Price'].toFixed(
                               currencyDecimals == 0 ? 2 : currencyDecimals,
                             )
-                          }}</span
-                        >
+                          }}</span>
                         <DataTableCellPriceChange :value="item['Change']" />
                       </div>
                       <div class="text-truncate file-table-cell" v-else>
@@ -650,7 +491,7 @@ import useHandleTokensInfoDashboard from '@/composables/useHandleTokensInfoDashb
 import DataTableCellTokenName from '@/components/DataTable/Cell/TokenName.vue'
 import DataTableCellPriceChange from '@/components/DataTable/Cell/PriceChange.vue'
 import BotVolumeCard from '@/components/BotVolumeCard/index.vue'
-// import { getTokenEntity } from '@/lib/helpers/util'
+import { getTimeDifferenceFormatted } from '@/lib/helpers/util'
 import { subgraphService } from '@/services/subgraph/subgraph.service'
 import MainCard from '../UI/MainCard.vue'
 import ChainSelector from '@/UI/ChainSelectorV2.vue'
@@ -756,37 +597,37 @@ const tokens_data = ref([])
 const profitsDetails = computed(() =>
   chainSwapsData.value.length > 0 && tokens_data.value.length > 0
     ? {
-        '24 Hours': {
-          currency: usePool24hProfitTokens(
-            chainSwapsData.value,
-            tokens_data.value,
-          ),
-          token: usePool24hProfitTokensAmount(
-            chainSwapsData.value,
-            tokens_data.value,
-          ),
-        },
-        '7 Days': {
-          currency: usePool7dProfitTokens(
-            chainSwapsData.value,
-            tokens_data.value,
-          ),
-          token: usePool7dProfitTokensAmount(
-            chainSwapsData.value,
-            tokens_data.value,
-          ),
-        },
-        '30 Days': {
-          currency: usePool30dProfitTokens(
-            chainSwapsData.value,
-            tokens_data.value,
-          ),
-          token: usePool30dProfitTokensAmount(
-            chainSwapsData.value,
-            tokens_data.value,
-          ),
-        },
-      }
+      '24 Hours': {
+        currency: usePool24hProfitTokens(
+          chainSwapsData.value,
+          tokens_data.value,
+        ),
+        token: usePool24hProfitTokensAmount(
+          chainSwapsData.value,
+          tokens_data.value,
+        ),
+      },
+      '7 Days': {
+        currency: usePool7dProfitTokens(
+          chainSwapsData.value,
+          tokens_data.value,
+        ),
+        token: usePool7dProfitTokensAmount(
+          chainSwapsData.value,
+          tokens_data.value,
+        ),
+      },
+      '30 Days': {
+        currency: usePool30dProfitTokens(
+          chainSwapsData.value,
+          tokens_data.value,
+        ),
+        token: usePool30dProfitTokensAmount(
+          chainSwapsData.value,
+          tokens_data.value,
+        ),
+      },
+    }
     : [],
 )
 
@@ -857,16 +698,16 @@ const last7Days = getLast7Days()
 const tradesChains = computed(() =>
   chainSelected.value.name.toLowerCase() == 'all chains'
     ? [
-        process.env.VUE_APP_KEY_ARBITRUM
-          ? DisplayNetwork[Network.ARBITRUM]
-          : undefined,
-        process.env.VUE_APP_KEY_BINANCE
-          ? DisplayNetwork[Network.BINANCE]
-          : undefined,
-        process.env.VUE_APP_KEY_POLYGON
-          ? DisplayNetwork[Network.POLYGON]
-          : undefined,
-      ].filter((n) => n != undefined)
+      process.env.VUE_APP_KEY_ARBITRUM
+        ? DisplayNetwork[Network.ARBITRUM]
+        : undefined,
+      process.env.VUE_APP_KEY_BINANCE
+        ? DisplayNetwork[Network.BINANCE]
+        : undefined,
+      process.env.VUE_APP_KEY_POLYGON
+        ? DisplayNetwork[Network.POLYGON]
+        : undefined,
+    ].filter((n) => n != undefined)
     : [chainSelected.value.name],
 )
 const numberOfTradesDates = computed(() => last7Days.map((d) => d.date))
@@ -900,10 +741,6 @@ function getLast7DaysTrades(chain) {
   return result
 }
 
-function dateFormat(date) {
-  return moment(date).utc().format('MMMM Do YYYY, h:mm:ss A')
-}
-
 function computedNetwork(chain) {
   if (chain === 'arbitrum') {
     return arb
@@ -926,11 +763,11 @@ async function fetchAutomaticData() {
     links.map((l) =>
       l != undefined
         ? axios.get(`${l}/fetch-data`, {
-            timeout: 120000,
-          })
+          timeout: 120000,
+        })
         : new Promise((resolve) => {
-            resolve({ data: [] })
-          }),
+          resolve({ data: [] })
+        }),
     ),
   )
 }
@@ -963,8 +800,8 @@ async function fetchDataAndMerge() {
       l != undefined
         ? axios.get(`${l}/output`)
         : new Promise((resolve) => {
-            resolve({ data: [] })
-          }),
+          resolve({ data: [] })
+        }),
     ),
   )
 
@@ -1081,8 +918,8 @@ const chainSwapsData = computed(() =>
 const hours24volume = computed(() =>
   swapsData.value.length > 0
     ? chainSwapsData.value
-        .filter((item) => item.timestamp >= moment().subtract(1, 'days').unix())
-        .reduce((sum, value) => sum + parseFloat(value.volumeUsd), 0)
+      .filter((item) => item.timestamp >= moment().subtract(1, 'days').unix())
+      .reduce((sum, value) => sum + parseFloat(value.volumeUsd), 0)
     : null,
 )
 const hours24PrevVolume = computed(() =>
@@ -1097,8 +934,8 @@ const hours24PrevVolume = computed(() =>
 const weekvolume = computed(() =>
   swapsData.value.length > 0
     ? chainSwapsData.value
-        .filter((item) => item.timestamp >= moment().subtract(7, 'days').unix())
-        .reduce((sum, value) => sum + parseFloat(value.volumeUsd), 0)
+      .filter((item) => item.timestamp >= moment().subtract(7, 'days').unix())
+      .reduce((sum, value) => sum + parseFloat(value.volumeUsd), 0)
     : null,
 )
 const weekPrevVolume = computed(() =>
@@ -1113,10 +950,10 @@ const weekPrevVolume = computed(() =>
 const monthvolume = computed(() =>
   swapsData.value.length > 0
     ? chainSwapsData.value
-        .filter(
-          (item) => item.timestamp >= moment().subtract(1, 'months').unix(),
-        )
-        .reduce((sum, value) => sum + parseFloat(value.volumeUsd), 0)
+      .filter(
+        (item) => item.timestamp >= moment().subtract(1, 'months').unix(),
+      )
+      .reduce((sum, value) => sum + parseFloat(value.volumeUsd), 0)
     : null,
 )
 const monthPrevVolume = computed(() =>
@@ -1131,9 +968,9 @@ const monthPrevVolume = computed(() =>
 const allTimevolume = computed(() =>
   swapsData.value.length > 0
     ? chainSwapsData.value.reduce(
-        (sum, value) => sum + parseFloat(value.volumeUsd),
-        0,
-      )
+      (sum, value) => sum + parseFloat(value.volumeUsd),
+      0,
+    )
     : null,
 )
 
@@ -1167,8 +1004,8 @@ const volumeWidgetData = computed(() => [
 const hours24fee = computed(() =>
   swapsData.value.length > 0
     ? chainSwapsData.value
-        .filter((item) => item.timestamp >= moment().subtract(1, 'days').unix())
-        .reduce((sum, value) => sum + parseFloat(value.gasFeeUsd), 0)
+      .filter((item) => item.timestamp >= moment().subtract(1, 'days').unix())
+      .reduce((sum, value) => sum + parseFloat(value.gasFeeUsd), 0)
     : null,
 )
 const hours24PrevFee = computed(() =>
@@ -1183,10 +1020,10 @@ const hours24PrevFee = computed(() =>
 const monthFee = computed(() =>
   swapsData.value.length > 0
     ? chainSwapsData.value
-        .filter(
-          (item) => item.timestamp >= moment().subtract(1, 'months').unix(),
-        )
-        .reduce((sum, value) => sum + parseFloat(value.gasFeeUsd), 0)
+      .filter(
+        (item) => item.timestamp >= moment().subtract(1, 'months').unix(),
+      )
+      .reduce((sum, value) => sum + parseFloat(value.gasFeeUsd), 0)
     : null,
 )
 const prevMonthFee = computed(() =>
@@ -1201,8 +1038,8 @@ const prevMonthFee = computed(() =>
 const weekFee = computed(() =>
   swapsData.value.length > 0
     ? chainSwapsData.value
-        .filter((item) => item.timestamp >= moment().subtract(7, 'days').unix())
-        .reduce((sum, value) => sum + parseFloat(value.gasFeeUsd), 0)
+      .filter((item) => item.timestamp >= moment().subtract(7, 'days').unix())
+      .reduce((sum, value) => sum + parseFloat(value.gasFeeUsd), 0)
     : null,
 )
 const prevWeekFee = computed(() =>
@@ -1218,9 +1055,9 @@ const prevWeekFee = computed(() =>
 const allTimeFee = computed(() =>
   swapsData.value.length > 0
     ? chainSwapsData.value.reduce(
-        (sum, value) => sum + parseFloat(value.gasFeeUsd),
-        0,
-      )
+      (sum, value) => sum + parseFloat(value.gasFeeUsd),
+      0,
+    )
     : null,
 )
 const sorted = computed(() =>
@@ -1576,23 +1413,24 @@ onMounted(async () => {
     }
 
     &::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
-      background-color: #02120a;
+      background-color: rgba(255, 255, 255, 0.05);
       border-radius: 50px;
       margin-bottom: 10px;
+      padding: 2px !important;
+      width: 8px;
     }
 
     &::-webkit-scrollbar {
       width: 8px !important;
       height: 8px !important;
-      background: #02120a;
       border-radius: 50px;
     }
 
     &::-webkit-scrollbar-thumb {
-      border: 2px solid #02120a;
-      background: rgb(1, 180, 126);
-      border-radius: 21px;
+      border: 2px solid transparent;
+      padding: 2px !important;
+      background: #00C9FF;
+      border-radius: 20px;
     }
   }
 
@@ -1637,9 +1475,9 @@ onMounted(async () => {
 
   &-wrapper {
     padding: 0;
-    border-radius: 20px;
-    outline: 0.5px solid rgba(163, 164, 165, 0.2196078431);
-    background: transparent;
+    border-radius: 15.289px;
+    background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+    backdrop-filter: blur(20.067087173461914px);
     width: 100%;
     overflow-x: auto;
 
@@ -1755,7 +1593,6 @@ onMounted(async () => {
 
   &__wrapper {
     border-radius: 15px;
-    /* border: 0.5px solid rgba(163, 164, 165, 0.2196078431); */
     backdrop-filter: blur(60px);
     background: linear-gradient(356.2deg, #00c8ff0e 0%, #000000 105.42%);
 

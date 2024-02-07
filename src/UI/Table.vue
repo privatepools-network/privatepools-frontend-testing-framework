@@ -2,12 +2,10 @@
   <CTable style="table-layout: fixed">
     <CTableHead color="transparent">
       <CTableRow class="table-row">
-        <CTableHeaderCell class="text-left table-header-font-folder" v-for="header in headers" :key="header"
-        >
+        <CTableHeaderCell class="text-left table-header-font-folder" v-for="header in headers" :key="header">
           <span v-if="header.toUpperCase() == 'BESTOUTFIRSTSWAPAMOUNT'">Bestoutamount</span>
           <span v-else>{{ header }}</span>
-        </CTableHeaderCell
-        >
+        </CTableHeaderCell>
       </CTableRow>
     </CTableHead>
     <slot></slot>
@@ -15,27 +13,30 @@
 </template>
 
 <script setup>
-import {defineProps, toRefs} from "vue"
+import { defineProps, toRefs } from "vue"
 
 const props = defineProps({
   headers: Array,
 })
 
-const {headers} = toRefs(props)
+const { headers } = toRefs(props)
 </script>
 <style scoped lang="scss">
 .table {
+
   &-wrapper {
     padding: 0;
+    
   }
 
   &-header-font-folder {
     color: #ffffff;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
     padding: 29px 0 29px 10px;
     white-space: nowrap;
+    font-family: 'Ubuntu';
     overflow: hidden;
 
     &:not(:first-child) {
@@ -44,6 +45,7 @@ const {headers} = toRefs(props)
 
     &:first-child {
       padding: 29px 0 29px 45px;
+
       @media (max-width: 1400px) {
         padding: 20px 0px 20px 15px;
       }
@@ -51,6 +53,7 @@ const {headers} = toRefs(props)
 
     &:last-child {
       padding: 29px 10px 29px 10px;
+
       @media (max-width: 1400px) {
         padding: 20px 0px 20px 10px;
       }
@@ -63,9 +66,8 @@ const {headers} = toRefs(props)
   }
 
   &-transparent {
-    border-bottom: 0.5px solid rgba(163, 164, 165, 0.2196078431);
-    border-radius: 20px 20px 0 0;
-    background: linear-gradient(0deg, #02120A, #02120A), linear-gradient(0deg, rgba(163, 164, 165, 0.4), rgba(163, 164, 165, 0.4));
+    border-bottom: 0.5px solid rgba(163, 164, 165, 0.4);
+    border-radius: 15px 15px 0 0;
     width: 100%;
   }
 
@@ -73,13 +75,10 @@ const {headers} = toRefs(props)
     width: 100%;
     display: table;
     table-layout: fixed;
-    background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%) !important;    
-
   }
 }
 </style>
 <style lang="scss">
-
 .table {
   margin-bottom: 0;
 }
