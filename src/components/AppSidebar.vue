@@ -129,9 +129,10 @@ export default {
 }
 
 .sidebar-nav .nav-link:hover {
-  background-color: transparent !important;
   margin-left: 10px;
   margin-right: 10px;
+  background-color: #1f3034 !important;
+
 }
 
 .sidebar_helper_icon {

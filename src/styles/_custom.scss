@@ -346,7 +346,7 @@ input[type=number] {
 }
 
 .sidebar-nav .nav-link.active>.nav-symbol {
-  filter: drop-shadow(0 0 0.3rem #01b47e);
+  // filter: drop-shadow(0 0 0.3rem #01b47e);
 }
 
 .sidebar-nav .nav-link:hover {
@@ -367,7 +367,6 @@ input[type=number] {
 }
 
 .nav-icon {
-  /* Ensure it fills the container without overflowing */
   width: 80px;
   height: 80px;
 }
