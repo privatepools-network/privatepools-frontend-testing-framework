@@ -22,7 +22,7 @@ defineProps(['gradient_bg', 'maxWidth'])
   box-shadow: 0px 16px 24px 0px #00000024;
 
   background: linear-gradient(152.97deg, rgba(29, 21, 21, 0) 30%, rgba(0, 0, 0, 0) 40%);
-  border-image-source: linear-gradient(90deg, rgba(11, 12, 13, 0) 0%, #E0E1E2 49.52%, rgba(224, 225, 226, 0.15625) 99.04%);
+  // border-image-source: linear-gradient(90deg, rgba(11, 12, 13, 0) 0%, #E0E1E2 49.52%, rgba(224, 225, 226, 0.15625) 99.04%);
   backdrop-filter: blur(10px);
 
   margin-bottom: 2%;
