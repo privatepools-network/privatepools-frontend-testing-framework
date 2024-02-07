@@ -1761,7 +1761,6 @@ watch((currencySelected), async () => {
     overflow-y: auto;
     max-height: 626px;
     display: block;
-    background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
     backdrop-filter: blur(20.067087173461914px);
 
     .table-row {
@@ -2129,7 +2128,8 @@ watch((currencySelected), async () => {
 .tracking_table {
   padding: 0;
   border-radius: 15px;
-  background: transparent;
+  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 90%);
+  backdrop-filter: blur(20.067087173461914px);
   overflow-x: auto;
 }
 
