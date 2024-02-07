@@ -82,7 +82,7 @@ export default {
       sygnet,
       avatar,
       sidebarNarrow: false,
-      sidebarUnfoldable: false,
+      sidebarUnfoldable: true,
       sidebarVisible: () => store.state.sidebarVisible,
       client: process.env.VUE_APP_NAME_OF_CLIENT_DEPLOYMENT
     }
