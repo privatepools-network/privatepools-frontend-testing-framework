@@ -49,14 +49,17 @@ import AppSidebar from '@/components/AppSidebar.vue'
 .main_containter {
   background-image: URL('../assets/images/background-image.png');
   background-size: cover;
-  backdrop-filter: blur(60px);
+  backdrop-filter: blur(45px);
   position: relative;
   
 }
 
 
 .app_container {
-  background: linear-gradient(152.97deg, #142242 0%, rgb(41 43 56 / 50%) 100%);
+  // background: linear-gradient(152.97deg, #142242 0%, rgb(41 43 56 / 50%) 100%(41 43 56 / 50%) 100%);
+  background: linear-gradient(159.02deg, #0F123B 0.25%, #090D2E 0.45%, rgb(41 43 56 / 50%) 80%);
+
+  // background: linear-gradient(159.02deg, #0F123B 1.25%, #090D2E 1.45%, );
   backdrop-filter: blur(65px);
 }
 
