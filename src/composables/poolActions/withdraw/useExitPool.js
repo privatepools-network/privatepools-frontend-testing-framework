@@ -5,7 +5,9 @@ import ExitParams from '@/lib/serializers/ExitParam'
 import { ethers } from 'ethers'
 import VaultAbi from '@/lib/abi/VaultAbi.json'
 import { orderBy } from 'lodash'
-
+// import { toast } from 'vue3-toastify'
+// import Toast from '@/UI/Toast.vue'
+// import 'vue3-toastify/dist/index.css'
 
 /**
  * Exit pool
@@ -27,6 +29,8 @@ export async function useExitPool(
   bptIn,
   exactOut,
   tokenOutIndex,
+  confirmingState,
+  // ConfirmToastPending,
 ) {
   let provider = await InitializeMetamask()
   if (!provider) return
@@ -50,12 +54,29 @@ export async function useExitPool(
   )
 
   try {
+    confirmingState.value = true
     var tx = await vaultContract.exitPool(...txParams)
 
     // await tx.wait()
   } catch (error) {
     console.log('Error sending tx - ', error)
 
+    // toast.update(ConfirmToastPending.value, {
+    //   render: Toast,
+    //   data: {
+    //     header_text: 'Confirm rejected',
+    //     toast_text: `You rejected confirm`,
+    //     tx_link: '',
+    //     speedUp: '',
+    //   },
+    //   autoClose: 7000,
+    //   closeOnClick: false,
+    //   closeButton: false,
+    //   type: 'error',
+    //   isLoading: false,
+    // })
+
+    confirmingState.value = false
     return error
   }
 

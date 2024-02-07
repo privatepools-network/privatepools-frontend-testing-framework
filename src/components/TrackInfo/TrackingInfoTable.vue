@@ -25,7 +25,18 @@
 
 
       <DataTable :displayTable="displayTable" :data="displayTable"
-        :default_head_captions="selectedTab == 'Pools' ? ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'APR', 'Profit'] : ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'Profit']"
+        :default_head_captions="selectedTab == 'Pools'
+        ? [
+          'Name',
+          'Revenue',
+          'Fees',
+          'Trades',
+          'Volume',
+          'TVL',
+          'APR',
+          'Profit',
+        ]
+        : selectedTab === 'Pairs' ? ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'Profit', 'Ratio', 'Market Ratio', '%Deviation' ] : ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'Profit'] "
         :table_bg="''" :filterableHeaders="filterableHeaders" @filter-click="onFilterClick" :sortIcons="true"
         @table-header-click="onDatatableHeaderClick" :sortedHeader="sortedHeader" :headerDropdownSort="true"
         :isFullTable="true" @table-row-click="(a, b) => width > 768 ? goToPool(b) : ''">

@@ -16,9 +16,9 @@
 
       </div>
     </div>
-    <!-- <div class="widget_image">
+    <div class="widget_image">
       <img :src="widget_icon" class="widget_image_icon" />
-    </div> -->
+    </div>
   </div>
 </template>
 <script setup>
@@ -31,45 +31,38 @@ defineProps(['text_header', 'text_value', 'widget_icon', 'additional_symbol'])
 </script>
 <style scoped lang="scss">
 @import '@/styles/_variables.scss';
-
 .widget_container {
   width: 20vw;
   display: flex;
   justify-content: space-between;
-  border: 0.5px solid #a3a4a538;
+  /* border: 0.5px solid #a3a4a538; */
   margin-bottom: 1.5vw;
   align-items: center;
+  background: linear-gradient(152.97deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
 
-  border-radius: 25px;
+  border-radius: 15px;
   padding: 15px;
   font-family: Poppins;
   letter-spacing: 0em;
 }
 
 .totals_loader {
-  margin-right: 20px;
+  margin-left: 20px;
   margin-top: 8px;
-  margin-bottom: 8px;
 }
-
 .widget_text_container {
-  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  // flex-direction: column;
-  // gap: 7px;
+  flex-direction: column;
+  gap: 7px;
 }
-
 .widget_text_header {
   font-weight: 500;
   line-height: 12px;
   font-size: clamp(10px, 0.8vw, 14px);
   color: #a0aec0;
 }
-
 .widget_text_value {
-  font-size: clamp(10px, 0.9vw, 20px);
+  font-size: clamp(13px, 0.9vw, 22px);
   font-weight: 700;
   line-height: 25px;
   color: #ffffff;
@@ -79,12 +72,11 @@ defineProps(['text_header', 'text_value', 'widget_icon', 'additional_symbol'])
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #01b47e;
+  background: #00C9FF;
   box-shadow: 0px 3.500000238418579px 5.500000476837158px 0px #00000005;
   width: 45px;
   height: 45px;
   border-radius: 12px;
-
   &_icon {
     width: 22px;
     height: 22px;
@@ -97,7 +89,6 @@ defineProps(['text_header', 'text_value', 'widget_icon', 'additional_symbol'])
     padding: 11px;
   }
 }
-
 @media (min-width: 2000px) {
   .widget_container {
     width: 11vw;
@@ -108,14 +99,13 @@ defineProps(['text_header', 'text_value', 'widget_icon', 'additional_symbol'])
 @media (max-width: $xxl) {
   .widget_container {
     width: 19vw;
-    border-radius: 20px;
-    padding: 8px 11px 8px 11px;
+    border-radius: 15px;
+    padding: 8px 11px 4px 11px;
   }
 
   .widget_image {
     width: 30px;
     height: 30px;
-
     &_icon {
       width: 18px;
       height: 18px;
@@ -128,7 +118,6 @@ defineProps(['text_header', 'text_value', 'widget_icon', 'additional_symbol'])
     width: 100%;
   }
 }
-
 @media (max-width: $lg) {
   .widget_container {
     width: 100%;
@@ -138,28 +127,23 @@ defineProps(['text_header', 'text_value', 'widget_icon', 'additional_symbol'])
 @media (max-width: $md) {
   .widget_container {
     width: 100%;
-    border-radius: 20px;
     padding: 8px 11px 8px 11px;
   }
-
   .widget_image {
     width: 47px;
     height: 47px;
     border-radius: 12px;
-
     &_icon {
       width: 27px;
       height: 27px;
     }
   }
-
   .widget_text_header {
 
     font-size: 12px;
   }
-
   .widget_text_value {
-    font-size: 10px;
+    font-size: 16px;
 
   }
 }

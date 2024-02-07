@@ -92,7 +92,15 @@
         ">
         <LoaderPulse/>
       </div>
-
+      <div v-else-if="displayTable.length === 0" style="
+          display: flex;
+          justify-content: center;
+          margin-top: 20%;
+          margin-bottom: 20%;
+          color: rgb(255 255 255 / 95%);
+        ">
+        No results.
+      </div>
       <div v-if="displayTable &&  displayTable.length < 0 && !displayTable[0]['VS USD'] &&  !isFullTable" style="
           height: 200px;
           left: 50%;
@@ -116,7 +124,7 @@
 
       </CTableRow>
       <CTableRow v-else class="file-table-row" :class="table_bg && rowHeight ? rowHeight : 'file-table-row'"
-                 v-for="(dataRow, dataRowIndex) in data" :key="`data-row-key-${dataRowIndex}`"
+                 v-for="(dataRow, dataRowIndex) in data" :key="`data-row-key1-${dataRowIndex}`"
                  @click="$emit('table-row-click', dataRow, dataRowIndex)">
         <CTableDataCell scope="row" class="align-middle file-table-cell-container" v-for="(dataCell, dataCellKey, dataCellIndex) in getDataRow(
           dataRow,

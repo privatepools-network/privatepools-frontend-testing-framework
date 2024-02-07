@@ -82,23 +82,15 @@
 
       <div class="d-flex align-items-center">
 
+      
         <!-- <div class="thin-button" v-if="pool && pool.tokens && tokens.length > 0 && poolActivity"
-          @click="router.push(`/pools/details/${pool?.id}/info/${chainSelected.code}/deposit`)"
-          >
-          Deposit
-        </div> -->
-        <div class="thin-button" v-if="pool && pool.tokens && tokens.length > 0 && poolActivity"
           @click="changeToDepositView">
           Deposit
         </div>
 
-        <!-- <div class="thin-button" v-if="pool && pool.tokens && tokens.length > 0 && poolActivity"
-          @click="changeVisibleDeposit">
-          Deposit
-        </div> -->
         <div class="thin-button" v-if="pool && tokens.length > 0 && poolActivity" @click="changeToWithdrawView">
           Withdraw
-        </div>
+        </div> -->
       </div>
     </div>
     <DepositModalFirstStep v-if="networkId > 0 &&
@@ -426,7 +418,7 @@
             <div class="investors-number">
               <div class="investors-number__text">Factory Contract</div>
               <div class="investors-number__text">
-                <div class="d-flex align-items-center gap-1" style="color: rgba(1, 180, 126, 1)">
+                <div class="d-flex align-items-center gap-1" style="color: #0082A5">
                   <div>
                     {{
                       pool?.factory?.substring(0, 6) +
@@ -445,7 +437,7 @@
             <div class="investors-number">
               <div class="investors-number__text">Pool Contract</div>
               <div class="investors-number__text">
-                <div class="d-flex align-items-center gap-1" style="color: rgba(1, 180, 126, 1)">
+                <div class="d-flex align-items-center gap-1" style="color: #0082A5">
                   <div>
                     {{
                       pool?.id?.substring(0, 6) +
@@ -464,7 +456,7 @@
             <div class="investors-number">
               <div class="investors-number__text">Vault</div>
               <div class="investors-number__text">
-                <div class="d-flex align-items-center gap-1" style="color: rgba(1, 180, 126, 1)">
+                <div class="d-flex align-items-center gap-1" style="color: #0082A5">
                   <div>
                     {{
                       configService.getNetworkConfig(networkId).addresses.vault.substring(0, 6) +
@@ -484,7 +476,7 @@
             <div class="investors-number">
               <div class="investors-number__text">Pool Owner</div>
               <div class="investors-number__text">
-                <div class="d-flex align-items-center gap-1" style="color: rgba(1, 180, 126, 1)">
+                <div class="d-flex align-items-center gap-1" style="color: #0082A5">
                   <div>
                     {{
                       pool?.owner?.substring(0, 6) +
@@ -512,7 +504,7 @@
           pool.id == router.currentRoute.value.params['id']
           ">
           <div class="d-flex align-items-center justify-content-between" style="
-              background-color: rgba(7, 14, 15, 0.7);
+              background-color: #090A0B;
               padding: 8px;
               border-radius: 20px 20px 0px 0px;
             ">
@@ -1335,7 +1327,7 @@ function filterPoolActions(removeExcess = true) {
 
 const poolActivityData = computed(() => filterPoolActions(false))
 
-const colors = ['#58B90A', '#267D52', '#7EF6B2', '#01B47E']
+const colors = ['#00C7FC', '#00DFEF', '#282D73', '#0099EA']
 const dynamicDonut = computed(() => {
   let labels = pool.value.tokens.map((t) => t.symbol)
   let arrayOfColors = labels.map((s, i) =>
@@ -1810,10 +1802,11 @@ watch(visibleWithdrawModal, (newValue) => {
   height: fit-content;
   width: fit-content;
   /* flex-grow: 1; */
-  border: 1px solid rgba(163, 164, 165, 0.1);
-  border-radius: 5px;
+  // border: 1px solid rgba(163, 164, 165, 0.1);
+  border-radius: 15px;
 
-  /* background-color: #101618; */
+  background: linear-gradient(152.97deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
+
 
   padding: 8px 12px 16px 12px;
 
@@ -1826,11 +1819,10 @@ watch(visibleWithdrawModal, (newValue) => {
     flex-direction: column;
 
     &__item {
-      background: linear-gradient(93.93deg,
-          rgba(1, 25, 4, 0.3) 3.01%,
-          rgba(9, 32, 9, 0.3) 100%);
+      background: linear-gradient(93.69deg, #003E4E 1.48%, rgba(1, 26, 33, 0) 98.03%);
 
-      border-radius: 20px;
+
+      border-radius: 8px;
       padding: 8px;
 
       &__caption {
@@ -1946,9 +1938,10 @@ watch(visibleWithdrawModal, (newValue) => {
   height: auto;
   margin-left: 22px;
   flex-direction: column;
-  border: 1px solid rgba(163, 164, 165, 0.1);
-  border-radius: 5px;
-  /* background: #101618; */
+  // border: 1px solid rgba(163, 164, 165, 0.1);
+  border-radius: 15px;
+  background: linear-gradient(152.97deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
+
 
   /* padding: 8px 12px 16px 12px; */
 
@@ -1975,9 +1968,9 @@ watch(visibleWithdrawModal, (newValue) => {
     justify-content: space-around;
     padding: 20px;
     height: 85%;
-
+    border-radius: 15px;
     :deep(.apexcharts-inner) {
-      filter: drop-shadow(0 0 0.35rem #01b47e);
+      filter: drop-shadow(0 0 0.35rem #00C9FF);
     }
   }
 }
@@ -1990,10 +1983,9 @@ watch(visibleWithdrawModal, (newValue) => {
 .investors-number {
   display: flex;
   justify-content: space-between;
-  border-radius: 20px;
-  background: linear-gradient(93.93deg,
-      rgba(1, 25, 4, 0.3) 3.01%,
-      rgba(9, 32, 9, 0.3) 100%);
+  border-radius: 8px;
+  background: linear-gradient(93.69deg, #003E4E 1.48%, rgba(1, 26, 33, 0) 98.03%);
+
 
   padding: 8px;
 
@@ -2002,7 +1994,7 @@ watch(visibleWithdrawModal, (newValue) => {
     font-weight: 600;
     line-height: 24px;
     letter-spacing: 0em;
-    color: #c1c1d1;
+    color: #C1C1D1;
   }
 }
 
@@ -2180,6 +2172,7 @@ watch(visibleWithdrawModal, (newValue) => {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
+
 }
 
 .big-chip {
@@ -2187,8 +2180,13 @@ watch(visibleWithdrawModal, (newValue) => {
 
   padding-left: 5px;
   padding-right: 10px;
-  border: 1px solid rgba(1, 180, 126, 1);
-  border-radius: 20px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 8px 10px 0px #00000033;
+background: #1F1F1F;
+box-shadow: 0px 6px 30px 0px #0000001F;
+
+box-shadow: 0px 16px 24px 0px #00000024;
 
   width: fit-content;
   display: flex;
@@ -2225,7 +2223,7 @@ watch(visibleWithdrawModal, (newValue) => {
 }
 
 .thin-button {
-  border: 1px solid rgba(1, 180, 126, 1);
+  border: 1px solid #0082A5;
   border-radius: 20px;
   color: white;
 

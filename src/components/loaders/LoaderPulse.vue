@@ -14,7 +14,7 @@ import spinner from '@/assets/images/loader.svg'
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(0 0 0.3rem #01B47E);
+    filter: drop-shadow(0 0 0.3rem #00C9FF);
     &__img {
       width: 100px;
     }

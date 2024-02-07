@@ -1,18 +1,10 @@
 <template>
-  <CModal
-    size="lg"
-    backdrop="static"
-    alignment="center"
-    :visible="visibleDepositModal"
-  >
+  <CModal size="lg" backdrop="static" alignment="center" :visible="visibleDepositModal">
     <CModalHeader :close-button="false">
       <div class="d-flex justify-content-between w-100">
-        <div
-          style="cursor: pointer"
-          @click="
-            depositStep == 1 ? $emit('changeVisibleDeposit') : depositStep--
-          "
-        >
+        <div style="cursor: pointer" @click="
+          depositStep == 1 ? $emit('changeVisibleDeposit') : depositStep--
+          ">
           <img :src="arrow_back" />
         </div>
         <div style="cursor: pointer" @click="$emit('changeVisibleDeposit')">
@@ -25,25 +17,17 @@
         <div class="modal_body_header">
           <h3>Withdrawal preview</h3>
         </div>
-        <div
-          style="
+        <div style="
             border: 1px solid rgba(163, 164, 165, 0.2);
             border-radius: 20px;
             color: white;
-          "
-          class="my-2"
-        >
-          <div
-            class="fs-6 fw-bold p-2"
-            style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
-          >
+          " class="my-2">
+          <div class="fs-6 fw-bold p-2" style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)">
             You’re providing
           </div>
 
           <div class="my-3">
-            <div
-              class="d-flex align-items-center justify-content-between px-3 gap-3"
-            >
+            <div class="d-flex align-items-center justify-content-between px-3 gap-3">
               <div class="d-flex flex-column align-items-start text-white">
                 <div>
                   {{ (poolShare.balance * lineNumberPercent).toFixed(2) }}
@@ -61,34 +45,15 @@
                 </div>
               </div>
               <div>
-                <svg
-                  width="40"
-                  height="40"
-                  viewBox="0 0 40 40"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="20" cy="20" r="20" fill="#CFB428" />
-                  <mask
-                    id="mask0_5891_7647"
-                    style="mask-type: alpha"
-                    maskUnits="userSpaceOnUse"
-                    x="0"
-                    y="0"
-                    width="40"
-                    height="40"
-                  >
+                  <mask id="mask0_5891_7647" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="40"
+                    height="40">
                     <circle cx="20" cy="20" r="20" fill="#3E3E3E" />
                   </mask>
                   <g mask="url(#mask0_5891_7647)">
-                    <rect
-                      x="-12.6309"
-                      y="7.43506"
-                      width="33.8175"
-                      height="33.8175"
-                      transform="rotate(-30 -12.6309 7.43506)"
-                      fill="#2A5CA9"
-                    />
+                    <rect x="-12.6309" y="7.43506" width="33.8175" height="33.8175"
+                      transform="rotate(-30 -12.6309 7.43506)" fill="#2A5CA9" />
                   </g>
                 </svg>
               </div>
@@ -96,37 +61,24 @@
           </div>
         </div>
 
-        <div
-          style="
+        <div style="
             border: 1px solid rgba(163, 164, 165, 0.2);
             border-radius: 20px;
             color: white;
-          "
-          class="my-4"
-        >
-          <div
-            class="fs-6 fw-bold p-2"
-            style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
-          >
+          " class="my-4">
+          <div class="fs-6 fw-bold p-2" style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)">
             You’re expected to receive
           </div>
 
           <div class="my-3">
-            <div
-              v-for="(token, index) in allPossibleTokens"
-              :key="`tokens-key-${index}`"
-              class="d-flex align-items-center justify-content-between px-3 gap-3"
-            >
+            <div v-for="(token, index) in allPossibleTokens" :key="`tokens-key-${index}`"
+              class="d-flex align-items-center justify-content-between px-3 gap-3">
               <div class="d-flex flex-column align-items-start text-white">
                 <div>{{ token.withdrawAmount }} {{ token.symbol }}</div>
                 <div>${{ token.usdAmount }}</div>
               </div>
               <div class="d-flex align-items-center">
-                <img
-                  :src="getTokenEntity(token.symbol, 'short').icon"
-                  width="60"
-                  class="p-2"
-                />
+                <img :src="getTokenEntity(token.symbol, 'short').icon" width="60" class="p-2" />
                 <!-- <div class="d-flex flex-column ">
                 <div class="modal_body_header">{{ token.symbol }}</div>
                 <div class="modal_body_header">{{ token.name }}</div>
@@ -136,24 +88,15 @@
           </div>
         </div>
 
-        <div
-          style="
+        <div style="
             border: 1px solid rgba(163, 164, 165, 0.2);
             border-radius: 20px;
             color: white;
-          "
-          class="my-4"
-        >
-          <div
-            class="fs-6 fw-bold p-2"
-            style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
-          >
+          " class="my-4">
+          <div class="fs-6 fw-bold p-2" style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)">
             Summary
           </div>
-          <div
-            class="d-flex flex-column p-2"
-            style="font-size: 14px; color: rgba(221, 221, 221, 1)"
-          >
+          <div class="d-flex flex-column p-2" style="font-size: 14px; color: rgba(221, 221, 221, 1)">
             <div class="d-flex justify-content-between align-items-center">
               <div>Total</div>
               <div class="d-flex gap-1">${{ usdSummary }}</div>
@@ -164,12 +107,12 @@
             </div>
           </div>
         </div>
-       
+
         <div v-if="!confirmingState" class="compose_pool_connect_wallet" @click="OnWithdrawClick">
           Withdraw
         </div>
         <div v-else-if="confirmingState" class="compose_pool_connect_wallet" @click="OnWithdrawClick">
-          Confirming <span class="button_loader pl-2"></span> 
+          Confirming <span class="button_loader pl-2"></span>
         </div>
       </div>
       <!-- <div v-else-if="depositFinished">
@@ -201,7 +144,7 @@
 import arrow_back from '@/assets/icons/arrow/arrow_back.svg'
 import close_modal_icon from '@/assets/icons/arrow/close_modal_icon.svg'
 import { getTokenEntity } from '@/lib/helpers/util'
-import { defineProps,defineEmits, ref, watch } from 'vue'
+import { defineProps, defineEmits, ref, watch } from 'vue'
 import { useExitPool } from '@/composables/poolActions/withdraw/useExitPool'
 import { configService } from '@/services/config/config.service'
 import { GetDisplayStringError } from '@/lib/utils/balancer/helpers/displayError'
@@ -254,6 +197,7 @@ var emitter = require('tiny-emitter/instance')
 const depositFinished = ref(false)
 const confirmingState = ref(false)
 
+const ConfirmToastPending = ref("")
 const popupType = ref('error')
 const popupText = ref('Error happened!')
 const popupSubText = ref('')
@@ -273,6 +217,23 @@ const notify = () => {
     },
   })
 }
+
+// const notifyWithdraw = (popupText, popupSubText, popupLink, popupType) => {
+//   toast(Toast, {
+//     closeOnClick: false,
+//     theme: 'dark',
+//     type: popupType.value,
+//     autoClose: 5000,
+//     closeButton: false,
+//     position: toast.POSITION.TOP_RIGHT,
+//     data: {
+//       header_text: popupText.value,
+//       toast_text: popupSubText.value,
+//       tx_link: popupLink.value,
+//     },
+//   })
+// }
+
 function SetErrorTxPopup(subtext) {
   popupType.value = 'error'
   popupText.value = 'Error happened!'
@@ -311,7 +272,7 @@ async function OnWithdrawClick() {
   else
     amountsOut = props.pool.tokens.map((t) =>
       t.address == props.allSelectedTokens[0].address
-        ? roundDown(parseFloat(props.getTokenWithdrawAmount(t)), 4)
+        ? roundDown(parseFloat(props.getTokenWithdrawAmount(t, false, 6)), 6)
         : '0',
     )
   let tokensOut = props.allSelectedTokens.map((t) => t.address)
@@ -333,6 +294,11 @@ async function OnWithdrawClick() {
       formatUnits(props.bptIn, props.pool.onchain.decimals),
     ).toFixed(props.pool.onchain.decimals)
   }
+
+
+
+
+
   let tx = await useExitPool(
     { value: props.pool },
     props.account,
@@ -341,32 +307,35 @@ async function OnWithdrawClick() {
     propBpt,
     props.lineNumberPercent == 100,
     outIndex,
+    confirmingState,
+    ConfirmToastPending
   )
 
-  confirmingState.value = true
-
-const ConfirmToastPending = toast.loading(Toast, {
-data: {
-  header_text: 'Withdraw pending',
-  toast_text: `${props.usdSummary} USD - ${formatNotificationDate(
-    new Date().getTime(),
-  )}`,
-  tx_link: '',
-  speedUp: '/',
-},
-position: toast.POSITION.TOP_LEFT,
-theme: 'dark',
-closeOnClick: false,
-})
-
-  if (tx && !tx.error) {
-    txLink.value = `${
-      configService.getNetworkConfig(networkId.value).explorer
-    }/tx/${tx.hash}`
-
-
-
  
+ if (confirmingState.value === true) {
+  ConfirmToastPending.value = toast.loading(Toast, {
+  data: {
+    header_text: 'Withdraw pending',
+    toast_text: `${props.usdSummary} USD - ${formatNotificationDate(
+      new Date().getTime(),
+    )}`,
+    tx_link: '',
+    speedUp: '/',
+  },
+  position: toast.POSITION.TOP_LEFT,
+  theme: 'dark',
+  closeOnClick: false,
+})
+ }
+
+  
+  if (tx && !tx.error) {
+    txLink.value = `${configService.getNetworkConfig(networkId.value).explorer
+      }/tx/${tx.hash}`
+
+
+
+
 
     emitter.emit('addNotification', {
       type: 'Withdraw',
@@ -380,7 +349,7 @@ closeOnClick: false,
     await tx.wait()
 
 
-    toast.update(ConfirmToastPending, {
+    toast.update(ConfirmToastPending.value, {
       render: Toast,
       data: {
         header_text: 'Withdraw confirmed',
@@ -397,7 +366,7 @@ closeOnClick: false,
       type: 'success',
       isLoading: false,
     })
-    
+
     // SetSuccessTxPopup(tx.hash, "Tokens successfully withdrew")
     // notify()
     await props.init()
@@ -405,7 +374,7 @@ closeOnClick: false,
     emit('changeVisibleDeposit')
     depositFinished.value = true
     confirmingState.value = false
-    
+
   } else if (tx.error) {
     // setTimeout(() => {
     //   toast.update(ConfirmToastPending, {
@@ -424,13 +393,13 @@ closeOnClick: false,
     // })
     // confirmingState.value = false
     // }, 2000);
-    
+   
     setTxError(tx)
     notify()
   }
 }
 function setTxError(e) {
-  
+
   let errorCode = e.error.data.message
   SetErrorTxPopup(GetDisplayStringError(errorCode))
 }
@@ -497,25 +466,24 @@ watch(
 
 
 .button_loader {
-    width: 17px;
-    height: 17px;
-    border: 2px solid #FFF;
-    border-bottom-color: #01b47e;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-    margin-left: 10px;
-    }
+  width: 17px;
+  height: 17px;
+  border: 2px solid #FFF;
+  border-bottom-color: #01b47e;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  margin-left: 10px;
+}
 
-    @keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-    } 
-    
-    
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
 </style>

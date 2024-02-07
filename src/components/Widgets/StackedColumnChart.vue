@@ -75,7 +75,7 @@ const chartOptions = computed(() => {
         show: false,
       },
     },
-    colors: ['rgba(1, 180, 126, 1)'],
+    colors: ['#00F0FF'],
     legend: {
       show: false,
     },
@@ -262,21 +262,23 @@ const chartOptions = computed(() => {
 }
 
 .chart_container {
-  border: 0.5px solid #a3a4a52d;
-  border-radius: 20px;
+  /* border: 0.5px solid #a3a4a52d; */
+  border-radius: 15px;
   padding: 18px;
   height: 260px;
+  background: linear-gradient(356.2deg, #00c8ff0e 0%, #000000 105.42%);
+
 }
 
 .chart_container_inside {
-  background: linear-gradient(93.93deg, #011904 3.01%, #092009 100%);
+  /* background: linear-gradient(93.93deg, #011904 3.01%, #092009 100%); */
   border-radius: 20px;
 
   height: 100%;
 }
 
 :deep(.apexcharts-bar-series) {
-  filter: drop-shadow(0 0 0.3rem #58b90a);
+  filter: drop-shadow(0 0 0.3rem #00C9FF);
 }
 
 @media (max-width: $xxl) {

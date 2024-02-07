@@ -270,13 +270,14 @@ const dynamicDonut = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 0.5px solid #a3a4a52d;
-  border-radius: 20px;
+  /* border: 0.5px solid #a3a4a52d; */
+  border-radius: 15px;
   padding: 5px 0px;
   height: 260px;
+  background: linear-gradient(356.2deg, #00c8ff0e 0%, #000000 105.42%);
 
   :deep(.apexcharts-inner) {
-    filter: drop-shadow(0 0 0.3rem #58b90a);
+    filter: drop-shadow(0 0 0.3rem #00C9FF);
   }
 }
 

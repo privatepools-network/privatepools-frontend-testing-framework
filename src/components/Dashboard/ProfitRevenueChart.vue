@@ -99,11 +99,11 @@ const chartOptions = computed(() => ({
       top: 2,
       left: 1,
       blur: 5,
-      color: '#58B90A',
+      color: '#0075FF',
       opacity: 0.65,
     },
   },
-  colors: ['rgba(1, 180, 126, 1)', 'rgba(2, 176, 7, 0.5)'],
+  colors: ['#00C9FF', '#0075FF'],
   dataLabels: {
     enabled: false,
   },
@@ -288,17 +288,18 @@ watch(data, () => {
 
 .chart {
   &-equivalent {
-    color: #7ef6b2;
+    color: #00C9FF;
     font-size: clamp(8px, 0.5vw, 12px);
     margin-right: 15px;
     display: flex;
     justify-self: flex-start;
     border-radius: 12px;
-    border: 1px solid #01b47e;
+    /* border: 1px solid #00C9FF; */
     width: fit-content;
     position: relative;
     top: 35px;
     z-index: 7;
+    background: linear-gradient(356.2deg, #00c8ff0e 0%, #000000 105.42%);
 
     &__el {
       padding: 8px;
@@ -306,15 +307,15 @@ watch(data, () => {
       border-radius: 10px;
 
       &:hover {
-        background: rgba(#01b47e, 0.3);
+        background: rgba(#00C9FF, 0.3);
       }
 
       &_active {
-        background: #01b47e;
+        background: #00C9FF;
         color: white;
 
         &:hover {
-          background: #01b47e;
+          background: #00C9FF;
         }
       }
     }
@@ -322,9 +323,11 @@ watch(data, () => {
 }
 
 .track_chart_card {
-  border: 0.5px solid #a3a4a52d;
-  border-radius: 20px;
+  /* border: 0.5px solid #a3a4a52d; */
+  border-radius: 15px;
   padding: 15px;
+  background: linear-gradient(356.2deg, #00c8ff0e 0%, #000000 105.42%);
+
 }
 
 .timeline_container {
@@ -366,7 +369,7 @@ watch(data, () => {
       display: flex;
       flex-direction: column;
       border-radius: 12px;
-      border: 1px solid #01b47e;
+      border: 1px solid #00C9FF;
     }
   }
 }

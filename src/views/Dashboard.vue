@@ -35,7 +35,7 @@
         :text_header="'Total Profits'"
         :additional_symbol="currencySelected.symbol"
         :text_value="numberToAposthrophe(profitTotal, currencyDecimals)"
-        :widget_icon="Money"
+        :widget_icon="ProfitsCart"
       />
       <TotalWidget
         :text_header="'Total Revenue'"
@@ -637,7 +637,7 @@ import { addressShorthand } from '@/lib/helpers/util'
 import axios from 'axios'
 
 import valueDeposit from '@/assets/icons/widgetsIcons/valueDeposit.svg'
-import Money from '@/assets/icons/widgetsIcons/Money.svg'
+import ProfitsCart from '@/assets/icons/widgetsIcons/ProfitsCart.svg'
 import RevenueGlobal from '@/assets/icons/widgetsIcons/RevenueGlobal.svg'
 import VolumeList from '@/assets/icons/widgetsIcons/VolumeList.svg'
 
@@ -1382,7 +1382,7 @@ function platformSeries() {
 
 const platform_series = computed(() => platformSeries())
 const all_platform_labels = ['1Inch', 'FireBird', 'Odos', '1Inch Fusion']
-const all_platform_colors = ['#58B90A', '#7EF6B2', '#01B47E', '#01845d']
+const all_platform_colors = ['#00C7FC', '#00DFEF', '#282D73', '#0099EA']
 function pieChartData() {
   let labels = []
   let colors = []
@@ -1754,14 +1754,17 @@ onMounted(async () => {
   border: none;
 
   &__wrapper {
-    border-radius: 20px;
-    border: 0.5px solid rgba(163, 164, 165, 0.2196078431);
+    border-radius: 15px;
+    /* border: 0.5px solid rgba(163, 164, 165, 0.2196078431); */
     backdrop-filter: blur(60px);
+    background: linear-gradient(356.2deg, #00c8ff0e 0%, #000000 105.42%);
+
   }
 
   &__card {
     border-radius: 10px;
-    background: linear-gradient(94deg, #011904 3.01%, #092009 100%);
+    background: linear-gradient(356.2deg, #00c8ff0e 0%, #000000 105.42%);
+
     border: none;
 
     &:last-child {
