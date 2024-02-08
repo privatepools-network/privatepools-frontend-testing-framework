@@ -29,7 +29,7 @@
     </div>
   </div>
   <!-- PDF don't related! -->
-  <div ref="content" style="position: absolute; z-index: -1; left: -9999999999px">
+  <div ref="content" style="position: absolute; z-index: -1; left: -9999999999px; top: -100%;">
     <div class="pdf" v-for="(financeDataChunk, index) in financeDataForPdf" :key="`pdf-el-${index}`">
       {{ console.log('financeDataForPdf', financeDataForPdf) }}
       <div class="pdf-line">
