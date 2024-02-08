@@ -23,6 +23,7 @@ const { headers } = toRefs(props)
 </script>
 <style scoped lang="scss">
 .table {
+  
   &-wrapper {
     padding: 0;
   }

@@ -203,8 +203,8 @@ const getDataRow = (dataRow) => {
   }
 
   &::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
-    background-color: #02120A;
+    // -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 50px;
     margin-bottom: 10px;
   }
@@ -212,15 +212,14 @@ const getDataRow = (dataRow) => {
   &::-webkit-scrollbar {
     width: 8px !important;
     height: 8px !important;
-    background: #02120A;
     border-radius: 50px;
-    margin-bottom: 10px;
   }
 
   &::-webkit-scrollbar-thumb {
-    border: 2px solid #02120A;
-    background: rgb(1, 180, 126);
-    border-radius: 21px;
+    // border: 2px solid #02120a;
+    padding: 1px;
+    background: #00C9FF;
+    border-radius: 20px;
   }
 }
 
@@ -464,8 +463,8 @@ const getDataRow = (dataRow) => {
     overflow-y: auto;
 
     &::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
-      background-color: #02120A;
+      // -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+      background-color: rgba(255, 255, 255, 0.05);
       border-radius: 50px;
       margin-bottom: 10px;
     }
@@ -480,8 +479,8 @@ const getDataRow = (dataRow) => {
 
     &::-webkit-scrollbar-thumb {
       border: 2px solid #02120A;
-      background: rgb(1, 180, 126);
-      border-radius: 21px;
+      background: #00C9FF;
+      border-radius: 20px;
     }
   }
 }
@@ -544,6 +543,7 @@ const getDataRow = (dataRow) => {
 :deep(.multiselect__option--selected:hover) {
   color: rgb(229, 83, 83) !important;
   background: rgb(15, 17, 19) !important;
-}</style>
+}
+</style>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
