@@ -1331,8 +1331,6 @@ onBeforeMount(async () => {
   gap: 40px;
   display: flex;
   width: fit-content;
-  background: linear-gradient(133deg, rgba(0, 201, 255, 0.00) 0.3%, rgba(0, 0, 0, 0.20) 102.13%);
-  backdrop-filter: blur(60px);
 }
 
 .column_loading {

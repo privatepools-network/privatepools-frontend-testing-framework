@@ -229,10 +229,6 @@
                 <div v-if="isMetamaskSupported">
                   <Dropdown :distance="4" :placement="'bottom-end'">
                     <div class="d-flex">
-                      <div class="header-network-button">
-                        <img :src="arbIcon" alt="network" width="30" />
-                      </div>
-
                       <CButton color="success" variant="standard" class="header-button" style="margin-left: 16px;">
                         <div class="d-flex align-items-center gap-2">
                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
@@ -301,7 +297,6 @@ import { capitalizeFirstLetter } from "@/lib/utils/index"
 import { configService } from '@/services/config/config.service'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue';
-import arbIcon from '@/assets/images/tokens/arb.png'
 
 import 'vue3-toastify/dist/index.css';
 var emitter = require('tiny-emitter/instance');
@@ -881,12 +876,17 @@ const computedNetworkImage = computed(() =>
 
   cursor: pointer;
   margin-right: 10px;
-  padding: 7px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 17px;
+  padding: 12px 12px;
+  border-radius: 8px;
+  box-shadow: 0 8px 10px 0 rgba(0, 0, 0, .2);
+  box-shadow: 0 6px 30px 0 rgba(0, 0, 0, .122);
+  box-shadow: 0 16px 24px 0 rgba(0, 0, 0, .141);
+  background: radial-gradient(50% 50% at 26.04% 40.42%, rgba(0, 201, 255, .13) 0, rgba(0, 201, 255, 0) 100%);
+  background-color: #1f1f1f;
+  color: #fff;
 
   img {
     width: 24px;
@@ -894,7 +894,7 @@ const computedNetworkImage = computed(() =>
 }
 
 .bell_container:hover {
-  border: 1px solid #009065;
+  background: radial-gradient(50% 50% at 26.04% 40.42%, rgba(0, 201, 255, .13) 0, rgba(0, 201, 255, 0) 100%);
 }
 
 .bell_icon {

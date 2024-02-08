@@ -909,6 +909,9 @@ watch(chainSelected, async () => {
     padding: 30px 18px;
     border-radius: 20px;
     border: 0.5px solid rgba(163, 164, 165, 0.40);
+    background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(20.067087173461914px);
+
 }
 
 .stats_column {

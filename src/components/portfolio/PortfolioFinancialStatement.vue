@@ -1014,14 +1014,12 @@ onBeforeMount(async () => {
 .sticky_column_with_bg {
   /* margin-right: 200px; */
   min-width: 300px;
-  background: #06140d;
   padding-left: 10px;
 }
 
 .sticky_column_without_bg {
   /* margin-right: 200px; */
   min-width: 300px;
-  background: #02120a;
   padding-left: 10px;
 }
 
@@ -1029,6 +1027,8 @@ onBeforeMount(async () => {
   border-radius: 20px;
   border: 0.5px solid rgba(163, 164, 165, 0.4);
   overflow-x: scroll;
+  background: linear-gradient(155deg, rgba(0, 0, 0, 0.63) -25.98%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(20.067087173461914px);
 
   &::-webkit-scrollbar {
     height: 16px;
