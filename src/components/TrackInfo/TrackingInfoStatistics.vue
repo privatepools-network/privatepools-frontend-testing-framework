@@ -8,8 +8,7 @@
   <div class="stats_container">
     <div class="stats_column gap-xxl-5 gap-1">
       <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+        <div class="d-flex align-items-center justify-content-between gradient-header">
           <div class="d-flex gap-2">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -57,7 +56,7 @@
             </VueDatePicker>
           </div>
         </div>
-        
+
         <div v-if="drawDownData.length > 0" v-for="item in drawDownData" :key="item" style="padding: 0px 8px">
           <div class="d-flex align-items-center justify-content-between" style="
               border-bottom: 1px solid rgba(44, 44, 44, 0.2);
@@ -81,8 +80,8 @@
       </div>
 
       <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+        <div class="d-flex align-items-center justify-content-between gradient-header"
+          style="padding: 8px">
           <div class="d-flex gap-2">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -178,8 +177,7 @@
       </div>
 
       <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+        <div class="d-flex align-items-center justify-content-between gradient-header">
           <div class="d-flex gap-2">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -251,8 +249,7 @@
 
     <div class="stats_column_tables">
       <div class="stats_column_tables_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+        <div class="d-flex align-items-center justify-content-between gradient-header">
           <div class="d-flex gap-2">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -290,7 +287,9 @@
             </VTooltip>
           </div>
         </div>
-        <div v-if="roiData === null" style="margin-top: 10%; margin-bottom: 10%;"><LoaderPulse></LoaderPulse></div>
+        <div v-if="roiData === null" style="margin-top: 10%; margin-bottom: 10%;">
+          <LoaderPulse></LoaderPulse>
+        </div>
         <DataTable v-else :default_head_captions="['Period', 'ROI', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
           :data="roiData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
           :header_cells_bg="'table_header_cell_bg'" :displayTable="roiData"
@@ -324,8 +323,7 @@
         </DataTable>
       </div>
       <div class="stats_column_tables_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+        <div class="d-flex align-items-center justify-content-between gradient-header">
           <div class="d-flex gap-2">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -363,8 +361,10 @@
             </VTooltip>
           </div>
         </div>
-        
-        <div v-if="aprData === null" style="margin-top: 10%; margin-bottom: 10%;"><LoaderPulse></LoaderPulse></div>
+
+        <div v-if="aprData === null" style="margin-top: 10%; margin-bottom: 10%;">
+          <LoaderPulse></LoaderPulse>
+        </div>
         <DataTable v-else :default_head_captions="['Period', 'APR', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
           :data="aprData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
           :header_cells_bg="'table_header_cell_bg'" :displayTable="aprData"
@@ -468,8 +468,7 @@
 
     <div class="stats_column_charts" style="">
       <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+        <div class="d-flex align-items-center justify-content-between gradient-header">
           <div class="d-flex align-items-center gap-2">
             <div class="d-flex gap-2 align-items-baseline">
               <div style="
@@ -530,8 +529,7 @@
 
 
       <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+        <div class="d-flex align-items-center justify-content-between gradient-header">
           <div class="d-flex align-items-center gap-2">
             <div class="d-flex gap-2 align-items-baseline">
               <div style="
@@ -1009,8 +1007,10 @@ watch(chainSelected, async () => {
   gap: 10px;
   justify-content: space-between;
   padding: 30px 18px;
-  border-radius: 20px;
   border: 0.5px solid rgba(163, 164, 165, 0.40);
+  border-radius: 15.289px;
+  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(20.067087173461914px);
 }
 
 .stats_column {
@@ -1038,10 +1038,24 @@ watch(chainSelected, async () => {
   width: 100%;
 }
 
+.stats_column_tables {
+  .gradient-header {
+    background: linear-gradient(133deg, rgba(0, 201, 255, 0.20) 0.3%, rgba(0, 0, 0, 0.20) 102.13%);
+    backdrop-filter: blur(60px);
+    padding: 8px
+  }
+}
+
 .stats_column_inside {
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  .gradient-header {
+    background: linear-gradient(133deg, rgba(0, 201, 255, 0.20) 0.3%, rgba(0, 0, 0, 0.20) 102.13%);
+    backdrop-filter: blur(60px);
+    padding: 8px
+  }
 }
 
 @media (max-width: $xxl2) {
@@ -1104,6 +1118,8 @@ watch(chainSelected, async () => {
 
   &::-webkit-scrollbar {
     height: 6px;
+    width: 8px !important;
+    height: 8px !important;
   }
 
   &::-webkit-scrollbar-track {
@@ -1111,8 +1127,8 @@ watch(chainSelected, async () => {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 192, 135);
-    border-radius: 3px;
+    background: #00C9FF;
+    border-radius: 20px;
   }
 }
 

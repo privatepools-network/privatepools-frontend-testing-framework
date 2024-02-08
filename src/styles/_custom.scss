@@ -53,6 +53,7 @@ input[type=number] {
 
 .form-check-input:checked {
   background-color: rgba(29, 201, 160, 1);
+  border-color: transparent;
 }
 
 .bg--black {
@@ -145,9 +146,11 @@ input[type=number] {
 }
 
 .search-input-group {
-  background: #0f1113;
-  opacity: 0.8;
-  border: 1px solid #078c65;
+  // background: #0f1113;
+  // opacity: 0.8;
+  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%) !important;
+  backdrop-filter: blur(20.067087173461914px);
+
   border-radius: 6px;
   width: 240px;
   color: white;

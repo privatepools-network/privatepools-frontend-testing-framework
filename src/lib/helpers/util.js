@@ -36,6 +36,27 @@ export function JsTimeToDate(time) {
   }
 }
 
+export function getTimeDifferenceFormatted(pastTime) {
+  const now = moment();
+  const past = moment(pastTime);
+  const diff = moment.duration(now.diff(past));
+
+  const days = diff.days();
+  const hours = diff.hours();
+  const minutes = diff.minutes();
+  const seconds = diff.seconds();
+
+  // Building the string conditionally to avoid showing "0 days" or "0 hours"
+  let result = "";
+  if (days > 0) result += `${days}d `;
+  if (hours > 0) result += `${hours}h `;
+  if (minutes > 0) result += `${minutes}mins `;
+  result += `${seconds}secs ago`;
+
+  return result;
+}
+
+
 export const timestampToDateTime = (timestamp) => {
   const timestampInt = parseInt(timestamp) // Convert the string to a number
   if (isNaN(timestampInt)) return ['', '']

@@ -1008,7 +1008,6 @@ onBeforeMount(async () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #0c1812;
   padding-left: 10px;
 }
 

@@ -133,6 +133,7 @@
                     d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667 12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48 10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22 9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788 15.9C2.26333 14.6833 2.00067 13.3833 2 12C2 10.6167 2.26267 9.31667 2.788 8.1C3.31333 6.88333 4.02567 5.825 4.925 4.925C5.825 4.025 6.88333 3.31267 8.1 2.788C9.31667 2.26333 10.6167 2.00067 12 2C13.3833 2 14.6833 2.26267 15.9 2.788C17.1167 3.31333 18.175 4.02567 19.075 4.925C19.975 5.825 20.6877 6.88333 21.213 8.1C21.7383 9.31667 22.0007 10.6167 22 12C22 13.3833 21.7373 14.6833 21.212 15.9C20.6867 17.1167 19.9743 18.175 19.075 19.075C18.175 19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z"
                     fill="#F8F8F8" />
                 </svg>
+
               </div>
               <template #popper>
                 <div style="
@@ -253,9 +254,7 @@
                 <CTableDataCell scope="row" class="align-middle table-cell">
                   <div class="text-white d-flex flex-column fw-normal">
                     {{
-                      moment(transaction.date)
-                        .utc()
-                        .format('MMMM Do YYYY, h:mm:ss A')
+                      getTimeDifferenceFormatted(transaction.date)
                     }}
                     <br />
                     <div class="d-flex align-items-center gap-2">
@@ -283,7 +282,7 @@
                     </div>
                     <div class="text-green d-flex align-items-center justify-content-center">
                       <img width="22" class="p-1" :src="computedTokenImage(transaction.token)" />
-                      <div class="d-flex">
+                      <div class="d-flex" style="border-bottom: 1px dotted #01B47E;">
                         {{
                           `+${transaction.valueOut.toFixed(2)}${transaction.token
                             } (`
@@ -438,7 +437,7 @@ import binance from '@/assets/images/networks/binance2.png'
 import { Network, DisplayNetwork } from '@/composables/useNetwork'
 import { ref, onMounted, onUnmounted, computed, defineEmits, watch } from 'vue'
 // import useEthPrice from '@/composables/useEthPrice'
-import { addressShorthand } from '@/lib/helpers/util'
+import { addressShorthand, getTimeDifferenceFormatted } from '@/lib/helpers/util'
 import axios from 'axios'
 import { subgraphService } from '@/services/subgraph/subgraph.service'
 import moment from 'moment'
@@ -1762,14 +1761,15 @@ watch((currencySelected), async () => {
     overflow-y: auto;
     max-height: 626px;
     display: block;
+    backdrop-filter: blur(20.067087173461914px);
 
     .table-row {
       width: calc(100% + 8px);
     }
 
     &::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
-      background-color: #02120a;
+      // -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+      background-color: rgba(255, 255, 255, 0.05);
       border-radius: 50px;
       margin-bottom: 10px;
     }
@@ -1777,14 +1777,14 @@ watch((currencySelected), async () => {
     &::-webkit-scrollbar {
       width: 8px !important;
       height: 8px !important;
-      background: #02120a;
       border-radius: 50px;
     }
 
     &::-webkit-scrollbar-thumb {
-      border: 2px solid #02120a;
-      background: rgb(1, 180, 126);
-      border-radius: 21px;
+      // border: 2px solid #02120a;
+      padding: 1px;
+      background: #00C9FF;
+      border-radius: 20px;
     }
   }
 
@@ -2127,9 +2127,9 @@ watch((currencySelected), async () => {
 
 .tracking_table {
   padding: 0;
-  border-radius: 20px;
-  outline: 0.5px solid rgba(163, 164, 165, 0.4);
-  background: transparent;
+  border-radius: 15px;
+  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 90%);
+  backdrop-filter: blur(20.067087173461914px);
   overflow-x: auto;
 }
 
