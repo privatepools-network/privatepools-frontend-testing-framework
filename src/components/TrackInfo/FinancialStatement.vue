@@ -1327,12 +1327,12 @@ onBeforeMount(async () => {
 }
 
 .financial_header {
-  border-radius: 10px 10px 0px 0px;
-  background: rgba(44, 44, 44, 0.25);
   padding: 10px 10px 10px 0;
   gap: 40px;
   display: flex;
   width: fit-content;
+  background: linear-gradient(133deg, rgba(0, 201, 255, 0.00) 0.3%, rgba(0, 0, 0, 0.20) 102.13%);
+  backdrop-filter: blur(60px);
 }
 
 .column_loading {
@@ -1360,6 +1360,7 @@ onBeforeMount(async () => {
   gap: 40px;
   color: rgba(243, 244, 246, 1);
   font-size: clamp(10px, 0.8vw, 14px);
+
 
   font-weight: 300;
 }
@@ -1413,28 +1414,25 @@ onBeforeMount(async () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #0c1812;
   padding-left: 10px;
 }
 
 .sticky_column_with_bg {
-  /* margin-right: 200px; */
   min-width: 300px;
-  background: #06140d;
   padding-left: 10px;
 }
 
 .sticky_column_without_bg {
-  /* margin-right: 200px; */
   min-width: 300px;
-  background: #02120a;
   padding-left: 10px;
 }
 
 .finance_table {
-  border-radius: 20px;
-  border: 0.5px solid rgba(163, 164, 165, 0.4);
   overflow-x: scroll;
+  border-radius: 15.289px;
+  border: 1px solid #2C2C2C;
+  background: linear-gradient(155deg, rgba(0, 0, 0, 0.63) -25.98%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(20.067087173461914px);
 
   &::-webkit-scrollbar {
     height: 16px;
