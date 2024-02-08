@@ -447,6 +447,7 @@ const getDataRow = (dataRow) => {
     display: table;
     width: 100%;
     table-layout: fixed;
+    color: white !important;
   }
 
   .file-table-head {
@@ -461,8 +462,6 @@ const getDataRow = (dataRow) => {
     overflow-x: auto;
     max-height: 626px;
     overflow-y: auto;
-    background: rgba(31, 31, 31, 0.10) !important;
-    backdrop-filter: blur(58px) !important;
 
     &::-webkit-scrollbar-track {
       -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);

@@ -57,7 +57,7 @@
             </VueDatePicker>
           </div>
         </div>
-        
+
         <div v-if="drawDownData.length > 0" v-for="item in drawDownData" :key="item" style="padding: 0px 8px">
           <div class="d-flex align-items-center justify-content-between" style="
               border-bottom: 1px solid rgba(44, 44, 44, 0.2);
@@ -290,7 +290,9 @@
             </VTooltip>
           </div>
         </div>
-        <div v-if="roiData === null" style="margin-top: 10%; margin-bottom: 10%;"><LoaderPulse></LoaderPulse></div>
+        <div v-if="roiData === null" style="margin-top: 10%; margin-bottom: 10%;">
+          <LoaderPulse></LoaderPulse>
+        </div>
         <DataTable v-else :default_head_captions="['Period', 'ROI', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
           :data="roiData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
           :header_cells_bg="'table_header_cell_bg'" :displayTable="roiData"
@@ -363,8 +365,10 @@
             </VTooltip>
           </div>
         </div>
-        
-        <div v-if="aprData === null" style="margin-top: 10%; margin-bottom: 10%;"><LoaderPulse></LoaderPulse></div>
+
+        <div v-if="aprData === null" style="margin-top: 10%; margin-bottom: 10%;">
+          <LoaderPulse></LoaderPulse>
+        </div>
         <DataTable v-else :default_head_captions="['Period', 'APR', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
           :data="aprData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
           :header_cells_bg="'table_header_cell_bg'" :displayTable="aprData"
@@ -1104,6 +1108,8 @@ watch(chainSelected, async () => {
 
   &::-webkit-scrollbar {
     height: 6px;
+    width: 8px !important;
+    height: 8px !important;
   }
 
   &::-webkit-scrollbar-track {
@@ -1111,8 +1117,8 @@ watch(chainSelected, async () => {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 192, 135);
-    border-radius: 3px;
+    background: #00C9FF;
+    border-radius: 20px;
   }
 }
 
@@ -1131,6 +1137,5 @@ watch(chainSelected, async () => {
 
 .dp__action_button {
   line-height: normal;
-}
-</style>
+}</style>
 @/lib/formatter/statistics/roi/statisticsRoiFormatter

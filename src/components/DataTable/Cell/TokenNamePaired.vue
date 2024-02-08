@@ -54,7 +54,7 @@ const tokenEntities = computed(() => {
 .token-name-container {
   display: flex;
   align-items: center;
-
+  padding-left: 30px;
   .avatar {
     &:not(:first-child) {
       margin-left: -20px;
