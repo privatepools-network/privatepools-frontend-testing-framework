@@ -28,7 +28,7 @@
           </svg>
           <div class="d-flex align-items-center gap-2">
             <div style="cursor: pointer;">
-              <CFormSwitch size="md" v-model="hidePools" id="hidePools" style="background-color: #00C9FF;"/>
+              <CFormSwitch size="md" v-model="hidePools" id="hidePools" style="background-color: #00C9FF;" />
             </div>
             <div class="text-white" style="font-size: clamp(10px, 0.8vw, 14px)">Hide pools</div>
           </div>
@@ -46,19 +46,12 @@
       </div>
     </CRow>
     <CRow>
-
-
       <div class="pools-rows" v-if="viewMode == 'rows'">
-
         <div class="pools-row pools-row_header">
-
           <div class="pools-row__col" v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
-
             <div class="file-table-header-cell">
               <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
                 style="cursor: pointer; height: 20px;">
-
-
                 <div style="width:20px" v-if="!['pool composition', 'actions'].includes(headCaption.toLowerCase()) &&
                   sortedHeader.caption !== headCaption
                   ">
@@ -121,9 +114,7 @@
                 <div v-else-if="sortedHeader" style="width: 17px"></div>
               </div>
             </div>
-
           </div>
-
         </div>
         {{ console.log('pools.length', pools) }}
         <div v-if="poolsNoResult" style="
@@ -160,7 +151,6 @@
       </div>
       <Pagination v-if="filterByStatus.length != 0" :perPage="perPage" :pools="pools" :currentPage="currentPage"
         @changePage="changePage" @changePerPage="changePerPage" :perPageOptions="perPageOptions"></Pagination>
-
       <!--      <DataTable v-if="pools.length > 0" :data="pools" @table-row-click="onDatatableRowClick" :table_bg="'bg-primary'"-->
       <!--                 @table-header-click="onDatatableHeaderClick" :sortedHeader="sortedHeader">-->
       <!--        <template v-slot:default="{ dataCell, dataCellKey /*, tokenName, fieldName*/ }">-->
@@ -266,8 +256,8 @@ function changePage(args) {
 const filterByStatus = computed(() => {
   const start = (currentPage.value - 1) * perPage.value
   const end = currentPage.value * perPage.value
-  const result = pools.value.filter((pool) => isRightChainName(pool.Blockchain, chainSelected.value.name)).sort(function(a, b) { return parseInt(b.TVL) - parseInt(a.TVL) }).slice(start, end)
-  
+  const result = pools.value.filter((pool) => isRightChainName(pool.Blockchain, chainSelected.value.name)).sort(function (a, b) { return parseInt(b.TVL) - parseInt(a.TVL) }).slice(start, end)
+
   // console.log('pagination',result)
   return result
 })
@@ -492,48 +482,59 @@ function onFilterClick(filterValue, header) {
 
 <style lang="scss">
 @import '@/styles/_variables.scss';
+
 .pools-row {
   &_header {
     font-size: 10px;
     font-family: Poppins;
     font-weight: 600;
+
     @media (max-width: $xxl) {
       font-size: 8px;
     }
   }
+
   .multiselect__single {
     background: none;
   }
+
   :deep(.multiselect__tags) {
     background: none !important;
     border-color: rgba(0, 0, 0, 0) !important;
     padding: 8px 20px 0 8px !important;
   }
+
   :deep(.multiselect__content-wrapper) {
     border-color: rgba(1, 180, 126, 1) !important;
     border-top: 1px solid;
     width: 190px;
     right: 0px;
   }
+
   .multiselect__single {
     background: none !important;
     color: white !important;
   }
+
   .multiselect__option {
     background: rgb(15, 17, 19) !important;
     color: white !important;
   }
+
   :deep(.multiselect__option:hover) {
     background: rgba(1, 180, 126, 0.884) !important;
   }
+
   :deep(.multiselect__option--selected) {
     color: rgb(1, 180, 126) !important;
   }
+
   :deep(.multiselect__option--selected:hover) {
     color: rgb(229, 83, 83) !important;
     background: rgb(15, 17, 19) !important;
   }
 }
+
 .pools {
   &-rows {
     padding: 0;
@@ -542,37 +543,45 @@ function onFilterClick(filterValue, header) {
     background: linear-gradient(152.97deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
 
     margin-bottom: 30px;
+
     @media all and (max-width: $lg) {
       overflow-x: auto;
     }
   }
+
   &-cards {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 30px;
+
     @media all and (max-width: 992px) {
       justify-content: space-between;
     }
   }
 }
+
 #manage-pools-filters__el {
   .multiselect {
     min-height: 35.5px;
+
     @media (max-width: $xxl) {
       min-height: 24px !important;
     }
   }
+
   .multiselect__placeholder {
     color: rgba(255, 255, 255, 0.61) !important;
     font-size: 13px !important;
     margin-bottom: 0 !important;
     line-height: 19.5px !important;
+
     @media (max-width: $xxl) {
       font-size: 10px !important;
       line-height: normal !important;
     }
   }
+
   .multiselect__tags {
     padding: 5px 40px 7px 13px !important;
     border-radius: 20px !important;
@@ -582,6 +591,7 @@ function onFilterClick(filterValue, header) {
     min-width: 170px !important;
     height: 35.5px !important;
     min-height: 35.5px !important;
+
     @media (max-width: $xxl) {
       min-height: 24px !important;
       padding: 0px 10px 5px 10px !important;
@@ -589,23 +599,27 @@ function onFilterClick(filterValue, header) {
       height: 24px !important;
     }
   }
+
   .multiselect__select {
     @media (max-width: $xxl) {
       width: 24px;
       height: 28px;
     }
   }
+
   .multiselect--active {
     .multiselect__tags {
       border-radius: 20px 20px 0 0 !important;
     }
   }
+
   .multiselect__content-wrapper {
     border-radius: 0 0 20px 20px !important;
     border: 1px solid #00C9FF !important;
     border-top: none !important;
     background: #02120A !important;
   }
+
   .multiselect__option {
     color: #A3A4A5 !important;
     background: #02120A !important;
@@ -615,16 +629,19 @@ function onFilterClick(filterValue, header) {
       background: lighten(#02120A, 0.7) !important;
     }
   }
+
   .multiselect__single {
     background: #02120A !important;
     margin-bottom: 0 !important;
   }
 }
+
 .manage-pools {
   &-filters {
     display: flex;
     align-items: end;
     gap: 16px;
+
     @media all and (max-width: 767px) {
       width: 100%;
       margin-top: 20px;
@@ -636,14 +653,16 @@ function onFilterClick(filterValue, header) {
       font-weight: 700;
       font-family: Poppins;
       color: #fff;
+
       @media (max-width: $xxl) {
         font-size: 10px;
       }
     }
+
     &__input {
       border-radius: 8px;
-  border: 1px solid #1F1F1F;
-  background: #1F1F1F;
+      border: 1px solid #1F1F1F;
+      background: #1F1F1F;
       padding: 0 13px;
       min-height: 35.5px;
       font-size: 13px;
@@ -655,12 +674,14 @@ function onFilterClick(filterValue, header) {
       &::placeholder {
         color: rgba(255, 255, 255, 0.61);
       }
+
       @media (max-width: $xxl) {
         min-height: 24px;
         font-size: 10px;
       }
     }
   }
+
   &__warning {
     position: absolute;
     width: 660px;
@@ -829,11 +850,10 @@ function onFilterClick(filterValue, header) {
   margin-top: 20%;
   margin-bottom: 20%;
   font-family: Poppins;
-font-size: 18px;
-font-weight: 600;
-line-height: 25px;
-color: rgb(255 255 255 / 95%);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 25px;
+  color: rgb(255 255 255 / 95%);
 
-}
-</style>
+}</style>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
