@@ -33,8 +33,6 @@
             <div class="text-white" style="font-size: clamp(10px, 0.8vw, 14px)">Hide pools</div>
           </div>
         </div>
-
-
         <div class="manage-pools-filters">
 
           <div class="manage-pools-filters__el" id="manage-pools-filters__el">
@@ -257,8 +255,6 @@ const filterByStatus = computed(() => {
   const start = (currentPage.value - 1) * perPage.value
   const end = currentPage.value * perPage.value
   const result = pools.value.filter((pool) => isRightChainName(pool.Blockchain, chainSelected.value.name)).sort(function (a, b) { return parseInt(b.TVL) - parseInt(a.TVL) }).slice(start, end)
-
-  // console.log('pagination',result)
   return result
 })
 
