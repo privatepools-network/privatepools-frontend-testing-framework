@@ -1007,7 +1007,6 @@ watch(chainSelected, async () => {
   gap: 10px;
   justify-content: space-between;
   padding: 30px 18px;
-  border: 0.5px solid rgba(163, 164, 165, 0.40);
   border-radius: 15.289px;
   background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
   backdrop-filter: blur(20.067087173461914px);

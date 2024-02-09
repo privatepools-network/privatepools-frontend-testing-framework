@@ -416,6 +416,10 @@
           </CTableBody>
         </Table>
       </CCardBody>
+      <div style="margin-top: 20px;">
+        <Pagination :perPage="perPage" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"
+          @changePerPage="changePerPage" :perPageOptions="perPageOptions"></Pagination>
+      </div>
     </CRow>
   </MainCard>
 </template>
@@ -506,6 +510,7 @@ import { GetTokenPricesBySymbols } from '@/composables/balances/cryptocompare'
 import { GetTokens } from '@/composables/tokens/useTokenSymbols'
 import info from '@/assets/images/info.svg'
 import CurrencySelector from '@/UI/CurrencySelector.vue'
+import Pagination from '@/components/Manage/Pool/Pagination.vue'
 use([
   CanvasRenderer,
   CandlestickChart,
@@ -563,10 +568,33 @@ const preFiltersList = ref([
   },
 ])
 
+const perPage = ref(10)
+const currentPage = ref(1)
+const totalPage = ref(0)
+
+function changePerPage(v1) {
+  perPage.value = Number(v1)
+  currentPage.value = 1
+}
+
+const perPageOptions = computed(() => {
+  return [10, 25, 50]
+})
+
+function changePage(args) {
+  if (args.isEquating == false) {
+    currentPage.value = currentPage.value + args.num
+  } else {
+    currentPage.value = args.num
+  }
+}
+
 const allChartData = ref([])
+
 const filteredData = computed(() =>
   allChartData.value && allChartData.value.length > 0 ? getFilteredData() : [],
 )
+
 
 const dates = computed(() => {
   return filteredData.value.map((v) => v.Date)
@@ -579,11 +607,13 @@ const dataGasFees = computed(() => {
     return filteredData.value.map((v) => v['Avg Gas Fee per Trade'])
   return []
 })
+
 // const dataTvl = computed(() => {
 //   if (preFiltersList.value.find((f) => f.code == 'TVL').selected)
 //     return filteredData.value.map((v) => v['TVL'])
 //   return []
 // })
+
 const dataProfits = computed(() => {
   if (
     preFiltersList.value.find((f) => f.code == 'Avg Profit per Trade').selected
@@ -604,6 +634,7 @@ const filters = ref({
   // TVL: true,
   'Number of Trades': true,
 })
+
 const filterKeys = computed(() => Object.keys(filters.value))
 const currency_prices = ref(null)
 const optionObj = ref({
@@ -1017,6 +1048,7 @@ const filterOptions = ref({
     isSelected: true,
   },
 })
+
 const selectedHeaders = computed(() => {
   const array = ['Trade']
   for (let key in filterOptions.value) {
@@ -1026,6 +1058,7 @@ const selectedHeaders = computed(() => {
   }
   return array
 })
+
 const datePicker = ref(null)
 const isFilterOpen = ref(false)
 const selectedTokens = ref([])
@@ -1445,6 +1478,10 @@ async function InitTxsData() {
     let mergedData = await fetchDataAndMerge()
     data.value = mergedData
   }
+
+  let txs = listTxs.value.filter((item) => isRightChain(item.chain))
+  let parseData = JSON.parse(JSON.stringify(txs))
+  totalPage.value = parseData.length;
   listTxs.value = subgraphService.trades.getTxsInfo(
     convertSwapsCurrency([...data.value], currency_prices.value, currencySelected.value.code),
     null,
@@ -1520,11 +1557,10 @@ async function InitTxsData() {
 
 const filteredList = computed(() => {
   let txs = listTxs.value.filter((item) => isRightChain(item.chain))
-  console.log(txs)
   let parseData = JSON.parse(JSON.stringify(txs))
   parseData = parseData
     .sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)))
-    .reverse()
+    .reverse()    
 
   if (
     selectedTokens.value.length === 0 &&
@@ -1533,7 +1569,10 @@ const filteredList = computed(() => {
     selectedChain.value.length === 0 &&
     datePicker.value === null
   ) {
-    return parseData
+    const start = (currentPage.value - 1) * perPage.value
+    const end = currentPage.value * perPage.value
+    const result = parseData.slice(start, end)
+    return result
   } else {
     if (selectedTokens.value.length !== 0) {
       parseData = parseData.filter((el) => {

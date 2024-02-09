@@ -898,8 +898,9 @@ onMounted(async () => {
         margin-right: 8px
 
 .portfolio-table__wrapper
-  border: 0.5px solid rgba(163, 164, 165, 0.2196078431)
-  border-radius: 20px
+  border-radius: 15.289px
+  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%)
+  backdrop-filter: blur(20.067087173461914px)
 
   .file-table-header-container
     max-width: none !important
@@ -958,12 +959,13 @@ onMounted(async () => {
 
   &-wrapper
     padding: 0
-    border-radius: 20px
     outline: 0.5px solid rgba(163, 164, 165, 0.2196078431)
-    background: transparent
     width: 100%
     overflow-x: auto
     margin-bottom: 30px
+    border-radius: 15.289px
+    background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%)
+    backdrop-filter: blur(20.067087173461914px)
 
   &-row
     border-color: transparent

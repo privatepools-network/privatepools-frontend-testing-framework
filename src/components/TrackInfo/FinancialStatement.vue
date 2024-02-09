@@ -29,7 +29,7 @@
     </div>
   </div>
   <!-- PDF don't related! -->
-  <div ref="content" style="position: absolute; z-index: -1; left: -9999999999px">
+  <div ref="content" style="position: absolute; z-index: -1; left: -9999999999px; top: -100%;">
     <div class="pdf" v-for="(financeDataChunk, index) in financeDataForPdf" :key="`pdf-el-${index}`">
       {{ console.log('financeDataForPdf', financeDataForPdf) }}
       <div class="pdf-line">
@@ -1331,8 +1331,6 @@ onBeforeMount(async () => {
   gap: 40px;
   display: flex;
   width: fit-content;
-  background: linear-gradient(133deg, rgba(0, 201, 255, 0.00) 0.3%, rgba(0, 0, 0, 0.20) 102.13%);
-  backdrop-filter: blur(60px);
 }
 
 .column_loading {

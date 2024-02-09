@@ -24,7 +24,7 @@
       </div>
     </div>
     <div
-      v-if="pools.length !== 0"
+      v-if="totalPage !== 0"
       style="display: flex; gap: 5px; justify-content: end; align-items: center"
     >
       <CButton
@@ -56,9 +56,9 @@
       </CButton>
       <CButton class="border-success text-white" style="border-radius: 20px;
       border: 1px solid #00C9FF !important;color: #FFFFFF !important;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;">{{ currentPage }}</CButton>
-     {{ console.log('pools.length', pools) }}
+     {{ console.log('totalPage', pools) }}
      <CButton
-        :disabled="currentPage >= pools.length / perPage"
+        :disabled="currentPage >= totalPage / perPage"
         @click="$emit('changePage', {isEquating: false, num: 1})"
         style="border-radius: 15px;color: #00C9FF !important;border: 1px solid #00C9FF;background: linear-gradient(152.97deg, #001A29 0%, #00C9FF 100%);
 ;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;"
@@ -80,8 +80,8 @@
       <CButton
        
         style="border-radius: 20px;color: #00C9FF !important;border: 1px solid #00C9FF;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 8px;"
-        :disabled="currentPage === Math.ceil(pools.length / perPage)"
-        @click="$emit('changePage', {isEquating: true, num: Math.ceil(pools.length / perPage)})"
+        :disabled="currentPage === Math.ceil(totalPage / perPage)"
+        @click="$emit('changePage', {isEquating: true, num: Math.ceil(totalPage / perPage)})"
       >Last
       </CButton>
     </div>
@@ -94,11 +94,12 @@ import {defineProps, toRefs, ref} from 'vue'
 const props = defineProps({
   perPage: Number,
   pools: Array,
+  totalPage: Number,
   currentPage: Number,
   perPageOptions: Array,
 })
 const {perPage, pools, currentPage, perPageOptions} = toRefs(props)
-
+console.log("pools are ", pools);
 const isPerPageSelectOpened = ref(false)
 </script>
 

@@ -26,17 +26,17 @@
 
       <DataTable :displayTable="displayTable" :data="displayTable"
         :default_head_captions="selectedTab == 'Pools'
-        ? [
-          'Name',
-          'Revenue',
-          'Fees',
-          'Trades',
-          'Volume',
-          'TVL',
-          'APR',
-          'Profit',
-        ]
-        : selectedTab === 'Pairs' ? ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'Profit', 'Ratio', 'Market Ratio', '%Deviation' ] : ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'Profit'] "
+          ? [
+            'Name',
+            'Revenue',
+            'Fees',
+            'Trades',
+            'Volume',
+            'TVL',
+            'APR',
+            'Profit',
+          ]
+          : selectedTab === 'Pairs' ? ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'Profit', 'Ratio', 'Market Ratio', '%Deviation'] : ['Name', 'Revenue', 'Fees', 'Trades', 'Volume', 'TVL', 'Profit']"
         :table_bg="''" :filterableHeaders="filterableHeaders" @filter-click="onFilterClick" :sortIcons="true"
         @table-header-click="onDatatableHeaderClick" :sortedHeader="sortedHeader" :headerDropdownSort="true"
         :isFullTable="true" @table-row-click="(a, b) => width > 768 ? goToPool(b) : ''">
@@ -86,7 +86,13 @@
 
         </template>
       </DataTable>
+
     </div>
+    <div style="margin-left: 5px; margin-top: 20px;">
+      <Pagination :perPage="perPage" :totalPage="allPoolsTableData.length" :currentPage="currentPage"
+        @changePage="changePage" @changePerPage="changePerPage" :perPageOptions="perPageOptions"></Pagination>
+    </div>
+
   </div>
 </template>
 <script setup>
@@ -105,6 +111,7 @@ import { networkId, DisplayNetwork, DisplayChain } from '@/composables/useNetwor
 import router from '@/router'
 import numberToAposthrophe from "@/lib/formatter/numberToAposthrophe"
 import CurrencySymbol from "@/components/TrackInfo/CurrencySymbol.vue"
+import Pagination from '../Manage/Pool/Pagination.vue'
 
 const props = defineProps(['allPoolsTableData', 'allPairsTableData', "allTokensTableData", 'chainSelected', 'currency', 'symbol', 'currencyDecimals'])
 const { allPoolsTableData, allPairsTableData, allTokensTableData, chainSelected } = toRefs(props)
@@ -123,24 +130,31 @@ const { width } = useDevice()
 function changeTab(tab) {
   selectedTab.value = tab
 }
+const available_tabs_data = computed(() => {
+  const start = (currentPage.value - 1) * perPage.value;
+  const end = currentPage.value * perPage.value;
 
-const available_tabs_data = computed(() => ({
-  "Pools": {
-    allTableData: allPoolsTableData.value,
-    allFormatter: FormatAllToDisplay,
-    filterableHeaders: ['Profit', 'Trades', 'Revenue', 'Volume', 'APR', 'Fees']
-  },
-  "Pairs": {
-    allTableData: allPairsTableData.value,
-    allFormatter: FormatAllPairsToDisplay,
-    filterableHeaders: ['Profit', 'Trades', 'Revenue', 'Volume', 'Fees']
-  },
-  "Tokens": {
-    allTableData: allTokensTableData.value,
-    allFormatter: FormatAllTokensToDisplay,
-    filterableHeaders: ['Profit', 'Trades', 'Revenue', 'Volume', 'Fees']
-  }
-}))
+  // Dynamically slice the data for the current tab here
+  const result = {
+    "Pools": {
+      allTableData: allPoolsTableData.value.slice(start, end),
+      allFormatter: FormatAllToDisplay,
+      filterableHeaders: ['Profit', 'Trades', 'Revenue', 'Volume', 'APR', 'Fees']
+    },
+    "Pairs": {
+      allTableData: allPairsTableData.value.slice(start, end),
+      allFormatter: FormatAllPairsToDisplay,
+      filterableHeaders: ['Profit', 'Trades', 'Revenue', 'Volume', 'Fees']
+    },
+    "Tokens": {
+      allTableData: allTokensTableData.value.slice(start, end),
+      allFormatter: FormatAllTokensToDisplay,
+      filterableHeaders: ['Profit', 'Trades', 'Revenue', 'Volume', 'Fees']
+    }
+  };
+  return result;
+});
+
 const selectedTableData = computed(() =>
   available_tabs_data.value[selectedTab.value].allTableData
 )
@@ -150,6 +164,27 @@ const formatterMethod = computed(() =>
 
 const trackCurrentNetwork = computed(() => DisplayNetwork[networkId.value])
 
+const perPage = ref(10)
+const currentPage = ref(1)
+
+function changePerPage(v1) {
+  perPage.value = Number(v1)
+  currentPage.value = 1
+}
+
+
+
+const perPageOptions = computed(() => {
+  return [10, 25, 50]
+})
+
+function changePage(args) {
+  if (args.isEquating == false) {
+    currentPage.value = currentPage.value + args.num
+  } else {
+    currentPage.value = args.num
+  }
+}
 
 const networksSupported = ref(networkId.value >= 0)
 watch(networkId, () => {

@@ -345,6 +345,8 @@
             </div>
           </CCardBody>
         </div>
+        <Pagination :perPage="perPage1" :pools="filteredList" :currentPage="currentPage1" @changePage="changePage1"
+          @changePerPage="changePerPage1" :perPageOptions="perPageOptions"></Pagination>
       </CCol>
       <!-- <div v-if="filteredList.length !== 0" style="display: flex; gap: 5px; justify-content: end">
         <CButton color="primary" :disabled="currentPage === 1" @click="currentPage = 1">First
@@ -481,7 +483,7 @@ import valueDeposit from '@/assets/icons/widgetsIcons/valueDeposit.svg'
 import ProfitsCart from '@/assets/icons/widgetsIcons/ProfitsCart.svg'
 import RevenueGlobal from '@/assets/icons/widgetsIcons/RevenueGlobal.svg'
 import VolumeList from '@/assets/icons/widgetsIcons/VolumeList.svg'
-
+import Pagination from '@/components/Manage/Pool/Pagination.vue'
 import moment from 'moment'
 // import ChainSelector from '@/components/ChainSelector'
 import arb from '@/assets/images/networks/arbitrum.png'
@@ -640,8 +642,27 @@ function changeVisibleSystemProfitModal(time) {
 const listTxs = ref([])
 const currentTradeTab = ref('daily')
 const trackingTradesLoading = ref(true)
-const perPage = 500
-const currentPage = ref(1)
+const perPage1 = ref(10)
+const currentPage1 = ref(1)
+
+
+function changePerPage1(v1) {
+  perPage1.value = Number(v1)
+  currentPage1.value = 1
+}
+
+const perPageOptions = computed(() => {
+  return [10, 25, 50]
+})
+
+
+function changePage1(args) {
+  if (args.isEquating == false) {
+    currentPage1.value = currentPage1.value + args.num
+  } else {
+    currentPage1.value = args.num
+  }
+}
 
 const networks = [
   process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined,
@@ -687,8 +708,8 @@ const filteredList = computed(() => {
     )
     .sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)))
     .reverse()
-  const star = (currentPage.value - 1) * perPage
-  const end = currentPage.value * perPage
+  const star = (currentPage1.value - 1) * perPage1.value
+  const end = currentPage1.value * perPage1.value
   const result = txs.slice(star, end)
   return result.sort((a, b) => new Date(b.date) - new Date(a.date))
 })
