@@ -1,5 +1,6 @@
 <template>
   <MainCard>
+    {{ console.log('notSelectedPossibleComposeTokens', notSelectedPossibleComposeTokens) }}
     <TokenSelectModal
       :tokenSelectModal="tokenSelectModal"
       @tokenSelectModalOpen="tokenSelectModalOpen(0)"
