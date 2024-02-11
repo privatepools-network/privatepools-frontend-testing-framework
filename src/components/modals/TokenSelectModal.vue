@@ -1,5 +1,5 @@
 <template>
-  <CModal size="lg" alignment="center" :visible="tokenSelectModal">
+  <CModal   size="lg" alignment="center" :visible="tokenSelectModal">
     <CModalHeader :close-button="false">
       <!-- <div class="d-flex justify-content-between w-100">
         <div>
@@ -223,7 +223,7 @@ const filteredPossibleTokens = computed(() => props.possibleComposeTokens.filter
   overflow-y: auto;
   border-radius: 40px;
   cursor: pointer;
-  background: #01b47e77;
+  background: #003e4f;
 }
 
 .tokens_container {
@@ -246,7 +246,7 @@ const filteredPossibleTokens = computed(() => props.possibleComposeTokens.filter
 
   .tokens_container::-webkit-scrollbar-thumb {
     border: 2px solid #02120A;
-    background: rgb(1, 180, 126);
+    background: #00C9FF;
     border-radius: 21px;
   }
 
