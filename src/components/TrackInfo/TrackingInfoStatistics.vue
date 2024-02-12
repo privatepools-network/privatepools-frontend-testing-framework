@@ -6,6 +6,225 @@
   <!--    <LoaderPulse />-->
   <!--  </div>-->
   <div class="stats_container">
+    <div class="stats_column_tables">
+      <div class="stats_column_tables_inside">
+        <div class="d-flex align-items-center justify-content-between gradient-header">
+          <div class="d-flex gap-2">
+            <div style="
+                color: rgba(243, 244, 246, 1);
+                font-weight: 500;
+                font-size: clamp(10px, 0.9vw, 15px);
+              ">
+              ROI
+            </div>
+            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+              <div style="cursor: help">
+                <img :src="info" class="info_icon" />
+              </div>
+              <template #popper>
+                <div style="
+                      background: linear-gradient(
+                        rgba(89, 89, 89, 0.75),
+                        rgba(73, 73, 73, 0.15)
+                      );
+                      backdrop-filter: blur(10px);
+                      padding: 10px;
+                      border-radius: 4px;
+                      width: 400px;
+                    ">
+                  <div style="font-size:clamp(10px, 0.9vw, 16px)">ROI</div>
+                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                    <div><b>Average ROI:</b> Mean Return on Investment.</div>
+                    <div><b>VS USD</b> ROI compared to US Dollar.</div>
+                    <div><b>VS LIDO</b> Shows ROI relative to Lido across various intervals.</div>
+                    <div><b>VS BTC</b> Compares ROI against Bitcoin.</div>
+                    <div><b>VS DeFi Yield</b> ROI versus average DeFi yields.</div>
+                    <div><b></b> </div>
+                  </div>
+                </div>
+              </template>
+            </VTooltip>
+          </div>
+        </div>
+        <div v-if="roiData === null" style="margin-top: 10%; margin-bottom: 10%;">
+          <LoaderPulse></LoaderPulse>
+        </div>
+        <DataTable v-else :default_head_captions="['Period', 'ROI', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
+          :data="roiData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
+          :header_cells_bg="'table_header_cell_bg'" :displayTable="roiData"
+          :header_cells_inside="'table_header_cell_inside'">
+          <template v-slot:default="{ dataCell, dataCellKey }">
+            <div v-if="dataCellKey === 'Period' && roiData" class="text-truncate file-table-cell"
+              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
+              data-coreui-placement="left" :title="dataCell">
+              {{ dataCell }}
+            </div>
+            <div v-else-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
+              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
+              data-coreui-placement="left" :title="dataCell">
+              {{ dataCell }}
+            </div>
+            <div v-else :class="`text-truncate file-table-cell ${parseFloat(dataCell) > 0
+              ? 'positive'
+              : parseFloat(dataCell) < 0
+                ? 'negative'
+                : ''
+              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
+              :title="dataCell">
+              <div class="d-flex align-items-center justify-content-end"
+                :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
+                <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
+                <div>{{ formatBigNumber(dataCell) }}</div>
+                <div>%</div>
+              </div>
+            </div>
+          </template>
+        </DataTable>
+      </div>
+      <div class="stats_column_tables_inside">
+        <div class="d-flex align-items-center justify-content-between gradient-header">
+          <div class="d-flex gap-2">
+            <div style="
+                color: rgba(243, 244, 246, 1);
+                font-weight: 500;
+                font-size: clamp(10px, 0.9vw, 15px);
+              ">
+              APR
+            </div>
+            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+              <div style="cursor: help">
+                <img :src="info" class="info_icon" />
+              </div>
+              <template #popper>
+                <div style="
+                      background: linear-gradient(
+                        rgba(89, 89, 89, 0.75),
+                        rgba(73, 73, 73, 0.15)
+                      );
+                      backdrop-filter: blur(10px);
+                      padding: 10px;
+                      border-radius: 4px;
+                      width: 400px;
+                    ">
+                  <div style="font-size:clamp(10px, 0.9vw, 16px)">APR</div>
+                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                    <div><b>Average APR:</b> Mean annualized return.</div>
+                    <div><b>VS USD</b> APR comparison against US Dollar.</div>
+                    <div><b>VS LIDO</b> APR relative to Lido over selected timeframes.</div>
+                    <div><b>VS BTC</b> APR benchmarked against Bitcoin.</div>
+                    <div><b>VS DeFi Yield</b> APR versus typical DeFi yields.</div>
+                    <div><b></b> </div>
+                  </div>
+                </div>
+              </template>
+            </VTooltip>
+          </div>
+        </div>
+
+        <div v-if="aprData === null" style="margin-top: 10%; margin-bottom: 10%;">
+          <LoaderPulse></LoaderPulse>
+        </div>
+        <DataTable v-else :default_head_captions="['Period', 'APR', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
+          :data="aprData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
+          :header_cells_bg="'table_header_cell_bg'" :displayTable="aprData"
+          :header_cells_inside="'table_header_cell_inside'">
+          <template v-slot:default="{ dataCell, dataCellKey }">
+            <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
+              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
+              data-coreui-placement="left" :title="dataCell">
+              {{ dataCell }}
+            </div>
+            <div v-else :class="`text-truncate file-table-cell  ${parseFloat(dataCell) > 0
+              ? 'positive'
+              : parseFloat(dataCell) < 0
+                ? 'negative'
+                : ''
+              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
+              :title="dataCell">
+              <div class="d-flex align-items-center justify-content-end"
+                :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
+                <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
+                <div>{{ formatBigNumber(dataCell) }}</div>
+                <div>%</div>
+              </div>
+            </div>
+          </template>
+        </DataTable>
+      </div>
+
+      <!-- <div class="stats_column_tables_inside">
+        <div class="d-flex align-items-center justify-content-between"
+          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          <div class="d-flex gap-2">
+            <div style="
+                color: rgba(243, 244, 246, 1);
+                font-weight: 500;
+                font-size: clamp(10px, 0.9vw, 15px);
+              ">
+              Investments
+            </div>
+            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+              <div style="cursor: help">
+                <img :src="info" class="info_icon" />
+              </div>
+              <template #popper>
+                <div style="
+                      background: linear-gradient(
+                        rgba(89, 89, 89, 0.75),
+                        rgba(73, 73, 73, 0.15)
+                      );
+                      backdrop-filter: blur(10px);
+                      padding: 10px;
+                      border-radius: 4px;
+                      width: 400px;
+                    ">
+                  <div style="font-size:clamp(10px, 0.9vw, 16px)">ROI</div>
+                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                    <div><b>Average ROI:</b> Mean Return on Investment.</div>
+                    <div><b>VS USD</b> ROI compared to US Dollar.</div>
+                    <div><b>VS LIDO</b> Shows ROI relative to Lido across various intervals.</div>
+                    <div><b>VS BTC</b> Compares ROI against Bitcoin.</div>
+                    <div><b>VS DeFi Yield</b> ROI versus average DeFi yields.</div>
+                    <div><b></b> </div>
+                  </div>
+                </div>
+              </template>
+            </VTooltip>
+          </div>
+        </div>
+        {{ console.log('investmentsData', investmentsData) }}
+        <DataTable v-if="investmentsData"
+          :default_head_captions="['Assets', 'Deposit', 'Withdraw', 'Current Amount', 'Profit', 'Deviation %']"
+          :data="investmentsData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
+          :header_cells_bg="'table_header_cell_bg'" :displayTable="investmentsData"
+          :header_cells_inside="'table_header_cell_inside'">
+          <template v-slot:default="{ dataCell, dataCellKey }">
+            <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
+              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
+              data-coreui-placement="left" :title="dataCell">
+              {{ console.log('investmentsDatadataCell', dataCell) }}
+
+              BTC
+            </div>
+            <div v-else :class="`text-truncate file-table-cell ${parseFloat(dataCell) > 0
+              ? 'positive'
+              : parseFloat(dataCell) < 0
+                ? 'negative'
+                : ''
+              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
+              :title="dataCell">
+              <div class="d-flex align-items-center justify-content-end"
+                :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
+                <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
+                <div>{{ formatBigNumber(dataCell) }}</div>
+                <div>%</div>
+              </div>
+            </div>
+          </template>
+        </DataTable>
+      </div> -->
+    </div>
+    
     <div class="stats_column gap-xxl-5 gap-1">
       <div class="stats_column_inside">
         <div class="d-flex align-items-center justify-content-between gradient-header">
@@ -242,228 +461,6 @@
           </div>
         </div>
       </div>
-
-
-
-    </div>
-
-    <div class="stats_column_tables">
-      <div class="stats_column_tables_inside">
-        <div class="d-flex align-items-center justify-content-between gradient-header">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              ROI
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">ROI</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Average ROI:</b> Mean Return on Investment.</div>
-                    <div><b>VS USD</b> ROI compared to US Dollar.</div>
-                    <div><b>VS LIDO</b> Shows ROI relative to Lido across various intervals.</div>
-                    <div><b>VS BTC</b> Compares ROI against Bitcoin.</div>
-                    <div><b>VS DeFi Yield</b> ROI versus average DeFi yields.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-        </div>
-        <div v-if="roiData === null" style="margin-top: 10%; margin-bottom: 10%;">
-          <LoaderPulse></LoaderPulse>
-        </div>
-        <DataTable v-else :default_head_captions="['Period', 'ROI', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
-          :data="roiData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
-          :header_cells_bg="'table_header_cell_bg'" :displayTable="roiData"
-          :header_cells_inside="'table_header_cell_inside'">
-          <template v-slot:default="{ dataCell, dataCellKey }">
-            <div v-if="dataCellKey === 'Period' && roiData" class="text-truncate file-table-cell"
-              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
-              data-coreui-placement="left" :title="dataCell">
-              {{ dataCell }}
-            </div>
-            <div v-else-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
-              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
-              data-coreui-placement="left" :title="dataCell">
-              {{ dataCell }}
-            </div>
-            <div v-else :class="`text-truncate file-table-cell ${parseFloat(dataCell) > 0
-              ? 'positive'
-              : parseFloat(dataCell) < 0
-                ? 'negative'
-                : ''
-              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
-              :title="dataCell">
-              <div class="d-flex align-items-center justify-content-end"
-                :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
-                <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
-                <div>{{ formatBigNumber(dataCell) }}</div>
-                <div>%</div>
-              </div>
-            </div>
-          </template>
-        </DataTable>
-      </div>
-      <div class="stats_column_tables_inside">
-        <div class="d-flex align-items-center justify-content-between gradient-header">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              APR
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">APR</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Average APR:</b> Mean annualized return.</div>
-                    <div><b>VS USD</b> APR comparison against US Dollar.</div>
-                    <div><b>VS LIDO</b> APR relative to Lido over selected timeframes.</div>
-                    <div><b>VS BTC</b> APR benchmarked against Bitcoin.</div>
-                    <div><b>VS DeFi Yield</b> APR versus typical DeFi yields.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-        </div>
-
-        <div v-if="aprData === null" style="margin-top: 10%; margin-bottom: 10%;">
-          <LoaderPulse></LoaderPulse>
-        </div>
-        <DataTable v-else :default_head_captions="['Period', 'APR', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
-          :data="aprData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
-          :header_cells_bg="'table_header_cell_bg'" :displayTable="aprData"
-          :header_cells_inside="'table_header_cell_inside'">
-          <template v-slot:default="{ dataCell, dataCellKey }">
-            <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
-              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
-              data-coreui-placement="left" :title="dataCell">
-              {{ dataCell }}
-            </div>
-            <div v-else :class="`text-truncate file-table-cell  ${parseFloat(dataCell) > 0
-              ? 'positive'
-              : parseFloat(dataCell) < 0
-                ? 'negative'
-                : ''
-              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
-              :title="dataCell">
-              <div class="d-flex align-items-center justify-content-end"
-                :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
-                <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
-                <div>{{ formatBigNumber(dataCell) }}</div>
-                <div>%</div>
-              </div>
-            </div>
-          </template>
-        </DataTable>
-      </div>
-
-      <!-- <div class="stats_column_tables_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              Investments
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">ROI</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Average ROI:</b> Mean Return on Investment.</div>
-                    <div><b>VS USD</b> ROI compared to US Dollar.</div>
-                    <div><b>VS LIDO</b> Shows ROI relative to Lido across various intervals.</div>
-                    <div><b>VS BTC</b> Compares ROI against Bitcoin.</div>
-                    <div><b>VS DeFi Yield</b> ROI versus average DeFi yields.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-        </div>
-        {{ console.log('investmentsData', investmentsData) }}
-        <DataTable v-if="investmentsData"
-          :default_head_captions="['Assets', 'Deposit', 'Withdraw', 'Current Amount', 'Profit', 'Deviation %']"
-          :data="investmentsData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
-          :header_cells_bg="'table_header_cell_bg'" :displayTable="investmentsData"
-          :header_cells_inside="'table_header_cell_inside'">
-          <template v-slot:default="{ dataCell, dataCellKey }">
-            <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
-              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
-              data-coreui-placement="left" :title="dataCell">
-              {{ console.log('investmentsDatadataCell', dataCell) }}
-
-              BTC
-            </div>
-            <div v-else :class="`text-truncate file-table-cell ${parseFloat(dataCell) > 0
-              ? 'positive'
-              : parseFloat(dataCell) < 0
-                ? 'negative'
-                : ''
-              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
-              :title="dataCell">
-              <div class="d-flex align-items-center justify-content-end"
-                :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
-                <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
-                <div>{{ formatBigNumber(dataCell) }}</div>
-                <div>%</div>
-              </div>
-            </div>
-          </template>
-        </DataTable>
-      </div> -->
     </div>
 
     <div class="stats_column_charts" style="">
@@ -1015,21 +1012,20 @@ watch(chainSelected, async () => {
 .stats_column {
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 450px;
   // gap: 100px !important;
 }
 
 .stats_column_charts {
   display: flex;
   flex-direction: column;
-  width: 500px;
   gap: 55px;
 }
 
 .stats_column_tables {
   display: flex;
   flex-direction: column;
-  width: 600px;
+  width: 500px;
   gap: 50px
 }
 

@@ -259,6 +259,11 @@ input[type=number] {
   color: black !important;
   background: #01b47e;
 }
+.modal-dialog {
+  position: fixed;
+  right: 0;
+  left: 0;
+}
 
 .modal-content {
   background: linear-gradient(152.97deg, rgba(0, 163, 255, 0.09) 2.56%, rgba(0, 24, 37, 0.39582) 23.06%, #000000 63.56%, #000000 100%);
@@ -535,7 +540,7 @@ input[type=number] {
 }
 
 .slider-connect {
-  background: var(--slider-connect-bg, #10b981);
+  background: var(--slider-connect-bg, #00C9FF);
   cursor: pointer;
 }
 

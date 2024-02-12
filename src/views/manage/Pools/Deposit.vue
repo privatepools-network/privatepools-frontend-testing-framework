@@ -15,10 +15,11 @@
         " />
     <CRow class="mb-4">
       <div class="d-flex align-items-center justify-content-between">
-        <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">
-          {{ pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/') }}
-        </div> -->
         <div class="caption-row">
+          <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700; color: white;">
+          {{ pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/') }}
+        </div>
+
           <div v-for="(poolToken, poolTokenIndex) in pool.tokens" :key="`pool-token-${poolTokenIndex}`" class="big-chip">
             <CAvatar :src="getTokenEntity(poolToken.symbol, 'short').icon" class="big-chip__image" />
             <div class="big-chip__text">{{ poolToken.symbol }}</div>
@@ -37,7 +38,7 @@
     <div class="d-flex align-items-start gap-5">
       <div class="deposit_choose">
         <div class="deposit_network_text">{{ chainSelected }}</div>
-        <div class="deposit_text my-1">Set initial liquidity</div>
+        <div class="deposit_text my-1">Add liquidity</div>
 
         <div class="d-flex justify-content-between currency_container">
           <CurrencySelector />
@@ -67,8 +68,8 @@
                     font-weight: 500;
                     text-align: right;
                   " :value="lineNumbers[tokenIndex] > 0
-                      ? lineNumbers[tokenIndex] / 1000
-                      : lineNumbers[tokenIndex]
+                    ? lineNumbers[tokenIndex] / 1000
+                    : lineNumbers[tokenIndex]
                     " @input="(e) => onTokenInput(e, tokenIndex)" type="number" />
               </div>
               <div>
@@ -181,14 +182,15 @@
       </div>
 
       <div style="
-          border: 1px solid rgba(163, 164, 165, 0.2);
-          border-radius: 20px;
+          border-radius: 15.289px;
+          background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+          backdrop-filter: blur(20.067087173461914px);
           color: white;
           font-size: clamp(10px, 0.8vw, 14px);
           height: fit-content;
           width: 200px;
         ">
-        <div class="fw-bold p-2" style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)">
+        <div class="fw-bold p-3" style="border-bottom: 1px solid rgba(5, 222, 252, 0.34);">
           My wallet
         </div>
         <div class="d-flex flex-column p-2" style="
@@ -363,11 +365,11 @@ const visibleDepositModal = ref(false)
 function changeVisibleDeposit() {
   // let areBiggerThanZero = true
 
-  let areBiggerThanZero = lineNumbers.value.some(function(ele) {
+  let areBiggerThanZero = lineNumbers.value.some(function (ele) {
     return ele <= 0;
-});
+  });
 
- 
+
 
   if (areBiggerThanZero) {
     toast(Toast, {
@@ -406,16 +408,16 @@ function RemainingBalance(token, index) {
 
 .big-chip {
   background: none;
-
-  padding-left: 5px;
+  padding-left: 8px;
   padding-right: 10px;
-  border: 1px solid rgba(1, 180, 126, 1);
-  border-radius: 20px;
-
+  padding-top: 3px;
+  padding-bottom: 3px;
   width: fit-content;
   display: flex;
   align-items: center;
-
+  border-radius: 15.289px;
+  background: linear-gradient(153deg, #00C9FF 0%, rgba(0, 2, 1, 0.01) 99.99%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(20.067087173461914px);
   &__image {
     width: 1.4vw;
   }
@@ -461,11 +463,9 @@ function RemainingBalance(token, index) {
 .deposit_choose {
   padding: 10px;
   width: 35%;
-  background: linear-gradient(90.52deg,
-      rgba(53, 185, 192, 0.05) 0.36%,
-      rgba(53, 185, 192, 0.02) 0.36%);
-  border: 1px solid #01b47e2f;
-  border-radius: 10px;
+  border-radius: 15.289px;
+  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(20.067087173461914px);
 }
 
 .token-input {
@@ -488,9 +488,9 @@ function RemainingBalance(token, index) {
 }
 
 .modal_stake_token {
-  border: 1px solid rgba(163, 164, 165, 0.2);
-  border-radius: 20px;
   padding: 15px;
+  border-radius: 6px;
+  background: linear-gradient(95deg, #003E4F 0.03%, #000 133.56%);
 }
 
 .modal_balance_slider {
@@ -502,8 +502,8 @@ function RemainingBalance(token, index) {
 }
 
 .modal_stake_token_inner_name {
-  background-color: rgba(59, 97, 65, 0.14);
   border-radius: 17px;
+  background: rgba(76, 76, 76, 0.14);
   color: white;
   font-size: clamp(10px, 0.8vw, 14px);
   padding: 4px 12px;
@@ -521,9 +521,10 @@ function RemainingBalance(token, index) {
   font-size: 12px;
   color: white;
   border: 0px;
-  background: linear-gradient(89.26deg, #01b47e 5.07%, #7ef6b2 99.37%);
+  border-radius: 8px;
+  background: linear-gradient(89deg, #00C9FF 1.58%, #0094FF 100.04%);
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.05), 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
   width: 100%;
-  border-radius: 20px;
   cursor: pointer;
   display: flex;
   justify-content: center;

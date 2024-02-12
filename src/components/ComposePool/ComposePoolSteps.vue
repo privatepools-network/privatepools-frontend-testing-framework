@@ -64,11 +64,9 @@ defineProps(['activeStep'])
   padding: 10px;
   width: 100%;
   height: fit-content;
-  background: linear-gradient(90.52deg,
-      rgba(53, 185, 192, 0.05) 0.36%,
-      rgba(53, 185, 192, 0.02) 0.36%);
-  border: 1px solid #01b47e2f;
-  border-radius: 10px;
+  border-radius: 15.289px;
+  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(20.067087173461914px);
 }
 
 .compose_text {
@@ -93,7 +91,7 @@ defineProps(['activeStep'])
   color: #94a3b8;
 
   &.active {
-    color: #7ef6b2;
+    color: #00C9FF;
   }
 }
 </style>

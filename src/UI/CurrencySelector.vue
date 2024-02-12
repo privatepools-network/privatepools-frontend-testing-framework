@@ -48,7 +48,7 @@ watch((chainSelected), () => {
 </script>
 <style lang="scss" scoped>
 .currency-selector-container {
-  margin-bottom: 1.5vw;
+  // margin-bottom: 1.5vw;
 }
 
 :deep(.multiselect) {

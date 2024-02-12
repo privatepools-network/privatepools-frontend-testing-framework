@@ -387,9 +387,9 @@ function onFilterClick(filterValue, header) {
 .track_info_table {
   overflow-x: auto;
   padding: 0;
-  border-radius: 20px;
-  border: 0.5px solid rgba(163, 164, 165, 0.2196078431);
-  background: transparent;
+  border-radius: 15px;
+  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 80%);
+  backdrop-filter: blur(20.067087173461914px);
 }
 
 .table_above {
