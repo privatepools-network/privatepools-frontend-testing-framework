@@ -47,10 +47,10 @@
                   <g clip-path="url(#clip0_2305_87191)">
                     <path
                       d="M11.3594 7.58333V11.0833C11.3594 11.3928 11.2365 11.6895 11.0177 11.9083C10.7989 12.1271 10.5021 12.25 10.1927 12.25H3.77604C3.46662 12.25 3.16988 12.1271 2.95108 11.9083C2.73229 11.6895 2.60938 11.3928 2.60938 11.0833V4.66667C2.60938 4.35725 2.73229 4.0605 2.95108 3.84171C3.16988 3.62292 3.46662 3.5 3.77604 3.5H7.27604"
-                      stroke="#01B47E" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M9.60938 1.75H13.1094V5.25" stroke="#01B47E" stroke-width="1.16667" stroke-linecap="round"
+                      stroke="#00C9FF" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M9.60938 1.75H13.1094V5.25" stroke="#00C9FF" stroke-width="1.16667" stroke-linecap="round"
                       stroke-linejoin="round" />
-                    <path d="M6.69287 8.16667L13.1095 1.75" stroke="#01B47E" stroke-width="1.16667" stroke-linecap="round"
+                    <path d="M6.69287 8.16667L13.1095 1.75" stroke="#00C9FF" stroke-width="1.16667" stroke-linecap="round"
                       stroke-linejoin="round" />
                   </g>
                   <defs>

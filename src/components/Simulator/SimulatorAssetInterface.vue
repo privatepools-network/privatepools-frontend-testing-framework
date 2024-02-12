@@ -48,15 +48,15 @@
       display: flex
       align-items: center
       font-size: clamp(10px, 0.8vw, 14px)
-      outline: 0.2px solid #01B47E
+      outline: 0.2px solid #00C9FF
       outline-offset: -1px
       border-radius: 20px
       padding: 8px 12px
       margin-right: 12px
       cursor: pointer
       &:hover
-        background: #01B47E
-        box-shadow: 0px 12px 24px 0px rgba(#01B47E, 0.20), 0px 4px 8px 0px rgba(#01B47E, 0.30)
+        background: #00C9FF
+        box-shadow: 0px 12px 24px 0px rgba(#00C9FF, 0.20), 0px 4px 8px 0px rgba(#00C9FF, 0.30)
       &_major
         outline: none
         background: linear-gradient(89deg, rgba(1, 180, 126, 0.60) 5.07%, rgba(126, 246, 178, 0.60) 99.37%)

@@ -59,9 +59,9 @@
           <div class="divider">
             <div class="divider__el">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                <path d="M7 13.5L12 18.5L17 13.5" stroke="#01B47E" stroke-width="2" stroke-linecap="round"
+                <path d="M7 13.5L12 18.5L17 13.5" stroke="#00C9FF" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round" />
-                <path d="M7 6.5L12 11.5L17 6.5" stroke="#01B47E" stroke-width="2" stroke-linecap="round"
+                <path d="M7 6.5L12 11.5L17 6.5" stroke="#00C9FF" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round" />
 
               </svg>
@@ -290,7 +290,7 @@ watch(possibleTokens, async () => {
   &__el {
     padding: 5px;
     border-radius: 9999px;
-    border: 4px solid #01B47E;
+    border: 4px solid #00C9FF;
     background: #083427;
   }
 }
@@ -337,7 +337,7 @@ watch(possibleTokens, async () => {
 }
 
 :deep(.multiselect__content-wrapper) {
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 
 :deep(.multiselect__single) {
@@ -350,7 +350,7 @@ watch(possibleTokens, async () => {
 }
 
 :deep(.multiselect__option) {
-  border: 1px solid rgba(1, 180, 126, 1) !important;
+  border: 1px solid #00C9FF !important;
   background: rgb(15, 17, 19) !important;
   color: white !important;
 }

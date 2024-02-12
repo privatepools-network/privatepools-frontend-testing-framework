@@ -1031,7 +1031,7 @@ function getFilteredData() {
       display: flex;
       flex-direction: column;
       border-radius: 20px;
-      border: 1px solid #01b47e;
+      border: 1px solid #00C9FF;
     }
   }
 }

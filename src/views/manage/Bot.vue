@@ -419,10 +419,10 @@ onMounted(async () => {
 
 /* .multiselect__tags {
   background: none !important;
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 .multiselect__content-wrapper {
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 .multiselect__single {
   background: none !important;

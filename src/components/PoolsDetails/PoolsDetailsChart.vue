@@ -339,13 +339,13 @@ const series = computed(() =>
       type: 'bar',
       name: 'Revenue',
       data: dataRevenues.value,
-      color: '#01B47E',
+      color: '#00C9FF',
       sampling: 'lttb',
       areaStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: '#01B47E',
+            color: '#00C9FF',
           },
           {
             offset: 1,
@@ -357,7 +357,7 @@ const series = computed(() =>
       showSymbol: false,
       itemStyle: {
         borderRadius: [5, 5, 0, 0],
-        color: '#01B47E',
+        color: '#00C9FF',
       },
       emphasis: {
         focus: 'series',
@@ -1354,7 +1354,7 @@ onMounted(() => {
       display: flex;
       flex-direction: column;
       border-radius: 20px;
-      border: 1px solid #01b47e;
+      border: 1px solid #00C9FF;
     }
   }
 }

@@ -200,7 +200,7 @@
               volumeBsc + volumeArb + volumeMatic
               " style="
                 background: rgba(1, 180, 126, 0.25);
-                color: rgba(1, 180, 126, 1);
+                color: #00C9FF;
               " class="bot_profit_percents">
               {{
                 previousVolumeBsc + previousVolumeArb + previousVolumeMatic ===

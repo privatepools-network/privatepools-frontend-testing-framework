@@ -53,7 +53,7 @@ const {depositAmount, feeAmount} = toRefs(props)
       align-items: center
       padding: 9px 12px
       border-radius: 20px
-      border: 0.2px solid #01B47E
+      border: 0.2px solid #00C9FF
       background: transparent
       @media (max-width: 1400px)
         padding: 4px 10px

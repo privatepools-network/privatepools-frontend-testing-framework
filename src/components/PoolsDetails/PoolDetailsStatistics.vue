@@ -475,7 +475,7 @@
             <apexchart v-else
               :options="dynamicDonut(
                 ['Bitcoin (BTC)', 'Ethereum (ETH)', 'RWAs', 'LSDs', 'Stablecoins', 'Infrastructure', 'L1s', 'L2s', 'DeFi'],
-                ['rgba(230, 177, 12, 1)', 'rgba(1, 180, 126, 1)', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)'])"
+                ['rgba(230, 177, 12, 1)', '#00C9FF', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)'])"
               :series="[44, 55, 41, 17, 15, 22, 11, 8, 6]" :height="410" :width="415" />
           </div>
           <div v-else style="height: 228px">
@@ -796,7 +796,7 @@ watch(chartData, async () => {
 
 .stats_value {
   color: white;
-
+  margin-right: 15px;
   font-family: Inter;
   font-size: clamp(10px, 0.8vw, 13px);
   font-weight: 400;
@@ -834,7 +834,7 @@ watch(chartData, async () => {
 }
 
 .chart_dropdown_items:hover {
-  color: #00C087;
+  color: #00C9FF;
 }
 
 .stats_container {
@@ -859,6 +859,7 @@ watch(chartData, async () => {
 .stats_column_charts {
   display: flex;
   flex-direction: column;
+
 }
 
 .stats_column_tables {
@@ -951,11 +952,11 @@ watch(chartData, async () => {
 
 .dp__theme_dark {
   --dp-background-color: rgba(15, 17, 19, 1);
-  --dp-primary-color: rgb(1, 180, 126);
-  --dp-highlight-color: rgba(1, 180, 126, 0.384);
-  --dp-border-color: rgb(1, 180, 126);
-  --dp-menu-border-color: rgb(1, 180, 126);
-  --dp-border-color-hover: rgb(1, 180, 126);
+  --dp-primary-color: #00C9FF;
+  --dp-highlight-color: #00c8ff42;
+  --dp-border-color: #00C9FF;
+  --dp-menu-border-color: #00C9FF;
+  --dp-border-color-hover: #00C9FF;
   --dp-border-radius: clamp(10px, 0.8vw, 13px);
   --dp-input-icon-padding: 8px;
   --dp-action-buttons-padding: 3px 9px;

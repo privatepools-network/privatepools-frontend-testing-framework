@@ -71,11 +71,11 @@ const {periodStart, periodEnd} = toRefs(props)
 
 .dp__theme_dark
   --dp-background-color: #02120A !important
-  --dp-primary-color: rgb(1, 180, 126) !important
-  --dp-highlight-color: rgba(1, 180, 126, 0.384) !important
-  --dp-border-color: rgb(1, 180, 126) !important
-  --dp-menu-border-color: rgb(1, 180, 126) !important
-  --dp-border-color-hover: rgb(1, 180, 126) !important
+  --dp-primary-color: #00C9FF !important
+  --dp-highlight-color: #00c8ff42 !important
+  --dp-border-color: #00C9FF !important
+  --dp-menu-border-color: #00C9FF !important
+  --dp-border-color-hover: #00C9FF !important
   --dp-border-radius: 12px !important
   --dp-action-buttons-padding: 3px 9px !important
   --dp-action-button-height: 32px !important

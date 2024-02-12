@@ -12,7 +12,7 @@ import NewReleasesCard from "@/UI/NewReleasesCard.vue";
 </script>
 <style lang="scss" scoped>
 .app_release_container {
-  background: radial-gradient(#01b47e, #071027, #000000);
+  background: radial-gradient(#00C9FF, #071027, #000000);
   background-size: 300% 300%;
   animation: gradient 15s ease infinite;
   height: 100vh;

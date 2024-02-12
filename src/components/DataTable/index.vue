@@ -516,7 +516,7 @@ const getDataRow = (dataRow) => {
 }
 
 :deep(.multiselect__content-wrapper) {
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
   border-top: 1px solid;
   width: 190px;
   right: 0px;
@@ -537,7 +537,7 @@ const getDataRow = (dataRow) => {
 }
 
 :deep(.multiselect__option--selected) {
-  color: rgb(1, 180, 126) !important;
+  color: #00C9FF !important;
 }
 
 :deep(.multiselect__option--selected:hover) {

@@ -55,7 +55,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #01b47e;
+    background: #00C9FF;
     box-shadow: 0px 3.500000238418579px 5.500000476837158px 0px #00000005;
     width: 45px;
     height: 45px;

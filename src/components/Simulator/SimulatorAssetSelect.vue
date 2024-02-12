@@ -71,7 +71,7 @@ const {simulatorTokensOptions, token, selectNum} = toRefs(props)
 // function calculatePool() {
 //   token.value.amount = 100 / props.tokensData.length
 //   console.log("range_test", range_test.value)
-//   range_test.value[0].style.background = `linear-gradient(to right, #01B47E ${weight.value}%, #ffffff29 ${weight.value}%)`
+//   range_test.value[0].style.background = `linear-gradient(to right, #00C9FF ${weight.value}%, #ffffff29 ${weight.value}%)`
 //   return (weight.value).toFixed(0)
 // }
 const range_test = ref(null)
@@ -79,7 +79,7 @@ const inputRefLabel = ref()
 
 function onLoadRange(target, co) {
   console.log(co)
-  range_test.value.style.background = `linear-gradient(to right, #01B47E ${target}%, #ffffff29 ${target}%)`
+  range_test.value.style.background = `linear-gradient(to right, #00C9FF ${target}%, #ffffff29 ${target}%)`
   inputRefLabel.value.style.left = `${target*range_test.value.clientWidth/100 - 22 * (target/76)}px`
 }
 
@@ -100,7 +100,7 @@ const onInput = async ({ target }) => {
   width: 100%
   .value-label
     position: absolute
-    background: #01B47E
+    background: #00C9FF
     border-radius: 4px
     padding: 2px 4px
     bottom: 30px
@@ -114,7 +114,7 @@ const onInput = async ({ target }) => {
       width: 8px
       height: 8px
       position: absolute
-      background: #01B47E
+      background: #00C9FF
       left: 50%
       margin-left: -4px
       transform: rotate(45deg)
@@ -143,7 +143,7 @@ const onInput = async ({ target }) => {
     border-radius: 8px
 
   &::-moz-range-progress
-    background-color: #01b47e
+    background-color: #00C9FF
     height: 12px
     border-radius: 8px 0 0 8px
 
@@ -225,7 +225,7 @@ const onInput = async ({ target }) => {
 
   .multiselect__tags
     background: transparent !important
-    border-color: rgba(1, 180, 126, 1) !important
+    border-color: #00C9FF !important
     padding: 0 !important
     border-width: 1px !important
     border-radius: 20px !important
@@ -234,7 +234,7 @@ const onInput = async ({ target }) => {
     background: linear-gradient(0deg, #181C1F 0%, #181C1F 100%) !important
 
   .multiselect__content-wrapper
-    border-color: rgba(1, 180, 126, 1) !important
+    border-color: #00C9FF !important
     &::-webkit-scrollbar-track
       -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3)
       background-color: #02120a
@@ -246,7 +246,7 @@ const onInput = async ({ target }) => {
 
     &::-webkit-scrollbar-thumb
       border: 2px solid #02120a
-      background: rgb(1, 180, 126)
+      background: #00C9FF
       border-radius: 21px
 
   .multiselect__single

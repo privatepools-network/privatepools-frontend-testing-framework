@@ -137,7 +137,7 @@ watch(deviation, (_new) => {
   background-color: #22282c00 !important;
   border-radius: 20px;
   font-size: clamp(10px, 0.8vw, 14px);
-  color: rgba(1, 180, 126, 1);
+  color: #00C9FF;
 
 
 }

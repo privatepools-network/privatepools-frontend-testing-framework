@@ -5,10 +5,11 @@
     </div>
     <div class="finance_above_buttons">
       <div>
-        <CButton color="success" variant="outline" @click="downloadPdf" style="
+        <CButton variant="outline" @click="downloadPdf" style="
             border-radius: 20px;
             font-size: clamp(10px, 0.8vw, 14px);
             padding: 4px 8px;
+            border-color: #00C9FF;
           ">
           <div class="d-flex align-items-center gap-2 text-white">
             <img :src="downloadIcon" width="15" /> Download PDF
@@ -16,10 +17,11 @@
         </CButton>
       </div>
       <div>
-        <CButton color="success" variant="outline" style="
+        <CButton  variant="outline" style="
             border-radius: 20px;
             font-size: clamp(10px, 0.8vw, 14px);
             padding: 4px 8px;
+            border-color: #00C9FF;
           " @click="downloadCsv">
           <div class="d-flex align-items-center gap-2 text-white">
             <img :src="downloadIcon" width="15" /> Download CSV
@@ -995,7 +997,7 @@ onBeforeMount(async () => {
   gap: 10px;
   align-items: center;
   cursor: pointer;
-  color: #00c087;
+  color: #00C9FF;
 }
 
 .sticky_first_column {
@@ -1006,7 +1008,7 @@ onBeforeMount(async () => {
   flex-direction: column;
   justify-content: space-between;
   padding-left: 10px;
-  background-color: rgba(15, 19, 32, 0.9);
+  background-color: rgba(15, 19, 32, 1);
   backdrop-filter: blur(200px);
 
 }
@@ -1015,13 +1017,13 @@ onBeforeMount(async () => {
   /* margin-right: 200px; */
   min-width: 300px;
   padding: 20px 10px 20px 10px;
-  background-color: rgba(15, 19, 32, 0.9);
+  background-color: rgba(15, 19, 32, 1);
   backdrop-filter: blur(200px);
 }
 
 .sticky_column_without_bg {
   /* margin-right: 200px; */
-  background-color: rgba(15, 19, 32, 0.9);
+  background-color: rgba(15, 19, 32, 1);
   backdrop-filter: blur(200px);
 
   padding: 20px 10px 20px 10px;

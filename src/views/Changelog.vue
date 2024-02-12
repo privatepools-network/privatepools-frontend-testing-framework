@@ -235,7 +235,7 @@ import router from '@/router'
   }
 
   &:hover {
-    filter: drop-shadow(0 0 0.3rem #01b47e);
+    filter: drop-shadow(0 0 0.3rem #00C9FF);
     cursor: pointer;
   }
 }

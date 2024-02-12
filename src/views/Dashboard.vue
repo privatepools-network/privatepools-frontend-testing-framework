@@ -355,7 +355,7 @@
           <svg width="7" height="10" viewBox="0 0 7 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M0.53 4.53442L4.69501 0.347936C4.9097 0.154714 5.23174 0.154714 5.42496 0.347936L5.91875 0.841727C6.11198 1.03495 6.11198 1.35699 5.91875 1.57168L2.61251 4.87793L5.91875 8.20564C6.11198 8.42033 6.11198 8.74237 5.91875 8.93559L5.42496 9.42938C5.23174 9.62261 4.9097 9.62261 4.69501 9.42938L0.53 5.2429C0.336777 5.04968 0.336777 4.72764 0.53 4.53442Z"
-              fill="#01B47E" />
+              fill="#00C9FF" />
           </svg>
         </CButton>
         <CButton color="primary">{{ currentPage }}</CButton>
@@ -1516,7 +1516,7 @@ onMounted(async () => {
 
     &::-webkit-scrollbar-thumb {
       border: 2px solid #02120a;
-      background: rgb(1, 180, 126);
+      background: #00C9FF;
       border-radius: 21px;
     }
   }
@@ -1532,7 +1532,7 @@ onMounted(async () => {
   }
 
   .reload_button:hover path {
-    stroke: rgb(1, 180, 126) !important;
+    stroke: #00C9FF !important;
   }
 
   .reload_button__active {
@@ -1569,11 +1569,11 @@ onMounted(async () => {
 
   .multiselect__tags {
     background: none !important;
-    border-color: rgba(1, 180, 126, 1) !important;
+    border-color: #00C9FF !important;
   }
 
   .multiselect__content-wrapper {
-    border-color: rgba(1, 180, 126, 1) !important;
+    border-color: #00C9FF !important;
   }
 
   .multiselect__single {

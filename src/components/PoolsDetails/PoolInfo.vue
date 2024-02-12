@@ -14,7 +14,7 @@
           <div class="pool-info-heading">Pool Contract</div>
           <div
             class="d-flex align-items-center gap-1"
-            style="color: rgba(1, 180, 126, 1)"
+            style="color: #00C9FF"
           >
             <div>
               {{
@@ -38,7 +38,7 @@
           <div class="pool-info-heading">Pool Owner</div>
           <div
             class="d-flex align-items-center gap-1"
-            style="color: rgba(1, 180, 126, 1)"
+            style="color: #00C9FF"
           >
             <div>
               {{
@@ -65,7 +65,7 @@
           <div class="pool-info-heading">Factory Contract</div>
           <div
             class="d-flex align-items-center gap-1"
-            style="color: rgba(1, 180, 126, 1)"
+            style="color: #00C9FF"
           >
             <div>
               {{
@@ -89,7 +89,7 @@
           <div class="pool-info-heading">Vault</div>
           <div
             class="d-flex align-items-center gap-1"
-            style="color: rgba(1, 180, 126, 1)"
+            style="color: #00C9FF"
           >
             <div>
               {{

@@ -282,7 +282,7 @@
                     </div>
                     <div class="text-green d-flex align-items-center justify-content-center">
                       <img width="22" class="p-1" :src="computedTokenImage(transaction.token)" />
-                      <div class="d-flex" style="border-bottom: 1px dotted #01B47E;">
+                      <div class="d-flex" style="border-bottom: 1px dotted #00C9FF;">
                         {{
                           `+${transaction.valueOut.toFixed(2)}${transaction.token
                             } (`
@@ -2133,7 +2133,7 @@ watch((currencySelected), async () => {
       display: flex;
       flex-direction: column;
       border-radius: 20px;
-      border: 1px solid #01b47e;
+      border: 1px solid #00C9FF;
     }
   }
 }
@@ -2149,11 +2149,11 @@ watch((currencySelected), async () => {
 }
 
 .reload_button:hover path {
-  stroke: rgb(1, 180, 126) !important;
+  stroke: #00C9FF !important;
 }
 
 .filter_button:hover path {
-  stroke: rgb(1, 180, 126) !important;
+  stroke: #00C9FF !important;
 }
 
 .reload_button__active {
@@ -2296,7 +2296,7 @@ watch((currencySelected), async () => {
       display: flex;
       flex-direction: row;
       border-radius: 20px;
-      border: 1px solid #01b47e;
+      border: 1px solid #00C9FF;
     }
   }
 }

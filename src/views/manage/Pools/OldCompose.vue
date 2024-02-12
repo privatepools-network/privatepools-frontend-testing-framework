@@ -410,7 +410,7 @@ const transactions = ref({
 .synth-card {
     margin-bottom: 24px;
     border-radius: 20px;
-    border: 0.2px solid #01B47E;
+    border: 0.2px solid #00C9FF;
 
     &:not(:last-child) {
         margin-right: 24px;
@@ -422,7 +422,7 @@ const transactions = ref({
     width: 52px;
     margin-bottom: 24px;
     border-radius: 20px;
-    background: #01B47E;
+    background: #00C9FF;
 
     display: flex;
     justify-content: space-around;

@@ -112,7 +112,7 @@
               <div>
               <div class="position-relative" v-if="approveStep === 1">
                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="15" cy="15" r="14.5" :stroke="approveStep === 1 ? '#01b47e' : 'white'" />
+                  <circle cx="15" cy="15" r="14.5" :stroke="approveStep === 1 ? '#00C9FF' : 'white'" />
                 </svg>
                 <div :class="approveStep === 1
                   ? 'step_number step_number_active'
@@ -129,7 +129,7 @@
             </div>
             <div class="position-relative" v-if="approveStep === 3 || approveStep === 4 || approveStep === 5">
                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="15" cy="15" r="14.5" :stroke="approveStep === 3 ? '#01b47e' : 'white'" />
+                  <circle cx="15" cy="15" r="14.5" :stroke="approveStep === 3 ? '#00C9FF' : 'white'" />
                 </svg>
                 <div :class="approveStep === 3
                   ? 'step_number step_number_active'
@@ -164,7 +164,7 @@
             </VTooltip>
            <!-- <div class="position-relative">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="15" cy="15" r="14.5" :stroke="approveStep === 1 ? '#01b47e' : 'white'" />
+                  <circle cx="15" cy="15" r="14.5" :stroke="approveStep === 1 ? '#00C9FF' : 'white'" />
                 </svg>
               <div class="step_number step_number_active">
                 <img :src="metamask" width="20" />
@@ -172,7 +172,7 @@
             </div> -->
             <div class="position-relative" v-if="approveStep === 1 || approveStep === 2 || approveStep === 3 || approveStep === 4">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="15" cy="15" r="14.5" :stroke="approveStep === 3 || approveStep === 4 || approveStep === 5 ? '#01b47e' : 'white'" />
+                <circle cx="15" cy="15" r="14.5" :stroke="approveStep === 3 || approveStep === 4 || approveStep === 5 ? '#00C9FF' : 'white'" />
               </svg>
               <div :class="approveStep === 3 || approveStep === 4 || approveStep === 5 ? 'step_number active' : 'step_number'
                 ">
@@ -465,7 +465,7 @@ watch(
   font-size: 12px;
   color: white;
   border: 0px;
-  background: linear-gradient(89.26deg, #01b47e 5.07%, #7ef6b2 99.37%);
+  background: linear-gradient(89.26deg, #00C9FF 5.07%, #00c8ffb7 99.37%);
   width: 100%;
   border-radius: 20px;
   cursor: pointer;
@@ -476,9 +476,9 @@ watch(
 
   &:hover {
     color: #fff;
-    background: #7ef6b2;
-    box-shadow: 0px 12px 24px 0px rgba(#01b47e, 0.2),
-      0px 4px 8px 0px rgba(#7ef6b2, 0.3);
+    background: #00C9FF;
+    box-shadow: 0px 12px 24px 0px rgba(#00C9FF, 0.2),
+      0px 4px 8px 0px rgba(#00C9FF, 0.3);
   }
 }
 
@@ -498,7 +498,7 @@ watch(
   color: white;
 
   &_active {
-    color: #01b47e;
+    color: #00C9FF;
   }
 }
 
@@ -515,7 +515,7 @@ watch(
   width: 30px;
     height: 30px;
     border: 2px solid #FFF;
-    border-bottom-color: #01b47e;
+    border-bottom-color: #00C9FF;
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;
@@ -535,7 +535,7 @@ watch(
     width: 17px;
     height: 17px;
     border: 2px solid #FFF;
-    border-bottom-color: #01b47e;
+    border-bottom-color: #00C9FF;
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;

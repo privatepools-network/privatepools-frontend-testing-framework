@@ -160,7 +160,7 @@ const chartOptions = computed(() => ({
     //   opacity: 0.65,
     // },
   },
-  //   colors: ['rgba(1, 180, 126, 1)', 'rgba(2, 176, 7, 0.5)'],
+  //   colors: ['#00C9FF', 'rgba(2, 176, 7, 0.5)'],
   dataLabels: {
     enabled: false,
   },
@@ -368,7 +368,7 @@ const chartOptions = computed(() => ({
   justify-content: space-between;
 }
 .life_feed_chart_btn {
-  border: 1px solid rgba(1, 180, 126, 1);
+  border: 1px solid #00C9FF;
   border-radius: 20px;
   padding: 0px 12px;
   display: flex;
@@ -390,7 +390,7 @@ const chartOptions = computed(() => ({
     display: flex;
     justify-self: flex-start;
     border-radius: 20px;
-    border: 1px solid #01b47e;
+    border: 1px solid #00C9FF;
     width: fit-content;
 
     z-index: 7;
@@ -404,15 +404,15 @@ const chartOptions = computed(() => ({
       border-radius: 20px;
 
       &:hover {
-        background: rgba(#01b47e, 0.3);
+        background: rgba(#00C9FF, 0.3);
       }
 
       &_active {
-        background: #01b47e;
+        background: #00C9FF;
         color: white;
 
         &:hover {
-          background: #01b47e;
+          background: #00C9FF;
         }
       }
     }

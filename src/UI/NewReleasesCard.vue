@@ -101,7 +101,7 @@ letter-spacing: 0em;
       font-size: 12px;
       color: white;
       border: 0px;
-      background: linear-gradient(89.26deg, #01B47E 5.07%, #7EF6B2 99.37%);
+      background: linear-gradient(89.26deg, #00C9FF 5.07%, #7EF6B2 99.37%);
       width: 100%;
       border-radius: 20px;
       cursor: pointer;
@@ -112,7 +112,7 @@ letter-spacing: 0em;
       &:hover {
         color: #fff;
         background: #7EF6B2;
-        box-shadow: 0px 12px 24px 0px rgba(#01B47E, 0.20), 0px 4px 8px 0px rgba(#7EF6B2, 0.30);
+        box-shadow: 0px 12px 24px 0px rgba(#00C9FF, 0.20), 0px 4px 8px 0px rgba(#7EF6B2, 0.30);
       }
     }
   }

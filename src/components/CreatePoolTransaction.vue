@@ -26,13 +26,13 @@ const { disabled, clickEvent } = toRefs(props)
 .container {
   padding: 20px 21px 20px 12px;
   border-radius: 20px;
-  border: 0.2px solid #01B47E;
+  border: 0.2px solid #00C9FF;
   background: var(--Card-linear, linear-gradient(91deg, rgba(53, 185, 192, 0.05) 0.36%, rgba(53, 185, 192, 0.02) 99.41%));
   display: flex;
   align-items: center;
 
   .number {
-    border: 1px solid #01b47e;
+    border: 1px solid #00C9FF;
     border-radius: 16px;
     height: 100%;
     padding-left: 12px;
@@ -55,7 +55,7 @@ const { disabled, clickEvent } = toRefs(props)
     padding-top: 7px;
     padding-bottom: 7px;
     border-radius: 20px;
-    background: linear-gradient(89deg, #01B47E 5.07%, #3B6141 99.37%);
+    background: linear-gradient(89deg, #00C9FF 5.07%, #3B6141 99.37%);
     flex-grow: 1;
     border: none;
     @include text;

@@ -858,10 +858,10 @@ function updateFinalData() {
       }
       &_active {
         .chart-filters__title {
-          background: #01B47E;
+          background: #00C9FF;
 
           &:hover {
-            background-color: rgba(#01B47E, .7);
+            background-color: rgba(#00C9FF, .7);
           }
         }
       }
@@ -883,7 +883,7 @@ function updateFinalData() {
       padding: 6px 7px 12px 6px;
     }
     &__toggler {
-      color: #01B47E;
+      color: #00C9FF;
       font-size: 11px;
       font-weight: 300;
       text-decoration-line: underline;
@@ -896,7 +896,7 @@ function updateFinalData() {
       border-radius: 20px;
       border: 1px solid #7EF6B2;
       &:hover {
-        background-color: rgba(#01B47E, .3);
+        background-color: rgba(#00C9FF, .3);
       }
     }
     &__option {
@@ -913,14 +913,14 @@ function updateFinalData() {
         border-radius: 0 0 12px 12px;
       }
       &:hover {
-        background-color: rgba(#01B47E, .3);
+        background-color: rgba(#00C9FF, .3);
       }
       &_selected {
         svg {
           display: block;
         }
         &:hover {
-          background-color: rgba(#01B47E, .3);
+          background-color: rgba(#00C9FF, .3);
         }
       }
     }
@@ -943,7 +943,7 @@ function updateFinalData() {
     display: flex;
     justify-self: flex-start;
     border-radius: 20px;
-    border: 1px solid #01b47e;
+    border: 1px solid #00C9FF;
 
     &__el {
       padding: 8px 15px;
@@ -951,14 +951,14 @@ function updateFinalData() {
       border-radius: 20px;
 
       &:hover {
-        background: rgba(#01b47e, 0.3);
+        background: rgba(#00C9FF, 0.3);
       }
 
       &_active {
-        background: #01b47e;
+        background: #00C9FF;
         color: #fff;
         &:hover {
-          background: #01b47e;
+          background: #00C9FF;
         }
       }
     }

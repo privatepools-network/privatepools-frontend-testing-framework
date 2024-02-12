@@ -722,7 +722,7 @@ function onFilterClick(filterValue, header) {
   }
 
   :deep(.multiselect__content-wrapper) {
-    border-color: rgba(1, 180, 126, 1) !important;
+    border-color: #00C9FF !important;
     border-top: 1px solid;
     width: 190px;
     right: 0px;
@@ -743,7 +743,7 @@ function onFilterClick(filterValue, header) {
   }
 
   :deep(.multiselect__option--selected) {
-    color: rgb(1, 180, 126) !important;
+    color: #00C9FF !important;
   }
 
   :deep(.multiselect__option--selected:hover) {
@@ -996,8 +996,8 @@ function onFilterClick(filterValue, header) {
 
 .dp__theme_dark {
   --dp-background-color: rgba(15, 17, 19, 1);
-  --dp-primary-color: rgb(1, 180, 126);
-  --dp-highlight-color: rgba(1, 180, 126, 0.384);
+  --dp-primary-color: #00C9FF;
+  --dp-highlight-color: #00c8ff42;
 }
 
 .dp__input {
@@ -1022,7 +1022,7 @@ function onFilterClick(filterValue, header) {
 }
 
 :deep(.multiselect__content-wrapper) {
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
   border-top: 1px solid;
   width: 190px;
   right: 0px;
@@ -1047,7 +1047,7 @@ function onFilterClick(filterValue, header) {
 }
 
 :deep(.multiselect__option--selected) {
-  color: rgb(1, 180, 126) !important;
+  color: #00C9FF !important;
 }
 
 :deep(.multiselect__option--selected:hover) {

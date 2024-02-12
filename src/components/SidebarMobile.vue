@@ -215,7 +215,7 @@ const visibleAdmin = ref(false)
 .sidemenu__line {
   border-width: 0px 0px 1px 0px;
   border-style: solid;
-  border-image: linear-gradient(to left, #01b47e 0%, rgba(126, 246, 178, 0)) 1;
+  border-image: linear-gradient(to left, #00C9FF 0%, rgba(126, 246, 178, 0)) 1;
 }
 
 #sidemenu {
@@ -261,7 +261,7 @@ const visibleAdmin = ref(false)
 
     &__item {
       &__active {
-        color: #01b47e !important;
+        color: #00C9FF !important;
       }
       a {
         text-decoration: none;

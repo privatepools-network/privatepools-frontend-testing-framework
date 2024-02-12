@@ -98,7 +98,7 @@ export default {
 <style>
 .gradient-bg {
   transition: transform 1s ease 0s;
-  background: linear-gradient(135deg, #22282c 45%, #01b47e 45% 100%);
+  background: linear-gradient(135deg, #22282c 45%, #00C9FF 45% 100%);
   width: 400px;
   height: 94px;
 }
