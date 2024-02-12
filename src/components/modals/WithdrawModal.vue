@@ -476,12 +476,12 @@ async function OnWithdrawClick() {
 .modal_preview_button {
   color: white;
   width: 100%;
-  background: linear-gradient(89.26deg, #01B47E 5.07%, #7EF6B2 99.37%);
+  background: linear-gradient(89.26deg, #00C9FF 5.07%, #7EF6B2 99.37%);
   border-radius: 20px;
   transition: ease-in-out;
 
   &:hover {
-    background: #01B47E;
+    background: #00C9FF;
 
   }
 }
@@ -512,7 +512,7 @@ async function OnWithdrawClick() {
   }
 
   &::-moz-range-progress {
-    background-color: #01b47e;
+    background-color: #00C9FF;
     height: 12px;
     border-radius: 8px 0 0 8px;
   }
@@ -614,7 +614,7 @@ async function OnWithdrawClick() {
 }
 
 .multiselect__option--highlight {
-  background: rgb(1, 180, 126) !important;
+  background: #00C9FF !important;
 }
 
 :deep(.multiselect__option) {
@@ -632,7 +632,7 @@ async function OnWithdrawClick() {
 }
 
 .multiselect__option:hover {
-  color: rgb(1, 180, 126) !important;
+  color: #00C9FF !important;
 }
 
 :deep(.multiselect__content-wrapper) {
@@ -650,7 +650,7 @@ async function OnWithdrawClick() {
 }
 
 .multiselect__option--selected {
-  color: rgb(1, 180, 126) !important;
+  color: #00C9FF !important;
 }
 
 .multiselect__option--selected:hover {

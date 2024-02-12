@@ -46,8 +46,8 @@ function setProgress(percent) {
     circle.value.style.stroke = '#E6B10C'
     end.value.style.stroke = '#E6B10C'
   } else {
-    circle.value.style.stroke = '#01B47E'
-    end.value.style.stroke = '#01B47E'
+    circle.value.style.stroke = '#00C9FF'
+    end.value.style.stroke = '#00C9FF'
   }
 }
 function getProgressPercent() {

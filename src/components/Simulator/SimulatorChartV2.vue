@@ -727,7 +727,7 @@ const optionObj = ref({
 
     &::-webkit-scrollbar-thumb {
       border: 2px solid #02120a;
-      background: rgb(1, 180, 126);
+      background: #00C9FF;
       border-radius: 21px;
     }
   }
@@ -789,7 +789,7 @@ const optionObj = ref({
       }
 
       &:hover {
-        background-color: #01b47ecb;
+        background-color: #00C9FFcb;
         cursor: pointer;
         color: rgb(255, 255, 255);
         border-radius: 20px;
@@ -811,11 +811,11 @@ const optionObj = ref({
         margin-right: 2px;
 
         .chart-filters__title {
-          background: #01b47e;
+          background: #00C9FF;
           color: #fff;
 
           &:hover {
-            background-color: rgba(#01b47e, 0.5);
+            background-color: rgba(#00C9FF, 0.5);
             cursor: pointer;
             color: #fff;
           }
@@ -843,7 +843,7 @@ const optionObj = ref({
     }
 
     &__toggler {
-      color: #01b47e;
+      color: #00C9FF;
       font-size: 11px;
       font-weight: 300;
       text-decoration-line: underline;
@@ -860,7 +860,7 @@ const optionObj = ref({
       color: rgba(126, 246, 178, 1);
 
       &:hover {
-        background-color: rgba(#01b47e, 0.3);
+        background-color: rgba(#00C9FF, 0.3);
       }
     }
 
@@ -880,7 +880,7 @@ const optionObj = ref({
       }
 
       &:hover {
-        background-color: rgba(#01b47e, 0.3);
+        background-color: rgba(#00C9FF, 0.3);
       }
 
       &_selected {
@@ -889,7 +889,7 @@ const optionObj = ref({
         }
 
         &:hover {
-          background-color: rgba(#01b47e, 0.3);
+          background-color: rgba(#00C9FF, 0.3);
         }
       }
     }
@@ -914,7 +914,7 @@ const optionObj = ref({
     display: flex;
     justify-self: flex-start;
     border-radius: 20px;
-    border: 1px solid #01b47e;
+    border: 1px solid #00C9FF;
 
     &__el {
       padding: 8px 15px;
@@ -922,15 +922,15 @@ const optionObj = ref({
       border-radius: 20px;
 
       &:hover {
-        background: rgba(#01b47e, 0.3);
+        background: rgba(#00C9FF, 0.3);
       }
 
       &_active {
-        background: #01b47e;
+        background: #00C9FF;
         color: #fff;
 
         &:hover {
-          background: #01b47e;
+          background: #00C9FF;
         }
       }
     }
@@ -1046,7 +1046,7 @@ const optionObj = ref({
       display: flex;
       flex-direction: column;
       border-radius: 20px;
-      border: 1px solid #01b47e;
+      border: 1px solid #00C9FF;
     }
   }
 }
@@ -1062,11 +1062,11 @@ const optionObj = ref({
 }
 
 .reload_button:hover path {
-  stroke: rgb(1, 180, 126) !important;
+  stroke: #00C9FF !important;
 }
 
 .filter_button:hover path {
-  stroke: rgb(1, 180, 126) !important;
+  stroke: #00C9FF !important;
 }
 
 .reload_button__active {
@@ -1209,7 +1209,7 @@ const optionObj = ref({
       display: flex;
       flex-direction: row;
       border-radius: 20px;
-      border: 1px solid #01b47e;
+      border: 1px solid #00C9FF;
     }
   }
 }

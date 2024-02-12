@@ -297,7 +297,7 @@ const dynamicDonut = computed(() => {
     rgba(53, 185, 192, 0.05) 0.36%,
     rgba(53, 185, 192, 0.02) 0.36%
   );
-  border: 1px solid #01b47e2f;
+  border: 1px solid #00C9FF2f;
   border-radius: 10px;
 }
 
@@ -308,7 +308,7 @@ const dynamicDonut = computed(() => {
 }
 
 .compose_hr {
-  border-bottom: 1px solid #01b47e57;
+  border-bottom: 1px solid #00C9FF57;
   margin: 0px;
   margin-top: 5px;
   margin-right: -10px;

@@ -112,7 +112,7 @@ updateChain(chainSelected.value)
     padding: 1px 8px 3px 8px;
     border-radius: 15px;
     color: #ffffff;
-    background-color: #01b47e;
+    background-color: #00C9FF;
   }
 }
 

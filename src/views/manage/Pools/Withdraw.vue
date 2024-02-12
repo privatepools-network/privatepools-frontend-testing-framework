@@ -466,9 +466,9 @@ function changeVisibleDeposit() {
 
   &:hover {
     color: #fff;
-    background: #7ef6b2;
-    box-shadow: 0px 12px 24px 0px rgba(#01b47e, 0.2),
-      0px 4px 8px 0px rgba(#7ef6b2, 0.3);
+    background: #00C9FF;
+    box-shadow: 0px 12px 24px 0px rgba(#00C9FF, 0.2),
+      0px 4px 8px 0px rgba(#00C9FF, 0.3);
   }
 }
 </style>

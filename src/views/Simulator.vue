@@ -422,8 +422,8 @@ function clearData() {
     background: linear-gradient(89deg, rgba(1, 180, 126, 0.60) 5.07%, rgba(126, 246, 178, 0.60) 99.37%)
     cursor: pointer
     &:hover
-      background: #01B47E
-      box-shadow: 0px 12px 24px 0px rgba(#01B47E, 0.20), 0px 4px 8px 0px rgba(#01B47E, 0.30)
+      background: #00C9FF
+      box-shadow: 0px 12px 24px 0px rgba(#00C9FF, 0.20), 0px 4px 8px 0px rgba(#00C9FF, 0.30)
 .chart
   display: flex
   flex-direction: column

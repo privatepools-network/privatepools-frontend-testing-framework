@@ -95,7 +95,7 @@
                         <div>
                           <svg v-if="notification.status === 'Success'" width="18" height="18" viewBox="0 0 18 18"
                             fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="9" cy="9" r="8.5" fill="#01B47E" stroke="#01B47E" />
+                            <circle cx="9" cy="9" r="8.5" fill="#00C9FF" stroke="#00C9FF" />
                             <path
                               d="M7.70625 12.9516L4.5 9.74531L5.30156 8.94375L7.70625 11.3484L12.8672 6.1875L13.6687 6.98906L7.70625 12.9516Z"
                               fill="#F8F8F8" />
@@ -211,7 +211,7 @@
                             <svg width="16" height="16" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <circle cx="3.75" cy="3.75" r="3.75" :fill="computedNetwork === 'Unsupported network'
                                 ? 'rgba(248, 71, 71, 1)'
-                                : '#01B47E'
+                                : '#00C9FF'
                                 " />
                             </svg>
                           </div>
@@ -1030,7 +1030,7 @@ const computedNetworkImage = computed(() =>
 
 
 .badge {
-  background: rgba(1, 180, 126, 1);
+  background: #00C9FF;
   margin-right: -20px;
   border-radius: 50%;
   width: 12px;

@@ -37,7 +37,7 @@
             <CChart type="line" class="mt-2" style="
                 height: 40px;
                 width: 70px;
-                filter: drop-shadow(0 0 0.5rem #01b47e);
+                filter: drop-shadow(0 0 0.5rem #00C9FF);
               " :data="{
                 labels: tvls_widget.chart.timestamps,
                 datasets: [
@@ -119,7 +119,7 @@
             <CChart type="line" class="mt-2" style="
                 height: 40px;
                 width: 70px;
-                filter: drop-shadow(0 0 0.5rem #01b47e);
+                filter: drop-shadow(0 0 0.5rem #00C9FF);
               " :data="{
                 labels: totalAprWidget.chart.timestamps,
                 datasets: [
@@ -717,7 +717,7 @@ async function claimReward(item) {
   }
 
   &:hover {
-    filter: drop-shadow(0 0 0.3rem #01b47e);
+    filter: drop-shadow(0 0 0.3rem #00C9FF);
     cursor: pointer;
   }
 }

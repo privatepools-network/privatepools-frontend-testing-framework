@@ -819,7 +819,7 @@ function goToPool() {
   .multiselect__tags
     padding: 5px 40px 7px 13px !important
     border-radius: 20px !important
-    border: 1px solid #01B47E !important
+    border: 1px solid #00C9FF !important
     background: transparent !important
     color: #fff !important
     min-width: 170px !important
@@ -843,7 +843,7 @@ function goToPool() {
 
   .multiselect__content-wrapper
     border-radius: 0 0 20px 20px !important
-    border: 1px solid #01B47E !important
+    border: 1px solid #00C9FF !important
     border-top: none !important
     background: #02120A !important
 
@@ -852,7 +852,7 @@ function goToPool() {
     background: #02120A !important
 
     &:hover
-      color: #01B47E !important
+      color: #00C9FF !important
       background: lighten(#02120A, 0.7) !important
 
 
@@ -880,7 +880,7 @@ function goToPool() {
 
     &__input
       border-radius: 20px
-      border: 1px solid #01B47E
+      border: 1px solid #00C9FF
       padding: 0 13px
       min-height: 35.5px
       font-size: 13px
@@ -954,7 +954,7 @@ function goToPool() {
 }
 
 :deep(.multiselect__option--highlight) {
-  background: rgb(1, 180, 126) !important;
+  background: #00C9FF !important;
 }
 
 :deep(.multiselect__option) {
@@ -963,7 +963,7 @@ function goToPool() {
 }
 
 :deep(.multiselect__option:hover) {
-  color: rgb(1, 180, 126) !important;
+  color: #00C9FF !important;
 }
 
 :deep(.multiselect__content-wrapper) {
@@ -980,7 +980,7 @@ function goToPool() {
 }
 
 :deep(.multiselect__option--selected) {
-  color: rgb(1, 180, 126) !important;
+  color: #00C9FF !important;
 }
 
 :deep(.multiselect__option--selected:hover) {

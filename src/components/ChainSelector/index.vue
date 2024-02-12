@@ -29,10 +29,10 @@ const { chainSelected } = toRefs(props)
 <style scoped lang="scss">
 :deep(.multiselect__tags) {
   background: none !important;
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 :deep(.multiselect__content-wrapper) {
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 :deep(.multiselect__single) {
   background: none !important;
@@ -50,7 +50,7 @@ const { chainSelected } = toRefs(props)
   max-width: 100%;
   display: block;
   border-radius: 1px !important;
-  border: 1px solid #01b47e !important;
+  border: 1px solid #00C9FF !important;
 }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>

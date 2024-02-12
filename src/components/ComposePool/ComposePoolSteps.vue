@@ -75,7 +75,7 @@ defineProps(['activeStep'])
 }
 
 .compose_hr {
-  border-bottom: 1px solid #01b47e57;
+  border-bottom: 1px solid #00C9FF57;
   margin: 0px;
   margin-top: 5px;
   margin-right: -10px;

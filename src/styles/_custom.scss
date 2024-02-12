@@ -222,7 +222,7 @@ input[type=number] {
   float: none !important;
   align-items: center;
   background: #181c1f;
-  border: 1px solid #01b47e;
+  border: 1px solid #00C9FF;
   border-radius: 4px;
   max-width: 150px;
   display: flex;
@@ -234,7 +234,7 @@ input[type=number] {
   position: relative;
   width: 5px;
   height: 25px;
-  background-color: #01b47e;
+  background-color: #00C9FF;
   transform: rotate(15deg);
   transform-origin: top left;
   margin-left: 10px;
@@ -257,7 +257,7 @@ input[type=number] {
 
 .active-tab {
   color: black !important;
-  background: #01b47e;
+  background: #00C9FF;
 }
 .modal-dialog {
   position: fixed;
@@ -357,7 +357,7 @@ input[type=number] {
 }
 
 .sidebar-nav .nav-link.active>.nav-symbol {
-  // filter: drop-shadow(0 0 0.3rem #01b47e);
+  // filter: drop-shadow(0 0 0.3rem #00C9FF);
 }
 
 .sidebar-nav .nav-link:hover {

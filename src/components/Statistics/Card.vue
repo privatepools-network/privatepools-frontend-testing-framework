@@ -69,5 +69,6 @@ const {data, title} = toRefs(props)
   line-height: 21px
   letter-spacing: 0em
   text-align: left
+  margin-right: 15px
 
 </style>

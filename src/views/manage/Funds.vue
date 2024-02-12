@@ -19,7 +19,7 @@
             </CInputGroupText>
             <CFormSelect
               class="border-0 border text-white rounded-pill rounded-start"
-              style="border-left: 1px solid #01b47e !important"
+              style="border-left: 1px solid #00C9FF !important"
               @change="handleSelectChange"
             >
               <option :value="Network.ARBITRUM">Arbitrum</option>

@@ -421,7 +421,7 @@ watch(
   font-size: 12px;
   color: white;
   border: 0px;
-  background: linear-gradient(89.26deg, #01b47e 5.07%, #7ef6b2 99.37%);
+  background: linear-gradient(89.26deg, #00C9FF 5.07%, #00c8ffb7 99.37%);
   width: 100%;
   border-radius: 20px;
   cursor: pointer;
@@ -432,9 +432,9 @@ watch(
 
   &:hover {
     color: #fff;
-    background: #7ef6b2;
-    box-shadow: 0px 12px 24px 0px rgba(#01b47e, 0.2),
-      0px 4px 8px 0px rgba(#7ef6b2, 0.3);
+    background: #00C9FF;
+    box-shadow: 0px 12px 24px 0px rgba(#00C9FF, 0.2),
+      0px 4px 8px 0px rgba(#00C9FF, 0.3);
   }
 }
 
@@ -451,7 +451,7 @@ watch(
   color: white;
 
   &_active {
-    color: #01b47e;
+    color: #00C9FF;
   }
 }
 
@@ -469,7 +469,7 @@ watch(
   width: 17px;
   height: 17px;
   border: 2px solid #FFF;
-  border-bottom-color: #01b47e;
+  border-bottom-color: #00C9FF;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;

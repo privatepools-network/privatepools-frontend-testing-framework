@@ -265,7 +265,7 @@
                       </g>
                       <path
                         d="M18.5312 7.5625H10.9375C10.0048 7.5625 9.25 8.31726 9.25 9.25V22.75C9.25 23.6827 10.0048 24.4375 10.9375 24.4375H21.0625C21.9952 24.4375 22.75 23.6827 22.75 22.75V11.7812L18.5312 7.5625ZM16 20.2188H11.7813V19.375H16V20.2188ZM20.2188 17.6875H11.7813V16.8438H20.2188V17.6875ZM20.2188 15.1562H11.7813V14.3125H20.2188V15.1562Z"
-                        fill="#01B47E"
+                        fill="#00C9FF"
                       />
                       <defs>
                         <clipPath id="clip0_3609_1434">
@@ -729,7 +729,7 @@ fetchFoldersData()
 
     &::-webkit-scrollbar-thumb {
       border: 2px solid #02120a;
-      background: rgb(1, 180, 126);
+      background: #00C9FF;
       border-radius: 21px;
     }
 
@@ -926,8 +926,8 @@ fetchFoldersData()
   }
 
   &_active {
-    background: #01b47e;
-    border: #01b47e 1px solid;
+    background: #00C9FF;
+    border: #00C9FF 1px solid;
     color: #fff;
 
     svg {
@@ -1023,11 +1023,11 @@ fetchFoldersData()
 
 :deep(.multiselect__tags) {
   background: none !important;
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 
 :deep(.multiselect__content-wrapper) {
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 
 :deep(.multiselect__single) {
@@ -1113,7 +1113,7 @@ fetchFoldersData()
 
     &::-webkit-scrollbar-thumb {
       border: 2px solid #02120a;
-      background: rgb(1, 180, 126);
+      background: #00C9FF;
       border-radius: 21px;
     }
   }
@@ -1193,7 +1193,7 @@ fetchFoldersData()
 
     &::-webkit-scrollbar-thumb {
       border: 2px solid #02120a;
-      background: rgb(1, 180, 126);
+      background: #00C9FF;
       border-radius: 21px;
     }
 }

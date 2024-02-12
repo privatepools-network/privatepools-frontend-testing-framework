@@ -37,7 +37,7 @@
         <apexchart
           :options="dynamicDonut(
             ['Bitcoin (BTC)', 'Ethereum (ETH)', 'RWAs', 'LSDs', 'Stablecoins', 'Infrastructure', 'L1s', 'L2s', 'DeFi'],
-            ['rgba(230, 177, 12, 1)', 'rgba(1, 180, 126, 1)', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)'])"
+            ['rgba(230, 177, 12, 1)', '#00C9FF', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)'])"
           :series="[44, 55, 41, 17, 15, 22, 11, 8, 6]"
           :height="410"
           :width="415"
@@ -87,7 +87,7 @@
         <apexchart
           :options="dynamicDonut(
             ['Bitcoin (BTC)', 'Ethereum (ETH)', 'Tether (USDT)', 'Sushiswap (SUSHI)', 'USD Coin (USDC)'],
-            ['rgba(230, 177, 12, 1)', 'rgba(1, 180, 126, 1)', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)'])"
+            ['rgba(230, 177, 12, 1)', '#00C9FF', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)'])"
           :series="[44, 15, 11, 6, 2]"
           :height="430"
           :width="430"
@@ -112,7 +112,7 @@
         <apexchart
           :options="dynamicDonut(
             ['BTC/ETH', 'SUSHI/USDT', 'USDT/USDC', 'BTC/USDT', 'ETH/USDC '],
-            ['rgba(230, 177, 12, 1)', 'rgba(1, 180, 126, 1)', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)'])"
+            ['rgba(230, 177, 12, 1)', '#00C9FF', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)'])"
           :series="[20, 20, 5, 3, 1]"
           :height="390"
           :width="390"

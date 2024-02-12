@@ -188,7 +188,7 @@ onMounted(() => {
 .multiselect-wrapper {
   width: 328px;
   padding: 12px 20px 26px 14px;
-  border: 1px solid #01b47e;
+  border: 1px solid #00C9FF;
   border-radius: 4px;
 
   display: flex;
@@ -323,7 +323,7 @@ onMounted(() => {
 
 .selected-elements-wrapper {
   position: relative; // <---- Add this line
-  border: 1px solid #01b47e;
+  border: 1px solid #00C9FF;
   border-radius: 4px;
   width: 371px;
   padding: 4px;
@@ -340,11 +340,11 @@ onMounted(() => {
   padding: 0 6px !important;
   max-width: 120px !important;
   margin-bottom: 12px;
-  border-color: #01b47e;
+  border-color: #00C9FF;
 }
 
 .save-button {
-  background-color: #01b47e;
+  background-color: #00C9FF;
   border-radius: 4px;
   color: #ffffff;
   padding: 7px 18px;

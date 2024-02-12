@@ -10,7 +10,7 @@
             Hide {{ selectedTab.toLowerCase() }}
           </div>
           <div style="cursor: pointer">
-            <CFormSwitch size="l" v-model="hideSmallerThan10Pools" id="hideSmallerThan10Pools" />
+            <CFormSwitch size="l" style="background-color: #00C9FF;" v-model="hideSmallerThan10Pools" id="hideSmallerThan10Pools" />
           </div>
         </div>
         <CInputGroup class="d-flex align-items-center justify-content-start search-input-group">

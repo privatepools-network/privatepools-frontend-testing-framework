@@ -198,7 +198,7 @@ async function OnEditClick() {
   &:deep(.modal-content) {
     padding: 20px;
     background-color: #181c1f !important;
-    border-color: #01b47e !important;
+    border-color: #00C9FF !important;
   }
 
   &:deep(.modal-header) {
@@ -262,7 +262,7 @@ async function OnEditClick() {
 
 .submit-button {
   color: #ffffff;
-  background-color: #01b47e;
+  background-color: #00C9FF;
   margin: 0;
 }
 </style>

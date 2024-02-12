@@ -116,7 +116,7 @@ watch(searchBy, (_new) => {
 
 option:checked {
   color: white;
-  background-color: #00C087;
+  background-color: #00C9FF;
   border-radius: 10px;
 }
 
@@ -140,7 +140,7 @@ option:checked {
   background-color: #22282c00 !important;
   border-radius: 20px 0px 0px 20px;
   font-size: clamp(10px, 0.8vw, 14px);
-  color: rgba(1, 180, 126, 1);
+  color: #00C9FF;
 
   &::-webkit-scrollbar {
     height: 8px;
@@ -172,11 +172,11 @@ option:checked {
 
 .tokens-select {
   border-radius: 20px;
-  border: 1px solid #01B47E;
+  border: 1px solid #00C9FF;
 
   &__title {
     padding: 6px 12px;
-    color: #01B47E;
+    color: #00C9FF;
     font-size: 16px;
     font-weight: 500;
     margin-top: 5px;

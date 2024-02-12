@@ -541,7 +541,7 @@ export default {
     display: block;
     padding: 8px 40px 0 8px;
     border-radius: 4px;
-    border: 1px solid #01B47E;
+    border: 1px solid #00C9FF;
     background: #22282C;
     font-size: 14px;
   }
@@ -653,7 +653,7 @@ export default {
     width: 100%;
     max-height: 240px;
     overflow: auto;
-    border: 1px solid #01B47E;
+    border: 1px solid #00C9FF;
     border-top: none;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;

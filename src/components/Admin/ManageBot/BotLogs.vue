@@ -56,7 +56,7 @@ watch(messages, () => {
 
   &::-webkit-scrollbar-thumb {
     border: 2px solid #02120a;
-    background: rgb(1, 180, 126);
+    background: #00C9FF;
     border-radius: 21px;
   }
 }

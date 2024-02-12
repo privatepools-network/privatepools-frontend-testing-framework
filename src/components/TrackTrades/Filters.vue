@@ -246,7 +246,7 @@ const { datePicker, selectedProfit, selectedStrategy, selectedTokens } = toRefs(
   display: block;
   padding: 7px 40px 7px 13px;
   border-radius: 20px !important;
-  border: 1px solid #01b47e !important;
+  border: 1px solid #00C9FF !important;
   background: transparent !important;
   @media (max-width: $xxl) {
     min-height: 24px !important;
@@ -293,7 +293,7 @@ const { datePicker, selectedProfit, selectedStrategy, selectedTokens } = toRefs(
 }
 
 :deep(.multiselect__content-wrapper) {
-  border: 1px solid #01b47e !important;
+  border: 1px solid #00C9FF !important;
   background: none !important;
   max-height: 300px !important;
   &::-webkit-scrollbar {
@@ -323,7 +323,7 @@ const { datePicker, selectedProfit, selectedStrategy, selectedTokens } = toRefs(
 }
 
 :deep(.multiselect__option--selected) {
-  color: rgb(1, 180, 126) !important;
+  color: #00C9FF !important;
 }
 
 :deep(.multiselect__option--selected:hover) {
@@ -346,11 +346,11 @@ const { datePicker, selectedProfit, selectedStrategy, selectedTokens } = toRefs(
 
 :deep(.dp__theme_dark) {
   --dp-background-color: #02120A;
-  --dp-primary-color: rgb(1, 180, 126);
-  --dp-highlight-color: rgba(1, 180, 126, 0.384);
-  --dp-border-color: rgb(1, 180, 126);
-  --dp-menu-border-color: rgb(1, 180, 126);
-  --dp-border-color-hover: rgb(1, 180, 126);
+  --dp-primary-color: #00C9FF;
+  --dp-highlight-color: #00c8ff42;
+  --dp-border-color: #00C9FF;
+  --dp-menu-border-color: #00C9FF;
+  --dp-border-color-hover: #00C9FF;
   --dp-border-radius: 12px;
   --dp-action-buttons-padding: 3px 9px;
   --dp-action-button-height: 32px

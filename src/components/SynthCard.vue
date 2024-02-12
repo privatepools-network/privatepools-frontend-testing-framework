@@ -100,7 +100,7 @@
         <div class="pair__value" v-else-if="parameterIndex === 1" style="justify-content: flex-start">
           <input type="number" id="poolNameInput" class="select-amount" v-model="selectedAmount" required minlength="1"
             maxlength="20" />
-          <span @click="maximizeAmount" style="color: #01B47E; text-decoration: underline;font-size: 12px; cursor:pointer;">MAX</span>
+          <span @click="maximizeAmount" style="color: #00C9FF; text-decoration: underline;font-size: 12px; cursor:pointer;">MAX</span>
         </div>
         <div class="pair__value" v-else-if="parameterIndex === 2">
           {{ (tokenSelected.balance - selectedAmount).toFixed(4) }} {{ tokenSelected.symbol }}
@@ -195,7 +195,7 @@ function maximizeAmount() {
 function calculatePool() {
     weight.value = 100 / props.tokensData.length
     console.log("range_test", range_test.value)
-    range_test.value[0].style.background = `linear-gradient(to right, #01B47E ${weight.value}%, #ffffff29 ${weight.value}%)`
+    range_test.value[0].style.background = `linear-gradient(to right, #00C9FF ${weight.value}%, #ffffff29 ${weight.value}%)`
     return (weight.value).toFixed(0)
 }
 
@@ -213,7 +213,7 @@ onMounted(() => {
 })
 
 const onInput = async ({ target }) => {
-  range_test.value[0].style.background = `linear-gradient(to right, #01B47E ${target.value}%, #ffffff29 ${target.value}%)`
+  range_test.value[0].style.background = `linear-gradient(to right, #00C9FF ${target.value}%, #ffffff29 ${target.value}%)`
   inputRefLabel.value[0].style.left = `${target.value}px`
 
 }
@@ -275,7 +275,7 @@ const isSelectorOpened = ref(false)
   height: fit-content;
   min-width: 358px;
   width: fit-content;
-  border: 1px #01b47e solid;
+  border: 1px #00C9FF solid;
   border-radius: 5px;
 
   padding: 20px 24px 12px 16px;
@@ -287,7 +287,7 @@ const isSelectorOpened = ref(false)
     height: 40px;
     width: 40px;
     border-radius: 5px;
-    background: #01B47E;
+    background: #00C9FF;
     cursor: pointer;
 
     position: absolute;
@@ -364,7 +364,7 @@ const isSelectorOpened = ref(false)
         font-weight: 500;
         line-height: 16px;
         letter-spacing: 0em;
-        color: #01b47e;
+        color: #00C9FF;
         text-decoration: underline;
         margin-right: 94px;
         cursor: pointer;
@@ -411,7 +411,7 @@ const isSelectorOpened = ref(false)
   }
 
   &::-moz-range-progress {
-    background-color: #01b47e;
+    background-color: #00C9FF;
     height: 12px;
     border-radius: 8px 0 0 8px;
   }
@@ -478,7 +478,7 @@ const isSelectorOpened = ref(false)
 }
 
 :deep(.multiselect__content-wrapper) {
-  border-color: rgba(1, 180, 126, 1) !important;
+  border-color: #00C9FF !important;
 }
 
 :deep(.multiselect__single) {
@@ -491,7 +491,7 @@ const isSelectorOpened = ref(false)
 }
 
 :deep(.multiselect__option) {
-  border: 1px solid rgba(1, 180, 126, 1) !important;
+  border: 1px solid #00C9FF !important;
   background: rgb(15, 17, 19) !important;
   color: white !important;
 }

@@ -156,7 +156,7 @@ async function switchNetwork() {
   }
 
   &::-moz-range-progress {
-    background-color: #01b47e;
+    background-color: #00C9FF;
     height: 12px;
     border-radius: 8px 0 0 8px;
   }
@@ -198,7 +198,7 @@ async function switchNetwork() {
 }
 
 .modal_stake_token {
-  border: 1px #01b47e solid;
+  border: 1px #00C9FF solid;
   border-radius: 5px;
   padding: 15px;
 }

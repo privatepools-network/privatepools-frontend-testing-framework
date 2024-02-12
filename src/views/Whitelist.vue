@@ -197,7 +197,7 @@ const address =ref('')
     }
     &__input {
       border-radius: 10px;
-      border: 1px solid #01B47E;
+      border: 1px solid #00C9FF;
       padding: 15px 20px;
       display: flex;
       align-items: center;
@@ -331,7 +331,7 @@ const address =ref('')
 
     &::-webkit-scrollbar-thumb {
       border: 2px solid #02120a;
-      background: rgb(1, 180, 126);
+      background: #00C9FF;
       border-radius: 21px;
     }
   }
@@ -401,7 +401,7 @@ const address =ref('')
 
     &::-webkit-scrollbar-thumb {
       border: 2px solid #02120a;
-      background: rgb(1, 180, 126);
+      background: #00C9FF;
       border-radius: 21px;
     }
   }

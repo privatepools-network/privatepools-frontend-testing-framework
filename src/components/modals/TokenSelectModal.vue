@@ -100,7 +100,7 @@ const filteredPossibleTokens = computed(() => props.possibleComposeTokens.filter
 .modal_preview_button {
   color: white;
   width: 100%;
-  background: linear-gradient(89.26deg, #01b47e 5.07%, #7ef6b2 99.37%);
+  background: linear-gradient(89.26deg, #00C9FF 5.07%, #7ef6b2 99.37%);
   border-radius: 20px;
 }
 
@@ -140,7 +140,7 @@ const filteredPossibleTokens = computed(() => props.possibleComposeTokens.filter
   }
 
   &::-moz-range-progress {
-    background-color: #01b47e;
+    background-color: #00C9FF;
     height: 12px;
     border-radius: 8px 0 0 8px;
   }

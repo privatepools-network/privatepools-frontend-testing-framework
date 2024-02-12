@@ -130,7 +130,7 @@
             </div>
           </div>
           <CProgress class="" :thin="true">
-            <CProgressBar color="success" :value="tokensData.reduce(
+            <CProgressBar style="background-color: #00C9FF;" :value="tokensData.reduce(
               (sum, value) => sum + parseFloat(value.weight),
               0,
             )
@@ -162,7 +162,7 @@
                   {{ swap.fromToken.symbol }}
                 </div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill="#01B47E" />
+                  <path d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill="#00C9FF" />
                 </svg>
 
                 <div>
@@ -351,7 +351,7 @@
             <VTooltip :distance="0" :placement="'top'">
               <div class="position-relative">
                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="15" cy="15" r="14.5" :stroke="activeStep === 2 ? '#01b47e' : 'white'" />
+                  <circle cx="15" cy="15" r="14.5" :stroke="activeStep === 2 ? '#00C9FF' : 'white'" />
                 </svg>
                 <div v-if="activeStep != 2 || (!mmActive && activeStep == 2)" :class="activeStep === 2
                   ? 'step_number step_number_active'
@@ -388,7 +388,7 @@
             </VTooltip>
             <div class="position-relative">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="15" cy="15" r="14.5" :stroke="activeStep === 3 ? '#01b47e' : 'white'" />
+                <circle cx="15" cy="15" r="14.5" :stroke="activeStep === 3 ? '#00C9FF' : 'white'" />
               </svg>
               <div v-if="activeStep != 3 || (!mmActive && activeStep == 3)" :class="activeStep === 3
                 ? 'step_number step_number_active'
@@ -402,7 +402,7 @@
             </div>
             <div class="position-relative">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="15" cy="15" r="14.5" :stroke="activeStep === 4 ? '#01b47e' : 'white'" />
+                <circle cx="15" cy="15" r="14.5" :stroke="activeStep === 4 ? '#00C9FF' : 'white'" />
               </svg>
               <div :class="activeStep === 4
                 ? 'step_number step_number_active'
@@ -443,7 +443,7 @@
               :options="dynamicDonut" />
           </div>
           <div v-else class="d-flex flex-column text-white align-items-center justify-content-center">
-            <svg style="filter: drop-shadow(0 0 0.7rem #01B47E);" fill="#01b47e" version="1.1" id="Capa_1"
+            <svg style="filter: drop-shadow(0 0 0.7rem #00C9FF);" fill="#00C9FF" version="1.1" id="Capa_1"
               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70px" height="70px"
               viewBox="0 0 869.959 869.958" xml:space="preserve">
               <g>
@@ -1042,7 +1042,7 @@ const dynamicDonut = computed(() => {
 }
 
 .compose_hr {
-  border-bottom: 1px solid #01b47e57;
+  border-bottom: 1px solid #00C9FF57;
   margin: 0px;
   margin-top: 5px;
   margin-right: -10px;
@@ -1062,7 +1062,7 @@ const dynamicDonut = computed(() => {
   background: linear-gradient(90.52deg,
       rgba(53, 185, 192, 0.05) 0.36%,
       rgba(53, 185, 192, 0.02) 0.36%);
-  border: 1px solid #01b47e2f;
+  border: 1px solid #00C9FF2f;
   border-radius: 10px;
 }
 
@@ -1085,7 +1085,7 @@ const dynamicDonut = computed(() => {
   height: 260px;
 
   :deep(.apexcharts-inner) {
-    filter: drop-shadow(0 0 0.3rem #58b90a);
+    filter: drop-shadow(0 0 0.3rem #00C9FF);
   }
 }
 
@@ -1102,7 +1102,7 @@ const dynamicDonut = computed(() => {
 }
 
 .add_token_btn:hover {
-  filter: drop-shadow(0 0 0.3rem #01B47E);
+  filter: drop-shadow(0 0 0.3rem #00C9FF);
   cursor: pointer;
   background: linear-gradient(89deg, #00C9FF 1.58%, #0094FF 100.04%);
   color: white;
@@ -1191,7 +1191,7 @@ const dynamicDonut = computed(() => {
 }
 
 .circle_active {
-  stroke: #01b47e;
+  stroke: #00C9FF;
 }
 
 .step_number {
@@ -1207,7 +1207,7 @@ const dynamicDonut = computed(() => {
   color: white;
 
   &_active {
-    color: #01b47e;
+    color: #00C9FF;
   }
 }
 
