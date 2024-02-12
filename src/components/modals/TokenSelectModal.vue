@@ -1,5 +1,5 @@
 <template>
-  <CModal   size="lg" alignment="center" :visible="tokenSelectModal">
+  <CModal size="lg" alignment="center" :visible="tokenSelectModal">
     <CModalHeader :close-button="false">
       <!-- <div class="d-flex justify-content-between w-100">
         <div>

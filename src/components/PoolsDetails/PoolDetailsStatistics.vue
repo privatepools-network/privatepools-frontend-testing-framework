@@ -4,211 +4,7 @@
     <LoaderPulse />
   </div>
   <div class="stats_container">
-    <div class="stats_column gap-xxl-5 gap-1">
-      <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              Drawdowns
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">Dradowns</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Maximum Drawdown:</b> Peak-to-trough loss magnitude.</div>
-                    <div><b>Duration:</b> Time from drawdown start to lowest point.</div>
-                    <div><b>Recovery Period:</b> Time to return to peak after low.</div>
-                    <div><b>Capital Loss:</b> Actual monetary loss amount.</div>
-                    <div><b>Percentual Impact:</b> Loss as a percentage of total investment.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-          <div class="d-flex align-items-center gap-2">
-
-            <VueDatePicker class="dp__theme_dark" v-model="datePickerDrawdown" placeholder="Filter by Date" utc
-              dark="true" range>
-              <template #trigger>
-                <div style="cursor: pointer;"><img :src="calendar" /></div>
-
-              </template>
-            </VueDatePicker>
-          </div>
-        </div>
-        <div v-for="item in drawDownData" :key="item" style="padding: 0px 8px">
-          <div class="d-flex align-items-center justify-content-between" style="
-              border-bottom: 1px solid rgba(44, 44, 44, 0.2);
-              padding: 8px 0px;
-            ">
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              Risk Metrics
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">Risk Metrics</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Sharpe Ratio:</b> Assesses excess return per unit of risk.</div>
-                    <div><b>Sortino Ratio:</b> Evaluates return for downside risk only.</div>
-                    <div><b>Volatility:</b> Measures price fluctuation intensity.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-          <div class="d-flex align-items-center gap-2">
-            <VueDatePicker class="dp__theme_dark" v-model="datePickerRisks" placeholder="Filter by Date" utc dark="true"
-              range>
-              <template #trigger>
-                <div style="cursor: pointer;"><img :src="calendar" /></div>
-
-              </template>
-            </VueDatePicker>
-            <Dropdown :distance="4" :placement="'bottom-center'">
-              <div style="cursor: pointer;">
-                <img :src="riskMetricsIcon" />
-
-              </div>
-              <template #popper>
-                <div style="
-                      width: 250px;
-                      background-color: rgba(7, 14, 15, 0.9);
-                      color: rgba(255, 255, 255, 1);
-                      border-radius: 5px 5px 0px 0px;
-                      padding: 10px;
-
-                    ">
-                  <p @click="riskFreeOption = 'bonds'" v-close-popper class="chart_dropdown_items">
-                    Risk-Free American Bonds
-                  </p>
-                  <p @click="riskFreeOption = 'dai'" v-close-popper class="chart_dropdown_items">
-                    Risk-Free Staked DAI
-                  </p>
-
-
-                </div>
-              </template>
-            </Dropdown>
-          </div>
-        </div>
-        <div v-for="item in riskMetrics" :key="item" style="padding: 0px 8px">
-          <div class="d-flex align-items-center justify-content-between" style="
-              border-bottom: 1px solid rgba(44, 44, 44, 0.2);
-              padding: 8px 0px;
-            ">
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              Profits
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">Profits</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Average Profit per Trade:</b> The mean earnings across individual trades.</div>
-                    <div><b>Average Profit per Pool:</b> Average earnings calculated over a specific pool of trades.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-          <div class="d-flex align-items-center gap-2">
-            <VueDatePicker class="dp__theme_dark" v-model="datePickerProfit" placeholder="Filter by Date" utc dark="true"
-              range>
-              <template #trigger>
-                <div style="cursor: pointer;"><img :src="calendar" /></div>
-
-              </template>
-            </VueDatePicker>
-          </div>
-        </div>
-        <div v-for="item in profitsData" :key="item" style="padding: 0px 8px">
-          <div class="d-flex align-items-center justify-content-between" style="
-              border-bottom: 1px solid rgba(44, 44, 44, 0.2);
-              padding: 8px 0px;
-            ">
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
-          </div>
-        </div>
-      </div>
-
-
-    </div>
-
+    
     <div class="stats_column_tables">
       <div class="stats_column_tables_inside">
         <div class="d-flex align-items-center justify-content-between"
@@ -421,6 +217,211 @@
       </div> -->
 
     </div>
+    <div class="stats_column gap-xxl-5 gap-1">
+      <div class="stats_column_inside">
+        <div class="d-flex align-items-center justify-content-between"
+          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          <div class="d-flex gap-2">
+            <div style="
+                color: rgba(243, 244, 246, 1);
+                font-weight: 500;
+                font-size: clamp(10px, 0.9vw, 15px);
+              ">
+              Drawdowns
+            </div>
+            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+              <div style="cursor: help">
+                <img :src="info" class="info_icon" />
+              </div>
+              <template #popper>
+                <div style="
+                      background: linear-gradient(
+                        rgba(89, 89, 89, 0.75),
+                        rgba(73, 73, 73, 0.15)
+                      );
+                      backdrop-filter: blur(10px);
+                      padding: 10px;
+                      border-radius: 4px;
+                      width: 400px;
+                    ">
+                  <div style="font-size:clamp(10px, 0.9vw, 16px)">Dradowns</div>
+                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                    <div><b>Maximum Drawdown:</b> Peak-to-trough loss magnitude.</div>
+                    <div><b>Duration:</b> Time from drawdown start to lowest point.</div>
+                    <div><b>Recovery Period:</b> Time to return to peak after low.</div>
+                    <div><b>Capital Loss:</b> Actual monetary loss amount.</div>
+                    <div><b>Percentual Impact:</b> Loss as a percentage of total investment.</div>
+                    <div><b></b> </div>
+                  </div>
+                </div>
+              </template>
+            </VTooltip>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+
+            <VueDatePicker class="dp__theme_dark" v-model="datePickerDrawdown" placeholder="Filter by Date" utc
+              dark="true" range>
+              <template #trigger>
+                <div style="cursor: pointer;"><img :src="calendar" /></div>
+
+              </template>
+            </VueDatePicker>
+          </div>
+        </div>
+        <div v-for="item in drawDownData" :key="item" style="padding: 0px 8px">
+          <div class="d-flex align-items-center justify-content-between" style="
+              border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+              padding: 8px 0px;
+            ">
+            <div class="stats_text">{{ item.text }}</div>
+            <div class="stats_value">{{ item.value }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats_column_inside">
+        <div class="d-flex align-items-center justify-content-between"
+          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          <div class="d-flex gap-2">
+            <div style="
+                color: rgba(243, 244, 246, 1);
+                font-weight: 500;
+                font-size: clamp(10px, 0.9vw, 15px);
+              ">
+              Risk Metrics
+            </div>
+            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+              <div style="cursor: help">
+                <img :src="info" class="info_icon" />
+              </div>
+              <template #popper>
+                <div style="
+                      background: linear-gradient(
+                        rgba(89, 89, 89, 0.75),
+                        rgba(73, 73, 73, 0.15)
+                      );
+                      backdrop-filter: blur(10px);
+                      padding: 10px;
+                      border-radius: 4px;
+                      width: 400px;
+                    ">
+                  <div style="font-size:clamp(10px, 0.9vw, 16px)">Risk Metrics</div>
+                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                    <div><b>Sharpe Ratio:</b> Assesses excess return per unit of risk.</div>
+                    <div><b>Sortino Ratio:</b> Evaluates return for downside risk only.</div>
+                    <div><b>Volatility:</b> Measures price fluctuation intensity.</div>
+                    <div><b></b> </div>
+                  </div>
+                </div>
+              </template>
+            </VTooltip>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <VueDatePicker class="dp__theme_dark" v-model="datePickerRisks" placeholder="Filter by Date" utc dark="true"
+              range>
+              <template #trigger>
+                <div style="cursor: pointer;"><img :src="calendar" /></div>
+
+              </template>
+            </VueDatePicker>
+            <Dropdown :distance="4" :placement="'bottom-center'">
+              <div style="cursor: pointer;">
+                <img :src="riskMetricsIcon" />
+
+              </div>
+              <template #popper>
+                <div style="
+                      width: 250px;
+                      background-color: rgba(7, 14, 15, 0.9);
+                      color: rgba(255, 255, 255, 1);
+                      border-radius: 5px 5px 0px 0px;
+                      padding: 10px;
+
+                    ">
+                  <p @click="riskFreeOption = 'bonds'" v-close-popper class="chart_dropdown_items">
+                    Risk-Free American Bonds
+                  </p>
+                  <p @click="riskFreeOption = 'dai'" v-close-popper class="chart_dropdown_items">
+                    Risk-Free Staked DAI
+                  </p>
+
+
+                </div>
+              </template>
+            </Dropdown>
+          </div>
+        </div>
+        <div v-for="item in riskMetrics" :key="item" style="padding: 0px 8px">
+          <div class="d-flex align-items-center justify-content-between" style="
+              border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+              padding: 8px 0px;
+            ">
+            <div class="stats_text">{{ item.text }}</div>
+            <div class="stats_value">{{ item.value }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats_column_inside">
+        <div class="d-flex align-items-center justify-content-between"
+          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          <div class="d-flex gap-2">
+            <div style="
+                color: rgba(243, 244, 246, 1);
+                font-weight: 500;
+                font-size: clamp(10px, 0.9vw, 15px);
+              ">
+              Profits
+            </div>
+            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+              <div style="cursor: help">
+                <img :src="info" class="info_icon" />
+              </div>
+              <template #popper>
+                <div style="
+                      background: linear-gradient(
+                        rgba(89, 89, 89, 0.75),
+                        rgba(73, 73, 73, 0.15)
+                      );
+                      backdrop-filter: blur(10px);
+                      padding: 10px;
+                      border-radius: 4px;
+                      width: 400px;
+                    ">
+                  <div style="font-size:clamp(10px, 0.9vw, 16px)">Profits</div>
+                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                    <div><b>Average Profit per Trade:</b> The mean earnings across individual trades.</div>
+                    <div><b>Average Profit per Pool:</b> Average earnings calculated over a specific pool of trades.</div>
+                    <div><b></b> </div>
+                  </div>
+                </div>
+              </template>
+            </VTooltip>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <VueDatePicker class="dp__theme_dark" v-model="datePickerProfit" placeholder="Filter by Date" utc dark="true"
+              range>
+              <template #trigger>
+                <div style="cursor: pointer;"><img :src="calendar" /></div>
+
+              </template>
+            </VueDatePicker>
+          </div>
+        </div>
+        <div v-for="item in profitsData" :key="item" style="padding: 0px 8px">
+          <div class="d-flex align-items-center justify-content-between" style="
+              border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+              padding: 8px 0px;
+            ">
+            <div class="stats_text">{{ item.text }}</div>
+            <div class="stats_value">{{ item.value }}</div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
 
     <div class="stats_column_charts" style="gap:30px">
       <div class="stats_column_inside">
@@ -851,20 +852,19 @@ watch(chartData, async () => {
 .stats_column {
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 450px;
   gap: 100px !important;
 }
 
 .stats_column_charts {
   display: flex;
   flex-direction: column;
-  width: 500px;
 }
 
 .stats_column_tables {
   display: flex;
   flex-direction: column;
-  width: 600px;
+  width: 550px;
   gap: 50px
 }
 

@@ -1,6 +1,8 @@
 <template>
   <MainCard v-if="poolsLoader === true">
-    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;"><LoaderPulse></LoaderPulse></div>
+    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+      <LoaderPulse></LoaderPulse>
+    </div>
   </MainCard>
   <MainCard v-else-if="!visibleDepositComponent && !visibleWithdrawComponent">
     <CRow class="mb-5" v-if="pool && pool.tokens">
@@ -81,16 +83,14 @@
 
 
       <div class="d-flex align-items-center">
-
-      
-        <!-- <div class="thin-button" v-if="pool && pool.tokens && tokens.length > 0 && poolActivity"
+        <div class="thin-button" v-if="pool && pool.tokens && tokens.length > 0 && poolActivity"
           @click="changeToDepositView">
           Deposit
         </div>
 
         <div class="thin-button" v-if="pool && tokens.length > 0 && poolActivity" @click="changeToWithdrawView">
           Withdraw
-        </div> -->
+        </div>
       </div>
     </div>
     <DepositModalFirstStep v-if="networkId > 0 &&
@@ -608,7 +608,9 @@
         <Tabs :selectedTab="actSelectedPeriodOfData" :tabsOptions="periodsOfData" @changeTab="changeActPeriodOfData">
         </Tabs>
       </div>
-      <CRow id="pool-activity-row" class="table-wrapper">
+      <CRow id="pool-activity-row" class="table-wrapper" style="border-radius: 15.289px;
+background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+backdrop-filter: blur(20.067087173461914px);">
         <Table :headers="['Actions', 'Details', 'Value', 'Time']">
           <CTableBody v-if="pool && poolActivity" class="text-white table-body">
             <CTableRow v-for="(item, i) in filteredActivities" :key="i" class="table-row">
@@ -1969,6 +1971,7 @@ watch(visibleWithdrawModal, (newValue) => {
     padding: 20px;
     height: 85%;
     border-radius: 15px;
+
     :deep(.apexcharts-inner) {
       filter: drop-shadow(0 0 0.35rem #00C9FF);
     }
@@ -2183,10 +2186,10 @@ watch(visibleWithdrawModal, (newValue) => {
   border: none;
   border-radius: 8px;
   box-shadow: 0px 8px 10px 0px #00000033;
-background: #1F1F1F;
-box-shadow: 0px 6px 30px 0px #0000001F;
+  background: #1F1F1F;
+  box-shadow: 0px 6px 30px 0px #0000001F;
 
-box-shadow: 0px 16px 24px 0px #00000024;
+  box-shadow: 0px 16px 24px 0px #00000024;
 
   width: fit-content;
   display: flex;
@@ -2223,14 +2226,14 @@ box-shadow: 0px 16px 24px 0px #00000024;
 }
 
 .thin-button {
-  border: 1px solid #0082A5;
-  border-radius: 20px;
-  color: white;
-
+  color: #00C9FF;
+  padding: 9px 22px;
+  border-radius: 15.289px;
+  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(20.067087173461914px);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 6px 10px;
   font-family: Inter;
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 600;
@@ -2243,7 +2246,8 @@ box-shadow: 0px 16px 24px 0px #00000024;
 }
 
 .thin-button:hover {
-  background-color: #01b47e57;
+  background-color: #00C9FF;
+  color: white;
   filter: drop-shadow(0 0 0.3rem #01b47e);
   cursor: pointer;
 }
@@ -2267,34 +2271,42 @@ box-shadow: 0px 16px 24px 0px #00000024;
   animation: mulShdSpin 1.1s infinite ease;
   transform: translateZ(0);
 }
+
 @keyframes mulShdSpin {
+
   0%,
   100% {
-    box-shadow: 0em -2.6em 0em 0em #ffffff, 1.8em -1.8em 0 0em rgba(255,255,255, 0.2), 2.5em 0em 0 0em rgba(255,255,255, 0.2), 1.75em 1.75em 0 0em rgba(255,255,255, 0.2), 0em 2.5em 0 0em rgba(255,255,255, 0.2), -1.8em 1.8em 0 0em rgba(255,255,255, 0.2), -2.6em 0em 0 0em rgba(255,255,255, 0.5), -1.8em -1.8em 0 0em rgba(255,255,255, 0.7);
+    box-shadow: 0em -2.6em 0em 0em #ffffff, 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.5), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7);
   }
+
   12.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(255,255,255, 0.7), 1.8em -1.8em 0 0em #ffffff, 2.5em 0em 0 0em rgba(255,255,255, 0.2), 1.75em 1.75em 0 0em rgba(255,255,255, 0.2), 0em 2.5em 0 0em rgba(255,255,255, 0.2), -1.8em 1.8em 0 0em rgba(255,255,255, 0.2), -2.6em 0em 0 0em rgba(255,255,255, 0.2), -1.8em -1.8em 0 0em rgba(255,255,255, 0.5);
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.7), 1.8em -1.8em 0 0em #ffffff, 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5);
   }
+
   25% {
-    box-shadow: 0em -2.6em 0em 0em rgba(255,255,255, 0.5), 1.8em -1.8em 0 0em rgba(255,255,255, 0.7), 2.5em 0em 0 0em #ffffff, 1.75em 1.75em 0 0em rgba(255,255,255, 0.2), 0em 2.5em 0 0em rgba(255,255,255, 0.2), -1.8em 1.8em 0 0em rgba(255,255,255, 0.2), -2.6em 0em 0 0em rgba(255,255,255, 0.2), -1.8em -1.8em 0 0em rgba(255,255,255, 0.2);
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.5), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7), 2.5em 0em 0 0em #ffffff, 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
+
   37.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(255,255,255, 0.2), 1.8em -1.8em 0 0em rgba(255,255,255, 0.5), 2.5em 0em 0 0em rgba(255,255,255, 0.7), 1.75em 1.75em 0 0em #ffffff, 0em 2.5em 0 0em rgba(255,255,255, 0.2), -1.8em 1.8em 0 0em rgba(255,255,255, 0.2), -2.6em 0em 0 0em rgba(255,255,255, 0.2), -1.8em -1.8em 0 0em rgba(255,255,255, 0.2);
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5), 2.5em 0em 0 0em rgba(255, 255, 255, 0.7), 1.75em 1.75em 0 0em #ffffff, 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
+
   50% {
-    box-shadow: 0em -2.6em 0em 0em rgba(255,255,255, 0.2), 1.8em -1.8em 0 0em rgba(255,255,255, 0.2), 2.5em 0em 0 0em rgba(255,255,255, 0.5), 1.75em 1.75em 0 0em rgba(255,255,255, 0.7), 0em 2.5em 0 0em #ffffff, -1.8em 1.8em 0 0em rgba(255,255,255, 0.2), -2.6em 0em 0 0em rgba(255,255,255, 0.2), -1.8em -1.8em 0 0em rgba(255,255,255, 0.2);
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.5), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7), 0em 2.5em 0 0em #ffffff, -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
+
   62.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(255,255,255, 0.2), 1.8em -1.8em 0 0em rgba(255,255,255, 0.2), 2.5em 0em 0 0em rgba(255,255,255, 0.2), 1.75em 1.75em 0 0em rgba(255,255,255, 0.5), 0em 2.5em 0 0em rgba(255,255,255, 0.7), -1.8em 1.8em 0 0em #ffffff, -2.6em 0em 0 0em rgba(255,255,255, 0.2), -1.8em -1.8em 0 0em rgba(255,255,255, 0.2);
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.5), 0em 2.5em 0 0em rgba(255, 255, 255, 0.7), -1.8em 1.8em 0 0em #ffffff, -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
+
   75% {
-    box-shadow: 0em -2.6em 0em 0em rgba(255,255,255, 0.2), 1.8em -1.8em 0 0em rgba(255,255,255, 0.2), 2.5em 0em 0 0em rgba(255,255,255, 0.2), 1.75em 1.75em 0 0em rgba(255,255,255, 0.2), 0em 2.5em 0 0em rgba(255,255,255, 0.5), -1.8em 1.8em 0 0em rgba(255,255,255, 0.7), -2.6em 0em 0 0em #ffffff, -1.8em -1.8em 0 0em rgba(255,255,255, 0.2);
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.5), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7), -2.6em 0em 0 0em #ffffff, -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
+
   87.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(255,255,255, 0.2), 1.8em -1.8em 0 0em rgba(255,255,255, 0.2), 2.5em 0em 0 0em rgba(255,255,255, 0.2), 1.75em 1.75em 0 0em rgba(255,255,255, 0.2), 0em 2.5em 0 0em rgba(255,255,255, 0.2), -1.8em 1.8em 0 0em rgba(255,255,255, 0.5), -2.6em 0em 0 0em rgba(255,255,255, 0.7), -1.8em -1.8em 0 0em #ffffff;
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5), -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
   }
-}
-</style>
+}</style>
 <style src="@vueform/slider/themes/default.css"></style>
 @/composables/pools/usePoolActivity@/composables/pools/charts/usePoolTrades@/composables/pools/charts/useHistoricValues@/composables/pools/usePoolStats@/composables/pools/charts/usePoolAssetsPerformance@/composables/pools/charts/usePoolAssetsPerformance@/composables/pools/charts/usePoolHistoricValues@/lib/formatter/pool/poolActivityFormatter
 @/composables/pools/charts/diagrams/usePoolTrades

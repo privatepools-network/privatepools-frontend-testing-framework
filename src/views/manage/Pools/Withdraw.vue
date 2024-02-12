@@ -8,10 +8,11 @@
       :getTokenWithdrawAmount="getTokenWithdrawAmount" :init="init" />
     <CRow class="mb-4">
       <div class="d-flex align-items-center justify-content-between">
-        <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">
-            {{ pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/') }}
-          </div> -->
+
         <div class="caption-row">
+          <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700; color: white;">
+            {{ pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/') }}
+          </div>
           <div v-for="(poolToken, poolTokenIndex) in allSelectedTokensDisplay" :key="`pool-token-${poolTokenIndex}`"
             class="big-chip">
             <CAvatar :src="getTokenEntity(poolToken.symbol, 'short').icon" class="big-chip__image" />
@@ -87,13 +88,12 @@
           <div class="deposit_text fw-bolder mt-3">You receive</div>
           <div>
             <div style="
-            border: 1px solid rgba(163, 164, 165, 0.2);
-            border-radius: 20px;
+            border-radius: 15.289px;
+            background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+            backdrop-filter: blur(20.067087173461914px);
             color: white;
             font-size: clamp(10px, 0.8vw, 14px);
           ">
-
-
               <div>
                 <div v-for="(token, index) in allSelectedTokensDisplay" :key="`tokens-key-${index}`"
                   class="d-flex align-items-center justify-content-between px-3 gap-3">
@@ -335,7 +335,7 @@ function changeVisibleDeposit() {
       },
     })
   } else {
-  visibleDepositModal.value = !visibleDepositModal.value
+    visibleDepositModal.value = !visibleDepositModal.value
   }
 }
 
@@ -349,13 +349,13 @@ function changeVisibleDeposit() {
 }
 
 .big-chip {
-  background: none;
-
-  padding-left: 5px;
+  border-radius: 15.289px;
+  background: linear-gradient(153deg, #00C9FF 0%, rgba(0, 2, 1, 0.01) 99.99%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(20.067087173461914px);
+  padding-left: 8px;
   padding-right: 10px;
-  border: 1px solid rgba(1, 180, 126, 1);
-  border-radius: 20px;
-
+  padding-top: 3px;
+  padding-bottom: 3px;
   width: fit-content;
   display: flex;
   align-items: center;
@@ -396,11 +396,9 @@ function changeVisibleDeposit() {
 .deposit_choose {
   padding: 10px;
   width: 35%;
-  background: linear-gradient(90.52deg,
-      rgba(53, 185, 192, 0.05) 0.36%,
-      rgba(53, 185, 192, 0.02) 0.36%);
-  border: 1px solid #01b47e2f;
-  border-radius: 10px;
+  border-radius: 15.289px;
+  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+  backdrop-filter: blur(20.067087173461914px);
 }
 
 .token-input {
@@ -423,8 +421,8 @@ function changeVisibleDeposit() {
 }
 
 .modal_stake_token {
-  border: 1px solid rgba(163, 164, 165, 0.2);
-  border-radius: 20px;
+  border-radius: 6px;
+  background: linear-gradient(95deg, #003E4F 0.03%, #000 133.56%);
   padding: 15px;
 }
 
@@ -456,14 +454,15 @@ function changeVisibleDeposit() {
   font-size: 12px;
   color: white;
   border: 0px;
-  background: linear-gradient(89.26deg, #01b47e 5.07%, #7ef6b2 99.37%);
   width: 100%;
-  border-radius: 20px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   // transition-duration: 0.3s;
   text-shadow: 1px 1px 2px black;
+  border-radius: 8px;
+  background: linear-gradient(89deg, #00C9FF 1.58%, #0094FF 100.04%);
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.05), 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
 
   &:hover {
     color: #fff;

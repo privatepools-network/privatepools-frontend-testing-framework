@@ -174,7 +174,7 @@
     </div>
   </div>
 
-  <div class="mt-5 finance_table" style="position: relative">
+  <div class="mt-5 mb-0 finance_table" style="position: relative">
     <div class="financial_header column_loading">
       <div class="sticky_first_column">
         <div class="financial_header_text">Financial Statement</div>
@@ -919,8 +919,6 @@ onBeforeMount(async () => {
 
 .financial_header {
   border-radius: 10px 10px 0px 0px;
-  background: rgba(44, 44, 44, 0.25);
-  padding: 10px 10px 10px 0;
   gap: 40px;
   display: flex;
   width: fit-content;
@@ -945,7 +943,6 @@ onBeforeMount(async () => {
 
 .financial_block_without_bg {
   display: flex;
-  padding: 20px 10px 20px 0;
   width: fit-content;
 
   gap: 40px;
@@ -964,7 +961,6 @@ onBeforeMount(async () => {
   width: fit-content;
 
   display: flex;
-  padding: 20px 10px 20px 0;
   gap: 40px;
   color: rgba(243, 244, 246, 1);
   font-size: clamp(10px, 0.8vw, 14px);
@@ -1004,23 +1000,32 @@ onBeforeMount(async () => {
 
 .sticky_first_column {
   /* margin-right: 200px; */
+  padding-top: 10px;
   min-width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding-left: 10px;
+  background-color: rgba(15, 19, 32, 0.9);
+  backdrop-filter: blur(200px);
+
 }
 
 .sticky_column_with_bg {
   /* margin-right: 200px; */
   min-width: 300px;
-  padding-left: 10px;
+  padding: 20px 10px 20px 10px;
+  background-color: rgba(15, 19, 32, 0.9);
+  backdrop-filter: blur(200px);
 }
 
 .sticky_column_without_bg {
   /* margin-right: 200px; */
+  background-color: rgba(15, 19, 32, 0.9);
+  backdrop-filter: blur(200px);
+
+  padding: 20px 10px 20px 10px;
   min-width: 300px;
-  padding-left: 10px;
 }
 
 .finance_table {
