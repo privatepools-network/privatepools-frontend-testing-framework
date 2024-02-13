@@ -1,7 +1,7 @@
 <template>
   <main class="main_containter">
     <div class="app_container">
-      <AppSidebar />
+      <!-- <AppSidebar /> -->
       <div class="wrapper d-flex flex-column min-vh-100">
         <AppHeader />
         <div class="body flex-grow-1 px-1 px-md-3 pt-1"
@@ -14,7 +14,7 @@
 </template>
 <script setup>
 import AppHeader from '@/components/AppHeader.vue'
-import AppSidebar from '@/components/AppSidebar.vue'
+// import AppSidebar from '@/components/AppSidebar.vue'
 // import NewReleasesCard from "@/UI/NewReleasesCard.vue";
 // import { onMounted} from 'vue'rem !important
 

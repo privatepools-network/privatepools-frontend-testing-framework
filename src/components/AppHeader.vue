@@ -1,47 +1,82 @@
 <template>
   <CHeader position="static" class="header_main">
     <CContainer fluid class="header_container">
-      <CHeaderNav v-if="width > 768" class="d-flex me-auto">
+      <!-- <CHeaderNav v-if="width > 768" class="d-flex me-auto">
         <AppBreadcrumb :title="true" />
-      </CHeaderNav>
+      </CHeaderNav> -->
+      {{ console.log('router.currentRoute.value', router.currentRoute.value) }}
+      <div class="d-flex align-items-center gap-4 ">
+        <div @click="router.push('/dashboard')" :class="router.currentRoute.value.path === '/dashboard' ? 'navigation_text_selected navigation_text' : 'navigation_text'">Home</div>
+        <div @click="router.push('/pools')" :class="router.currentRoute.value.path === '/pools' ? 'navigation_text_selected navigation_text' : 'navigation_text'">Pools</div>
+        <div @click="router.push('/portfolio')" :class="router.currentRoute.value.path === '/portfolio' ? 'navigation_text_selected navigation_text' : 'navigation_text'">Portfolio</div>
+      </div>
+
       <CHeaderNav>
         <div class="header_main_container">
           <div v-if="width < 768">
-            <button class="sidemenu__btn" v-on:click="navOpen = !navOpen" v-bind:class="{ active: navOpen }">
+            <button
+              class="sidemenu__btn"
+              v-on:click="navOpen = !navOpen"
+              v-bind:class="{ active: navOpen }"
+            >
               <span class="top"></span>
               <span class="mid"></span>
               <span class="bottom"></span>
             </button>
 
-            <SidebarMobile @closeNav="closeNav" :navOpen="navOpen" :computedAddress="computedAddress" />
+            <SidebarMobile
+              @closeNav="closeNav"
+              :navOpen="navOpen"
+              :computedAddress="computedAddress"
+            />
           </div>
           <div class="right_sidebar">
             <div>
-              <div v-if="isConnectedToWeb3 && computedNetwork !== 'Unsupported network'
-                ">
-                <Dropdown :distance="3" :skidding="-10" :placement="'bottom-end'">
+              <div
+                v-if="
+                  isConnectedToWeb3 && computedNetwork !== 'Unsupported network'
+                "
+              >
+                <Dropdown
+                  :distance="3"
+                  :skidding="-10"
+                  :placement="'bottom-end'"
+                >
                   <div class="bell_container">
                     <img :src="computedNetworkImage" alt="network" />
                   </div>
                   <template #popper>
                     <div class="header__popup">
-                      <h6 style="font-size: 14px; margin-left: 4px;">Select Network</h6>
+                      <h6 style="font-size: 14px; margin-left: 4px">
+                        Select Network
+                      </h6>
                       <hr />
                       <div class="d-flex flex-column gap-1">
-                        <div class="network_item" v-for="(network, index) in networksList"
-                          :key="`notification-key-${index}`">
-                          <div class="d-flex justify-content-between align-items-center w-100"
-                            @click="selectANetwork(network.chainId, index)">
+                        <div
+                          class="network_item"
+                          v-for="(network, index) in networksList"
+                          :key="`notification-key-${index}`"
+                        >
+                          <div
+                            class="d-flex justify-content-between align-items-center w-100"
+                            @click="selectANetwork(network.chainId, index)"
+                          >
                             <div class="d-flex align-items-center gap-1">
                               <img :src="network.image" />
                               {{ network.name }}
                             </div>
                             <div v-if="network.current === true">
-                              <svg width="18" height="13" viewBox="0 0 18 13" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                              <svg
+                                width="18"
+                                height="13"
+                                viewBox="0 0 18 13"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
                                 <path
                                   d="M6.29448 13L0 6.83784L1.57362 5.2973L6.29448 9.91892L16.4264 0L18 1.54054L6.29448 13Z"
-                                  fill="#A39F9F" />
+                                  fill="#A39F9F"
+                                />
                               </svg>
                             </div>
                           </div>
@@ -140,7 +175,12 @@
             <CNavItem>
               <div v-if="isConnectedToWeb3">
                 <Dropdown :distance="3" :placement="'bottom-end'">
-                  <CButton v-if="width > 768" color="success" variant="standard" class="header-button">
+                  <CButton
+                    v-if="width > 768"
+                    color="success"
+                    variant="standard"
+                    class="header-button"
+                  >
                     <div class="d-flex align-items-center gap-2">
                       <CIcon :icon="cilUser" size="lg" /> {{ computedAddress }}
                     </div>
@@ -150,9 +190,16 @@
                   </div>
                   <template #popper>
                     <div class="header__popup header-account">
-                      <div class="d-flex justify-content-between align-items-center header-account__header">
-                        <div style="font-size: 14px; margin-left: 4px;">Account</div>
-                        <div class="header-account__button" @click="disconnectFromWallet">
+                      <div
+                        class="d-flex justify-content-between align-items-center header-account__header"
+                      >
+                        <div style="font-size: 14px; margin-left: 4px">
+                          Account
+                        </div>
+                        <div
+                          class="header-account__button"
+                          @click="disconnectFromWallet"
+                        >
                           <!--                      <CButton @click="disconnectFromWallet" style="border-radius: 20px; color: white" color="success"-->
                           <!--                        variant="standard">Disconnect-->
                           <!--                      </CButton>-->
@@ -160,45 +207,76 @@
                         </div>
                       </div>
                       <div class="d-flex flex-column gap-2">
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div
+                          class="d-flex align-items-center justify-content-between"
+                        >
                           <div class="d-flex align-items-center gap-2">
                             <div>
                               <CIcon :icon="cilUser" size="" />
                             </div>
-                            <div style="font-size: 12px;">
+                            <div style="font-size: 12px">
                               {{ computedAddress }}
                             </div>
                           </div>
-                          <span style="font-size: 12px" v-if="copied">Copied</span>
+                          <span style="font-size: 12px" v-if="copied"
+                            >Copied</span
+                          >
                           <div class="d-flex align-items-center gap-2">
                             <div class="account_icon" @click="copy(address)">
-                              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                              <svg
+                                width="13"
+                                height="13"
+                                viewBox="0 0 13 13"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
                                 <path
                                   d="M3.80469 2.03126C3.80469 1.50801 4.22935 1.08334 4.7526 1.08334H10.9688C11.492 1.08334 11.9167 1.50801 11.9167 2.03126V8.25934C11.9167 8.51075 11.8168 8.75185 11.639 8.92962C11.4613 9.10739 11.2202 9.20726 10.9688 9.20726H4.7526C4.5012 9.20726 4.26009 9.10739 4.08233 8.92962C3.90456 8.75185 3.80469 8.51075 3.80469 8.25934V2.03126ZM4.7526 1.89584C4.71669 1.89584 4.68225 1.91011 4.65685 1.93551C4.63145 1.9609 4.61719 1.99535 4.61719 2.03126V8.25934C4.61719 8.33464 4.67785 8.39476 4.7526 8.39476H10.9688C11.0047 8.39476 11.0391 8.38049 11.0645 8.3551C11.0899 8.3297 11.1042 8.29526 11.1042 8.25934V2.03126C11.1042 1.99535 11.0899 1.9609 11.0645 1.93551C11.0391 1.91011 11.0047 1.89584 10.9688 1.89584H4.7526Z"
-                                  fill="#F8F8F8" />
+                                  fill="#F8F8F8"
+                                />
                                 <path
                                   d="M1.08057 5.82236C1.0805 5.69783 1.10496 5.57451 1.15257 5.45944C1.20017 5.34437 1.26998 5.23981 1.35801 5.15173C1.44604 5.06365 1.55056 4.99378 1.66561 4.94611C1.78065 4.89844 1.90396 4.8739 2.02848 4.8739H2.84369C2.95144 4.8739 3.05477 4.9167 3.13095 4.99289C3.20714 5.06908 3.24994 5.17241 3.24994 5.28015C3.24994 5.3879 3.20714 5.49123 3.13095 5.56741C3.05477 5.6436 2.95144 5.6864 2.84369 5.6864H2.02848C1.99257 5.6864 1.95812 5.70067 1.93273 5.72606C1.90733 5.75146 1.89307 5.7859 1.89307 5.82182L1.89577 10.9687C1.89577 11.0435 1.9559 11.1042 2.03119 11.1042H7.17702C7.21294 11.1042 7.24738 11.0899 7.27278 11.0645C7.29817 11.0391 7.31244 11.0046 7.31244 10.9687V10.1508C7.31244 10.0431 7.35524 9.93974 7.43143 9.86356C7.50762 9.78737 7.61095 9.74457 7.71869 9.74457C7.82644 9.74457 7.92977 9.78737 8.00595 9.86356C8.08214 9.93974 8.12494 10.0431 8.12494 10.1508V10.9687C8.12494 11.2201 8.02507 11.4612 7.8473 11.639C7.66953 11.8168 7.42843 11.9167 7.17702 11.9167H2.03119C1.77979 11.9167 1.53868 11.8168 1.36091 11.639C1.18314 11.4612 1.08327 11.2201 1.08327 10.9687L1.08057 5.82236Z"
-                                  fill="#F8F8F8" />
+                                  fill="#F8F8F8"
+                                />
                               </svg>
                             </div>
-                            <a :href="`https://blockscan.com/address/${address}`" target="_blank">
+                            <a
+                              :href="`https://blockscan.com/address/${address}`"
+                              target="_blank"
+                            >
                               <div class="account_icon">
-                                <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
-                                  xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M3.25 10.2917L10.2917 3.25M10.2917 3.25V10.01M10.2917 3.25H3.53167"
-                                    stroke="#F8F8F8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <svg
+                                  width="13"
+                                  height="13"
+                                  viewBox="0 0 13 13"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M3.25 10.2917L10.2917 3.25M10.2917 3.25V10.01M10.2917 3.25H3.53167"
+                                    stroke="#F8F8F8"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
                                 </svg>
                               </div>
                             </a>
                           </div>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div
+                          class="d-flex align-items-center justify-content-between"
+                        >
                           <div class="d-flex align-items-center gap-2">
                             <div>
-                              <img :src="meatamask_without_bg" alt="meatamask_without_bg" width="16" height="14" />
+                              <img
+                                :src="meatamask_without_bg"
+                                alt="meatamask_without_bg"
+                                width="16"
+                                height="14"
+                              />
                             </div>
-                            <div style="font-size: 12px;">Metamask</div>
+                            <div style="font-size: 12px">Metamask</div>
                           </div>
                         </div>
                       </div>
@@ -208,11 +286,23 @@
                         <div>Network</div>
                         <div class="d-flex align-items-center gap-1">
                           <div>
-                            <svg width="16" height="16" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="3.75" cy="3.75" r="3.75" :fill="computedNetwork === 'Unsupported network'
-                                ? 'rgba(248, 71, 71, 1)'
-                                : '#00C9FF'
-                                " />
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 8 8"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <circle
+                                cx="3.75"
+                                cy="3.75"
+                                r="3.75"
+                                :fill="
+                                  computedNetwork === 'Unsupported network'
+                                    ? 'rgba(248, 71, 71, 1)'
+                                    : '#00C9FF'
+                                "
+                              />
                             </svg>
                           </div>
                           <div v-if="computedNetwork === 'Unsupported network'">
@@ -229,23 +319,49 @@
                 <div v-if="isMetamaskSupported">
                   <Dropdown :distance="4" :placement="'bottom-end'">
                     <div class="d-flex">
-                      <CButton color="success" variant="standard" class="header-button" style="margin-left: 16px;">
+                      <CButton
+                        color="success"
+                        variant="standard"
+                        class="header-button"
+                        style="margin-left: 16px"
+                      >
                         <div class="d-flex align-items-center gap-2">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="20"
+                            viewBox="0 0 18 20"
+                            fill="none"
+                          >
                             <path
                               d="M14 6V3C14 2.73478 13.8946 2.48043 13.7071 2.29289C13.5196 2.10536 13.2652 2 13 2H3C2.46957 2 1.96086 2.21071 1.58579 2.58579C1.21071 2.96086 1 3.46957 1 4M1 4C1 4.53043 1.21071 5.03914 1.58579 5.41421C1.96086 5.78929 2.46957 6 3 6H15C15.2652 6 15.5196 6.10536 15.7071 6.29289C15.8946 6.48043 16 6.73478 16 7V10M1 4V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H15C15.2652 18 15.5196 17.8946 15.7071 17.7071C15.8946 17.5196 16 17.2652 16 17V14"
-                              stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                              stroke="white"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
                             <path
                               d="M17 10V14H13C12.4696 14 11.9609 13.7893 11.5858 13.4142C11.2107 13.0391 11 12.5304 11 12C11 11.4696 11.2107 10.9609 11.5858 10.5858C11.9609 10.2107 12.4696 10 13 10H17Z"
-                              stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                          </svg> Connect Wallet
+                              stroke="white"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          Connect Wallet
                         </div>
                       </CButton>
                     </div>
 
                     <template #popper>
                       <div class="header__popup">
-                        <h4 style="font-size: 14px;margin-left: 12px; margin-bottom: 30px;">
+                        <h4
+                          style="
+                            font-size: 14px;
+                            margin-left: 12px;
+                            margin-bottom: 30px;
+                          "
+                        >
                           Select wallet
                         </h4>
                         <div class="wallet_container" @click="connectWallet">
@@ -257,7 +373,9 @@
                   </Dropdown>
                 </div>
                 <a v-else href="https://metamask.io/download/" target="_blank">
-                  <CButton color="warning" variant="standard">Metamask not found</CButton>
+                  <CButton color="warning" variant="standard"
+                    >Metamask not found</CButton
+                  >
                 </a>
               </div>
             </CNavItem>
@@ -270,10 +388,11 @@
 </template>
 
 <script setup>
-import AppBreadcrumb from './AppBreadcrumb'
+// import AppBreadcrumb from './AppBreadcrumb'
 // import polygon from '@/assets/images/networks/polygon.png'
 // import arbitrum from '@/assets/images/networks/arbitrum.png'
 // import binance from '@/assets/images/networks/binance.png'
+import router from '@/router'
 
 // import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt'
 import { computed, onMounted, ref, watch } from 'vue'
@@ -287,27 +406,30 @@ import unsupported_network from '@/assets/icons/networks/unsupported.svg'
 import polygon_network from '@/assets/icons/networks/polygon.svg'
 import meatamask_without_bg from '@/assets/images/meatamask_without_bg.png'
 import { useClipboard } from '@vueuse/core'
-import { Network, ReversedDisplayNetwork, networkId, setNetworkId } from '@/composables/useNetwork'
+import {
+  Network,
+  ReversedDisplayNetwork,
+  networkId,
+  setNetworkId,
+} from '@/composables/useNetwork'
 import { ethers } from 'ethers'
-import { setMetamaskProvider } from '@/composables/useMetamaskProvider';
+import { setMetamaskProvider } from '@/composables/useMetamaskProvider'
 import { useStore } from 'vuex'
 import { useDevice } from '@/composables/adaptive/useDevice'
 import SidebarMobile from '@/components/SidebarMobile'
-import { capitalizeFirstLetter } from "@/lib/utils/index"
+import { capitalizeFirstLetter } from '@/lib/utils/index'
 import { configService } from '@/services/config/config.service'
 import { toast } from 'vue3-toastify'
-import Toast from '@/UI/Toast.vue';
+import Toast from '@/UI/Toast.vue'
 
-import 'vue3-toastify/dist/index.css';
-var emitter = require('tiny-emitter/instance');
+import 'vue3-toastify/dist/index.css'
+var emitter = require('tiny-emitter/instance')
 const { width } = useDevice()
-
-
 
 const notify = (popupType, popupText, popupSubText) => {
   toast(Toast, {
     closeOnClick: true,
-    theme: "dark",
+    theme: 'dark',
     type: popupType,
     autoClose: 5000,
     closeButton: false,
@@ -315,9 +437,8 @@ const notify = (popupType, popupText, popupSubText) => {
     data: {
       header_text: popupText,
       toast_text: popupSubText,
-    }
-
-  });
+    },
+  })
 }
 
 // const NetworkImages = {
@@ -358,94 +479,124 @@ watch(
         if (network.decimalChainId == ethereumNetwork.value.chainId) {
           network.current = true
           isConnectedToExistingChain = true
-        }
-        else {
+        } else {
           network.current = false
         }
       }
       if (!isConnectedToExistingChain) {
-        notify("error", "Wrong chain", "Please connect to one of the available chains")
+        notify(
+          'error',
+          'Wrong chain',
+          'Please connect to one of the available chains',
+        )
       }
     }
   },
 )
 const TWO_MINUTES_INTERVAL = 1000 * 60 * 2
 
-
-
 if (window.Worker) {
-  const myWorker = new Worker(
-    new URL('@/worker', import.meta.url),
-    { type: 'module' }
-  );
-  setInterval(() => myWorker.postMessage({ method: "update", data: JSON.parse(localStorage.getItem('notifications')) || '[]' }), TWO_MINUTES_INTERVAL)
+  const myWorker = new Worker(new URL('@/worker', import.meta.url), {
+    type: 'module',
+  })
+  setInterval(
+    () =>
+      myWorker.postMessage({
+        method: 'update',
+        data: JSON.parse(localStorage.getItem('notifications')) || '[]',
+      }),
+    TWO_MINUTES_INTERVAL,
+  )
   emitter.on('addNotification', (notification) => {
     myWorker.postMessage({
-      method: "add", data: {
-        "all_notifications": JSON.parse(localStorage.getItem("notifications") || '[]'),
-        newNotification: notification
-      }
+      method: 'add',
+      data: {
+        all_notifications: JSON.parse(
+          localStorage.getItem('notifications') || '[]',
+        ),
+        newNotification: notification,
+      },
     })
-  });
+  })
 
   myWorker.onmessage = function (e) {
-    let newNotifications = e.data.filter(item1 => !clearedNotifications.value.some(item2 => item2.hash && item2.hash === item1.hash));
+    let newNotifications = e.data.filter(
+      (item1) =>
+        !clearedNotifications.value.some(
+          (item2) => item2.hash && item2.hash === item1.hash,
+        ),
+    )
 
     localStorage.setItem('notifications', JSON.stringify(newNotifications))
     notifications.value = newNotifications
-    console.log('Message received from worker');
+    console.log('Message received from worker')
   }
 }
-const notifications = ref(JSON.parse(localStorage.getItem("notifications")) || [])
+const notifications = ref(
+  JSON.parse(localStorage.getItem('notifications')) || [],
+)
 
-
-
-const networksList = ref([
-  process.env.VUE_APP_KEY_ARBITRUM ? {
-    name: 'Arbitrum',
-    chainId: '0xa4b1',
-    decimalChainId: 42161,
-    image: arbitrum_network,
-    current: false,
-  } : undefined,
-  process.env.VUE_APP_KEY_BINANCE ? {
-    name: 'Binance',
-    chainId: '0x38',
-    decimalChainId: 56,
-    image: binance_network,
-    current: false,
-  } : undefined,
-  process.env.VUE_APP_KEY_POLYGON ? {
-    name: 'Polygon',
-    chainId: '0x89',
-    decimalChainId: 137,
-    image: polygon_network,
-    current: false,
-  } : undefined,
-].filter((item) => item != undefined))
+const networksList = ref(
+  [
+    process.env.VUE_APP_KEY_ARBITRUM
+      ? {
+          name: 'Arbitrum',
+          chainId: '0xa4b1',
+          decimalChainId: 42161,
+          image: arbitrum_network,
+          current: false,
+        }
+      : undefined,
+    process.env.VUE_APP_KEY_BINANCE
+      ? {
+          name: 'Binance',
+          chainId: '0x38',
+          decimalChainId: 56,
+          image: binance_network,
+          current: false,
+        }
+      : undefined,
+    process.env.VUE_APP_KEY_POLYGON
+      ? {
+          name: 'Polygon',
+          chainId: '0x89',
+          decimalChainId: 137,
+          image: polygon_network,
+          current: false,
+        }
+      : undefined,
+  ].filter((item) => item != undefined),
+)
 
 onMounted(async () => {
   isMetamaskSupported.value = window.ethereum !== undefined
   if (isMetamaskSupported.value) {
     let _isConnected = localStorage.getItem('isConnectedToWeb3')
-    window.ethereum?._state?.accounts?.length !== 0 &&
-      _isConnected
+    window.ethereum?._state?.accounts?.length !== 0 && _isConnected
       ? connectWallet()
       : ''
     if (!_isConnected) {
-      notify("warning", "Wallet is not connected", "Please connect your wallet via Metamask")
+      notify(
+        'warning',
+        'Wallet is not connected',
+        'Please connect your wallet via Metamask',
+      )
     }
-  }
-  else {
-    notify("error", "Metamask is not installed!", "Please install Metamask browser extension.")
+  } else {
+    notify(
+      'error',
+      'Metamask is not installed!',
+      'Please install Metamask browser extension.',
+    )
   }
 })
 
 // eslint-disable-next-line
 function getNotificationLink(notification) {
-  if (!notification.network)
-    return "#"
-  let config = configService.getNetworkConfig(ReversedDisplayNetwork[capitalizeFirstLetter(notification.network)])
+  if (!notification.network) return '#'
+  let config = configService.getNetworkConfig(
+    ReversedDisplayNetwork[capitalizeFirstLetter(notification.network)],
+  )
   return `${config.explorer}/tx/${notification.hash}`
 }
 
@@ -454,8 +605,8 @@ async function connectWallet() {
     .request({ method: 'eth_requestAccounts' })
     .then(async (res) => {
       // Request MetaMask to connect
-      await window.ethereum.enable();
-      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      await window.ethereum.enable()
+      let provider = new ethers.providers.Web3Provider(window.ethereum)
       setMetamaskProvider(provider)
       const network = await provider.getNetwork()
 
@@ -481,7 +632,11 @@ async function connectWallet() {
     })
     .catch((err) => {
       console.log(err)
-      notify("warning", "Wallet is not connected", "Please connect your wallet via Metamask")
+      notify(
+        'warning',
+        'Wallet is not connected',
+        'Please connect your wallet via Metamask',
+      )
     })
 }
 
@@ -494,8 +649,8 @@ async function handleChainChanged() {
 async function disconnectFromWallet() {
   isConnectedToWeb3.value = localStorage.removeItem('isConnectedToWeb3')
   await window.ethereum.request({
-    method: "eth_requestAccounts",
-    params: [{ eth_accounts: {} }]
+    method: 'eth_requestAccounts',
+    params: [{ eth_accounts: {} }],
   })
   networkId.value = Network.NONE
 }
@@ -511,7 +666,6 @@ async function selectANetwork(chainId) {
   // .then(() => {
   //   window.location.reload()
   // });
-
 
   // networksList.value.forEach((element) => element.current = false);
   // networksList.value[index].current = true
@@ -530,28 +684,27 @@ const computedNetwork = computed(() =>
     : // : ethereumNetwork.value.chainId === 1
     // ? 'Ethereum'
     ethereumNetwork.value.chainId === 56
-      ? 'Binance'
-      : ethereumNetwork.value.chainId === 137
-        ? 'Polygon'
-        : 'Unsupported network',
+    ? 'Binance'
+    : ethereumNetwork.value.chainId === 137
+    ? 'Polygon'
+    : 'Unsupported network',
 )
 
 const computedNetworkImage = computed(() =>
   ethereumNetwork.value.chainId === 42161
     ? arbitrum_network
     : ethereumNetwork.value.chainId === 56
-      ? binance_network
-      : ethereumNetwork.value.chainId === 137
-        ? polygon_network
-        : unsupported_network,
+    ? binance_network
+    : ethereumNetwork.value.chainId === 137
+    ? polygon_network
+    : unsupported_network,
 )
 </script>
 <style lang="scss">
 @import '@/styles/_variables.scss';
 
 .header_container {
-  align-items: flex-start !important;
-
+  align-items: center !important;
 }
 
 .header_main {
@@ -570,7 +723,7 @@ const computedNetworkImage = computed(() =>
 
 .header {
   border-bottom: none;
-  padding: 16px 24px 0 24px;
+  padding: 16px 33px 0 33px;
   background-color: transparent;
 
   &-nav {
@@ -586,15 +739,18 @@ const computedNetworkImage = computed(() =>
     }
   }
 
-
   &-network-button {
     padding: 8px 8px;
     border-radius: 8px;
     box-shadow: 0px 8px 10px 0px #00000033;
-    box-shadow: 0px 6px 30px 0px #0000001F;
+    box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(50% 50% at 26.04% 40.42%, rgba(0, 201, 255, 0.13) 0%, rgba(0, 201, 255, 0) 100%);
-    background-color: #1F1F1F;
+    background: radial-gradient(
+      50% 50% at 26.04% 40.42%,
+      rgba(0, 201, 255, 0.13) 0%,
+      rgba(0, 201, 255, 0) 100%
+    );
+    background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
     font-family: 'Poppins';
@@ -608,10 +764,14 @@ const computedNetworkImage = computed(() =>
     padding: 12px 16px;
     border-radius: 8px;
     box-shadow: 0px 8px 10px 0px #00000033;
-    box-shadow: 0px 6px 30px 0px #0000001F;
+    box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(50% 50% at 26.04% 40.42%, rgba(0, 201, 255, 0.13) 0%, rgba(0, 201, 255, 0) 100%);
-    background-color: #1F1F1F;
+    background: radial-gradient(
+      50% 50% at 26.04% 40.42%,
+      rgba(0, 201, 255, 0.13) 0%,
+      rgba(0, 201, 255, 0) 100%
+    );
+    background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
     font-family: 'Poppins';
@@ -652,7 +812,6 @@ const computedNetworkImage = computed(() =>
       top: 46px;
       left: 0;
     }
-
   }
 
   &-notifications {
@@ -692,7 +851,16 @@ const computedNetworkImage = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(from 180deg at 51.95% 49.81%, rgba(0, 255, 178, 0) -2.11deg, rgba(1, 180, 126, 0) 131.45deg, #7EF6B2 175.58deg, rgba(51, 255, 96, 0) 252.32deg, rgba(8, 182, 129, 0) 310.85deg, rgba(0, 255, 178, 0) 357.89deg, rgba(1, 180, 126, 0) 491.45deg);
+        background: conic-gradient(
+          from 180deg at 51.95% 49.81%,
+          rgba(0, 255, 178, 0) -2.11deg,
+          rgba(1, 180, 126, 0) 131.45deg,
+          #7ef6b2 175.58deg,
+          rgba(51, 255, 96, 0) 252.32deg,
+          rgba(8, 182, 129, 0) 310.85deg,
+          rgba(0, 255, 178, 0) 357.89deg,
+          rgba(1, 180, 126, 0) 491.45deg
+        );
       }
 
       &:after {
@@ -741,9 +909,15 @@ const computedNetworkImage = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(from 180deg at 51.95% 49.81%, rgba(1, 180, 126, 0) 0deg, #7EF6B2 148.33deg, rgba(8, 182, 129, 0) 225.21deg, rgba(51, 255, 96, 0) 268.33deg, rgba(0, 255, 178, 0) 357.89deg, rgba(1, 180, 126, 0) 360deg);
-
-
+        background: conic-gradient(
+          from 180deg at 51.95% 49.81%,
+          rgba(1, 180, 126, 0) 0deg,
+          #7ef6b2 148.33deg,
+          rgba(8, 182, 129, 0) 225.21deg,
+          rgba(51, 255, 96, 0) 268.33deg,
+          rgba(0, 255, 178, 0) 357.89deg,
+          rgba(1, 180, 126, 0) 360deg
+        );
       }
 
       &:after {
@@ -759,7 +933,15 @@ const computedNetworkImage = computed(() =>
 
       &:hover {
         &:before {
-          background: conic-gradient(from 180deg at 51.95% 49.81%, rgba(1, 180, 126, 0) 0deg, #c6ffdf 148.33deg, rgba(8, 182, 129, 0) 225.21deg, rgba(51, 255, 96, 0) 268.33deg, rgba(0, 255, 178, 0) 357.89deg, rgba(1, 180, 126, 0) 360deg);
+          background: conic-gradient(
+            from 180deg at 51.95% 49.81%,
+            rgba(1, 180, 126, 0) 0deg,
+            #c6ffdf 148.33deg,
+            rgba(8, 182, 129, 0) 225.21deg,
+            rgba(51, 255, 96, 0) 268.33deg,
+            rgba(0, 255, 178, 0) 357.89deg,
+            rgba(1, 180, 126, 0) 360deg
+          );
         }
       }
     }
@@ -796,7 +978,16 @@ const computedNetworkImage = computed(() =>
     top: -1px;
     bottom: -1px;
     border-radius: 20px;
-    background: conic-gradient(from 180deg at 51.95% 49.81%, rgba(0, 255, 178, 0) -2.11deg, rgba(1, 180, 126, 0) 131.45deg, #7EF6B2 175.58deg, rgba(51, 255, 96, 0) 252.32deg, rgba(8, 182, 129, 0) 310.85deg, rgba(0, 255, 178, 0) 357.89deg, rgba(1, 180, 126, 0) 491.45deg);
+    background: conic-gradient(
+      from 180deg at 51.95% 49.81%,
+      rgba(0, 255, 178, 0) -2.11deg,
+      rgba(1, 180, 126, 0) 131.45deg,
+      #7ef6b2 175.58deg,
+      rgba(51, 255, 96, 0) 252.32deg,
+      rgba(8, 182, 129, 0) 310.85deg,
+      rgba(0, 255, 178, 0) 357.89deg,
+      rgba(1, 180, 126, 0) 491.45deg
+    );
   }
 
   &:after {
@@ -812,7 +1003,16 @@ const computedNetworkImage = computed(() =>
 
   &:hover {
     &:before {
-      background: conic-gradient(from 180deg at 51.95% 49.81%, rgba(0, 255, 178, 0) -2.11deg, rgba(1, 180, 126, 0) 131.45deg, #c7e7d4 175.58deg, rgba(51, 255, 96, 0) 252.32deg, rgba(8, 182, 129, 0) 310.85deg, rgba(0, 255, 178, 0) 357.89deg, rgba(1, 180, 126, 0) 491.45deg);
+      background: conic-gradient(
+        from 180deg at 51.95% 49.81%,
+        rgba(0, 255, 178, 0) -2.11deg,
+        rgba(1, 180, 126, 0) 131.45deg,
+        #c7e7d4 175.58deg,
+        rgba(51, 255, 96, 0) 252.32deg,
+        rgba(8, 182, 129, 0) 310.85deg,
+        rgba(0, 255, 178, 0) 357.89deg,
+        rgba(1, 180, 126, 0) 491.45deg
+      );
     }
   }
 }
@@ -841,8 +1041,15 @@ const computedNetworkImage = computed(() =>
     top: 1px;
     bottom: -1px;
     border-radius: 5px;
-    background: conic-gradient(from 180deg at 51.95% 49.81%, rgba(1, 180, 126, 0) 0deg, #7EF6B2 118.33deg, rgba(51, 255, 96, 0) 270.21deg, rgba(8, 182, 129, 0) 311.46deg, rgba(0, 255, 178, 0) 357.89deg, rgba(1, 180, 126, 0) 360deg);
-
+    background: conic-gradient(
+      from 180deg at 51.95% 49.81%,
+      rgba(1, 180, 126, 0) 0deg,
+      #7ef6b2 118.33deg,
+      rgba(51, 255, 96, 0) 270.21deg,
+      rgba(8, 182, 129, 0) 311.46deg,
+      rgba(0, 255, 178, 0) 357.89deg,
+      rgba(1, 180, 126, 0) 360deg
+    );
   }
 
   &:after {
@@ -869,11 +1076,10 @@ const computedNetworkImage = computed(() =>
 .network_item:hover {
   background: #009065b2;
   cursor: pointer;
-  border-radius: 20px
+  border-radius: 20px;
 }
 
 .bell_container {
-
   cursor: pointer;
   margin-right: 10px;
   display: flex;
@@ -881,10 +1087,14 @@ const computedNetworkImage = computed(() =>
   align-items: center;
   padding: 12px 12px;
   border-radius: 8px;
-  box-shadow: 0 8px 10px 0 rgba(0, 0, 0, .2);
-  box-shadow: 0 6px 30px 0 rgba(0, 0, 0, .122);
-  box-shadow: 0 16px 24px 0 rgba(0, 0, 0, .141);
-  background: radial-gradient(50% 50% at 26.04% 40.42%, rgba(0, 201, 255, .13) 0, rgba(0, 201, 255, 0) 100%);
+  box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 30px 0 rgba(0, 0, 0, 0.122);
+  box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.141);
+  background: radial-gradient(
+    50% 50% at 26.04% 40.42%,
+    rgba(0, 201, 255, 0.13) 0,
+    rgba(0, 201, 255, 0) 100%
+  );
   background-color: #1f1f1f;
   color: #fff;
 
@@ -894,7 +1104,11 @@ const computedNetworkImage = computed(() =>
 }
 
 .bell_container:hover {
-  background: radial-gradient(50% 50% at 26.04% 40.42%, rgba(0, 201, 255, .13) 0, rgba(0, 201, 255, 0) 100%);
+  background: radial-gradient(
+    50% 50% at 26.04% 40.42%,
+    rgba(0, 201, 255, 0.13) 0,
+    rgba(0, 201, 255, 0) 100%
+  );
 }
 
 .bell_icon {
@@ -904,7 +1118,6 @@ const computedNetworkImage = computed(() =>
 .bell_container:hover .bell_icon {
   color: #009065;
 }
-
 
 @media (max-width: $md) {
   .sidemenu__btn {
@@ -930,7 +1143,7 @@ const computedNetworkImage = computed(() =>
       bottom: 0;
       left: 0;
       right: 0;
-      transition: all .4s ease;
+      transition: all 0.4s ease;
       border-radius: 10px;
 
       &.mid {
@@ -951,7 +1164,6 @@ const computedNetworkImage = computed(() =>
 
     &.active {
       .top {
-
         transform: rotate(-45deg);
       }
 
@@ -965,13 +1177,10 @@ const computedNetworkImage = computed(() =>
         width: 20px;
       }
     }
-
   }
 
-
-
   .header_main {
-    padding-bottom: 5px
+    padding-bottom: 5px;
   }
 
   .header_main_container {
@@ -1010,7 +1219,6 @@ const computedNetworkImage = computed(() =>
       }
     }
 
-
     &-button {
       padding: 12px 16px;
       border-radius: 8px;
@@ -1021,16 +1229,11 @@ const computedNetworkImage = computed(() =>
         color: #fff;
       }
     }
-
-
-
-
   }
 }
 
-
 .badge {
-  background: #00C9FF;
+  background: #00c9ff;
   margin-right: -20px;
   border-radius: 50%;
   width: 12px;
@@ -1051,7 +1254,24 @@ const computedNetworkImage = computed(() =>
   color: white;
   font: bold 8px Helvetica, Verdana, Tahoma;
   text-align: center;
+}
 
-
+.navigation_text {
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #7d7d7d;
+  &:hover {
+    color: #2ABDFF;
+    cursor: pointer;
+  }
+  &_selected {
+    background: -webkit-linear-gradient( #2775CA ,#2ABDFF );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 </style>
