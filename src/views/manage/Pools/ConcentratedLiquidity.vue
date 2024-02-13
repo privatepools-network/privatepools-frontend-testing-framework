@@ -1,9 +1,13 @@
 <template>
   <MainCard>
-
-    <TokenSelectModal :tokenSelectModal="tokenSelectModal" @tokenSelectModalOpen="tokenSelectModalOpen"
-      :pairIndex="pairIndex" @updateToken="updateToken" :possibleComposeTokens="notSelectedPossibleComposeTokens"
-      @addToken="onAddToken" />
+    <TokenSelectModal
+      :tokenSelectModal="tokenSelectModal"
+      @tokenSelectModalOpen="tokenSelectModalOpen"
+      :pairIndex="pairIndex"
+      @updateToken="updateToken"
+      :possibleComposeTokens="notSelectedPossibleComposeTokens"
+      @addToken="onAddToken"
+    />
     <div class="d-flex gap-5">
       <div class="w-50">
         <div class="compose_text text-uppercase fw-bolder">
@@ -20,31 +24,55 @@
             <!-- Tokens selector 1 separate comp-->
             <div @click="() => tokenSelectModalOpen(1)" class="selector_button">
               <img :src="pairToken1.img" width="24" />
-              <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="12"
+                height="7"
+                viewBox="0 0 12 7"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M5.98255 6.46495L11.007 1.44044C11.187 1.26045 11.0596 0.952698 10.805 0.952698H0.756015C0.50147 0.952698 0.373993 1.26045 0.553983 1.44044L5.5785 6.46495C5.69007 6.57653 5.87098 6.57653 5.98255 6.46495Z"
-                  fill="#EBEBEC" />
+                  fill="#EBEBEC"
+                />
               </svg>
-              <h4 style="font-size: 21px; margin-bottom: 0; color: white;">{{pairToken1.symbol}}</h4>
+              <h4 style="font-size: 21px; margin-bottom: 0; color: white">
+                {{ pairToken1.symbol }}
+              </h4>
               <!-- Tokens selector 2 separate comp -->
             </div>
             <div @click="() => tokenSelectModalOpen(2)" class="selector_button">
               <img :src="pairToken2.img" width="24" />
-              <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="12"
+                height="7"
+                viewBox="0 0 12 7"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M5.98255 6.46495L11.007 1.44044C11.187 1.26045 11.0596 0.952698 10.805 0.952698H0.756015C0.50147 0.952698 0.373993 1.26045 0.553983 1.44044L5.5785 6.46495C5.69007 6.57653 5.87098 6.57653 5.98255 6.46495Z"
-                  fill="#EBEBEC" />
+                  fill="#EBEBEC"
+                />
               </svg>
-              <h4 style="font-size: 21px; margin-bottom: 0; color: white;">{{pairToken2.symbol}}</h4>
+              <h4 style="font-size: 21px; margin-bottom: 0; color: white">
+                {{ pairToken2.symbol }}
+              </h4>
             </div>
           </div>
           <div v-if="concentratedLiquidityStep === 1">
             <div class="compose_text fw-light mt-3">Fee Tier</div>
             <div class="fee_tier_container">
-              <div :class="tier.selected
-                ? 'fee_tier_container_card fee_tier_container_card__selected'
-                : 'fee_tier_container_card'
-                " v-for="(tier, i) in fee_tiers" :key="`tiers-${i}`" @click="selectTier()">
+              <div
+                :class="
+                  tier.selected
+                    ? 'fee_tier_container_card fee_tier_container_card__selected'
+                    : 'fee_tier_container_card'
+                "
+                v-for="(tier, i) in fee_tiers"
+                :key="`tiers-${i}`"
+                @click="selectTier()"
+              >
                 <div style="color: #c1c8ce">{{ tier.percent }}</div>
                 <div style="color: #858c90">{{ tier.name }}</div>
               </div>
@@ -55,63 +83,222 @@
             <div class="d-flex gap-3">
               <!-- Min per separate comp -->
               <div class="price_range_card">
-                <div class="d-flex justify-content-center w-100 position-relative">
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-3">
+                <div
+                  class="d-flex justify-content-center w-100 position-relative"
+                >
+                  <div
+                    class="d-flex flex-column justify-content-center align-items-center gap-3 p-4"
+                  >
                     <div style="color: #c1c8ce">Min per</div>
-                    <div style="font-size: 20px; font-weight: 600; color: #c1c8ce">
-                      0.0
+                    <div
+                      style="font-size: 20px; font-weight: 600; color: #c1c8ce"
+                    >
+                      <input
+                        type="number"
+                        style="
+                          background: none;
+                          border: none;
+                          outline: none;
+                          text-align: center;
+                          color: #c1c8ce;
+                          font-weight: 600;
+                          font-size: 20px;
+                        "
+                        :value="minRangeFirstToken"
+                      />
                     </div>
-                    <div style="font-size: 12px; font-weight: 400; color: #858c90">
+                    <div
+                      style="font-size: 12px; font-weight: 400; color: #858c90"
+                    >
                       ≈ = $0
                     </div>
                   </div>
-                  <div style="
+                  <div
+                    style="
                       position: absolute;
-                      right: 10px;
-                      top: 0px;
+                      right: 65px;
+                      top: 15px;
                       color: #858c90;
-                    ">
+                    "
+                  >
                     0%
+                  </div>
+                  <div
+                    v-if="concentratedLiquidityStep === 2"
+                    style="
+                      position: absolute;
+                      top: 0;
+                      right: 0;
+                      height: 100%;
+                      width: 8%;
+                      background: #003e4f80;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: space-between;
+                      border-radius: 0px 6px 6px 0px;
+                    "
+                    class="p-4"
+                  >
+                    <div
+                      @click="minRangeFirstToken = minRangeFirstToken + 1"
+                      style="cursor: pointer"
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z"
+                          fill="#F8F8F8"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      @click="minRangeFirstToken = minRangeFirstToken - 1"
+                      style="cursor: pointer"
+                    >
+                      <svg
+                        width="14"
+                        height="2"
+                        viewBox="0 0 14 2"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14 1.99805H8H6H0V-0.00195312H6H8H14V1.99805Z"
+                          fill="#F8F8F8"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
               <!-- Max per separate comp -->
               <div class="price_range_card">
-                <div class="d-flex justify-content-center w-100 position-relative">
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-3">
+                <div
+                  class="d-flex justify-content-center w-100 position-relative"
+                >
+                  <div
+                    class="d-flex flex-column justify-content-center align-items-center gap-3 p-4"
+                  >
                     <div style="color: #c1c8ce">Max per</div>
-                    <div style="font-size: 20px; font-weight: 600; color: #c1c8ce">
-                      0.0
+                    <div
+                      style="font-size: 20px; font-weight: 600; color: #c1c8ce"
+                    >
+                      <input
+                        type="number"
+                        style="
+                          background: none;
+                          border: none;
+                          outline: none;
+                          text-align: center;
+                          color: #c1c8ce;
+                          font-weight: 600;
+                          font-size: 20px;
+                        "
+                        :value="maxRangeSecondToken"
+                      />
                     </div>
-                    <div style="font-size: 12px; font-weight: 400; color: #858c90">
+                    <div
+                      style="font-size: 12px; font-weight: 400; color: #858c90"
+                    >
                       ≈ = $0
                     </div>
                   </div>
-                  <div style="
+                  <div
+                    style="
                       position: absolute;
-                      right: 10px;
-                      top: 0px;
+                      right: 65px;
+                      top: 15px;
                       color: #858c90;
-                    ">
+                    "
+                  >
                     0%
+                  </div>
+                  <div
+                    v-if="concentratedLiquidityStep === 2"
+                    style="
+                      position: absolute;
+                      top: 0;
+                      right: 0;
+                      height: 100%;
+                      width: 8%;
+                      background: #003e4f80;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: space-between;
+                      border-radius: 0px 6px 6px 0px;
+                    "
+                    class="p-4"
+                  >
+                    <div
+                      @click="maxRangeSecondToken = maxRangeSecondToken + 1"
+                      style="cursor: pointer"
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z"
+                          fill="#F8F8F8"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      @click="maxRangeSecondToken = maxRangeSecondToken - 1"
+                      style="cursor: pointer"
+                    >
+                      <svg
+                        width="14"
+                        height="2"
+                        viewBox="0 0 14 2"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14 1.99805H8H6H0V-0.00195312H6H8H14V1.99805Z"
+                          fill="#F8F8F8"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="compose_text fw-light mt-3 mb-3">Range Type:</div>
-            <div v-if="concentratedLiquidityStep === 2" class="fee_tier_container">
-              <div :class="type.selected
-                ? 'fee_tier_container_card fee_tier_container_card__selected'
-                : 'fee_tier_container_card'
-                " v-for="(type, i) in range_types" :key="`tiers-${i}`" @click="selectRange(type)">
+            <div
+              v-if="concentratedLiquidityStep === 2"
+              class="fee_tier_container"
+            >
+              <div
+                :class="
+                  type.selected
+                    ? 'fee_tier_container_card fee_tier_container_card__selected'
+                    : 'fee_tier_container_card'
+                "
+                v-for="(type, i) in range_types"
+                :key="`tiers-${i}`"
+                @click="selectRange(type)"
+              >
                 <div style="color: #858c90">{{ type.name }}</div>
                 <div style="color: #c1c8ce">{{ type.percent }}</div>
 
-                <hr style="
+                <hr
+                  style="
                     border: 1px solid #ffffff1c;
                     width: 100%;
                     margin: 10px -10px;
-                  " />
+                  "
+                />
                 <div style="color: #858c90">{{ type.APR }}</div>
               </div>
             </div>
@@ -120,8 +307,13 @@
           <div class="price_range_container">
             <div class="d-flex flex-column gap-4 position-relative">
               <!-- Add liquidity to singe comp on refactor week -->
-              <div class="d-flex" style="background: #020e12; border-radius: 8px">
-                <div style="
+
+              <div
+                class="d-flex"
+                style="background: #020e12; border-radius: 8px"
+              >
+                <div
+                  style="
                     width: 30%;
                     background: linear-gradient(
                       95.22deg,
@@ -135,13 +327,25 @@
                     display: flex;
                     align-items: flex-end;
                     justify-content: space-between;
-                  ">
+                  "
+                >
+                <div class="d-flex flex-column justify-content-around h-100">
+                  <div class="d-flex align-items-center gap-2">
+                    <img :src="pairToken1.img" width="24" />
+                    
+                    <h4 style="font-size: 21px; margin-bottom: 0; color: white">
+                      {{ pairToken1.symbol }}
+                    </h4>
+                  </div>
                   <div>balance: 0.00</div>
+                </div>
                   <div class="max_button">Max</div>
                 </div>
                 <div>
                   <div class="d-flex flex-column gap-2 p-3">
-                    <input type="number" style="
+                    <input
+                      type="number"
+                      style="
                         background: none;
                         border: none;
                         outline: none;
@@ -149,13 +353,19 @@
                         color: #c1c8ce;
                         font-weight: 600;
                         font-size: 20px;
-                      " value="0.00" />
+                      "
+                      value="0.00"
+                    />
                     <div style="color: #858c90; font-size: 12px">≈$0</div>
                   </div>
                 </div>
               </div>
-              <div class="d-flex" style="background: #020e12; border-radius: 8px">
-                <div style="
+              <div
+                class="d-flex"
+                style="background: #020e12; border-radius: 8px"
+              >
+                <div
+                  style="
                     width: 30%;
                     background: linear-gradient(
                       95.22deg,
@@ -169,13 +379,25 @@
                     display: flex;
                     align-items: flex-end;
                     justify-content: space-between;
-                  ">
+                  "
+                >
+                <div class="d-flex flex-column justify-content-around h-100">
+                  <div class="d-flex align-items-center gap-2">
+                    <img :src="pairToken2.img" width="24" />
+                    
+                    <h4 style="font-size: 21px; margin-bottom: 0; color: white">
+                      {{ pairToken2.symbol }}
+                    </h4>
+                  </div>
                   <div>balance: 0.00</div>
+                </div>
                   <div class="max_button">Max</div>
                 </div>
                 <div>
                   <div class="d-flex flex-column gap-2 p-3">
-                    <input type="number" style="
+                    <input
+                      type="number"
+                      style="
                         background: none;
                         border: none;
                         outline: none;
@@ -183,114 +405,209 @@
                         color: #c1c8ce;
                         font-weight: 600;
                         font-size: 20px;
-                      " value="0.00" />
+                      "
+                      value="0.00"
+                    />
                     <div style="color: #858c90; font-size: 12px">≈$0</div>
                   </div>
                 </div>
               </div>
               <div class="add_liquidity_button">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <g clip-path="url(#clip0_1807_18018)">
                     <g clip-path="url(#clip1_1807_18018)">
                       <g clip-path="url(#clip2_1807_18018)">
                         <path
                           d="M6.58 0.000427246C6.42536 0.000427246 6.3 0.125787 6.3 0.280427V6.30043H0.28C0.12536 6.30043 0 6.42579 0 6.58043V7.42043C0 7.57506 0.12536 7.70043 0.28 7.70043H6.3V13.7204C6.3 13.8751 6.42536 14.0004 6.58 14.0004H7.42C7.57463 14.0004 7.7 13.8751 7.7 13.7204V7.70043H13.72C13.8746 7.70043 14 7.57506 14 7.42043V6.58043C14 6.42579 13.8746 6.30043 13.72 6.30043H7.7V0.280427C7.7 0.125787 7.57463 0.000427246 7.42 0.000427246H6.58Z"
-                          fill="#EBEBEC" />
+                          fill="#EBEBEC"
+                        />
                       </g>
                     </g>
                   </g>
                   <defs>
                     <clipPath id="clip0_1807_18018">
-                      <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
+                      <rect
+                        width="14"
+                        height="14"
+                        fill="white"
+                        transform="translate(0 0.000427246)"
+                      />
                     </clipPath>
                     <clipPath id="clip1_1807_18018">
-                      <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
+                      <rect
+                        width="14"
+                        height="14"
+                        fill="white"
+                        transform="translate(0 0.000427246)"
+                      />
                     </clipPath>
                     <clipPath id="clip2_1807_18018">
-                      <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
+                      <rect
+                        width="14"
+                        height="14"
+                        fill="white"
+                        transform="translate(0 0.000427246)"
+                      />
                     </clipPath>
                   </defs>
                 </svg>
               </div>
             </div>
           </div>
-          <div class="compose_text fw-light mt-5 d-flex justify-content-between">
+          <div
+            class="compose_text fw-light mt-5 d-flex justify-content-between"
+          >
             <div>Slippage:</div>
             <div>2%</div>
           </div>
 
-          <div class="my-3 d-flex justify-content-center position-relative" v-if="concentratedLiquidityStep === 3 || concentratedLiquidityStep === 4 || concentratedLiquidityStep === 5
-            ">
+          <div
+            class="my-3 d-flex justify-content-center position-relative"
+            v-if="
+              concentratedLiquidityStep === 3 ||
+              concentratedLiquidityStep === 4 ||
+              concentratedLiquidityStep === 5
+            "
+          >
             <div class="d-flex gap-2">
               <!-- First step marker -->
               <div class="position-relative">
-                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="15" cy="15" r="14.5" :stroke="concentratedLiquidityStep === 3 ||
-                    concentratedLiquidityStep === 4 ||
-                    concentratedLiquidityStep === 5
-                    ? '#00C9FF'
-                    : 'white'
-                    " />
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="15"
+                    cy="15"
+                    r="14.5"
+                    :stroke="
+                      concentratedLiquidityStep === 3 ||
+                      concentratedLiquidityStep === 4 ||
+                      concentratedLiquidityStep === 5
+                        ? '#00C9FF'
+                        : 'white'
+                    "
+                  />
                 </svg>
-                <div v-if="concentratedLiquidityStep === 3" :class="concentratedLiquidityStep === 3
-                  ? 'step_number step_number_active'
-                  : 'step_number'
-                  ">
+                <div
+                  v-if="concentratedLiquidityStep === 3"
+                  :class="
+                    concentratedLiquidityStep === 3
+                      ? 'step_number step_number_active'
+                      : 'step_number'
+                  "
+                >
                   1
                 </div>
-                <div v-else-if="concentratedLiquidityStep === 4" class="step_number">
+                <div
+                  v-else-if="concentratedLiquidityStep === 4"
+                  class="step_number"
+                >
                   <img :src="metamask" width="20" />
                 </div>
-                <div v-else-if="concentratedLiquidityStep === 5" class="step_number">
-                  <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4.97 10.583L0 5.613L0.714 4.9L4.97 9.156L14.126 0L14.839 0.713L4.97 10.583Z"
-                      fill="#00C9FF" />
+                <div
+                  v-else-if="concentratedLiquidityStep === 5"
+                  class="step_number"
+                >
+                  <svg
+                    width="15"
+                    height="11"
+                    viewBox="0 0 15 11"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4.97 10.583L0 5.613L0.714 4.9L4.97 9.156L14.126 0L14.839 0.713L4.97 10.583Z"
+                      fill="#00C9FF"
+                    />
                   </svg>
                 </div>
               </div>
 
               <!-- Second step marker -->
               <div class="position-relative">
-                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="15" cy="15" r="14.5" :stroke="concentratedLiquidityStep === 5 ? '#00C9FF' : 'white'
-                    " />
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="15"
+                    cy="15"
+                    r="14.5"
+                    :stroke="
+                      concentratedLiquidityStep === 5 ? '#00C9FF' : 'white'
+                    "
+                  />
                 </svg>
-                <div :class="concentratedLiquidityStep === 5
-                  ? 'step_number step_number_active'
-                  : 'step_number'
-                  ">
+                <div
+                  :class="
+                    concentratedLiquidityStep === 5
+                      ? 'step_number step_number_active'
+                      : 'step_number'
+                  "
+                >
                   2
                 </div>
               </div>
             </div>
           </div>
 
-          <button v-if="concentratedLiquidityStep === 1" :class="concentratedLiquidityStep === 1
-            ? 'concentrated_button concentrated_button_disabled'
-            : 'concentrated_button'
-            ">
+          <button
+            v-if="concentratedLiquidityStep === 1"
+            :class="
+              concentratedLiquidityStep === 1
+                ? 'concentrated_button concentrated_button_disabled'
+                : 'concentrated_button'
+            "
+          >
             No Tokens Selected
           </button>
-          <button v-else-if="concentratedLiquidityStep === 2" :class="'concentrated_button'"
-            @click="concentratedLiquidityStep = 3">
+          <button
+            v-else-if="concentratedLiquidityStep === 2"
+            :class="'concentrated_button'"
+            @click="concentratedLiquidityStep = 3"
+          >
             Add liquidity
           </button>
-          <button v-else-if="concentratedLiquidityStep === 3" :class="'concentrated_button'"
-            @click="concentratedLiquidityStep = 4">
+          <button
+            v-else-if="concentratedLiquidityStep === 3"
+            :class="'concentrated_button'"
+            @click="concentratedLiquidityStep = 4"
+          >
             Approve all tokens for adding liquidity
           </button>
-          <button v-else-if="concentratedLiquidityStep === 4" :class="'concentrated_button'"
-            @click="concentratedLiquidityStep = 5">
+          <button
+            v-else-if="concentratedLiquidityStep === 4"
+            :class="'concentrated_button'"
+            @click="concentratedLiquidityStep = 5"
+          >
             Confirming <span class="button_loader pl-2"></span>
           </button>
-          <button v-else-if="concentratedLiquidityStep === 5" :class="'concentrated_button'">
+          <button
+            v-else-if="concentratedLiquidityStep === 5"
+            :class="'concentrated_button'"
+          >
             Add liquidity
           </button>
         </div>
       </div>
 
       <div class="w-50">
-        <ChartAndPoolInfo />
+        <ChartAndPoolInfo
+          :concentratedLiquidityStep="concentratedLiquidityStep"
+        />
       </div>
     </div>
   </MainCard>
@@ -305,18 +622,20 @@ import { ref } from 'vue'
 import metamask from '@/assets/icons/approveTokenSteps/metamask.svg'
 
 const concentratedLiquidityStep = ref(1)
-const tokenSelectModal = ref(false);
-const pairIndex = ref(1);
+const tokenSelectModal = ref(false)
+const pairIndex = ref(1)
+const minRangeFirstToken = ref(1)
+const maxRangeSecondToken = ref(1)
 
 const pairToken1 = ref({
   img: not_found,
-  symbol: ""
-});
+  symbol: '',
+})
 
 const pairToken2 = ref({
   img: not_found,
-  symbol: ""
-});
+  symbol: '',
+})
 
 const fee_tiers = ref([
   {
@@ -472,23 +791,21 @@ const notSelectedPossibleComposeTokens = ref([
     balance: 2.829001173608001,
     userBalance: '2.82900117360800124',
   },
-
 ])
 
 function tokenSelectModalOpen(index) {
-  pairIndex.value = index;
+  pairIndex.value = index
   tokenSelectModal.value = !tokenSelectModal.value
 }
 
-
 function updateToken(token, index) {
-  if(index == 1) {
-    pairToken1.value = token;
+  if (index == 1) {
+    pairToken1.value = token
   }
-  if(index == 2) {
-    pairToken2.value = token;
+  if (index == 2) {
+    pairToken2.value = token
   }
-  console.log("tdsfdfd is ", token, index);
+  console.log('tdsfdfd is ', token, index)
 }
 </script>
 
@@ -523,7 +840,7 @@ function updateToken(token, index) {
 .price_range_card {
   background: linear-gradient(95.22deg, #003e4f 0.03%, #000000 133.56%);
   border-radius: 6px;
-  padding: 15px;
+  // padding: 15px;
   width: 50%;
   display: flex;
   gap: 10px;
