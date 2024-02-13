@@ -1,20 +1,14 @@
 <template>
-  <CModal size="lg" alignment="center" :visible="tokenSelectModal">
-    <CModalHeader :close-button="false">
-      <!-- <div class="d-flex justify-content-between w-100">
-        <div>
-     
-        </div>
-      
-      </div> -->
-    </CModalHeader>
+  <CModal alignment="normal" :visible="tokenSelectModal">
+    <!-- <CModalHeader :close-button="false">
+    </CModalHeader> -->
     <CModalBody>
       <div class="modal_body_inside">
         <div>
           <div class="modal_body_header">
-            <h3>Token search</h3>
+            <p style="font-size: 20px;">Token search</p>
           </div>
-          <CInputGroup class="d-flex align-items-center justify-content-start search-input-group">
+          <CInputGroup class="d-flex align-items-normal justify-content-start search-input-group">
             <CFormInput type="text" placeholder="Search by name, symbol or address" style="color: #fff"
               aria-label="Search by name, symbol or address" class="search-input" v-model="filterName"
               v-on:keyup.enter="emit('addToken', filterName);" />
@@ -24,7 +18,7 @@
           <div class="mt-3 tokens_container" >
             <div v-for="(token, index) in filteredPossibleTokens " :key="`tokens-key-${index}`"
               class="d-flex align-items-center justify-content-between p-3 gap-3 token_card"
-              @click="emit('updateToken', { ...token }); emit('tokenSelectModalOpen')">
+              @click="emit('updateToken', { ...token }, props.pairIndex); emit('tokenSelectModalOpen')">
               <div class="d-flex align-items-center">
                 <img :src="getTokenEntity(token.symbol, 'short').icon" width="60" class="p-2" />
                 <div class="d-flex flex-column ">
@@ -48,7 +42,7 @@
 import Search from '@/assets/images/search.png'
 import { ref, defineProps, defineEmits, computed } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util';
-const props = defineProps(['tokenSelectModal', 'possibleComposeTokens'])
+const props = defineProps(['tokenSelectModal', 'possibleComposeTokens', 'pairIndex'])
 const emit = defineEmits(['updateToken', 'addToken', 'tokenSelectModalOpen'])
 const filterName = ref('')
 
@@ -73,7 +67,7 @@ const filteredPossibleTokens = computed(() => props.possibleComposeTokens.filter
 }
 
 .modal_body_inside {
-  padding: 0px 110px;
+  // padding: 0px 110px;
 }
 
 .modal_balance_slider {
@@ -194,7 +188,7 @@ const filteredPossibleTokens = computed(() => props.possibleComposeTokens.filter
   }
 
   &-group {
-    border-radius: 20px;
+    border-radius: 4px;
     background: transparent;
     padding: 1px 8px;
     width: 100%;
@@ -221,9 +215,9 @@ const filteredPossibleTokens = computed(() => props.possibleComposeTokens.filter
 }
 .token_card:hover {
   overflow-y: auto;
-  border-radius: 40px;
+  border-radius: 20px;
   cursor: pointer;
-  background: #003e4f;
+  background: rgba(152, 161, 192, 0.08);
 }
 
 .tokens_container {
