@@ -1,5 +1,5 @@
 <template>
-  <CHeader position="static" class="header_main">
+  <CHeader position="static" :class="isHeaderBg ? 'header_main header_main_bg' :  'header_main'" ref="headRef">
     <CContainer fluid class="header_container">
       <!-- <CHeaderNav v-if="width > 768" class="d-flex me-auto">
         <AppBreadcrumb :title="true" />
@@ -9,6 +9,11 @@
         <div @click="router.push('/dashboard')" :class="router.currentRoute.value.path === '/dashboard' ? 'navigation_text_selected navigation_text' : 'navigation_text'">Home</div>
         <div @click="router.push('/pools')" :class="router.currentRoute.value.path === '/pools' ? 'navigation_text_selected navigation_text' : 'navigation_text'">Pools</div>
         <div @click="router.push('/portfolio')" :class="router.currentRoute.value.path === '/portfolio' ? 'navigation_text_selected navigation_text' : 'navigation_text'">Portfolio</div>
+      </div>
+
+
+      <div>
+        Search bar
       </div>
 
       <CHeaderNav>
@@ -426,6 +431,24 @@ import 'vue3-toastify/dist/index.css'
 var emitter = require('tiny-emitter/instance')
 const { width } = useDevice()
 
+const isHeaderBg = ref(false)
+
+
+const headRef = ref(null); // obtain the reference
+    onMounted(() => {
+        window.addEventListener("scroll", () => {
+            var curr = window.pageYOffset;
+
+            // You can style header-bg for style purpose
+
+            if (curr >= 100) {
+              isHeaderBg.value = true;
+            }else{
+              isHeaderBg.value = false;
+            }
+        });
+    });
+
 const notify = (popupType, popupText, popupSubText) => {
   toast(Toast, {
     closeOnClick: true,
@@ -708,9 +731,15 @@ const computedNetworkImage = computed(() =>
 }
 
 .header_main {
+  position: sticky; top: 0;
   z-index: 12;
   margin-top: 10px;
   margin-bottom: 10px;
+  &_bg {
+    background: linear-gradient(356.2deg, rgba(0, 29, 37, 0.755) 0%, #000000 105.42%) !important;
+    -webkit-backdrop-filter: blur(60px);
+    backdrop-filter: blur(60px);
+  }
 }
 
 .header_main_container {
@@ -723,7 +752,7 @@ const computedNetworkImage = computed(() =>
 
 .header {
   border-bottom: none;
-  padding: 16px 33px 0 33px;
+  padding: 16px 33px 16px 33px;
   background-color: transparent;
 
   &-nav {
@@ -1272,6 +1301,8 @@ const computedNetworkImage = computed(() =>
     background: -webkit-linear-gradient( #2775CA ,#2ABDFF );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 0.7rem #00C9FF);
+
   }
 }
 </style>

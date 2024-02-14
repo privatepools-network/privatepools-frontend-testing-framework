@@ -14,6 +14,7 @@
 </template>
 <script setup>
 import AppHeader from '@/components/AppHeader.vue'
+
 // import AppSidebar from '@/components/AppSidebar.vue'
 // import NewReleasesCard from "@/UI/NewReleasesCard.vue";
 // import { onMounted} from 'vue'rem !important
@@ -63,7 +64,7 @@ import AppHeader from '@/components/AppHeader.vue'
 
 @media (max-width: $xxl) {
   html:not([dir='rtl']) .wrapper {
-    padding-left: 33px;
+    // padding-left: 33px;
   }
 
   .app_container {}
