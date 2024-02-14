@@ -15,12 +15,12 @@
             <CAvatar :src="Search" class="search-input-avatar" />
           </CInputGroup>
 
-          <div class="mt-3 tokens_container" >
+          <div class="mt-3 tokens_container">
             <div v-for="(token, index) in filteredPossibleTokens " :key="`tokens-key-${index}`"
               class="d-flex align-items-center justify-content-between p-3 gap-3 token_card"
               @click="emit('updateToken', { ...token }, props.pairIndex); emit('tokenSelectModalOpen')">
               <div class="d-flex align-items-center">
-                <img :src="getTokenEntity(token.symbol, 'short').icon" width="60" class="p-2" />
+                <img :src="token.logoURI || getTokenEntity(token.symbol, 'short').icon" width="60" class="p-2" />
                 <div class="d-flex flex-column ">
                   <div class="modal_body_header">{{ token.symbol }}</div>
                   <div class="modal_body_header">{{ token.name }}</div>
@@ -213,6 +213,7 @@ const filteredPossibleTokens = computed(() => props.possibleComposeTokens.filter
     }
   }
 }
+
 .token_card:hover {
   overflow-y: auto;
   border-radius: 20px;
@@ -221,30 +222,29 @@ const filteredPossibleTokens = computed(() => props.possibleComposeTokens.filter
 }
 
 .tokens_container {
-  height: 55vh; overflow-y: auto;
+  height: 55vh;
+  overflow-y: auto;
 }
+
 .tokens_container::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
-    background-color: #02120A;
-    border-radius: 50px;
-    margin-bottom: 10px;
-  }
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+  background-color: #02120A;
+  border-radius: 50px;
+  margin-bottom: 10px;
+}
 
-  .tokens_container::-webkit-scrollbar {
-    width: 8px !important;
-    height: 8px !important;
-    background: #02120A;
-    border-radius: 50px;
-    margin-bottom: 10px;
-  }
+.tokens_container::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+  background: #02120A;
+  border-radius: 50px;
+  margin-bottom: 10px;
+}
 
-  .tokens_container::-webkit-scrollbar-thumb {
-    border: 2px solid #02120A;
-    background: #00C9FF;
-    border-radius: 21px;
-  }
-
-
-
+.tokens_container::-webkit-scrollbar-thumb {
+  border: 2px solid #02120A;
+  background: #00C9FF;
+  border-radius: 21px;
+}
 </style>
 @/composables/math/investMath/useInvestMath@/composables/poolActions/deposit/useApproveTokens
