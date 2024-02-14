@@ -17,7 +17,8 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'prettier/prettier': 0,
     'vue/no-mutating-props': 'off',
-    'vue/no-use-v-if-with-v-for': 'off'
+    'vue/no-use-v-if-with-v-for': 'off',
+    'no-unused-vars': 'off',
     // 'vue/no-deprecated-slot-attribute': 'off',
     // 'vue/no-deprecated-slot-scope-attribute': 'off',
   },

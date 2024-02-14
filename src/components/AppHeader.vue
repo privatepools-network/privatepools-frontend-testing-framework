@@ -1,393 +1,130 @@
 <template>
-  <CHeader position="static" :class="isHeaderBg ? 'header_main header_main_bg' :  'header_main'" ref="headRef">
+  <CHeader
+    position="static"
+    :class="isHeaderBg ? 'header_main header_main_bg' : 'header_main'"
+    ref="headRef"
+  >
     <CContainer fluid class="header_container">
       <!-- <CHeaderNav v-if="width > 768" class="d-flex me-auto">
         <AppBreadcrumb :title="true" />
       </CHeaderNav> -->
-      {{ console.log('router.currentRoute.value', router.currentRoute.value) }}
-      <div class="d-flex align-items-center gap-4 ">
-        <div @click="router.push('/dashboard')" :class="router.currentRoute.value.path === '/dashboard' ? 'navigation_text_selected navigation_text' : 'navigation_text'">Home</div>
-        <div @click="router.push('/pools')" :class="router.currentRoute.value.path === '/pools' ? 'navigation_text_selected navigation_text' : 'navigation_text'">Pools</div>
-        <div @click="router.push('/portfolio')" :class="router.currentRoute.value.path === '/portfolio' ? 'navigation_text_selected navigation_text' : 'navigation_text'">Portfolio</div>
+
+      <div class="d-flex align-items-center gap-4">
+        <div
+          @click="router.push('/dashboard')"
+          :class="
+            router.currentRoute.value.path === '/dashboard'
+              ? 'navigation_text_selected navigation_text'
+              : 'navigation_text'
+          "
+        >
+          Home
+        </div>
+        <div
+          @click="router.push('/pools')"
+          :class="
+            router.currentRoute.value.path === '/pools'
+              ? 'navigation_text_selected navigation_text'
+              : 'navigation_text'
+          "
+        >
+          Pools
+        </div>
+        <div
+          @click="router.push('/portfolio')"
+          :class="
+            router.currentRoute.value.path === '/portfolio'
+              ? 'navigation_text_selected navigation_text'
+              : 'navigation_text'
+          "
+        >
+          Portfolio
+        </div>
       </div>
 
-
-      <div>
-        Search bar
-      </div>
-
-      <CHeaderNav>
-        <div class="header_main_container">
-          <div v-if="width < 768">
-            <button
-              class="sidemenu__btn"
-              v-on:click="navOpen = !navOpen"
-              v-bind:class="{ active: navOpen }"
+      <div style="position: relative; cursor: text">
+        <vue-select
+          v-model="tokens"
+          :options="tokensOptions"
+          label-by="label"
+          searchable
+          search-placeholder="Search tokens and liquidity pools"
+          placeholder="Search tokens and liquidity pools"
+        >
+          <template #dropdown-item="{ option }">
+            <div
+              class="p-2 d-flex align-items-center justify-content-between gap-2"
+              @click="reloadPage"
             >
-              <span class="top"></span>
-              <span class="mid"></span>
-              <span class="bottom"></span>
-            </button>
-
-            <SidebarMobile
-              @closeNav="closeNav"
-              :navOpen="navOpen"
-              :computedAddress="computedAddress"
-            />
-          </div>
-          <div class="right_sidebar">
-            <div>
-              <div
-                v-if="
-                  isConnectedToWeb3 && computedNetwork !== 'Unsupported network'
-                "
-              >
-                <Dropdown
-                  :distance="3"
-                  :skidding="-10"
-                  :placement="'bottom-end'"
-                >
-                  <div class="bell_container">
-                    <img :src="computedNetworkImage" alt="network" />
-                  </div>
-                  <template #popper>
-                    <div class="header__popup">
-                      <h6 style="font-size: 14px; margin-left: 4px">
-                        Select Network
-                      </h6>
-                      <hr />
-                      <div class="d-flex flex-column gap-1">
-                        <div
-                          class="network_item"
-                          v-for="(network, index) in networksList"
-                          :key="`notification-key-${index}`"
-                        >
-                          <div
-                            class="d-flex justify-content-between align-items-center w-100"
-                            @click="selectANetwork(network.chainId, index)"
-                          >
-                            <div class="d-flex align-items-center gap-1">
-                              <img :src="network.image" />
-                              {{ network.name }}
-                            </div>
-                            <div v-if="network.current === true">
-                              <svg
-                                width="18"
-                                height="13"
-                                viewBox="0 0 18 13"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M6.29448 13L0 6.83784L1.57362 5.2973L6.29448 9.91892L16.4264 0L18 1.54054L6.29448 13Z"
-                                  fill="#A39F9F"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </template>
-                </Dropdown>
+            <div class="d-flex align-items-center gap-2">
+              <img :src="getTokenEntity(option.img, 'short').icon" width="38" />
+              <div class="d-flex flex-column">
+                <div style="font-size: 12px; color: #ffffff">
+                  {{ option.label }}
+                </div>
+                <div style="font-size: 10px; color: #8e8e8e">
+                  {{ option.img }}
+                </div>
               </div>
             </div>
-
-            <!-- <div v-if="width > 768">
-              <Dropdown :distance="3" :skidding="-10" :placement="'bottom-end'">
-                <div class="bell_container">
-                  <div>
-                    <img class="bell_icon" :src="bell" />
-                    <div class="badge">
-                      <div class="message-count">{{ notifications.length }}</div>
-                    </div>
-                  </div>
+            <div>
+              <div class="d-flex flex-column align-items-end">
+                <div style="font-size: 12px; color: #ffffff">
+                  {{ option.price }}
                 </div>
-                <template #popper>
-                  <div class="header__popup header-notifications">
-                    <h6 style="font-size: 14px; margin-left: 4px;">Recent Activities</h6>
-                    <hr />
-                    <div class="d-flex flex-column gap-2 header-notifications__wrapper">
-                      <div class="p-3 d-flex justify-content-center" v-if="!notifications.length">
-                        Empty
-                      </div>
-                      <div class="header-notifications__el" v-for="(notification, index) in notifications"
-                        :key="`notification-key-${index}`">
-                        <div class="d-flex flex-column">
-                          <div class="d-flex align-items-center gap-1" style="font-size: 12px;">
-                            {{ notification.type }}
-                            <a :href="getNotificationLink(notification)" target="_blank">
-                              <svg v-if="notification.status !== 'Warning'" width="8" height="8" viewBox="0 0 8 8"
-                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1.5 6.91667L6.91667 1.5M6.91667 1.5V6.7M6.91667 1.5H1.71667" stroke="#F8F8F8"
-                                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                              </svg>
-                            </a>
-
-                          </div>
-                          <div style="
-                          color: rgba(115, 128, 137, 0.81);
-                          font-size: 10px;
-                        ">
-                            {{ notification.value }}
-                          </div>
-                        </div>
-                        <div>
-                          <svg v-if="notification.status === 'Success'" width="18" height="18" viewBox="0 0 18 18"
-                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="9" cy="9" r="8.5" fill="#00C9FF" stroke="#00C9FF" />
-                            <path
-                              d="M7.70625 12.9516L4.5 9.74531L5.30156 8.94375L7.70625 11.3484L12.8672 6.1875L13.6687 6.98906L7.70625 12.9516Z"
-                              fill="#F8F8F8" />
-                          </svg>
-                          <svg v-else-if="notification.status === 'Unsuccess'" width="18" height="18" viewBox="0 0 18 18"
-                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="9" cy="9" r="8.5" fill="#F84747" stroke="#F84747" />
-                            <path
-                              d="M4.28999 4.29C4.39546 4.18466 4.53843 4.12549 4.68749 4.12549C4.83656 4.12549 4.97952 4.18466 5.08499 4.29L8.99999 8.205L12.915 4.29C12.9837 4.21595 13.0712 4.16183 13.1681 4.13332C13.2651 4.1048 13.3679 4.10297 13.4658 4.128C13.5637 4.15303 13.653 4.204 13.7244 4.27554C13.7957 4.34708 13.8465 4.43654 13.8712 4.5345C13.8963 4.63228 13.8946 4.73501 13.8662 4.83188C13.8378 4.92875 13.7839 5.01619 13.71 5.085L9.79499 9L13.71 12.915C13.784 12.9838 13.8382 13.0712 13.8667 13.1681C13.8952 13.2651 13.897 13.3679 13.872 13.4658C13.847 13.5637 13.796 13.653 13.7245 13.7244C13.6529 13.7957 13.5635 13.8465 13.4655 13.8712C13.3677 13.8963 13.265 13.8946 13.1681 13.8662C13.0712 13.8378 12.9838 13.7839 12.915 13.71L8.99999 9.795L5.08499 13.71C4.9783 13.8093 4.83726 13.8634 4.69152 13.8609C4.54578 13.8583 4.4067 13.7994 4.30349 13.6965C4.20056 13.5933 4.14164 13.4542 4.13913 13.3085C4.13661 13.1627 4.19069 13.0217 4.28999 12.915L8.20499 9L4.28999 5.085C4.18466 4.97953 4.12549 4.83656 4.12549 4.6875C4.12549 4.53843 4.18466 4.39547 4.28999 4.29Z"
-                              fill="#F8F8F8" />
-                          </svg>
-                          <svg v-else-if="notification.status === 'Warning'" xmlns="http://www.w3.org/2000/svg" width="18"
-                            height="18" viewBox="0 0 18 18" fill="none">
-                            <circle cx="9" cy="9" r="8.5" fill="#FF9C07" stroke="#FF9C07" />
-                            <path d="M9 4.00005L9 8.80005" stroke="white" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                            <path d="M9 12.4L9 13" stroke="white" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round" />
-                          </svg>
-                          <img :src="NetworkImages[notification.network.toLowerCase()]"
-                            v-else-if="notification.network && notification.status === 'Traded'" style="width: 18px">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div @click="clearNotifications" style="
-                  background: rgba(3, 22, 3, 0.81);
-                  color: white;
-                  padding: 3px 11px;
-                  font-size: 12px;
-                  cursor: pointer;
-                  border: 1px solid rgba(3, 22, 3, 0.81);
-                  border-radius: 0 0 20px 20px;
-                  backdrop-filter: blur(10px);
-                ">
-                    Clear Activities
-                  </div>
-                </template>
-              </Dropdown>
-            </div> -->
-
-            <CNavItem>
-              <div v-if="isConnectedToWeb3">
-                <Dropdown :distance="3" :placement="'bottom-end'">
-                  <CButton
-                    v-if="width > 768"
-                    color="success"
-                    variant="standard"
-                    class="header-button"
-                  >
-                    <div class="d-flex align-items-center gap-2">
-                      <CIcon :icon="cilUser" size="lg" /> {{ computedAddress }}
-                    </div>
-                  </CButton>
-                  <div v-else class="bell_container">
-                    <CIcon class="bell_icon" icon="cil-wallet" size="xl" />
-                  </div>
-                  <template #popper>
-                    <div class="header__popup header-account">
-                      <div
-                        class="d-flex justify-content-between align-items-center header-account__header"
-                      >
-                        <div style="font-size: 14px; margin-left: 4px">
-                          Account
-                        </div>
-                        <div
-                          class="header-account__button"
-                          @click="disconnectFromWallet"
-                        >
-                          <!--                      <CButton @click="disconnectFromWallet" style="border-radius: 20px; color: white" color="success"-->
-                          <!--                        variant="standard">Disconnect-->
-                          <!--                      </CButton>-->
-                          Disconnect
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column gap-2">
-                        <div
-                          class="d-flex align-items-center justify-content-between"
-                        >
-                          <div class="d-flex align-items-center gap-2">
-                            <div>
-                              <CIcon :icon="cilUser" size="" />
-                            </div>
-                            <div style="font-size: 12px">
-                              {{ computedAddress }}
-                            </div>
-                          </div>
-                          <span style="font-size: 12px" v-if="copied"
-                            >Copied</span
-                          >
-                          <div class="d-flex align-items-center gap-2">
-                            <div class="account_icon" @click="copy(address)">
-                              <svg
-                                width="13"
-                                height="13"
-                                viewBox="0 0 13 13"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M3.80469 2.03126C3.80469 1.50801 4.22935 1.08334 4.7526 1.08334H10.9688C11.492 1.08334 11.9167 1.50801 11.9167 2.03126V8.25934C11.9167 8.51075 11.8168 8.75185 11.639 8.92962C11.4613 9.10739 11.2202 9.20726 10.9688 9.20726H4.7526C4.5012 9.20726 4.26009 9.10739 4.08233 8.92962C3.90456 8.75185 3.80469 8.51075 3.80469 8.25934V2.03126ZM4.7526 1.89584C4.71669 1.89584 4.68225 1.91011 4.65685 1.93551C4.63145 1.9609 4.61719 1.99535 4.61719 2.03126V8.25934C4.61719 8.33464 4.67785 8.39476 4.7526 8.39476H10.9688C11.0047 8.39476 11.0391 8.38049 11.0645 8.3551C11.0899 8.3297 11.1042 8.29526 11.1042 8.25934V2.03126C11.1042 1.99535 11.0899 1.9609 11.0645 1.93551C11.0391 1.91011 11.0047 1.89584 10.9688 1.89584H4.7526Z"
-                                  fill="#F8F8F8"
-                                />
-                                <path
-                                  d="M1.08057 5.82236C1.0805 5.69783 1.10496 5.57451 1.15257 5.45944C1.20017 5.34437 1.26998 5.23981 1.35801 5.15173C1.44604 5.06365 1.55056 4.99378 1.66561 4.94611C1.78065 4.89844 1.90396 4.8739 2.02848 4.8739H2.84369C2.95144 4.8739 3.05477 4.9167 3.13095 4.99289C3.20714 5.06908 3.24994 5.17241 3.24994 5.28015C3.24994 5.3879 3.20714 5.49123 3.13095 5.56741C3.05477 5.6436 2.95144 5.6864 2.84369 5.6864H2.02848C1.99257 5.6864 1.95812 5.70067 1.93273 5.72606C1.90733 5.75146 1.89307 5.7859 1.89307 5.82182L1.89577 10.9687C1.89577 11.0435 1.9559 11.1042 2.03119 11.1042H7.17702C7.21294 11.1042 7.24738 11.0899 7.27278 11.0645C7.29817 11.0391 7.31244 11.0046 7.31244 10.9687V10.1508C7.31244 10.0431 7.35524 9.93974 7.43143 9.86356C7.50762 9.78737 7.61095 9.74457 7.71869 9.74457C7.82644 9.74457 7.92977 9.78737 8.00595 9.86356C8.08214 9.93974 8.12494 10.0431 8.12494 10.1508V10.9687C8.12494 11.2201 8.02507 11.4612 7.8473 11.639C7.66953 11.8168 7.42843 11.9167 7.17702 11.9167H2.03119C1.77979 11.9167 1.53868 11.8168 1.36091 11.639C1.18314 11.4612 1.08327 11.2201 1.08327 10.9687L1.08057 5.82236Z"
-                                  fill="#F8F8F8"
-                                />
-                              </svg>
-                            </div>
-                            <a
-                              :href="`https://blockscan.com/address/${address}`"
-                              target="_blank"
-                            >
-                              <div class="account_icon">
-                                <svg
-                                  width="13"
-                                  height="13"
-                                  viewBox="0 0 13 13"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M3.25 10.2917L10.2917 3.25M10.2917 3.25V10.01M10.2917 3.25H3.53167"
-                                    stroke="#F8F8F8"
-                                    stroke-width="1.5"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                  />
-                                </svg>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                        <div
-                          class="d-flex align-items-center justify-content-between"
-                        >
-                          <div class="d-flex align-items-center gap-2">
-                            <div>
-                              <img
-                                :src="meatamask_without_bg"
-                                alt="meatamask_without_bg"
-                                width="16"
-                                height="14"
-                              />
-                            </div>
-                            <div style="font-size: 12px">Metamask</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="header-account__footer">
-                      <div class="d-flex flex-column gap-2">
-                        <div>Network</div>
-                        <div class="d-flex align-items-center gap-1">
-                          <div>
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 8 8"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <circle
-                                cx="3.75"
-                                cy="3.75"
-                                r="3.75"
-                                :fill="
-                                  computedNetwork === 'Unsupported network'
-                                    ? 'rgba(248, 71, 71, 1)'
-                                    : '#00C9FF'
-                                "
-                              />
-                            </svg>
-                          </div>
-                          <div v-if="computedNetwork === 'Unsupported network'">
-                            {{ computedNetwork }}
-                          </div>
-                          <div v-else>Connected to {{ computedNetwork }}</div>
-                        </div>
-                      </div>
-                    </div>
-                  </template>
-                </Dropdown>
-              </div>
-              <div v-else>
-                <div v-if="isMetamaskSupported">
-                  <Dropdown :distance="4" :placement="'bottom-end'">
-                    <div class="d-flex">
-                      <CButton
-                        color="success"
-                        variant="standard"
-                        class="header-button"
-                        style="margin-left: 16px"
-                      >
-                        <div class="d-flex align-items-center gap-2">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="18"
-                            height="20"
-                            viewBox="0 0 18 20"
-                            fill="none"
-                          >
-                            <path
-                              d="M14 6V3C14 2.73478 13.8946 2.48043 13.7071 2.29289C13.5196 2.10536 13.2652 2 13 2H3C2.46957 2 1.96086 2.21071 1.58579 2.58579C1.21071 2.96086 1 3.46957 1 4M1 4C1 4.53043 1.21071 5.03914 1.58579 5.41421C1.96086 5.78929 2.46957 6 3 6H15C15.2652 6 15.5196 6.10536 15.7071 6.29289C15.8946 6.48043 16 6.73478 16 7V10M1 4V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H15C15.2652 18 15.5196 17.8946 15.7071 17.7071C15.8946 17.5196 16 17.2652 16 17V14"
-                              stroke="white"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                            <path
-                              d="M17 10V14H13C12.4696 14 11.9609 13.7893 11.5858 13.4142C11.2107 13.0391 11 12.5304 11 12C11 11.4696 11.2107 10.9609 11.5858 10.5858C11.9609 10.2107 12.4696 10 13 10H17Z"
-                              stroke="white"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                          Connect Wallet
-                        </div>
-                      </CButton>
-                    </div>
-
-                    <template #popper>
-                      <div class="header__popup">
-                        <h4
-                          style="
-                            font-size: 14px;
-                            margin-left: 12px;
-                            margin-bottom: 30px;
-                          "
-                        >
-                          Select wallet
-                        </h4>
-                        <div class="wallet_container" @click="connectWallet">
-                          <img :src="metamask" alt="Metamask" width="32" />
-                          <div>Metamask</div>
-                        </div>
-                      </div>
-                    </template>
-                  </Dropdown>
+                <div style="font-size: 10px; color: #8e8e8e" class="d-flex align-items-center gap-1">
+                  <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_74_4052)">
+<path d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z" fill="#40B66B"/>
+</g>
+<defs>
+<clipPath id="clip0_74_4052">
+<rect width="5.12436" height="5.12436" fill="white" transform="translate(4.4375 7) rotate(-150)"/>
+</clipPath>
+</defs>
+</svg>
+{{ option.percentChange }}
                 </div>
-                <a v-else href="https://metamask.io/download/" target="_blank">
-                  <CButton color="warning" variant="standard"
-                    >Metamask not found</CButton
-                  >
-                </a>
               </div>
-            </CNavItem>
-          </div>
+            </div>
+            </div>
+          </template>
+        </vue-select>
+        <div style="position: absolute; left: 7px; top: 6px; color: #858c90">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17.9417 17.0583L14.7408 13.8575C15.8108 12.5883 16.4583 10.9525 16.4583 9.16667C16.4583 5.14583 13.1875 1.875 9.16667 1.875C5.14583 1.875 1.875 5.14583 1.875 9.16667C1.875 13.1875 5.14583 16.4583 9.16667 16.4583C10.9525 16.4583 12.5883 15.8108 13.8575 14.7408L17.0583 17.9417C17.18 18.0633 17.34 18.125 17.5 18.125C17.66 18.125 17.82 18.0642 17.9417 17.9417C18.1858 17.6983 18.1858 17.3025 17.9417 17.0583ZM3.125 9.16667C3.125 5.835 5.835 3.125 9.16667 3.125C12.4983 3.125 15.2083 5.835 15.2083 9.16667C15.2083 12.4983 12.4983 15.2083 9.16667 15.2083C5.835 15.2083 3.125 12.4983 3.125 9.16667Z"
+              fill="#9B9B9B"
+            />
+          </svg>
         </div>
-        <!-- <AppHeaderDropdownAccnt /> -->
-      </CHeaderNav>
+        <div style="position: absolute; right: 12px; top: 7px; color: #7d7d7d">
+          <svg
+            width="5"
+            height="12"
+            viewBox="0 0 5 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.35511 0.863636L1.54261 11.3125H0.191761L3.00426 0.863636H4.35511Z"
+              fill="#7D7D7D"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <div>
+        <div class="connect_wallet" @click="$emit('toggleSidebar')">
+          Connect
+        </div>
+      </div>
     </CContainer>
   </CHeader>
 </template>
@@ -398,9 +135,10 @@
 // import arbitrum from '@/assets/images/networks/arbitrum.png'
 // import binance from '@/assets/images/networks/binance.png'
 import router from '@/router'
+import { getTokenEntity } from '@/lib/helpers/util'
 
 // import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch, defineEmits } from 'vue'
 import { cilUser } from '@coreui/icons'
 import { Dropdown } from 'floating-vue'
 import metamask from '@/assets/images/metamask.png'
@@ -426,28 +164,63 @@ import { capitalizeFirstLetter } from '@/lib/utils/index'
 import { configService } from '@/services/config/config.service'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
+import VueSelect from 'vue-next-select'
+import 'vue-next-select/dist/index.css'
 
 import 'vue3-toastify/dist/index.css'
 var emitter = require('tiny-emitter/instance')
+
+defineEmits(['toggleSidebar'])
+
 const { width } = useDevice()
+function reloadPage() {
+  window.location.reload()
+}
+const tokens = ref(null)
+
+const tokensOptions = ref([
+  {
+    label: 'Bitcoin',
+    img: 'BTC',
+    price: '$51000',
+    percentChange: '5.1%',
+  },
+  {
+    label: 'Ethereum',
+    img: 'ETH',
+    price: '$2700',
+    percentChange: '2.1%',
+  },
+  {
+    label: 'Arbitrum',
+    img: 'ARB',
+    price: '$1.89',
+    percentChange: '1.1%',
+  },
+  {
+    label: 'Solana',
+    img: 'SOL',
+    price: '$115.54',
+    percentChange: '11.1%',
+  },
+])
 
 const isHeaderBg = ref(false)
 
+const headRef = ref(null) // obtain the reference
+onMounted(() => {
+  window.addEventListener('scroll', () => {
+    var curr = window.pageYOffset
 
-const headRef = ref(null); // obtain the reference
-    onMounted(() => {
-        window.addEventListener("scroll", () => {
-            var curr = window.pageYOffset;
+    // You can style header-bg for style purpose
 
-            // You can style header-bg for style purpose
-
-            if (curr >= 100) {
-              isHeaderBg.value = true;
-            }else{
-              isHeaderBg.value = false;
-            }
-        });
-    });
+    if (curr >= 100) {
+      isHeaderBg.value = true
+    } else {
+      isHeaderBg.value = false
+    }
+  })
+})
 
 const notify = (popupType, popupText, popupSubText) => {
   toast(Toast, {
@@ -731,12 +504,17 @@ const computedNetworkImage = computed(() =>
 }
 
 .header_main {
-  position: sticky; top: 0;
+  position: sticky;
+  top: 0;
   z-index: 12;
   margin-top: 10px;
   margin-bottom: 10px;
   &_bg {
-    background: linear-gradient(356.2deg, rgba(0, 29, 37, 0.755) 0%, #000000 105.42%) !important;
+    background: linear-gradient(
+      356.2deg,
+      rgba(0, 29, 37, 0.755) 0%,
+      #000000 105.42%
+    ) !important;
     -webkit-backdrop-filter: blur(60px);
     backdrop-filter: blur(60px);
   }
@@ -1294,15 +1072,85 @@ const computedNetworkImage = computed(() =>
   text-align: center;
   color: #7d7d7d;
   &:hover {
-    color: #2ABDFF;
+    color: #2abdff;
     cursor: pointer;
   }
   &_selected {
-    background: -webkit-linear-gradient( #2775CA ,#2ABDFF );
+    background: -webkit-linear-gradient(#2775ca, #2abdff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 0.7rem #00C9FF);
+    filter: drop-shadow(0 0 0.7rem #00c9ff);
+  }
+}
 
+.arrow-downward {
+  display: none !important;
+}
+
+.vue-select {
+  background: linear-gradient(0deg, #090909, #090909),
+    linear-gradient(0deg, rgba(115, 115, 115, 0.06), rgba(115, 115, 115, 0.06));
+  border: 1px solid #222222c9;
+  border-radius: 16px;
+  width: 400px;
+  &:hover {
+    border: 1px solid #00c8ffb7;
+    filter: drop-shadow(0 0 0.3rem #00c8ff63);
+  }
+}
+
+.vue-input {
+  padding-left: 35px;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0em;
+  color: #7d7d7d;
+  height: 38px;
+}
+
+.vue-input input {
+  background: transparent;
+  color: white;
+}
+
+.vue-dropdown {
+  background: #090909;
+  border: 1px solid #222222c9;
+  color: white;
+}
+
+.vue-dropdown-item.highlighted {
+  background: #00c8ff59;
+}
+.vue-dropdown-item.selected.highlighted {
+  background: #00c8ff59;
+}
+
+.vue-select[data-is-focusing='false'][aria-disabled='false'] .vue-input input,
+input[readonly] {
+  cursor: text;
+}
+
+.connect_wallet {
+  border-radius: 16px;
+  background: linear-gradient(0deg, #090909, #090909),
+    linear-gradient(0deg, rgba(42, 189, 255, 0.62), rgba(42, 189, 255, 0.62));
+  border: 1px solid #2abdff9e;
+  box-shadow: 0px 4px 4px 0px #2abdff40;
+  color: #2abdff;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: center;
+  padding: 10px 20px;
+  &:hover {
+    background: #2abdff;
+    color: white;
+    cursor: pointer;
   }
 }
 </style>

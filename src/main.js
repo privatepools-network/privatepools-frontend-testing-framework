@@ -24,5 +24,7 @@ app.component('DocsExample', DocsExample)
 app.component('apexchart', VueApexCharts)
 app.use(FloatingVue)
 
+
 app.mount('#app')
+
 inject()
