@@ -47,7 +47,7 @@
               <div :class="tier.selected
                 ? 'fee_tier_container_card fee_tier_container_card__selected'
                 : 'fee_tier_container_card'
-                " v-for="(tier, i) in fee_tiers" :key="`tiers-${i}`" @click="selectTier()">
+                " v-for="(tier, i) in fee_tiers" :key="`tiers-${i}`" @click="selectTier(i)">
                 <div style="color: #c1c8ce">{{ tier.percent }}</div>
                 <div style="color: #858c90">{{ tier.name }}</div>
               </div>
@@ -70,10 +70,10 @@
                           color: #c1c8ce;
                           font-weight: 600;
                           font-size: 20px;
-                        " :value="minRangeFirstToken" />
+                        " v-model="priceRange1" @blur="adjustTokenPrices" />
                     </div>
                     <div style="font-size: 12px; font-weight: 400; color: #858c90">
-                      ≈ = $0
+                      ≈ = ${{ ((pairToken1.price || 0) * priceRange1).toFixed(2) }}
                     </div>
                   </div>
                   <div style="
@@ -82,8 +82,9 @@
                       top: 15px;
                       color: #858c90;
                     ">
-                    0%
+                    {{ calculatePercentageDifference(relativePrice, priceRange1).toFixed(2) }}%
                   </div>
+                  <!--TODO: implement decrement/increment logic based on next tick position-->
                   <div v-if="concentratedLiquidityStep === 2" style="
                       position: absolute;
                       top: 0;
@@ -97,13 +98,13 @@
                       justify-content: space-between;
                       border-radius: 0px 6px 6px 0px;
                     " class="p-4">
-                    <div @click="minRangeFirstToken = minRangeFirstToken + 1" style="cursor: pointer">
+                    <div @click="incrementPriceRange(true)" style="cursor: pointer">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z"
                           fill="#F8F8F8" />
                       </svg>
                     </div>
-                    <div @click="minRangeFirstToken = minRangeFirstToken - 1" style="cursor: pointer">
+                    <div @click="decrementPriceRange(true)" style="cursor: pointer">
                       <svg width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14 1.99805H8H6H0V-0.00195312H6H8H14V1.99805Z" fill="#F8F8F8" />
                       </svg>
@@ -125,10 +126,10 @@
                           color: #c1c8ce;
                           font-weight: 600;
                           font-size: 20px;
-                        " :value="maxRangeSecondToken" />
+                        " v-model="priceRange2" @blur="adjustTokenPrices" />
                     </div>
                     <div style="font-size: 12px; font-weight: 400; color: #858c90">
-                      ≈ = $0
+                      ≈ = ${{ ((pairToken1.price || 0) * priceRange2).toFixed(2) }}
                     </div>
                   </div>
                   <div style="
@@ -137,7 +138,7 @@
                       top: 15px;
                       color: #858c90;
                     ">
-                    0%
+                    {{ calculatePercentageDifference(relativePrice, priceRange2).toFixed(2) }}%
                   </div>
                   <div v-if="concentratedLiquidityStep === 2" style="
                       position: absolute;
@@ -152,13 +153,13 @@
                       justify-content: space-between;
                       border-radius: 0px 6px 6px 0px;
                     " class="p-4">
-                    <div @click="maxRangeSecondToken = maxRangeSecondToken + 1" style="cursor: pointer">
+                    <div @click="incrementPriceRange(false)" style="cursor: pointer">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z"
                           fill="#F8F8F8" />
                       </svg>
                     </div>
-                    <div @click="maxRangeSecondToken = maxRangeSecondToken - 1" style="cursor: pointer">
+                    <div @click="decrementPriceRange(false)" style="cursor: pointer">
                       <svg width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14 1.99805H8H6H0V-0.00195312H6H8H14V1.99805Z" fill="#F8F8F8" />
                       </svg>
@@ -214,9 +215,9 @@
                         {{ pairToken1.symbol }}
                       </h4>
                     </div>
-                    <div>balance: 0.00</div>
+                    <div>Balance: {{ (pairToken1.balance || 0) - depositAmount1 }}</div>
                   </div>
-                  <div class="max_button">Max</div>
+                  <div class="max_button" @click="depositAmount1 = pairToken1.balance">Max</div>
                 </div>
                 <div>
                   <div class="d-flex flex-column gap-2 p-3">
@@ -228,8 +229,9 @@
                         color: #c1c8ce;
                         font-weight: 600;
                         font-size: 20px;
-                      " value="0.00" />
-                    <div style="color: #858c90; font-size: 12px">≈$0</div>
+                      " v-model="depositAmount1" />
+                    <div style="color: #858c90; font-size: 12px">≈${{ (depositAmount1 * (pairToken1.price ||
+                      0)).toFixed(2) }}</div>
                   </div>
                 </div>
               </div>
@@ -257,9 +259,9 @@
                         {{ pairToken2.symbol }}
                       </h4>
                     </div>
-                    <div>balance: 0.00</div>
+                    <div>Balance: {{ (pairToken2.balance||0) - depositAmount2 }}</div>
                   </div>
-                  <div class="max_button">Max</div>
+                  <div class="max_button" @click="depositAmount2 = pairToken2.balance">Max</div>
                 </div>
                 <div>
                   <div class="d-flex flex-column gap-2 p-3">
@@ -271,8 +273,10 @@
                         color: #c1c8ce;
                         font-weight: 600;
                         font-size: 20px;
-                      " value="0.00" />
-                    <div style="color: #858c90; font-size: 12px">≈$0</div>
+                      " v-model="depositAmount2" />
+                    <div style="color: #858c90; font-size: 12px">≈${{ (depositAmount2 * (pairToken2.price ||
+                      0)).toFixed(2)
+                    }}</div>
                   </div>
                 </div>
               </div>
@@ -355,14 +359,13 @@
             </div>
           </div>
 
-          <button v-if="concentratedLiquidityStep === 1" :class="concentratedLiquidityStep === 1
+          <button v-if="!tokensInitialized" :class="!tokensInitialized
             ? 'concentrated_button concentrated_button_disabled'
             : 'concentrated_button'
             ">
             No Tokens Selected
           </button>
-          <button v-else-if="concentratedLiquidityStep === 2" :class="'concentrated_button'"
-            @click="concentratedLiquidityStep = 3">
+          <button v-else-if="tokensInitialized" :class="'concentrated_button'" @click="concentratedLiquidityStep = 3">
             Add liquidity
           </button>
           <button v-else-if="concentratedLiquidityStep === 3" :class="'concentrated_button'"
@@ -380,7 +383,9 @@
       </div>
 
       <div class="w-50">
-        <ChartAndPoolInfo :concentratedLiquidityStep="concentratedLiquidityStep" />
+        <ChartAndPoolInfo :token0="pairToken1" :token1="pairToken2" :minPriceRange="priceRange1"
+          :maxPriceRange="priceRange2" :price="relativePrice" :concentratedLiquidityStep="concentratedLiquidityStep"
+          :poolInfo="poolInfo" />
       </div>
     </div>
   </MainCard>
@@ -391,12 +396,17 @@ import MainCard from '@/UI/MainCard.vue'
 import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
 import ChartAndPoolInfo from '@/components/ComposePool/ChartAndPoolInfo.vue'
 import not_found from '@/assets/icons/not_found.svg'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import metamask from '@/assets/icons/approveTokenSteps/metamask.svg'
 import { fetchUniswapTokens } from '@/composables/tokens/useUniswapTokens'
 import { networkId } from '@/composables/useNetwork'
-
+import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
+import useBalance from "@/composables/useBalance"
+import { ethers } from "ethers";
+import { calculatePercentageDifference } from "@/lib/utils"
+import { getPoolInfo, FEE_AMOUNTS, convertPairToken, adjustPrices, getDecrementLower, getDecrementUpper, getIncrementLower, getIncrementUpper, parseTicks } from "@/composables/concentrated-liquidity/cl"
 const concentratedLiquidityStep = ref(1)
+const feeTier = ref(0)
 const tokenSelectModal = ref(false)
 const pairIndex = ref(1)
 const minRangeFirstToken = ref(1)
@@ -411,23 +421,37 @@ const pairToken2 = ref({
   img: not_found,
   symbol: '',
 })
+const feeAmount = computed(() => FEE_AMOUNTS[feeTier.value])
+
+const tokensInitialized = computed(() => pairToken1.value.price && pairToken2.value.price)
+
+const convertedPairToken1 = computed(() => pairToken1.value.symbol != "" ? convertPairToken(pairToken1.value, 1) : null)
+const convertedPairToken2 = computed(() => pairToken2.value.symbol != "" ? convertPairToken(pairToken2.value, 1) : null)
+
+
+
+
+const depositAmount1 = ref(0)
+const depositAmount2 = ref(0)
+
+const priceRange1 = ref(0)
+const priceRange2 = ref(0)
+
+const ticks = computed(() => {
+  if (convertedPairToken1.value && convertedPairToken2.value) {
+    return parseTicks(convertedPairToken1.value, convertedPairToken2.value, priceRange1.value, priceRange2.value, feeAmount.value)
+  }
+  return null
+})
+const tickLower = computed(() => ticks.value ? ticks.value.tickLower : 0)
+const tickUpper = computed(() => ticks.value ? ticks.value.tickUpper : 0)
 
 const fee_tiers = ref([
-  // {
-  //   name: 'STABLE +',
-  //   percent: '0.005%',
-  //   selected: false,
-  // },
   {
     name: 'STABLE',
     percent: '0.01%',
     selected: true,
   },
-  // {
-  //   name: 'BLUECHIP',
-  //   percent: '0.025%',
-  //   selected: false,
-  // },
   {
     name: 'BLUECHIP +',
     percent: '0.05%',
@@ -471,9 +495,13 @@ const range_types = ref([
   },
 ])
 
-function selectTier() {
+const relativePrice = computed(() => pairToken1.value.price && pairToken2.value.price ? pairToken2.value.price / pairToken1.value.price : 0)
+
+function selectTier(index) {
   // fee_tiers.value.map((t) => (t.selected = false))
   concentratedLiquidityStep.value = 2
+  feeTier.value = index
+  fee_tiers.value[index].selected = true
   // tier.selected = true
 }
 function selectRange(rng) {
@@ -494,11 +522,69 @@ function updateToken(token, index) {
   if (index == 2) {
     pairToken2.value = token
   }
-  console.log('tdsfdfd is ', token, index)
+}
+const defaultProvider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545")
+
+async function updateTokenInfo(token) {
+  let price = await GetTokenPriceUsd(token.value.symbol)
+  let balance = await useBalance(token.value.address, defaultProvider, "0x172d6cA0192a2AaD6896C05Ae333c0E397fb97Fb")
+  token.value.price = price
+  token.value.balance = balance
+  if (pairToken1.value.price && pairToken2.value.price) {
+
+    priceRange1.value = relativePrice.value - ((relativePrice.value / 100) * 5) // -5% difference
+    priceRange2.value = relativePrice.value + ((relativePrice.value / 100) * 5) // +5% difference
+    adjustTokenPrices()
+    poolInfo.value = await getPoolInfo(defaultProvider, convertedPairToken1.value, convertedPairToken2.value, feeAmount.value)
+    console.log("POOL INFO - ", poolInfo.value)
+  }
 }
 
+
+function incrementPriceRange(lower = true) {
+  if (poolInfo.value) {
+    adjustTokenPrices()
+    if (lower) {
+      priceRange1.value = getIncrementLower(tickLower.value, poolInfo.value, convertedPairToken1.value, convertedPairToken2.value, feeAmount.value)
+    } else {
+      priceRange2.value = getIncrementUpper(tickUpper.value, poolInfo.value, convertedPairToken1.value, convertedPairToken2.value, feeAmount.value)
+    }
+  }
+}
+function decrementPriceRange(lower = true) {
+  if (poolInfo.value) {
+    adjustTokenPrices()
+    if (lower) {
+      priceRange1.value = getDecrementLower(tickLower.value, poolInfo.value, convertedPairToken1.value, convertedPairToken2.value, feeAmount.value)
+    } else {
+      priceRange2.value = getDecrementUpper(tickUpper.value, poolInfo.value, convertedPairToken1.value, convertedPairToken2.value, feeAmount.value)
+    }
+  }
+}
+
+const poolInfo = ref(null)
+
+function adjustTokenPrices() {
+  if (pairToken1.value.price && pairToken2.value.price) {
+    let newPrices = adjustPrices(convertedPairToken1.value, convertedPairToken2.value, priceRange1.value, priceRange2.value, feeAmount.value)
+    console.log("NEW PRICES - ", newPrices.priceLower.toSignificant(8), newPrices.priceUpper.toSignificant(8))
+    priceRange1.value = newPrices.priceLower.toSignificant(8)
+    priceRange2.value = newPrices.priceUpper.toSignificant(8)
+  }
+}
+
+watch(pairToken1, async () => {
+  await updateTokenInfo(pairToken1);
+})
+watch(pairToken2, async () => {
+  await updateTokenInfo(pairToken2);
+})
+
+
+
 onMounted(async () => {
-  notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(networkId.value)
+  console.log(networkId.value)
+  notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(null)//networkId.value
   console.log(notSelectedPossibleComposeTokens.value)
 })
 </script>
