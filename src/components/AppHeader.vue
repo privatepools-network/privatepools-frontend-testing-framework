@@ -214,7 +214,7 @@ onMounted(() => {
 
     // You can style header-bg for style purpose
 
-    if (curr >= 100) {
+    if (curr >= 50) {
       isHeaderBg.value = true
     } else {
       isHeaderBg.value = false
@@ -1126,6 +1126,10 @@ const computedNetworkImage = computed(() =>
 }
 .vue-dropdown-item.selected.highlighted {
   background: #00c8ff59;
+}
+
+.vue-dropdown-item.selected {
+  background: transparent;
 }
 
 .vue-select[data-is-focusing='false'][aria-disabled='false'] .vue-input input,

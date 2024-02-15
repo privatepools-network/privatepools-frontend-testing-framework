@@ -1,14 +1,15 @@
 <template>
+   <Drawer :is-open="sidebarWalletOpen" :speed="500" @close="closeSidebar">
+        <div style="height: 100%;">
+          <ConnectWalletsDrawer v-if="sidebarWalletState === 'Connect wallet'" @toggleSettings="toggleSettings"/>
+          <SettingsDrawer v-else-if="sidebarWalletState === 'Settings'" @toggleToWallets="toggleToWallets"/>
+        </div>
+      </Drawer>
   <main class="main_containter">
     <div class="app_container">
       <!-- <AppSidebar /> -->
 
       <div class="wrapper d-flex flex-column min-vh-100">
-        <!-- <Drawer :is-open="sidebarWalletOpen" :speed="500" @close="closeSidebar">
-          <div>
-            <h4>Connect a wallet</h4>
-          </div>
-        </Drawer> -->
         <AppHeader @toggleSidebar="toggleSidebar" />
         <div
           class="body flex-grow-1 px-1 px-md-3 pt-1"
@@ -20,12 +21,15 @@
           <router-view />
         </div>
       </div>
+     
     </div>
   </main>
 </template>
 <script setup>
 import AppHeader from '@/components/AppHeader.vue'
-
+import ConnectWalletsDrawer from '@/components/Drawer/ConnectWalletsDrawer.vue'
+import SettingsDrawer from '@/components/Drawer/SettingsDrawer.vue'
+import Drawer from '@/UI/Drawer.vue'
 // import AppSidebar from '@/components/AppSidebar.vue'
 // import NewReleasesCard from "@/UI/NewReleasesCard.vue";
 import { onMounted, ref } from 'vue'
@@ -33,12 +37,21 @@ import { onMounted, ref } from 'vue'
 // import { useSwipe } from '@vueuse/core'
 
 const sidebarWalletOpen = ref(false)
+const sidebarWalletState = ref('Connect wallet')
 
 function toggleSidebar() {
   sidebarWalletOpen.value = !sidebarWalletOpen.value
 }
 function closeSidebar() {
   sidebarWalletOpen.value = false
+}
+
+
+function toggleSettings() {
+  sidebarWalletState.value = 'Settings'
+}
+function toggleToWallets() {
+  sidebarWalletState.value = 'Connect wallet'
 }
 
 // const { isSwiping, direction } = useSwipe(document.body)
@@ -81,6 +94,8 @@ function closeSidebar() {
   );
   backdrop-filter: blur(65px);
 }
+
+
 
 @media (max-width: $xxl) {
   html:not([dir='rtl']) .wrapper {
