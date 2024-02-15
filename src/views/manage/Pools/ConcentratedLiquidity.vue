@@ -215,7 +215,7 @@
                         {{ pairToken1.symbol }}
                       </h4>
                     </div>
-                    <div>Balance: {{ pairToken1.balance - depositAmount1 }}</div>
+                    <div>Balance: {{ (pairToken1.balance || 0) - depositAmount1 }}</div>
                   </div>
                   <div class="max_button" @click="depositAmount1 = pairToken1.balance">Max</div>
                 </div>
@@ -259,7 +259,7 @@
                         {{ pairToken2.symbol }}
                       </h4>
                     </div>
-                    <div>Balance: {{ pairToken2.balance - depositAmount2 }}</div>
+                    <div>Balance: {{ (pairToken2.balance||0) - depositAmount2 }}</div>
                   </div>
                   <div class="max_button" @click="depositAmount2 = pairToken2.balance">Max</div>
                 </div>
