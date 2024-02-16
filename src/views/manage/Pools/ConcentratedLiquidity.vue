@@ -259,7 +259,7 @@
                         {{ pairToken2.symbol }}
                       </h4>
                     </div>
-                    <div>Balance: {{ (pairToken2.balance||0) - depositAmount2 }}</div>
+                    <div>Balance: {{ (pairToken2.balance || 0) - depositAmount2 }}</div>
                   </div>
                   <div class="max_button" @click="depositAmount2 = pairToken2.balance">Max</div>
                 </div>
@@ -365,10 +365,10 @@
             ">
             No Tokens Selected
           </button>
-          <button v-else-if="tokensInitialized" :class="'concentrated_button'" @click="concentratedLiquidityStep = 3">
+          <button v-else-if="tokensInitialized" :class="'concentrated_button'" @click="mintPosition">
             Add liquidity
           </button>
-          <button v-else-if="concentratedLiquidityStep === 3" :class="'concentrated_button'"
+          <!-- <button v-else-if="concentratedLiquidityStep === 3" :class="'concentrated_button'"
             @click="concentratedLiquidityStep = 4">
             Approve all tokens for adding liquidity
           </button>
@@ -378,7 +378,7 @@
           </button>
           <button v-else-if="concentratedLiquidityStep === 5" :class="'concentrated_button'">
             Add liquidity
-          </button>
+          </button> -->
         </div>
       </div>
 
@@ -404,7 +404,8 @@ import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
 import useBalance from "@/composables/useBalance"
 import { ethers } from "ethers";
 import { calculatePercentageDifference } from "@/lib/utils"
-import { getPoolInfo, FEE_AMOUNTS, convertPairToken, adjustPrices, getDecrementLower, getDecrementUpper, getIncrementLower, getIncrementUpper, parseTicks } from "@/composables/concentrated-liquidity/cl"
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import { getPoolInfo, FEE_AMOUNTS, convertPairToken, adjustPrices, getDecrementLower, getDecrementUpper, getIncrementLower, getIncrementUpper, parseTicks, MintPosition } from "@/composables/concentrated-liquidity/cl"
 const concentratedLiquidityStep = ref(1)
 const feeTier = ref(0)
 const tokenSelectModal = ref(false)
@@ -437,6 +438,8 @@ const depositAmount2 = ref(0)
 const priceRange1 = ref(0)
 const priceRange2 = ref(0)
 
+
+const mmProvider = computed(() => new ethers.providers.Web3Provider(window.ethereum));
 const ticks = computed(() => {
   if (convertedPairToken1.value && convertedPairToken2.value) {
     return parseTicks(convertedPairToken1.value, convertedPairToken2.value, priceRange1.value, priceRange2.value, feeAmount.value)
@@ -495,7 +498,7 @@ const range_types = ref([
   },
 ])
 
-const relativePrice = computed(() => pairToken1.value.price && pairToken2.value.price ? pairToken2.value.price / pairToken1.value.price : 0)
+const relativePrice = computed(() => pairToken1.value.price && pairToken2.value.price ? pairToken1.value.price / pairToken2.value.price : 0)
 
 function selectTier(index) {
   // fee_tiers.value.map((t) => (t.selected = false))
@@ -523,11 +526,15 @@ function updateToken(token, index) {
     pairToken2.value = token
   }
 }
-const defaultProvider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545")
 
 async function updateTokenInfo(token) {
+  if (!mmProvider.value) {
+    console.error("connect mm first")
+    return
+  }
   let price = await GetTokenPriceUsd(token.value.symbol)
-  let balance = await useBalance(token.value.address, defaultProvider, "0x172d6cA0192a2AaD6896C05Ae333c0E397fb97Fb")
+  let user = await mmProvider.value.getSigner().getAddress()
+  let balance = await useBalance(token.value.address, mmProvider.value, user)
   token.value.price = price
   token.value.balance = balance
   if (pairToken1.value.price && pairToken2.value.price) {
@@ -535,7 +542,7 @@ async function updateTokenInfo(token) {
     priceRange1.value = relativePrice.value - ((relativePrice.value / 100) * 5) // -5% difference
     priceRange2.value = relativePrice.value + ((relativePrice.value / 100) * 5) // +5% difference
     adjustTokenPrices()
-    poolInfo.value = await getPoolInfo(defaultProvider, convertedPairToken1.value, convertedPairToken2.value, feeAmount.value)
+    poolInfo.value = await getPoolInfo(mmProvider.value, convertedPairToken1.value, convertedPairToken2.value, feeAmount.value)
     console.log("POOL INFO - ", poolInfo.value)
   }
 }
@@ -573,6 +580,22 @@ function adjustTokenPrices() {
   }
 }
 
+
+async function mintPosition() {
+  try {
+    if (!mmProvider.value) {
+      console.error("Connect MM first")
+      return
+    }
+    let signer = mmProvider.value.getSigner()
+    await MintPosition(signer, convertedPairToken1.value, convertedPairToken2.value, feeAmount.value, depositAmount1.value, depositAmount2.value, priceRange1.value, priceRange2.value);
+    concentratedLiquidityStep.value = 3
+  }
+  catch (e) {
+    console.error("[MINT ERROR] Error happened during position minting")
+  }
+}
+
 watch(pairToken1, async () => {
   await updateTokenInfo(pairToken1);
 })
@@ -581,10 +604,9 @@ watch(pairToken2, async () => {
 })
 
 
-
 onMounted(async () => {
   console.log(networkId.value)
-  notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(null)//networkId.value
+  notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(null)// TODO: networkId.value
   console.log(notSelectedPossibleComposeTokens.value)
 })
 </script>

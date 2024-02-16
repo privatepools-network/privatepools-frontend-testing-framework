@@ -129,22 +129,16 @@ export async function constructTakeProfitOrder(
     priceToClosestTick(priceTarget),
     poolInfo.tickSpacing,
   )
-  const amount0 = CurrencyAmount.fromRawAmount(
-    tokenA,
-    fromReadableAmount(amountA, tokenA.decimals),
-  )
-  const amount1 = CurrencyAmount.fromRawAmount(
-    tokenB,
-    fromReadableAmount(amountB, tokenB.decimals),
-  )
+  // const amount0 = CurrencyAmount.fromRawAmount(tokenA, amountA)
+  // const amount1 = CurrencyAmount.fromRawAmount(tokenB, amountB)
 
   const position = await constructRangeOrderPosition(
-    amount0,
-    amount1,
-    targetTick,
+    amountA,
+    amountB,
     configuredPool,
     tickLower,
     tickUpper,
+    feeAmount,
   )
 
   const closestTargetPrice = tickToPrice(
@@ -167,6 +161,7 @@ async function constructRangeOrderPosition(
   pool,
   tickLower,
   tickUpper,
+  feeAmount,
 ) {
   // Create position from next tick below or one tick below the current tick to boundary tick
   //   let tickLower = tickBoundary;
@@ -181,10 +176,10 @@ async function constructRangeOrderPosition(
 
   return Position.fromAmounts({
     pool: pool,
-    tickLower: tickLower,
-    tickUpper: tickUpper,
-    amount0: token0Amount.quotient,
-    amount1: token1Amount.quotient,
+    tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
+    tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
+    amount0: token0Amount,
+    amount1: token1Amount,
     useFullPrecision: true,
   })
 }
@@ -493,6 +488,7 @@ export function adjustPrices(token0, token1, lowPrice, highPrice, feeAmount) {
 }
 
 export async function MintPosition(
+  signer,
   token0,
   token1,
   feeAmount,
@@ -504,17 +500,21 @@ export async function MintPosition(
 ) {
   let tickLower = tryParseTick(token0, token1, feeAmount, lowPrice.toString())
   let tickUpper = tryParseTick(token0, token1, feeAmount, highPrice.toString())
-  const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545')
-  let signer = new ethers.Wallet(
-    '',
-    provider,
-  )
+  if (tickLower > tickUpper) {
+    let _lower = tickLower
+    tickLower = tickUpper
+    tickUpper = _lower
+  }
   let order = await constructTakeProfitOrder(
     signer,
     token0,
     token1,
-    depositAmount0,
-    depositAmount1,
+    ethers.utils
+      .parseUnits(depositAmount0.toString(), token0.decimals)
+      .toString(),
+    ethers.utils
+      .parseUnits(depositAmount1.toString(), token1.decimals)
+      .toString(),
     feeAmount,
     tickLower,
     tickUpper,
@@ -522,24 +522,25 @@ export async function MintPosition(
   const { amount0, amount1 } = order.position.mintAmounts
   let token0Contract = new ethers.Contract(token0.address, ERC20_ABI, signer)
   let token1Contract = new ethers.Contract(token1.address, ERC20_ABI, signer)
-  await ApproveToken(token0Contract, signer, amount0, token0.decimals)
   await ApproveToken(token1Contract, signer, amount1, token1.decimals)
+  await ApproveToken(token0Contract, signer, amount0, token0.decimals)
   await mintPosition(order, signer)
 }
 
-async function ApproveToken(contract, signer, amount, decimals) {
+async function ApproveToken(contract, signer, amount) {
   contract = contract.connect(signer)
   let tx = await contract.approve(
     NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
-    ethers.utils.parseUnits(amount.toString(), decimals),
+    amount.toString(),
   )
   console.log('APPROVE - ', tx)
   return await tx.wait()
 }
 
 async function mintPosition(order, signer) {
+  let address = await signer.getAddress()
   const mintOptions = {
-    recipient: signer.address,
+    recipient: address,
     deadline: Math.floor(Date.now() / 1000) + 60 * 20,
     slippageTolerance: new Percent(50, 10_000),
   }
@@ -552,7 +553,7 @@ async function mintPosition(order, signer) {
     data: calldata,
     to: NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
     value: ethers.BigNumber.from(value),
-    from: signer.address,
+    from: address,
     gasLimit: '1000000',
   }
 

@@ -1,27 +1,25 @@
 <template>
-   <Drawer :is-open="sidebarWalletOpen" :speed="500" @close="closeSidebar">
-        <div style="height: 100%;">
-          <ConnectWalletsDrawer v-if="sidebarWalletState === 'Connect wallet'" @toggleSettings="toggleSettings"/>
-          <SettingsDrawer v-else-if="sidebarWalletState === 'Settings'" @toggleToWallets="toggleToWallets"/>
-        </div>
-      </Drawer>
+  <Drawer :is-open="sidebarWalletOpen" :speed="500" @close="closeSidebar">
+    <div style="height: 100%;">
+      <ConnectWalletsDrawer v-if="sidebarWalletState === 'Connect wallet'" @toggleSettings="toggleSettings"
+        @toggleSidebar="toggleSidebar" />
+      <SettingsDrawer v-else-if="sidebarWalletState === 'Settings'" @toggleToWallets="toggleToWallets" />
+    </div>
+  </Drawer>
   <main class="main_containter">
     <div class="app_container">
       <!-- <AppSidebar /> -->
 
       <div class="wrapper d-flex flex-column min-vh-100">
         <AppHeader @toggleSidebar="toggleSidebar" />
-        <div
-          class="body flex-grow-1 px-1 px-md-3 pt-1"
-          style="
+        <div class="body flex-grow-1 px-1 px-md-3 pt-1" style="
             padding-left: 2.5rem !important;
             padding-right: 2.5rem !important;
-          "
-        >
+          ">
           <router-view />
         </div>
       </div>
-     
+
     </div>
   </main>
 </template>
@@ -86,12 +84,10 @@ function toggleToWallets() {
 }
 
 .app_container {
-  background: linear-gradient(
-    159.02deg,
-    #0f123b 0.25%,
-    #090d2e 0.45%,
-    rgb(41 43 56 / 50%) 60%
-  );
+  background: linear-gradient(159.02deg,
+      #0f123b 0.25%,
+      #090d2e 0.45%,
+      rgb(41 43 56 / 50%) 60%);
   backdrop-filter: blur(65px);
 }
 
@@ -102,8 +98,7 @@ function toggleToWallets() {
     // padding-left: 33px;
   }
 
-  .app_container {
-  }
+  .app_container {}
 }
 
 @media (max-width: $md) {
@@ -111,8 +106,7 @@ function toggleToWallets() {
     padding-left: 0px;
   }
 
-  .app_container {
-  }
+  .app_container {}
 }
 
 @keyframes gradient {
