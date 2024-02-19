@@ -45,7 +45,7 @@
       </div>
       <div class="d-flex justify-content-between">
         <span>TVL:</span>
-        <span>$345.56k</span>
+        <span>${{ formatBigNumber(tvl) }}</span>
       </div>
     </div>
 
@@ -58,7 +58,8 @@ import HistogramSlider from "vue3-histogram-slider";
 import "vue3-histogram-slider/dist/histogram-slider.css";
 import { defineProps, computed } from 'vue'
 import { shorten } from "@/lib/utils"
-const props = defineProps(['concentratedLiquidityStep', 'minPriceRange', 'maxPriceRange', 'token0', 'token1', 'price', 'poolInfo'])
+import { formatBigNumber } from '@/lib/utils/index'
+const props = defineProps(['concentratedLiquidityStep', 'minPriceRange', 'maxPriceRange', 'token0', 'token1', 'price', 'poolInfo', 'tvl'])
 const step = computed(() => props.price < 10 ? 0.01 : props.price < 100 ? 0.1 : props.price < 1000 ? 1 : 10)
 const data = computed(() => {
   let result = []

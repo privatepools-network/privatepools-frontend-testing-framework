@@ -1,128 +1,90 @@
 <template>
-  <CHeader
-    position="static"
-    :class="isHeaderBg ? 'header_main header_main_bg' : 'header_main'"
-    ref="headRef"
-  >
+  <CHeader position="static" :class="isHeaderBg ? 'header_main header_main_bg' : 'header_main'" ref="headRef">
     <CContainer fluid class="header_container">
       <!-- <CHeaderNav v-if="width > 768" class="d-flex me-auto">
         <AppBreadcrumb :title="true" />
       </CHeaderNav> -->
 
       <div class="d-flex align-items-center gap-4">
-        <div
-          @click="router.push('/dashboard')"
-          :class="
-            router.currentRoute.value.path === '/dashboard'
-              ? 'navigation_text_selected navigation_text'
-              : 'navigation_text'
-          "
-        >
+        <div @click="router.push('/dashboard')" :class="router.currentRoute.value.path === '/dashboard'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+          ">
           Home
         </div>
-        <div
-          @click="router.push('/pools')"
-          :class="
-            router.currentRoute.value.path === '/pools'
-              ? 'navigation_text_selected navigation_text'
-              : 'navigation_text'
-          "
-        >
+        <div @click="router.push('/pools')" :class="router.currentRoute.value.path === '/pools'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+          ">
           Pools
         </div>
-        <div
-          @click="router.push('/portfolio')"
-          :class="
-            router.currentRoute.value.path === '/portfolio'
-              ? 'navigation_text_selected navigation_text'
-              : 'navigation_text'
-          "
-        >
+        <div @click="router.push('/portfolio')" :class="router.currentRoute.value.path === '/portfolio'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+          ">
           Portfolio
         </div>
       </div>
 
       <div style="position: relative; cursor: text">
-        <vue-select
-          v-model="tokens"
-          :options="tokensOptions"
-          label-by="label"
-          searchable
-          search-placeholder="Search tokens and liquidity pools"
-          placeholder="Search tokens and liquidity pools"
-        >
+        <vue-select v-model="tokens" :options="tokensOptions" label-by="label" searchable
+          search-placeholder="Search tokens and liquidity pools" placeholder="Search tokens and liquidity pools">
           <template #dropdown-item="{ option }">
-            <div
-              class="p-2 d-flex align-items-center justify-content-between gap-2"
-              @click="reloadPage"
-            >
-            <div class="d-flex align-items-center gap-2">
-              <img :src="getTokenEntity(option.img, 'short').icon" width="38" />
-              <div class="d-flex flex-column">
-                <div style="font-size: 12px; color: #ffffff">
-                  {{ option.label }}
-                </div>
-                <div style="font-size: 10px; color: #8e8e8e">
-                  {{ option.img }}
+            <div class="p-2 d-flex align-items-center justify-content-between gap-2" @click="reloadPage">
+              <div class="d-flex align-items-center gap-2">
+                <img :src="getTokenEntity(option.img, 'short').icon" width="38" />
+                <div class="d-flex flex-column">
+                  <div style="font-size: 12px; color: #ffffff">
+                    {{ option.label }}
+                  </div>
+                  <div style="font-size: 10px; color: #8e8e8e">
+                    {{ option.img }}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <div class="d-flex flex-column align-items-end">
-                <div style="font-size: 12px; color: #ffffff">
-                  {{ option.price }}
-                </div>
-                <div style="font-size: 10px; color: #8e8e8e" class="d-flex align-items-center gap-1">
-                  <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_74_4052)">
-<path d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z" fill="#40B66B"/>
-</g>
-<defs>
-<clipPath id="clip0_74_4052">
-<rect width="5.12436" height="5.12436" fill="white" transform="translate(4.4375 7) rotate(-150)"/>
-</clipPath>
-</defs>
-</svg>
-{{ option.percentChange }}
+              <div>
+                <div class="d-flex flex-column align-items-end">
+                  <div style="font-size: 12px; color: #ffffff">
+                    {{ option.price }}
+                  </div>
+                  <div style="font-size: 10px; color: #8e8e8e" class="d-flex align-items-center gap-1">
+                    <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g clip-path="url(#clip0_74_4052)">
+                        <path
+                          d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z"
+                          fill="#40B66B" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_74_4052">
+                          <rect width="5.12436" height="5.12436" fill="white"
+                            transform="translate(4.4375 7) rotate(-150)" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                    {{ option.percentChange }}
+                  </div>
                 </div>
               </div>
-            </div>
             </div>
           </template>
         </vue-select>
         <div style="position: absolute; left: 7px; top: 6px; color: #858c90">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M17.9417 17.0583L14.7408 13.8575C15.8108 12.5883 16.4583 10.9525 16.4583 9.16667C16.4583 5.14583 13.1875 1.875 9.16667 1.875C5.14583 1.875 1.875 5.14583 1.875 9.16667C1.875 13.1875 5.14583 16.4583 9.16667 16.4583C10.9525 16.4583 12.5883 15.8108 13.8575 14.7408L17.0583 17.9417C17.18 18.0633 17.34 18.125 17.5 18.125C17.66 18.125 17.82 18.0642 17.9417 17.9417C18.1858 17.6983 18.1858 17.3025 17.9417 17.0583ZM3.125 9.16667C3.125 5.835 5.835 3.125 9.16667 3.125C12.4983 3.125 15.2083 5.835 15.2083 9.16667C15.2083 12.4983 12.4983 15.2083 9.16667 15.2083C5.835 15.2083 3.125 12.4983 3.125 9.16667Z"
-              fill="#9B9B9B"
-            />
+              fill="#9B9B9B" />
           </svg>
         </div>
         <div style="position: absolute; right: 12px; top: 7px; color: #7d7d7d">
-          <svg
-            width="5"
-            height="12"
-            viewBox="0 0 5 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4.35511 0.863636L1.54261 11.3125H0.191761L3.00426 0.863636H4.35511Z"
-              fill="#7D7D7D"
-            />
+          <svg width="5" height="12" viewBox="0 0 5 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.35511 0.863636L1.54261 11.3125H0.191761L3.00426 0.863636H4.35511Z" fill="#7D7D7D" />
           </svg>
         </div>
       </div>
 
       <div>
         <div class="connect_wallet" @click="$emit('toggleSidebar')">
-          Connect
+          {{ address && address != '' ? computedAddress : 'Connect' }}
         </div>
       </div>
     </CContainer>
@@ -336,30 +298,30 @@ const networksList = ref(
   [
     process.env.VUE_APP_KEY_ARBITRUM
       ? {
-          name: 'Arbitrum',
-          chainId: '0xa4b1',
-          decimalChainId: 42161,
-          image: arbitrum_network,
-          current: false,
-        }
+        name: 'Arbitrum',
+        chainId: '0xa4b1',
+        decimalChainId: 42161,
+        image: arbitrum_network,
+        current: false,
+      }
       : undefined,
     process.env.VUE_APP_KEY_BINANCE
       ? {
-          name: 'Binance',
-          chainId: '0x38',
-          decimalChainId: 56,
-          image: binance_network,
-          current: false,
-        }
+        name: 'Binance',
+        chainId: '0x38',
+        decimalChainId: 56,
+        image: binance_network,
+        current: false,
+      }
       : undefined,
     process.env.VUE_APP_KEY_POLYGON
       ? {
-          name: 'Polygon',
-          chainId: '0x89',
-          decimalChainId: 137,
-          image: polygon_network,
-          current: false,
-        }
+        name: 'Polygon',
+        chainId: '0x89',
+        decimalChainId: 137,
+        image: polygon_network,
+        current: false,
+      }
       : undefined,
   ].filter((item) => item != undefined),
 )
@@ -415,6 +377,7 @@ async function connectWallet() {
       const walletData = res
       accountData.value = walletData
       address.value = walletData[0]
+      console.log(address.value)
       ethereumNetwork.value = network
       store.dispatch('setCurrentNetwork', network)
       localStorage.setItem('ethereumNetwork', JSON.stringify(network))
@@ -425,6 +388,10 @@ async function connectWallet() {
       )
       setNetworkId(network.chainId)
       window.ethereum.on('chainChanged', handleChainChanged)
+      window.ethereum.on('accountsChanged', function (accounts) {
+        address.value = accounts[0]
+        localStorage.setItem("account", address.value)
+      })
     })
     .catch((err) => {
       console.log(err)
@@ -480,20 +447,20 @@ const computedNetwork = computed(() =>
     : // : ethereumNetwork.value.chainId === 1
     // ? 'Ethereum'
     ethereumNetwork.value.chainId === 56
-    ? 'Binance'
-    : ethereumNetwork.value.chainId === 137
-    ? 'Polygon'
-    : 'Unsupported network',
+      ? 'Binance'
+      : ethereumNetwork.value.chainId === 137
+        ? 'Polygon'
+        : 'Unsupported network',
 )
 
 const computedNetworkImage = computed(() =>
   ethereumNetwork.value.chainId === 42161
     ? arbitrum_network
     : ethereumNetwork.value.chainId === 56
-    ? binance_network
-    : ethereumNetwork.value.chainId === 137
-    ? polygon_network
-    : unsupported_network,
+      ? binance_network
+      : ethereumNetwork.value.chainId === 137
+        ? polygon_network
+        : unsupported_network,
 )
 </script>
 <style lang="scss">
@@ -509,12 +476,11 @@ const computedNetworkImage = computed(() =>
   z-index: 12;
   margin-top: 10px;
   margin-bottom: 10px;
+
   &_bg {
-    background: linear-gradient(
-      356.2deg,
-      rgba(0, 29, 37, 0.755) 0%,
-      #000000 105.42%
-    ) !important;
+    background: linear-gradient(356.2deg,
+        rgba(0, 29, 37, 0.755) 0%,
+        #000000 105.42%) !important;
     -webkit-backdrop-filter: blur(60px);
     backdrop-filter: blur(60px);
   }
@@ -552,11 +518,9 @@ const computedNetworkImage = computed(() =>
     box-shadow: 0px 8px 10px 0px #00000033;
     box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(
-      50% 50% at 26.04% 40.42%,
-      rgba(0, 201, 255, 0.13) 0%,
-      rgba(0, 201, 255, 0) 100%
-    );
+    background: radial-gradient(50% 50% at 26.04% 40.42%,
+        rgba(0, 201, 255, 0.13) 0%,
+        rgba(0, 201, 255, 0) 100%);
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
@@ -573,11 +537,9 @@ const computedNetworkImage = computed(() =>
     box-shadow: 0px 8px 10px 0px #00000033;
     box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(
-      50% 50% at 26.04% 40.42%,
-      rgba(0, 201, 255, 0.13) 0%,
-      rgba(0, 201, 255, 0) 100%
-    );
+    background: radial-gradient(50% 50% at 26.04% 40.42%,
+        rgba(0, 201, 255, 0.13) 0%,
+        rgba(0, 201, 255, 0) 100%);
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
@@ -658,16 +620,14 @@ const computedNetworkImage = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(
-          from 180deg at 51.95% 49.81%,
-          rgba(0, 255, 178, 0) -2.11deg,
-          rgba(1, 180, 126, 0) 131.45deg,
-          #7ef6b2 175.58deg,
-          rgba(51, 255, 96, 0) 252.32deg,
-          rgba(8, 182, 129, 0) 310.85deg,
-          rgba(0, 255, 178, 0) 357.89deg,
-          rgba(1, 180, 126, 0) 491.45deg
-        );
+        background: conic-gradient(from 180deg at 51.95% 49.81%,
+            rgba(0, 255, 178, 0) -2.11deg,
+            rgba(1, 180, 126, 0) 131.45deg,
+            #7ef6b2 175.58deg,
+            rgba(51, 255, 96, 0) 252.32deg,
+            rgba(8, 182, 129, 0) 310.85deg,
+            rgba(0, 255, 178, 0) 357.89deg,
+            rgba(1, 180, 126, 0) 491.45deg);
       }
 
       &:after {
@@ -716,15 +676,13 @@ const computedNetworkImage = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(
-          from 180deg at 51.95% 49.81%,
-          rgba(1, 180, 126, 0) 0deg,
-          #7ef6b2 148.33deg,
-          rgba(8, 182, 129, 0) 225.21deg,
-          rgba(51, 255, 96, 0) 268.33deg,
-          rgba(0, 255, 178, 0) 357.89deg,
-          rgba(1, 180, 126, 0) 360deg
-        );
+        background: conic-gradient(from 180deg at 51.95% 49.81%,
+            rgba(1, 180, 126, 0) 0deg,
+            #7ef6b2 148.33deg,
+            rgba(8, 182, 129, 0) 225.21deg,
+            rgba(51, 255, 96, 0) 268.33deg,
+            rgba(0, 255, 178, 0) 357.89deg,
+            rgba(1, 180, 126, 0) 360deg);
       }
 
       &:after {
@@ -740,15 +698,13 @@ const computedNetworkImage = computed(() =>
 
       &:hover {
         &:before {
-          background: conic-gradient(
-            from 180deg at 51.95% 49.81%,
-            rgba(1, 180, 126, 0) 0deg,
-            #c6ffdf 148.33deg,
-            rgba(8, 182, 129, 0) 225.21deg,
-            rgba(51, 255, 96, 0) 268.33deg,
-            rgba(0, 255, 178, 0) 357.89deg,
-            rgba(1, 180, 126, 0) 360deg
-          );
+          background: conic-gradient(from 180deg at 51.95% 49.81%,
+              rgba(1, 180, 126, 0) 0deg,
+              #c6ffdf 148.33deg,
+              rgba(8, 182, 129, 0) 225.21deg,
+              rgba(51, 255, 96, 0) 268.33deg,
+              rgba(0, 255, 178, 0) 357.89deg,
+              rgba(1, 180, 126, 0) 360deg);
         }
       }
     }
@@ -785,16 +741,14 @@ const computedNetworkImage = computed(() =>
     top: -1px;
     bottom: -1px;
     border-radius: 20px;
-    background: conic-gradient(
-      from 180deg at 51.95% 49.81%,
-      rgba(0, 255, 178, 0) -2.11deg,
-      rgba(1, 180, 126, 0) 131.45deg,
-      #7ef6b2 175.58deg,
-      rgba(51, 255, 96, 0) 252.32deg,
-      rgba(8, 182, 129, 0) 310.85deg,
-      rgba(0, 255, 178, 0) 357.89deg,
-      rgba(1, 180, 126, 0) 491.45deg
-    );
+    background: conic-gradient(from 180deg at 51.95% 49.81%,
+        rgba(0, 255, 178, 0) -2.11deg,
+        rgba(1, 180, 126, 0) 131.45deg,
+        #7ef6b2 175.58deg,
+        rgba(51, 255, 96, 0) 252.32deg,
+        rgba(8, 182, 129, 0) 310.85deg,
+        rgba(0, 255, 178, 0) 357.89deg,
+        rgba(1, 180, 126, 0) 491.45deg);
   }
 
   &:after {
@@ -810,16 +764,14 @@ const computedNetworkImage = computed(() =>
 
   &:hover {
     &:before {
-      background: conic-gradient(
-        from 180deg at 51.95% 49.81%,
-        rgba(0, 255, 178, 0) -2.11deg,
-        rgba(1, 180, 126, 0) 131.45deg,
-        #c7e7d4 175.58deg,
-        rgba(51, 255, 96, 0) 252.32deg,
-        rgba(8, 182, 129, 0) 310.85deg,
-        rgba(0, 255, 178, 0) 357.89deg,
-        rgba(1, 180, 126, 0) 491.45deg
-      );
+      background: conic-gradient(from 180deg at 51.95% 49.81%,
+          rgba(0, 255, 178, 0) -2.11deg,
+          rgba(1, 180, 126, 0) 131.45deg,
+          #c7e7d4 175.58deg,
+          rgba(51, 255, 96, 0) 252.32deg,
+          rgba(8, 182, 129, 0) 310.85deg,
+          rgba(0, 255, 178, 0) 357.89deg,
+          rgba(1, 180, 126, 0) 491.45deg);
     }
   }
 }
@@ -848,15 +800,13 @@ const computedNetworkImage = computed(() =>
     top: 1px;
     bottom: -1px;
     border-radius: 5px;
-    background: conic-gradient(
-      from 180deg at 51.95% 49.81%,
-      rgba(1, 180, 126, 0) 0deg,
-      #7ef6b2 118.33deg,
-      rgba(51, 255, 96, 0) 270.21deg,
-      rgba(8, 182, 129, 0) 311.46deg,
-      rgba(0, 255, 178, 0) 357.89deg,
-      rgba(1, 180, 126, 0) 360deg
-    );
+    background: conic-gradient(from 180deg at 51.95% 49.81%,
+        rgba(1, 180, 126, 0) 0deg,
+        #7ef6b2 118.33deg,
+        rgba(51, 255, 96, 0) 270.21deg,
+        rgba(8, 182, 129, 0) 311.46deg,
+        rgba(0, 255, 178, 0) 357.89deg,
+        rgba(1, 180, 126, 0) 360deg);
   }
 
   &:after {
@@ -897,11 +847,9 @@ const computedNetworkImage = computed(() =>
   box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0 6px 30px 0 rgba(0, 0, 0, 0.122);
   box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.141);
-  background: radial-gradient(
-    50% 50% at 26.04% 40.42%,
-    rgba(0, 201, 255, 0.13) 0,
-    rgba(0, 201, 255, 0) 100%
-  );
+  background: radial-gradient(50% 50% at 26.04% 40.42%,
+      rgba(0, 201, 255, 0.13) 0,
+      rgba(0, 201, 255, 0) 100%);
   background-color: #1f1f1f;
   color: #fff;
 
@@ -911,11 +859,9 @@ const computedNetworkImage = computed(() =>
 }
 
 .bell_container:hover {
-  background: radial-gradient(
-    50% 50% at 26.04% 40.42%,
-    rgba(0, 201, 255, 0.13) 0,
-    rgba(0, 201, 255, 0) 100%
-  );
+  background: radial-gradient(50% 50% at 26.04% 40.42%,
+      rgba(0, 201, 255, 0.13) 0,
+      rgba(0, 201, 255, 0) 100%);
 }
 
 .bell_icon {
@@ -1071,10 +1017,12 @@ const computedNetworkImage = computed(() =>
   letter-spacing: 0em;
   text-align: center;
   color: #7d7d7d;
+
   &:hover {
     color: #2abdff;
     cursor: pointer;
   }
+
   &_selected {
     background: -webkit-linear-gradient(#2775ca, #2abdff);
     -webkit-background-clip: text;
@@ -1093,6 +1041,7 @@ const computedNetworkImage = computed(() =>
   border: 1px solid #222222c9;
   border-radius: 16px;
   width: 400px;
+
   &:hover {
     border: 1px solid #00c8ffb7;
     filter: drop-shadow(0 0 0.3rem #00c8ff63);
@@ -1124,6 +1073,7 @@ const computedNetworkImage = computed(() =>
 .vue-dropdown-item.highlighted {
   background: #00c8ff59;
 }
+
 .vue-dropdown-item.selected.highlighted {
   background: #00c8ff59;
 }
@@ -1151,6 +1101,7 @@ input[readonly] {
   letter-spacing: 0em;
   text-align: center;
   padding: 10px 20px;
+
   &:hover {
     background: #2abdff;
     color: white;
