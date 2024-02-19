@@ -7,20 +7,20 @@
 
       <div class="d-flex align-items-center gap-4">
         <div @click="router.push('/dashboard')" :class="router.currentRoute.value.path === '/dashboard'
-            ? 'navigation_text_selected navigation_text'
-            : 'navigation_text'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
           ">
           Home
         </div>
         <div @click="router.push('/pools')" :class="router.currentRoute.value.path === '/pools'
-            ? 'navigation_text_selected navigation_text'
-            : 'navigation_text'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
           ">
           Pools
         </div>
         <div @click="router.push('/portfolio')" :class="router.currentRoute.value.path === '/portfolio'
-            ? 'navigation_text_selected navigation_text'
-            : 'navigation_text'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
           ">
           Portfolio
         </div>
@@ -377,6 +377,7 @@ async function connectWallet() {
       const walletData = res
       accountData.value = walletData
       address.value = walletData[0]
+      console.log(address.value)
       ethereumNetwork.value = network
       store.dispatch('setCurrentNetwork', network)
       localStorage.setItem('ethereumNetwork', JSON.stringify(network))

@@ -26,6 +26,7 @@ import {
   NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
   POOL_FACTORY_CONTRACT_ADDRESS,
 } from './constants'
+import { formatUnits, parseUnits } from '@ethersproject/units'
 ///
 /// UTILS
 ///
@@ -97,6 +98,7 @@ export async function getPrice(token0, token1, poolInfo) {
 
 export async function constructTakeProfitOrder(
   provider,
+  poolInfo,
   tokenA,
   tokenB,
   amountA,
@@ -105,7 +107,6 @@ export async function constructTakeProfitOrder(
   tickLower,
   tickUpper,
 ) {
-  const poolInfo = await getPoolInfo(provider, tokenA, tokenB, feeAmount)
   const configuredPool = new Pool(
     tokenA,
     tokenB,
@@ -163,25 +164,36 @@ async function constructRangeOrderPosition(
   tickUpper,
   feeAmount,
 ) {
-  // Create position from next tick below or one tick below the current tick to boundary tick
-  //   let tickLower = tickBoundary;
-  //   let tickUpper = tickLower + pool.tickSpacing;
-  //   if (tickUpper > pool.tickCurrent) {
-  //     tickUpper -= pool.tickSpacing;
-  //   }
-
-  //   if (tickLower >= tickUpper) {
-  //     tickLower = tickUpper -= pool.tickSpacing;
-  //   }
-
+  // POOL TOKENS ORDER MATTER
   return Position.fromAmounts({
     pool: pool,
     tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
     tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
-    amount0: token0Amount,
-    amount1: token1Amount,
+    amount0: token0Amount.quotient,
+    amount1: token1Amount.quotient,
     useFullPrecision: true,
   })
+}
+export default function tryParseCurrencyAmount(value, currency) {
+  if (!value || !currency) {
+    return undefined
+  }
+  try {
+    const typedValueParsed = parseUnits(
+      value.toString(),
+      currency.decimals,
+    ).toString()
+    if (typedValueParsed !== '0') {
+      return CurrencyAmount.fromRawAmount(
+        currency,
+        JSBI.BigInt(typedValueParsed),
+      )
+    }
+  } catch (error) {
+    // fails if the user specifies too many decimal places of precision (or maybe exceed max uint?)
+    console.debug(`Failed to parse input amount: "${value}"`, error)
+  }
+  return undefined
 }
 
 export function tryParseTick(baseToken, quoteToken, feeAmount, value) {
@@ -402,51 +414,6 @@ export function getDecrementLower(
   }
   return ''
 }
-// export function getDecrementLower(
-//   tickLower,
-//   pool,
-//   baseToken,
-//   quoteToken,
-//   feeAmount,
-// ) {
-//   if (baseToken && quoteToken && typeof tickLower === 'number' && feeAmount) {
-//     const newPrice = tickToPrice(
-//       baseToken,
-//       quoteToken,
-//       tickLower < 0
-//         ? tickLower + TICK_SPACINGS[feeAmount]
-//         : tickLower - TICK_SPACINGS[feeAmount],
-//     )
-//     console.log(
-//       'f',
-//       tickToPrice(baseToken, quoteToken, tickLower).toSignificant(
-//         18,
-//         undefined,
-//         Rounding.ROUND_UP,
-//       ),
-//     )
-//     console.log('s', newPrice.toSignificant(18, undefined, Rounding.ROUND_UP))
-//     return newPrice.toSignificant(18, undefined, Rounding.ROUND_UP)
-//   }
-//   // use pool current tick as starting tick if we have pool but no tick input
-//   if (
-//     !(typeof tickLower === 'number') &&
-//     baseToken &&
-//     quoteToken &&
-//     feeAmount &&
-//     pool
-//   ) {
-//     const newPrice = tickToPrice(
-//       baseToken,
-//       quoteToken,
-//       pool.tickCurrent < 0
-//         ? pool.tickCurrent + TICK_SPACINGS[feeAmount]
-//         : pool.tickCurrent - TICK_SPACINGS[feeAmount],
-//     )
-//     return newPrice.toSignificant(5, undefined, Rounding.ROUND_UP)
-//   }
-//   return ''
-// }
 
 export function convertPairToken(pairToken, chainId) {
   return new Token(
@@ -498,23 +465,32 @@ export async function MintPosition(
   highPrice,
   currentPrice = null,
 ) {
-  let tickLower = tryParseTick(token0, token1, feeAmount, lowPrice.toString())
-  let tickUpper = tryParseTick(token0, token1, feeAmount, highPrice.toString())
-  if (tickLower > tickUpper) {
-    let _lower = tickLower
-    tickLower = tickUpper
-    tickUpper = _lower
-  }
-  let order = await constructTakeProfitOrder(
-    signer,
+  const { tickLower, tickUpper } = parseDisplayTicks(
     token0,
     token1,
-    ethers.utils
-      .parseUnits(depositAmount0.toString(), token0.decimals)
-      .toString(),
-    ethers.utils
-      .parseUnits(depositAmount1.toString(), token1.decimals)
-      .toString(),
+    lowPrice,
+    highPrice,
+    feeAmount,
+  )
+  const poolInfo = await getPoolInfo(signer, token0, token1, feeAmount)
+  let swapped = checkTokensSwapped(
+    poolInfo,
+    token0,
+    token1,
+    depositAmount0,
+    depositAmount1,
+  )
+  token0 = swapped.token0
+  token1 = swapped.token1
+  depositAmount0 = swapped.depositAmount0
+  depositAmount1 = swapped.depositAmount1
+  let order = await constructTakeProfitOrder(
+    signer,
+    poolInfo,
+    token0,
+    token1,
+    tryParseCurrencyAmount(depositAmount0, token0),
+    tryParseCurrencyAmount(depositAmount1, token1),
     feeAmount,
     tickLower,
     tickUpper,
@@ -535,6 +511,37 @@ async function ApproveToken(contract, signer, amount) {
   )
   console.log('APPROVE - ', tx)
   return await tx.wait()
+}
+
+function checkTokensSwapped(
+  poolInfo,
+  token0,
+  token1,
+  depositAmount0,
+  depositAmount1,
+) {
+  let swapped = false
+  if (poolInfo.token0 != token0.address) {
+    let _token0 = token0
+    token0 = token1
+    token1 = _token0
+    let _deposit0 = depositAmount0
+    depositAmount0 = depositAmount1
+    depositAmount1 = _deposit0
+    swapped = true
+  }
+  return { token0, token1, depositAmount0, depositAmount1, swapped }
+}
+
+function parseDisplayTicks(token0, token1, lowPrice, highPrice, feeAmount) {
+  let tickLower = tryParseTick(token0, token1, feeAmount, lowPrice.toString())
+  let tickUpper = tryParseTick(token0, token1, feeAmount, highPrice.toString())
+  if (tickLower > tickUpper) {
+    let _lower = tickLower
+    tickLower = tickUpper
+    tickUpper = _lower
+  }
+  return { tickUpper, tickLower }
 }
 
 async function mintPosition(order, signer) {
@@ -569,3 +576,66 @@ async function mintPosition(order, signer) {
   console.log('SUCCESS', receipt)
   return receipt
 }
+
+export function GetSecondAmount(
+  poolInfo,
+  token0,
+  token1,
+  lowPrice,
+  highPrice,
+  amount0,
+  amount1,
+  feeAmount,
+  token0Changed = false,
+) {
+  const { tickLower, tickUpper } = parseDisplayTicks(
+    token0,
+    token1,
+    lowPrice,
+    highPrice,
+    feeAmount,
+  )
+  let swapped = checkTokensSwapped(poolInfo, token0, token1, amount0, amount1)
+  token0Changed = swapped.swapped ? !token0Changed : token0Changed
+  token0 = swapped.token0
+  token1 = swapped.token1
+  amount0 = swapped.depositAmount0
+  amount1 = swapped.depositAmount1
+
+  let parsed0 = tryParseCurrencyAmount(amount0, token0)
+  let parsed1 = tryParseCurrencyAmount(amount1, token1)
+  const configuredPool = new Pool(
+    token0,
+    token1,
+    poolInfo.fee,
+    poolInfo.sqrtPriceX96.toString(),
+    poolInfo.liquidity.toString(),
+    poolInfo.tick,
+  )
+  let position = token0Changed
+    ? Position.fromAmount0({
+        pool: configuredPool,
+        tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
+        tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
+        amount0: parsed0.quotient,
+      })
+    : Position.fromAmount1({
+        pool: configuredPool,
+        tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
+        tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
+        amount1: parsed1.quotient,
+      })
+  const { amount0: mint_amount0, amount1: mint_amount1 } = position.mintAmounts
+  console.log(mint_amount0.toString())
+  console.log(mint_amount1.toString())
+  return token0Changed
+    ? formatUnits(mint_amount1.toString(), token1.decimals)
+    : formatUnits(mint_amount0.toString(), token0.decimals)
+}
+
+//https://thegraph.com/hosted-service/subgraph/uniswap/uniswap-v3
+// {
+//   pools{
+//     totalValueLockedUSD
+//   }
+// }

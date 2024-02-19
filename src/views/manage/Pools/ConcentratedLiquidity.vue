@@ -229,7 +229,7 @@
                         color: #c1c8ce;
                         font-weight: 600;
                         font-size: 20px;
-                      " v-model="depositAmount1" />
+                      " v-model="depositAmount1" @blur="updateDepositAmount2" />
                     <div style="color: #858c90; font-size: 12px">≈${{ (depositAmount1 * (pairToken1.price ||
                       0)).toFixed(2) }}</div>
                   </div>
@@ -273,7 +273,7 @@
                         color: #c1c8ce;
                         font-weight: 600;
                         font-size: 20px;
-                      " v-model="depositAmount2" />
+                      " v-model="depositAmount2" @blur="updateDepositAmount1" />
                     <div style="color: #858c90; font-size: 12px">≈${{ (depositAmount2 * (pairToken2.price ||
                       0)).toFixed(2)
                     }}</div>
@@ -308,7 +308,7 @@
           </div>
           <div class="compose_text fw-light mt-5 d-flex justify-content-between">
             <div>Slippage:</div>
-            <div>2%</div>
+            <div>0.5%</div>
           </div>
 
           <div class="my-3 d-flex justify-content-center position-relative" v-if="concentratedLiquidityStep === 3 ||
@@ -385,7 +385,7 @@
       <div class="w-50">
         <ChartAndPoolInfo :token0="pairToken1" :token1="pairToken2" :minPriceRange="priceRange1"
           :maxPriceRange="priceRange2" :price="relativePrice" :concentratedLiquidityStep="concentratedLiquidityStep"
-          :poolInfo="poolInfo" />
+          :poolInfo="poolInfo" :tvl="poolTvl"/>
       </div>
     </div>
   </MainCard>
@@ -404,14 +404,12 @@ import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
 import useBalance from "@/composables/useBalance"
 import { ethers } from "ethers";
 import { calculatePercentageDifference } from "@/lib/utils"
-import { InitializeMetamask } from '@/lib/utils/metamask'
-import { getPoolInfo, FEE_AMOUNTS, convertPairToken, adjustPrices, getDecrementLower, getDecrementUpper, getIncrementLower, getIncrementUpper, parseTicks, MintPosition } from "@/composables/concentrated-liquidity/cl"
+import { useUniswapTvl } from "@/composables/concentrated-liquidity/useUniswapTvl"
+import { getPoolInfo, FEE_AMOUNTS, convertPairToken, adjustPrices, getDecrementLower, getDecrementUpper, getIncrementLower, getIncrementUpper, parseTicks, MintPosition, GetSecondAmount } from "@/composables/concentrated-liquidity/cl"
 const concentratedLiquidityStep = ref(1)
 const feeTier = ref(0)
 const tokenSelectModal = ref(false)
 const pairIndex = ref(1)
-const minRangeFirstToken = ref(1)
-const maxRangeSecondToken = ref(1)
 
 const pairToken1 = ref({
   img: not_found,
@@ -570,6 +568,7 @@ function decrementPriceRange(lower = true) {
 }
 
 const poolInfo = ref(null)
+const poolTvl = ref(0)
 
 function adjustTokenPrices() {
   if (pairToken1.value.price && pairToken2.value.price) {
@@ -596,6 +595,17 @@ async function mintPosition() {
   }
 }
 
+
+function updateDepositAmount2() {
+  let newAmount = GetSecondAmount(poolInfo.value, convertedPairToken1.value, convertedPairToken2.value, priceRange1.value, priceRange2.value, depositAmount1.value, depositAmount2.value, feeAmount.value, true)
+  depositAmount2.value = newAmount
+}
+
+function updateDepositAmount1() {
+  let newAmount = GetSecondAmount(poolInfo.value, convertedPairToken1.value, convertedPairToken2.value, priceRange1.value, priceRange2.value, depositAmount1.value, depositAmount2.value, feeAmount.value, false)
+  depositAmount1.value = newAmount
+}
+
 watch(pairToken1, async () => {
   await updateTokenInfo(pairToken1);
 })
@@ -603,6 +613,10 @@ watch(pairToken2, async () => {
   await updateTokenInfo(pairToken2);
 })
 
+
+watch(poolInfo, async () => {
+  poolTvl.value = await useUniswapTvl(poolInfo.value.address.toLowerCase())
+})
 
 onMounted(async () => {
   console.log(networkId.value)
