@@ -633,9 +633,17 @@ export function GetSecondAmount(
     : formatUnits(mint_amount0.toString(), token0.decimals)
 }
 
-//https://thegraph.com/hosted-service/subgraph/uniswap/uniswap-v3
-// {
-//   pools{
-//     totalValueLockedUSD
-//   }
-// }
+export function GetTickSpaceLimits(feeAmount) {
+  const lower = nearestUsableTick(TickMath.MIN_TICK, TICK_SPACINGS[feeAmount])
+  const upper = nearestUsableTick(TickMath.MAX_TICK, TICK_SPACINGS[feeAmount])
+  return { lower, upper }
+}
+export function GetPricesAtLimit(poolInfo, token0, token1, feeAmount) {
+  let { lower, upper } = GetTickSpaceLimits(feeAmount)
+  let swapped = checkTokensSwapped(poolInfo, token0, token1, 0, 0)
+  token0 = swapped.token0
+  token1 = swapped.token1
+  let lowerPrice = getTickToPrice(token0, token1, lower).toSignificant(5)
+  let upperPrice = getTickToPrice(token0, token1, upper).toSignificant(5)
+  return { lowerPrice, upperPrice }
+}
