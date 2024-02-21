@@ -1,7 +1,9 @@
 <template>
   <Drawer :is-open="sidebarWalletOpen" :speed="500" @close="closeSidebar">
     <div style="height: 100%;">
-      <ConnectWalletsDrawer v-if="sidebarWalletState === 'Connect wallet'" @toggleSettings="toggleSettings"
+      {{ console.log('sidebarWalletState', sidebarWalletState) }}
+      <ConnectedSidebar v-if="isConnectedToWeb3 && sidebarWalletState !== 'Settings'" :isConnectedToWeb3="isConnectedToWeb3"  @toggleSettings="toggleSettings" @toggleToWallets="toggleToWallets"/>
+      <ConnectWalletsDrawer v-else-if="sidebarWalletState === 'Connect wallet'" @toggleSettings="toggleSettings"
         @toggleSidebar="toggleSidebar" />
       <SettingsDrawer v-else-if="sidebarWalletState === 'Settings'" @toggleToWallets="toggleToWallets" />
     </div>
@@ -27,15 +29,18 @@
 import AppHeader from '@/components/AppHeader.vue'
 import ConnectWalletsDrawer from '@/components/Drawer/ConnectWalletsDrawer.vue'
 import SettingsDrawer from '@/components/Drawer/SettingsDrawer.vue'
+import ConnectedSidebar from '@/components/Drawer/ConnectedSidebar.vue'
 import Drawer from '@/UI/Drawer.vue'
 // import AppSidebar from '@/components/AppSidebar.vue'
 // import NewReleasesCard from "@/UI/NewReleasesCard.vue";
-import { onMounted, ref } from 'vue'
+import { watch, ref } from 'vue'
 
 // import { useSwipe } from '@vueuse/core'
-
+const isConnectedToWeb3 = ref(localStorage.getItem('isConnectedToWeb3'))
 const sidebarWalletOpen = ref(false)
 const sidebarWalletState = ref('Connect wallet')
+
+
 
 function toggleSidebar() {
   sidebarWalletOpen.value = !sidebarWalletOpen.value
@@ -55,13 +60,12 @@ function toggleToWallets() {
 // const { isSwiping, direction } = useSwipe(document.body)
 // {{ console.log(isSwiping) }}
 // {{ console.log(direction) }}
+watch(sidebarWalletOpen.value, () => {
+  if(isConnectedToWeb3.value) {
+    sidebarWalletState.value === "Connected"
+  }
+})
 
-// onMounted(() => {
-//   console.log("localStorage.getItem('release')", localStorage.getItem('release'))
-//   if (localStorage.getItem('release') === null) {
-//     localStorage.setItem('release', 'non_checked')
-//   }
-// })
 
 // const newReleaseCheck = localStorage.getItem('release')
 </script>
