@@ -41,7 +41,7 @@
       </div>
       <div class="d-flex justify-content-between">
         <span>Average APR of this Pool:</span>
-        <span>[ 51.1% -> 127% ]</span>
+        <span>{{ poolApr.toFixed(2) }}%</span>
       </div>
       <div class="d-flex justify-content-between">
         <span>TVL:</span>
@@ -59,7 +59,7 @@ import "vue3-histogram-slider/dist/histogram-slider.css";
 import { defineProps, computed } from 'vue'
 import { shorten } from "@/lib/utils"
 import { formatBigNumber } from '@/lib/utils/index'
-const props = defineProps(['concentratedLiquidityStep', 'minPriceRange', 'maxPriceRange', 'token0', 'token1', 'price', 'poolInfo', 'tvl'])
+const props = defineProps(['concentratedLiquidityStep', 'minPriceRange', 'maxPriceRange', 'token0', 'token1', 'price', 'poolInfo', 'tvl', 'poolApr'])
 const step = computed(() => props.price < 10 ? 0.01 : props.price < 100 ? 0.1 : props.price < 1000 ? 1 : 10)
 const data = computed(() => {
   let result = []
