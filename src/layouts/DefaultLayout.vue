@@ -20,6 +20,7 @@
           ">
           <router-view />
         </div>
+        <AppFooter/>
       </div>
 
     </div>
@@ -34,6 +35,7 @@ import Drawer from '@/UI/Drawer.vue'
 // import AppSidebar from '@/components/AppSidebar.vue'
 // import NewReleasesCard from "@/UI/NewReleasesCard.vue";
 import { watch, ref } from 'vue'
+import AppFooter from '@/components/AppFooter.vue'
 
 // import { useSwipe } from '@vueuse/core'
 const isConnectedToWeb3 = ref(localStorage.getItem('isConnectedToWeb3'))
@@ -88,11 +90,7 @@ watch(sidebarWalletOpen.value, () => {
 }
 
 .app_container {
-  background: linear-gradient(159.02deg,
-      #0f123b 0.25%,
-      #090d2e 0.45%,
-      rgb(41 43 56 / 50%) 60%);
-  backdrop-filter: blur(65px);
+  background: #090909;
 }
 
 

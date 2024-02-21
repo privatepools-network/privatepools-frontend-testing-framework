@@ -76,7 +76,7 @@ const tokenEntities = computed(() => {
   margin-right: -2px;
 }
 .pair_avatars_manage_pool {
-  width: 22px;
+  width: 32px;
   margin-right: -2px;
 }
 
