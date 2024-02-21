@@ -1,11 +1,6 @@
 import { UNISWAP_TVL_QUERY } from '../queries/external/uniswapPoolQuery'
 import useGraphQLQuery from '../useQuery'
-
-const UNISWAP_SUBGRAPHS = {
-  1: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-ethereum',
-  56: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-bsc',
-  137: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-polygon',
-}
+import { UNISWAP_SUBGRAPHS } from './constants'
 
 export async function useUniswapTvl(poolId) {
   let data = await useGraphQLQuery(

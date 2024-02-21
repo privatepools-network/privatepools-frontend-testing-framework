@@ -62,7 +62,7 @@
                   <div class="d-flex flex-column justify-content-center align-items-center gap-3 p-4">
                     <div style="color: #c1c8ce">Min per</div>
                     <div style="font-size: 20px; font-weight: 600; color: #c1c8ce">
-                      <input type="number" style="
+                      <input v-if="!fullRangeSelected" type="number" style="
                           background: none;
                           border: none;
                           outline: none;
@@ -71,9 +71,18 @@
                           font-weight: 600;
                           font-size: 20px;
                         " v-model="priceRange1" @blur="adjustTokenPrices" />
+                      <input v-else disabled type="number" style="
+                          background: none;
+                          border: none;
+                          outline: none;
+                          text-align: center;
+                          color: #c1c8ce;
+                          font-weight: 600;
+                          font-size: 20px;
+                        " value="0" />
                     </div>
                     <div style="font-size: 12px; font-weight: 400; color: #858c90">
-                      ≈ = ${{ ((pairToken1.price || 0) * priceRange1).toFixed(2) }}
+                      ≈ = ${{ !fullRangeSelected ? ((pairToken1.price || 0) * priceRange1).toFixed(2) : 0 }}
                     </div>
                   </div>
                   <div style="
@@ -82,7 +91,7 @@
                       top: 15px;
                       color: #858c90;
                     ">
-                    {{ calculatePercentageDifference(relativePrice, priceRange1).toFixed(2) }}%
+                    {{ !fullRangeSelected ? calculatePercentageDifference(relativePrice, priceRange1).toFixed(2) : 0 }}%
                   </div>
                   <!--TODO: implement decrement/increment logic based on next tick position-->
                   <div v-if="concentratedLiquidityStep === 2" style="
@@ -118,7 +127,7 @@
                   <div class="d-flex flex-column justify-content-center align-items-center gap-3 p-4">
                     <div style="color: #c1c8ce">Max per</div>
                     <div style="font-size: 20px; font-weight: 600; color: #c1c8ce">
-                      <input type="number" style="
+                      <input type="number" v-if="!fullRangeSelected" style="
                           background: none;
                           border: none;
                           outline: none;
@@ -127,9 +136,18 @@
                           font-weight: 600;
                           font-size: 20px;
                         " v-model="priceRange2" @blur="adjustTokenPrices" />
+                      <input v-else disabled type="text" style="
+                          background: none;
+                          border: none;
+                          outline: none;
+                          text-align: center;
+                          color: #c1c8ce;
+                          font-weight: 600;
+                          font-size: 20px;
+                        " value="∞" />
                     </div>
                     <div style="font-size: 12px; font-weight: 400; color: #858c90">
-                      ≈ = ${{ ((pairToken1.price || 0) * priceRange2).toFixed(2) }}
+                      ≈ = ${{ !fullRangeSelected ? ((pairToken1.price || 0) * priceRange2).toFixed(2) : '∞' }}
                     </div>
                   </div>
                   <div style="
@@ -138,7 +156,7 @@
                       top: 15px;
                       color: #858c90;
                     ">
-                    {{ calculatePercentageDifference(relativePrice, priceRange2).toFixed(2) }}%
+                    {{ !fullRangeSelected ? calculatePercentageDifference(relativePrice, priceRange2).toFixed(2) : '∞' }}%
                   </div>
                   <div v-if="concentratedLiquidityStep === 2" style="
                       position: absolute;
@@ -385,7 +403,7 @@
       <div class="w-50">
         <ChartAndPoolInfo :token0="pairToken1" :token1="pairToken2" :minPriceRange="priceRange1"
           :maxPriceRange="priceRange2" :price="relativePrice" :concentratedLiquidityStep="concentratedLiquidityStep"
-          :poolInfo="poolInfo" :tvl="poolTvl"/>
+          :poolInfo="poolInfo" :tvl="poolTvl" :poolApr="poolApr" />
       </div>
     </div>
   </MainCard>
@@ -405,7 +423,11 @@ import useBalance from "@/composables/useBalance"
 import { ethers } from "ethers";
 import { calculatePercentageDifference } from "@/lib/utils"
 import { useUniswapTvl } from "@/composables/concentrated-liquidity/useUniswapTvl"
-import { getPoolInfo, FEE_AMOUNTS, convertPairToken, adjustPrices, getDecrementLower, getDecrementUpper, getIncrementLower, getIncrementUpper, parseTicks, MintPosition, GetSecondAmount } from "@/composables/concentrated-liquidity/cl"
+import { useUniswapTvlSnapshots } from "@/composables/concentrated-liquidity/useUniswapTvlSnapshots"
+import { fetchDataAndMerge } from "@/composables/pools/trades/fetch/useFetchTrades"
+import { getPoolInfo, FEE_AMOUNTS, convertPairToken, adjustPrices, getDecrementLower, getDecrementUpper, getIncrementLower, getIncrementUpper, parseTicks, MintPosition, GetSecondAmount, GetPricesAtLimit } from "@/composables/concentrated-liquidity/cl"
+import { CalculateAvgApr } from "@/composables/math/chartMath/trackingInfoMath"
+import { usePool30dProfit } from "@/composables/pools/usePoolSwapsStats"
 const concentratedLiquidityStep = ref(1)
 const feeTier = ref(0)
 const tokenSelectModal = ref(false)
@@ -473,29 +495,38 @@ const range_types = ref([
   {
     name: 'Full Range',
     percent: '[-100%, ∞]',
-    APR: 'APR: 0% ->0%',
+    APR: '',
+    APR_MIN: -100,
+    APR_MAX: 100,
     selected: false,
   },
   {
     name: 'Wide',
     percent: '[-12.5%, +12.5%]',
-    APR: 'APR: 0% ->0%',
+    APR: '',
+    APR_MIN: -12.5,
+    APR_MAX: 12.5,
     selected: false,
   },
   {
     name: 'Narrow',
     percent: '[-7.5%, +7.5%]',
-    APR: 'APR: 0% ->0%',
+    APR: '',
+    APR_MIN: -7.5,
+    APR_MAX: 7.5,
     selected: false,
   },
   {
     name: 'Aggressive',
     percent: '[-5%, +5%]',
-    APR: 'APR: 0% ->0%',
+    APR: '',
+    APR_MIN: -5,
+    APR_MAX: 5,
     selected: false,
   },
 ])
 
+const fullRangeSelected = computed(() => range_types.value[0].selected)
 const relativePrice = computed(() => pairToken1.value.price && pairToken2.value.price ? pairToken1.value.price / pairToken2.value.price : 0)
 
 function selectTier(index) {
@@ -507,6 +538,18 @@ function selectTier(index) {
 }
 function selectRange(rng) {
   range_types.value.map((t) => (t.selected = false))
+  if (rng.APR_MIN == -100) {
+    let { lowerPrice, upperPrice } = GetPricesAtLimit(poolInfo.value, convertedPairToken1.value, convertedPairToken2.value, feeAmount.value)
+    priceRange1.value = lowerPrice;
+    priceRange2.value = upperPrice;
+  }
+  else {
+    priceRange1.value = relativePrice.value + ((relativePrice.value / 100) * rng.APR_MIN)
+    priceRange2.value = relativePrice.value + ((relativePrice.value / 100) * rng.APR_MAX)
+    adjustTokenPrices()
+  }
+  console.log(priceRange1.value)
+  console.log(priceRange2.value)
   rng.selected = true
 }
 
@@ -569,6 +612,16 @@ function decrementPriceRange(lower = true) {
 
 const poolInfo = ref(null)
 const poolTvl = ref(0)
+const poolSnapshots = ref([])
+const trades = ref([])
+const poolId = computed(() => poolInfo.value ? poolInfo.value.address.toLowerCase() : '')
+const poolApr = computed(() => {
+  let formattedTvls = poolSnapshots.value.toReversed()
+  formattedTvls = formattedTvls.map((item) => ({ TVL: { 'All Chains': parseFloat(item.totalValueLockedUSD), timestamp: item.timestamp } }))
+  let pool_trades = trades.value.filter((item) => item.swaps[0].poolIdVault[0].includes(poolId.value))
+  let profit = usePool30dProfit(pool_trades).value
+  return CalculateAvgApr({ Profits: profit }, formattedTvls, 'Monthly', "All Chains")
+})
 
 function adjustTokenPrices() {
   if (pairToken1.value.price && pairToken2.value.price) {
@@ -597,11 +650,15 @@ async function mintPosition() {
 
 
 function updateDepositAmount2() {
+  if (fullRangeSelected.value)
+    return
   let newAmount = GetSecondAmount(poolInfo.value, convertedPairToken1.value, convertedPairToken2.value, priceRange1.value, priceRange2.value, depositAmount1.value, depositAmount2.value, feeAmount.value, true)
   depositAmount2.value = newAmount
 }
 
 function updateDepositAmount1() {
+  if (fullRangeSelected.value)
+    return
   let newAmount = GetSecondAmount(poolInfo.value, convertedPairToken1.value, convertedPairToken2.value, priceRange1.value, priceRange2.value, depositAmount1.value, depositAmount2.value, feeAmount.value, false)
   depositAmount1.value = newAmount
 }
@@ -615,12 +672,16 @@ watch(pairToken2, async () => {
 
 
 watch(poolInfo, async () => {
-  poolTvl.value = await useUniswapTvl(poolInfo.value.address.toLowerCase())
+
+  let [tvl, snapshots] = await Promise.all([useUniswapTvl(poolId.value), useUniswapTvlSnapshots(poolId.value)])
+  poolTvl.value = tvl
+  poolSnapshots.value = snapshots
 })
 
 onMounted(async () => {
+  trades.value = await fetchDataAndMerge()
   console.log(networkId.value)
-  notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(null)// TODO: networkId.value
+  notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(56)// TODO: networkId.value
   console.log(notSelectedPossibleComposeTokens.value)
 })
 </script>
