@@ -114,14 +114,6 @@ export default {
       logoURI: './images/tokens/usdt.png',
       apiId: 'USDT',
     },
-    weth: {
-      name: 'Wrapped Ether',
-      symbol: 'WETH',
-      decimals: 18,
-      address: '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
-      logoURI: './images/tokens/weth.png',
-      apiId: 'ETH',
-    },
     WBNB: {
       name: 'WBNB',
       symbol: 'WBNB',
