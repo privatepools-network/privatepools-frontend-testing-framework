@@ -308,7 +308,7 @@
       </div>
       <div
         v-else-if="sidebarTab === 'Activity'"
-        class="d-flex flex-column gap-2"
+        class="d-flex flex-column gap-2 overflow-auto activity_container"
       >
         <div>
           <div class="tab my-2" style="font-size: 12px">Today</div>
@@ -663,4 +663,22 @@ async function disconnectFromWallet() {
 .selected_tab {
   color: white;
 }
+
+
+
+  /* Scrollbar */
+.activity_container::-webkit-scrollbar {
+  height: 0px;
+  width: 4px;
+}
+
+.activity_container::-webkit-scrollbar {
+  background: transparent;
+}
+
+.activity_container::-webkit-scrollbar-thumb {
+  background-color: #2abdff9e;
+  border-radius: 8px;
+}
+
 </style>

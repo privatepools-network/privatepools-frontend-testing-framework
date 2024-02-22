@@ -18,12 +18,14 @@ const { title } = toRefs(props)
 @import '@/styles/_variables.scss';
 
 .header_text {
-  color: rgb(255, 255, 255);
-  font-family: Poppins;
-  font-size: clamp(10px, 0.9vw, 18px);
-  font-weight: 700;
-  line-height: 25px;
-  letter-spacing: 0em;
+  font-family: Inter;
+
+font-weight: 400;
+line-height: 32px;
+color: #FFFFFF;
+
+  font-size: clamp(14px, 0.9vw, 28px);
+
 }
 @media (max-width: $md) {
   .header_text {
