@@ -27,9 +27,9 @@
     <div class="pool_info" v-if="poolInfo">
       <div class="d-flex justify-content-between mb-3">
         <span style="font-size: 16px">Pool Info</span>
-        <!--TODO: update etherscan link-->
-        <a :href="`https://etherscan.io/address/${poolInfo.address}`" style="text-decoration: underline">Address: {{
-          shorten(poolInfo.address) }}</a>
+        <a :href="`${configService.getNetworkConfig(networkId).explorer}/address/${poolInfo.address}`"
+          style="text-decoration: underline">Address: {{
+            shorten(poolInfo.address) }}</a>
       </div>
       <div class="d-flex justify-content-between">
         <span>Current Swap Fee:</span>
@@ -59,6 +59,8 @@ import "vue3-histogram-slider/dist/histogram-slider.css";
 import { defineProps, computed } from 'vue'
 import { shorten } from "@/lib/utils"
 import { formatBigNumber } from '@/lib/utils/index'
+import { configService } from '@/services/config/config.service'
+import { networkId } from '@/composables/useNetwork'
 const props = defineProps(['concentratedLiquidityStep', 'minPriceRange', 'maxPriceRange', 'token0', 'token1', 'price', 'poolInfo', 'tvl', 'poolApr'])
 const step = computed(() => props.price < 10 ? 0.01 : props.price < 100 ? 0.1 : props.price < 1000 ? 1 : 10)
 const data = computed(() => {

@@ -34,7 +34,7 @@ import Toast from '@/UI/Toast.vue'
 
 import 'vue3-toastify/dist/index.css'
 const store = useStore()
-const emit = defineEmits(['toggleSettings', "toggleSidebar"])
+const emit = defineEmits(['toggleSettings', "toggleSidebar", 'setAddress'])
 
 
 const notify = (popupType, popupText, popupSubText) => {
@@ -68,11 +68,12 @@ async function connectWallet(called_by_user = false) {
 
       store.dispatch('setCurrentNetwork', network)
       localStorage.setItem('ethereumNetwork', JSON.stringify(network))
-
+      console.log(res[0])
       console.log(
         window.ethereum.networkVersion,
         'window.ethereum.networkVersion',
       )
+      emit("setAddress", res[0])
       setNetworkId(network.chainId)
       window.ethereum.on('chainChanged', handleChainChanged)
       window.ethereum.on('accountsChanged', function (accounts) {

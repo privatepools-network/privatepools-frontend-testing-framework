@@ -446,8 +446,8 @@ const feeAmount = computed(() => FEE_AMOUNTS[feeTier.value])
 
 const tokensInitialized = computed(() => pairToken1.value.price && pairToken2.value.price)
 
-const convertedPairToken1 = computed(() => pairToken1.value.symbol != "" ? convertPairToken(pairToken1.value, 1) : null)
-const convertedPairToken2 = computed(() => pairToken2.value.symbol != "" ? convertPairToken(pairToken2.value, 1) : null)
+const convertedPairToken1 = computed(() => pairToken1.value.symbol != "" ? convertPairToken(pairToken1.value, networkId.value) : null)
+const convertedPairToken2 = computed(() => pairToken2.value.symbol != "" ? convertPairToken(pairToken2.value, networkId.value) : null)
 
 
 
@@ -670,10 +670,13 @@ watch(pairToken2, async () => {
   await updateTokenInfo(pairToken2);
 })
 
+watch(feeAmount, async () => {
+  poolInfo.value = await getPoolInfo(mmProvider.value, convertedPairToken1.value, convertedPairToken2.value, feeAmount.value)
+})
 
 watch(poolInfo, async () => {
 
-  let [tvl, snapshots] = await Promise.all([useUniswapTvl(poolId.value), useUniswapTvlSnapshots(poolId.value)])
+  let [tvl, snapshots] = await Promise.all([useUniswapTvl(poolId.value, networkId.value), useUniswapTvlSnapshots(poolId.value)])
   poolTvl.value = tvl
   poolSnapshots.value = snapshots
 })
@@ -681,7 +684,7 @@ watch(poolInfo, async () => {
 onMounted(async () => {
   trades.value = await fetchDataAndMerge()
   console.log(networkId.value)
-  notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(56)// TODO: networkId.value
+  notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(networkId.value)
   console.log(notSelectedPossibleComposeTokens.value)
 })
 </script>

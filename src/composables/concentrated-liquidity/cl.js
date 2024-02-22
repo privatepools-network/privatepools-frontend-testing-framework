@@ -141,7 +141,8 @@ export async function constructTakeProfitOrder(
     tickUpper,
     feeAmount,
   )
-
+  console.log(position.mintAmounts.amount0.toString())
+  console.log(position.mintAmounts.amount1.toString())
   const closestTargetPrice = tickToPrice(
     position.amount0.currency,
     position.amount1.currency,
@@ -626,11 +627,17 @@ export function GetSecondAmount(
         amount1: parsed1.quotient,
       })
   const { amount0: mint_amount0, amount1: mint_amount1 } = position.mintAmounts
-  console.log(mint_amount0.toString())
-  console.log(mint_amount1.toString())
-  return token0Changed
+  let string_amount0 = mint_amount0.toString()
+  let string_amount1 = mint_amount1.toString()
+  console.log(string_amount0)
+  console.log(string_amount1)
+  let changed_amount = token0Changed
     ? formatUnits(mint_amount1.toString(), token1.decimals)
     : formatUnits(mint_amount0.toString(), token0.decimals)
+  if (parseFloat(string_amount0) == 0 || parseFloat(string_amount1) == 0) {
+    return token0Changed ? amount0 : amount1
+  }
+  return changed_amount
 }
 
 export function GetTickSpaceLimits(feeAmount) {

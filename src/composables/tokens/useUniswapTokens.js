@@ -6,19 +6,14 @@ export async function fetchUniswapTokens(networkId) {
   let response = await axios.get(url)
   return removeDuplicates(
     response.data.tokens
-      .filter(
-        (item) =>
-          item.extensions &&
-          item.extensions.bridgeInfo &&
-          item.extensions.bridgeInfo[networkId.toString()],
-      )
+      .filter((item) => item['chainId'] == networkId)
       .map((t) => ({
         ...t,
         price: 0,
         balance: 0,
-        address: networkId
-          ? t.extensions.bridgeInfo[networkId.toString()].tokenAddress
-          : t.address,
+        // address: networkId
+        //   ? t.extensions.bridgeInfo[networkId.toString()].tokenAddress
+        //   : t.address,
         img: t.logoURI,
       })),
     'symbol',
