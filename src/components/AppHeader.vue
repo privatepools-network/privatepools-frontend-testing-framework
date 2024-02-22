@@ -1,85 +1,46 @@
 <template>
-  <CHeader
-    position="static"
-    :class="isHeaderBg ? 'header_main header_main_bg' : 'header_main'"
-    ref="headRef"
-  >
+  <CHeader position="static" :class="isHeaderBg ? 'header_main header_main_bg' : 'header_main'" ref="headRef">
     <CContainer fluid class="header_container">
       <!-- <CHeaderNav v-if="width > 768" class="d-flex me-auto">
         <AppBreadcrumb :title="true" />
       </CHeaderNav> -->
 
       <div class="d-flex align-items-center gap-4">
-        <div
-          @click="router.push('/dashboard')"
-          :class="
-            router.currentRoute.value.path === '/dashboard'
-              ? 'navigation_text_selected navigation_text'
-              : 'navigation_text'
-          "
-        >
+        <div @click="router.push('/dashboard')" :class="router.currentRoute.value.path === '/dashboard'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+          ">
           Home
         </div>
-        <div
-          @click="router.push('/pools')"
-          :class="
-            router.currentRoute.value.path === '/pools'
-              ? 'navigation_text_selected navigation_text'
-              : 'navigation_text'
-          "
-        >
+        <div @click="router.push('/pools')" :class="router.currentRoute.value.path === '/pools'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+          ">
           Pools
         </div>
-        <div
-          @click="router.push('/portfolio')"
-          :class="
-            router.currentRoute.value.path === '/portfolio'
-              ? 'navigation_text_selected navigation_text'
-              : 'navigation_text'
-          "
-        >
+        <div @click="router.push('/portfolio')" :class="router.currentRoute.value.path === '/portfolio'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+          ">
           Portfolio
         </div>
       </div>
 
       <div style="position: relative; cursor: text">
-        <vue-select
-          v-model="tokens"
-          :options="tokensOptions"
-          label-by="label"
-          searchable
-          search-placeholder="Search tokens and liquidity pools"
-          placeholder="Search tokens and liquidity pools"
-        >
+        <vue-select v-model="tokens" :options="tokensOptions" label-by="label" searchable
+          search-placeholder="Search tokens and liquidity pools" placeholder="Search tokens and liquidity pools">
           <template #dropdown-item="{ option }">
             <div v-if="option.firstToken" class="search_groups">
-              <svg
-                width="18"
-                height="8"
-                viewBox="0 0 18 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1 7L5.92308 2.2L10.8462 7L17 1M17 1H13.0615M17 1V4.84"
-                  stroke="#686868"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+              <svg width="18" height="8" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 7L5.92308 2.2L10.8462 7L17 1M17 1H13.0615M17 1V4.84" stroke="#686868" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
               </svg>
               Popular tokens
             </div>
             <template v-if="option.tokens">
-              <div
-                class="p-2 d-flex align-items-center justify-content-between gap-2"
-                @click="reloadPage"
-              >
+              <div class="p-2 d-flex align-items-center justify-content-between gap-2" @click="reloadPage">
                 <div class="d-flex align-items-center gap-2">
-                  <img
-                    :src="getTokenEntity(option.img, 'short').icon"
-                    width="38"
-                  />
+                  <img :src="getTokenEntity(option.img, 'short').icon" width="38" />
                   <div class="d-flex flex-column">
                     <div style="font-size: 12px; color: #ffffff">
                       {{ option.label }}
@@ -94,31 +55,17 @@
                     <div style="font-size: 12px; color: #ffffff">
                       {{ option.price }}
                     </div>
-                    <div
-                      style="font-size: 10px; color: #8e8e8e"
-                      class="d-flex align-items-center gap-1"
-                    >
-                      <svg
-                        width="7"
-                        height="7"
-                        viewBox="0 0 7 7"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
+                    <div style="font-size: 10px; color: #8e8e8e" class="d-flex align-items-center gap-1">
+                      <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_74_4052)">
                           <path
                             d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z"
-                            fill="#40B66B"
-                          />
+                            fill="#40B66B" />
                         </g>
                         <defs>
                           <clipPath id="clip0_74_4052">
-                            <rect
-                              width="5.12436"
-                              height="5.12436"
-                              fill="white"
-                              transform="translate(4.4375 7) rotate(-150)"
-                            />
+                            <rect width="5.12436" height="5.12436" fill="white"
+                              transform="translate(4.4375 7) rotate(-150)" />
                           </clipPath>
                         </defs>
                       </svg>
@@ -129,46 +76,23 @@
               </div>
             </template>
             <div v-if="option.firstPool" class="search_groups">
-              <svg
-                width="18"
-                height="8"
-                viewBox="0 0 18 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1 7L5.92308 2.2L10.8462 7L17 1M17 1H13.0615M17 1V4.84"
-                  stroke="#686868"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+              <svg width="18" height="8" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 7L5.92308 2.2L10.8462 7L17 1M17 1H13.0615M17 1V4.84" stroke="#686868" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
               </svg>
               Top picks for you
             </div>
             <template v-else-if="option.pools">
-              <div
-                class="p-2 d-flex align-items-center justify-content-between gap-2"
-                @click="reloadPage"
-              >
+              <div class="p-2 d-flex align-items-center justify-content-between gap-2" @click="reloadPage">
                 <div class="d-flex align-items-center gap-2">
-                  <img
-                    class="pair_avatars_manage_pool"
-                    :data-tooltip="tokenEntity"
-                    v-for="(tokenEntity, tokenEntityIndex) in option.img"
-                    :key="`token-entity-key-${tokenEntityIndex}`"
-                    :src="computedTokenImage(tokenEntity)"
-                    :title="tokenEntity"
-                  />
+                  <img class="pair_avatars_manage_pool" :data-tooltip="tokenEntity"
+                    v-for="(tokenEntity, tokenEntityIndex) in option.img" :key="`token-entity-key-${tokenEntityIndex}`"
+                    :src="computedTokenImage(tokenEntity)" :title="tokenEntity" />
                   <div class="d-flex flex-column">
-                    <div
-                      style="font-size: 12px; color: #ffffff; margin-left: 18px"
-                    >
+                    <div style="font-size: 12px; color: #ffffff; margin-left: 18px">
                       {{ option.label }}
                     </div>
-                    <div
-                      style="font-size: 10px; color: #8e8e8e; margin-left: 18px"
-                    >
+                    <div style="font-size: 10px; color: #8e8e8e; margin-left: 18px">
                       {{ option.desc }}
                     </div>
                   </div>
@@ -178,31 +102,17 @@
                     <div style="font-size: 12px; color: #ffffff">
                       {{ option.price }}
                     </div>
-                    <div
-                      style="font-size: 10px; color: #8e8e8e"
-                      class="d-flex align-items-center gap-1"
-                    >
-                      <svg
-                        width="7"
-                        height="7"
-                        viewBox="0 0 7 7"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
+                    <div style="font-size: 10px; color: #8e8e8e" class="d-flex align-items-center gap-1">
+                      <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_74_4052)">
                           <path
                             d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z"
-                            fill="#40B66B"
-                          />
+                            fill="#40B66B" />
                         </g>
                         <defs>
                           <clipPath id="clip0_74_4052">
-                            <rect
-                              width="5.12436"
-                              height="5.12436"
-                              fill="white"
-                              transform="translate(4.4375 7) rotate(-150)"
-                            />
+                            <rect width="5.12436" height="5.12436" fill="white"
+                              transform="translate(4.4375 7) rotate(-150)" />
                           </clipPath>
                         </defs>
                       </svg>
@@ -215,17 +125,10 @@
           </template>
         </vue-select>
         <div style="position: absolute; left: 7px; top: 6px; color: #858c90">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M17.9417 17.0583L14.7408 13.8575C15.8108 12.5883 16.4583 10.9525 16.4583 9.16667C16.4583 5.14583 13.1875 1.875 9.16667 1.875C5.14583 1.875 1.875 5.14583 1.875 9.16667C1.875 13.1875 5.14583 16.4583 9.16667 16.4583C10.9525 16.4583 12.5883 15.8108 13.8575 14.7408L17.0583 17.9417C17.18 18.0633 17.34 18.125 17.5 18.125C17.66 18.125 17.82 18.0642 17.9417 17.9417C18.1858 17.6983 18.1858 17.3025 17.9417 17.0583ZM3.125 9.16667C3.125 5.835 5.835 3.125 9.16667 3.125C12.4983 3.125 15.2083 5.835 15.2083 9.16667C15.2083 12.4983 12.4983 15.2083 9.16667 15.2083C5.835 15.2083 3.125 12.4983 3.125 9.16667Z"
-              fill="#9B9B9B"
-            />
+              fill="#9B9B9B" />
           </svg>
         </div>
         <!-- <div style="position: absolute; right: 12px; top: 7px; color: #7d7d7d">
@@ -242,28 +145,13 @@
       </div>
       <div v-else-if="address && address !== ''" class="d-flex align-items-center gap-2">
         <div class="wallet_address" style="padding: 10px;">
-          <svg
-            width="24"
-            height="16"
-            viewBox="0 0 24 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+          <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
               d="M18.2596 4.65411C17.5168 4.92921 16.933 5.55162 16.675 6.34349L16.1936 7.82082C16.1866 7.84334 16.1669 7.85851 16.1447 7.85851C16.1225 7.85851 16.1028 7.84334 16.0959 7.82082L15.6145 6.34349C15.3564 5.55157 14.7725 4.92915 14.0296 4.65411L12.644 4.14094C12.6233 4.13327 12.6094 4.1125 12.6094 4.08917C12.6094 4.06585 12.6233 4.04508 12.644 4.03741L14.0296 3.52424C14.7725 3.2492 15.3564 2.62677 15.6145 1.83486L16.0959 0.357515C16.1028 0.335026 16.1225 0.319824 16.1447 0.319824C16.1669 0.319824 16.1866 0.335026 16.1936 0.357515L16.675 1.83486C16.933 2.62674 17.5168 3.24915 18.2596 3.52424L19.6453 4.03741C19.6659 4.04508 19.6798 4.06585 19.6798 4.08917C19.6798 4.1125 19.6659 4.13327 19.6453 4.14094L18.2596 4.65411ZM12.1671 9.26357C11.1354 9.64571 10.3246 10.5102 9.96631 11.61L9.29742 13.6618C9.28759 13.6928 9.26039 13.7135 9.2298 13.7135C9.1992 13.7135 9.172 13.6928 9.16217 13.6618L8.49328 11.61C8.13496 10.5102 7.32416 9.64571 6.29255 9.26357L4.36776 8.55086C4.33906 8.54018 4.31982 8.51138 4.31982 8.47893C4.31982 8.44654 4.33906 8.41774 4.36776 8.40706L6.29255 7.69435C7.32416 7.31221 8.13497 6.44776 8.49328 5.34794L9.16217 3.29608C9.172 3.26519 9.1992 3.2444 9.2298 3.2444C9.26039 3.2444 9.28759 3.26519 9.29742 3.29608L9.96631 5.34794C10.3246 6.44776 11.1354 7.31221 12.1671 7.69435L14.0919 8.40706C14.1205 8.41774 14.1398 8.44654 14.1398 8.47893C14.1398 8.51138 14.1205 8.54018 14.0919 8.55086L12.1671 9.26357ZM16.0974 14.4665C16.3038 13.833 16.7708 13.3351 17.3649 13.115L18.474 12.7045C18.4905 12.6983 18.5016 12.6817 18.5016 12.663C18.5016 12.6444 18.4905 12.6277 18.474 12.6216L17.3649 12.2111C16.7708 11.9909 16.3038 11.493 16.0974 10.8595L15.7121 9.67771C15.707 9.65902 15.691 9.64622 15.6727 9.64622C15.6545 9.64622 15.6384 9.65902 15.6333 9.67771L15.249 10.8595C15.0424 11.4933 14.575 11.9912 13.9805 12.2111L12.8724 12.6216C12.8559 12.6277 12.8448 12.6444 12.8448 12.663C12.8448 12.6817 12.8559 12.6983 12.8724 12.7045L13.9805 13.115C14.575 13.3349 15.0424 13.8328 15.249 14.4665L15.6333 15.6484C15.6384 15.667 15.6545 15.6798 15.6727 15.6798C15.691 15.6798 15.707 15.667 15.7121 15.6484L16.0974 14.4665Z"
-              fill="url(#paint0_linear_79_4174)"
-            />
+              fill="url(#paint0_linear_79_4174)" />
             <defs>
-              <linearGradient
-                id="paint0_linear_79_4174"
-                x1="19.6798"
-                y1="-7.36018"
-                x2="6.0653"
-                y2="10.4435"
-                gradientUnits="userSpaceOnUse"
-              >
+              <linearGradient id="paint0_linear_79_4174" x1="19.6798" y1="-7.36018" x2="6.0653" y2="10.4435"
+                gradientUnits="userSpaceOnUse">
                 <stop stop-color="#2775CA" />
                 <stop offset="1" stop-color="#2ABDFF" />
               </linearGradient>
@@ -279,27 +167,15 @@
           $1.23
         </div>
         <div class="wallet_address" @click="$emit('toggleSidebar')">
-          <svg
-            width="30"
-            height="30"
-            viewBox="0 0 30 30"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_74_4008)">
               <path d="M30 0H0V30H30V0Z" fill="#F93301" />
-              <path
-                d="M1.93132 42.8252L29.9243 32.0342L19.1333 4.04118L-8.85969 14.8322L1.93132 42.8252Z"
-                fill="#F5B800"
-              />
-              <path
-                d="M-8.58379 -7.32143L-13.4048 22.2886L16.2052 27.1096L21.0262 -2.50043L-8.58379 -7.32143Z"
-                fill="#03555E"
-              />
-              <path
-                d="M10.7686 -17.638L-18.9434 -21.79L-23.0954 7.92196L6.61664 12.074L10.7686 -17.638Z"
-                fill="#236FE1"
-              />
+              <path d="M1.93132 42.8252L29.9243 32.0342L19.1333 4.04118L-8.85969 14.8322L1.93132 42.8252Z"
+                fill="#F5B800" />
+              <path d="M-8.58379 -7.32143L-13.4048 22.2886L16.2052 27.1096L21.0262 -2.50043L-8.58379 -7.32143Z"
+                fill="#03555E" />
+              <path d="M10.7686 -17.638L-18.9434 -21.79L-23.0954 7.92196L6.61664 12.074L10.7686 -17.638Z"
+                fill="#236FE1" />
             </g>
             <defs>
               <clipPath id="clip0_74_4008">
@@ -323,7 +199,7 @@ import router from '@/router'
 import { getTokenEntity } from '@/lib/helpers/util'
 
 // import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt'
-import { computed, onMounted, ref, watch, defineEmits } from 'vue'
+import { computed, onMounted, ref, watch, defineEmits, defineProps } from 'vue'
 import { cilUser } from '@coreui/icons'
 import { Dropdown } from 'floating-vue'
 import metamask from '@/assets/images/metamask.png'
@@ -358,7 +234,7 @@ import computedTokenImage from '@/composables/useComputedTokenImage'
 var emitter = require('tiny-emitter/instance')
 
 defineEmits(['toggleSidebar'])
-
+const props = defineProps(['address'])
 const { width } = useDevice()
 function reloadPage() {
   window.location.reload()
@@ -502,6 +378,12 @@ watch(
     }
   },
 )
+
+watch(props.address, () => {
+  if (props.address) {
+    address.value = props.address
+  }
+})
 const TWO_MINUTES_INTERVAL = 1000 * 60 * 2
 
 if (window.Worker) {
@@ -549,30 +431,30 @@ const networksList = ref(
   [
     process.env.VUE_APP_KEY_ARBITRUM
       ? {
-          name: 'Arbitrum',
-          chainId: '0xa4b1',
-          decimalChainId: 42161,
-          image: arbitrum_network,
-          current: false,
-        }
+        name: 'Arbitrum',
+        chainId: '0xa4b1',
+        decimalChainId: 42161,
+        image: arbitrum_network,
+        current: false,
+      }
       : undefined,
     process.env.VUE_APP_KEY_BINANCE
       ? {
-          name: 'Binance',
-          chainId: '0x38',
-          decimalChainId: 56,
-          image: binance_network,
-          current: false,
-        }
+        name: 'Binance',
+        chainId: '0x38',
+        decimalChainId: 56,
+        image: binance_network,
+        current: false,
+      }
       : undefined,
     process.env.VUE_APP_KEY_POLYGON
       ? {
-          name: 'Polygon',
-          chainId: '0x89',
-          decimalChainId: 137,
-          image: polygon_network,
-          current: false,
-        }
+        name: 'Polygon',
+        chainId: '0x89',
+        decimalChainId: 137,
+        image: polygon_network,
+        current: false,
+      }
       : undefined,
   ].filter((item) => item != undefined),
 )
@@ -625,6 +507,7 @@ async function connectWallet() {
       // isConnectedToWeb3LocalStorage = true
 
       // console.log('res', res)
+      console.log(res)
       const walletData = res
       accountData.value = walletData
       address.value = walletData[0]
@@ -699,20 +582,20 @@ const computedNetwork = computed(() =>
     : // : ethereumNetwork.value.chainId === 1
     // ? 'Ethereum'
     ethereumNetwork.value.chainId === 56
-    ? 'Binance'
-    : ethereumNetwork.value.chainId === 137
-    ? 'Polygon'
-    : 'Unsupported network',
+      ? 'Binance'
+      : ethereumNetwork.value.chainId === 137
+        ? 'Polygon'
+        : 'Unsupported network',
 )
 
 const computedNetworkImage = computed(() =>
   ethereumNetwork.value.chainId === 42161
     ? arbitrum_network
     : ethereumNetwork.value.chainId === 56
-    ? binance_network
-    : ethereumNetwork.value.chainId === 137
-    ? polygon_network
-    : unsupported_network,
+      ? binance_network
+      : ethereumNetwork.value.chainId === 137
+        ? polygon_network
+        : unsupported_network,
 )
 </script>
 <style lang="scss">
@@ -730,11 +613,9 @@ const computedNetworkImage = computed(() =>
   margin-bottom: 10px;
 
   &_bg {
-    background: linear-gradient(
-      356.2deg,
-      rgba(0, 29, 37, 0.755) 0%,
-      #000000 105.42%
-    ) !important;
+    background: linear-gradient(356.2deg,
+        rgba(0, 29, 37, 0.755) 0%,
+        #000000 105.42%) !important;
     -webkit-backdrop-filter: blur(60px);
     backdrop-filter: blur(60px);
   }
@@ -772,11 +653,9 @@ const computedNetworkImage = computed(() =>
     box-shadow: 0px 8px 10px 0px #00000033;
     box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(
-      50% 50% at 26.04% 40.42%,
-      rgba(0, 201, 255, 0.13) 0%,
-      rgba(0, 201, 255, 0) 100%
-    );
+    background: radial-gradient(50% 50% at 26.04% 40.42%,
+        rgba(0, 201, 255, 0.13) 0%,
+        rgba(0, 201, 255, 0) 100%);
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
@@ -793,11 +672,9 @@ const computedNetworkImage = computed(() =>
     box-shadow: 0px 8px 10px 0px #00000033;
     box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(
-      50% 50% at 26.04% 40.42%,
-      rgba(0, 201, 255, 0.13) 0%,
-      rgba(0, 201, 255, 0) 100%
-    );
+    background: radial-gradient(50% 50% at 26.04% 40.42%,
+        rgba(0, 201, 255, 0.13) 0%,
+        rgba(0, 201, 255, 0) 100%);
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
@@ -878,16 +755,14 @@ const computedNetworkImage = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(
-          from 180deg at 51.95% 49.81%,
-          rgba(0, 255, 178, 0) -2.11deg,
-          rgba(1, 180, 126, 0) 131.45deg,
-          #7ef6b2 175.58deg,
-          rgba(51, 255, 96, 0) 252.32deg,
-          rgba(8, 182, 129, 0) 310.85deg,
-          rgba(0, 255, 178, 0) 357.89deg,
-          rgba(1, 180, 126, 0) 491.45deg
-        );
+        background: conic-gradient(from 180deg at 51.95% 49.81%,
+            rgba(0, 255, 178, 0) -2.11deg,
+            rgba(1, 180, 126, 0) 131.45deg,
+            #7ef6b2 175.58deg,
+            rgba(51, 255, 96, 0) 252.32deg,
+            rgba(8, 182, 129, 0) 310.85deg,
+            rgba(0, 255, 178, 0) 357.89deg,
+            rgba(1, 180, 126, 0) 491.45deg);
       }
 
       &:after {
@@ -936,15 +811,13 @@ const computedNetworkImage = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(
-          from 180deg at 51.95% 49.81%,
-          rgba(1, 180, 126, 0) 0deg,
-          #7ef6b2 148.33deg,
-          rgba(8, 182, 129, 0) 225.21deg,
-          rgba(51, 255, 96, 0) 268.33deg,
-          rgba(0, 255, 178, 0) 357.89deg,
-          rgba(1, 180, 126, 0) 360deg
-        );
+        background: conic-gradient(from 180deg at 51.95% 49.81%,
+            rgba(1, 180, 126, 0) 0deg,
+            #7ef6b2 148.33deg,
+            rgba(8, 182, 129, 0) 225.21deg,
+            rgba(51, 255, 96, 0) 268.33deg,
+            rgba(0, 255, 178, 0) 357.89deg,
+            rgba(1, 180, 126, 0) 360deg);
       }
 
       &:after {
@@ -960,15 +833,13 @@ const computedNetworkImage = computed(() =>
 
       &:hover {
         &:before {
-          background: conic-gradient(
-            from 180deg at 51.95% 49.81%,
-            rgba(1, 180, 126, 0) 0deg,
-            #c6ffdf 148.33deg,
-            rgba(8, 182, 129, 0) 225.21deg,
-            rgba(51, 255, 96, 0) 268.33deg,
-            rgba(0, 255, 178, 0) 357.89deg,
-            rgba(1, 180, 126, 0) 360deg
-          );
+          background: conic-gradient(from 180deg at 51.95% 49.81%,
+              rgba(1, 180, 126, 0) 0deg,
+              #c6ffdf 148.33deg,
+              rgba(8, 182, 129, 0) 225.21deg,
+              rgba(51, 255, 96, 0) 268.33deg,
+              rgba(0, 255, 178, 0) 357.89deg,
+              rgba(1, 180, 126, 0) 360deg);
         }
       }
     }
@@ -1005,16 +876,14 @@ const computedNetworkImage = computed(() =>
     top: -1px;
     bottom: -1px;
     border-radius: 20px;
-    background: conic-gradient(
-      from 180deg at 51.95% 49.81%,
-      rgba(0, 255, 178, 0) -2.11deg,
-      rgba(1, 180, 126, 0) 131.45deg,
-      #7ef6b2 175.58deg,
-      rgba(51, 255, 96, 0) 252.32deg,
-      rgba(8, 182, 129, 0) 310.85deg,
-      rgba(0, 255, 178, 0) 357.89deg,
-      rgba(1, 180, 126, 0) 491.45deg
-    );
+    background: conic-gradient(from 180deg at 51.95% 49.81%,
+        rgba(0, 255, 178, 0) -2.11deg,
+        rgba(1, 180, 126, 0) 131.45deg,
+        #7ef6b2 175.58deg,
+        rgba(51, 255, 96, 0) 252.32deg,
+        rgba(8, 182, 129, 0) 310.85deg,
+        rgba(0, 255, 178, 0) 357.89deg,
+        rgba(1, 180, 126, 0) 491.45deg);
   }
 
   &:after {
@@ -1030,16 +899,14 @@ const computedNetworkImage = computed(() =>
 
   &:hover {
     &:before {
-      background: conic-gradient(
-        from 180deg at 51.95% 49.81%,
-        rgba(0, 255, 178, 0) -2.11deg,
-        rgba(1, 180, 126, 0) 131.45deg,
-        #c7e7d4 175.58deg,
-        rgba(51, 255, 96, 0) 252.32deg,
-        rgba(8, 182, 129, 0) 310.85deg,
-        rgba(0, 255, 178, 0) 357.89deg,
-        rgba(1, 180, 126, 0) 491.45deg
-      );
+      background: conic-gradient(from 180deg at 51.95% 49.81%,
+          rgba(0, 255, 178, 0) -2.11deg,
+          rgba(1, 180, 126, 0) 131.45deg,
+          #c7e7d4 175.58deg,
+          rgba(51, 255, 96, 0) 252.32deg,
+          rgba(8, 182, 129, 0) 310.85deg,
+          rgba(0, 255, 178, 0) 357.89deg,
+          rgba(1, 180, 126, 0) 491.45deg);
     }
   }
 }
@@ -1068,15 +935,13 @@ const computedNetworkImage = computed(() =>
     top: 1px;
     bottom: -1px;
     border-radius: 5px;
-    background: conic-gradient(
-      from 180deg at 51.95% 49.81%,
-      rgba(1, 180, 126, 0) 0deg,
-      #7ef6b2 118.33deg,
-      rgba(51, 255, 96, 0) 270.21deg,
-      rgba(8, 182, 129, 0) 311.46deg,
-      rgba(0, 255, 178, 0) 357.89deg,
-      rgba(1, 180, 126, 0) 360deg
-    );
+    background: conic-gradient(from 180deg at 51.95% 49.81%,
+        rgba(1, 180, 126, 0) 0deg,
+        #7ef6b2 118.33deg,
+        rgba(51, 255, 96, 0) 270.21deg,
+        rgba(8, 182, 129, 0) 311.46deg,
+        rgba(0, 255, 178, 0) 357.89deg,
+        rgba(1, 180, 126, 0) 360deg);
   }
 
   &:after {
@@ -1117,11 +982,9 @@ const computedNetworkImage = computed(() =>
   box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0 6px 30px 0 rgba(0, 0, 0, 0.122);
   box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.141);
-  background: radial-gradient(
-    50% 50% at 26.04% 40.42%,
-    rgba(0, 201, 255, 0.13) 0,
-    rgba(0, 201, 255, 0) 100%
-  );
+  background: radial-gradient(50% 50% at 26.04% 40.42%,
+      rgba(0, 201, 255, 0.13) 0,
+      rgba(0, 201, 255, 0) 100%);
   background-color: #1f1f1f;
   color: #fff;
 
@@ -1131,11 +994,9 @@ const computedNetworkImage = computed(() =>
 }
 
 .bell_container:hover {
-  background: radial-gradient(
-    50% 50% at 26.04% 40.42%,
-    rgba(0, 201, 255, 0.13) 0,
-    rgba(0, 201, 255, 0) 100%
-  );
+  background: radial-gradient(50% 50% at 26.04% 40.42%,
+      rgba(0, 201, 255, 0.13) 0,
+      rgba(0, 201, 255, 0) 100%);
 }
 
 .bell_icon {
@@ -1410,11 +1271,9 @@ input[readonly] {
 
 .wallet_address {
   height: 40px;
-  background: linear-gradient(
-      0deg,
+  background: linear-gradient(0deg,
       rgba(21, 21, 21, 0.5),
-      rgba(21, 21, 21, 0.5)
-    ),
+      rgba(21, 21, 21, 0.5)),
     linear-gradient(0deg, rgba(34, 34, 34, 0.05), rgba(34, 34, 34, 0.05));
   border-radius: 16px;
   border: 1px solid #2222220d;
@@ -1430,6 +1289,7 @@ input[readonly] {
   display: flex;
   align-items: center;
   gap: 8px;
+
   &:hover {
     background: #2abcff36;
 

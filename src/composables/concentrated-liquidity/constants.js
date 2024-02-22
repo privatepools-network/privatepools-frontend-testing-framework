@@ -1,14 +1,13 @@
 // This file stores web3 related constants such as addresses, token definitions, ETH currency references and ABI's
 
-
 // Addresses
 
 export const POOL_FACTORY_CONTRACT_ADDRESS =
-  '0x2ae3EfcCc57928B43D4608f6137187BDB819895a'
+  '0xFfDb6e87aA9B7425E542602C7Ea689D76182A9Ad'
 export const NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS =
-  '0xe9dfbb8556b5c78a1b6136d6fd18aad07d8bf9bb'
+  '0x03cA04Df0EEBd7AD7cad03F47b6dD04D475AA887'
 export const V3_SWAP_ROUTER_ADDRESS =
-  '0x7e2574D1d55e3049ebb397125C99B109821bF768'
+  '0x53fBD87e8d5E478100C01e2be1b6060db8e55365'
 
 // Transactions
 

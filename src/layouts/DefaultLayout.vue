@@ -4,6 +4,7 @@
       {{ console.log('sidebarWalletState', sidebarWalletState) }}
       <ConnectedSidebar v-if="isConnectedToWeb3 && sidebarWalletState !== 'Settings'" :isConnectedToWeb3="isConnectedToWeb3"  @toggleSettings="toggleSettings" @toggleToWallets="toggleToWallets"/>
       <ConnectWalletsDrawer v-else-if="sidebarWalletState === 'Connect wallet'" @toggleSettings="toggleSettings"
+      @setAddress="(addr) => address.value = addr"
         @toggleSidebar="toggleSidebar" />
       <SettingsDrawer v-else-if="sidebarWalletState === 'Settings'" @toggleToWallets="toggleToWallets" />
     </div>
@@ -13,7 +14,7 @@
       <!-- <AppSidebar /> -->
 
       <div class="wrapper d-flex flex-column min-vh-100">
-        <AppHeader @toggleSidebar="toggleSidebar" />
+        <AppHeader :address="address" @toggleSidebar="toggleSidebar" />
         <div class="body flex-grow-1 px-1 px-md-3 pt-1" style="
             padding-left: 2.5rem !important;
             padding-right: 2.5rem !important;
@@ -42,7 +43,7 @@ const isConnectedToWeb3 = ref(localStorage.getItem('isConnectedToWeb3'))
 const sidebarWalletOpen = ref(false)
 const sidebarWalletState = ref('Connect wallet')
 
-
+const address = ref(null)
 
 function toggleSidebar() {
   sidebarWalletOpen.value = !sidebarWalletOpen.value
