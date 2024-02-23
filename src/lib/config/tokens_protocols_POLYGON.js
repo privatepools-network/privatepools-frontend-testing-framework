@@ -39,4 +39,12 @@ export default [
     name: 'LDO',
     protocol: '0xc3c7d422809852031b44ab29eec9f1eff2a58756',
   },
+  {
+    name: 'AVAX',
+    protocol: '0x2c89bbc92bd86f8075d1decc58c7f4e0107f286b',
+  },
+  {
+    name: 'SOL',
+    protocol: '0xd93f7E271cB87c23AaA73edC008A79646d1F9912',
+  },
 ]

@@ -1344,12 +1344,12 @@ onUnmounted(() => {
   clearInterval(interval.value)
 })
 
-onMounted(async () => {
-  const b = await initData()
-  if (b) {
-    await fetchAutomaticData()
-  }
-})
+// onMounted(async () => {
+//   const b = await initData()
+//   if (b) {
+//     await fetchAutomaticData()
+//   }
+// })
 </script>
 <style lang="scss">
 @import '../styles/_variables.scss';
