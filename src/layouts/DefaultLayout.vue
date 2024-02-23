@@ -1,11 +1,11 @@
 <template>
   <Drawer :is-open="sidebarWalletOpen" :speed="500" @close="closeSidebar">
     <div style="height: 100%;">
-      {{ console.log('sidebarWalletState', sidebarWalletState) }}
-      <ConnectedSidebar v-if="isConnectedToWeb3 && sidebarWalletState !== 'Settings'" :isConnectedToWeb3="isConnectedToWeb3"  @toggleSettings="toggleSettings" @toggleToWallets="toggleToWallets"/>
+      <ConnectedSidebar @setAddress="(addr) => address = addr" :address="address"
+        v-if="address && sidebarWalletState !== 'Settings'" :isConnectedToWeb3="address != null && address != ''"
+        @toggleSettings="toggleSettings" @toggleToWallets="toggleToWallets" />
       <ConnectWalletsDrawer v-else-if="sidebarWalletState === 'Connect wallet'" @toggleSettings="toggleSettings"
-      @setAddress="(addr) => address.value = addr"
-        @toggleSidebar="toggleSidebar" />
+        @setAddress="(addr) => address = addr" @toggleSidebar="toggleSidebar" />
       <SettingsDrawer v-else-if="sidebarWalletState === 'Settings'" @toggleToWallets="toggleToWallets" />
     </div>
   </Drawer>
@@ -14,14 +14,14 @@
       <!-- <AppSidebar /> -->
 
       <div class="wrapper d-flex flex-column min-vh-100">
-        <AppHeader :address="address" @toggleSidebar="toggleSidebar" />
+        <AppHeader @setAddress="(addr) => address = addr" :address="address" @toggleSidebar="toggleSidebar" />
         <div class="body flex-grow-1 px-1 px-md-3 pt-1" style="
             padding-left: 2.5rem !important;
             padding-right: 2.5rem !important;
           ">
           <router-view />
         </div>
-        <AppFooter/>
+        <AppFooter />
       </div>
 
     </div>
@@ -39,7 +39,6 @@ import { watch, ref } from 'vue'
 import AppFooter from '@/components/AppFooter.vue'
 
 // import { useSwipe } from '@vueuse/core'
-const isConnectedToWeb3 = ref(localStorage.getItem('isConnectedToWeb3'))
 const sidebarWalletOpen = ref(false)
 const sidebarWalletState = ref('Connect wallet')
 
@@ -63,9 +62,11 @@ function toggleToWallets() {
 // const { isSwiping, direction } = useSwipe(document.body)
 // {{ console.log(isSwiping) }}
 // {{ console.log(direction) }}
-watch(sidebarWalletOpen.value, () => {
-  if(isConnectedToWeb3.value) {
-    sidebarWalletState.value === "Connected"
+
+
+watch(address, () => {
+  if (address.value) {
+    sidebarWalletState.value = 'Connected'
   }
 })
 

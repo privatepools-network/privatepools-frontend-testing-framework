@@ -6,18 +6,30 @@
       </CHeaderNav> -->
 
       <div class="d-flex align-items-center gap-4">
-        <div @click="router.push('/dashboard')" :class="router.currentRoute.value.path === '/dashboard'
-          ? 'navigation_text_selected navigation_text'
-          : 'navigation_text'
-          ">
-          Home
-        </div>
+
         <div @click="router.push('/pools')" :class="router.currentRoute.value.path === '/pools'
           ? 'navigation_text_selected navigation_text'
           : 'navigation_text'
           ">
           Pools
         </div>
+        <Dropdown :distance="6">
+          <div :class="router.currentRoute.value.path === '/dashboard'
+            ? 'navigation_text_selected navigation_text'
+            : 'navigation_text'
+            ">
+            Analytics
+          </div>
+          <template #popper>
+            <div @click="router.push('/dashboard')" :class="router.currentRoute.value.path === '/dashboard'
+              ? 'navigation_text_selected navigation_text'
+              : 'navigation_text'
+              ">
+              General
+            </div>
+          </template>
+        </Dropdown>
+
         <div @click="router.push('/portfolio')" :class="router.currentRoute.value.path === '/portfolio'
           ? 'navigation_text_selected navigation_text'
           : 'navigation_text'
@@ -27,7 +39,7 @@
       </div>
 
       <div style="position: relative; cursor: text">
-        <vue-select v-model="tokens" :options="tokensOptions" label-by="label" searchable
+        <vue-select v-model="visibleOptions" :options="selectOptions" label-by="id" searchable @search:input="handleInput"
           search-placeholder="Search tokens and liquidity pools" placeholder="Search tokens and liquidity pools">
           <template #dropdown-item="{ option }">
             <div v-if="option.firstToken" class="search_groups">
@@ -82,7 +94,7 @@
               </svg>
               Top picks for you
             </div>
-            <template v-else-if="option.pools">
+            <template v-if="option.pools">
               <div class="p-2 d-flex align-items-center justify-content-between gap-2" @click="reloadPage">
                 <div class="d-flex align-items-center gap-2">
                   <img class="pair_avatars_manage_pool" :data-tooltip="tokenEntity"
@@ -226,78 +238,96 @@ import { capitalizeFirstLetter } from '@/lib/utils/index'
 import { configService } from '@/services/config/config.service'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
+import { GetTokens } from '@/composables/tokens/useTokenSymbols'
+import { fetchDataAndMerge } from "@/composables/pools/trades/fetch/useFetchTrades"
+import { GetPools } from "@/composables/pools/usePools"
 import VueSelect from 'vue-next-select'
 import 'vue-next-select/dist/index.css'
-
 import 'vue3-toastify/dist/index.css'
 import computedTokenImage from '@/composables/useComputedTokenImage'
 var emitter = require('tiny-emitter/instance')
 
-defineEmits(['toggleSidebar'])
+const emit = defineEmits(['toggleSidebar', 'setAddress'])
 const props = defineProps(['address'])
 const { width } = useDevice()
 function reloadPage() {
   window.location.reload()
 }
-const tokens = ref(null)
+const tokens = ref([])
+const swaps = ref([])
+const pools = ref([])
+const topTradedTokens = computed(() => {
+  let formattedTokens = []
+  for (let i = 0; i < tokens.value.length; i++) {
+    let total_profit = swaps.value.filter((item) => item.token.toLowerCase() == tokens.value[i].address).reduce((sum, item) => sum + item.profitUsd, 0)
 
-const tokensOptions = ref([
-  {
-    firstToken: true,
-  },
-  {
-    label: 'Bitcoin',
-    img: 'BTC',
-    price: '$51000',
-    percentChange: '5.1%',
-    tokens: true,
-  },
-  {
-    label: 'Ethereum',
-    img: 'ETH',
-    price: '$2700',
-    percentChange: '2.1%',
-    tokens: true,
-  },
-  {
-    label: 'Arbitrum',
-    img: 'ARB',
-    price: '$1.89',
-    percentChange: '1.1%',
-    tokens: true,
-  },
-  {
-    label: 'Solana',
-    img: 'SOL',
-    price: '$115.54',
-    percentChange: '11.1%',
-    tokens: true,
-  },
-  {
-    firstPool: true,
-  },
-  {
-    label: 'Concentrated Liquidity',
-    img: ['SOL', 'BTC', 'AVAX'],
-    desc: 'MATIC / BTC',
-    price: '$44115.54',
-    percentChange: '5.1%',
-    pools: true,
-  },
-  {
-    label: 'Weighted Pool',
-    img: ['ETH', 'BTC', 'LDO'],
-    desc: 'MATIC 33% / BTC 33% / USDC 33%',
-    price: '$22115.54',
-    percentChange: '21.1%',
-    pools: true,
-  },
-])
+    formattedTokens.push({ ...tokens.value[i], profit: total_profit })
+  }
+  return formattedTokens.filter(item => item.profit > 0).toSorted((a, b) => b.profit - a.profit)
+})
+
+const topPools = computed(() => {
+  return pools.value.filter((item) => item.totalLiquidity > 0.01).toSorted((a, b) => b.totalLiquidity - a.totalLiquidity)
+})
+const visibleOptions = ref(null)
+const tokensOptions = computed(() => {
+  let result = []
+  result.push({ firstToken: true, id: "a b c d e f g h i j k l m n o p q r s t u v w x y z" })
+  result.push(...topTradedTokens.value.map((item) => ({
+    id: `${item.name} ${item.symbol}`,
+    label: item.name,
+    img: item.symbol,
+    price: `${item.profit.toFixed(2)}$`,
+    percentChange: '0%',
+    tokens: true
+  })))
+  result.push({ firstPool: true, id: "a b c d e f g h i j k l m n o p q r s t u v w x y z" })
+  result.push(...topPools.value.map((item) => ({
+    id: `${item.tokens.map((token) => token.symbol).join("/")} Weighted pool`,
+    label: "Weighted Pool",
+    img: item.tokens.map((token) => token.symbol),
+    desc: item.tokens.map((token) => token.symbol).join("/"),
+    percentChange: "0%",
+    price: `${parseFloat(item.totalLiquidity).toFixed(2)}$`,
+    pools: true
+  })))
+  return result
+})
+
+
+
+const visibleOptionsComputed = computed(() => {
+  if (tokensOptions.value.length <= 2) {
+    return []
+  }
+  let result = tokensOptions.value.slice(0, 3)
+  let index = tokensOptions.value.findIndex((item) => item.firstPool)
+  result.push(...tokensOptions.value.slice(index, index + 3))
+  return result
+})
+
+const selectOptions = computed(() => visibleOptions.value ? visibleOptions.value : tokensOptions.value)
+
+
+watch(visibleOptionsComputed, () => {
+  if (visibleOptionsComputed.value)
+    visibleOptions.value = [...visibleOptionsComputed.value]
+})
+
 
 const isHeaderBg = ref(false)
 
+
+
+const networks = [
+  process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined,
+  process.env.VUE_APP_KEY_BINANCE ? Network.BINANCE : undefined,
+  process.env.VUE_APP_KEY_POLYGON ? Network.POLYGON : undefined,
+].filter((n) => n != undefined)
+
 const headRef = ref(null) // obtain the reference
-onMounted(() => {
+
+onMounted(async () => {
   window.addEventListener('scroll', () => {
     var curr = window.pageYOffset
 
@@ -309,7 +339,26 @@ onMounted(() => {
       isHeaderBg.value = false
     }
   })
+  tokens.value = (await Promise.all(networks.map((network) => GetTokens(network)))).flat()
+  swaps.value = await fetchDataAndMerge()
+  pools.value = (await Promise.all(networks.map((network) => GetPools(network, null, true, true)))).flat()
+
 })
+
+const searchInput = ref('')
+function handleInput(event) {
+  searchInput.value = event.target.value
+  let _search = searchInput.value.toLowerCase()
+  visibleOptions.value = searchInput.value ? [...tokensOptions.value.filter((item) => checkInputSearchItem(_search, item))] : [...visibleOptionsComputed.value]
+}
+
+function checkInputSearchItem(_search, item) {
+  if (item.firstPool || item.firstToken)
+    return true
+
+  let result = (item.desc && item.desc.toLowerCase().includes(_search)) || (item.label && item.label.toLowerCase().includes(_search))
+  return result
+}
 
 const notify = (popupType, popupText, popupSubText) => {
   toast(Toast, {
@@ -337,11 +386,10 @@ const isMetamaskSupported = ref(false)
 const isConnectedToWeb3 = ref(localStorage.getItem('isConnectedToWeb3'))
 // const isConnectedToWeb3LocalStorage = ref(false)
 const accountData = ref()
-const address = ref('')
 const ethereumNetwork = ref('')
 const store = useStore()
 // eslint-disable-next-line
-const { text, copy, copied, isSupported } = useClipboard({ address })
+const { text, copy, copied, isSupported } = useClipboard({ address: props.address })
 
 function closeNav() {
   navOpen.value = false
@@ -379,11 +427,6 @@ watch(
   },
 )
 
-watch(props.address, () => {
-  if (props.address) {
-    address.value = props.address
-  }
-})
 const TWO_MINUTES_INTERVAL = 1000 * 60 * 2
 
 if (window.Worker) {
@@ -461,18 +504,9 @@ const networksList = ref(
 
 onMounted(async () => {
   isMetamaskSupported.value = window.ethereum !== undefined
+  console.log("MM SUPPORTED - ", isMetamaskSupported)
   if (isMetamaskSupported.value) {
-    let _isConnected = localStorage.getItem('isConnectedToWeb3')
-    window.ethereum?._state?.accounts?.length !== 0 && _isConnected
-      ? connectWallet()
-      : ''
-    if (!_isConnected) {
-      notify(
-        'warning',
-        'Wallet is not connected',
-        'Please connect your wallet via Metamask',
-      )
-    }
+    await connectWallet()
   } else {
     notify(
       'error',
@@ -480,6 +514,7 @@ onMounted(async () => {
       'Please install Metamask browser extension.',
     )
   }
+
 })
 
 // eslint-disable-next-line
@@ -510,8 +545,8 @@ async function connectWallet() {
       console.log(res)
       const walletData = res
       accountData.value = walletData
-      address.value = walletData[0]
-      console.log(address.value)
+      emit('setAddress', res[0])
+      console.log("APP HEADER")
       ethereumNetwork.value = network
       store.dispatch('setWalletData', walletData)
       store.dispatch('setCurrentNetwork', network)
@@ -524,12 +559,12 @@ async function connectWallet() {
       setNetworkId(network.chainId)
       window.ethereum.on('chainChanged', handleChainChanged)
       window.ethereum.on('accountsChanged', function (accounts) {
-        address.value = accounts[0]
-        localStorage.setItem('account', address.value)
+        emit('setAddress', accounts[0])
+        localStorage.setItem('account', accounts[0])
       })
     })
     .catch((err) => {
-      console.log(err)
+      console.error(err)
       notify(
         'warning',
         'Wallet is not connected',
@@ -571,9 +606,9 @@ async function selectANetwork(chainId) {
 
 const computedAddress = computed(
   () =>
-    address.value.substring(0, 6) +
-    '....' +
-    address.value.substring(address.value.length - 4),
+    props.address ? props.address.substring(0, 6) +
+      '....' +
+      props.address.substring(props.address.length - 4) : '',
 )
 
 const computedNetwork = computed(() =>

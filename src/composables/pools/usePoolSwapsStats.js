@@ -535,6 +535,10 @@ function usePoolTokensData(key, filtered, tokens_data) {
     let found_token = tokens_data.find(
       (item) => item.id == swap.token.toLowerCase(),
     )
+    if (!found_token) {
+      console.error('NOT FOUND ', swap.token)
+      continue
+    }
     let symbol = found_token.symbol
     let found = result.find((item) => item.symbol == symbol)
     if (!found) {
