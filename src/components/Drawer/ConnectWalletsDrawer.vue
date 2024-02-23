@@ -74,6 +74,7 @@ async function connectWallet(called_by_user = false) {
         'window.ethereum.networkVersion',
       )
       emit("setAddress", res[0])
+      console.log("HERE")
       setNetworkId(network.chainId)
       window.ethereum.on('chainChanged', handleChainChanged)
       window.ethereum.on('accountsChanged', function (accounts) {
@@ -85,7 +86,7 @@ async function connectWallet(called_by_user = false) {
     })
     .catch((err) => {
       localStorage.removeItem("account")
-      console.log(err)
+      console.error(err)
       notify(
         'warning',
         'Wallet is not connected',
@@ -94,14 +95,6 @@ async function connectWallet(called_by_user = false) {
     })
 }
 
-
-onMounted(async () => {
-  await connectWallet()
-  let _account = localStorage.getItem('account')
-  if (_account) {
-    address.value = _account;
-  }
-})
 
 async function handleChainChanged() {
   let provider = new ethers.providers.Web3Provider(window.ethereum)
