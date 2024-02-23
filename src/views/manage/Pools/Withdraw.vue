@@ -6,7 +6,9 @@
       :allPossibleTokens="allSelectedTokensDisplay" :allSelectedTokens="allSelectedTokens" :account="account"
       :lineNumberPercent="lineNumberPercent" :exactOut="exactOut" :poolShare="poolShare"
       :getTokenWithdrawAmount="getTokenWithdrawAmount" :init="init" />
-    <CRow class="mb-4">
+      <div class="center_container">
+
+      <CRow class="mb-4">
       <div class="d-flex align-items-center justify-content-between">
 
         <div class="caption-row">
@@ -88,9 +90,11 @@
           <div class="deposit_text fw-bolder mt-3">You receive</div>
           <div>
             <div style="
-            border-radius: 15.289px;
-            background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
-            backdrop-filter: blur(20.067087173461914px);
+            border-radius: 16px;
+            box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
+            background: #00000024;
+
+            border: 1px solid #FFFFFF0D;
             color: white;
             font-size: clamp(10px, 0.8vw, 14px);
           ">
@@ -148,6 +152,7 @@
           Preview
         </div>
       </div>
+    </div>
     </div>
   </MainCard>
 </template>
@@ -341,6 +346,16 @@ function changeVisibleDeposit() {
 
 </script>
 <style lang="scss" scoped>
+
+.center_container {
+  background: #15151524;
+  border: 1px solid #ffffff0d;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  margin: 1% 10% 10% 10%;
+  padding: 2.5%;
+  border-radius: 16px;
+}
+
 .caption-row {
   flex-direction: row;
   display: flex;
@@ -349,9 +364,7 @@ function changeVisibleDeposit() {
 }
 
 .big-chip {
-  border-radius: 15.289px;
-  background: linear-gradient(153deg, #00C9FF 0%, rgba(0, 2, 1, 0.01) 99.99%, rgba(0, 0, 0, 0.00) 100%);
-  backdrop-filter: blur(20.067087173461914px);
+  
   padding-left: 8px;
   padding-right: 10px;
   padding-top: 3px;
@@ -359,7 +372,11 @@ function changeVisibleDeposit() {
   width: fit-content;
   display: flex;
   align-items: center;
+  border-radius: 16px;
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
 
+  backdrop-filter: blur(20.067087173461914px);
   &__image {
     width: 1.4vw;
   }
@@ -382,11 +399,23 @@ function changeVisibleDeposit() {
   }
 }
 
+.currency_container {
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
+  padding: 10px;
+  border-radius: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 .back_button {
   width: 32px;
   height: 32px;
   border-radius: 100%;
-  background-color: #041c13;
+  background: #00000024;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
+  border: 1px solid #FFFFFF0D;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -395,10 +424,11 @@ function changeVisibleDeposit() {
 
 .deposit_choose {
   padding: 10px;
-  width: 35%;
-  border-radius: 15.289px;
-  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
-  backdrop-filter: blur(20.067087173461914px);
+  width: 40%;
+  border-radius: 16px;
+  background: #00000024;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
 }
 
 .token-input {
@@ -421,9 +451,12 @@ function changeVisibleDeposit() {
 }
 
 .modal_stake_token {
-  border-radius: 6px;
-  background: linear-gradient(95deg, #003E4F 0.03%, #000 133.56%);
   padding: 15px;
+  border-radius: 16px;
+  background: #15151524;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
+
 }
 
 .modal_balance_slider {
@@ -435,8 +468,8 @@ function changeVisibleDeposit() {
 }
 
 .modal_stake_token_inner_name {
-  background-color: rgba(59, 97, 65, 0.14);
   border-radius: 17px;
+  background: rgba(76, 76, 76, 0.14);
   color: white;
   font-size: clamp(10px, 0.8vw, 14px);
   padding: 4px 12px;
@@ -450,25 +483,26 @@ function changeVisibleDeposit() {
 
 .compose_pool_connect_wallet {
   margin-top: 8px;
-  padding: 8px;
+  padding: 13px 8px;
   font-size: 12px;
   color: white;
   border: 0px;
+  border-radius: 8px;
+  background: linear-gradient(89deg, #00c9ff 1.58%, #0094ff 100.04%);
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.05),
+    0px 4px 6px -1px rgba(0, 0, 0, 0.05);
   width: 100%;
   cursor: pointer;
   display: flex;
   justify-content: center;
   // transition-duration: 0.3s;
   text-shadow: 1px 1px 2px black;
-  border-radius: 8px;
-  background: linear-gradient(89deg, #00C9FF 1.58%, #0094FF 100.04%);
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.05), 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
 
   &:hover {
     color: #fff;
-    background: #00C9FF;
-    box-shadow: 0px 12px 24px 0px rgba(#00C9FF, 0.2),
-      0px 4px 8px 0px rgba(#00C9FF, 0.3);
+    background: #00c9ff;
+    box-shadow: 0px 12px 24px 0px rgba(#00c9ff, 0.2),
+      0px 4px 8px 0px rgba(#00c9ff, 0.3);
   }
 }
 </style>

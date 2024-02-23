@@ -91,7 +91,7 @@ watch(sidebarWalletOpen.value, () => {
 }
 
 .app_container {
-  background: #090909;
+  background: #171717;
 }
 
 

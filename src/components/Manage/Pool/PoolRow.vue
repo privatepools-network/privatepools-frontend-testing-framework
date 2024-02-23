@@ -166,6 +166,7 @@
         <div v-if="pool['Liquidity'] === 0" class="liquidity_button_container">
           <div class="liquidity_button_text">no liquidity deposited</div>
           <div
+          @click="router.push('/pools/compose')"
             class="liquidity_button"
             :class="
               pool['LiquidityType'] === 'CL'
@@ -182,12 +183,18 @@
           class="d-flex gap-5 align-items-center liquidity_button_container"
         >
           <div class="details-el__col">
-            <div
-              class="details-el__title d-flex gap-1 align-items-center orange"
-            >
+            <div v-if="pool['LiquidityType'] === 'CL'"
+              class="details-el__title d-flex gap-1 align-items-center orange">
               Out of range
               <div class="details-el__circle"></div>
             </div>
+            <div v-else class="details-el__title d-flex gap-1 align-items-center purple">
+              
+            
+              Weighted Pool
+              <div class="details-el__circle"></div>
+            </div>
+
             <div style="font-size: 18px; font-weight: 700">AAVE-wstETH LP</div>
             <div style="font-size: 9px; font-weight: 700">
               Min 125.808 / Max 126.394 AAVE per wstETH
@@ -223,7 +230,7 @@
                   </defs>
                 </svg>
               </div>
-              <div class="actions_button">Add liquidity</div>
+              <div class="actions_button" @click="$emit('goToPool', { index, onMountedActivity: 'deposit' })">Add liquidity</div>
             </div>
           </div>
           <div class="d-flex" style="height: 100px">
@@ -246,7 +253,7 @@
                 ~545.45 USD
               </div>
               <div style="font-size: 9px; font-weight: 700">0.22 AAVE  0.22 wstETH</div></div>
-              <div class="actions_button">WITHDRAW</div>
+              <div class="actions_button" @click="$emit('goToPool', { index, onMountedActivity: 'withdraw' })">WITHDRAW</div>
             </div>
           </div>
           <div class="d-flex" style="height: 100px">
@@ -295,6 +302,7 @@ import { configService } from '@/services/config/config.service'
 import { ReversedDisplayNetwork } from '@/composables/useNetwork'
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import etherscan from '@/assets/icons/etherscan.svg'
+import router from '@/router'
 
 const props = defineProps({
   pool: Object,
@@ -606,6 +614,13 @@ const visibleDetails = ref(false)
   .details-el__circle {
     background: #f9bc2d;
     box-shadow: 0px 0px 10px 0px rgba(249, 188, 45, 0.5);
+  }
+}
+.purple {
+  color: #2D5AF9;
+  .details-el__circle {
+    background: #2D5AF9;
+    box-shadow: 0px 0px 10px 0px #2d59f979;
   }
 }
 .blue {

@@ -11,6 +11,7 @@ import VueApexCharts from 'vue3-apexcharts'
 import FloatingVue from 'floating-vue'
 import 'floating-vue/dist/style.css'
 import { inject } from '@vercel/analytics'
+import VueClickAway from 'vue3-click-away'
 
 const app = createApp(App)
 app.use(store)
@@ -23,7 +24,7 @@ app.component('CIcon', CIcon)
 app.component('DocsExample', DocsExample)
 app.component('apexchart', VueApexCharts)
 app.use(FloatingVue)
-
+app.use(VueClickAway)
 
 app.mount('#app')
 
