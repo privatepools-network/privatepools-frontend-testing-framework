@@ -14,8 +14,17 @@
       </div> -->
       <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
         <div class="d-flex align-items-center gap-3">
-          <div>
-            <div class="filter_button">
+          <div v-click-away="onClickAway">
+            <div
+              class="filter_button"
+              style="width: 140px;"
+              :style="
+                selectTokenDropdownOpen === true
+                  ? 'border-radius: 16px 16px 0px 0px;'
+                  : ''
+              "
+              @click="selectTokenDropdownOpen = !selectTokenDropdownOpen"
+            >
               <svg
                 width="22"
                 height="16"
@@ -30,10 +39,66 @@
               </svg>
               Select token
             </div>
+            <div
+              v-if="selectTokenDropdownOpen === true"
+              class="select_token_dropdown"
+            >
+              <div
+                v-for="(item, i) in optionsTokens"
+                :key="`${i}-tokens-search`"
+              >
+                <div
+                  @click="item.selected = !item.selected"
+                  class="select_token_dropdown_text d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <img
+                      :src="getTokenEntity(item.code, 'short').icon"
+                      width="17"
+                    />
+                    {{ item.name }}
+                  </div>
+                  <div>
+                    <div
+                      :class="
+                        item.selected === true
+                          ? 'checkbox_custom_selected'
+                          : 'checkbox_custom'
+                      "
+                    >
+                      <svg
+                        v-if="item.selected === true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="8"
+                        height="8"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        style="margin-top: -11px"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <div class="filter_button">
-              <svg
+          <div v-click-away="onClickAwayFilters">
+            <div
+              class="filter_button"
+              style="width: 140px;"
+              :style="
+                moreFiltersDropdownOpen === true
+                  ? 'border-radius: 16px 16px 0px 0px;'
+                  : ''
+              "
+              @click="moreFiltersDropdownOpen = !moreFiltersDropdownOpen"
+            >
+            <svg
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -51,7 +116,93 @@
 
               More filters
             </div>
+            <div
+              v-if="moreFiltersDropdownOpen === true"
+              class="select_token_dropdown"
+            >
+            <div style="font-size: 13px; font-weight: 700; color: white;">Pool Type</div>
+              <div
+                v-for="(item, i) in optionsPoolType"
+                :key="`${i}-pooltype-search`"
+              >
+                <div
+                  @click="item.selected = !item.selected"
+                  class="select_token_dropdown_text d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                   
+                    {{ item.name }}
+                  </div>
+                  <div>
+                    <div
+                      :class="
+                        item.selected === true
+                          ? 'checkbox_custom_selected'
+                          : 'checkbox_custom'
+                      "
+                    >
+                      <svg
+                        v-if="item.selected === true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="8"
+                        height="8"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        style="margin-top: -11px"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size: 13px; font-weight: 700; color: white;">Pool attributes</div>
+              <div
+                v-for="(item, i) in optionsPoolAttribute"
+                :key="`${i}-pooltype-search`"
+              >
+                <div
+                  @click="item.selected = !item.selected"
+                  class="select_token_dropdown_text d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                   
+                    {{ item.name }}
+                  </div>
+                  <div>
+                    <div
+                      :class="
+                        item.selected === true
+                          ? 'checkbox_custom_selected'
+                          : 'checkbox_custom'
+                      "
+                    >
+                      <svg
+                        v-if="item.selected === true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="8"
+                        height="8"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        style="margin-top: -11px"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          
           <div class="d-flex align-items-center gap-2">
             <div style="cursor: pointer; height: 30px">
               <CFormSwitch
@@ -385,6 +536,7 @@ import ChainSelector from '@/UI/ChainSelectorV2.vue'
 import Title from '@/UI/Title'
 import { GetHistoricalTvl } from '@/composables/pools/snapshots/usePoolHistoricalTvl'
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
+
 import {
   DisplayNetwork,
   Network,
@@ -394,11 +546,14 @@ import {
 // import Warning from "@/UI/Warning";
 import { useDevice } from '@/composables/adaptive/useDevice'
 import Multiselect from 'vue-multiselect'
+import { getTokenEntity } from '@/lib/helpers/util'
 const viewMode = ref('rows')
 const { width } = useDevice()
 
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 const composePoolDropdownOpen = ref(false)
+const selectTokenDropdownOpen = ref(false)
+const moreFiltersDropdownOpen = ref(false)
 
 const headers = [
   'Tokens',
@@ -421,6 +576,43 @@ const headers = [
 //   'APR',
 //   'Profit',
 // ]
+const onClickAway = (event) => {
+  selectTokenDropdownOpen.value = false
+}
+const onClickAwayFilters = (event) => {
+  moreFiltersDropdownOpen.value = false
+}
+
+const optionsTokens = ref([
+  { name: 'Ether', code: 'WETH', selected: false },
+  { name: 'USDT', code: 'USDT', selected: false },
+  { name: 'WBTC', code: 'BTC', selected: false },
+  {
+    name: 'MATIC',
+    code: 'WMATIC',
+    selected: false,
+  },
+
+  {
+    name: 'WBNB',
+    code: 'WBNB',
+    selected: false,
+  },
+  {
+    name: 'AVAX',
+    code: 'AVAX',
+    selected: false,
+  },
+])
+const optionsPoolType = ref([
+  { name: 'Weighted',  selected: false },
+  { name: 'Stable',  selected: false },
+  { name: 'CLP', selected: false },
+])
+const optionsPoolAttribute = ref([
+  { name: 'New',  selected: false },
+
+])
 
 const poolsMock = [
   {
@@ -454,7 +646,7 @@ const poolsMock = [
     Volume: '3840.915',
     TVL: '52514.92940',
     APR: '6.410',
-    Blockchain: 'Polygon',
+    Blockchain: 'Binance',
   },
   {
     id: '0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24000100000000000000000014',
@@ -486,7 +678,7 @@ const poolsMock = [
     Volume: '0.000',
     TVL: '1191.83091',
     APR: '0.000',
-    Blockchain: 'Polygon',
+    Blockchain: 'Binance',
   },
   {
     id: '0x68aba87382af2ec495c5b0694f0a7984988b5fc7000100000000000000000004',
@@ -518,7 +710,7 @@ const poolsMock = [
     Volume: '0.000',
     TVL: '1064.64254',
     APR: '0.000',
-    Blockchain: 'Polygon',
+    Blockchain: 'Binance',
   },
 
   {
@@ -551,7 +743,7 @@ const poolsMock = [
     Volume: '0.000',
     TVL: '1064.64254',
     APR: '0.000',
-    Blockchain: 'Polygon',
+    Blockchain: 'Binance',
   },
 ]
 
@@ -1264,6 +1456,45 @@ function onFilterClick(filterValue, header) {
       cursor: pointer;
     }
   }
+}
+
+.select_token_dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 100;
+  position: absolute;
+  background: black;
+  padding: 11.5px;
+  width: 140px;
+  font-family: Segoe UI;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 19px;
+  letter-spacing: 0em;
+  color: #ffffff;
+  border-radius: 0px 0px 16px 16px;
+  border: 1px solid #3737374a;
+  box-shadow: 0px 4px 4px 0px #15151540;
+
+  &_text {
+    &:hover {
+      color: #00c9ff;
+      cursor: pointer;
+    }
+  }
+}
+
+.checkbox_custom {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #1f1f1f;
+}
+.checkbox_custom_selected {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #1f1f1f;
+  background: #00affe;
 }
 
 .filter_button {

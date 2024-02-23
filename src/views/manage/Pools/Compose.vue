@@ -1,6 +1,8 @@
 <template>
   <MainCard>
+    
     {{ console.log('notSelectedPossibleComposeTokens', notSelectedPossibleComposeTokens) }}
+    
     <TokenSelectModal :tokenSelectModal="tokenSelectModal" @tokenSelectModalOpen="tokenSelectModalOpen(0)"
       :possibleComposeTokens="notSelectedPossibleComposeTokens" @updateToken="(token) =>
       (tokensData[tokenSelectIndex] = {
@@ -8,6 +10,40 @@
         weight: tokensData[tokenSelectIndex].weight,
       })
         " @addToken="onAddToken" />
+
+<div class="center_container">
+  <CRow class="mb-5">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+          <div style="font-size: 20px; color: #EBEBEF; font-weight: 700;">Weighted pools Add Liquidity</div>
+          <div style="font-size: 15px; color: #858C90; font-weight: 400;">Add Liquidity to Private Pools Weighted Pools</div>
+        </div>
+          <div class="back_button" @click="router.push('/pools')">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6L6 18"
+                stroke="#FFFFFF"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M6 6L18 18"
+                stroke="#FFFFFF"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+      </CRow>
     <div class="d-flex justify-content-around">
       <div class="d-flex flex-column gap-4 w-25">
         <ComposePoolSteps :activeStep="activeStep" />
@@ -67,7 +103,7 @@
               </div>
             </div>
             <div class="d-flex align-items-center gap-2">
-              <input type="number" class="compose_text weight_input" style="font-size: 14px; text-align: right"
+              <input type="number" class="compose_text weight_input" style="font-size: 14px; text-align: right; width: 50px;"
                 v-model="token.weight" /><span style="color: white">%</span>
               <div class="delete_token" style="cursor: pointer"
                 @click="tokensData = tokensData.filter((t) => t != token)">
@@ -474,6 +510,7 @@
         </div>
       </div>
     </div>
+   </div>
   </MainCard>
   <!-- <div class="" v-if="visibleNetworkModal && visibleNetworkModal != 'closed'">
     <Warning :NetworkUnsupported="NetworkUnsupported" :closable="true" @closeWarning="closeWarning"></Warning>
@@ -481,6 +518,8 @@
 </template>
 
 <script setup>
+import router from '@/router'
+
 import MainCard from '@/UI/MainCard.vue'
 import { ref, computed, watch, onMounted } from 'vue'
 import ComposePoolSteps from '@/components/ComposePool/ComposePoolSteps.vue'
@@ -957,8 +996,8 @@ const dynamicDonut = computed(() => {
   return {
     chart: {
       type: 'donut',
-      width: '80%',
-      height: '80%',
+      width: '100%',
+      height: '100%',
     },
     series,
     colors: arrayOfColors,
@@ -1026,13 +1065,22 @@ const dynamicDonut = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.center_container {
+  background: #15151524;
+  border: 1px solid #ffffff0d;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  margin: 1% 10% 10% 10%;
+  padding: 2.5%;
+  border-radius: 16px;
+}
 .compose_choose {
   height: fit-content;
   padding: 10px;
   width: 35%;
-  border-radius: 15.289px;
-  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
-  backdrop-filter: blur(20.067087173461914px);
+  border-radius: 16px;
+  background: #00000024;
+  border: 1px solid #ffffff0d;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
 
 .modal_total_container {
@@ -1059,20 +1107,20 @@ const dynamicDonut = computed(() => {
   padding: 10px;
   width: 100%;
   height: fit-content;
-  background: linear-gradient(90.52deg,
-      rgba(53, 185, 192, 0.05) 0.36%,
-      rgba(53, 185, 192, 0.02) 0.36%);
-  border: 1px solid #00C9FF2f;
-  border-radius: 10px;
+  border-radius: 16px;
+  background: #00000024;
+  border: 1px solid #ffffff0d;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
 
 .compose_chart {
   padding: 10px;
   width: 25%;
   height: fit-content;
-  border-radius: 15.289px;
-  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
-  backdrop-filter: blur(20.067087173461914px);
+  border-radius: 16px;
+  background: #00000024;
+  border: 1px solid #ffffff0d;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
 
 .chart_container {
@@ -1084,9 +1132,9 @@ const dynamicDonut = computed(() => {
   padding: 5px 0px;
   height: 260px;
 
-  :deep(.apexcharts-inner) {
-    filter: drop-shadow(0 0 0.3rem #00C9FF);
-  }
+  // :deep(.apexcharts-inner) {
+  //   filter: drop-shadow(0 0 0.3rem #00C9FF);
+  // }
 }
 
 .add_token_btn {
@@ -1111,10 +1159,10 @@ const dynamicDonut = computed(() => {
 .compose_choose_inner_container {
   padding: 10px;
   width: 100%;
-  border-radius: 9px;
-  background: rgba(18, 24, 27, 0.56);
-  box-shadow: 0px 9px 12px 0px rgba(0, 0, 0, 0.16);
-  backdrop-filter: blur(21px);
+  border-radius: 16px;
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
 }
 
 .compose_pool_connect_wallet {
@@ -1159,8 +1207,10 @@ const dynamicDonut = computed(() => {
   color: white;
   padding: 10px;
   height: 30px;
-  border-radius: 6px;
-  background: linear-gradient(95deg, #003E4F 0.03%, #000 133.56%);
+  border-radius: 16px;
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
 }
 
 .compose_token_btn:hover {
@@ -1219,5 +1269,18 @@ const dynamicDonut = computed(() => {
 
 .delete_token:hover svg path {
   stroke: rgb(253, 24, 24);
+}
+
+.back_button {
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  background: #00000024;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  border: 1px solid #ffffff0d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 </style>

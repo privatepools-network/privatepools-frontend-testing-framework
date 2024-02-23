@@ -104,7 +104,7 @@ export default {
     //   },
 
     closeDrawer() {
-      console.log('closeDrawer')
+      // console.log('closeDrawer')
       if (!this.isTransitioning) {
         this.$emit('close')
       }

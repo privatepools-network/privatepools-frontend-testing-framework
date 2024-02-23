@@ -166,6 +166,7 @@
         <div v-if="pool['Liquidity'] === 0" class="liquidity_button_container">
           <div class="liquidity_button_text">no liquidity deposited</div>
           <div
+          @click="pool['LiquidityType'] === 'CL' ? router.push('pools/concentrated_pool/add') : $emit('goToPool', { index, onMountedActivity: 'deposit' })"
             class="liquidity_button"
             :class="
               pool['LiquidityType'] === 'CL'
@@ -183,11 +184,20 @@
         >
           <div class="details-el__col">
             <div
+              v-if="pool['LiquidityType'] === 'CL'"
               class="details-el__title d-flex gap-1 align-items-center orange"
             >
               Out of range
               <div class="details-el__circle"></div>
             </div>
+            <div
+              v-else
+              class="details-el__title d-flex gap-1 align-items-center purple"
+            >
+              Weighted Pool
+              <div class="details-el__circle"></div>
+            </div>
+
             <div style="font-size: 18px; font-weight: 700">AAVE-wstETH LP</div>
             <div style="font-size: 9px; font-weight: 700">
               Min 125.808 / Max 126.394 AAVE per wstETH
@@ -223,30 +233,43 @@
                   </defs>
                 </svg>
               </div>
-              <div class="actions_button">Add liquidity</div>
+              <div
+                class="actions_button"
+                @click="pool['LiquidityType'] === 'CL' ? router.push('pools/concentrated_pool/add') : $emit('goToPool', { index, onMountedActivity: 'deposit' })"
+
+              >
+                Add liquidity
+              </div>
             </div>
           </div>
           <div class="d-flex" style="height: 100px">
             <div class="vr" style="border: 1px solid #383838"></div>
           </div>
           <div class="details-el__col">
-            <div
-              class="details-el__title d-flex gap-1 align-items-center blue"
-            >
-            Liquidity Added
+            <div class="details-el__title d-flex gap-1 align-items-center blue">
+              Liquidity Added
               <div class="details-el__circle"></div>
             </div>
             <div style="font-size: 18px; font-weight: 700">AAVE-wstETH LP</div>
             <div style="font-size: 9px; font-weight: 700">
               0.04567443 LP-AAVE-wstETH
             </div>
-            <div class="d-flex align-items-end justify-content-between mt-3 gap-3">
+            <div
+              class="d-flex align-items-end justify-content-between mt-3 gap-3"
+            >
               <div class="d-flex flex-column gap-2">
-              <div style="font-size: 9px; font-weight: 700">
-                ~545.45 USD
+                <div style="font-size: 9px; font-weight: 700">~545.45 USD</div>
+                <div style="font-size: 9px; font-weight: 700">
+                  0.22 AAVE 0.22 wstETH
+                </div>
               </div>
-              <div style="font-size: 9px; font-weight: 700">0.22 AAVE  0.22 wstETH</div></div>
-              <div class="actions_button">WITHDRAW</div>
+              <div
+                class="actions_button"
+                @click="pool['LiquidityType'] === 'CL' ? router.push('pools/concentrated_pool/add') : $emit('goToPool', { index, onMountedActivity: 'deposit' })"
+
+              >
+                WITHDRAW
+              </div>
             </div>
           </div>
           <div class="d-flex" style="height: 100px">
@@ -256,28 +279,51 @@
             <div
               class="details-el__title d-flex gap-1 align-items-center green"
             >
-            Rewards
+              Rewards
               <div class="details-el__circle"></div>
             </div>
-            <div style="font-size: 18px; font-weight: 700">$253.45 <svg width="22" height="15" viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M16.7381 4.36344C16.0572 4.62134 15.522 5.20486 15.2856 5.94724L14.8442 7.33223C14.8379 7.35335 14.8198 7.36757 14.7994 7.36757C14.7791 7.36757 14.761 7.35335 14.7547 7.33223L14.3134 5.94724C14.0769 5.20481 13.5416 4.62129 12.8606 4.36344L11.5904 3.88234C11.5715 3.87515 11.5588 3.85568 11.5588 3.83381C11.5588 3.81194 11.5715 3.79247 11.5904 3.78529L12.8606 3.30419C13.5416 3.04634 14.0769 2.46281 14.3134 1.72039L14.7547 0.335384C14.761 0.3143 14.7791 0.300049 14.7994 0.300049C14.8198 0.300049 14.8379 0.3143 14.8442 0.335384L15.2856 1.72039C15.522 2.46278 16.0572 3.04629 16.7381 3.30419L18.0083 3.78529C18.0272 3.79247 18.04 3.81194 18.04 3.83381C18.04 3.85568 18.0272 3.87515 18.0083 3.88234L16.7381 4.36344ZM11.1533 8.68481C10.2076 9.04307 9.46437 9.85349 9.13591 10.8846L8.52276 12.8082C8.51375 12.8372 8.48882 12.8566 8.46077 12.8566C8.43272 12.8566 8.40779 12.8372 8.39878 12.8082L7.78563 10.8846C7.45717 9.85349 6.71393 9.04307 5.76829 8.68481L4.0039 8.01665C3.97759 8.00663 3.95996 7.97963 3.95996 7.94921C3.95996 7.91885 3.97759 7.89185 4.0039 7.88183L5.76829 7.21367C6.71394 6.85541 7.45717 6.04499 7.78563 5.01391L8.39878 3.09029C8.40779 3.06133 8.43272 3.04184 8.46077 3.04184C8.48882 3.04184 8.51375 3.06133 8.52276 3.09029L9.13591 5.01391C9.46437 6.04499 10.2076 6.85541 11.1533 7.21367L12.9177 7.88183C12.9439 7.89185 12.9616 7.91885 12.9616 7.94921C12.9616 7.97963 12.9439 8.00663 12.9177 8.01665L11.1533 8.68481ZM14.7561 13.5626C14.9453 12.9687 15.3733 12.5019 15.918 12.2955L16.9346 11.9106C16.9498 11.9049 16.96 11.8893 16.96 11.8718C16.96 11.8543 16.9498 11.8387 16.9346 11.8329L15.918 11.4481C15.3733 11.2417 14.9453 10.7749 14.7561 10.181L14.4029 9.07307C14.3982 9.05555 14.3835 9.04355 14.3668 9.04355C14.3501 9.04355 14.3353 9.05555 14.3306 9.07307L13.9783 10.181C13.789 10.7751 13.3605 11.2419 12.8156 11.4481L11.7998 11.8329C11.7847 11.8387 11.7745 11.8543 11.7745 11.8718C11.7745 11.8893 11.7847 11.9049 11.7998 11.9106L12.8156 12.2955C13.3605 12.5016 13.789 12.9684 13.9783 13.5626L14.3306 14.6706C14.3353 14.688 14.3501 14.7 14.3668 14.7C14.3835 14.7 14.3982 14.688 14.4029 14.6706L14.7561 13.5626Z" fill="url(#paint0_linear_157_1467)"/>
-<defs>
-<linearGradient id="paint0_linear_157_1467" x1="18.04" y1="-6.89995" x2="5.204" y2="9.51256" gradientUnits="userSpaceOnUse">
-<stop stop-color="#F21BF6"/>
-<stop offset="1" stop-color="#FED533"/>
-</linearGradient>
-</defs>
-</svg>
-</div>
+            <div style="font-size: 18px; font-weight: 700">
+              $253.45
+              <svg
+                width="22"
+                height="15"
+                viewBox="0 0 22 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M16.7381 4.36344C16.0572 4.62134 15.522 5.20486 15.2856 5.94724L14.8442 7.33223C14.8379 7.35335 14.8198 7.36757 14.7994 7.36757C14.7791 7.36757 14.761 7.35335 14.7547 7.33223L14.3134 5.94724C14.0769 5.20481 13.5416 4.62129 12.8606 4.36344L11.5904 3.88234C11.5715 3.87515 11.5588 3.85568 11.5588 3.83381C11.5588 3.81194 11.5715 3.79247 11.5904 3.78529L12.8606 3.30419C13.5416 3.04634 14.0769 2.46281 14.3134 1.72039L14.7547 0.335384C14.761 0.3143 14.7791 0.300049 14.7994 0.300049C14.8198 0.300049 14.8379 0.3143 14.8442 0.335384L15.2856 1.72039C15.522 2.46278 16.0572 3.04629 16.7381 3.30419L18.0083 3.78529C18.0272 3.79247 18.04 3.81194 18.04 3.83381C18.04 3.85568 18.0272 3.87515 18.0083 3.88234L16.7381 4.36344ZM11.1533 8.68481C10.2076 9.04307 9.46437 9.85349 9.13591 10.8846L8.52276 12.8082C8.51375 12.8372 8.48882 12.8566 8.46077 12.8566C8.43272 12.8566 8.40779 12.8372 8.39878 12.8082L7.78563 10.8846C7.45717 9.85349 6.71393 9.04307 5.76829 8.68481L4.0039 8.01665C3.97759 8.00663 3.95996 7.97963 3.95996 7.94921C3.95996 7.91885 3.97759 7.89185 4.0039 7.88183L5.76829 7.21367C6.71394 6.85541 7.45717 6.04499 7.78563 5.01391L8.39878 3.09029C8.40779 3.06133 8.43272 3.04184 8.46077 3.04184C8.48882 3.04184 8.51375 3.06133 8.52276 3.09029L9.13591 5.01391C9.46437 6.04499 10.2076 6.85541 11.1533 7.21367L12.9177 7.88183C12.9439 7.89185 12.9616 7.91885 12.9616 7.94921C12.9616 7.97963 12.9439 8.00663 12.9177 8.01665L11.1533 8.68481ZM14.7561 13.5626C14.9453 12.9687 15.3733 12.5019 15.918 12.2955L16.9346 11.9106C16.9498 11.9049 16.96 11.8893 16.96 11.8718C16.96 11.8543 16.9498 11.8387 16.9346 11.8329L15.918 11.4481C15.3733 11.2417 14.9453 10.7749 14.7561 10.181L14.4029 9.07307C14.3982 9.05555 14.3835 9.04355 14.3668 9.04355C14.3501 9.04355 14.3353 9.05555 14.3306 9.07307L13.9783 10.181C13.789 10.7751 13.3605 11.2419 12.8156 11.4481L11.7998 11.8329C11.7847 11.8387 11.7745 11.8543 11.7745 11.8718C11.7745 11.8893 11.7847 11.9049 11.7998 11.9106L12.8156 12.2955C13.3605 12.5016 13.789 12.9684 13.9783 13.5626L14.3306 14.6706C14.3353 14.688 14.3501 14.7 14.3668 14.7C14.3835 14.7 14.3982 14.688 14.4029 14.6706L14.7561 13.5626Z"
+                  fill="url(#paint0_linear_157_1467)"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_157_1467"
+                    x1="18.04"
+                    y1="-6.89995"
+                    x2="5.204"
+                    y2="9.51256"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#F21BF6" />
+                    <stop offset="1" stop-color="#FED533" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
             <div style="font-size: 9px; font-weight: 700">
               0.04567443 LP-AAVE-wstETH
             </div>
-            <div class="d-flex align-items-end justify-content-between mt-3 gap-3">
+            <div
+              class="d-flex align-items-end justify-content-between mt-3 gap-3"
+            >
               <div class="d-flex flex-column gap-2">
-              <div style="font-size: 9px; font-weight: 700">
-                ~545.45 USD
+                <div style="font-size: 9px; font-weight: 700">~545.45 USD</div>
+                <div style="font-size: 9px; font-weight: 700">
+                  0.22 AAVE 0.22 wstETH
+                </div>
               </div>
-              <div style="font-size: 9px; font-weight: 700">0.22 AAVE  0.22 wstETH</div></div>
               <div class="actions_button">HARVEST</div>
             </div>
           </div>
@@ -295,6 +341,7 @@ import { configService } from '@/services/config/config.service'
 import { ReversedDisplayNetwork } from '@/composables/useNetwork'
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import etherscan from '@/assets/icons/etherscan.svg'
+import router from '@/router'
 
 const props = defineProps({
   pool: Object,
@@ -342,7 +389,11 @@ const visibleDetails = ref(false)
       min-width: 300%;
     }
     &:hover {
-      background: linear-gradient(0deg, rgba(43, 43, 43, 0.33), rgba(43, 43, 43, 0.115));
+      background: linear-gradient(
+        0deg,
+        rgba(43, 43, 43, 0.33),
+        rgba(43, 43, 43, 0.115)
+      );
     }
     &__col {
       display: flex;
@@ -555,8 +606,7 @@ const visibleDetails = ref(false)
 }
 
 .liquidity_button_container {
-  background: linear-gradient(0deg, #0f0f0f, #0f0f0f),
-    linear-gradient(0deg, #191919, #191919);
+  background: #171717;
   padding: 10px 20px;
   border-radius: 20px;
   border: 1px solid #191919;
@@ -608,6 +658,13 @@ const visibleDetails = ref(false)
     box-shadow: 0px 0px 10px 0px rgba(249, 188, 45, 0.5);
   }
 }
+.purple {
+  color: #2d5af9;
+  .details-el__circle {
+    background: #2d5af9;
+    box-shadow: 0px 0px 10px 0px #2d59f979;
+  }
+}
 .blue {
   color: #03a6e9;
   .details-el__circle {
@@ -616,9 +673,9 @@ const visibleDetails = ref(false)
   }
 }
 .green {
-  color: #03E9C0;
+  color: #03e9c0;
   .details-el__circle {
-    background: #03E9C0;
+    background: #03e9c0;
     box-shadow: 0px 0px 10px 0px rgba(49, 216, 164, 0.5);
   }
 }
