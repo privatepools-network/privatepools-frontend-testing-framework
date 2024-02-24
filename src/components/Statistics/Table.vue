@@ -2,7 +2,7 @@
   <div style=" display: flex; flex-direction: column">
     <div
       class="d-flex align-items-center justify-content-between"
-      style="background-color: rgba(7, 14, 15, 0.7); padding: 8px"
+      style="background: #2222225d; padding: 8px"
     >
       <div class="d-flex">
         <div class="d-flex gap-2">

@@ -388,8 +388,10 @@ function onFilterClick(filterValue, header) {
   overflow-x: auto;
   padding: 0;
   border-radius: 15px;
-  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 80%);
-  backdrop-filter: blur(20.067087173461914px);
+  background: #22222224;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
 }
 
 .table_above {

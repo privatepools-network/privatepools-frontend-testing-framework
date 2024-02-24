@@ -48,7 +48,7 @@
                 type="radialBar"
                 height="350"
                 :options="chartOptions"
-                :series="[22]"
+                :series="[52.9, 0]"
               ></apexchart>
               <img :src="grid" style="width: 100%; margin-top: -30px" />
             </div>
@@ -334,26 +334,45 @@
                   align-items: center;
                 "
               >
-            <div class="d-flex gap-2 align-items-center">
-              <div><img :src="getTokenEntity('BTC', 'short').icon" width="40" /></div>
-              <div class="d-flex flex-column gap-1">
-                <div style="color: white;">WBTC</div>
-                <div style="color: #A3A3A3;">543.63</div>
+                <div class="d-flex gap-2 align-items-center">
+                  <div>
+                    <img
+                      :src="getTokenEntity('BTC', 'short').icon"
+                      width="40"
+                    />
+                  </div>
+                  <div class="d-flex flex-column gap-1">
+                    <div style="color: white">WBTC</div>
+                    <div style="color: #a3a3a3">543.63</div>
+                  </div>
+                </div>
+                <div>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M19 12.998H13V18.998H11V12.998H5V10.998H11V4.99805H13V10.998H19V12.998Z"
+                      fill="#2ABDFF"
+                    />
+                  </svg>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                  <div class="d-flex flex-column gap-1">
+                    <div style="color: white">WETH</div>
+                    <div style="color: #a3a3a3">543.63</div>
+                  </div>
+                  <div>
+                    <img
+                      :src="getTokenEntity('ETH', 'short').icon"
+                      width="40"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-            <div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M19 12.998H13V18.998H11V12.998H5V10.998H11V4.99805H13V10.998H19V12.998Z" fill="#2ABDFF"/>
-</svg>
-</div>
-            <div class="d-flex gap-2 align-items-center">
-              <div class="d-flex flex-column gap-1">
-                <div style="color: white;">WBTC</div>
-                <div style="color: #A3A3A3;">543.63</div>
-              </div>
-              <div><img :src="getTokenEntity('ETH', 'short').icon" width="40" /></div>
-
-            </div>
-            </div>
 
               <button :class="'concentrated_button mt-4'">
                 Remove Liquidity
@@ -443,36 +462,61 @@ const withdrawPercents = ref([
 const chartOptions = computed(() => ({
   chart: {
     type: 'radialBar',
-    offsetY: -20,
+    offsetY: -10,
     sparkline: {
       enabled: true,
     },
   },
+  colors: ['#30DEFF'],
   plotOptions: {
     radialBar: {
-      startAngle: -90,
-      endAngle: 90,
-      track: {
-        background: '#e7e7e7',
-        strokeWidth: '97%',
-        margin: 5, // margin is in pixels
+      hollow: {
+        margin: 15,
+        size: '70%',
         dropShadow: {
           enabled: true,
-          top: 2,
+          top: 0,
           left: 0,
-          color: '#999',
-          opacity: 1,
-          blur: 2,
+          blur: 3,
+          opacity: 0.5,
         },
+      },
+      startAngle: -110,
+      endAngle: 110,
+      track: {
+        background: '#FFFFFF33',
+        strokeWidth: '27%',
+        margin: 10,
+        
       },
       dataLabels: {
         name: {
-          show: false,
+          show: true,
+          fontSize: '20px',
+
+          fontWeight: 700,
+          color: '#30DEFF',
+          offsetY: -40,
         },
         value: {
-          offsetY: -2,
-          fontSize: '22px',
+          color: '#FFFFFF',
+          fontSize: '60px',
+          show: true,
+          fontWeight: 600,
         },
+        total: {
+                  show: true,
+                  label: 'My APR',
+                  color: '#30DEFF',
+                  fontSize: '20px',
+                  fontFamily: undefined,
+                  fontWeight: 700,
+                  formatter: function (w) {
+                    // console.log('w', w)
+                    return `${w.globals.seriesTotals[0]}%`
+                     
+                  }
+                }
       },
     },
   },
@@ -492,6 +536,10 @@ const chartOptions = computed(() => ({
       stops: [0, 50, 53, 91],
     },
   },
+  stroke: {
+    lineCap: 'round',
+  },
+  labels: ['My APR'],
 }))
 
 const concentratedLiquidityStep = ref(1)
@@ -1051,5 +1099,9 @@ onMounted(async () => {
   &_selected {
     background: linear-gradient(152.97deg, #002429 0%, #00c9ff 100%);
   }
+}
+
+:deep(.apexcharts-radial-series) {
+  filter: drop-shadow(0 0 0.35rem #2abdff);
 }
 </style>

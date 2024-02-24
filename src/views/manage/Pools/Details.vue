@@ -6,6 +6,7 @@
   </MainCard>
   <MainCard v-else-if="!visibleDepositComponent && !visibleWithdrawComponent">
     <CRow class="mb-5" v-if="pool && pool.tokens">
+      <div style="color:white; font-size: 20px; font-weight: 700;" class="mb-3">Weighted Pool</div>
       <div class="d-flex align-items-center" style="justify-content:space-between;">
         <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">
           {{ pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/') }}
@@ -17,14 +18,35 @@
             <div class="big-chip__text">{{ poolToken.symbol }}</div>
             <div class="big-chip__text">{{ poolToken.weight }}%</div>
           </div>
+          <div class="d-flex align-items-center gap-1 ml-1">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13.9398 4.33428C13.197 4.60938 12.6132 5.23179 12.3552 6.02367L11.8737 7.50099C11.8668 7.52352 11.8471 7.53869 11.8249 7.53869C11.8027 7.53869 11.783 7.52352 11.7761 7.50099L11.2947 6.02367C11.0366 5.23175 10.4527 4.60932 9.70982 4.33428L8.32416 3.82111C8.30349 3.81345 8.2896 3.79268 8.2896 3.76935C8.2896 3.74602 8.30349 3.72525 8.32416 3.71759L9.70982 3.20442C10.4527 2.92938 11.0366 2.30695 11.2947 1.51503L11.7761 0.0376909C11.783 0.0152013 11.8027 0 11.8249 0C11.8471 0 11.8668 0.0152013 11.8737 0.0376909L12.3552 1.51503C12.6132 2.30691 13.197 2.92932 13.9398 3.20442L15.3255 3.71759C15.3461 3.72525 15.36 3.74602 15.36 3.76935C15.36 3.79268 15.3461 3.81345 15.3255 3.82111L13.9398 4.33428ZM7.84723 8.94374C6.81562 9.32589 6.00481 10.1903 5.64649 11.2902L4.97759 13.342C4.96777 13.3729 4.94057 13.3937 4.90997 13.3937C4.87937 13.3937 4.85217 13.3729 4.84235 13.342L4.17345 11.2902C3.81514 10.1903 3.00433 9.32589 1.97272 8.94374L0.0479334 8.23104C0.0192337 8.22035 0 8.19155 0 8.1591C0 8.12672 0.0192337 8.09792 0.0479334 8.08723L1.97272 7.37453C3.00434 6.99238 3.81514 6.12794 4.17345 5.02812L4.84235 2.97626C4.85217 2.94536 4.87937 2.92458 4.90997 2.92458C4.94057 2.92458 4.96777 2.94536 4.97759 2.97626L5.64649 5.02812C6.00481 6.12794 6.81562 6.99238 7.84723 7.37453L9.77203 8.08723C9.8007 8.09792 9.81997 8.12672 9.81997 8.1591C9.81997 8.19155 9.8007 8.22035 9.77203 8.23104L7.84723 8.94374ZM11.7776 14.1467C11.984 13.5132 12.4509 13.0153 13.0451 12.7951L14.1542 12.3846C14.1707 12.3785 14.1818 12.3619 14.1818 12.3432C14.1818 12.3245 14.1707 12.3079 14.1542 12.3018L13.0451 11.8913C12.4509 11.6711 11.984 11.1732 11.7776 10.5397L11.3923 9.35789C11.3872 9.3392 11.3711 9.3264 11.3529 9.3264C11.3347 9.3264 11.3186 9.3392 11.3135 9.35789L10.9292 10.5397C10.7226 11.1734 10.2552 11.6714 9.66067 11.8913L8.55258 12.3018C8.53606 12.3079 8.52493 12.3245 8.52493 12.3432C8.52493 12.3619 8.53606 12.3785 8.55258 12.3846L9.66067 12.7951C10.2552 13.015 10.7226 13.513 10.9292 14.1467L11.3135 15.3286C11.3186 15.3472 11.3347 15.36 11.3529 15.36C11.3711 15.36 11.3872 15.3472 11.3923 15.3286L11.7776 14.1467Z" fill="url(#paint0_linear_25_3105)"/>
+<defs>
+<linearGradient id="paint0_linear_25_3105" x1="15.36" y1="-7.68" x2="1.74547" y2="10.1236" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2775CA"/>
+<stop offset="1" stop-color="#2ABDFF"/>
+</linearGradient>
+</defs>
+</svg>
+<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.026 7.54902C10.0861 7.5099 10.1535 7.48318 10.2241 7.47042C10.2946 7.45767 10.3671 7.45915 10.4371 7.47477L16.4743 8.78202C16.6157 8.81273 16.7391 8.89831 16.8175 9.01995C16.8958 9.14159 16.9227 9.28936 16.8921 9.43079L15.5849 15.468C15.5501 15.6051 15.4634 15.7234 15.3431 15.7979C15.2229 15.8724 15.0784 15.8973 14.9401 15.8673C14.8019 15.8374 14.6806 15.755 14.6019 15.6374C14.5232 15.5198 14.4933 15.3763 14.5183 15.2371L15.7101 9.73313L10.2061 8.54134C10.0648 8.51064 9.94133 8.42506 9.86299 8.30342C9.78465 8.18177 9.7578 8.03401 9.78833 7.89258C9.80307 7.82238 9.83169 7.75582 9.8725 7.69683C9.91331 7.63783 9.9655 7.58758 10.026 7.54902Z" fill="#4E4E4E"/>
+<path d="M7.49468 14.3746L16.0632 8.85626C16.185 8.77786 16.3329 8.75103 16.4744 8.78167C16.6159 8.81232 16.7395 8.89793 16.8179 9.01967C16.8963 9.14141 16.9231 9.28931 16.8925 9.43084C16.8618 9.57236 16.7762 9.69592 16.6545 9.77432L8.08593 15.2926C7.96419 15.371 7.81629 15.3979 7.67476 15.3672C7.53324 15.3366 7.40968 15.251 7.33128 15.1292C7.25287 15.0075 7.22604 14.8596 7.25669 14.718C7.28733 14.5765 7.37294 14.453 7.49468 14.3746Z" fill="#4E4E4E"/>
+</svg>
+
+
+          </div>
         </div>
-        <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" />
+        <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div style="color:#6F6F6F; font-size:12px">Delegated swap fees; currently fixed: 0.3%</div>
+        <div class="rewards_button">Rewards</div>
       </div>
     </CRow>
     <div style="height: 34px" class="mb-5" v-else>
       <ThreeDots style="margin-left: 20px; margin-top: 10px"></ThreeDots>
     </div>
-    <div class="thin-buttons-row">
+    <!-- <div class="thin-buttons-row">
 
 
       <div class="d-flex align-items-center gap-1">
@@ -92,7 +114,7 @@
           Withdraw
         </div>
       </div>
-    </div>
+    </div> -->
     <DepositModalFirstStep v-if="networkId > 0 &&
       tokenPrices &&
       pool &&
@@ -504,7 +526,7 @@
           pool.id == router.currentRoute.value.params['id']
           ">
           <div class="d-flex align-items-center justify-content-between" style="
-              background-color: #090A0B;
+              background-color: #1C1C1C;
               padding: 8px;
               border-radius: 20px 20px 0px 0px;
             ">
@@ -609,8 +631,10 @@
         </Tabs>
       </div>
       <CRow id="pool-activity-row" class="table-wrapper" style="border-radius: 15.289px;
-background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
-backdrop-filter: blur(20.067087173461914px);">
+background: #22222224;
+box-shadow: 0px 4px 4px 0px #00000040;
+
+border: 1px solid #FFFFFF0D;">
         <Table :headers="['Actions', 'Details', 'Value', 'Time']">
           <CTableBody v-if="pool && poolActivity" class="text-white table-body">
             <CTableRow v-for="(item, i) in filteredActivities" :key="i" class="table-row">
@@ -1807,9 +1831,9 @@ watch(visibleWithdrawModal, (newValue) => {
   // border: 1px solid rgba(163, 164, 165, 0.1);
   border-radius: 15px;
 
-  background: linear-gradient(152.97deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
-
-
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  border: 1px solid #FFFFFF0D;
   padding: 8px 12px 16px 12px;
 
   display: flex;
@@ -1821,7 +1845,9 @@ watch(visibleWithdrawModal, (newValue) => {
     flex-direction: column;
 
     &__item {
-      background: linear-gradient(93.69deg, #003E4E 1.48%, rgba(1, 26, 33, 0) 98.03%);
+      background: #22222224;
+      box-shadow: 0px 4px 4px 0px #00000040;
+
 
 
       border-radius: 8px;
@@ -1942,7 +1968,9 @@ watch(visibleWithdrawModal, (newValue) => {
   flex-direction: column;
   // border: 1px solid rgba(163, 164, 165, 0.1);
   border-radius: 15px;
-  background: linear-gradient(152.97deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  border: 1px solid #FFFFFF0D;
 
 
   /* padding: 8px 12px 16px 12px; */
@@ -1971,6 +1999,7 @@ watch(visibleWithdrawModal, (newValue) => {
     padding: 20px;
     height: 85%;
     border-radius: 15px;
+    background: linear-gradient(152.97deg, #1C1C1C 0%, rgba(0, 0, 0, 0) 100%);
 
     :deep(.apexcharts-inner) {
       filter: drop-shadow(0 0 0.35rem #00C9FF);
@@ -1987,8 +2016,8 @@ watch(visibleWithdrawModal, (newValue) => {
   display: flex;
   justify-content: space-between;
   border-radius: 8px;
-  background: linear-gradient(93.69deg, #003E4E 1.48%, rgba(1, 26, 33, 0) 98.03%);
-
+  background: #22222224;
+      box-shadow: 0px 4px 4px 0px #00000040;
 
   padding: 8px;
 
@@ -2179,17 +2208,14 @@ watch(visibleWithdrawModal, (newValue) => {
 }
 
 .big-chip {
-  background: none;
+  background: #151515;
 
   padding-left: 5px;
   padding-right: 10px;
   border: none;
   border-radius: 8px;
-  box-shadow: 0px 8px 10px 0px #00000033;
-  background: #1F1F1F;
-  box-shadow: 0px 6px 30px 0px #0000001F;
+  box-shadow: 0px 4px 4px 0px #15151540;
 
-  box-shadow: 0px 16px 24px 0px #00000024;
 
   width: fit-content;
   display: flex;
@@ -2306,7 +2332,22 @@ watch(visibleWithdrawModal, (newValue) => {
   87.5% {
     box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5), -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
   }
-}</style>
+}
+
+.rewards_button {
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
+color: #2ABDFF;
+padding: 8px 16px;
+font-family: Inter;
+font-size: 14px;
+font-weight: 600;
+line-height: 24px;
+  border-radius: 8px;
+text-align: center;
+
+}
+</style>
 <style src="@vueform/slider/themes/default.css"></style>
 @/composables/pools/usePoolActivity@/composables/pools/charts/usePoolTrades@/composables/pools/charts/useHistoricValues@/composables/pools/usePoolStats@/composables/pools/charts/usePoolAssetsPerformance@/composables/pools/charts/usePoolAssetsPerformance@/composables/pools/charts/usePoolHistoricValues@/lib/formatter/pool/poolActivityFormatter
 @/composables/pools/charts/diagrams/usePoolTrades

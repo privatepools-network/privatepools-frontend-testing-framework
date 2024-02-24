@@ -250,7 +250,7 @@
               Liquidity Added
               <div class="details-el__circle"></div>
             </div>
-            <div style="font-size: 18px; font-weight: 700">AAVE-wstETH LP</div>
+            <div style="font-size: 18px; font-weight: 700">$545.45</div>
             <div style="font-size: 9px; font-weight: 700">
               0.04567443 LP-AAVE-wstETH
             </div>

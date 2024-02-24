@@ -354,9 +354,9 @@ onMounted(() => {
 
 .arbitrage_bot_card {
   width: 30%;
-  background: linear-gradient(356.2deg, #001b220e 0%, #000000 105.42%);
-  // border: 1px solid rgba(163, 164, 165, 0.3);
-  border-radius: 20px 0px 0px 20px;
+  background: #22222224;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 4px 0px #00000040;  border-radius: 20px 0px 0px 20px;
 }
 
 @media (max-width: $xxl) {
