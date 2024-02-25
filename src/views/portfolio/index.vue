@@ -28,7 +28,7 @@
 
           <div class="portfolio-header__variation">
             <div class="portfolio-header__variation-amount"
-              :class="{ 'text-danger': balanceVariation < 0, 'text-success': balanceVariation >= 0 }">
+              :class="{ 'text-danger': balanceVariation < 0, 'portfolio-stats__amount_success': balanceVariation >= 0 }">
               {{ formattedBalanceVariation }} ({{ balanceVariationInPercents }}%)
             </div>
             <div class="portfolio-header__variation-period">
@@ -898,9 +898,9 @@ onMounted(async () => {
         margin-right: 8px
 
 .portfolio-table__wrapper
-  border-radius: 15.289px
-  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%)
-  backdrop-filter: blur(20.067087173461914px)
+  background: #22222224
+  border: 1px solid #FFFFFF0D
+  box-shadow: 0px 4px 4px 0px #00000040
 
   .file-table-header-container
     max-width: none !important
@@ -964,8 +964,9 @@ onMounted(async () => {
     overflow-x: auto
     margin-bottom: 30px
     border-radius: 15.289px
-    background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%)
-    backdrop-filter: blur(20.067087173461914px)
+    background: #22222224
+    border: 1px solid #FFFFFF0D
+    box-shadow: 0px 4px 4px 0px #00000040
 
   &-row
     border-color: transparent
@@ -1106,13 +1107,13 @@ onMounted(async () => {
             fill: #e55353
 
       &_success
-        color: #00C9FF
+        color: #2DC24E
 
         svg
           transform-origin: center
 
           path
-            fill: #00C9FF
+            fill: #2DC24E
 
   &-tabs
     padding: 4px

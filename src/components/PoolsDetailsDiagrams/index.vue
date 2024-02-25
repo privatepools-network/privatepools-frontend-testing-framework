@@ -945,8 +945,9 @@ const chartOptions2 = computed(() => {
 
   // border: 1px solid rgba(163, 164, 165, 0.1);
   border-radius: 20px;
-  background: linear-gradient(361.2deg, #001b220e 0%, #000000 105.42%);
-
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  border: 1px solid #FFFFFF0D;
 
 }
 

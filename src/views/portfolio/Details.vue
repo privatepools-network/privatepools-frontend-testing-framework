@@ -46,7 +46,7 @@
 
         <div class="portfolio-header__variation">
           <div class="portfolio-header__variation-amount"
-            :class="{ 'text-danger': balanceVariation < 0, 'text-success': balanceVariation >= 0 }">
+            :class="{ 'text-danger': balanceVariation < 0, 'portfolio-stats__amount_success': balanceVariation >= 0 }">
             {{ formattedBalanceVariation }} ({{ balanceVariationInPercents }}%)
           </div>
           <div class="portfolio-header__variation-period">
@@ -1330,13 +1330,13 @@ function formatVariationInPercents(variation, currentBalance) {
             fill: #e55353
 
       &_success
-        color: #00C9FF
+        color: #2DC24E
 
         svg
           transform-origin: center
 
           path
-            fill: #00C9FF
+            fill: #2DC24E
 
   &-tabs
     padding: 4px

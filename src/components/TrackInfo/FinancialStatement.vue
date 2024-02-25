@@ -1331,7 +1331,7 @@ onBeforeMount(async () => {
 .financial_header {
   gap: 40px;
   display: flex;
-  width: fit-content;
+  width: fit-content;  background: #1C1C1C;
 }
 
 .column_loading {
@@ -1364,7 +1364,7 @@ onBeforeMount(async () => {
 
 .financial_block_with_bg {
   border-top: 1px solid #2c2c2c;
-
+  background: #1C1C1C;
   border-bottom: 1px solid #2c2c2c;
   width: fit-content;
 
@@ -1410,8 +1410,7 @@ onBeforeMount(async () => {
   flex-direction: column;
   justify-content: space-between;
   padding-left: 10px;
-  background-color: rgba(15, 19, 32, 1);
-  backdrop-filter: blur(200px);
+  background-color:#22222224;
   padding-top: 10px;
 
 }
@@ -1426,16 +1425,15 @@ onBeforeMount(async () => {
 .sticky_column_without_bg {
   min-width: 300px;
   padding: 20px 10px 20px 10px;
-  background-color: rgba(15, 19, 32, 1);
   backdrop-filter: blur(200px);
 }
 
 .finance_table {
   overflow-x: scroll;
   border-radius: 15.289px;
-  border: 1px solid #2C2C2C;
-  background: linear-gradient(155deg, rgba(0, 0, 0, 0.63) -25.98%, rgba(0, 0, 0, 0.00) 100%);
-  backdrop-filter: blur(20.067087173461914px);
+  background: #22222224;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 4px 0px #00000040;
 
   &::-webkit-scrollbar {
     height: 16px;

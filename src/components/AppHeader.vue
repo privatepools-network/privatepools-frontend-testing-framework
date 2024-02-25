@@ -1306,12 +1306,11 @@ input[readonly] {
 
 .wallet_address {
   height: 40px;
-  background: linear-gradient(0deg,
-      rgba(21, 21, 21, 0.5),
-      rgba(21, 21, 21, 0.5)),
-    linear-gradient(0deg, rgba(34, 34, 34, 0.05), rgba(34, 34, 34, 0.05));
+  background: #15151580;
+  border: 1px solid #2222220D;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
   border-radius: 16px;
-  border: 1px solid #2222220d;
   padding: 8px 25px;
   font-family: Inter;
   font-size: 15px;

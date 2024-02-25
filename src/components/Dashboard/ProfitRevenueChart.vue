@@ -326,7 +326,9 @@ watch(data, () => {
   /* border: 0.5px solid #a3a4a52d; */
   border-radius: 15px;
   padding: 15px;
-  background: linear-gradient(356.2deg, #00c8ff0e 0%, #000000 105.42%);
+  background: #22222224;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 4px 0px #00000040;
 
 }
 

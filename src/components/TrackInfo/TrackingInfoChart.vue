@@ -1338,7 +1338,9 @@ function getDefaultChainsMapValue() {
   border-radius: 0px 20px 20px 0px;
   width: 100%;
   padding: 20px;
-  background: linear-gradient(361.2deg, #001b220e 0%, #000000 105.42%);
+  background: #22222224;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 4px 0px #00000040;
 }
 
 .timeline_container {

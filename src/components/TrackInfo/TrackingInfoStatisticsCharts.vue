@@ -2,7 +2,7 @@
   <div class="mt-5">
     <div
       class="d-flex align-items-center mb-4"
-      style="background-color: rgba(7, 14, 15, 0.7); padding: 8px"
+      style="background: #2222225d; padding: 8px"
     >
       <div class="d-flex gap-2">
         <div

@@ -8,7 +8,7 @@
     <div class="stats_column_tables">
       <div class="stats_column_tables_inside">
         <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          style="background: #2222225d; padding: 8px">
           <div class="d-flex gap-2">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -77,7 +77,7 @@
       </div>
       <div class="stats_column_tables_inside">
         <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          style="background: #2222225d; padding: 8px">
           <div class="d-flex gap-2 align-items-center">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -148,7 +148,7 @@
 
       <!-- <div class="stats_column_tables_inside">
         <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          style="background: #2222225d; padding: 8px">
           <div class="d-flex gap-2">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -220,7 +220,7 @@
     <div class="stats_column gap-xxl-5 gap-1">
       <div class="stats_column_inside">
         <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          style="background: #2222225d; padding: 8px">
           <div class="d-flex gap-2">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -281,7 +281,7 @@
 
       <div class="stats_column_inside">
         <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          style="background: #2222225d; padding: 8px">
           <div class="d-flex gap-2">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -364,7 +364,7 @@
 
       <div class="stats_column_inside">
         <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          style="background: #2222225d; padding: 8px">
           <div class="d-flex gap-2">
             <div style="
                 color: rgba(243, 244, 246, 1);
@@ -426,7 +426,7 @@
     <div class="stats_column_charts" style="gap:30px">
       <div class="stats_column_inside">
         <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          style="background: #2222225d; padding: 8px">
           <div class="d-flex align-items-center gap-2">
             <div class="d-flex gap-2 align-items-baseline">
               <div style="
@@ -488,7 +488,7 @@
 
       <div class="stats_column_inside">
         <div class="d-flex align-items-center justify-content-between"
-          style="background-color: rgba(7, 14, 15, 0.7); padding: 8px">
+          style="background: #2222225d; padding: 8px">
           <div class="d-flex align-items-center gap-2">
             <div class="d-flex gap-2 align-items-baseline">
               <div style="
@@ -806,7 +806,8 @@ watch(chartData, async () => {
 }
 
 .table_header_cell_bg {
-  background: #2c2c2c50 !important;
+  background: linear-gradient(152.97deg, #1C1C1C 0%, rgba(0, 0, 0, 0) 100%)
+ !important;
   color: #9299AA !important;
   font-weight: 500 !important;
 }
@@ -819,6 +820,7 @@ watch(chartData, async () => {
   border-width: 0px, 1px, 1px, 1px;
   padding: clamp(10px, 0.9vw, 15px);
   border-style: solid;
+  background: linear-gradient(152.97deg, #1C1C1C 0%, rgba(0, 0, 0, 0) 100%);
 
   border-color: #a3a4a50e;
 
@@ -844,8 +846,9 @@ watch(chartData, async () => {
   justify-content: space-between;
   padding: 30px 18px;
   border-radius: 20px;
-  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
-  backdrop-filter: blur(20.067087173461914px);
+  background: #22222224;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 4px 0px #00000040;
 
 }
 
@@ -866,7 +869,8 @@ watch(chartData, async () => {
   display: flex;
   flex-direction: column;
   width: 550px;
-  gap: 50px
+  gap: 50px;
+  
 }
 
 .stats_column_tables_inside {
@@ -877,6 +881,9 @@ watch(chartData, async () => {
   display: flex;
   flex-direction: column;
   width: 100%;
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
 }
 
 @media (max-width:$xxl2) {
