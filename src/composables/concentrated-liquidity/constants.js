@@ -49,6 +49,6 @@ export const WETH_ABI = [
 
 export const UNISWAP_SUBGRAPHS = {
   1: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-ethereum',
-  56: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-bsc',
+  56: 'https://api.thegraph.com/subgraphs/name/chimpytuts/d3-concentradedpools', // 56: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-bsc',
   137: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-polygon',
 }

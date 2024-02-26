@@ -1,7 +1,11 @@
 import { useQuery } from '@tanstack/vue-query'
 import useGraphQLQuery from '../useQuery'
 import { configService } from '@/services/config/config.service'
-import { POOL_QUERY, POOL_SUBGRAPH_QUERY } from '../queries/poolQuery'
+import {
+  FILTERED_POOL_SUBGRAPH_QUERY,
+  POOL_QUERY,
+  POOL_SUBGRAPH_QUERY,
+} from '../queries/poolQuery'
 import { DisplayNetwork, networkId } from '../useNetwork'
 import { GetTokenPricesBySymbols } from '../balances/cryptocompare'
 /**
@@ -64,15 +68,26 @@ export async function GetPools(
   subgraph = false,
   queryTvl = false,
   toToken = 'USD',
+  filter = [],
 ) {
+  if (filter == null) return filter
   network = network ? network : networkId.value
   let config = configService.getNetworkConfig(network)
   let url = subgraph ? config.subgraph : config.poolsUrlV2
-  let query = subgraph ? POOL_SUBGRAPH_QUERY : POOL_QUERY
+  let query = !subgraph
+    ? POOL_QUERY
+    : filter.length > 0
+    ? FILTERED_POOL_SUBGRAPH_QUERY(filter)
+    : POOL_SUBGRAPH_QUERY
   if (!url) return []
-  let data = await useGraphQLQuery(url, {
-    pools: query,
-  })
+  let data = await useGraphQLQuery(
+    url,
+    typeof query == 'string'
+      ? query
+      : {
+          pools: query,
+        },
+  )
   if (data && data['pools']) {
     let pools = data['pools']
     if (queryTvl) {

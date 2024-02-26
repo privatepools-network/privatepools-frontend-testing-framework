@@ -73,14 +73,16 @@ export async function GetHistoricalTvl(
   network,
   poolId = null,
   toToken = 'USD',
+  filter = [],
 ) {
+  if (filter == null) return []
   let historical_tokens = []
   let skip = 0
-  let results = await GetHistoricalTokens(network, poolId, skip)
+  let results = await GetHistoricalTokens(network, poolId, skip, filter)
   historical_tokens.push(...results)
   while (results.length == 1000) {
     skip += 1000
-    results = await GetHistoricalTokens(network, null, skip)
+    results = await GetHistoricalTokens(network, poolId, skip, filter)
     historical_tokens.push(...results)
   }
 
