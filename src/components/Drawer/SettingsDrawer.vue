@@ -19,7 +19,7 @@
         <div class="d-flex justify-content-between align-items-center settings_text">
           <div>Hide small balances</div>
           <div style="cursor: pointer">
-            <CFormSwitch style="background-color: #00c9ff" size="lg" v-model="HideSmallBalances" id="HideSmallBalances" />
+            <CFormSwitch  size="lg" v-model="HideSmallBalances" id="HideSmallBalances" />
           </div>
         </div>
         <div class="d-flex justify-content-between align-items-center settings_text" @click="settingsState = 'Language'">

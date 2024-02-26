@@ -1,6 +1,6 @@
 <template>
   <div class="pools_chart_container">
-    <PoolDetailsArbitrageBot :chart_data="all_chart_data" :tokenPrices="poolTokenPrices"
+    <PoolDetailsArbitrageBot @changeToDepositView="changeToDepositView" :chart_data="all_chart_data" :tokenPrices="poolTokenPrices"
       :currencySelected="currencySelected" :cryptocomparePrices="tokenPrices" :swapsData="swapsData" :pool="pool"
       :historical_tvl="FormatHistoricalTvl(historical_tvl)" :chainSelected="chainSelectedName" />
 
@@ -38,7 +38,7 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, defineProps, toRefs, onMounted, watch } from 'vue'
+import { ref, computed, defineProps, toRefs, onMounted, watch, defineEmits } from 'vue'
 import {
   TitleComponent,
   LegendComponent,
@@ -88,7 +88,7 @@ use([
   MarkPointComponent,
 ])
 
-const props = defineProps(['historical_tvl', 'tokenPrices', 'pool', 'swapsData', 'chainSelected', 'all_chart_data', 'poolTokenPrices', 'symbol', 'chainSelected', 'currencySelected'])
+const props = defineProps(['changeToDepositView', 'historical_tvl', 'tokenPrices', 'pool', 'swapsData', 'chainSelected', 'all_chart_data', 'poolTokenPrices', 'symbol', 'chainSelected', 'currencySelected'])
 const { historical_tvl, poolTokenPrices, tokenPrices, pool, swapsData, chainSelected, all_chart_data } = toRefs(props)
 const chainSelectedName = computed(() => DisplayNetwork[chainSelected.value])
 

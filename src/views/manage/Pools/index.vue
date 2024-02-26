@@ -209,7 +209,7 @@
                 size="lg"
                 v-model="hidePools"
                 id="hidePools"
-                style="background-color: #00c9ff"
+                
               />
             </div>
             <div class="text-white" style="font-size: clamp(12px, 0.8vw, 16px)">
@@ -497,6 +497,7 @@
           :inactive="isPoolInactive(pool)"
           :index="index"
           @goToPool="goToPool"
+          @goToCL="goToCL"
           :isActions="true"
         />
       </div>
@@ -887,9 +888,22 @@ function goToPool(args) {
   router.push({
     name: 'Pool Details',
     params: {
-      id: filterByStatus.value[args.index].id,
+      // id: filterByStatus.value[args.index].id,
+      id: poolsMock[args.index].id,
       onMountedActivity: args.onMountedActivity,
       chainSelected: DisplayChain[networkId.value],
+    },
+  })
+}
+
+function goToCL(args) {
+  router.push({
+    name: 'Concentrated liquidity Add',
+    params: {
+      // id: filterByStatus.value[args.index].id,
+      // id: poolsMock[args.index].id,
+      onMountedActivity: args.onMountedActivity,
+      // chainSelected: DisplayChain[networkId.value],
     },
   })
 }

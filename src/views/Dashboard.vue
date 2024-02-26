@@ -373,7 +373,7 @@
       ">Last
         </CButton>
       </div> -->
-
+      {{ console.log('tokensInfo', tokensInfo) }}
       <CCol :lg="12" :xl="4" :xxl="4" class="mt-4">
         <div class="mb-4">
           <div class="d-flex justify-content-between mt-4 px-4">

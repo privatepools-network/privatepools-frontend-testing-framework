@@ -64,9 +64,11 @@ defineProps(['activeStep'])
   padding: 10px;
   width: 100%;
   height: fit-content;
-  border-radius: 15.289px;
-  background: linear-gradient(153deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
-  backdrop-filter: blur(20.067087173461914px);
+  border-radius: 16px;
+  background: #00000024;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
+
 }
 
 .compose_text {

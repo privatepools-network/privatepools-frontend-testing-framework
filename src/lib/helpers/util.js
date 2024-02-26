@@ -130,6 +130,7 @@ import VLX from '@/assets/images/tokens/VLX.png'
 import CAKE from '@/assets/images/tokens/cake.png'
 import DOT from '@/assets/images/tokens/DOT.webp'
 import INJ from '@/assets/images/tokens/inj.png'
+import DOGE from '@/assets/images/tokens/DOGE.png'
 
 const tokenHT = [
   {
@@ -481,6 +482,12 @@ const tokenHT = [
     name: 'LINK',
     short: 'LINK',
     icon: LINK,
+  },
+  {
+    key: 'DOGE',
+    name: 'DOGE',
+    short: 'DOGE',
+    icon: DOGE,
   },
 ]
 

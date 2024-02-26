@@ -3,7 +3,7 @@
     class="total_epoch"
     v-if="router.currentRoute.value.path === '/pools/concentrated_pool'"
   >
-    <div>Total Rewards This Epoch:</div>
+    <div>Average Rewards:</div>
     <div>0%</div>
   </div>
   <div v-else class="total_epoch">
@@ -164,7 +164,11 @@
             <div style="color: #a3a3a3">= $40,043K</div>
           </div>
         </div>
-        
+
+        <div>
+          <div class="vr" style="height: 75px; margin-top: -15px; margin-bottom: -20px; border: 1px solid #2ABDFF; filter: drop-shadow(0 0 0.3rem #00c9ff);"></div>
+        </div>
+
         <div class="d-flex gap-2 align-items-center">
           <div class="d-flex flex-column gap-1">
             <div style="color: white">2,043.63 WETH</div>

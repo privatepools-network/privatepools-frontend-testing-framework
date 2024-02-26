@@ -38,7 +38,7 @@
       </div>
       <div class="d-flex gap-5">
         <div class="w-50">
-          <div class="compose_text text-uppercase fw-bolder">
+          <div style="font-size: 20px; color: #EBEBEF; font-weight: 700; text-transform: uppercase;" class="compose_text text-uppercase fw-bolder">
             CL Add Liquidity
           </div>
           <div class="compose_text text-secondary" style="font-size: 12px">
@@ -397,7 +397,7 @@
                   @click="selectRange(type)"
                 >
                   <div style="color: #858c90">{{ type.name }}</div>
-                  <div style="color: #c1c8ce">{{ type.percent }}</div>
+                  <div style="color: #c1c8ce; font-size: clamp(6px, 0.6vw, 10px);">{{ type.percent }}</div>
 
                   <hr
                     style="
@@ -1223,7 +1223,7 @@ onMounted(async () => {
   background: #00000024;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   border-radius: 16px;
-  // padding: 15px;
+  font-size: clamp(8px, 0.7vw, 14px);
   width: 45%;
   display: flex;
   gap: 10px;
@@ -1242,7 +1242,7 @@ onMounted(async () => {
   justify-content: space-between;
 
   &_card {
-    width: 15%;
+    width: 23%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1250,7 +1250,7 @@ onMounted(async () => {
     padding: 15px 5px;
     background: #2f303230;
     font-family: Poppins;
-    font-size: 12px;
+    font-size: clamp(8px, 0.7vw, 12px);
     font-weight: 400;
     line-height: 18px;
     text-align: center;

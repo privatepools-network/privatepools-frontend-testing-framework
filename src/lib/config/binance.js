@@ -218,6 +218,14 @@ export default {
       decimals: 18,
       address: '0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402',
     },
+    DOGE: {
+      name: 'DOGE',
+      symbol: 'DOGE',
+      apiId: 'DOGE',
+      logoURI: './images/tokens/DOGE.png',
+      decimals: 8,
+      address: '0xbA2aE424d960c26247Dd6c32edC70B295c744C43',
+    },
   },
   incentivizedPools: [process.env.VUE_APP_INCENTIVIZED_POOL_BINANCE],
 }
