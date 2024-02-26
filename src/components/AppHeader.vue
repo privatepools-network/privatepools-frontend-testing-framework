@@ -241,6 +241,7 @@ import Toast from '@/UI/Toast.vue'
 import { GetTokens } from '@/composables/tokens/useTokenSymbols'
 import { fetchDataAndMerge } from "@/composables/pools/trades/fetch/useFetchTrades"
 import { GetPools } from "@/composables/pools/usePools"
+import { useUniswapPools } from "@/composables/concentrated-liquidity/useUniswapPools"
 import VueSelect from 'vue-next-select'
 import 'vue-next-select/dist/index.css'
 import 'vue3-toastify/dist/index.css'
@@ -256,6 +257,7 @@ function reloadPage() {
 const tokens = ref([])
 const swaps = ref([])
 const pools = ref([])
+const cl_pools = ref([])
 const topTradedTokens = computed(() => {
   let formattedTokens = []
   for (let i = 0; i < tokens.value.length; i++) {
@@ -267,7 +269,7 @@ const topTradedTokens = computed(() => {
 })
 
 const topPools = computed(() => {
-  return pools.value.filter((item) => item.totalLiquidity > 0.01).toSorted((a, b) => b.totalLiquidity - a.totalLiquidity)
+  return pools.value.concat(cl_pools.value).toSorted((a, b) => b.totalLiquidity - a.totalLiquidity)
 })
 const visibleOptions = ref(null)
 const tokensOptions = computed(() => {
@@ -283,8 +285,8 @@ const tokensOptions = computed(() => {
   })))
   result.push({ firstPool: true, id: "a b c d e f g h i j k l m n o p q r s t u v w x y z" })
   result.push(...topPools.value.map((item) => ({
-    id: `${item.tokens.map((token) => token.symbol).join("/")} Weighted pool`,
-    label: "Weighted Pool",
+    id: `${item.tokens.map((token) => token.symbol).join("/")} ${item.type}`,
+    label: item.type,
     img: item.tokens.map((token) => token.symbol),
     desc: item.tokens.map((token) => token.symbol).join("/"),
     percentChange: "0%",
@@ -341,8 +343,9 @@ onMounted(async () => {
   })
   tokens.value = (await Promise.all(networks.map((network) => GetTokens(network)))).flat()
   swaps.value = await fetchDataAndMerge()
-  pools.value = (await Promise.all(networks.map((network) => GetPools(network, null, true, true)))).flat()
-
+  pools.value = (await Promise.all(networks.map((network) => GetPools(network, null, true, true)))).flat().map((item) => ({ ...item, type: "Weighted Pool" }))
+  cl_pools.value = (await useUniswapPools(56)).map((item) => ({ ...item, type: "Concentrated Liquidity", totalLiquidity: item.totalValueLockedUSD, tokens: [item.token0, item.token1] }))
+  console.log("CL POOLS - ", cl_pools.value)
 })
 
 const searchInput = ref('')

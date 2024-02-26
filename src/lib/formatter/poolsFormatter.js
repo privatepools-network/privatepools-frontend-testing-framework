@@ -318,7 +318,7 @@ export function getAdditionalInfoByTimeline(
   return info
 }
 
-function addAPRInfo(historicalTvl, poolSwapsData, chainSelected) {
+export function addAPRInfo(historicalTvl, poolSwapsData, chainSelected) {
   let info = {}
   Object.keys(APR_TIMELINE_MAPPING).forEach((key) => {
     info[`APR ${key}`] = parseFloat(

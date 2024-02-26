@@ -1,6 +1,9 @@
 import useGraphQLQuery from '../useQuery'
 import { configService } from '@/services/config/config.service'
-import { HISTORICAL_TOKENS_QUERY } from '../queries/financialStatement/historicalTokensQuery'
+import {
+  FILTERED_HISTORICAL_TOKENS_QUERY,
+  HISTORICAL_TOKENS_QUERY,
+} from '../queries/financialStatement/historicalTokensQuery'
 import { DisplayNetwork, networkId } from '../useNetwork'
 
 /**
@@ -41,11 +44,21 @@ import { DisplayNetwork, networkId } from '../useNetwork'
  * @param {string|null} poolId - pool id to filter tokens
  * @returns {Promise<HistoricalToken[]>} historical balances for protocol tokens
  */
-export async function GetHistoricalTokens(network, poolId = null, skip=0) {
+export async function GetHistoricalTokens(
+  network,
+  poolId = null,
+  skip = 0,
+  filter = [],
+) {
   network = network ? network : networkId.value
   let config = configService.getNetworkConfig(network)
   if (!config.subgraph) return []
-  let data = await useGraphQLQuery(config.subgraph, HISTORICAL_TOKENS_QUERY(skip))
+  let data = await useGraphQLQuery(
+    config.subgraph,
+    filter.length == 0
+      ? HISTORICAL_TOKENS_QUERY(skip)
+      : FILTERED_HISTORICAL_TOKENS_QUERY(filter, skip),
+  )
   if (data && data['historicalTokens']) {
     if (poolId) {
       data['historicalTokens'] = data['historicalTokens'].filter(

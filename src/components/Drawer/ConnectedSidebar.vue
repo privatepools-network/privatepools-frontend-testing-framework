@@ -103,8 +103,8 @@
         </div>
       </div>
       <div v-else-if="sidebarTab === 'Pools'" class="h-100">
-        <div class="d-flex flex-column gap-2" v-if="mockPools.length > 0">
-          <div v-for="(item, i) in mockPools" :key="`${i}-token`"
+        <div class="d-flex flex-column gap-2" v-if="addressPools.length > 0">
+          <div v-for="(item, i) in addressPools" :key="`${i}-token`"
             class="p-2 d-flex align-items-center justify-content-between gap-2">
             <div class="d-flex align-items-center gap-2">
               <!-- <img :src="getTokenEntity(item.img, 'short').icon" width="38" /> -->
@@ -191,7 +191,7 @@
         <div>
           <div class="tab my-2" style="font-size: 12px">Today</div>
           <div class="d-flex flex-column gap-2">
-            <div v-for="(item, i) in mockActivity.filter((el) => el.unix < 10)" :key="`${i}-token`"
+            <div v-for="(item, i) in addressActivity.filter((el) => el.type == 'today')" :key="`${i}-token`"
               class="p-2 d-flex align-items-center justify-content-between gap-2">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
@@ -217,7 +217,7 @@
         <div>
           <div class="tab my-2" style="font-size: 12px">This week</div>
           <div class="d-flex flex-column gap-2">
-            <div v-for="(item, i) in mockActivity.filter((el) => el.unix > 10 && el.unix < 100)" :key="`${i}-token`"
+            <div v-for="(item, i) in addressActivity.filter((el) => el.type == 'week')" :key="`${i}-token`"
               class="p-2 d-flex align-items-center justify-content-between gap-2">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
@@ -243,7 +243,7 @@
         <div>
           <div class="tab my-2" style="font-size: 12px">This month</div>
           <div class="d-flex flex-column gap-2">
-            <div v-for="(item, i) in mockActivity.filter((el) => el.unix > 100)" :key="`${i}-token`"
+            <div v-for="(item, i) in addressActivity.filter((el) => el.type == 'month')" :key="`${i}-token`"
               class="p-2 d-flex align-items-center justify-content-between gap-2">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
@@ -271,16 +271,15 @@
   </div>
 </template>
 <script setup>
-import { ref, defineProps, computed } from 'vue'
+import { ref, defineProps, computed, watch, onMounted } from 'vue'
 import { defineEmits } from 'vue'
 import accountIcon from '@/assets/icons/accountIcon.svg'
 import { Network, networkId } from '@/composables/useNetwork'
 import router from '@/router'
 import { getTokenEntity } from '@/lib/helpers/util'
-import poolMockSVG from '@/assets/icons/sidebarIcons/poolMock.svg'
-import poolMockCreated from '@/assets/icons/sidebarIcons/poolCreated.svg'
-import contractImage from '@/assets/icons/sidebarIcons/contractImage.svg'
-
+import { useWalletActivity } from "@/composables/wallet/useWalletActivity"
+import { useWalletPools } from "@/composables/wallet/useWalletPools"
+import { InitializeMetamask } from '@/lib/utils/metamask'
 const props = defineProps(['isConnectedToWeb3', 'address'])
 const emit = defineEmits(['toggleSettings', 'toggleToWallets', 'setAddress'])
 
@@ -338,45 +337,8 @@ const mockPools = ref([
     percentChange: '11.1%',
   },
 ])
-
-const mockActivity = ref([
-  {
-    label: 'CL pool created',
-    desc: '20.00 MATIC / 12.50 LIDO',
-    time: '5h',
-    img: poolMockSVG,
-    unix: 5,
-  },
-  {
-    label: 'Removed liquidity',
-    desc: '5.00 MATIC and 0 LDO',
-    time: '9h',
-    img: poolMockSVG,
-    unix: 9,
-  },
-  {
-    label: 'Pool created',
-    desc: 'MATIC / LIDO / AVAX WP',
-    time: '2d',
-    img: poolMockCreated,
-    unix: 22,
-  },
-  {
-    label: 'Removed liquidity',
-    desc: '20.00 MATIC, 12.50 LDO and 2.00 AVAX',
-    time: '3d',
-    img: poolMockCreated,
-
-    unix: 52,
-  },
-  {
-    label: 'Contract Interaction',
-    desc: '0x129988450642d36c653d...',
-    time: '8d',
-    img: contractImage,
-    unix: 152,
-  },
-])
+const addressActivity = ref([])
+const addressPools = ref([])
 
 const computedAddress = computed(
   () =>
@@ -391,6 +353,24 @@ async function disconnectFromWallet() {
   networkId.value = Network.NONE
   emit("setAddress", null)
   emit('toggleToWallets')
+}
+
+
+watch(props.address, async () => {
+  await handlePortfolioData()
+})
+
+onMounted(async () => {
+  await handlePortfolioData()
+})
+
+
+async function handlePortfolioData() {
+  if (props.address) {
+    let mmProvider = await InitializeMetamask()
+    addressActivity.value = await useWalletActivity(props.address, mmProvider)
+    addressPools.value = await useWalletPools(props.address, networkId.value)
+  }
 }
 </script>
 <style lang="scss" scoped>

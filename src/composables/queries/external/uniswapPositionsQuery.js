@@ -1,0 +1,20 @@
+export const USER_POSITIONS_QUERY = (user) => `
+{
+  positions(where:{owner:"${user}"}){
+    owner
+    depositedToken0
+    depositedToken1
+    token0{
+      id
+      symbol
+    }
+    token1{
+      id
+      symbol
+    }
+    pool{
+      id
+    }
+  }
+}
+`

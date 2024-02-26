@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import JSBI from 'jsbi'
+
 import {
   computePoolAddress,
   nearestUsableTick,
@@ -27,6 +28,9 @@ import {
   POOL_FACTORY_CONTRACT_ADDRESS,
 } from './constants'
 import { formatUnits, parseUnits } from '@ethersproject/units'
+const { BigNumber } = require('ethers')
+const bn = require('bignumber.js')
+bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 })
 ///
 /// UTILS
 ///
@@ -577,6 +581,17 @@ async function mintPosition(order, signer) {
   console.log('SUCCESS', receipt)
   return receipt
 }
+function encodePriceSqrt(reserve1, reserve0) {
+  return BigNumber.from(
+    bn(reserve1.toString())
+      .div(reserve0.toString())
+      .sqrt()
+      .multipliedBy(new bn(2).pow(96))
+      .integerValue(3)
+      .toString(),
+  )
+}
+console.log('SQRT - ', encodePriceSqrt(1, 1))
 
 export function GetSecondAmount(
   poolInfo,
