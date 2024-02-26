@@ -132,7 +132,7 @@
       @changeVisibleWithdraw="changeVisibleWithdraw" />
 
     <CRow class="mb-5">
-      <PoolsDetailsChart :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices" :pool="pool"
+      <PoolsDetailsChart @changeToDepositView="changeToDepositView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices" :pool="pool"
         :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="chartData"
         :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected" />
     </CRow>
@@ -258,7 +258,7 @@
       />
     </CRow> -->
     <div style="display: inline-block; margin-bottom: 24px">
-      <Tabs :selectedTab="selectedTab" :tabsOptions="['Pool Info', 'Financial Statement', 'Statistics', 'Pairs & Tokens']"
+      <Tabs :filterEye="true" :selectedTab="selectedTab" :tabsOptions="['Pool Info', 'Financial Statement', 'Statistics', 'Pairs & Tokens']"
         @changeTab="changeSelectedTab" />
     </div>
     <div style="display: flex; flex-direction: column" v-if="selectedTab == 'Pool Info'">
@@ -620,7 +620,7 @@
       </CRow>
       <Title :title="'Pool Activity'"></Title>
       <div class="table__header">
-        <Tabs style="margin-right: 15px" :selectedTab="activitiesSelectedMode" :tabsOptions="activitiesModes"
+        <Tabs style="margin-right: 15px" :selectedTab="activitiesSelectedMode"  :tabsOptions="activitiesModes"
           @changeTab="changeActivitiesMode"></Tabs>
         <!--              <div class="portfolio-table__filter__el"-->
         <!--                :class="{ 'portfolio-table__filter__el_active': item == activitiesSelectedMode }"-->
@@ -1286,6 +1286,8 @@ watch(poolActivity, async () => {
 })
 
 const mountedModal = setInterval(() => {
+  console.log('router.currentRoute.value', router.currentRoute.value)
+
   const onMountedActivity =
     router.currentRoute.value.params['onMountedActivity']
   if (onMountedActivity == 'deposit') {

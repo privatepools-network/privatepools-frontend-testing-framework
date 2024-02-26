@@ -2,13 +2,14 @@
   <MainCard>
     <CRow class="d-flex align-items-center">
       <Warning :NetworkUnsupported="NetworkUnsupported" v-if="visibleNetworkModal"></Warning>
-      <div>
+      <!-- <div>
         <ChainSelector v-if="!visibleNetworkModal" @updateChain="(newChain) => (chainSelected = newChain)" />
-      </div>
+      </div> -->
       <div class="portfolio mt-4">
         <div class="portfolio-header" v-if="!visibleNetworkModal">
           <div class="portfolio-header__title">
-            <span>Current balance</span>
+            <div class="mb-4" style="font-size: 22px; font-weight: 700; color: white;">My Portfolio</div>
+            <span>Current balance</span> 
             <svg @click="isBalanceHidden = !isBalanceHidden" xmlns="http://www.w3.org/2000/svg" width="14" height="11"
               viewBox="0 0 14 11" fill="none">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -105,7 +106,7 @@
           <PortfolioChart :chart_data="all_chart_data" :networks_data="networks_data" :tokensData="tokensData"
             :chainSelected="chainSelected.name" @updateChart="(chart_data) => all_chart_data = chart_data" />
         </div>
-        <Tabs style="margin-bottom: 44px;" :tabsOptions="['Investments', 'Statistics', 'Financial Statement']"
+        <Tabs :filterEye="true" style="margin-bottom: 44px;" :tabsOptions="['Investments', 'Statistics', 'Financial Statement']"
           :selectedTab="activeTab" @changeTab="changeActiveTab"></Tabs>
         <div class="portfolio-statistics" v-if="activeTab == 'Statistics'">
           <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
@@ -128,7 +129,7 @@
                 @changeTab="changeInvestmentMode"></Tabs>
               <div class="table-above">
                 <div style="cursor: pointer">
-                  <CFormSwitch size="l" style="background-color: #00c9ff" v-model="hideSmallerThan10Pools" id="hideSmallerThan10Pools" />
+                  <CFormSwitch size="l" v-model="hideSmallerThan10Pools" id="hideSmallerThan10Pools" />
                 </div>
                 <div class="text-white table-above_toggler">
                   Hide {{ selectedInvestmentsMode.toLowerCase() }}

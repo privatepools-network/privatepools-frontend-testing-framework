@@ -150,6 +150,14 @@
       "address": "0xE9C803F48dFFE50180Bd5B01dC04DA939E3445Fc",
       "logoURI": "./images/tokens/VLX.png",
       "apiId": "VLX"
+    },
+    "DOGE": {
+      "name": "DOGE",
+      "symbol": "DOGE",
+      "decimals": 8,
+      "address": "0xbA2aE424d960c26247Dd6c32edC70B295c744C43",
+      "logoURI": "./images/tokens/DOGE.png",
+      "apiId": "DOGE"
     }
   },
   "incentivizedPools": [

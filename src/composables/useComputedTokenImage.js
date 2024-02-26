@@ -18,6 +18,7 @@ import cake from '../assets/images/tokens/cake.png'
 import avax from '../assets/images/tokens/small/AVAX.png'
 import sol from '../assets/images/tokens/small/SOL.png'
 import inj from '../assets/images/tokens/inj.png'
+import DOGE from '../assets/images/tokens/DOGE.png'
 import dot from '../assets/images/tokens/DOT.webp'
 import link from '../assets/images/tokens/small/LINK.png'
 import ldo from '../assets/images/tokens/small/LDO.png'
@@ -62,6 +63,9 @@ export default function computedTokenImage(token) {
   }
   if (token.symbol === 'BETH' || token === 'BETH') {
     return beth
+  }
+  if (token.symbol === 'DOGE' || token === 'DOGE') {
+    return DOGE
   }
   if (token.symbol === 'VLX' || token === 'VLX') {
     return VLX

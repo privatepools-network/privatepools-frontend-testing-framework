@@ -423,7 +423,7 @@
         style="
           color: white;
           background: linear-gradient(85.18deg, #2775ca 0%, #2abdff 100%);
-        "
+        " @click="$emit('changeToDepositView')"
       >
         Add Liquidity
       </div>
@@ -435,7 +435,7 @@
 <script setup>
 // import darkpool_logo from '@/assets/icons/darkpool_logo.svg'
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
-import { ref, defineProps, toRefs, computed, onMounted } from 'vue'
+import { ref, defineProps, defineEmits, toRefs, computed, onMounted } from 'vue'
 // import { formatBigNumber } from '@/lib/utils'
 import {
   getAdditionalInfoByTimeline,
@@ -459,7 +459,11 @@ import SidebarHeaderDropdown from '@/components/TrackTrades/SidebarHeaderDropdow
 import TokenCCollapse from '@/components/TrackTrades/TokenCCollapse.vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 
+const emit = defineEmits([
+  'changeToDepositView'
+])
 const props = defineProps([
+  'changeToDepositView',
   'tokenPrices',
   'cryptocomparePrices',
   'historical_tvl',
@@ -710,12 +714,12 @@ function GetTokenPrice(address) {
 color: #2ABDFF;
 padding: 8px 12px;
 font-family: Inter;
-font-size: 14px;
+font-size: clamp(8px, 0.7vw, 12px);
 font-weight: 600;
 line-height: 24px;
   border-radius: 8px;
 text-align: center;
- 
+ cursor: pointer;
 }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>

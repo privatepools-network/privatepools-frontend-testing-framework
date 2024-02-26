@@ -1090,6 +1090,11 @@ const optionsTokens = ref([
     code: 'WBNB',
     img: getTokenEntity('WBNB', 'short').icon,
   },
+  {
+    name: 'DOGE',
+    code: 'DOGE',
+    img: getTokenEntity('DOGE', 'short').icon,
+  },
   { name: 'PAXG', code: 'PAXG', img: getTokenEntity('PAXG', 'short').icon },
   {
     name: 'Binance Beacon',

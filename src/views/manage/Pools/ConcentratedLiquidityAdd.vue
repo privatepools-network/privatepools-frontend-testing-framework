@@ -29,7 +29,9 @@
       </div>
       <div class="d-flex gap-5">
         <div class="w-50">
-          <div class="compose_text text-uppercase fw-bolder">
+          <div
+            class="compose_text text-uppercase fw-bolder d-flex align-items-center gap-1"
+          >
             <img
               class="pair_avatars_manage_pool"
               v-for="(tokenEntity, tokenEntityIndex) in ['BTC', 'ETH']"
@@ -37,7 +39,7 @@
               :title="tokenEntity"
               :src="getTokenEntity(tokenEntity, 'short').icon"
             />
-            CL-WBTC/WETH
+            <span class="liquidity_title">CL-WBTC/WETH</span>
           </div>
 
           <div class="concentrated_card">
@@ -90,21 +92,7 @@
                       border-radius: 16px;
                     "
                   >
-                    <div
-                      style="
-                        width: 30%;
-                        background: #22222224;
-                        box-shadow: 0px 4px 4px 0px #00000040;
-
-                        border-radius: 16px;
-                        padding: 10px;
-                        color: #c1c8ce;
-                        font-size: 12px;
-                        display: flex;
-                        align-items: flex-end;
-                        justify-content: space-between;
-                      "
-                    >
+                    <div class="balance_container">
                       <div
                         class="d-flex flex-column justify-content-around h-100"
                       >
@@ -124,7 +112,7 @@
                             {{ pairToken1.symbol }}
                           </h4>
                         </div>
-                        <div>
+                        <div class="balance_text">
                           Balance:
                           {{ (pairToken1.balance || 0) - depositAmount1 }}
                         </div>
@@ -171,21 +159,7 @@
                       border-radius: 16px;
                     "
                   >
-                    <div
-                      style="
-                        width: 30%;
-                        background: #22222224;
-                        box-shadow: 0px 4px 4px 0px #00000040;
-
-                        border-radius: 16px;
-                        padding: 10px;
-                        color: #c1c8ce;
-                        font-size: 12px;
-                        display: flex;
-                        align-items: flex-end;
-                        justify-content: space-between;
-                      "
-                    >
+                    <div class="balance_container">
                       <div
                         class="d-flex flex-column justify-content-around h-100"
                       >
@@ -205,7 +179,7 @@
                             {{ pairToken2.symbol }}
                           </h4>
                         </div>
-                        <div>
+                        <div class="balance_text">
                           Balance:
                           {{ (pairToken2.balance || 0) - depositAmount2 }}
                         </div>
@@ -310,7 +284,7 @@
                     <div style="color: #858c90">{{ type.name }}%</div>
                   </div>
                 </div>
-                <div class="mt-3 p-2">
+                <div class="mt-3 p-2" style="pointer-events: none;">
                   <Slider
                     v-model="lineNumberPercent"
                     :tooltips="false"
@@ -319,6 +293,7 @@
                     :step="1"
                     :value="80"
                     lazy="false"
+                    
                   />
                 </div>
               </div>
@@ -481,13 +456,12 @@ const chartOptions = computed(() => ({
           opacity: 0.5,
         },
       },
-      startAngle: -110,
-      endAngle: 110,
+      startAngle: -100,
+      endAngle: 100,
       track: {
         background: '#FFFFFF33',
         strokeWidth: '27%',
         margin: 10,
-        
       },
       dataLabels: {
         name: {
@@ -505,18 +479,17 @@ const chartOptions = computed(() => ({
           fontWeight: 600,
         },
         total: {
-                  show: true,
-                  label: 'My APR',
-                  color: '#30DEFF',
-                  fontSize: '20px',
-                  fontFamily: undefined,
-                  fontWeight: 700,
-                  formatter: function (w) {
-                    // console.log('w', w)
-                    return `${w.globals.seriesTotals[0]}%`
-                     
-                  }
-                }
+          show: true,
+          label: 'My APR',
+          color: '#30DEFF',
+          fontSize: '20px',
+          fontFamily: undefined,
+          fontWeight: 700,
+          formatter: function (w) {
+            // console.log('w', w)
+            return `${w.globals.seriesTotals[0]}%`
+          },
+        },
       },
     },
   },
@@ -863,9 +836,36 @@ onMounted(async () => {
   )
   console.log(notSelectedPossibleComposeTokens.value)
 })
+
+
+
+const mountedModal = setInterval(() => {
+  const onMountedActivity =
+    router.currentRoute.value.params['onMountedActivity']
+
+    console.log('onMountedActivity', onMountedActivity)
+    console.log('router.currentRoute.value', router.currentRoute.value)
+  if (onMountedActivity == 'deposit') {
+   
+    liquidityActionTab.value = 'Add'
+
+      clearInterval(mountedModal)
+   
+  } else if (onMountedActivity == 'withdraw') {
+    
+    liquidityActionTab.value = 'Withdraw'
+      clearInterval(mountedModal)
+    
+  } else {
+    clearInterval(mountedModal)
+  }
+}, 100)
+
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/_variables.scss';
+
 .center_container {
   background: #15151524;
   border: 1px solid #ffffff0d;
@@ -963,6 +963,7 @@ onMounted(async () => {
   background: #07090c;
   padding: 4px 8px;
   cursor: pointer;
+  font-size: clamp(9px, 0.8vw, 12px);
 }
 
 .add_liquidity_button {
@@ -1103,5 +1104,38 @@ onMounted(async () => {
 
 :deep(.apexcharts-radial-series) {
   filter: drop-shadow(0 0 0.35rem #2abdff);
+ 
+}
+
+.liquidity_title {
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 33px;
+  color: #ffffff;
+}
+
+.balance_text {
+  font-size: clamp(7px, 0.8vw, 12px);
+}
+
+.balance_container {
+  width: 30%;
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
+  border-radius: 16px;
+  padding: 10px;
+  color: #c1c8ce;
+  font-size: 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+@media (max-width: $xxl) {
+  .balance_container {
+    width: 50%;
+  }
 }
 </style>

@@ -15,7 +15,7 @@
   <CRow class="mb-5">
         <div class="d-flex align-items-center justify-content-between">
           <div>
-          <div style="font-size: 20px; color: #EBEBEF; font-weight: 700;">Weighted pools Add Liquidity</div>
+          <div style="font-size: 20px; color: #EBEBEF; font-weight: 700; text-transform: uppercase;">Weighted pools Add Liquidity</div>
           <div style="font-size: 15px; color: #858C90; font-weight: 400;">Add Liquidity to Private Pools Weighted Pools</div>
         </div>
           <div class="back_button" @click="router.push('/pools')">

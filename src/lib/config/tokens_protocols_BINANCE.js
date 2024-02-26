@@ -55,4 +55,8 @@ export default [
     name: 'DOT',
     protocol: '0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402',
   },
+  {
+    name: 'DOGE',
+    protocol: '0xbA2aE424d960c26247Dd6c32edC70B295c744C43',
+  },
 ]
