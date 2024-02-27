@@ -651,25 +651,18 @@ const poolsMock = [
   },
   {
     id: '0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24000100000000000000000014',
-    'Pool Name': [['AVAX', 'SOL', 'BTCB', 'MATIC']],
+    'Pool Name': [['AVAX', 'SOL']],
     'Pool Weight': [
       [
         {
           token: 'AVAX',
-          weight: '20%',
+          weight: '',
         },
         {
           token: 'SOL',
-          weight: '20%',
+          weight: '',
         },
-        {
-          token: 'BTCB',
-          weight: '20%',
-        },
-        {
-          token: 'MATIC',
-          weight: '20%',
-        },
+   
       ],
     ],
     LiquidityType: 'CL',
@@ -716,25 +709,18 @@ const poolsMock = [
 
   {
     id: '0x68aba87382af2ec495c5b0694f0a7984988b5fc7000100000000000000000004',
-    'Pool Name': [['WMATIC', 'LINK', 'WETH', 'LDO']],
+    'Pool Name': [['WMATIC', 'LINK']],
     'Pool Weight': [
       [
         {
           token: 'WMATIC',
-          weight: '20%',
+          weight: '',
         },
         {
           token: 'LINK',
-          weight: '20%',
+          weight: '',
         },
-        {
-          token: 'WETH',
-          weight: '20%',
-        },
-        {
-          token: 'LDO',
-          weight: '20%',
-        },
+  
       ],
     ],
     LiquidityType: 'CL',
@@ -886,7 +872,7 @@ const onClickConcentratedPool = () => {
 
 function goToPool(args) {
   router.push({
-    name: 'Pool Details',
+    name: 'Pool Deposit',
     params: {
       // id: filterByStatus.value[args.index].id,
       id: poolsMock[args.index].id,

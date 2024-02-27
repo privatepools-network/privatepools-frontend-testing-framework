@@ -379,13 +379,21 @@ import 'vue3-toastify/dist/index.css'
 import useInvestFormMath from '@/composables/math/investMath/useInvestMath'
 import { bnum } from '@/lib/utils'
 const props = defineProps([
-  'visibleDepositModal',
+  // 'visibleDepositModal',
   'changeVisibleDeposit',
   'pool',
-  'tokens',
+  // 'tokens',
   'changeToDepositView',
   'chainSelected',
 ])
+
+const tokens = [
+    "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+    "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+    "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+    "0xcc42724c6683b7e57334c4e856f4c9965ed682bd"
+]
+
 console.log('here')
 const lineNumbers = ref([])
 const balances = ref({})

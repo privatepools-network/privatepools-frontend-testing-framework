@@ -19,6 +19,7 @@ import avax from '../assets/images/tokens/small/AVAX.png'
 import sol from '../assets/images/tokens/small/SOL.png'
 import inj from '../assets/images/tokens/inj.png'
 import DOGE from '../assets/images/tokens/DOGE.png'
+import DAI from '../assets/images/tokens/DAI.png'
 import dot from '../assets/images/tokens/DOT.webp'
 import link from '../assets/images/tokens/small/LINK.png'
 import ldo from '../assets/images/tokens/small/LDO.png'
@@ -119,5 +120,8 @@ export default function computedTokenImage(token) {
   }
   if (token.symbol === 'USDC.e' || token === 'USDC.e') {
     return usdc
+  }
+  if (token.symbol === 'DAI' || token === 'DAI') {
+    return DAI
   }
 }

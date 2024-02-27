@@ -568,23 +568,24 @@ const visibleDetails = ref(false)
 }
 
 .chip_token {
-  border-radius: 8px;
-  background: #e1e1e1;
+  border-radius: 16px;
+  background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
+
   padding: 3px 5px;
   &_name {
     font-family: Inter;
     font-size: 12px;
     font-weight: 400;
     line-height: 24px;
-    color: #0f172a;
+    color: #FFFFFF;
   }
   &_weight {
     font-family: Inter;
     font-size: 12px;
     font-weight: 400;
     line-height: 16px;
-    color: #475569;
+    color: #8F8F8F;
   }
 }
 
