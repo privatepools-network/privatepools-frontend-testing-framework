@@ -4,6 +4,7 @@
       <LoaderPulse></LoaderPulse>
     </div>
   </MainCard>
+  
   <MainCard v-else-if="!visibleDepositComponent && !visibleWithdrawComponent">
     <CRow class="mb-5" v-if="pool && pool.tokens">
       <div style="color:white; font-size: 20px; font-weight: 700;" class="mb-3">Weighted Pool</div>
@@ -774,23 +775,27 @@ border: 1px solid #FFFFFF0D;">
     <CRow id="pool-stats-row">
       <PoolInfo :pool="pool" />
     </CRow> -->
+
+    {{ console.log('pool!!!', pool) }}
   </MainCard>
-  <DepositComponent v-else-if="visibleDepositComponent && networkId > 0 &&
+  
+  <!-- <DepositComponent v-else-if="visibleDepositComponent && networkId > 0 &&
     tokenPrices &&
     pool &&
     pool.tokens &&
     tokens.length > 0 &&
     poolActivity
     " :chainSelected="chainSelected" :tokenPrices="tokenPrices" :pool="pool" :tokens="tokens"
-    :visibleDepositModal="visibleDepositComponent" @changeToDepositView="changeToDepositView" />
-  <WithdrawComponent v-else-if="visibleWithdrawComponent && networkId > 0 &&
+    :visibleDepositModal="visibleDepositComponent" @changeToDepositView="changeToDepositView" /> -->
+    
+  <!-- <WithdrawComponent v-else-if="visibleWithdrawComponent && networkId > 0 &&
     tokenPrices &&
     pool &&
     pool.tokens &&
     tokens.length > 0 &&
     poolActivity
     " :chainSelected="chainSelected" :tokenPrices="tokenPrices" :pool="pool" :tokens="tokens"
-    @changeToWithdrawView="changeToWithdrawView" />
+    @changeToWithdrawView="changeToWithdrawView" /> -->
 </template>
 
 <script setup>

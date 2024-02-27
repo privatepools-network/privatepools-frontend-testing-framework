@@ -1,5 +1,7 @@
 <template>
   <MainCard>
+    <SelectPositionModal :selectPositionModal="selectPositionModal"  />
+
     <div class="center_container">
       <div class="d-flex justify-content-end w-100 mb-4">
         <div class="back_button" @click="router.push('/pools')">
@@ -30,8 +32,9 @@
       <div class="d-flex gap-5">
         <div class="w-50">
           <div
-            class="compose_text text-uppercase fw-bolder d-flex align-items-center gap-1"
+            class="compose_text compose_add_position text-uppercase fw-bolder d-flex align-items-center  justify-content-between"
           >
+          <div class="d-flex align-items-center gap-1">
             <img
               class="pair_avatars_manage_pool"
               v-for="(tokenEntity, tokenEntityIndex) in ['BTC', 'ETH']"
@@ -40,6 +43,13 @@
               :src="getTokenEntity(tokenEntity, 'short').icon"
             />
             <span class="liquidity_title">CL-WBTC/WETH</span>
+          </div>
+          <div class="d-flex align-items-center gap-1" style="cursor: pointer;" @click="selectPositionModal = true">
+            CLP #1 <svg width="13" height="8" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.61182 1.5L6.61182 6.5L11.6118 1.5" stroke="#FAFAFA" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+          </div>
           </div>
 
           <div class="concentrated_card">
@@ -391,7 +401,7 @@ import { useUniswapTvl } from '@/composables/concentrated-liquidity/useUniswapTv
 import { useUniswapTvlSnapshots } from '@/composables/concentrated-liquidity/useUniswapTvlSnapshots'
 import { fetchDataAndMerge } from '@/composables/pools/trades/fetch/useFetchTrades'
 import Slider from '@vueform/slider'
-
+import SelectPositionModal from '@/components/modals/SelectPositionModal.vue'
 import {
   getPoolInfo,
   FEE_AMOUNTS,
@@ -414,6 +424,7 @@ import router from '@/router'
 
 const liquidityActionTab = ref('Add')
 const lineNumberPercent = ref(100)
+const selectPositionModal = ref(false)
 
 const withdrawPercents = ref([
   {
@@ -517,7 +528,6 @@ const chartOptions = computed(() => ({
 
 const concentratedLiquidityStep = ref(1)
 const feeTier = ref(0)
-const tokenSelectModal = ref(false)
 const pairIndex = ref(1)
 
 const pairToken1 = ref({
@@ -619,10 +629,10 @@ function selectRange(rng) {
 }
 
 const notSelectedPossibleComposeTokens = ref([])
-function tokenSelectModalOpen(index) {
-  pairIndex.value = index
-  tokenSelectModal.value = !tokenSelectModal.value
-}
+// function tokenSelectModalOpen(index) {
+//   pairIndex.value = index
+//   tokenSelectModal.value = !tokenSelectModal.value
+// }
 
 function updateToken(token, index) {
   if (index == 1) {
@@ -878,6 +888,14 @@ const mountedModal = setInterval(() => {
 .compose_text {
   font-size: clamp(11px, 0.8vw, 15px);
   color: white;
+}
+
+.compose_add_position {
+  background: #00000024;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
+  padding: 6px 12px;
+  border-radius: 16px;
 }
 
 .concentrated_card {

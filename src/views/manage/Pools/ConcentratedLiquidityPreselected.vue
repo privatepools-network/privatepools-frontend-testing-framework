@@ -17,10 +17,10 @@
         <div class="w-50">
           <div style="font-size: 20px; color: #EBEBEF; font-weight: 700; text-transform: uppercase;"
             class="compose_text text-uppercase fw-bolder">
-            CREATE A CL pool
+            CL Add Liquidity
           </div>
           <div class="compose_text text-secondary" style="font-size: 12px">
-            Create a Private Pools CL Pool
+            Add Liquidity to Private Pools CL Pools
           </div>
 
           <div class="concentrated_card">
@@ -28,25 +28,17 @@
             <div class="compose_text fw-light">Pair</div>
             <div class="d-flex gap-3">
               <!-- Tokens selector 1 separate comp-->
-              <div @click="() => tokenSelectModalOpen(1)" class="selector_button">
+              <div  class="selector_button">
                 <img :src="pairToken1.img || pairToken1.logoURI" width="24" />
-                <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M5.98255 6.46495L11.007 1.44044C11.187 1.26045 11.0596 0.952698 10.805 0.952698H0.756015C0.50147 0.952698 0.373993 1.26045 0.553983 1.44044L5.5785 6.46495C5.69007 6.57653 5.87098 6.57653 5.98255 6.46495Z"
-                    fill="#EBEBEC" />
-                </svg>
+               
                 <h4 style="font-size: 21px; margin-bottom: 0; color: white">
                   {{ pairToken1.symbol }}
                 </h4>
                 <!-- Tokens selector 2 separate comp -->
               </div>
-              <div @click="() => tokenSelectModalOpen(2)" class="selector_button">
+              <div  class="selector_button">
                 <img :src="pairToken2.img || pairToken2.logoURI" width="24" />
-                <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M5.98255 6.46495L11.007 1.44044C11.187 1.26045 11.0596 0.952698 10.805 0.952698H0.756015C0.50147 0.952698 0.373993 1.26045 0.553983 1.44044L5.5785 6.46495C5.69007 6.57653 5.87098 6.57653 5.98255 6.46495Z"
-                    fill="#EBEBEC" />
-                </svg>
+              
                 <h4 style="font-size: 21px; margin-bottom: 0; color: white">
                   {{ pairToken2.symbol }}
                 </h4>
@@ -459,7 +451,7 @@
               ? 'concentrated_button concentrated_button_disabled'
               : 'concentrated_button'
               ">
-              No Tokens Selected
+              Add liquidity
             </button>
             <button v-else-if="tokensInitialized" :class="'concentrated_button'" @click="mintPosition">
               Add liquidity
@@ -521,20 +513,22 @@ import {
 import { CalculateAvgApr } from '@/composables/math/chartMath/trackingInfoMath'
 import { usePool30dProfit } from '@/composables/pools/usePoolSwapsStats'
 import router from '@/router'
+import DAIimg from '@/assets/images/tokens/DAI.png'
+import DOGEimg from '@/assets/images/tokens/DOGE.png'
 
-const concentratedLiquidityStep = ref(1)
+const concentratedLiquidityStep = ref(2)
 const feeTier = ref(0)
 const tokenSelectModal = ref(false)
 const pairIndex = ref(1)
 
 const pairToken1 = ref({
-  img: not_found,
-  symbol: '',
+  img: DAIimg,
+  symbol: 'DAI',
 })
 
 const pairToken2 = ref({
-  img: not_found,
-  symbol: '',
+  img: DOGEimg,
+  symbol: 'DOGE',
 })
 const feeAmount = computed(() => FEE_AMOUNTS[feeTier.value])
 
@@ -672,10 +666,7 @@ function selectRange(rng) {
 }
 
 const notSelectedPossibleComposeTokens = ref([])
-function tokenSelectModalOpen(index) {
-  pairIndex.value = index
-  tokenSelectModal.value = !tokenSelectModal.value
-}
+
 
 function updateToken(token, index) {
   if (index == 1) {

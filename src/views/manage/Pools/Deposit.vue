@@ -54,7 +54,7 @@
               <div class="big-chip__text">{{ poolToken.weight }}%</div>
             </div>
           </div>
-          <div class="back_button" @click="$emit('changeToDepositView')">
+          <div class="back_button" @click="router.push('/pools')">
             <svg
               width="22"
               height="22"
@@ -378,14 +378,123 @@ import 'vue3-toastify/dist/index.css'
 
 import useInvestFormMath from '@/composables/math/investMath/useInvestMath'
 import { bnum } from '@/lib/utils'
-const props = defineProps([
-  'visibleDepositModal',
-  'changeVisibleDeposit',
-  'pool',
-  'tokens',
-  'changeToDepositView',
-  'chainSelected',
-])
+import router from '@/router'
+
+
+const pool = {
+    "id": "0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24000100000000000000000014",
+    "name": "25AVAX-25BTCB-25MATIC-25SOL",
+    "address": "0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24",
+    "poolType": "Weighted",
+    "swapFee": "0.01",
+    "tokensList": [
+        "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+        "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+        "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+        "0xcc42724c6683b7e57334c4e856f4c9965ed682bd"
+    ],
+    "totalLiquidity": 1300.4913998702796,
+    "totalSwapVolume": "6.67",
+    "totalSwapFee": "0.07",
+    "totalShares": "10.145521404190972448",
+    "owner": "0x4bde150b69408dafbe4833f0d7b9689246a6597b",
+    "factory": "0xda1116ec45ca0ae4874557a04875ada9e6eeca9b",
+    "amp": null,
+    "createTime": 1707950801,
+    "swapEnabled": true,
+    "volume24h": "0",
+    "fees24h": "0",
+    "apr": {
+        "total": "0"
+    },
+    "tokens": [
+        {
+            "name": "Avalanche",
+            "symbol": "AVAX",
+            "decimals": 18,
+            "address": "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+            "balance": "7.195153658952430465",
+            "weight": 25,
+            "id": "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+            "userBalance": "0.0"
+        },
+        {
+            "name": "SOLANA",
+            "symbol": "SOL",
+            "decimals": 18,
+            "address": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+            "balance": "2.625205516038463106",
+            "weight": 25,
+            "id": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+            "userBalance": "0.0"
+        },
+        {
+            "name": "BTCB Token",
+            "symbol": "BTCB",
+            "decimals": 18,
+            "address": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+            "balance": "0.005930503974917702",
+            "weight": 25,
+            "id": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+            "userBalance": "0.0"
+        },
+        {
+            "name": "Matic Token",
+            "symbol": "MATIC",
+            "decimals": 18,
+            "address": "0xcc42724c6683b7e57334c4e856f4c9965ed682bd",
+            "balance": "369.659292532285235211",
+            "weight": 25,
+            "id": "0xcc42724c6683b7e57334c4e856f4c9965ed682bd",
+            "userBalance": "0.0"
+        }
+    ],
+    "mainIndex": null,
+    "tokenRates": null,
+    "holdersCount": "2",
+    "swapsCount": "3",
+    "linearPools": null,
+    "createdAt": "Feb.15, 2024",
+    "timeAgo": "12 days ago",
+    "lpPrice": 128.18379145433224,
+    "onchain": {
+        "tokens": {
+            "0x1CE0c2827e2eF14D5C4f29a091d735A204794041": {
+                "decimals": 18,
+                "balance": "7.195153658952430465",
+                "weight": "0.25"
+            },
+            "0x570A5D26f7765Ecb712C0924E4De545B89fD43dF": {
+                "decimals": 18,
+                "balance": "2.625205516038463106",
+                "weight": "0.25"
+            },
+            "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c": {
+                "decimals": 18,
+                "balance": "0.005930503974917702",
+                "weight": "0.25"
+            },
+            "0xCC42724C6683B7E57334c4E856f4c9965ED682bD": {
+                "decimals": 18,
+                "balance": "369.659292532285235211",
+                "weight": "0.25"
+            }
+        },
+        "amp": "0",
+        "swapEnabled": true,
+        "totalSupply": "10.145521404190972448",
+        "decimals": 18,
+        "swapFee": "0.01"
+    }
+}
+
+const tokens = [
+    "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+    "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+    "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+    "0xcc42724c6683b7e57334c4e856f4c9965ed682bd"
+]
+
 console.log('here')
 const lineNumbers = ref([])
 const balances = ref({})
@@ -395,8 +504,8 @@ const formattedLineNumbers = computed(() =>
   lineNumbers.value.map((ln) => ln / 1000),
 )
 const { priceImpact, fullAmounts, bptOut } = useInvestFormMath(
-  toRef(props.pool),
-  props.pool.tokens,
+  toRef(pool),
+  pool.tokens,
   balances,
   formattedLineNumbers,
   true,
@@ -405,7 +514,7 @@ const { priceImpact, fullAmounts, bptOut } = useInvestFormMath(
 const amountMap = computed(() => {
   const amountMap = {}
   fullAmounts.value.forEach((amount, i) => {
-    amountMap[props.tokens[i]] = parseFloat(amount)
+    amountMap[tokens[i]] = parseFloat(amount)
   })
   return amountMap
 })
@@ -432,18 +541,18 @@ const priceImpactFormatted = computed(() =>
   priceImpact.value ? (priceImpact.value * 100).toFixed(1) : 0,
 )
 // const totalWeeklyYield = computed(() =>
-//   weeklyYieldForAPR(`${props.pool.apr.total}`),
+//   weeklyYieldForAPR(`${pool.apr.total}`),
 // )
 const account = ref('')
 onMounted(async () => {
-  console.log(props.tokens)
+  console.log(tokens)
   const {
     balances: _balances,
     account: _account,
     lineNumbers: _lineNumbers,
     lastTokenPrices: _lastTokenPrices,
-  } = await usePoolActionBalances(props.tokens, props.pool.tokens)
-  console.log('CHAIN SELECTED - ', props.chainSelected)
+  } = await usePoolActionBalances(tokens, pool.tokens)
+
   balances.value = _balances
   account.value = _account
   lineNumbers.value = _lineNumbers
@@ -456,17 +565,17 @@ onMounted(async () => {
 
 let lastDepositChanged = ref(0)
 function OnSliderValueChange(index, value) {
-  if (balances.value[props.tokens[index].address] * 1000 < value) {
+  if (balances.value[tokens[index].address] * 1000 < value) {
     lineNumbers.value[index] =
-      balances.value[props.tokens[index].address] * 1000
+      balances.value[tokens[index].address] * 1000
   }
   lineNumbers.value[index] = value
   if (value > 0) lastDepositChanged.value = index
 }
 
 function OnAllMaxClick() {
-  for (let i = 0; i < props.tokens.length; i++) {
-    OnMaxClick(i, props.tokens[i])
+  for (let i = 0; i < tokens.length; i++) {
+    OnMaxClick(i, tokens[i])
   }
 }
 function OnMaxClick(index, address) {
@@ -475,20 +584,20 @@ function OnMaxClick(index, address) {
 
 function OnOptimizeClick() {
   if (lastDepositChanged.value == -1) return
-  let token = props.tokens[lastDepositChanged.value]
+  let token = tokens[lastDepositChanged.value]
   let usdAmount =
     (lineNumbers.value[lastDepositChanged.value] / 1000) *
     lastTokenPrices.value[token]
   for (let i = 0; i < lineNumbers.value.length; i++) {
     if (i != lastDepositChanged.value) {
-      let newValue = usdAmount / lastTokenPrices.value[props.tokens[i]]
+      let newValue = usdAmount / lastTokenPrices.value[tokens[i]]
       lineNumbers.value[i] = newValue * 1000
     }
   }
 }
 
 const totalWeeklyYield = computed(() =>
-  weeklyYieldForAPR(`${props.pool.apr.total}`),
+  weeklyYieldForAPR(`${pool.apr.total}`),
 )
 function weeklyYieldForAPR(apr) {
   return bnum(apr).times(fiatTotal.value).div(52).toString()

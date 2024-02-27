@@ -158,6 +158,14 @@
       "address": "0xbA2aE424d960c26247Dd6c32edC70B295c744C43",
       "logoURI": "./images/tokens/DOGE.png",
       "apiId": "DOGE"
+    },
+    "DAI": {
+      "name": "DAI",
+      "symbol": "DAI",
+      "decimals": 18,
+      "address": "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3",
+      "logoURI": "./images/tokens/DAI.png",
+      "apiId": "DAI"
     }
   },
   "incentivizedPools": [

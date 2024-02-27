@@ -226,6 +226,14 @@ export default {
       decimals: 8,
       address: '0xbA2aE424d960c26247Dd6c32edC70B295c744C43',
     },
+    DAI: {
+      name: 'DAI',
+      symbol: 'DAI',
+      apiId: 'DAI',
+      logoURI: './images/tokens/DAI.png',
+      decimals: 18,
+      address: '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3',
+    },
   },
   incentivizedPools: [process.env.VUE_APP_INCENTIVIZED_POOL_BINANCE],
 }
