@@ -12,6 +12,7 @@ import {
   encodeSqrtRatioX96,
   TickMath,
   TICK_SPACINGS,
+  FACTORY_ADDRESS,
 } from '@uniswap/v3-sdk'
 import {
   CurrencyAmount,
@@ -22,6 +23,8 @@ import {
   Rounding,
 } from '@uniswap/sdk-core'
 import IUniswapV3PoolABI from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
+import NonfungiblePositionManagerAbi from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
+import UniswapFactoryAbi from '@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json'
 import {
   ERC20_ABI,
   NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
@@ -56,7 +59,7 @@ export function fromReadableAmount(amount, decimals) {
   )
 }
 
-export async function getPoolInfo(provider, tokenA, tokenB, feeAmount) {
+export async function getPoolInfo(provider, tokenA, tokenB, feeAmount, price) {
   if (!provider) {
     throw new Error('No provider')
   }
@@ -73,26 +76,38 @@ export async function getPoolInfo(provider, tokenA, tokenB, feeAmount) {
     IUniswapV3PoolABI.abi,
     provider,
   )
-
-  const [token0, token1, fee, tickSpacing, liquidity, slot0] =
-    await Promise.all([
-      poolContract.token0(),
-      poolContract.token1(),
-      poolContract.fee(),
-      poolContract.tickSpacing(),
-      poolContract.liquidity(),
-      poolContract.slot0(),
-    ])
-
-  return {
-    token0,
-    token1,
-    fee,
-    tickSpacing,
-    liquidity,
-    sqrtPriceX96: slot0[0],
-    tick: slot0[1],
-    address: currentPoolAddress,
+  try {
+    const [token0, token1, fee, tickSpacing, liquidity, slot0] =
+      await Promise.all([
+        poolContract.token0(),
+        poolContract.token1(),
+        poolContract.fee(),
+        poolContract.tickSpacing(),
+        poolContract.liquidity(),
+        poolContract.slot0(),
+      ])
+    return {
+      token0,
+      token1,
+      fee,
+      tickSpacing,
+      liquidity,
+      sqrtPriceX96: slot0[0],
+      tick: slot0[1],
+      address: currentPoolAddress,
+    }
+  } catch (e) {
+    console.error(e)
+    let pool_address = await deployPool(
+      tokenA,
+      tokenB,
+      feeAmount,
+      price,
+      provider,
+    )
+    if (pool_address) {
+      return await getPoolInfo(provider, tokenA, tokenB, feeAmount, null)
+    }
   }
 }
 
@@ -477,7 +492,13 @@ export async function MintPosition(
     highPrice,
     feeAmount,
   )
-  const poolInfo = await getPoolInfo(signer, token0, token1, feeAmount)
+  const poolInfo = await getPoolInfo(
+    signer,
+    token0,
+    token1,
+    feeAmount,
+    currentPrice,
+  )
   let swapped = checkTokensSwapped(
     poolInfo,
     token0,
@@ -581,17 +602,6 @@ async function mintPosition(order, signer) {
   console.log('SUCCESS', receipt)
   return receipt
 }
-function encodePriceSqrt(reserve1, reserve0) {
-  return BigNumber.from(
-    bn(reserve1.toString())
-      .div(reserve0.toString())
-      .sqrt()
-      .multipliedBy(new bn(2).pow(96))
-      .integerValue(3)
-      .toString(),
-  )
-}
-console.log('SQRT - ', encodePriceSqrt(1, 1))
 
 export function GetSecondAmount(
   poolInfo,
@@ -669,3 +679,94 @@ export function GetPricesAtLimit(poolInfo, token0, token1, feeAmount) {
   let upperPrice = getTickToPrice(token0, token1, upper).toSignificant(5)
   return { lowerPrice, upperPrice }
 }
+
+/// DEPLOY POOL
+
+function encodePriceSqrt(reserve1, reserve0) {
+  return BigNumber.from(
+    bn(reserve1.toString())
+      .div(reserve0.toString())
+      .sqrt()
+      .multipliedBy(new bn(2).pow(96))
+      .integerValue(3)
+      .toString(),
+  )
+}
+
+async function deployPool(token0, token1, fee, price, signer) {
+  try {
+    if (!price) return null
+    let parsedPrice = tryParsePrice(token0, token1, price.toString())
+    let tick = priceToClosestTick(parsedPrice)
+    let sqrtPrice = TickMath.getSqrtRatioAtTick(tick)
+    let contract = new ethers.Contract(
+      NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
+      NonfungiblePositionManagerAbi.abi,
+      signer,
+    )
+    let tx = await contract.createAndInitializePoolIfNecessary(
+      token0.address,
+      token1.address,
+      fee,
+      `0x${sqrtPrice.toString(16)}`,
+    )
+    let receipt = await tx.wait()
+    console.log('RECEIPT - ', receipt)
+    return true
+  } catch (e) {
+    console.error(e)
+    return false
+  }
+}
+
+async function fetchPositions(signer) {
+  const nfpmContract = new ethers.Contract(
+    NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
+    NonfungiblePositionManagerAbi.abi,
+    signer,
+  )
+  let address = await signer.getAddress()
+  const numPositions = await nfpmContract.balanceOf(address)
+  const calls = []
+
+  for (let i = 0; i < numPositions; i++) {
+    calls.push(nfpmContract.tokenOfOwnerByIndex(address, i))
+  }
+
+  const positionIds = await Promise.all(calls)
+  const positionCalls = []
+
+  for (let id of positionIds) {
+    positionCalls.push(nfpmContract.positions(id))
+  }
+
+  const callResponses = await Promise.all(positionCalls)
+  const positionInfos = callResponses.map((position) => {
+    return {
+      tickLower: position.tickLower,
+      tickUpper: position.tickUpper,
+      liquidity: JSBI.BigInt(position.liquidity),
+      feeGrowthInside0LastX128: JSBI.BigInt(position.feeGrowthInside0LastX128),
+      feeGrowthInside1LastX128: JSBI.BigInt(position.feeGrowthInside1LastX128),
+      tokensOwed0: JSBI.BigInt(position.tokensOwed0),
+      tokensOwed1: JSBI.BigInt(position.tokensOwed1),
+    }
+  })
+  console.log(positionInfos)
+  return positionInfos
+}
+
+// const addLiquidityOptions: AddLiquidityOptions = {
+//   deadline: Math.floor(Date.now() / 1000) + 60 * 20,
+//   slippageTolerance: new Percent(50, 10_000),
+//   tokenId,
+// }
+
+// const removeLiquidityOptions: RemoveLiquidityOptions = {
+//   deadline: Math.floor(Date.now() / 1000) + 60 * 20,
+//   slippageTolerance: new Percent(50, 10_000),
+//   tokenId: positionId,
+//   // percentage of liquidity to remove
+//   liquidityPercentage: new Percent(0.5),
+//   collectOptions,
+// }
