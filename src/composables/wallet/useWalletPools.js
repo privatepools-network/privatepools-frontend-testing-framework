@@ -33,6 +33,7 @@ export async function useWalletPools(address, networkId) {
       GetPoolSwapsData(null, networkId),
       GetPools(networkId, null, true, true, 'USD', user_pools),
     ])
+    if (!pools) return []
     pools = pools.map((pool) => ({
       ...pool,
       ...addAPRInfo(
