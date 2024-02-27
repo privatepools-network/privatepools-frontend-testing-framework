@@ -213,6 +213,7 @@ export function FormatPoolsData(
             : 0
           : 0,
       ...additionalInfo,
+      tokens: pool.tokens,
     })
   }
   return result
@@ -426,12 +427,19 @@ export function FormatAllToDisplay(allData, network) {
       Revenue: p['Revenue All Time'],
       Fees: p['Fees All Time'],
       Trades: p['Trades All Time'],
-      Volume: p['Volume All Time'],
+      Volume: p['Volume 7 D'],
       TVL: p.TVL,
+      Liquidity: p.TVL,
       APR: p['APR All Time'],
       Profit: p['Profit All Time'],
       Blockchain: p['Blockchain'],
-      // address: p['address'],
+      'Pool Weight': [p.tokens.map((token) => ({
+        token: token.symbol,
+        weight: `${token.weight}%`,
+      }))],
+      LiquidityType: 'WP',
+      ROI: '-',
+      address: p['address'],
       // ...p,
     }))
 }

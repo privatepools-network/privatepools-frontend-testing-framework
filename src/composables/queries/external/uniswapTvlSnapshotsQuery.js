@@ -4,3 +4,9 @@ export const UNISWAP_TVL_SNAPSHOTS_QUERY = (poolId) => `{
     timestamp
   }
 }`
+export const UNISWAP_TVL_SNAPSHOTS_ALL_QUERY = `{
+  liquidityPoolDailySnapshots(first:1000, orderBy:timestamp, orderDirection:desc){
+    totalValueLockedUSD
+    timestamp
+  }
+}`
