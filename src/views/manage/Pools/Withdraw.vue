@@ -51,7 +51,7 @@
               <div class="big-chip__text">{{ poolToken.weight }}%</div>
             </div>
           </div>
-          <div class="back_button" @click="$emit('changeToWithdrawView')">
+          <div class="back_button" @click="router.push('/pools')">
             <svg
               width="22"
               height="22"
@@ -331,17 +331,123 @@ import { networkId } from '@/composables/useNetwork'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
+import router from '@/router'
 
-const props = defineProps([
-  'visibleWithdrawModal',
-  'changeVisibleWithdraw',
-  'pool',
-  'tokens',
-  'changeToWithdrawView',
-  'chainSelected',
-])
+const pool = ref({
+    "id": "0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24000100000000000000000014",
+    "name": "25AVAX-25BTCB-25MATIC-25SOL",
+    "address": "0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24",
+    "poolType": "Weighted",
+    "swapFee": "0.01",
+    "tokensList": [
+        "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+        "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+        "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+        "0xcc42724c6683b7e57334c4e856f4c9965ed682bd"
+    ],
+    "totalLiquidity": 1300.4913998702796,
+    "totalSwapVolume": "6.67",
+    "totalSwapFee": "0.07",
+    "totalShares": "10.145521404190972448",
+    "owner": "0x4bde150b69408dafbe4833f0d7b9689246a6597b",
+    "factory": "0xda1116ec45ca0ae4874557a04875ada9e6eeca9b",
+    "amp": null,
+    "createTime": 1707950801,
+    "swapEnabled": true,
+    "volume24h": "0",
+    "fees24h": "0",
+    "apr": {
+        "total": "0"
+    },
+    "tokens": [
+        {
+            "name": "Avalanche",
+            "symbol": "AVAX",
+            "decimals": 18,
+            "address": "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+            "balance": "7.195153658952430465",
+            "weight": 25,
+            "id": "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+            "userBalance": "0.0"
+        },
+        {
+            "name": "SOLANA",
+            "symbol": "SOL",
+            "decimals": 18,
+            "address": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+            "balance": "2.625205516038463106",
+            "weight": 25,
+            "id": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+            "userBalance": "0.0"
+        },
+        {
+            "name": "BTCB Token",
+            "symbol": "BTCB",
+            "decimals": 18,
+            "address": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+            "balance": "0.005930503974917702",
+            "weight": 25,
+            "id": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+            "userBalance": "0.0"
+        },
+        {
+            "name": "Matic Token",
+            "symbol": "MATIC",
+            "decimals": 18,
+            "address": "0xcc42724c6683b7e57334c4e856f4c9965ed682bd",
+            "balance": "369.659292532285235211",
+            "weight": 25,
+            "id": "0xcc42724c6683b7e57334c4e856f4c9965ed682bd",
+            "userBalance": "0.0"
+        }
+    ],
+    "mainIndex": null,
+    "tokenRates": null,
+    "holdersCount": "2",
+    "swapsCount": "3",
+    "linearPools": null,
+    "createdAt": "Feb.15, 2024",
+    "timeAgo": "12 days ago",
+    "lpPrice": 128.18379145433224,
+    "onchain": {
+        "tokens": {
+            "0x1CE0c2827e2eF14D5C4f29a091d735A204794041": {
+                "decimals": 18,
+                "balance": "7.195153658952430465",
+                "weight": "0.25"
+            },
+            "0x570A5D26f7765Ecb712C0924E4De545B89fD43dF": {
+                "decimals": 18,
+                "balance": "2.625205516038463106",
+                "weight": "0.25"
+            },
+            "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c": {
+                "decimals": 18,
+                "balance": "0.005930503974917702",
+                "weight": "0.25"
+            },
+            "0xCC42724C6683B7E57334c4E856f4c9965ED682bD": {
+                "decimals": 18,
+                "balance": "369.659292532285235211",
+                "weight": "0.25"
+            }
+        },
+        "amp": "0",
+        "swapEnabled": true,
+        "totalSupply": "10.145521404190972448",
+        "decimals": 18,
+        "swapFee": "0.01"
+    }
+})
 
-const { pool, visibleWithdrawModal } = toRefs(props)
+const tokens = [
+    "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+    "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+    "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
+    "0xcc42724c6683b7e57334c4e856f4c9965ed682bd"
+]
+
+
 
 const poolToken = ref({})
 const balances = ref({})
@@ -350,9 +456,9 @@ const lineNumbers = ref([])
 const lastTokenPrices = ref([])
 const usdPoolShareValue = ref(0.1)
 
-watchEffect(() => {
-  console.log('visibleWithdrawModal effect:', visibleWithdrawModal.value)
-})
+// watchEffect(() => {
+//   console.log('visibleWithdrawModal effect:', visibleWithdrawModal.value)
+// })
 
 const poolShare = ref({})
 
@@ -392,7 +498,7 @@ const tokenOutAmount = computed(() =>
 )
 const tokenOutIndex = computed(() =>
   !isProportional.value
-    ? props.tokens.findIndex((t) => t == tokenOut.value)
+    ? tokens.findIndex((t) => t == tokenOut.value)
     : null,
 )
 const {
@@ -419,10 +525,10 @@ onBeforeMount(async () => {
   await init()
 })
 
-watch(visibleWithdrawModal, async () => {
-  await init()
-  console.log(lastTokenPrices.value)
-})
+// watch(visibleWithdrawModal, async () => {
+//   await init()
+//   console.log(lastTokenPrices.value)
+// })
 watch(allSelectedTokens, async () => {
   await init()
 })
@@ -435,7 +541,7 @@ async function init() {
     lineNumbers: _lineNumbers,
     lastTokenPrices: _lastTokenPrices,
   } = await usePoolActionBalances(
-    [...props.tokens, poolAddress],
+    [...tokens, poolAddress],
     pool.value.tokens,
   )
   balances.value = _balances
@@ -500,7 +606,7 @@ function getUsdAmount(token) {
 function onShareInput(e) {
   usdPoolShareValue.value = parseFloat(e.target.value)
   let percent =
-    e.target.value / ((poolShare.value.balance * props.pool.lpPrice) / 100)
+    e.target.value / ((poolShare.value.balance * pool.value.lpPrice) / 100)
   if (percent > 100) lineNumberPercent.value = 100
   else lineNumberPercent.value = percent
 }

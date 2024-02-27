@@ -84,7 +84,7 @@
       <div class="details-el">
         <div class="details-el__col flex-column gap-3">
           <div class="details-el__activity details-el__activity_deposit"
-            @click="$emit('goToPool', { index, onMountedActivity: 'deposit' })">
+            @click="$emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })">
             Add {{ lp_name }} LP
           </div>
           <div class="details-el__activity details-el__activity_info"
@@ -102,11 +102,11 @@
                 style="margin-left: 5px" /></a>
           </div>
         </div>
-
-        <div v-if="pool['Liquidity'] === 0" class="liquidity_button_container">
+        {{ console.log('pool!', pool) }}
+        <div v-if="pool['Liquidity'] === '0.00000' || pool['Liquidity'] === '0'" class="liquidity_button_container">
           <div class="liquidity_button_text">no liquidity deposited</div>
           <div
-            @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPool', { index, onMountedActivity: 'deposit' })"
+            @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })"
             class="liquidity_button" :class="pool['LiquidityType'] === 'CL'
               ? 'liquidity_button_LP'
               : 'liquidity_button_WP'
@@ -118,7 +118,7 @@
         <div v-else class="d-flex gap-5 align-items-center liquidity_button_container">
           <div class="details-el__col">
             <div v-if="pool['LiquidityType'] === 'CL'" class="details-el__title d-flex gap-1 align-items-center orange">
-              Out of range
+              Concentrated liquidity Pool
               <div class="details-el__circle"></div>
             </div>
             <div v-else class="details-el__title d-flex gap-1 align-items-center purple">
@@ -128,7 +128,7 @@
 
             <div style="font-size: 18px; font-weight: 700">{{ lp_name }} LP</div>
             <div style="font-size: 9px; font-weight: 700">
-              Min - / Max - AAVE per wstETH
+               {{pool['LiquidityType'] === 'CL' ? 'Number of positions: 2' : '50% AAVE and 50% wstETH' }}
             </div>
             <div class="d-flex align-items-end justify-content-between mt-3">
               <div style="font-size: 9px; font-weight: 700">
@@ -147,8 +147,8 @@
                 </svg>
               </div>
               <div class="actions_button"
-                @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPool', { index, onMountedActivity: 'deposit' })">
-                Add liquidity
+                @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })">
+                {{pool['LiquidityType'] === 'CL' ? 'Manage Position' : 'Add liquidity'}}
               </div>
             </div>
           </div>
@@ -172,8 +172,9 @@
                 </div>
               </div>
               <div class="actions_button"
-                @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'withdraw' }) : $emit('goToPool', { index, onMountedActivity: 'withdraw' })">
-                WITHDRAW
+                @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'withdraw' }) : $emit('goToPoolWithdraw', { index, onMountedActivity: 'withdraw' })">
+                
+                {{pool['LiquidityType'] === 'CL' ? 'Add New Position' : 'WITHDRAW'}}
               </div>
             </div>
           </div>

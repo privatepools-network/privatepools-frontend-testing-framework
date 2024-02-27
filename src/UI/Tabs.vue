@@ -1,14 +1,14 @@
 <template>
-  <div class="tabs" v-if="tabsOptions[0].title">
-    <div class="tabs__el" v-for="option in tabsOptions" :key="option" :class="{
-            'tabs__el_active': option.number === selectedTab.number,
+  <div class="tabs_filter" v-if="tabsOptions[0].title">
+    <div class="tabs_filter__el" v-for="option in tabsOptions" :key="option" :class="{
+            'tabs_filter__el_active': option.number === selectedTab.number,
           }" @click="$emit('changeTab', option)">
       <div>{{ option.title }} 
 </div>
     </div>
   </div>
-  <div class="tabs" v-else>
-    <div class="tabs__el" v-for="option in tabsOptions" :key="option" :class="{
+  <div :class="filterEye === false ? 'tabs_filter' : 'tabs'" v-else>
+    <div  class="tabs__el" v-for="option in tabsOptions" :key="option" :class="{
             'tabs__el_active': option === selectedTab,
           }" @click="$emit('changeTab', option)">
       <div >{{ option }} <svg v-if="option === selectedTab && filterEye === true" width="17" height="11" viewBox="0 0 17 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -33,6 +33,45 @@ const {selectedTab, tabsOptions, filterEye} = toRefs(props)
 
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
+
+.tabs_filter {
+  padding: 4px;
+  border-radius: 16px;
+  background: #22222224;
+  gap: 10px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
+  display: flex;
+  @media (max-width: $xxl) {
+    padding: 2px;
+  }
+    &__el {
+      // background: #22222224;
+      // box-shadow: 0px 4px 4px 0px #00000040;
+
+      // border-radius: 20px;
+    color: white;
+    padding: 3px 9px;
+    font-size: 13px;
+    @media (max-width: $xxl) {
+      font-size: 10px;
+      padding: 2px 6px;
+    }
+    &_active {
+      color: #fff;
+      border-radius: 20px;
+      background: linear-gradient(152.97deg, #001D24 0%, #00C9FF 100%);
+
+    }
+    &:hover {
+      color: #fff;
+      border-radius: 20px;
+      background: darken(#00C9FF, 10%);
+      cursor: pointer;
+    }
+  }
+}
+
 .tabs {
   padding: 4px;
   border-radius: 23px;

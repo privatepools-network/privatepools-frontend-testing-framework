@@ -776,7 +776,7 @@ border: 1px solid #FFFFFF0D;">
       <PoolInfo :pool="pool" />
     </CRow> -->
 
-    {{ console.log('tokens!!!', tokens) }}
+    {{ console.log('pool!!!', pool) }}
   </MainCard>
   
   <!-- <DepositComponent v-else-if="visibleDepositComponent && networkId > 0 &&
@@ -788,14 +788,14 @@ border: 1px solid #FFFFFF0D;">
     " :chainSelected="chainSelected" :tokenPrices="tokenPrices" :pool="pool" :tokens="tokens"
     :visibleDepositModal="visibleDepositComponent" @changeToDepositView="changeToDepositView" /> -->
     
-  <WithdrawComponent v-else-if="visibleWithdrawComponent && networkId > 0 &&
+  <!-- <WithdrawComponent v-else-if="visibleWithdrawComponent && networkId > 0 &&
     tokenPrices &&
     pool &&
     pool.tokens &&
     tokens.length > 0 &&
     poolActivity
     " :chainSelected="chainSelected" :tokenPrices="tokenPrices" :pool="pool" :tokens="tokens"
-    @changeToWithdrawView="changeToWithdrawView" />
+    @changeToWithdrawView="changeToWithdrawView" /> -->
 </template>
 
 <script setup>

@@ -75,6 +75,12 @@ const routes = [
         component: () =>
           import('@/views/manage/Pools/ConcentratedLiquidityAdd.vue'),
       },
+      {
+        path: '/pools/concentrated_pool/add_position',
+        name: 'Concentrated liquidity Preselected',
+        component: () =>
+          import('@/views/manage/Pools/ConcentratedLiquidityPreselected.vue'),
+      },
 
       {
         path: '/pools/details/:id/:chainSelected/:onMountedActivity',
@@ -83,12 +89,12 @@ const routes = [
         props: true,
       },
       {
-        path: '/pools/details/:id/:chainSelected/:onMountedActivity',
+        path: '/pools/:id/:chainSelected/deposit',
         name: 'Pool Deposit',
         component: () => import('@/views/manage/Pools/Deposit.vue'),
       },
       {
-        path: '/pools/details/:id/:chainSelected/:onMountedActivity',
+        path: '/pools/:id/:chainSelected/withdraw',
         name: 'Pool Withdraw',
         component: () => import('@/views/manage/Pools/Withdraw.vue'),
       },
