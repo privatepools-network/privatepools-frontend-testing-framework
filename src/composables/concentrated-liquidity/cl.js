@@ -529,6 +529,92 @@ export async function MintPosition(
   await mintPosition(order, signer)
 }
 
+export async function AddLiquidityToPosition(
+  signer,
+  position,
+  depositAmount0,
+  depositAmount1,
+) {
+  let parsed0 = tryParseCurrencyAmount(depositAmount0, position.token0)
+  let parsed1 = tryParseCurrencyAmount(depositAmount1, position.token1)
+  const configuredPool = new Pool(
+    position.token0,
+    position.token1,
+    position.pool.fee,
+    position.pool.sqrtPriceX96.toString(),
+    position.pool.liquidity.toString(),
+    position.pool.tick,
+  )
+  let order = await constructTakeProfitOrder(
+    signer,
+    position.pool,
+    position.token0,
+    position.token1,
+    parsed0,
+    parsed1,
+    position.pool.fee,
+    position.tickLower,
+    position.tickUpper,
+  )
+  const { amount0, amount1 } = order.position.mintAmounts
+  let token0Contract = new ethers.Contract(
+    position.token0.address,
+    ERC20_ABI,
+    signer,
+  )
+  let token1Contract = new ethers.Contract(
+    position.token1.address,
+    ERC20_ABI,
+    signer,
+  )
+  await ApproveToken(token1Contract, signer, amount1, position.token1.decimals)
+  await ApproveToken(token0Contract, signer, amount0, position.token0.decimals)
+  await addLiquidity(order, signer, position.id)
+
+  // const addLiquidityOptions: AddLiquidityOptions = {
+  //   deadline: Math.floor(Date.now() / 1000) + 60 * 20,
+  //   slippageTolerance: new Percent(50, 10_000),
+  //   tokenId,
+  // }
+}
+export async function RemoveLiquidityFromPosition(signer, position, percent) {
+  let parsed0 = tryParseCurrencyAmount(
+    position.amountReadable0,
+    position.token0,
+  )
+  let parsed1 = tryParseCurrencyAmount(
+    position.amountReadable1,
+    position.token1,
+  )
+  const configuredPool = new Pool(
+    position.token0,
+    position.token1,
+    position.pool.fee,
+    position.pool.sqrtPriceX96.toString(),
+    position.pool.liquidity.toString(),
+    position.pool.tick,
+  )
+  let order = await constructTakeProfitOrder(
+    signer,
+    position.pool,
+    position.token0,
+    position.token1,
+    parsed0,
+    parsed1,
+    position.pool.fee,
+    position.tickLower,
+    position.tickUpper,
+  )
+  await removeLiquidity(
+    order,
+    signer,
+    position.id,
+    percent,
+    position.token0,
+    position.token1,
+  )
+}
+
 async function ApproveToken(contract, signer, amount) {
   contract = contract.connect(signer)
   let tx = await contract.approve(
@@ -601,6 +687,80 @@ async function mintPosition(order, signer) {
   const receipt = await tx.wait()
   console.log('SUCCESS', receipt)
   return receipt
+}
+async function addLiquidity(order, signer, tokenId) {
+  try {
+    let address = await signer.getAddress()
+    const addLiquidityOptions = {
+      deadline: Math.floor(Date.now() / 1000) + 60 * 20,
+      slippageTolerance: new Percent(50, 10_000),
+      tokenId,
+    }
+    const { calldata, value } = NonfungiblePositionManager.addCallParameters(
+      order.position,
+      addLiquidityOptions,
+    )
+
+    const transaction = {
+      data: calldata,
+      to: NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
+      value: ethers.BigNumber.from(value),
+      from: address,
+      gasLimit: '1000000',
+    }
+
+    let tx = await signer.sendTransaction(transaction)
+    const receipt = await tx.wait()
+    console.log('SUCCESS', receipt)
+    return receipt
+  } catch (err) {
+    console.error('[ADD LIQUIDITY ERROR] ', err)
+  }
+}
+async function removeLiquidity(
+  order,
+  signer,
+  tokenId,
+  percent,
+  token0,
+  token1,
+) {
+  try {
+    let address = await signer.getAddress()
+    const collectOptions = {
+      expectedCurrencyOwed0: CurrencyAmount.fromRawAmount(token0, 0),
+      expectedCurrencyOwed1: CurrencyAmount.fromRawAmount(token1, 0),
+      recipient: address,
+    }
+    const removeLiquidityOptions = {
+      deadline: Math.floor(Date.now() / 1000) + 60 * 20,
+      slippageTolerance: new Percent(50, 10_000),
+      tokenId: tokenId,
+      // percentage of liquidity to remove
+      liquidityPercentage: new Percent(percent, 100),
+      collectOptions,
+    }
+
+    const { calldata, value } = NonfungiblePositionManager.removeCallParameters(
+      order.position,
+      removeLiquidityOptions,
+    )
+
+    const transaction = {
+      data: calldata,
+      to: NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
+      value: ethers.BigNumber.from(value),
+      from: address,
+      gasLimit: '1000000',
+    }
+
+    let tx = await signer.sendTransaction(transaction)
+    const receipt = await tx.wait()
+    console.log('SUCCESS', receipt)
+    return receipt
+  } catch (err) {
+    console.error('[ADD LIQUIDITY ERROR] ', err)
+  }
 }
 
 export function GetSecondAmount(
@@ -718,8 +878,53 @@ async function deployPool(token0, token1, fee, price, signer) {
     return false
   }
 }
+const Q96 = JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(96))
+function getTickAtSqrtRatio(sqrtPriceX96) {
+  let tick = Math.floor(Math.log((sqrtPriceX96 / Q96) ** 2) / Math.log(1.0001))
+  return tick
+}
+function getTokenAmounts(
+  liquidity,
+  sqrtPriceX96,
+  tickLow,
+  tickHigh,
+  token0Decimal,
+  token1Decimal,
+) {
+  let sqrtRatioA = Math.sqrt(1.0001 ** tickLow).toFixed(18)
+  let sqrtRatioB = Math.sqrt(1.0001 ** tickHigh).toFixed(18)
 
-async function fetchPositions(signer) {
+  let currentTick = getTickAtSqrtRatio(sqrtPriceX96)
+
+  let currentRatio = Math.sqrt(1.0001 ** currentTick).toFixed(18)
+  let amount0wei = 0
+  let amount1wei = 0
+  if (currentTick <= tickLow) {
+    amount0wei = Math.floor(
+      liquidity * ((sqrtRatioB - sqrtRatioA) / (sqrtRatioA * sqrtRatioB)),
+    )
+  }
+  if (currentTick > tickHigh) {
+    amount1wei = Math.floor(liquidity * (sqrtRatioB - sqrtRatioA))
+  }
+  if (currentTick >= tickLow && currentTick < tickHigh) {
+    amount0wei = Math.floor(
+      liquidity * ((sqrtRatioB - currentRatio) / (currentRatio * sqrtRatioB)),
+    )
+    amount1wei = Math.floor(liquidity * (currentRatio - sqrtRatioA))
+  }
+
+  let amount0Human = amount0wei / 10 ** token0Decimal
+  let amount1Human = amount1wei / 10 ** token1Decimal
+
+  console.log('Amount Token0 wei: ' + amount0wei)
+  console.log('Amount Token1 wei: ' + amount1wei)
+  console.log('Amount Token0 : ' + amount0Human)
+  console.log('Amount Token1 : ' + amount1Human)
+  return [amount0wei, amount1wei]
+}
+
+export async function fetchPositions(signer, tokens, networkId) {
   const nfpmContract = new ethers.Contract(
     NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
     NonfungiblePositionManagerAbi.abi,
@@ -741,18 +946,58 @@ async function fetchPositions(signer) {
   }
 
   const callResponses = await Promise.all(positionCalls)
-  const positionInfos = callResponses.map((position) => {
-    return {
-      tickLower: position.tickLower,
-      tickUpper: position.tickUpper,
-      liquidity: JSBI.BigInt(position.liquidity),
-      feeGrowthInside0LastX128: JSBI.BigInt(position.feeGrowthInside0LastX128),
-      feeGrowthInside1LastX128: JSBI.BigInt(position.feeGrowthInside1LastX128),
-      tokensOwed0: JSBI.BigInt(position.tokensOwed0),
-      tokensOwed1: JSBI.BigInt(position.tokensOwed1),
-    }
-  })
-  console.log(positionInfos)
+  let positionInfos = await Promise.all(
+    callResponses.map(async (position, index) => {
+      try {
+        let token0 = convertPairToken(
+          tokens.find((item) => item.address == position.token0),
+          networkId,
+        )
+        let token1 = convertPairToken(
+          tokens.find((item) => item.address == position.token1),
+          networkId,
+        )
+        let pool = await getPoolInfo(signer, token0, token1, position.fee, null)
+        let liquidity = JSBI.BigInt(position.liquidity)
+        let amounts = getTokenAmounts(
+          BigNumber.from(position.liquidity).toString(),
+          BigNumber.from(pool.sqrtPriceX96).toString(),
+          position.tickLower,
+          position.tickUpper,
+          token0.decimals,
+          token1.decimals,
+        )
+        console.log('AMOUNTS - ', amounts)
+        return {
+          id: positionIds[index],
+          tickLower: position.tickLower,
+          tickUpper: position.tickUpper,
+          liquidity,
+          feeGrowthInside0LastX128: JSBI.BigInt(
+            position.feeGrowthInside0LastX128,
+          ),
+          feeGrowthInside1LastX128: JSBI.BigInt(
+            position.feeGrowthInside1LastX128,
+          ),
+          tokensOwed0: JSBI.BigInt(position.tokensOwed0),
+          tokensOwed1: JSBI.BigInt(position.tokensOwed1),
+          token0: token0,
+          token1: token1,
+          fee: position.fee,
+          amount0: amounts[0],
+          amount1: amounts[1],
+          amountReadable0: ethers.utils.formatUnits(amounts[0].toString()),
+          amountReadable1: ethers.utils.formatUnits(amounts[1].toString()),
+          pool,
+        }
+      } catch (err) {
+        console.error(err)
+        return null
+      }
+    }),
+  )
+  positionInfos = positionInfos.filter((item) => item != null)
+  console.log('POSITIONS - ', positionInfos)
   return positionInfos
 }
 

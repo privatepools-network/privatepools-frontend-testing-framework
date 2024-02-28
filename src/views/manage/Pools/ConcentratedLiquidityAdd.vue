@@ -1,89 +1,55 @@
 <template>
   <MainCard>
-    <SelectPositionModal :selectPositionModal="selectPositionModal"  />
+    <SelectPositionModal :selectPositionModal="selectPositionModal" :positions="selectPositions"
+      @selectPositionHandler="(index) => selectedPosition = positions[index]" />
 
     <div class="center_container">
       <div class="d-flex justify-content-end w-100 mb-4">
         <div class="back_button" @click="router.push('/pools')">
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18 6L6 18"
-              stroke="#FFFFFF"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M6 6L18 18"
-              stroke="#FFFFFF"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6 6L18 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </div>
       </div>
-      <div class="d-flex gap-5">
+      <div class="d-flex gap-5" v-if="selectedPosition">
         <div class="w-50">
           <div
-            class="compose_text compose_add_position text-uppercase fw-bolder d-flex align-items-center  justify-content-between"
-          >
-          <div class="d-flex align-items-center gap-1">
-            <img
-              class="pair_avatars_manage_pool"
-              v-for="(tokenEntity, tokenEntityIndex) in ['BTC', 'ETH']"
-              :key="`token-entity-key-${tokenEntityIndex}`"
-              :title="tokenEntity"
-              :src="getTokenEntity(tokenEntity, 'short').icon"
-            />
-            <span class="liquidity_title">CL-WBTC/WETH</span>
-          </div>
-          <div class="d-flex align-items-center gap-1" style="cursor: pointer;" @click="selectPositionModal = true">
-            CLP #1 <svg width="13" height="8" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M1.61182 1.5L6.61182 6.5L11.6118 1.5" stroke="#FAFAFA" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+            class="compose_text compose_add_position text-uppercase fw-bolder d-flex align-items-center  justify-content-between">
+            <div class="d-flex align-items-center gap-1">
+              <img class="pair_avatars_manage_pool"
+                v-for="(tokenEntity, tokenEntityIndex) in selectPositions[selectedPositionIndex].tokens"
+                :key="`token-entity-key-${tokenEntityIndex}`" :title="tokenEntity"
+                :src="getTokenEntity(tokenEntity, 'short').icon" />
+              <span class="liquidity_title">{{ selectPositions[selectedPositionIndex].name }}</span>
+            </div>
+            <div class="d-flex align-items-center gap-1" style="cursor: pointer;" @click="selectPositionModal = true">
+              {{ selectPositions[selectedPositionIndex].CLP }} <svg width="13" height="8" viewBox="0 0 13 8" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.61182 1.5L6.61182 6.5L11.6118 1.5" stroke="#FAFAFA" stroke-width="1.66667"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
 
-          </div>
+            </div>
           </div>
 
           <div class="concentrated_card">
             <div class="compose_text mb-3">Manage Position</div>
 
             <div class="mb-5">
-              <apexchart
-                type="radialBar"
-                height="350"
-                :options="chartOptions"
-                :series="[52.9, 0]"
-              ></apexchart>
+              <apexchart type="radialBar" height="350" :options="chartOptions" :series="[0, 0]"></apexchart>
               <img :src="grid" style="width: 100%; margin-top: -30px" />
             </div>
 
             <div class="tabs_container">
-              <div
-                class="tabs_button"
-                :class="
-                  liquidityActionTab === 'Add' ? 'tabs_button_selected' : ''
-                "
-                @click="liquidityActionTab = 'Add'"
-              >
+              <div class="tabs_button" :class="liquidityActionTab === 'Add' ? 'tabs_button_selected' : ''
+                " @click="liquidityActionTab = 'Add'">
                 Increase Liquidity
               </div>
-              <div
-                class="tabs_button"
-                :class="
-                  liquidityActionTab === 'Withdraw'
-                    ? 'tabs_button_selected'
-                    : ''
-                "
-                @click="liquidityActionTab = 'Withdraw'"
-              >
+              <div class="tabs_button" :class="liquidityActionTab === 'Withdraw'
+                ? 'tabs_button_selected'
+                : ''
+                " @click="liquidityActionTab = 'Withdraw'">
                 Remove Liquidity
               </div>
             </div>
@@ -93,52 +59,37 @@
                 <div class="d-flex flex-column gap-4 position-relative">
                   <!-- Add liquidity to singe comp on refactor week -->
 
-                  <div
-                    class="d-flex"
-                    style="
+                  <div class="d-flex" style="
                       background: #22222224;
                       box-shadow: 0px 4px 4px 0px #00000040;
 
                       border-radius: 16px;
-                    "
-                  >
+                    ">
                     <div class="balance_container">
-                      <div
-                        class="d-flex flex-column justify-content-around h-100"
-                      >
+                      <div class="d-flex flex-column justify-content-around h-100">
                         <div class="d-flex align-items-center gap-2">
-                          <img
-                            :src="pairToken1.img || pairToken1.logoURI"
-                            width="24"
-                          />
+                          <img :src="pairToken1.img || getTokenEntity(pairToken1.symbol, 'short').icon" width="24" />
 
-                          <h4
-                            style="
+                          <h4 style="
                               font-size: 21px;
                               margin-bottom: 0;
                               color: white;
-                            "
-                          >
+                            ">
                             {{ pairToken1.symbol }}
                           </h4>
                         </div>
                         <div class="balance_text">
                           Balance:
-                          {{ (pairToken1.balance || 0) - depositAmount1 }}
+                          {{ ((pairToken1.balance || 0) - depositAmount1).toFixed(2) }}
                         </div>
                       </div>
-                      <div
-                        class="max_button"
-                        @click="depositAmount1 = pairToken1.balance"
-                      >
+                      <div class="max_button" @click="depositAmount1 = pairToken1.balance">
                         Max
                       </div>
                     </div>
                     <div>
                       <div class="d-flex flex-column gap-2 p-3">
-                        <input
-                          type="number"
-                          style="
+                        <input type="number" style="
                             background: none;
                             border: none;
                             outline: none;
@@ -146,10 +97,7 @@
                             color: #c1c8ce;
                             font-weight: 600;
                             font-size: 20px;
-                          "
-                          v-model="depositAmount1"
-                          @blur="updateDepositAmount2"
-                        />
+                          " v-model="depositAmount1" @blur="updateDepositAmount2" />
                         <div style="color: #858c90; font-size: 12px">
                           ≈${{
                             (depositAmount1 * (pairToken1.price || 0)).toFixed(
@@ -160,52 +108,37 @@
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="d-flex"
-                    style="
+                  <div class="d-flex" style="
                       background: #22222224;
                       box-shadow: 0px 4px 4px 0px #00000040;
 
                       border-radius: 16px;
-                    "
-                  >
+                    ">
                     <div class="balance_container">
-                      <div
-                        class="d-flex flex-column justify-content-around h-100"
-                      >
+                      <div class="d-flex flex-column justify-content-around h-100">
                         <div class="d-flex align-items-center gap-2">
-                          <img
-                            :src="pairToken2.img || pairToken2.logoURI"
-                            width="24"
-                          />
+                          <img :src="pairToken2.img || getTokenEntity(pairToken2.symbol, 'short').icon" width="24" />
 
-                          <h4
-                            style="
+                          <h4 style="
                               font-size: 21px;
                               margin-bottom: 0;
                               color: white;
-                            "
-                          >
+                            ">
                             {{ pairToken2.symbol }}
                           </h4>
                         </div>
                         <div class="balance_text">
                           Balance:
-                          {{ (pairToken2.balance || 0) - depositAmount2 }}
+                          {{ ((pairToken2.balance || 0) - depositAmount2).toFixed(2) }}
                         </div>
                       </div>
-                      <div
-                        class="max_button"
-                        @click="depositAmount2 = pairToken2.balance"
-                      >
+                      <div class="max_button" @click="depositAmount2 = pairToken2.balance">
                         Max
                       </div>
                     </div>
                     <div>
                       <div class="d-flex flex-column gap-2 p-3">
-                        <input
-                          type="number"
-                          style="
+                        <input type="number" style="
                             background: none;
                             border: none;
                             outline: none;
@@ -213,10 +146,7 @@
                             color: #c1c8ce;
                             font-weight: 600;
                             font-size: 20px;
-                          "
-                          v-model="depositAmount2"
-                          @blur="updateDepositAmount1"
-                        />
+                          " v-model="depositAmount2" @blur="updateDepositAmount1" />
                         <div style="color: #858c90; font-size: 12px">
                           ≈${{
                             (depositAmount2 * (pairToken2.price || 0)).toFixed(
@@ -228,88 +158,51 @@
                     </div>
                   </div>
                   <div class="add_liquidity_button">
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clip-path="url(#clip0_1807_18018)">
                         <g clip-path="url(#clip1_1807_18018)">
                           <g clip-path="url(#clip2_1807_18018)">
                             <path
                               d="M6.58 0.000427246C6.42536 0.000427246 6.3 0.125787 6.3 0.280427V6.30043H0.28C0.12536 6.30043 0 6.42579 0 6.58043V7.42043C0 7.57506 0.12536 7.70043 0.28 7.70043H6.3V13.7204C6.3 13.8751 6.42536 14.0004 6.58 14.0004H7.42C7.57463 14.0004 7.7 13.8751 7.7 13.7204V7.70043H13.72C13.8746 7.70043 14 7.57506 14 7.42043V6.58043C14 6.42579 13.8746 6.30043 13.72 6.30043H7.7V0.280427C7.7 0.125787 7.57463 0.000427246 7.42 0.000427246H6.58Z"
-                              fill="#EBEBEC"
-                            />
+                              fill="#EBEBEC" />
                           </g>
                         </g>
                       </g>
                       <defs>
                         <clipPath id="clip0_1807_18018">
-                          <rect
-                            width="14"
-                            height="14"
-                            fill="white"
-                            transform="translate(0 0.000427246)"
-                          />
+                          <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
                         </clipPath>
                         <clipPath id="clip1_1807_18018">
-                          <rect
-                            width="14"
-                            height="14"
-                            fill="white"
-                            transform="translate(0 0.000427246)"
-                          />
+                          <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
                         </clipPath>
                         <clipPath id="clip2_1807_18018">
-                          <rect
-                            width="14"
-                            height="14"
-                            fill="white"
-                            transform="translate(0 0.000427246)"
-                          />
+                          <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
                         </clipPath>
                       </defs>
                     </svg>
                   </div>
                 </div>
               </div>
-              <button :class="'concentrated_button mt-4'">Add liquidity</button>
+              <button :class="'concentrated_button mt-4'" @click="addLiquidityHandler">Add liquidity</button>
             </div>
             <div v-else-if="liquidityActionTab === 'Withdraw'">
               <div class="compose_text fw-light mt-3">Withdraw Liquidity</div>
               <div class="liquidity_slider">
                 <div class="fee_tier_container">
-                  <div
-                    :class="
-                      type.selected
-                        ? 'fee_tier_container_card fee_tier_container_card__selected'
-                        : 'fee_tier_container_card'
-                    "
-                    v-for="(type, i) in withdrawPercents"
-                    :key="`tiers-${i}`"
-                    @click="selectRange(type)"
-                  >
+                  <div :class="type.selected
+                    ? 'fee_tier_container_card fee_tier_container_card__selected'
+                    : 'fee_tier_container_card'
+                    " v-for="(type, i) in withdrawPercents" :key="`tiers-${i}`" @click="selectRange(type)">
                     <div style="color: #858c90">{{ type.name }}%</div>
                   </div>
                 </div>
                 <div class="mt-3 p-2" style="pointer-events: none;">
-                  <Slider
-                    v-model="lineNumberPercent"
-                    :tooltips="false"
-                    :min="0"
-                    :max="100"
-                    :step="1"
-                    :value="80"
-                    lazy="false"
-                    
-                  />
+                  <Slider v-model="lineNumberPercent" :tooltips="false" :min="0" :max="100" :step="1" :value="80"
+                    lazy="false" />
                 </div>
               </div>
               <div class="compose_text fw-light mt-3">Withdraw Tokens</div>
-              <div
-                style="
+              <div style="
                   background: #22222224;
                   border-radius: 16px;
                   box-shadow: 0px 4px 4px 0px #00000040;
@@ -317,49 +210,35 @@
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
-                "
-              >
+                ">
                 <div class="d-flex gap-2 align-items-center">
                   <div>
-                    <img
-                      :src="getTokenEntity('BTC', 'short').icon"
-                      width="40"
-                    />
+                    <img :src="getTokenEntity(pairToken1.symbol, 'short').icon" width="40" />
                   </div>
                   <div class="d-flex flex-column gap-1">
-                    <div style="color: white">WBTC</div>
-                    <div style="color: #a3a3a3">543.63</div>
+                    <div style="color: white">{{ pairToken1.symbol }}</div>
+                    <div style="color: #a3a3a3">{{ ((selectedPosition.amountReadable0 / 100) *
+                      lineNumberPercent).toFixed(2) }}</div>
                   </div>
                 </div>
                 <div>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M19 12.998H13V18.998H11V12.998H5V10.998H11V4.99805H13V10.998H19V12.998Z"
-                      fill="#2ABDFF"
-                    />
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 12.998H13V18.998H11V12.998H5V10.998H11V4.99805H13V10.998H19V12.998Z" fill="#2ABDFF" />
                   </svg>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
                   <div class="d-flex flex-column gap-1">
-                    <div style="color: white">WETH</div>
-                    <div style="color: #a3a3a3">543.63</div>
+                    <div style="color: white">{{ pairToken2.symbol }}</div>
+                    <div style="color: #a3a3a3">{{ ((selectedPosition.amountReadable1 / 100) *
+                      lineNumberPercent).toFixed(2) }}</div>
                   </div>
                   <div>
-                    <img
-                      :src="getTokenEntity('ETH', 'short').icon"
-                      width="40"
-                    />
+                    <img :src="getTokenEntity(pairToken2.symbol, 'short').icon" width="40" />
                   </div>
                 </div>
               </div>
 
-              <button :class="'concentrated_button mt-4'">
+              <button :class="'concentrated_button mt-4'" @click="removeLiquidityHandler">
                 Remove Liquidity
               </button>
             </div>
@@ -367,17 +246,9 @@
         </div>
 
         <div class="w-50">
-          <ChartAndPoolInfo
-            :token0="pairToken1"
-            :token1="pairToken2"
-            :minPriceRange="priceRange1"
-            :maxPriceRange="priceRange2"
-            :price="relativePrice"
-            :concentratedLiquidityStep="concentratedLiquidityStep"
-            :poolInfo="poolInfo"
-            :tvl="poolTvl"
-            :poolApr="poolApr"
-          />
+          <ChartAndPoolInfo :token0="pairToken1" :token1="pairToken2" :minPriceRange="priceRange1"
+            :maxPriceRange="priceRange2" :price="relativePrice" :concentratedLiquidityStep="concentratedLiquidityStep"
+            :poolInfo="selectedPosition.pool" :tvl="poolTvl" :poolApr="poolApr" />
         </div>
       </div>
     </div>
@@ -415,16 +286,22 @@ import {
   MintPosition,
   GetSecondAmount,
   GetPricesAtLimit,
+  RemoveLiquidityFromPosition,
+  fetchPositions,
+  AddLiquidityToPosition
 } from '@/composables/concentrated-liquidity/cl'
 import { getTokenEntity } from '@/lib/helpers/util'
 
 import { CalculateAvgApr } from '@/composables/math/chartMath/trackingInfoMath'
 import { usePool30dProfit } from '@/composables/pools/usePoolSwapsStats'
 import router from '@/router'
+import { InitializeMetamask } from '@/lib/utils/metamask'
 
 const liquidityActionTab = ref('Add')
 const lineNumberPercent = ref(100)
 const selectPositionModal = ref(false)
+
+const positions = ref([])
 
 const withdrawPercents = ref([
   {
@@ -530,31 +407,45 @@ const concentratedLiquidityStep = ref(1)
 const feeTier = ref(0)
 const pairIndex = ref(1)
 
-const pairToken1 = ref({
-  img: not_found,
-  symbol: '',
+
+const selectedPosition = ref(null)
+const additionalInfo1 = ref({})
+const pairToken1 = computed(() => {
+  if (!selectedPosition.value) {
+    return {
+      img: not_found,
+      symbol: '',
+    }
+  }
+  return { ...selectedPosition.value.token0, ...additionalInfo1.value }
+})
+const additionalInfo2 = ref({})
+const pairToken2 = computed(() => {
+  if (!selectedPosition.value) {
+    return {
+      img: not_found,
+      symbol: '',
+    }
+  }
+  return { ...selectedPosition.value.token1, ...additionalInfo2.value }
 })
 
-const pairToken2 = ref({
-  img: not_found,
-  symbol: '',
-})
-const feeAmount = computed(() => FEE_AMOUNTS[feeTier.value])
+const feeAmount = computed(() => selectedPosition.value.pool.fee)
 
 const tokensInitialized = computed(
   () => pairToken1.value.price && pairToken2.value.price,
 )
 
-const convertedPairToken1 = computed(() =>
-  pairToken1.value.symbol != ''
-    ? convertPairToken(pairToken1.value, networkId.value)
-    : null,
-)
-const convertedPairToken2 = computed(() =>
-  pairToken2.value.symbol != ''
-    ? convertPairToken(pairToken2.value, networkId.value)
-    : null,
-)
+// const convertedPairToken1 = computed(() =>
+//   pairToken1.value.symbol != ''
+//     ? convertPairToken(pairToken1.value, networkId.value)
+//     : null,
+// )
+// const convertedPairToken2 = computed(() =>
+//   pairToken2.value.symbol != ''
+//     ? convertPairToken(pairToken2.value, networkId.value)
+//     : null,
+// )
 
 const depositAmount1 = ref(0)
 const depositAmount2 = ref(0)
@@ -565,20 +456,6 @@ const priceRange2 = ref(0)
 const mmProvider = computed(
   () => new ethers.providers.Web3Provider(window.ethereum),
 )
-const ticks = computed(() => {
-  if (convertedPairToken1.value && convertedPairToken2.value) {
-    return parseTicks(
-      convertedPairToken1.value,
-      convertedPairToken2.value,
-      priceRange1.value,
-      priceRange2.value,
-      feeAmount.value,
-    )
-  }
-  return null
-})
-const tickLower = computed(() => (ticks.value ? ticks.value.tickLower : 0))
-const tickUpper = computed(() => (ticks.value ? ticks.value.tickUpper : 0))
 
 const range_types = ref([
   {
@@ -629,88 +506,20 @@ function selectRange(rng) {
 }
 
 const notSelectedPossibleComposeTokens = ref([])
-// function tokenSelectModalOpen(index) {
-//   pairIndex.value = index
-//   tokenSelectModal.value = !tokenSelectModal.value
-// }
 
-function updateToken(token, index) {
-  if (index == 1) {
-    pairToken1.value = token
-  }
-  if (index == 2) {
-    pairToken2.value = token
-  }
-}
 
-async function updateTokenInfo(token) {
+
+async function getTokenAdditionalInfo(token) {
+  let user = await mmProvider.value.getSigner().getAddress()
   if (!mmProvider.value) {
     console.error('connect mm first')
     return
   }
   let price = await GetTokenPriceUsd(token.value.symbol)
-  let user = await mmProvider.value.getSigner().getAddress()
   let balance = await useBalance(token.value.address, mmProvider.value, user)
-  token.value.price = price
-  token.value.balance = balance
-  if (pairToken1.value.price && pairToken2.value.price) {
-    priceRange1.value = relativePrice.value - (relativePrice.value / 100) * 5 // -5% difference
-    priceRange2.value = relativePrice.value + (relativePrice.value / 100) * 5 // +5% difference
-    adjustTokenPrices()
-    poolInfo.value = await getPoolInfo(
-      mmProvider.value,
-      convertedPairToken1.value,
-      convertedPairToken2.value,
-      feeAmount.value,
-    )
-    console.log('POOL INFO - ', poolInfo.value)
-  }
+  return { balance, price }
 }
 
-function incrementPriceRange(lower = true) {
-  if (poolInfo.value) {
-    adjustTokenPrices()
-    if (lower) {
-      priceRange1.value = getIncrementLower(
-        tickLower.value,
-        poolInfo.value,
-        convertedPairToken1.value,
-        convertedPairToken2.value,
-        feeAmount.value,
-      )
-    } else {
-      priceRange2.value = getIncrementUpper(
-        tickUpper.value,
-        poolInfo.value,
-        convertedPairToken1.value,
-        convertedPairToken2.value,
-        feeAmount.value,
-      )
-    }
-  }
-}
-function decrementPriceRange(lower = true) {
-  if (poolInfo.value) {
-    adjustTokenPrices()
-    if (lower) {
-      priceRange1.value = getDecrementLower(
-        tickLower.value,
-        poolInfo.value,
-        convertedPairToken1.value,
-        convertedPairToken2.value,
-        feeAmount.value,
-      )
-    } else {
-      priceRange2.value = getDecrementUpper(
-        tickUpper.value,
-        poolInfo.value,
-        convertedPairToken1.value,
-        convertedPairToken2.value,
-        feeAmount.value,
-      )
-    }
-  }
-}
 
 const poolInfo = ref(null)
 const poolTvl = ref(0)
@@ -739,94 +548,14 @@ const poolApr = computed(() => {
   )
 })
 
-function adjustTokenPrices() {
-  if (pairToken1.value.price && pairToken2.value.price) {
-    let newPrices = adjustPrices(
-      convertedPairToken1.value,
-      convertedPairToken2.value,
-      priceRange1.value,
-      priceRange2.value,
-      feeAmount.value,
-    )
-    console.log(
-      'NEW PRICES - ',
-      newPrices.priceLower.toSignificant(8),
-      newPrices.priceUpper.toSignificant(8),
-    )
-    priceRange1.value = newPrices.priceLower.toSignificant(8)
-    priceRange2.value = newPrices.priceUpper.toSignificant(8)
+
+
+
+watch((selectedPosition), async () => {
+  if (selectedPosition.value) {
+    additionalInfo1.value = await getTokenAdditionalInfo(pairToken1)
+    additionalInfo2.value = await getTokenAdditionalInfo(pairToken2)
   }
-}
-
-async function mintPosition() {
-  try {
-    if (!mmProvider.value) {
-      console.error('Connect MM first')
-      return
-    }
-    let signer = mmProvider.value.getSigner()
-    await MintPosition(
-      signer,
-      convertedPairToken1.value,
-      convertedPairToken2.value,
-      feeAmount.value,
-      depositAmount1.value,
-      depositAmount2.value,
-      priceRange1.value,
-      priceRange2.value,
-    )
-    concentratedLiquidityStep.value = 3
-  } catch (e) {
-    console.error('[MINT ERROR] Error happened during position minting')
-  }
-}
-
-function updateDepositAmount2() {
-  if (fullRangeSelected.value) return
-  let newAmount = GetSecondAmount(
-    poolInfo.value,
-    convertedPairToken1.value,
-    convertedPairToken2.value,
-    priceRange1.value,
-    priceRange2.value,
-    depositAmount1.value,
-    depositAmount2.value,
-    feeAmount.value,
-    true,
-  )
-  depositAmount2.value = newAmount
-}
-
-function updateDepositAmount1() {
-  if (fullRangeSelected.value) return
-  let newAmount = GetSecondAmount(
-    poolInfo.value,
-    convertedPairToken1.value,
-    convertedPairToken2.value,
-    priceRange1.value,
-    priceRange2.value,
-    depositAmount1.value,
-    depositAmount2.value,
-    feeAmount.value,
-    false,
-  )
-  depositAmount1.value = newAmount
-}
-
-watch(pairToken1, async () => {
-  await updateTokenInfo(pairToken1)
-})
-watch(pairToken2, async () => {
-  await updateTokenInfo(pairToken2)
-})
-
-watch(feeAmount, async () => {
-  poolInfo.value = await getPoolInfo(
-    mmProvider.value,
-    convertedPairToken1.value,
-    convertedPairToken2.value,
-    feeAmount.value,
-  )
 })
 
 watch(poolInfo, async () => {
@@ -839,13 +568,37 @@ watch(poolInfo, async () => {
 })
 
 onMounted(async () => {
+
   trades.value = await fetchDataAndMerge()
   console.log(networkId.value)
-  notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(
-    networkId.value,
-  )
-  console.log(notSelectedPossibleComposeTokens.value)
+
 })
+
+
+const selectedPositionIndex = computed((item) => positions.value.indexOf(selectedPosition.value))
+watch((networkId), async () => {
+  if (networkId.value) {
+    notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(
+      networkId.value,
+    )
+    console.log(notSelectedPossibleComposeTokens.value)
+    let provider = await InitializeMetamask()
+    let signer = provider.getSigner()
+    positions.value = await fetchPositions(signer, notSelectedPossibleComposeTokens.value, networkId.value)
+    if (positions.value.length > 0) {
+      selectedPosition.value = positions.value[0]
+    }
+  }
+})
+
+const selectPositions = computed(() => positions.value.map((item, index) => ({
+  tokens: [item.token0.symbol, item.token1.symbol],
+  name: `CL-${item.token0.symbol}/${item.token1.symbol}`,
+  fee: item.fee / 10000,
+  positionSize: `${parseFloat(item.amountReadable0).toFixed(2)} ${item.token0.symbol} + ${parseFloat(item.amountReadable1).toFixed(2)} ${item.token1.symbol}`,
+  CLP: `CLP #${index + 1}`
+})))
+
 
 
 
@@ -853,23 +606,59 @@ const mountedModal = setInterval(() => {
   const onMountedActivity =
     router.currentRoute.value.params['onMountedActivity']
 
-    console.log('onMountedActivity', onMountedActivity)
-    console.log('router.currentRoute.value', router.currentRoute.value)
+  console.log('onMountedActivity', onMountedActivity)
+  console.log('router.currentRoute.value', router.currentRoute.value)
   if (onMountedActivity == 'deposit') {
-   
+
     liquidityActionTab.value = 'Add'
 
-      clearInterval(mountedModal)
-   
+    clearInterval(mountedModal)
+
   } else if (onMountedActivity == 'withdraw') {
-    
+
     liquidityActionTab.value = 'Withdraw'
-      clearInterval(mountedModal)
-    
+    clearInterval(mountedModal)
+
   } else {
     clearInterval(mountedModal)
   }
 }, 100)
+
+async function addLiquidityHandler() {
+  try {
+    if (!mmProvider.value) {
+      console.error('Connect MM first')
+      return
+    }
+    let signer = mmProvider.value.getSigner()
+    await AddLiquidityToPosition(
+      signer,
+      selectedPosition.value,
+      depositAmount1.value,
+      depositAmount2.value,
+    )
+    concentratedLiquidityStep.value = 3
+  } catch (e) {
+    console.error('[ADD LIQUIDITY ERROR] Error happened during adding liquidity ', e)
+  }
+}
+async function removeLiquidityHandler() {
+  try {
+    if (!mmProvider.value) {
+      console.error('Connect MM first')
+      return
+    }
+    let signer = mmProvider.value.getSigner()
+    await RemoveLiquidityFromPosition(
+      signer,
+      selectedPosition.value,
+      lineNumberPercent.value
+    )
+    concentratedLiquidityStep.value = 3
+  } catch (e) {
+    console.error('[REMOVE LIQUIDITY ERROR] Error happened during removing liquidity ', e)
+  }
+}
 
 </script>
 
@@ -935,12 +724,14 @@ const mountedModal = setInterval(() => {
   gap: 10px;
   align-items: center;
 }
+
 .liquidity_slider {
   border-radius: 16px;
   background: #00000024;
   padding: 16px;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
+
 .fee_tier_container {
   width: 100%;
   display: flex;
@@ -962,6 +753,7 @@ const mountedModal = setInterval(() => {
     border-radius: 10px;
     cursor: pointer;
     border: 1px solid #4f4f4f;
+
     &__selected {
       border: 1px solid #ffffff;
     }
@@ -1122,7 +914,7 @@ const mountedModal = setInterval(() => {
 
 :deep(.apexcharts-radial-series) {
   filter: drop-shadow(0 0 0.35rem #2abdff);
- 
+
 }
 
 .liquidity_title {
