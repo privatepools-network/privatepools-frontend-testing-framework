@@ -1,6 +1,6 @@
 <template>
   <MainCard>
-    <SelectPositionModal :selectPositionModal="selectPositionModal"  />
+    <SelectPositionModal :selectPositionModalState="selectPositionModalState" @ChangeSelectPositionModalState="ChangeSelectPositionModalState" />
 
     <div class="center_container">
       <div class="d-flex justify-content-end w-100 mb-4">
@@ -44,7 +44,7 @@
             />
             <span class="liquidity_title">CL-WBTC/WETH</span>
           </div>
-          <div class="d-flex align-items-center gap-1" style="cursor: pointer;" @click="selectPositionModal = true">
+          <div class="d-flex align-items-center gap-1" style="cursor: pointer;" @click="ChangeSelectPositionModalState">
             CLP #1 <svg width="13" height="8" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M1.61182 1.5L6.61182 6.5L11.6118 1.5" stroke="#FAFAFA" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
@@ -424,7 +424,11 @@ import router from '@/router'
 
 const liquidityActionTab = ref('Add')
 const lineNumberPercent = ref(100)
-const selectPositionModal = ref(false)
+const selectPositionModalState = ref(false)
+
+function ChangeSelectPositionModalState() {
+  selectPositionModalState.value = !selectPositionModalState.value
+}
 
 const withdrawPercents = ref([
   {

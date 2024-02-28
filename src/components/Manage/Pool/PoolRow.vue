@@ -103,7 +103,7 @@
           </div>
         </div>
         {{ console.log('pool!', pool) }}
-        <div v-if="pool['Liquidity'] === '0.00000' || pool['Liquidity'] === '0'" class="liquidity_button_container">
+        <div v-if="pool['Liquidity'] === '0.00000'" class="liquidity_button_container">
           <div class="liquidity_button_text">no liquidity deposited</div>
           <div
             @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })"
@@ -147,7 +147,7 @@
                 </svg>
               </div>
               <div class="actions_button"
-                @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })">
+                @click="pool['LiquidityType'] === 'CL' ? router.push('/pools/concentrated_pool/add/withdraw') : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })">
                 {{pool['LiquidityType'] === 'CL' ? 'Manage Position' : 'Add liquidity'}}
               </div>
             </div>

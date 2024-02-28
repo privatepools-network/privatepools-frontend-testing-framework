@@ -1,5 +1,5 @@
 <template>
-  <CModal alignment="normal" :visible="selectPositionModal">
+  <CModal alignment="normal" :visible="selectPositionModalState">
     <!-- <CModalHeader :close-button="false">
     </CModalHeader> -->
     <CModalBody>
@@ -9,7 +9,7 @@
             class="modal_body_header d-flex justify-content-between align-items-start mb-3"
           >
             <p style="font-size: 20px">Select Position</p>
-            <div class="back_button" @click="selectPositionModal = false">
+            <div class="back_button" @click="selectPositionModalState = false">
               <svg
                 width="22"
                 height="22"
@@ -73,7 +73,7 @@
 <script setup>
 import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
-const props = defineProps(['selectPositionModal'])
+const props = defineProps(['selectPositionModalState'])
 
 const selectedPositionsMock = [
   {
@@ -93,7 +93,7 @@ const selectedPositionsMock = [
 ]
 
 
-const emit = defineEmits(['updateToken'])
+const emit = defineEmits(['ChangeSelectPositionModalState'])
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
