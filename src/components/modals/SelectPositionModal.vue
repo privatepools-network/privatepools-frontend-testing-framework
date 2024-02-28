@@ -7,7 +7,7 @@
         <div>
           <div class="modal_body_header d-flex justify-content-between align-items-start mb-3">
             <p style="font-size: 20px">Select Position</p>
-            <div class="back_button" @click="selectPositionModal = false">
+            <div class="back_button" @click="selectPositionModalState = false">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 6L6 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M6 6L18 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -46,13 +46,13 @@
 <script setup>
 import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
-const props = defineProps(['selectPositionModal', 'positions'])
+const props = defineProps(['selectPositionModalState', 'positions'])
 
 const emit = defineEmits(['updateToken', 'selectPosition'])
 
 function selectPositionHandler(positionIndex) {
   emit('selectPosition', positionIndex)
-  props.selectPositionModal = false;
+  props.selectPositionModalState = false;
 }
 </script>
 <style lang="scss" scoped>

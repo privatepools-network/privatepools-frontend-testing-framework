@@ -1256,14 +1256,17 @@ function getDefaultChainsMapValue() {
   }
 
   &-equivalent {
-    padding: 0px;
-    color: #00C9FF;
+    padding: 2px;
+    background: #22222224;
+
     font-size: clamp(8px, 0.5vw, 12px);
     margin-right: 15px;
     display: flex;
     justify-self: flex-start;
     border-radius: 20px;
-    border: 1px solid #00C9FF;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    color: white;
+
 
     &__el {
       padding: 8px 15px;
@@ -1275,11 +1278,12 @@ function getDefaultChainsMapValue() {
       }
 
       &_active {
-        background: #00C9FF;
+        background: linear-gradient(152.97deg, #002429 0%, #00C9FF 100%);
+
         color: #fff;
 
         &:hover {
-          background: #00C9FF;
+          background: #00c8ff60;
         }
       }
     }

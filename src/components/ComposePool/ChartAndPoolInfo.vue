@@ -47,7 +47,7 @@
     <div v-if="router.currentRoute.value.path === '/pools/concentrated_pool'">
       <div class="compose_text mb-3">Price Range Overview</div>
     </div>
-    <div v-else>
+    <!-- <div v-else>
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="compose_text" style="font-size: 15px">
           Position Overview
@@ -68,7 +68,7 @@
           </svg>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="range_chart_card">
       <div class="d-flex justify-content-center flex-column align-items-center" v-if="!tokensInitialized">
@@ -95,7 +95,7 @@
       </div>
     </div>
 
-    <div v-if="router.currentRoute.value.path === '/pools/concentrated_pool/add'">
+    <div v-if="router.currentRoute.value.path === '/pools/concentrated_pool/add/withdraw' || router.currentRoute.value.path === '/pools/concentrated_pool/add/deposit'" class="mt-3">
       <div class="compose_text mb-3">Position Range</div>
       <div class="position_range_container">
         <div class="d-flex gap-2 align-items-center">

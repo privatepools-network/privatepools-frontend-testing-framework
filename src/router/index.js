@@ -19,6 +19,12 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
       },
+
+      {
+        path: '/general',
+        name: 'General',
+        component: () => import('@/views/General.vue'),
+      },
       {
         path: '/track',
         meta: { isDisabled: true },
@@ -88,6 +94,13 @@ const routes = [
         component: () => import('@/views/manage/Pools/Details.vue'),
         props: true,
       },
+      {
+        path: '/pools/CLdetails/:id/:chainSelected/:onMountedActivity',
+        name: 'Pool CL Details',
+        component: () => import('@/views/manage/Pools/CLDetails.vue'),
+        props: true,
+      },
+
       {
         path: '/pools/:id/:chainSelected/deposit',
         name: 'Pool Deposit',

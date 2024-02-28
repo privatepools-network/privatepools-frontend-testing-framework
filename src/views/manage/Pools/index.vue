@@ -298,7 +298,7 @@
         </div>
         <div v-else-if="pools.length === 0" class="no_results">No results.</div> -->
         <PoolRow v-for="(pool, index) in all_pools" :poolsLength="filterByStatus.length" :perPage="perPage"
-          :key="pool.name" :pool="pool" :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit"
+          :key="pool.name" :pool="pool" :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit"
           @goToCL="goToCL" :isActions="true" />
       </div>
 
@@ -621,7 +621,7 @@ watch(searchBy, (_new) => {
   }
 })
 
-const hidePools = ref(true)
+const hidePools = ref(false)
 
 watch(chainSelected, () => {
   pools.value = FormatAllToDisplay(defaultPools.value, chainSelected.value.name)
@@ -701,6 +701,17 @@ function goToPoolWithdraw(args) {
 function goToPool(args) {
   router.push({
     name: 'Pool Details',
+    params: {
+      // id: filterByStatus.value[args.index].id,
+      id: all_pools.value[args.index].id,
+      onMountedActivity: args.onMountedActivity,
+      chainSelected: DisplayChain[networkId.value],
+    },
+  })
+}
+function goToCLPool(args) {
+  router.push({
+    name: 'Pool CL Details',
     params: {
       // id: filterByStatus.value[args.index].id,
       id: all_pools.value[args.index].id,
