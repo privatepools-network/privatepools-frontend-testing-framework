@@ -5,32 +5,12 @@
     <CModalBody>
       <div class="modal_body_inside">
         <div>
-          <div
-            class="modal_body_header d-flex justify-content-between align-items-start mb-3"
-          >
+          <div class="modal_body_header d-flex justify-content-between align-items-start mb-3">
             <p style="font-size: 20px">Select Position</p>
-            <div class="back_button" @click="selectPositionModalState = false">
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M18 6L6 18"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M6 6L18 18"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+            <div class="back_button" @click="selectPositionModal = false">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M6 6L18 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </div>
           </div>
@@ -39,29 +19,22 @@
             <div style="color: white; font-size: 14px">Your CL Positions</div>
           </div>
           <div class="mt-3 tokens_container">
-            <div
-              v-for="pos, PosIndex in selectedPositionsMock"
-              :key="`tokens-key-${PosIndex}`"
-              class="p-3 gap-3 token_card"
-            >
-            <div class="d-flex align-items-center justify-content-between">
-              <div class="d-flex align-items-center gap-1">
-                <img
-                  class="pair_avatars_manage_pool"
-                  v-for="(tokenEntity, tokenEntityIndex) in pos.tokens"
-                  :key="`token-entity-key-${tokenEntityIndex}`"
-                  :title="tokenEntity"
-                  :src="getTokenEntity(tokenEntity, 'short').icon"
-                />
-                <span class="liquidity_title">{{pos.name}}</span> 
-                <span class="fee_container">{{pos.fee}} Fee</span> 
+            <div v-for="pos, PosIndex in positions" :key="`tokens-key-${PosIndex}`" class="p-3 gap-3 token_card"
+              @click="selectPositionHandler(PosIndex)">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-1">
+                  <img class="pair_avatars_manage_pool" v-for="(tokenEntity, tokenEntityIndex) in pos.tokens"
+                    :key="`token-entity-key-${tokenEntityIndex}`" :title="tokenEntity"
+                    :src="getTokenEntity(tokenEntity, 'short').icon" />
+                  <span class="liquidity_title">{{ pos.name }}</span>
+                  <span class="fee_container">{{ pos.fee }} Fee</span>
+                </div>
+                <div>{{ pos.CLP }}</div>
               </div>
-              <div>{{pos.CLP}}</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between">
-              <div>Position Size</div>
-              <div>{{ pos.positionSize }}</div>
-            </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>Position Size</div>
+                <div>{{ pos.positionSize }}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -73,44 +46,34 @@
 <script setup>
 import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
-const props = defineProps(['selectPositionModalState'])
+const props = defineProps(['selectPositionModal', 'positions'])
 
-const selectedPositionsMock = [
-  {
-    tokens: ["BTC", "ETH"],
-    name: 'CL-BTC/ETH',
-    fee: '0.005%',
-    positionSize: '7739.87 BTC + 7723.32 ETH',
-    CLP: 'CLP #1'
-  },
-  {
-    tokens: ["BTC", "ETH"],
-    name: 'CL-BTC/ETH',
-    fee: '0.005%',
-    positionSize: '1.87 BTC + 2.32 ETH',
-    CLP: 'CLP #2'
-  },
-]
+const emit = defineEmits(['updateToken', 'selectPosition'])
 
-
-const emit = defineEmits(['ChangeSelectPositionModalState'])
+function selectPositionHandler(positionIndex) {
+  emit('selectPosition', positionIndex)
+  props.selectPositionModal = false;
+}
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
+
 .pair_avatars_manage_pool {
   width: 18px;
   margin-right: -2px;
 }
+
 .fee_container {
-  background: #191919; padding: 2px;
+  background: #191919;
+  padding: 2px;
   border-radius: 16px;
   font-family: Poppins;
-font-size: 10px;
-font-weight: 600;
-line-height: 16px;
-color: white;
-text-align: center;
-box-shadow: 0px 4px 4px 0px #00000040;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 16px;
+  color: white;
+  text-align: center;
+  box-shadow: 0px 4px 4px 0px #00000040;
 
 }
 
@@ -289,6 +252,7 @@ box-shadow: 0px 4px 4px 0px #00000040;
   color: white;
   font-size: clamp(12px, 0.8vw, 14px);
 }
+
 .token_card:hover {
   cursor: pointer;
   // background: rgba(152, 161, 192, 0.08);
@@ -298,7 +262,7 @@ box-shadow: 0px 4px 4px 0px #00000040;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap:15px;
+  gap: 15px;
 }
 
 .tokens_container::-webkit-scrollbar-track {
