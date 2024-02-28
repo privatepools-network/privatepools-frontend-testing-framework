@@ -1,61 +1,39 @@
 <template>
   <MainCard>
-    <div class="mb-4 d-flex" style="justify-content:space-between;">
-      <ChainSelector @updateChain="(newChain) => (chainSelected = newChain)" />
-      <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" />
+    <div style="color: white; font-size: 20px; font-weight: 700" class="my-3">
+      Private Pools Analytics
     </div>
+    <!-- <GeneralAnalyticsChart @changeToDepositView="changeToDepositView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices" :pool="pool"
+        :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="chartData"
+        :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected" /> -->
     <div class="track_info_container">
-      {{ console.log('chainSelected', chainSelected) }}
-      <ArbitrageBotCard :currencySelected="currencySelected" :chainSelected="chainSelected"
-        :allTableData="allPoolsTableData" :tokensData="tokensData" :poolSwapsData="poolSwapsData" />
-      <TrackingInfoChart :historicalPrices="historicalPrices" :chartData="chartData" :chainSelected="chainSelected"
-        :tokensData="tokensData" :symbol="currencySymbol" />
+      <GeneralBotCard
+        :currencySelected="currencySelected"
+        :chainSelected="chainSelected"
+        :allTableData="allPoolsTableData"
+        :tokensData="tokensData"
+        :poolSwapsData="poolSwapsData"
+      />
+      <TrackingInfoChart
+        :historicalPrices="historicalPrices"
+        :chartData="chartData"
+        :chainSelected="chainSelected"
+        :tokensData="tokensData"
+        :symbol="currencySymbol"
+      />
     </div>
-    <div class="mt-5 mb-5">
-      <div class="mt-4 mb-4 d-inline-block">
-        <!-- <CButtonGroup role="group" aria-label="Basic checkbox toggle button group">
-        <CFormCheck type="radio" :button="{ color: 'success', variant: 'outline' }" name="TrackInfoTabs" id="D3_Pools_btn"
-          autocomplete="off" label="D3 Pools" :checked="trackingInfoTab === 'D3 Pools'"
-          @click="trackingInfoTab = 'D3 Pools'" />
-        <CFormCheck type="radio" :button="{ color: 'success', variant: 'outline' }" name="TrackInfoTabs"
-          id="Financial_Statement_btn" autocomplete="off" label="Financial Statement"
-          :checked="trackingInfoTab === 'Financial Statement'" @click="trackingInfoTab = 'Financial Statement'" />
-        <CFormCheck type="radio" :button="{ color: 'success', variant: 'outline' }" name="TrackInfoTabs"
-          id="Statistics_btn" autocomplete="off" label="Statistics" :checked="trackingInfoTab === 'Statistics'"
-          @click="trackingInfoTab = 'Statistics'" />
-      </CButtonGroup> -->
-        <Tabs :selectedTab="trackingInfoTab" :tabsOptions="['D3 Pools', 'Financial Statement', 'Statistics']"
-          @changeTab="changeTrackingInfoTab" />
-      </div>
-      <div v-if="trackingInfoTab === 'D3 Pools'">
 
-
-        <TrackingInfoTable :allTokensTableData="allTokensTableData" :allPoolsTableData="allPoolsTableData"
-          :allPairsTableData="allPairsTableData" :chainSelected="chainSelected" :currencyDecimals="currencyDecimals"
-          :currency="currency" :symbol="currencySymbol" />
-      </div>
-      <div v-if="trackingInfoTab === 'Financial Statement'">
-        <FinancialStatement :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historical_tvl="historical_tvl"
-          :historicalPrices="historicalPrices" :symbol="currencySymbol" :joinExits="joinExits"
-          :activeUsers="activeUsers" />
-      </div>
-      <div style="margin-bottom: 10%;" v-if="trackingInfoTab === 'Statistics'">
-        <TrackingInfoStatistics :symbol="currencySymbol" :historical_tvl="historical_tvl" :tokensData="tokensData"
-          :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :chartData="chartData"
-          :historicalPrices="historicalPrices" :tokenPairs="chainPairs" :joinExits="joinExits" />
-        <!-- <TrackingInfoStatisticsCharts /> -->
-      </div>
+    <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5">
+      Overview
     </div>
   </MainCard>
 </template>
 
 <script setup>
-import TrackingInfoChart from '../../components/TrackInfo/TrackingInfoChart'
-import ArbitrageBotCard from '../../components/TrackInfo/ArbitrageBotCard'
-import TrackingInfoTable from '../../components/TrackInfo/TrackingInfoTable'
-import TrackingInfoStatistics from '../../components/TrackInfo/TrackingInfoStatistics'
-// import TrackingInfoStatisticsCharts from '../../components/TrackInfo/TrackingInfoStatisticsCharts'
-import FinancialStatement from '../../components/TrackInfo/FinancialStatement'
+import GeneralAnalyticsChart from '@/components/PoolsDetails/GeneralAnalyticsChart.vue'
+import MainCard from '../UI/MainCard.vue'
+import GeneralBotCard from '@/components/General/GeneralBotCard.vue';
+import TrackingInfoChart from '@/components/TrackInfo/TrackingInfoChart.vue';
 import { ref, onBeforeMount, watch, computed } from 'vue'
 import { Network, DisplayNetwork } from '@/composables/useNetwork'
 import { FormatAllPoolForTrackingPage } from '@/lib/formatter/poolsFormatter'
@@ -70,8 +48,6 @@ import { FormatTokenSnapshots } from '@/lib/formatter/tokenSnapshotsFormatter'
 import { FormatAllTokensData } from '@/lib/formatter/trackTokensFormatter'
 import { GetHistoricalTokenPrices } from '@/composables/balances/useHistoricalTokenPrices'
 import { addEmptyDays } from '@/lib/formatter/chart/chartFormatter'
-import MainCard from '@/UI/MainCard.vue'
-import ChainSelector from '@/UI/ChainSelectorV2.vue'
 import Tabs from "@/UI/Tabs.vue";
 import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
@@ -99,7 +75,11 @@ function changeTrackingInfoTab(_new) {
   trackingInfoTab.value = _new
 }
 
-const chainSelected = ref({})
+const chainSelected = ref({
+    "name": "All Chains",
+    "code": "ALL",
+    "img": ""
+})
 const currencySelected = ref({ "symbol": "$", "code": "USD" })
 const currency = computed(() => currencySelected.value.code)
 const currencySymbol = computed(() => currencySelected.value.symbol)
@@ -262,11 +242,11 @@ function formatChartData(formatted_tvl, formatted_token_snapshots, chart_data) {
 async function InitPoolsData(network) {
   return await Promise.all([GetPools(network, null, true, true, currency.value), GetPoolSwapsData(null, network), GetHistoricalTvl(network, null, currency.value), GetTokenPairs(network), GetActiveUsers(network)])
 }
+
+
 </script>
-
-<style scoped lang="scss">
-@import '@/styles/_variables.scss';
-
+<style lang="scss">
+@import '../styles/_variables.scss';
 
 
 .track_info_container {

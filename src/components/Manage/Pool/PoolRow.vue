@@ -88,7 +88,7 @@
             Add {{ lp_name }} LP
           </div>
           <div class="details-el__activity details-el__activity_info"
-            @click="$emit('goToPool', { index, onMountedActivity: 'info' })">
+            @click="pool['LiquidityType'] === 'CL' ? $emit('goToCLPool', { index, onMountedActivity: 'info' }) : $emit('goToPool', { index, onMountedActivity: 'info' })">
             SEE Pool info
             <svg style="margin-left: 5px" width="15" height="15" viewBox="0 0 15 15" fill="none"
               xmlns="http://www.w3.org/2000/svg">
@@ -103,7 +103,7 @@
           </div>
         </div>
         {{ console.log('pool!', pool) }}
-        <div v-if="pool['Liquidity'] === '0.00000' || pool['Liquidity'] === '0'" class="liquidity_button_container">
+        <div v-if="pool['Liquidity'] === '0.00000'" class="liquidity_button_container">
           <div class="liquidity_button_text">no liquidity deposited</div>
           <div
             @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })"
@@ -131,7 +131,7 @@
                {{pool['LiquidityType'] === 'CL' ? 'Number of positions: 2' : '50% AAVE and 50% wstETH' }}
             </div>
             <div class="d-flex align-items-end justify-content-between mt-3">
-              <div style="font-size: 9px; font-weight: 700">
+              <div v-if="pool['LiquidityType'] === 'WP'" style="font-size: 9px; font-weight: 700">
                 APR: {{ pool.APR }}%
                 <svg width="15" height="10" viewBox="0 0 15 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd"
@@ -146,8 +146,14 @@
                   </defs>
                 </svg>
               </div>
+              <div v-else class="d-flex flex-column gap-2">
+                <div style="font-size: 9px; font-weight: 700">~- USD</div>
+                <div style="font-size: 9px; font-weight: 700">
+                  - AAVE - wstETH
+                </div>
+              </div>
               <div class="actions_button"
-                @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })">
+                @click="pool['LiquidityType'] === 'CL' ? router.push('/pools/concentrated_pool/add/withdraw') : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })">
                 {{pool['LiquidityType'] === 'CL' ? 'Manage Position' : 'Add liquidity'}}
               </div>
             </div>

@@ -1,6 +1,6 @@
 <template>
   <MainCard>
-    <SelectPositionModal :selectPositionModal="selectPositionModal" :positions="selectPositions"
+    <SelectPositionModal :selectPositionModalState="selectPositionModalState" :positions="selectPositions"
       @selectPositionHandler="(index) => selectedPosition = positions[index]" />
 
     <div class="center_container">
@@ -23,7 +23,7 @@
                 :src="getTokenEntity(tokenEntity, 'short').icon" />
               <span class="liquidity_title">{{ selectPositions[selectedPositionIndex].name }}</span>
             </div>
-            <div class="d-flex align-items-center gap-1" style="cursor: pointer;" @click="selectPositionModal = true">
+            <div class="d-flex align-items-center gap-1" style="cursor: pointer;" @click="selectPositionModalState = true">
               {{ selectPositions[selectedPositionIndex].CLP }} <svg width="13" height="8" viewBox="0 0 13 8" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.61182 1.5L6.61182 6.5L11.6118 1.5" stroke="#FAFAFA" stroke-width="1.66667"
@@ -299,7 +299,11 @@ import { InitializeMetamask } from '@/lib/utils/metamask'
 
 const liquidityActionTab = ref('Add')
 const lineNumberPercent = ref(100)
-const selectPositionModal = ref(false)
+const selectPositionModalState = ref(false)
+
+function ChangeSelectPositionModalState() {
+  selectPositionModalState.value = !selectPositionModalState.value
+}
 
 const positions = ref([])
 
