@@ -1,7 +1,7 @@
 <template>
   <MainCard>
     <div style="color: white; font-size: 20px; font-weight: 700" class="my-3">
-      Private Pools Analytics
+      Users Analytics
     </div>
     <!-- <GeneralAnalyticsChart @changeToDepositView="changeToDepositView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices" :pool="pool"
         :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="chartData"
@@ -24,23 +24,10 @@
     </div>
 
     <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
-      Overview
+      Top Portfolios
     </div>
-    <GeneralOverview/>
-    <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
-      Top Perfomance Pools
-    </div>
-    <GeneralPerformanceTable/>
-    <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
-      Top Trading Tokens
-    </div>
-    <TopTradingTokensTable/>
-
-
-    <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
-      Private Pools Activity
-    </div>
-    <GeneralPrivatePoolsTable/>
+  
+    <UserAnalyticsPortfoliosTable/>
     
   </MainCard>
 </template>
@@ -64,7 +51,6 @@ import { FormatTokenSnapshots } from '@/lib/formatter/tokenSnapshotsFormatter'
 import { FormatAllTokensData } from '@/lib/formatter/trackTokensFormatter'
 import { GetHistoricalTokenPrices } from '@/composables/balances/useHistoricalTokenPrices'
 import { addEmptyDays } from '@/lib/formatter/chart/chartFormatter'
-import Tabs from "@/UI/Tabs.vue";
 import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
 import { formatSimpleTimestamp } from '@/lib/utils/index'
@@ -72,12 +58,8 @@ import { GetTokenPricesBySymbols } from "@/composables/balances/cryptocompare"
 import {
   convertSwapsCurrency
 } from '@/composables/pools/usePoolSwapsStats'
-import CurrencySelector from '@/UI/CurrencySelector.vue'
 import { GetActiveUsers } from '@/composables/users/useActiveUsers'
-import GeneralOverview from '@/components/General/GeneralOverview.vue';
-import GeneralPrivatePoolsTable from '@/components/General/GeneralPrivatePoolsTable.vue';
-import GeneralPerformanceTable from '@/components/General/GeneralPerformanceTable.vue';
-import TopTradingTokensTable from '@/components/General/TopTradingTokensTable.vue';
+import UserAnalyticsPortfoliosTable from '@/components/General/UserAnalyticsPortfoliosTable.vue';
 
 
 

@@ -26,6 +26,11 @@ const routes = [
         component: () => import('@/views/General.vue'),
       },
       {
+        path: '/user_analytics',
+        name: 'UserAnalytics',
+        component: () => import('@/views/UserAnalytics.vue'),
+      },
+      {
         path: '/track',
         meta: { isDisabled: true },
         name: 'Track',

@@ -1,0 +1,404 @@
+<template>
+  <div>
+    <CRow
+      id="pool-activity-row"
+      class="table-wrapper"
+      style="
+        border-radius: 15.289px;
+        background: #22222224;
+        box-shadow: 0px 4px 4px 0px #00000040;
+        border: 1px solid #ffffff0d;
+      "
+    >
+      <Table
+        :headers="[
+          'Place',
+          'Wallet',
+          'Profit',
+          'Number of Pools',
+          'Traded Volume',
+          'Gas Fees',
+        ]"
+      >
+        <CTableBody v-if="filteredActivities" class="text-white table-body">
+          <CTableRow
+            v-for="(item, i) in filteredActivities"
+            :key="i"
+            class="table-row"
+          >
+            <CTableDataCell scope="row" class="text-white table-cell">
+              <div class="actions-cell">
+                <img
+                  v-if="item['Place'] === 1"
+                  :src="firstPlace"
+                  style="margin-top: -5px"
+                />
+                <img
+                  v-else-if="item['Place'] === 2"
+                  :src="secondPlace"
+                  style="margin-top: -5px"
+                />
+                <img
+                  v-else-if="item['Place'] === 3"
+                  :src="thirdPlace"
+                  style="margin-top: -5px"
+                />
+                <div v-else class="actions-cell__text">
+                  {{ item['Place'] }}
+                </div>
+              </div>
+            </CTableDataCell>
+            <CTableDataCell scope="row" class="text-white table-cell">
+              <div class="d-flex align-items-center gap-2"> 
+                <svg
+                  width="25"
+                  height="25"
+                  viewBox="0 0 25 25"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_423_9463)">
+                    <g clip-path="url(#clip1_423_9463)">
+                      <g clip-path="url(#clip2_423_9463)">
+                        <path
+                          d="M24.1274 0.869629H0.127441V24.8696H24.1274V0.869629Z"
+                          fill="#F93301"
+                        />
+                        <path
+                          d="M1.67249 35.1297L24.0669 26.4969L15.4341 4.10255L-6.9603 12.7353L1.67249 35.1297Z"
+                          fill="#F5B800"
+                        />
+                        <path
+                          d="M-6.73939 -4.9875L-10.5962 18.7005L13.0918 22.5573L16.9486 -1.1307L-6.73939 -4.9875Z"
+                          fill="#03555E"
+                        />
+                        <path
+                          d="M8.74274 -13.241L-15.0269 -16.5626L-18.3485 7.20704L5.42114 10.5286L8.74274 -13.241Z"
+                          fill="#236FE1"
+                        />
+                      </g>
+                    </g>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_423_9463">
+                      <rect
+                        x="0.127441"
+                        y="0.869629"
+                        width="24"
+                        height="24"
+                        rx="12"
+                        fill="white"
+                      />
+                    </clipPath>
+                    <clipPath id="clip1_423_9463">
+                      <rect
+                        width="24"
+                        height="24"
+                        fill="white"
+                        transform="translate(0.127441 0.869629)"
+                      />
+                    </clipPath>
+                    <clipPath id="clip2_423_9463">
+                      <rect
+                        width="24"
+                        height="24"
+                        fill="white"
+                        transform="translate(0.127441 0.869629)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+                {{ item['Wallet'] }}
+              </div>
+            </CTableDataCell>
+            <CTableDataCell scope="row" class="text-success table-cell">
+              <div>
+                {{ item['Profit'] }}
+              </div>
+            </CTableDataCell>
+            <CTableDataCell scope="row" class="text-white table-cell">
+              <div>
+                {{ item['Number of Pools'] }}
+              </div>
+            </CTableDataCell>
+            <CTableDataCell scope="row" class="text-white table-cell">
+              <div>
+                {{ item['Traded Volume'] }}
+              </div>
+            </CTableDataCell>
+            <CTableDataCell scope="row" class="text-danger table-cell">
+              <div>
+                {{ item['GasFees'] }}
+                <span style="padding-left: 30px">
+                  <svg
+                    width="9"
+                    height="15"
+                    viewBox="0 0 9 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_423_9484)">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M1.12744 2.57276C1.17717 2.76609 1.30566 2.90418 1.44256 3.0408C3.0233 4.61847 4.60153 6.19865 6.18319 7.77543C6.25878 7.85081 6.25854 7.88864 6.18307 7.96387C4.60137 9.54056 3.02304 11.1206 1.44218 12.6982C1.30526 12.8349 1.17685 12.973 1.12744 13.1665V13.3774C1.20565 13.6273 1.36871 13.7924 1.61963 13.8696H1.854C2.04556 13.8079 2.18365 13.6739 2.32196 13.5355C4.01199 11.8435 5.70335 10.1528 7.39599 8.46335C7.53706 8.32254 7.67543 8.18308 7.73682 7.98682V7.75244C7.67445 7.55681 7.53762 7.41633 7.39632 7.2753C5.70357 5.58609 4.01224 3.89543 2.32235 2.20336C2.18393 2.06472 2.04521 1.93172 1.854 1.86963H1.61963C1.57395 1.8889 1.52803 1.9076 1.48264 1.9275C1.29035 2.01175 1.19606 2.17633 1.12744 2.36182V2.57276Z"
+                        fill="#ADABAB"
+                        stroke="#ADABAB"
+                        stroke-width="0.2"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_423_9484">
+                        <rect
+                          width="8"
+                          height="14"
+                          fill="white"
+                          transform="translate(0.127441 0.869629)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </span>
+              </div>
+            </CTableDataCell>
+          </CTableRow>
+        </CTableBody>
+        <div v-else style="height: 500px">
+          <LoaderPulse></LoaderPulse>
+        </div>
+      </Table>
+    </CRow>
+    <Pagination
+      :perPage="perPage"
+      :pools="poolActivity"
+      :currentPage="currentPage"
+      @changePage="changePage"
+      @changePerPage="changePerPage"
+      :perPageOptions="[25, 50, 100]"
+    ></Pagination>
+  </div>
+</template>
+<script setup>
+import LoaderPulse from '../loaders/LoaderPulse.vue'
+import Table from '@/UI/Table'
+import { ref } from 'vue'
+import { getTokenEntity } from '@/lib/helpers/util'
+import Pagination from '../Manage/Pool/Pagination.vue'
+import firstPlace from '@/assets/icons/generalIcons/firstPlace.svg'
+import secondPlace from '@/assets/icons/generalIcons/secondPlace.svg'
+import thirdPlace from '@/assets/icons/generalIcons/thirdPlace.svg'
+
+const perPage = ref(25)
+const currentPage = ref(1)
+
+function changePage(args) {
+  if (args.isEquating == false) {
+    currentPage.value = currentPage.value + args.num
+  } else {
+    currentPage.value = args.num
+  }
+}
+
+function changePerPage(v1) {
+  perPage.value = Number(v1)
+  currentPage.value = 1
+}
+const filteredActivities = [
+  {
+    Place: 1,
+    Wallet: '0x73262550fd593b2cc60072fa09159d993b88a71f',
+    Profit: '+$2,744.94',
+    'Number of Pools': '10',
+    'Traded Volume': '$2,744.94',
+    GasFees: '-$2,744.94',
+  },
+  {
+    Place: 2,
+    Wallet: '0x73262550fd593b2cc60072fa09159d993b88a71f',
+    Profit: '+$2,744.94',
+    'Number of Pools': '10',
+    'Traded Volume': '$2,744.94',
+    GasFees: '-$2,744.94',
+  },
+  {
+    Place: 3,
+    Wallet: '0x73262550fd593b2cc60072fa09159d993b88a71f',
+    Profit: '+$2,744.94',
+    'Number of Pools': '10',
+    'Traded Volume': '$2,744.94',
+    GasFees: '-$2,744.94',
+  },
+  {
+    Place: 4,
+    Wallet: '0x73262550fd593b2cc60072fa09159d993b88a71f',
+    Profit: '+$2,744.94',
+    'Number of Pools': '10',
+    'Traded Volume': '$2,744.94',
+    GasFees: '-$2,744.94',
+  },
+  {
+    Place: 5,
+    Wallet: '0x73262550fd593b2cc60072fa09159d993b88a71f',
+    Profit: '+$2,744.94',
+    'Number of Pools': '10',
+    'Traded Volume': '$2,744.94',
+    GasFees: '-$2,744.94',
+  },
+]
+</script>
+<style lang="scss" scoped>
+@import '@/styles/_variables.scss';
+
+@mixin cells-widths {
+  width: 150px;
+
+  @media (max-width: $xxl) {
+    width: 100px;
+  }
+
+  &:nth-child(1) {
+    width: 200px;
+
+    @media (max-width: $xxl) {
+      width: 130px;
+    }
+  }
+
+  &:nth-child(2) {
+    width: 600px;
+
+    @media (max-width: $xxl) {
+      width: 300px;
+    }
+  }
+}
+:deep(.table-header-font-folder) {
+  text-align: left !important;
+  @include cells-widths;
+}
+.table {
+  &__header {
+    display: flex;
+    margin-bottom: 18px;
+  }
+
+  &-body {
+    display: block;
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+      background-color: #02120a;
+      border-radius: 50px;
+      margin-bottom: 10px;
+    }
+
+    &::-webkit-scrollbar {
+      width: 8px !important;
+      height: 8px !important;
+      background: #02120a;
+      border-radius: 50px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border: 2px solid #02120a;
+      background: #00c9ff;
+      border-radius: 21px;
+    }
+  }
+
+  &-wrapper {
+    padding: 0;
+    border-radius: 20px;
+    outline: 0.5px solid rgba(163, 164, 165, 0.2196078431);
+    background: transparent;
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 30px;
+  }
+
+  &-row {
+    border-color: transparent;
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    // background: #22222224;
+    // box-shadow: 0px 4px 4px 0px #00000040;
+  }
+
+  &-cell {
+    padding: 24px 0 24px 10px !important;
+    width: fit-content;
+    font-weight: 400;
+    white-space: nowrap;
+    font-size: 14px;
+    overflow: visible;
+    @include cells-widths;
+
+    @media (max-width: $xxl) {
+      font-size: 10px;
+      padding: 16px 0 12px 10px !important;
+    }
+
+    &:first-child {
+      padding: 24px 0 24px 45px !important;
+      text-align: left;
+
+      @media (max-width: $xxl) {
+        padding: 12px 0 12px 15px !important;
+      }
+    }
+
+    &:last-child {
+      padding: 24px 10px 24px 10px !important;
+
+      @media (max-width: $xxl) {
+        padding: 16px 0 12px 10px !important;
+      }
+    }
+  }
+}
+
+.actions-cell {
+  display: flex;
+  align-items: center;
+
+  &__text {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    letter-spacing: 0em;
+    color: #ffffff;
+    margin-left: 12px;
+
+    @media (max-width: $xxl) {
+      font-size: 12px;
+    }
+  }
+}
+
+.details-cell {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__token-entity {
+    display: flex;
+
+    &:not(:last-child) {
+      margin-right: 12px;
+    }
+
+    &__icon {
+      height: 20px;
+      width: 20px;
+      margin-right: 8px;
+
+      @media (max-width: $xxl) {
+        margin-right: 4px;
+      }
+    }
+  }
+}
+</style>
