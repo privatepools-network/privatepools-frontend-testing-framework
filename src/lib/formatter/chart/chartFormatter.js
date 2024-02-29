@@ -11,6 +11,7 @@ import { formatSimpleTimestamp } from '@/lib/utils'
  * @returns {TrackingInfoChartItem[]} chart data with added data for missing days in between
  */
 export function addEmptyDays(chart_data) {
+  if (chart_data.length == 0) return []
   let ts = chart_data[0].timestamp
   let last_ts = Date.now()
   let last_index = 1
@@ -30,7 +31,7 @@ export function addEmptyDays(chart_data) {
         timestamp: ts,
         Profits: 0,
         Revenue: 0,
-        'Token Profits': {...empty_token_profits},
+        'Token Profits': { ...empty_token_profits },
         Assets: { ...chart_data[last_index - 1].Assets },
         'Gas Fees': 0,
         Volume: 0,

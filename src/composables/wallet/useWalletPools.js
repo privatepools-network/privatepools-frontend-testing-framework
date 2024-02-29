@@ -9,7 +9,11 @@ import { UNISWAP_SUBGRAPHS } from '../concentrated-liquidity/constants'
 import { GetHistoricalTvl } from '@/composables/pools/snapshots/usePoolHistoricalTvl'
 import { addAPRInfo } from '@/lib/formatter/poolsFormatter'
 
-export async function useWalletPools(address, networkId) {
+export async function useWalletPools(
+  address,
+  networkId,
+  includeStatsInfo = true,
+) {
   // DELETE
   // address = '0x759ee62a73a8a0690a0e20fc489d3f462b4385c0'
   let data = await useGraphQLQuery(
@@ -29,20 +33,26 @@ export async function useWalletPools(address, networkId) {
     user_pools = user_pools.length > 0 ? user_pools : null
     let [token_prices, historical_tvl, swaps_data, pools] = await Promise.all([
       GetTokenPricesBySymbols(token_symbols),
-      GetHistoricalTvl(networkId, null, 'USD', user_pools),
-      GetPoolSwapsData(null, networkId),
+      includeStatsInfo
+        ? GetHistoricalTvl(networkId, null, 'USD', user_pools)
+        : new Promise(() => null),
+      includeStatsInfo
+        ? GetPoolSwapsData(null, networkId)
+        : new Promise(() => null),
       GetPools(networkId, null, true, true, 'USD', user_pools),
     ])
     if (!pools) return []
     pools = pools.map((pool) => ({
       ...pool,
-      ...addAPRInfo(
-        historical_tvl.filter((item) => item.pool.id == pool.id),
-        swaps_data.filter(
-          (item) => item.swaps[0].poolIdVault[0],
-          DisplayNetwork[networkId],
-        ),
-      ),
+      ...(includeStatsInfo
+        ? addAPRInfo(
+            historical_tvl.filter((item) => item.pool.id == pool.id),
+            swaps_data.filter(
+              (item) => item.swaps[0].poolIdVault[0],
+              DisplayNetwork[networkId],
+            ),
+          )
+        : {}),
     }))
     let cl_pools = formatCLPools(data['positions'], token_prices)
     console.log('WALLET POOLS PARSED')

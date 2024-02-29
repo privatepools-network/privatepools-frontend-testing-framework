@@ -96,7 +96,11 @@ export async function GetPools(
     if (options && options['id']) {
       pools = pools.filter((p) => p.id == options['id'])
     }
-    return pools.map((p) => ({ ...p, chain: DisplayNetwork[network] }))
+    return pools.map((p) => ({
+      ...p,
+      chain: DisplayNetwork[network],
+      chainId: network,
+    }))
   }
   return []
 }

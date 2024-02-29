@@ -432,11 +432,14 @@ export function FormatAllToDisplay(allData, network) {
       Liquidity: p.TVL,
       APR: p['APR All Time'],
       Profit: p['Profit All Time'],
+      time_created: p.createTime,
       Blockchain: p['Blockchain'],
-      'Pool Weight': [p.tokens.map((token) => ({
-        token: token.symbol,
-        weight: `${token.weight}%`,
-      }))],
+      'Pool Weight': [
+        p.tokens.map((token) => ({
+          token: token.symbol,
+          weight: `${token.weight}%`,
+        })),
+      ],
       LiquidityType: 'WP',
       ROI: '-',
       address: p['address'],

@@ -57,6 +57,7 @@ export const POOL_SUBGRAPH_QUERY = {
   address: true,
   totalLiquidity: true,
   totalShares: true,
+  createTime: true,
   tokens: {
     symbol: true,
     address: true,
@@ -68,7 +69,7 @@ export const POOL_SUBGRAPH_QUERY = {
 export const FILTERED_POOL_SUBGRAPH_QUERY = (ids) =>
   `{pools(where:{id_in:[${ids.map(
     (item) => `"${item}"`,
-  )}]}) {id name address totalLiquidity totalShares tokens{symbol address balance weight }}}`
+  )}]}) {id createTime name address totalLiquidity totalShares tokens{symbol address balance weight }}}`
 
 export const SINGLE_POOL_QUERY = (id) => `
 

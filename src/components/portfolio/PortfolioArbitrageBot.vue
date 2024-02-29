@@ -19,7 +19,7 @@
           <div class="d-flex align-items-center gap-2" style="margin-left: -20px; width: 15px">
             <div>
               <div>
-                <img :src="arrow_up" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
+                <!-- <img :src="arrow_up" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" /> -->
               </div>
             </div>
             <div v-if="!chains_data" class="totals_loader_header">
@@ -30,7 +30,7 @@
             </div>
           </div>
         </div>
-        <CCollapse :visible="visibleTVL">
+        <!-- <CCollapse :visible="visibleTVL">
           <div style="color: rgba(204, 204, 204, 1)">
             <div class="arbitrage_bot_sections_text" style="margin-top: 10px; margin-bottom: 5px">
               Chain Breakdown
@@ -68,7 +68,7 @@
               </div>
             </div>
           </div>
-        </CCollapse>
+        </CCollapse> -->
       </div>
 
       <div class="mb-xxl-4 mb-2">
@@ -439,7 +439,8 @@ const visibleTotalGas = ref(true)
   width: 30%;
   background: #22222224;
   border: 1px solid #FFFFFF0D;
-  box-shadow: 0px 4px 4px 0px #00000040;  border-radius: 20px 0px 0px 20px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  border-radius: 20px 0px 0px 20px;
 }
 
 @media (max-width: $xxl) {
