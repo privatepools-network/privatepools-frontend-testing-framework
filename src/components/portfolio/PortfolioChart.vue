@@ -79,7 +79,7 @@ use([
 ])
 import { Network, DisplayNetwork } from "@/composables/useNetwork"
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
-
+import { networkId } from "@/composables/useNetwork"
 const emit = defineEmits(['updateChart'])
 
 const props = defineProps(['networks_data', 'chainSelected'])
@@ -292,6 +292,10 @@ watch((networks_data), () => {
 watch(chainSelected, () => {
   console.log("HERE")
   InitChartData()
+})
+
+watch((networkId), async () => {
+  await InitChartData()
 })
 
 watch((allChartData), () => {

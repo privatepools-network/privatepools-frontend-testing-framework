@@ -9,7 +9,7 @@
         <div class="portfolio-header" v-if="!visibleNetworkModal">
           <div class="portfolio-header__title">
             <div class="mb-4" style="font-size: 22px; font-weight: 700; color: white;">My Portfolio</div>
-            <span>Current balance</span> 
+            <span>Current balance</span>
             <svg @click="isBalanceHidden = !isBalanceHidden" xmlns="http://www.w3.org/2000/svg" width="14" height="11"
               viewBox="0 0 14 11" fill="none">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -106,8 +106,9 @@
           <PortfolioChart :chart_data="all_chart_data" :networks_data="networks_data" :tokensData="tokensData"
             :chainSelected="chainSelected.name" @updateChart="(chart_data) => all_chart_data = chart_data" />
         </div>
-        <Tabs :filterEye="true" style="margin-bottom: 44px;" :tabsOptions="['Investments', 'Statistics', 'Financial Statement']"
-          :selectedTab="activeTab" @changeTab="changeActiveTab"></Tabs>
+        <Tabs :filterEye="true" style="margin-bottom: 44px;"
+          :tabsOptions="['Investments', 'Statistics', 'Financial Statement']" :selectedTab="activeTab"
+          @changeTab="changeActiveTab"></Tabs>
         <div class="portfolio-statistics" v-if="activeTab == 'Statistics'">
           <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
             :chainSelected="chainSelected" :chartData="all_chart_data" :historicalPrices="historicalPrices"
@@ -614,7 +615,7 @@ watch(networkId, async () => {
   }
   // hardcoded for testing
   //account.value = '0xb51027d05ffbf77b38be6e66978b2c5b6467f615'
-  InitInvestments()
+  await InitInvestments()
   if (isCorrectNetwork.value) {
     if (portfolioActions.value.length == 0)
       await InitPortfolioActions()
@@ -745,17 +746,18 @@ const ChainSelectedIndex = {
   "Binance": 1,
   "Polygon": 2,
 }
-const networks = [Network.ARBITRUM, Network.BINANCE, Network.POLYGON]
+const networks = [process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined, process.env.VUE_APP_KEY_BINANCE ? Network.BINANCE : undefined, process.env.VUE_APP_KEY_POLYGON ? Network.POLYGON : undefined].filter((n) => n != undefined)
 
 const historical_tvl = ref([])
 const poolSwapsData = ref([])
 async function InitInvestments() {
+  console.log("INIT INVESTMENTS")
   pairs.value = null
   pools.value = null
   if (networkId.value == 0) {
     return
   }
-
+  console.log("INIT NETWORKS DATA")
   if (networks_data.value.length == 0) {
     await InitNetworksData()
   }
@@ -763,6 +765,7 @@ async function InitInvestments() {
   pairs.value = []
   historical_tvl.value = []
   poolSwapsData.value = []
+  console.log("NETWORKS DATA - ", networks_data)
   for (let i = 0; i < networks_data.value.length; i++) {
     if (chainSelected.value.name == "All Chains" || ChainSelectedIndex[chainSelected.value.name] == i) {
       let [_user, _poolSwapsData, _historicValues, _historical_tvl, _pairs] = networks_data.value[i]
@@ -792,6 +795,7 @@ async function InitInvestments() {
 console.log("HERE")
 const chainPairs = ref([])
 async function InitNetworksData() {
+  console.log("ACCOUNT - ", account.value)
   let chains_data = await Promise.all(networks.map((n) => InitUserData(account.value.toLowerCase(), n)))
   let result = []
   for (let i = 0; i < chains_data.length; i++) {
@@ -805,7 +809,7 @@ async function InitNetworksData() {
     let filteredPoolSwapsData = _poolSwapsData.filter((item) => item.swaps[0]['poolIdVault'].filter((poolId) => userPoolIds.includes(poolId)).length > 0)
     filteredPoolSwapsData = GetActivePeriodsSwapsData(_historicalBalances, filteredPoolSwapsData)
     let filteredHistoricalTvl = historical_tvl.filter((item) => userPoolIds.includes(item.pool.id))
-    chainPairs.value = [...chainPairs.value, ..._pairs.map((p) => ({ ...p, Blockchain: DisplayNetwork[networks[i]] }))]
+    chainPairs.value = [...chainPairs.value, ..._pairs.tokenPairs.map((p) => ({ ...p, Blockchain: DisplayNetwork[networks[i]] }))]
     result.push([_user, filteredPoolSwapsData, _historicValues, filteredHistoricalTvl, _pairs, _historicalBalances])
   }
   networks_data.value = result
@@ -834,12 +838,10 @@ onMounted(async () => {
     changeVisibleNetworkModal()
   }
   const mmProvider = await InitializeMetamask()
-  account.value = ''
-  if (!mmProvider) return
-
-  if (networkId.value > 0)
+  if (mmProvider) {
     account.value = await mmProvider.getSigner().getAddress()
-
+  }
+  await InitInvestments()
 
 })
 </script>

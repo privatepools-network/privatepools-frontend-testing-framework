@@ -298,8 +298,9 @@
         </div>
         <div v-else-if="pools.length === 0" class="no_results">No results.</div> -->
         <PoolRow v-for="(pool, index) in all_pools" :poolsLength="filterByStatus.length" :perPage="perPage"
-          :key="pool.name" :pool="pool" :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit"
-          @goToCL="goToCL" :isActions="true" />
+          :key="pool.name" :pool="pool" :inactive="isPoolInactive(pool)" :index="index"
+          @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL"
+          :isActions="true" />
       </div>
 
       <!-- <Pagination
@@ -319,7 +320,7 @@
 import { computed, ref, onMounted, watch } from 'vue'
 import router from '@/router'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
-
+import { useRoute } from 'vue-router'
 import { GetPools } from '@/composables/pools/usePools.js'
 import {
   FormatAllPoolForTrackingPage,
@@ -344,6 +345,8 @@ import {
   networkId,
   DisplayChain,
 } from '@/composables/useNetwork'
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import { useWalletPools } from "@/composables/wallet/useWalletPools"
 // import Warning from "@/UI/Warning";
 import { useDevice } from '@/composables/adaptive/useDevice'
 import {
@@ -371,6 +374,8 @@ const headers = [
 
   'Actions',
 ]
+
+const route = useRoute();
 // const periodsHeaders = [
 //   'Revenue',
 //   'Fees',
@@ -387,30 +392,9 @@ const onClickAwayFilters = (event) => {
   moreFiltersDropdownOpen.value = false
 }
 
-const optionsTokens = ref([
-  { name: 'Ether', code: 'WETH', selected: false },
-  { name: 'USDT', code: 'USDT', selected: false },
-  { name: 'WBTC', code: 'BTC', selected: false },
-  {
-    name: 'MATIC',
-    code: 'WMATIC',
-    selected: false,
-  },
-
-  {
-    name: 'WBNB',
-    code: 'WBNB',
-    selected: false,
-  },
-  {
-    name: 'AVAX',
-    code: 'AVAX',
-    selected: false,
-  },
-])
+const optionsTokens = ref([])
 const optionsPoolType = ref([
   { name: 'Weighted', selected: false },
-  { name: 'Stable', selected: false },
   { name: 'CLP', selected: false },
 ])
 const optionsPoolAttribute = ref([
@@ -418,124 +402,7 @@ const optionsPoolAttribute = ref([
 
 ])
 
-const poolsMock = [
-  {
-    id: '0x88e6378567c912e346e22e5de18ab417e5c8d9a3000100000000000000000007',
-    'Pool Name': [['WMATIC', 'WBTC', 'AVAX', 'SOL']],
-    'Pool Weight': [
-      [
-        {
-          token: 'WMATIC',
-          weight: '20%',
-        },
-        {
-          token: 'WBTC',
-          weight: '20%',
-        },
-        {
-          token: 'AVAX',
-          weight: '20%',
-        },
-        {
-          token: 'SOL',
-          weight: '20%',
-        },
-      ],
-    ],
-    Liquidity: 1000,
-    LiquidityType: 'WP',
-    Composition: '1111',
-    ROI: '2.54%',
 
-    Volume: '3840.915',
-    TVL: '52514.92940',
-    APR: '6.410',
-    Blockchain: 'Binance',
-  },
-  {
-    id: '0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24000100000000000000000014',
-    'Pool Name': [['AVAX', 'SOL']],
-    'Pool Weight': [
-      [
-        {
-          token: 'AVAX',
-          weight: '',
-        },
-        {
-          token: 'SOL',
-          weight: '',
-        },
-   
-      ],
-    ],
-    LiquidityType: 'CL',
-    ROI: '2.54%',
-    Liquidity: 1000,
-
-    Volume: '0.000',
-    TVL: '1191.83091',
-    APR: '0.000',
-    Blockchain: 'Binance',
-  },
-  {
-    id: '0x68aba87382af2ec495c5b0694f0a7984988b5fc7000100000000000000000004',
-    'Pool Name': [['WMATIC', 'LINK', 'WETH', 'LDO']],
-    'Pool Weight': [
-      [
-        {
-          token: 'WMATIC',
-          weight: '20%',
-        },
-        {
-          token: 'LINK',
-          weight: '20%',
-        },
-        {
-          token: 'WETH',
-          weight: '20%',
-        },
-        {
-          token: 'LDO',
-          weight: '20%',
-        },
-      ],
-    ],
-    LiquidityType: 'WP',
-    ROI: '2.54%',
-    Liquidity: 0,
-
-    Volume: '0.000',
-    TVL: '1064.64254',
-    APR: '0.000',
-    Blockchain: 'Binance',
-  },
-
-  {
-    id: '0x68aba87382af2ec495c5b0694f0a7984988b5fc7000100000000000000000004',
-    'Pool Name': [['WMATIC', 'LINK']],
-    'Pool Weight': [
-      [
-        {
-          token: 'WMATIC',
-          weight: '',
-        },
-        {
-          token: 'LINK',
-          weight: '',
-        },
-  
-      ],
-    ],
-    LiquidityType: 'CL',
-    ROI: '2.54%',
-    Liquidity: 0,
-
-    Volume: '0.000',
-    TVL: '1064.64254',
-    APR: '0.000',
-    Blockchain: 'Binance',
-  },
-]
 
 const filterOptions = computed(() =>
   headers.map((h) => {
@@ -625,12 +492,18 @@ const hidePools = ref(false)
 
 watch(chainSelected, () => {
   pools.value = FormatAllToDisplay(defaultPools.value, chainSelected.value.name)
-  filterTvl()
 })
 
-watch(hidePools, () => {
-  filterTvl()
+
+
+watch(networkId, async () => {
+  if (networkId.value) {
+    let mmProvider = await InitializeMetamask()
+    let address = await mmProvider.getSigner().getAddress()
+    user_staked_pools.value = await useWalletPools(address, networkId.value, false)
+  }
 })
+
 const poolsData = ref([])
 
 const historicValues = ref([])
@@ -638,6 +511,7 @@ const poolSwapsData = ref([])
 const historicTvl = ref([])
 
 const pools = ref([])
+const user_staked_pools = ref([])
 const poolsNoResult = ref(true)
 const defaultPools = ref([])
 const cl_pools = ref([])
@@ -646,7 +520,6 @@ watch(defaultPools, () => {
   console.log(defaultPools.value)
   pools.value = FormatAllToDisplay(defaultPools.value, chainSelected.value.name)
   console.log("POOLS - ", pools.value)
-  filterTvl()
 })
 
 // const visibleNetworkModal = ref(false)
@@ -733,31 +606,18 @@ function goToCL(args) {
   })
 }
 
-// const optionsTokens = ref([
-//   {name: 'Arbitrum Token', code: 'ARB', img: getTokenEntity("ARB", 'short').icon},
-//   {name: 'GMX Token', code: 'GMX', img: getTokenEntity("GMX", 'short').icon},
-//   {name: 'Ether', code: 'WETH', img: getTokenEntity("WETH", 'short').icon},
-//   {name: 'USD Coin', code: 'USDC', img: getTokenEntity("USDC", 'short').icon},
-//   {name: 'Tether USD', code: 'USDT', img: getTokenEntity("USDT", 'short').icon},
-//   {name: 'Wrapped BTC', code: 'BTC', img: getTokenEntity("WBTC", 'short').icon},
-//   {name: 'Magic', code: 'MAGIC', img: getTokenEntity("MAGIC", 'short').icon},
-//   {name: 'Pendle', code: 'PENDLE', img: getTokenEntity("PENDLE", 'short').icon},
-//   {name: 'RDNT', code: 'RDNT', img: getTokenEntity("RDNT", 'short').icon},
-//   {name: 'Wrapped MATIC', code: 'WMATIC', img: getTokenEntity("MATIC", 'short').icon},
-//   {name: 'Stargate Finance', code: 'STG', img: getTokenEntity("STG", 'short').icon},
-//   {name: 'Wrapped BNB', code: 'WBNB', img: getTokenEntity("WBNB", 'short').icon},
-// ])
 
-function filterTvl() {
-  if (hidePools.value === false) {
-    pools.value = FormatAllToDisplay(
-      defaultPools.value,
-      chainSelected.value.name,
-    )
-  } else if (hidePools.value === true) {
-    pools.value = pools.value.filter((el) => Number(el.TVL) > 1000)
-  }
-}
+
+// function filterTvl() {
+//   if (hidePools.value === false) {
+//     pools.value = FormatAllToDisplay(
+//       defaultPools.value,
+//       chainSelected.value.name,
+//     )
+//   } else if (hidePools.value === true) {
+//     pools.value = pools.value.filter((el) => Number(el.TVL) > 1000)
+//   }
+// }
 
 watch(selectedTokens, () => {
   if (selectedTokens.value.length === 0) {
@@ -823,6 +683,7 @@ onMounted(async () => {
     id: item.id,
     'Pool Name': [[item.token0.symbol, item.token1.symbol]],
     'Pool Weight': [[{ token: item.token0.symbol, weight: '50%' }, { token: item.token1.symbol, weight: '50%' }]],
+    time_created: item.createdAtTimestamp,
     LiquidityType: "CL",
     ROI: "-",
     Liquidity: item.totalValueLockedUSD,
@@ -831,7 +692,11 @@ onMounted(async () => {
     APR: '0',
     Blockchain: "Binance",
   }))
-  console.log("CL POOLS - ", cl_pools)
+  console.log("CL POOLS - ", cl_pools.value)
+  let wp_symbols = _defaultPools.map((item) => item.tokens.map((item) => item.symbol)).flat()
+  let cl_symbols = cl_pools.value.map((item) => item['Pool Name'][0]).flat()
+  let all_token_symbols = Array.from(new Set(wp_symbols.concat(cl_symbols)))
+  optionsTokens.value = all_token_symbols.map((item) => ({ code: item, name: item, selected: item == route.query.token }))
   if (window.ethereum !== undefined && networkId.value > 0) {
     let provider = new ethers.providers.Web3Provider(window.ethereum)
     networksSupported.value = await provider.getNetwork()
@@ -883,7 +748,32 @@ onMounted(async () => {
 //   )
 // }
 
-const all_pools = computed(() => pools.value.concat(cl_pools.value))
+const all_pools = computed(() => {
+  let result = []
+  let nonSelected = !optionsPoolType.value[0].selected && !optionsPoolType.value[1].selected
+  if (nonSelected || optionsPoolType.value[0].selected) {
+    result.push(...pools.value)
+  }
+  if (nonSelected || optionsPoolType.value[1].selected) {
+    result.push(...cl_pools.value)
+  }
+  if (hidePools.value) {
+    let user_pools_ids = user_staked_pools.value.map((item) => item.id)
+    console.log("USER POOL IDS", user_pools_ids)
+    result = result.filter((item) => user_pools_ids.includes(item.id))
+  }
+  if (optionsPoolAttribute.value[0].selected) {
+    let now = Date.now() / 1000
+    result = result.filter((item) => item.time_created >= now - 60 * 60 * 24 * 30)
+  }
+  let selectedTokens = optionsTokens.value.filter((item) => item.selected).map((item) => item.code)
+  if (selectedTokens.length > 0) {
+    console.log("OPTIONS TOKENS - ", optionsTokens.value)
+    result = result.filter((item) => (item['Pool Name'][0]).filter((token) => selectedTokens.includes(token)).length > 0)
+  }
+
+  return result.toSorted((a, b) => b.TVL - a.TVL)
+})
 
 function onDatatableHeaderClick(caption) {
   let availableFilterHeaders = [
