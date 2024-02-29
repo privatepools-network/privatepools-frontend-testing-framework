@@ -13,19 +13,27 @@
           Pools
         </div>
         <Dropdown :distance="6">
-          <div :class="router.currentRoute.value.path === '/general'
+          <div :class="router.currentRoute.value.path === '/general' || router.currentRoute.value.path === '/user_analytics'
             ? 'navigation_text_selected navigation_text'
             : 'navigation_text'
             ">
             Analytics
           </div>
           <template #popper>
+            <div class="header__popup" style="width: 100px;">
             <div @click="router.push('/general')" :class="router.currentRoute.value.path === '/general'
               ? 'navigation_text_selected navigation_text'
               : 'navigation_text'
               ">
               General
             </div>
+            <div @click="router.push('/user_analytics')" :class="router.currentRoute.value.path === '/user_analytics'
+              ? 'navigation_text_selected navigation_text'
+              : 'navigation_text'
+              ">
+              User
+            </div>
+          </div>
           </template>
         </Dropdown>
 

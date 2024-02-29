@@ -297,6 +297,8 @@
           <LoaderPulse />
         </div>
         <div v-else-if="pools.length === 0" class="no_results">No results.</div> -->
+        {{ console.log('all_pools', all_pools) }}
+        {{ console.log('filterByStatus', filterByStatus) }}
         <PoolRow v-for="(pool, index) in all_pools" :poolsLength="filterByStatus.length" :perPage="perPage"
           :key="pool.name" :pool="pool" :inactive="isPoolInactive(pool)" :index="index"
           @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL"

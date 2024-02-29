@@ -1090,6 +1090,7 @@ onMounted(async () => {
 
     &__icon
       margin-right: 4px
+      height: 20px
 
     &__title
       color: #E1E1E1

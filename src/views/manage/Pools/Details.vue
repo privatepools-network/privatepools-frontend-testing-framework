@@ -638,6 +638,7 @@ box-shadow: 0px 4px 4px 0px #00000040;
 border: 1px solid #FFFFFF0D;">
         <Table :headers="['Actions', 'Details', 'Value', 'Time']">
           <CTableBody v-if="pool && poolActivity" class="text-white table-body">
+            {{ console.log('filteredActivities', filteredActivities) }}
             <CTableRow v-for="(item, i) in filteredActivities" :key="i" class="table-row">
               <CTableDataCell scope="row" class="text-white table-cell">
                 <div class="actions-cell">
