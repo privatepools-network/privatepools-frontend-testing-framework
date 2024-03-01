@@ -7,41 +7,31 @@
         :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="chartData"
         :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected" /> -->
     <div class="track_info_container">
-      <GeneralBotCard
-        :currencySelected="currencySelected"
-        :chainSelected="chainSelected"
-        :allTableData="allPoolsTableData"
-        :tokensData="tokensData"
-        :poolSwapsData="poolSwapsData"
-      />
-      <TrackingInfoChart
-        :historicalPrices="historicalPrices"
-        :chartData="chartData"
-        :chainSelected="chainSelected"
-        :tokensData="tokensData"
-        :symbol="currencySymbol"
-      />
+      <GeneralBotCard :currencySelected="currencySelected" :chainSelected="chainSelected"
+        :allTableData="allPoolsTableData" :tokensData="tokensData" :poolSwapsData="poolSwapsData" />
+      <TrackingInfoChart :historicalPrices="historicalPrices" :chartData="chartData" :chainSelected="chainSelected"
+        :tokensData="tokensData" :symbol="currencySymbol" />
     </div>
 
     <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
       Overview
     </div>
-    <GeneralOverview/>
+    <GeneralOverview />
     <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
       Top Perfomance Pools
     </div>
-    <GeneralPerformanceTable/>
+    <GeneralPerformanceTable />
     <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
       Top Trading Tokens
     </div>
-    <TopTradingTokensTable/>
+    <TopTradingTokensTable />
 
 
     <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
       Private Pools Activity
     </div>
-    <GeneralPrivatePoolsTable/>
-    
+    <GeneralPrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" />
+
   </MainCard>
 </template>
 
@@ -50,7 +40,7 @@ import GeneralAnalyticsChart from '@/components/PoolsDetails/GeneralAnalyticsCha
 import MainCard from '../UI/MainCard.vue'
 import GeneralBotCard from '@/components/General/GeneralBotCard.vue';
 import TrackingInfoChart from '@/components/TrackInfo/TrackingInfoChart.vue';
-import { ref, onBeforeMount, watch, computed } from 'vue'
+import { ref, onBeforeMount, watch, computed, onMounted } from 'vue'
 import { Network, DisplayNetwork } from '@/composables/useNetwork'
 import { FormatAllPoolForTrackingPage } from '@/lib/formatter/poolsFormatter'
 import { FormatAllPairsData } from '@/lib/formatter/trackPairsFormatter'
@@ -78,7 +68,7 @@ import GeneralOverview from '@/components/General/GeneralOverview.vue';
 import GeneralPrivatePoolsTable from '@/components/General/GeneralPrivatePoolsTable.vue';
 import GeneralPerformanceTable from '@/components/General/GeneralPerformanceTable.vue';
 import TopTradingTokensTable from '@/components/General/TopTradingTokensTable.vue';
-
+import { GetUniswapActivity } from "@/composables/concentrated-liquidity/useUniswapActivity"
 
 
 const allPoolsTableData = ref([])
@@ -91,13 +81,14 @@ const allTokensTableData = ref([])
 const poolSwapsData = ref([])
 const chainPairs = ref([])
 const joinExits = ref([])
+const clActivity = ref([])
 const activeUsers = ref([])
 
 
 const chainSelected = ref({
-    "name": "All Chains",
-    "code": "ALL",
-    "img": ""
+  "name": "All Chains",
+  "code": "ALL",
+  "img": ""
 })
 const currencySelected = ref({ "symbol": "$", "code": "USD" })
 const currency = computed(() => currencySelected.value.code)
@@ -128,14 +119,26 @@ async function Init() {
   let data = await Promise.all(networks.map(n => InitPoolsData(n)))
 
   let poolsData = data.map(d => d[0])
+
   joinExits.value = networks
     .map((n, i) =>
       data[i][4].joinExtis.map((join) => ({
         ...join,
         chain: DisplayNetwork[n],
+        chainId: n
       })),
     )
     .flat()
+  clActivity.value = networks
+    .map((n, i) =>
+      data[i][5].map((item) => ({
+        ...item,
+        chain: DisplayNetwork[n],
+        chainId: n
+      })),
+    )
+    .flat()
+  console.log("ACTIVITY - ", joinExits.value, clActivity)
   activeUsers.value = networks
     .map((n, i) =>
       data[i][4].activeUsers.map((user_info) => ({
@@ -259,7 +262,7 @@ function formatChartData(formatted_tvl, formatted_token_snapshots, chart_data) {
 
 
 async function InitPoolsData(network) {
-  return await Promise.all([GetPools(network, null, true, true, currency.value), GetPoolSwapsData(null, network), GetHistoricalTvl(network, null, currency.value), GetTokenPairs(network), GetActiveUsers(network)])
+  return await Promise.all([GetPools(network, null, true, true, currency.value), GetPoolSwapsData(null, network), GetHistoricalTvl(network, null, currency.value), GetTokenPairs(network), GetActiveUsers(network), GetUniswapActivity(network)])
 }
 
 

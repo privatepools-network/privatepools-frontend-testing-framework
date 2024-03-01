@@ -322,7 +322,9 @@ const chains_data = computed(() => {
     if (!networks_data.value[i][0])
       continue
     let tvl = networks_data.value[i][0].sharesOwned.reduce((sum, p) => sum + parseFloat(p.poolId.totalLiquidity), 0)
-
+    let cl_tvl = networks_data.value[i][6].reduce((sum, cl_pool) => sum + parseFloat(cl_pool.totalValueLockedUSD), 0)
+    console.log("CL TVL - ", cl_tvl)
+    tvl += cl_tvl
     result[chain_name] = {
       'TVL': tvl,
     }
