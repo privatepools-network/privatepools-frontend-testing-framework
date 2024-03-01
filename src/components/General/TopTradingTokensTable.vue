@@ -280,6 +280,40 @@ const all_pools = [
         "ROI": "-",
         "address": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e"
     },
+    {
+        "id": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e000200000000000000000012",
+        "Pool Name": [
+            [
+                "WETH",
+                "USDC"
+            ]
+        ],
+        "Revenue": "0.000",
+        "Fees": "0.000",
+        "Trades": "0",
+        "Volume": "0.000",
+        "TVL": "547.23200",
+        "Liquidity": "547.23200",
+        "APR": "0.000",
+        "Profit": "0.000",
+        "Blockchain": "Binance",
+        "Token": "WETH",
+        "Pool Weight": [
+            [
+                {
+                    "token": "WETH",
+                    "weight": "0.5%"
+                },
+                {
+                    "token": "USDC",
+                    "weight": "0.5%"
+                }
+            ]
+        ],
+        "LiquidityType": "WP",
+        "ROI": "-",
+        "address": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e"
+    },
 
 ]
 

@@ -2,21 +2,21 @@
     <div :class="`pools-row__wrapper${inactive ? '__inactive' : ''}`">
       <div class="pools-row" @click="isActions ? (visibleDetails = !visibleDetails) : false">
         <div class="pools-row__col">
-          <DataTableCellTokenNamePaired :value="pool['Pool Name']" />
+          <div class="pools-row__info">
+            <div class="pools-row__value">
+              {{ index + 1 }}
+            </div>
+          </div>
         </div>
-        <div class="pools-row__col">
-          <div class="pools-row__info" style="display: flex !important; align-items: center;">
-            <div class="pools-row__value" v-for="(item, i) in pool['Pool Weight'][0]" :key="`${i}-tokens`">
+        <div class="pools-row__col d-flex align-items-center">
+          <DataTableCellTokenNamePaired :value="pool['Pool Name']" style="margin-right: 10px;"/> <span class="pools-row__value">WLP-</span>
+          <div class="pools-row__value" v-for="(item, i) in pool['Pool Weight'][0]" :key="`${i}-tokens`">
               <div class="d-flex gap-2 align-items-center">
                 <span class="">{{ item.token }}/</span>
               </div>
-            </div>
-            <!-- <div class="pool_type" :class="pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
-              ">
-              {{ pool['LiquidityType'] === 'CL' ? 'CLP' : 'WLP' }}
-            </div> -->
           </div>
         </div>
+     
         <div class="pools-row__col">
           <div class="pools-row__info">
             <div class="pools-row__value">
@@ -474,7 +474,7 @@
     font-weight: 700;
     line-height: 21px;
     color: #ffffff;
-    width: 60vw;
+    width: 40vw;
     padding: 10px;
     text-align: center;
   

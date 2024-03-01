@@ -5,7 +5,7 @@
         <DataTableCellTokenNamePaired :value="pool['Pool Name']" />
       </div>
       <div class="pools-row__col">
-        <div class="pools-row__info" style="display: flex !important; align-items: center; gap: 6px">
+        <div class="pools-row__info" style="display: flex !important; align-items: center; gap: 6px; flex-wrap: wrap;">
           <div class="pools-row__value" v-for="(item, i) in pool['Pool Weight'][0]" :key="`${i}-tokens`">
             <div class="d-flex gap-2 chip_token align-items-center">
               <span class="chip_token_name">{{ item.token }}</span>
@@ -103,7 +103,7 @@
           </div>
         </div>
         {{ console.log('pool!', pool) }}
-        <div v-if="pool['Liquidity'] === '0.00000'" class="liquidity_button_container">
+        <div v-if="pool['Liquidity'] === '0.00000' || pool['Liquidity'] === '0'" class="liquidity_button_container">
           <div class="liquidity_button_text">no liquidity deposited</div>
           <div
             @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })"
@@ -322,7 +322,7 @@ const visibleDetails = ref(false)
       }
 
       &:nth-child(2) {
-        min-width: 40%;
+        min-width: 30%;
 
         @media (max-width: $xl) {
           min-width: 250px;
