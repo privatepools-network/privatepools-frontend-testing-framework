@@ -323,7 +323,7 @@ const headers = [
   'TVL',
   'Fees',
   'APR',
-  'Actions',
+
 ]
 
 </script>

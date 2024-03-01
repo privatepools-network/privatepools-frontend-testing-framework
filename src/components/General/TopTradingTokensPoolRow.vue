@@ -53,63 +53,9 @@
           </div>
         </div>
   
-        <div class="pools-row__col" v-if="isActions">
-          <div class="pools-row__dropdown" v-if="visibleDetails == false">
-            Details
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24" fill="none">
-              <path
-                d="M6.76644 9.7418L9.9998 12.9752L13.2331 9.7418C13.5581 9.4168 14.0831 9.4168 14.4081 9.7418C14.7331 10.0668 14.7331 10.5918 14.4081 10.9168L10.5831 14.7418C10.2581 15.0668 9.73313 15.0668 9.40813 14.7418L5.58311 10.9168C5.25811 10.5918 5.25811 10.0668 5.58311 9.7418C5.90811 9.42513 6.44144 9.4168 6.76644 9.7418Z"
-                fill="white" />
-            </svg>
-          </div>
-          <div class="pools-row__dropdown" :class="{ 'pools-row__dropdown_active': visibleDetails }" v-else>
-            Hide
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24" fill="none">
-              <path
-                d="M6.76644 9.7418L9.9998 12.9752L13.2331 9.7418C13.5581 9.4168 14.0831 9.4168 14.4081 9.7418C14.7331 10.0668 14.7331 10.5918 14.4081 10.9168L10.5831 14.7418C10.2581 15.0668 9.73313 15.0668 9.40813 14.7418L5.58311 10.9168C5.25811 10.5918 5.25811 10.0668 5.58311 9.7418C5.90811 9.42513 6.44144 9.4168 6.76644 9.7418Z"
-                fill="white" />
-            </svg>
-          </div>
-        </div>
+      
       </div>
-      <CCollapse :visible="visibleDetails">
-        <div class="details-el">
-          <div class="details-el__col flex-column gap-3">
-            <div class="details-el__activity details-el__activity_deposit"
-              @click="$emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })">
-              Add {{ lp_name }} LP
-            </div>
-            <div class="details-el__activity details-el__activity_info"
-              @click="pool['LiquidityType'] === 'CL' ? $emit('goToCLPool', { index, onMountedActivity: 'info' }) : $emit('goToPool', { index, onMountedActivity: 'info' })">
-              SEE Pool info
-              <svg style="margin-left: 5px" width="15" height="15" viewBox="0 0 15 15" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M8.4375 6.5625L13.125 1.875M13.125 1.875H10M13.125 1.875V5M13.125 8.75V11.875C13.125 12.2065 12.9933 12.5245 12.7589 12.7589C12.5245 12.9933 12.2065 13.125 11.875 13.125H3.125C2.79348 13.125 2.47554 12.9933 2.24112 12.7589C2.0067 12.5245 1.875 12.2065 1.875 11.875V3.125C1.875 2.79348 2.0067 2.47554 2.24112 2.24112C2.47554 2.0067 2.79348 1.875 3.125 1.875H6.25"
-                  stroke="#8F8F8F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-            <div class="details-el__activity details-el__activity_withdraw">
-              <a :href="`${etherscan_link}/contract/${pool.address}`" target="_blank"> VIEW CONTRACT <img :src="etherscan"
-                  style="margin-left: 5px" /></a>
-            </div>
-          </div>
-          {{ console.log('pool!', pool) }}
-          <div  class="liquidity_button_container">
-            <div class="liquidity_button_text">no liquidity deposited</div>
-            <div
-              @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })"
-              class="liquidity_button" :class="pool['LiquidityType'] === 'CL'
-                ? 'liquidity_button_LP'
-                : 'liquidity_button_WP'
-                ">
-              ADD LIQUIDITY
-            </div>
-          </div>
-  
-         
-        </div>
-      </CCollapse>
+     
     </div>
   </template>
   <script setup>
