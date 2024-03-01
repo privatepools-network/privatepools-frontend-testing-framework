@@ -301,8 +301,8 @@
         {{ console.log('filterByStatus', filterByStatus) }}
         <PoolRow v-for="(pool, index) in all_pools" :poolsLength="filterByStatus.length" :perPage="perPage"
           :key="pool.name" :pool="pool" :inactive="isPoolInactive(pool)" :index="index"
-          @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL"
-          :isActions="true" />
+          @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
+          @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL" :isActions="true" />
       </div>
 
       <!-- <Pagination
@@ -499,12 +499,16 @@ watch(chainSelected, () => {
 
 
 watch(networkId, async () => {
+  await InitUserStakedPools()
+})
+
+async function InitUserStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
     let address = await mmProvider.getSigner().getAddress()
     user_staked_pools.value = await useWalletPools(address, networkId.value, false)
   }
-})
+}
 
 const poolsData = ref([])
 
@@ -699,6 +703,7 @@ onMounted(async () => {
   let cl_symbols = cl_pools.value.map((item) => item['Pool Name'][0]).flat()
   let all_token_symbols = Array.from(new Set(wp_symbols.concat(cl_symbols)))
   optionsTokens.value = all_token_symbols.map((item) => ({ code: item, name: item, selected: item == route.query.token }))
+  await InitUserStakedPools()
   if (window.ethereum !== undefined && networkId.value > 0) {
     let provider = new ethers.providers.Web3Provider(window.ethereum)
     networksSupported.value = await provider.getNetwork()

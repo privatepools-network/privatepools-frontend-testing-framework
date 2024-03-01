@@ -8,7 +8,7 @@ import useGraphQLQuery from '../useQuery'
 import { UNISWAP_SUBGRAPHS } from '../concentrated-liquidity/constants'
 import { GetHistoricalTvl } from '@/composables/pools/snapshots/usePoolHistoricalTvl'
 import { addAPRInfo } from '@/lib/formatter/poolsFormatter'
-
+import { useFilteredUniswapPools } from '@/composables/concentrated-liquidity/useUniswapPools'
 export async function useWalletPools(
   address,
   networkId,
@@ -35,13 +35,14 @@ export async function useWalletPools(
       GetTokenPricesBySymbols(token_symbols),
       includeStatsInfo
         ? GetHistoricalTvl(networkId, null, 'USD', user_pools)
-        : new Promise(() => null),
+        : new Promise((resolve) => resolve(null)),
       includeStatsInfo
         ? GetPoolSwapsData(null, networkId)
-        : new Promise(() => null),
+        : new Promise((resolve) => resolve(null)),
       GetPools(networkId, null, true, true, 'USD', user_pools),
     ])
-    if (!pools) return []
+    let cl_pools = formatCLPools(data['positions'], token_prices)
+    if (!pools) return [...cl_pools]
     pools = pools.map((pool) => ({
       ...pool,
       ...(includeStatsInfo
@@ -54,9 +55,24 @@ export async function useWalletPools(
           )
         : {}),
     }))
-    let cl_pools = formatCLPools(data['positions'], token_prices)
+
     console.log('WALLET POOLS PARSED')
     return [...formatWeightedPools(user_shares, pools), ...cl_pools]
+  }
+  return []
+}
+
+export async function GetUserUniswapPools(address, networkId) {
+  let data = await useGraphQLQuery(
+    UNISWAP_SUBGRAPHS[networkId],
+    USER_POSITIONS_QUERY(address),
+  )
+  if (data && data['positions']) {
+    let pool_ids = Array.from(
+      new Set(data['positions'].map((item) => item.pool.id).flat()),
+    )
+    let filtered_pools = await useFilteredUniswapPools(networkId, pool_ids)
+    return filtered_pools
   }
   return []
 }

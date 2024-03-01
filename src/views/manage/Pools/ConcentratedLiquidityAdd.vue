@@ -23,7 +23,8 @@
                 :src="getTokenEntity(tokenEntity, 'short').icon" />
               <span class="liquidity_title">{{ selectPositions[selectedPositionIndex].name }}</span>
             </div>
-            <div class="d-flex align-items-center gap-1" style="cursor: pointer;" @click="selectPositionModalState = true">
+            <div class="d-flex align-items-center gap-1" style="cursor: pointer;"
+              @click="selectPositionModalState = true">
               {{ selectPositions[selectedPositionIndex].CLP }} <svg width="13" height="8" viewBox="0 0 13 8" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.61182 1.5L6.61182 6.5L11.6118 1.5" stroke="#FAFAFA" stroke-width="1.66667"
@@ -572,15 +573,18 @@ watch(poolInfo, async () => {
 })
 
 onMounted(async () => {
-
   trades.value = await fetchDataAndMerge()
-  console.log(networkId.value)
+  await Init()
 
 })
 
 
 const selectedPositionIndex = computed((item) => positions.value.indexOf(selectedPosition.value))
 watch((networkId), async () => {
+  await Init()
+})
+
+async function Init() {
   if (networkId.value) {
     notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(
       networkId.value,
@@ -593,7 +597,7 @@ watch((networkId), async () => {
       selectedPosition.value = positions.value[0]
     }
   }
-})
+}
 
 const selectPositions = computed(() => positions.value.map((item, index) => ({
   tokens: [item.token0.symbol, item.token1.symbol],

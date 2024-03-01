@@ -403,6 +403,7 @@ import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import { GetUserHistoricalBalances } from "@/composables/portfolio/usePortfolioHistoricalBalances"
 import { GetActivePeriodsSwapsData } from "@/lib/formatter/portfolio/portfolioSwapsFormatter"
 import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
+import {  GetUserUniswapPools } from "@/composables/wallet/useWalletPools"
 const visibleNetworkModal = ref(false)
 const NetworkUnsupported = ref(false)
 const networksSupported = ref(false)
@@ -503,7 +504,6 @@ const performers = computed(() => {
   pools_info = pools_info.map((p) => ({ ...p, diff: p.profit - pools_median, percent_diff: calculatePercentageDifference(pools_median, p.profit) }))
   pools_info.sort((a, b) => a.diff - b.diff)
   let lastIndex = pools_info.length - 1
-  console.log(networks_data.value)
   let best = {
     diff: pools_info[lastIndex].diff,
     percent_diff: pools_info[lastIndex].percent_diff,
@@ -729,7 +729,7 @@ function changeVisibleNetworkModal() {
 }
 
 async function InitUserData(user, network) {
-  return await Promise.all([GetUserPools(user, network), GetPoolSwapsData(null, network), GetPoolHistoricValues(null, network), GetHistoricalTvl(network), GetTokenPairs(network), GetUserHistoricalBalances(user, network)])
+  return await Promise.all([GetUserPools(user, network), GetPoolSwapsData(null, network), GetPoolHistoricValues(null, network), GetHistoricalTvl(network), GetTokenPairs(network), GetUserHistoricalBalances(user, network), GetUserUniswapPools(user, network)])
 }
 
 const networks_data = ref([])
@@ -799,7 +799,7 @@ async function InitNetworksData() {
   let chains_data = await Promise.all(networks.map((n) => InitUserData(account.value.toLowerCase(), n)))
   let result = []
   for (let i = 0; i < chains_data.length; i++) {
-    let [_user, _poolSwapsData, _historicValues, historical_tvl, _pairs, _historicalBalances] = chains_data[i]
+    let [_user, _poolSwapsData, _historicValues, historical_tvl, _pairs, _historicalBalances, uniswap_pools] = chains_data[i]
     if (!_user || _user.length == 0) {
       result.push([null, null, null, null, null])
       continue
@@ -810,7 +810,7 @@ async function InitNetworksData() {
     filteredPoolSwapsData = GetActivePeriodsSwapsData(_historicalBalances, filteredPoolSwapsData)
     let filteredHistoricalTvl = historical_tvl.filter((item) => userPoolIds.includes(item.pool.id))
     chainPairs.value = [...chainPairs.value, ..._pairs.tokenPairs.map((p) => ({ ...p, Blockchain: DisplayNetwork[networks[i]] }))]
-    result.push([_user, filteredPoolSwapsData, _historicValues, filteredHistoricalTvl, _pairs, _historicalBalances])
+    result.push([_user, filteredPoolSwapsData, _historicValues, filteredHistoricalTvl, _pairs, _historicalBalances, uniswap_pools])
   }
   networks_data.value = result
 
