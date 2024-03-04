@@ -1303,7 +1303,7 @@ function filterPoolAmount() {
 
 .load_more {
   font-family: Inter;
-font-size: 20px;
+font-size: 14px;
 font-weight: 600;
 line-height: 24px;
 letter-spacing: 0em;
