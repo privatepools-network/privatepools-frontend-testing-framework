@@ -99,7 +99,7 @@
     </div>
     {{ console.log('filterByStatus', filterByStatus) }}
   
-    <TopTradingTokensPoolRow
+    <GeneralPoolRow
       v-for="(pool, index) in all_pools"
       :poolsLength="all_pools.length"
       :key="pool.name"
@@ -111,7 +111,7 @@
   </div>
 </template>
 <script setup>
-import TopTradingTokensPoolRow from './TopTradingTokensPoolRow.vue';
+import GeneralPoolRow from './GeneralPoolRow.vue';
 
 const all_pools = [
     {
@@ -133,7 +133,6 @@ const all_pools = [
         "APR": "5.093",
         "Profit": "100.074",
         "Blockchain": "Polygon",
-        "Token": "WMATIC",
         "Pool Weight": [
             [
                 {
@@ -177,7 +176,6 @@ const all_pools = [
         "APR": "0.000",
         "Profit": "0.000",
         "Blockchain": "Binance",
-        "Token": "AVAX",
         "Pool Weight": [
             [
                 {
@@ -221,7 +219,6 @@ const all_pools = [
         "APR": "0.000",
         "Profit": "0.000",
         "Blockchain": "Polygon",
-        "Token": "LINK",
         "Pool Weight": [
             [
                 {
@@ -263,41 +260,6 @@ const all_pools = [
         "APR": "0.000",
         "Profit": "0.000",
         "Blockchain": "Binance",
-        "Token": "WETH",
-        "Pool Weight": [
-            [
-                {
-                    "token": "WETH",
-                    "weight": "0.5%"
-                },
-                {
-                    "token": "USDC",
-                    "weight": "0.5%"
-                }
-            ]
-        ],
-        "LiquidityType": "WP",
-        "ROI": "-",
-        "address": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e"
-    },
-    {
-        "id": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e000200000000000000000012",
-        "Pool Name": [
-            [
-                "WETH",
-                "USDC"
-            ]
-        ],
-        "Revenue": "0.000",
-        "Fees": "0.000",
-        "Trades": "0",
-        "Volume": "0.000",
-        "TVL": "547.23200",
-        "Liquidity": "547.23200",
-        "APR": "0.000",
-        "Profit": "0.000",
-        "Blockchain": "Binance",
-        "Token": "WETH",
         "Pool Weight": [
             [
                 {
@@ -318,12 +280,16 @@ const all_pools = [
 ]
 
 const headers = [
-  '#',
-  'Tokens name',
+  'Tokens',
+  'Composition',
+  'Profits',
+  'Revenue',
+  'Trades',
+  'Volume (24h)',
   'TVL',
   'Fees',
   'APR',
-
+  'Actions',
 ]
 
 </script>

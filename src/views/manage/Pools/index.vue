@@ -298,11 +298,17 @@
         </div>
         <div v-else-if="pools.length === 0" class="no_results">No results.</div> -->
         {{ console.log('all_pools', all_pools) }}
-        {{ console.log('filterByStatus', filterByStatus) }}
-        <PoolRow v-for="(pool, index) in all_pools" :poolsLength="filterByStatus.length" :perPage="perPage"
+        {{ console.log('filterPoolAmount', filterPoolAmount()) }}
+        <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :poolsLength="filterByStatus.length" :perPage="perPage"
           :key="pool.name" :pool="pool" :inactive="isPoolInactive(pool)" :index="index"
           @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
           @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL" :isActions="true" />
+
+          <div @click="all_pools.slice(0, sliceNumber = sliceNumber + 5)" class="load_more">Load More <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 4.58331V17.4166" stroke="#7D7D7D" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17.4167 11L11 17.4167L4.58334 11" stroke="#7D7D7D" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
       </div>
 
       <!-- <Pagination
@@ -363,6 +369,7 @@ const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 const composePoolDropdownOpen = ref(false)
 const selectTokenDropdownOpen = ref(false)
 const moreFiltersDropdownOpen = ref(false)
+const sliceNumber = ref(10)
 
 const headers = [
   'Tokens',
@@ -815,6 +822,12 @@ function onFilterClick(filterValue, header) {
     let found = defaultPools.value.find((dtd) => dtd.id == td.id)
     td[header] = found[filterValue.code]
   })
+}
+
+
+
+function filterPoolAmount() {
+  return all_pools.value.slice(0,10)
 }
 </script>
 
@@ -1286,6 +1299,22 @@ function onFilterClick(filterValue, header) {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.load_more {
+  font-family: Inter;
+font-size: 20px;
+font-weight: 600;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: center;
+color: #7D7D7D;
+padding: 15px;
+&:hover {
+  color: #00affe;
+  cursor: pointer;
+  background: #ffffff0e;
+}
 }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>

@@ -25,6 +25,8 @@
             v-for="(item, i) in filteredActivities"
             :key="i"
             class="table-row"
+            @click="$emit('changeToSpecificPortfolio')"
+            style="cursor: pointer"
           >
             <CTableDataCell scope="row" class="text-white table-cell">
               <div class="actions-cell">
@@ -49,7 +51,7 @@
               </div>
             </CTableDataCell>
             <CTableDataCell scope="row" class="text-white table-cell">
-              <div class="d-flex align-items-center gap-2"> 
+              <div class="d-flex align-items-center gap-2">
                 <svg
                   width="25"
                   height="25"
@@ -129,7 +131,124 @@
             <CTableDataCell scope="row" class="text-danger table-cell">
               <div>
                 {{ item['GasFees'] }}
-                <span style="padding-left: 30px">
+                <span style="padding-left: 30px; cursor: pointer">
+                  <svg
+                    width="9"
+                    height="15"
+                    viewBox="0 0 9 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_423_9484)">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M1.12744 2.57276C1.17717 2.76609 1.30566 2.90418 1.44256 3.0408C3.0233 4.61847 4.60153 6.19865 6.18319 7.77543C6.25878 7.85081 6.25854 7.88864 6.18307 7.96387C4.60137 9.54056 3.02304 11.1206 1.44218 12.6982C1.30526 12.8349 1.17685 12.973 1.12744 13.1665V13.3774C1.20565 13.6273 1.36871 13.7924 1.61963 13.8696H1.854C2.04556 13.8079 2.18365 13.6739 2.32196 13.5355C4.01199 11.8435 5.70335 10.1528 7.39599 8.46335C7.53706 8.32254 7.67543 8.18308 7.73682 7.98682V7.75244C7.67445 7.55681 7.53762 7.41633 7.39632 7.2753C5.70357 5.58609 4.01224 3.89543 2.32235 2.20336C2.18393 2.06472 2.04521 1.93172 1.854 1.86963H1.61963C1.57395 1.8889 1.52803 1.9076 1.48264 1.9275C1.29035 2.01175 1.19606 2.17633 1.12744 2.36182V2.57276Z"
+                        fill="#ADABAB"
+                        stroke="#ADABAB"
+                        stroke-width="0.2"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_423_9484">
+                        <rect
+                          width="8"
+                          height="14"
+                          fill="white"
+                          transform="translate(0.127441 0.869629)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </span>
+              </div>
+            </CTableDataCell>
+          </CTableRow>
+
+          <!-- Your rating -->
+          <hr style="border: 1px solid #ffffff1f" class="my-3" />
+          <CTableRow
+            class="table-row"
+            @click="$emit('changeToSpecificPortfolio')"
+            style="cursor: pointer"
+          >
+            <CTableDataCell scope="row" class="text-white table-cell">
+              <div class="actions-cell">
+                <div class="actions-cell__text">69</div>
+              </div>
+            </CTableDataCell>
+            <CTableDataCell scope="row" class="text-white table-cell">
+              <div class="d-flex align-items-center gap-2">
+                <svg
+                  width="25"
+                  height="25"
+                  viewBox="0 0 25 25"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_423_9490)">
+                    <g clip-path="url(#clip1_423_9490)">
+                      <mask
+                        id="mask0_423_9490"
+                        style="mask-type: luminance"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="1"
+                        width="24"
+                        height="24"
+                      >
+                        <path
+                          d="M23.4038 1.81065H0.36377V24.8506H23.4038V1.81065Z"
+                          fill="white"
+                        />
+                      </mask>
+                      <g mask="url(#mask0_423_9490)">
+                        <path
+                          d="M11.8838 1.81065C5.52127 1.81065 0.36377 6.96815 0.36377 13.3306C0.36377 19.6931 5.52127 24.8506 11.8838 24.8506C18.2463 24.8506 23.4038 19.6931 23.4038 13.3306C23.4038 6.96815 18.2463 1.81065 11.8838 1.81065ZM11.8838 4.97864C13.9516 4.97864 15.6278 6.65481 15.6278 8.72264C15.6278 10.7905 13.9516 12.4666 11.8838 12.4666C9.81594 12.4666 8.13977 10.7905 8.13977 8.72264C8.13977 6.65481 9.81594 4.97864 11.8838 4.97864ZM11.8838 22.5466C8.69273 22.5466 5.88185 20.9246 4.22757 18.4605C5.51897 16.5827 9.63276 15.6346 11.8838 15.6346C14.1348 15.6346 18.2486 16.5827 19.54 18.4605C17.8857 20.9246 15.0748 22.5466 11.8838 22.5466Z"
+                          fill="white"
+                          fill-opacity="0.6"
+                        />
+                      </g>
+                    </g>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_423_9490">
+                      <rect
+                        width="24"
+                        height="24"
+                        fill="white"
+                        transform="translate(0.127441 0.869629)"
+                      />
+                    </clipPath>
+                    <clipPath id="clip1_423_9490">
+                      <rect
+                        width="24"
+                        height="24"
+                        fill="white"
+                        transform="translate(0.127441 0.869629)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <div class="d-flex flex-column">
+                  <div>0x12345550fd593b2cc60072fa09159d993b88a69d</div>
+                  <div style="color: #8b968c; font-size: 11px;">My Ranking</div>
+                </div>
+              </div>
+            </CTableDataCell>
+            <CTableDataCell scope="row" class="text-success table-cell">
+              <div>+$2,744.94</div>
+            </CTableDataCell>
+            <CTableDataCell scope="row" class="text-white table-cell">
+              <div>10</div>
+            </CTableDataCell>
+            <CTableDataCell scope="row" class="text-white table-cell">
+              <div>$2,744.94</div>
+            </CTableDataCell>
+            <CTableDataCell scope="row" class="text-danger table-cell">
+              <div>
+                -$2,744.94
+                <span style="padding-left: 30px; cursor: pointer">
                   <svg
                     width="9"
                     height="15"
@@ -181,12 +300,14 @@
 <script setup>
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 import Table from '@/UI/Table'
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import Pagination from '../Manage/Pool/Pagination.vue'
 import firstPlace from '@/assets/icons/generalIcons/firstPlace.svg'
 import secondPlace from '@/assets/icons/generalIcons/secondPlace.svg'
 import thirdPlace from '@/assets/icons/generalIcons/thirdPlace.svg'
+
+defineEmits('changeToSpecificPortfolio')
 
 const perPage = ref(25)
 const currentPage = ref(1)
@@ -326,6 +447,7 @@ const filteredActivities = [
     table-layout: fixed;
     // background: #22222224;
     // box-shadow: 0px 4px 4px 0px #00000040;
+    // border-radius: 16px;
   }
 
   &-cell {
