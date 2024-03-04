@@ -318,7 +318,6 @@ const headers = [
   'Composition',
   'Profits',
   'Revenue',
-  'Trades',
   'Volume (24h)',
   'TVL',
   'Fees',
