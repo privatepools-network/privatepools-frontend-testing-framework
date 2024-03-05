@@ -41,7 +41,9 @@
           <div class="portfolio-stats__el">
             <div class="portfolio-stats__info">
               <div class="portfolio-stats__title">
-                All time profit
+                My rewards <span class="portfolio-header__variation-period">
+              24H
+            </span>
               </div>
               <div class="portfolio-stats__amount portfolio-stats__amount_success">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="9" viewBox="0 0 12 9" fill="none">
@@ -128,14 +130,7 @@
 
               <Tabs :selectedTab="selectedInvestmentsMode" :tabsOptions="investementModes"
                 @changeTab="changeInvestmentMode"></Tabs>
-              <div class="table-above">
-                <div style="cursor: pointer">
-                  <CFormSwitch size="l" v-model="hideSmallerThan10Pools" id="hideSmallerThan10Pools" />
-                </div>
-                <div class="text-white table-above_toggler">
-                  Hide {{ selectedInvestmentsMode.toLowerCase() }}
-                </div>
-              </div>
+              
 
             </div>
           </div>

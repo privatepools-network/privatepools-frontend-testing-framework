@@ -29,7 +29,7 @@
     </div>
 
     <div class="px-2">
-      <div style="margin-top: 5%; color: rgba(204, 204, 204, 1)">
+      <div style="margin-top: 5%; color: rgba(204, 204, 204, 1);">
         Total Value Locked
       </div>
       <div class="mb-2">
@@ -56,8 +56,8 @@
             <div
               v-if="pool"
               style="
-                font-size: clamp(10px, 0.9vw, 16px);
-                font-weight: 700;
+                font-size: clamp(16px, 1vw, 30px);
+                font-weight: 600;
                 font-family: Inter;
               "
               class="visible_head"
@@ -164,7 +164,7 @@
                     font-size: clamp(10px, 0.9vw, 16px);
                   "
                 >
-                  Total Pool APR
+                  Pool APR
                 </div>
                 <div
                   v-if="pool && historical_tvl.length > 0"
@@ -398,7 +398,7 @@
                   font-size: clamp(10px, 0.9vw, 16px);
                 "
               >
-                LP Price
+              My Rewards
               </div>
               <div
                 v-if="pool"
@@ -406,6 +406,31 @@
               >
                 <CurrencySymbol :symbol="currencySelected.symbol" />{{
                   numberToAposthrophe(pool.lpPrice, currencyDecimals || 2)
+                }}
+              </div>
+              <div v-else>
+                <ThreeDots></ThreeDots>
+              </div>
+            </div>
+            <div
+              class="d-flex align-items-center justify-content-between visible_head mt-3"
+            >
+              <div
+                style="
+                  font-family: Inter;
+                  font-weight: 400;
+                  font-size: clamp(10px, 0.8vw, clamp(10px, 0.8vw, 14px));
+                  font-size: clamp(10px, 0.9vw, 16px);
+                "
+              >
+              My Balance
+              </div>
+              <div
+                v-if="pool"
+                style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)"
+              >
+                <CurrencySymbol :symbol="currencySelected.symbol" />{{
+                  numberToAposthrophe(0)
                 }}
               </div>
               <div v-else>

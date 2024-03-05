@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex gap-4 flex-wrap justify-content-between">
+    <div class="d-flex gap-1 flex-wrap justify-content-between">
   <div class="d-flex gap-4">
     <div class="overview_big_container">
       <div class="icon_container">
@@ -17,11 +17,11 @@
         </svg>
       </div>
       <div>
-        <div class="text_header">Total volume</div>
+        <div class="text_header">Total profits</div>
         <div class="text_value">$12.71M</div>
       </div>
       <div>
-        <div class="text_header">24H volume</div>
+        <div class="text_header">24H profits</div>
         <div class="text_value">$169.14K</div>
       </div>
       <div class="mt-5">
@@ -100,12 +100,12 @@
         </svg>
       </div>
       <div>
-        <div class="text_header">Total trades</div>
-        <div class="text_value">3.14K</div>
+        <div class="text_header">Average APR</div>
+        <div class="text_value">3.14%</div>
       </div>
       <div>
-        <div class="text_header">24H trades</div>
-        <div class="text_value">34</div>
+        <div class="text_header">24H APR</div>
+        <div class="text_value">34%</div>
       </div>
       <div class="mt-5">
         <CChart
@@ -263,17 +263,17 @@ const smallContainerMock = [
     },
     {
         icon:  DepositedLiquidity,
-          name: 'Deposited Liquidity',
+          name: 'TVL',
           value: '$725.79K'
     },
     {
         icon:  FeesIcon,
-          name: '24H fees',
-          value: '$107.05'
+          name: '24H Trades',
+          value: '107'
     },
     {
         icon:  RealizedProfit,
-          name: '24H realized Profit',
+          name: '24H Volume',
           value: '$326.04'
     },
 ]

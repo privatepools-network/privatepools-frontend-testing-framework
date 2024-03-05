@@ -280,8 +280,8 @@ const all_pools = [
 ]
 
 const headers = [
+  '#',
   'Tokens',
-  'Composition',
   'Profits',
   'Revenue',
   'Trades',

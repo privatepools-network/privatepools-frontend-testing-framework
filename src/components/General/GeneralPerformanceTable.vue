@@ -272,7 +272,7 @@ const all_pools = [
                 }
             ]
         ],
-        "LiquidityType": "WP",
+        "LiquidityType": "CL",
         "ROI": "-",
         "address": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e"
     },
@@ -315,9 +315,9 @@ const all_pools = [
 const headers = [
   '#',
   'Tokens',
-  'Composition',
   'Profits',
   'Revenue',
+  'Trades',
   'Volume (24h)',
   'TVL',
   'Fees',

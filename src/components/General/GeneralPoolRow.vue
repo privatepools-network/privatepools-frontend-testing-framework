@@ -9,11 +9,9 @@
           </div>
         </div>
         <div class="pools-row__col d-flex align-items-center">
-          <DataTableCellTokenNamePaired :value="pool['Pool Name']" style="margin-right: 10px;"/> <span class="pools-row__value">WLP-</span>
-          <div class="pools-row__value" v-for="(item, i) in pool['Pool Weight'][0]" :key="`${i}-tokens`">
-              <div class="d-flex gap-2 align-items-center">
-                <span class="">{{ item.token }}/</span>
-              </div>
+          <DataTableCellTokenNamePaired :value="pool['Pool Name']" style="margin-right: 10px;"/>  <div class="pool_type" :class="pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
+            ">
+            {{ pool['LiquidityType'] === 'CL' ? 'CLP' : 'WLP' }}
           </div>
         </div>
      
@@ -34,7 +32,7 @@
         <div class="pools-row__col">
           <div class="pools-row__info">
             <div class="pools-row__value">
-              ${{ numberToAposthrophe(Number(pool['Trades']).toFixed(0)) }}
+              {{ numberToAposthrophe(Number(pool['Trades']).toFixed(0)) }}
             </div>
           </div>
         </div>

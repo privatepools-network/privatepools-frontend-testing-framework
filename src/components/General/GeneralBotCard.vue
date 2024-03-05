@@ -33,86 +33,26 @@
       </div>
       <div class="mb-xxl-4 mb-2">
         <div @click="clickOnVisibleTVL()" class="visible_head" style="cursor: pointer">
-          <div class="d-flex align-items-center gap-2" style="margin-left: -20px; width: 15px">
-            <div>
-              <div>
-                <img :src="arrow_up" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
-              </div>
-            </div>
+          <div class="d-flex align-items-center gap-2">
+           
             <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader_header">
               <ThreeDots />
             </div>
-            <div v-else style="font-weight: 700; font-family: Inter" class="visible_head arbitrage_bot_sections_text">
-              <span v-if="currencySelected.symbol === '₿'">
+            <div v-else style="font-weight: 700; font-family: Inter; font-size: 18px;" class="visible_head arbitrage_bot_sections_text">
+              <!-- <span v-if="currencySelected.symbol === '₿'">
                 <img :src="btcSymbol" width="9" />
               </span>
               <span v-else-if="currencySelected.symbol === 'Ξ'">
                 <img :src="ethSymbol" width="9" />
-              </span>
-              <div v-else class="d-flex align-items-center">
+              </span> -->
+              <div class="d-flex align-items-center">
 
                 ${{ numberToAposthrophe(tvlAll, currencyDecimals) }}
               </div>
             </div>
           </div>
         </div>
-        <CCollapse :visible="visibleTVL">
-          <div style="color: rgba(204, 204, 204, 1)">
-            <div class="arbitrage_bot_sections_text" style="margin-bottom: 5px">
-              Chain Breakdown
-            </div>
-            <div class="d-flex flex-column gap-1">
-              <div v-if="arb_init && ['ETH', 'ALL'].includes(chainSelected.code)"
-                class="d-flex align-items-center justify-content-between">
-                <div>Arbitrum</div>
-                <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
-                  <ThreeDots />
-                </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
-                  ${{
-                    numberToAposthrophe(tvlInfo['Arbitrum'], currencyDecimals)
-                  }}
-                </div>
-              </div>
-              <div v-if="bnb_init && ['BNB', 'ALL'].includes(chainSelected.code)"
-                class="d-flex align-items-center justify-content-between">
-                <div>Binance</div>
-                <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
-                  <ThreeDots />
-                </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
-                  <span v-if="currencySelected.symbol === '₿'">
-                    <img :src="btcSymbol" width="9" />
-                  </span>
-                  <span v-else-if="currencySelected.symbol === 'Ξ'">
-                    <img :src="ethSymbol" width="9" />
-                  </span>
-                  <span v-else>{{ currencySelected.symbol }} </span> {{
-                    numberToAposthrophe(tvlInfo['Binance'], currencyDecimals)
-                  }}
-                </div>
-              </div>
-              <div v-if="matic_init && ['MATIC', 'ALL'].includes(chainSelected.code)
-                  " class="d-flex align-items-center justify-content-between">
-                <div>Polygon</div>
-                <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
-                  <ThreeDots />
-                </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
-                  <span v-if="currencySelected.symbol === '₿'">
-                    <img :src="btcSymbol" width="9" />
-                  </span>
-                  <span v-else-if="currencySelected.symbol === 'Ξ'">
-                    <img :src="ethSymbol" width="9" />
-                  </span>
-                  <span v-else>{{ currencySelected.symbol }} </span> {{
-                    numberToAposthrophe(tvlInfo['Polygon'], currencyDecimals)
-                  }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </CCollapse>
+       
       </div>
 
       <div class="mb-xxl-4 mb-2">
@@ -131,7 +71,7 @@
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text">
-                  Total Revenue
+                  Total Volume
                 </div>
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
                   <ThreeDots />
@@ -154,113 +94,37 @@
         <CCollapse :visible="visibleTotalRevenue">
           <div style="
               color: rgba(204, 204, 204, 1);
-              /* margin-top: 10px;
-              margin-bottom: 5px; */
+              margin-top: 10px;
+              margin-bottom: 5px;
             ">
             <div class="d-flex flex-column gap-1">
-              <SidebarHeaderDropdown :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :headerValue="revenueInfo['24h']" :headerTitle="'Revenue 24 Hours'"
-                :visible="dropdownChildrenVisibility['Revenue 24 Hours']" @headerClick="(v) => (dropdownChildrenVisibility['Revenue 24 Hours'] = v)
-                  " @closeAllDrops="closeAllDropdowns"></SidebarHeaderDropdown>
-              <TokenCCollapse :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :data="revenueInfo['tokens24h']" :tokensAmountData="revenueInfo['tokensAmount24h']"
-                :visible="dropdownChildrenVisibility['Revenue 24 Hours']">
-              </TokenCCollapse>
-              <SidebarHeaderDropdown :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :headerValue="revenueInfo['7d']" :headerTitle="'Revenue 7 Days'"
-                :visible="dropdownChildrenVisibility['Revenue 7 Days']" @headerClick="(v) => (dropdownChildrenVisibility['Revenue 7 Days'] = v)
-                  " @closeAllDrops="closeAllDropdowns"></SidebarHeaderDropdown>
-              <TokenCCollapse :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :data="revenueInfo['tokens7d']" :tokensAmountData="revenueInfo['tokensAmount7d']"
-                :visible="dropdownChildrenVisibility['Revenue 7 Days']">
-              </TokenCCollapse>
-              <SidebarHeaderDropdown :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :headerValue="revenueInfo['30d']" :headerTitle="'Revenue 30 Days'"
-                :visible="dropdownChildrenVisibility['Revenue 30 Days']" @headerClick="(v) => (dropdownChildrenVisibility['Revenue 30 Days'] = v)
-                  " @closeAllDrops="closeAllDropdowns"></SidebarHeaderDropdown>
-              <TokenCCollapse :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :data="revenueInfo['tokens30d']" :tokensAmountData="revenueInfo['tokensAmount30d']"
-                :visible="dropdownChildrenVisibility['Revenue 30 Days']">
-              </TokenCCollapse>
-            </div>
-          </div>
-        </CCollapse>
-      </div>
-
-      <div class="mb-xxl-4 mb-2">
-        <div @click="clickOnVisibleGas()" style="cursor: pointer">
-          <div class="d-flex align-items-center gap-2" style="margin-left: -20px">
-            <div>
-              <div>
-                <img :src="arrow_up" :width="10" :class="!visibleTotalGas ? 'toggle-down' : 'toggle-up'" />
-              </div>
-            </div>
-            <div style="
-                font-weight: 700;
-                font-family: Inter;
-                color: white;
-                width: 100%;
-              ">
-              <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text">
-                  Total Gas Fees Spent
-                </div>
-                <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>Volume 7 Days</div>
+                <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
-                  <span v-if="currencySelected.symbol === '₿'">
-                    <img :src="btcSymbol" width="9" />
-                  </span>
-                  <span v-else-if="currencySelected.symbol === 'Ξ'">
-                    <img :src="ethSymbol" width="9" />
-                  </span>
-                  <span v-else>{{ currencySelected.symbol }} </span> {{
-                    numberToAposthrophe(feesInfo['total'], currencyDecimals)
-                  }}
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <CCollapse :visible="visibleTotalGas">
-          <div style="
-              color: rgba(204, 204, 204, 1);
-              /* margin-top: 10px;
-              margin-bottom: 5px; */
-            ">
-            <div class="d-flex flex-column gap-1">
-              <SidebarHeaderDropdown :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :headerValue="feesInfo['24h']" :headerTitle="'Gas Fees 24 Hours'"
-                :visible="dropdownChildrenVisibility['Gas Fees 24 Hours']" @headerClick="(v) => (dropdownChildrenVisibility['Gas Fees 24 Hours'] = v)
-                  " @closeAllDrops="closeAllDropdowns"></SidebarHeaderDropdown>
-              <TokenCCollapse :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :data="feesInfo['tokens24h']" :tokensAmountData="feesInfo['tokensAmount24h']"
-                :visible="dropdownChildrenVisibility['Gas Fees 24 Hours']">
-              </TokenCCollapse>
-              <SidebarHeaderDropdown :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :headerValue="feesInfo['7d']" :headerTitle="'Gas Fees 7 Days'"
-                :visible="dropdownChildrenVisibility['Gas Fees 7 Days']" @headerClick="(v) => (dropdownChildrenVisibility['Gas Fees 7 Days'] = v)
-                  " @closeAllDrops="closeAllDropdowns"></SidebarHeaderDropdown>
-              <TokenCCollapse :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :data="feesInfo['tokens7d']" :tokensAmountData="feesInfo['tokensAmount7d']"
-                :visible="dropdownChildrenVisibility['Gas Fees 7 Days']">
-              </TokenCCollapse>
-              <SidebarHeaderDropdown :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :headerValue="feesInfo['30d']" :headerTitle="'Gas Fees 30 Days'"
-                :visible="dropdownChildrenVisibility['Gas Fees 30 Days']" @headerClick="(v) => (dropdownChildrenVisibility['Gas Fees 30 Days'] = v)
-                  " @closeAllDrops="closeAllDropdowns"></SidebarHeaderDropdown>
-              <TokenCCollapse :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :data="feesInfo['tokens30d']" :tokensAmountData="feesInfo['tokensAmount30d']"
-                :visible="dropdownChildrenVisibility['Gas Fees 30 Days']">
-              </TokenCCollapse>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>Volume 30 Days</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 7D']) }}
+                </div>
+              </div>
+              
             </div>
           </div>
         </CCollapse>
       </div>
 
+
       <div class="mb-xxl-4 mb-2">
-        <div @click="clickOnVisibleProfit()" style="cursor: pointer" class="visible_head">
+        <div @click="clickOnVisibleProfit()" class="visible_head" style="cursor: pointer">
           <div class="d-flex align-items-center gap-2" style="margin-left: -20px">
             <div>
               <div>
@@ -288,7 +152,7 @@
                     <img :src="ethSymbol" width="9" />
                   </span>
                   <span v-else>{{ currencySelected.symbol }} </span> {{
-                    numberToAposthrophe(profitInfo.total, currencyDecimals)
+                    numberToAposthrophe(revenueInfo.total, currencyDecimals)
                   }}
                 </div>
               </div>
@@ -298,37 +162,138 @@
         <CCollapse :visible="visibleTotalProfit">
           <div style="
               color: rgba(204, 204, 204, 1);
-              /* margin-top: 10px;
-              margin-bottom: 5px; */
+              margin-top: 10px;
+              margin-bottom: 5px;
             ">
             <div class="d-flex flex-column gap-1">
-              <SidebarHeaderDropdown :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :headerValue="profitInfo['24h']" :headerTitle="'Profits 24 Hours'"
-                :visible="dropdownChildrenVisibility['Profits 24 Hours']" @headerClick="(v) => (dropdownChildrenVisibility['Profits 24 Hours'] = v)
-                  " @closeAllDrops="closeAllDropdowns"></SidebarHeaderDropdown>
-              <TokenCCollapse :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :data="profitInfo['tokens24h']" :tokensAmountData="profitInfo['tokensAmount24h']"
-                :visible="dropdownChildrenVisibility['Profits 24 Hours']">
-              </TokenCCollapse>
-              <SidebarHeaderDropdown :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :headerValue="profitInfo['7d']" :headerTitle="'Profits 7 Days'"
-                :visible="dropdownChildrenVisibility['Profits 7 Days']" @headerClick="(v) => (dropdownChildrenVisibility['Profits 7 Days'] = v)
-                  " @closeAllDrops="closeAllDropdowns"></SidebarHeaderDropdown>
-              <TokenCCollapse :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :data="profitInfo['tokens7d']" :tokensAmountData="profitInfo['tokensAmount7d']"
-                :visible="dropdownChildrenVisibility['Profits 7 Days']">
-              </TokenCCollapse>
-              <SidebarHeaderDropdown :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :headerValue="profitInfo['30d']" :headerTitle="'Profits 30 Days'"
-                :visible="dropdownChildrenVisibility['Profits 30 Days']" @headerClick="(v) => (dropdownChildrenVisibility['Profits 30 Days'] = v)
-                  " @closeAllDrops="closeAllDropdowns"></SidebarHeaderDropdown>
-              <TokenCCollapse :currencyDecimals="currencyDecimals" :symbol="currencySelected.symbol"
-                :data="profitInfo['tokens30d']" :tokensAmountData="profitInfo['tokensAmount30d']"
-                :visible="dropdownChildrenVisibility['Profits 30 Days']">
-              </TokenCCollapse>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>Profit 7 Days</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>Profit 30 Days</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 7D']) }}
+                </div>
+              </div>
+              
             </div>
           </div>
         </CCollapse>
+      </div>
+
+      <div class="mb-xxl-4 mb-2">
+        <div @click="clickOnVisibleGas()" class="visible_head" style="cursor: pointer">
+          <div class="d-flex align-items-center gap-2" style="margin-left: -20px">
+            <div>
+              <div>
+                <img :src="arrow_up" :width="10" :class="!visibleTotalGas ? 'toggle-down' : 'toggle-up'" />
+              </div>
+            </div>
+            <div style="
+                font-weight: 700;
+                font-family: Inter;
+                color: white;
+                width: 100%;
+              ">
+              <div class="d-flex align-items-baseline justify-content-between visible_head">
+                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text">
+                  Average APR
+                </div>
+                <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                  <span v-if="currencySelected.symbol === '₿'">
+                    <img :src="btcSymbol" width="9" />
+                  </span>
+                  <span v-else-if="currencySelected.symbol === 'Ξ'">
+                    <img :src="ethSymbol" width="9" />
+                  </span>
+                  <span v-else>{{ currencySelected.symbol }} </span> {{
+                    numberToAposthrophe(revenueInfo.total, currencyDecimals)
+                  }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <CCollapse :visible="visibleTotalGas">
+          <div style="
+              color: rgba(204, 204, 204, 1);
+              margin-top: 10px;
+              margin-bottom: 5px;
+            ">
+            <div class="d-flex flex-column gap-1">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>APR 7 Days</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>APR 30 Days</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 7D']) }}
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </CCollapse>
+      </div>
+
+      <div style="cursor: pointer" class="visible_head">
+        <div class="d-flex align-items-center gap-2" style="margin-left: -10px">
+          <div></div>
+          <div
+            style="
+              font-weight: 700;
+              font-family: Inter;
+              color: white;
+              width: 100%;
+            "
+          >
+        
+            <div
+              class="d-flex align-items-center justify-content-between visible_head mt-3"
+            >
+              <div
+                style="
+                  font-family: Inter;
+                  font-weight: 400;
+                  font-size: clamp(10px, 0.8vw, clamp(10px, 0.8vw, 14px));
+                  font-size: clamp(10px, 0.9vw, 16px);
+                "
+              >
+              Number of Index Pools
+              </div>
+              <div
+              
+                style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)"
+              >
+              20
+              </div>
+              <!-- <div v-else>
+                <ThreeDots></ThreeDots>
+              </div> -->
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

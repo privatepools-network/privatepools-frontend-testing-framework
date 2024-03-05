@@ -207,7 +207,7 @@
               <div>$25.907</div>
             </CTableDataCell>
             <CTableDataCell scope="row" class="text-success table-cell">
-              <div>
+              <div  @click="router.push('/referrals')">
                 Manage my code
                 <span style="padding-left: 20px; cursor: pointer">
                   <svg
@@ -277,6 +277,7 @@ import Pagination from '../Manage/Pool/Pagination.vue'
 import firstPlace from '@/assets/icons/generalIcons/firstPlace.svg'
 import secondPlace from '@/assets/icons/generalIcons/secondPlace.svg'
 import thirdPlace from '@/assets/icons/generalIcons/thirdPlace.svg'
+import router from '@/router'
 
 defineEmits('changeToSpecificPortfolio')
 
@@ -432,9 +433,12 @@ function computedAddress(address) {
     width: 100%;
     display: table;
     table-layout: fixed;
+    vertical-align: middle;
     // background: #22222224;
     // box-shadow: 0px 4px 4px 0px #00000040;
     // border-radius: 16px;
+    // margin-top: 10px;
+  
   }
 
   &-cell {

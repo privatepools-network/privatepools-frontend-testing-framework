@@ -11,44 +11,33 @@
     </div>
 
     <div class="px-2">
-      <div class="arbitrage_bot_sections_text" style="margin-top: 5%; color: rgba(204, 204, 204, 1)">
-        Total Value Locked
-      </div>
+      
       <div class="mb-xxl-4 mb-2">
         <div @click="visibleTVL = !visibleTVL" class="visible_head" style="cursor: pointer">
           <div class="d-flex align-items-center gap-2" style="margin-left: -20px; width: 15px">
             <div>
               <div>
-                <!-- <img :src="arrow_up" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" /> -->
+                <img :src="arrow_up" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
               </div>
             </div>
             <div v-if="!chains_data" class="totals_loader_header">
               <ThreeDots />
             </div>
-            <div v-else style="font-weight: 700; font-family: Inter" class="visible_head arbitrage_bot_sections_text">
-              ${{ formatBigNumber(tvl_data['TVL']) }}
+            <div v-else style="font-weight: 700; font-family: Inter; font-size: 17px;" class="visible_head arbitrage_bot_sections_text">
+              $277,308.00
             </div>
           </div>
         </div>
-        <!-- <CCollapse :visible="visibleTVL">
+        <CCollapse :visible="visibleTVL">
           <div style="color: rgba(204, 204, 204, 1)">
             <div class="arbitrage_bot_sections_text" style="margin-top: 10px; margin-bottom: 5px">
-              Chain Breakdown
+              Investments Breakdown
             </div>
             <div class="d-flex flex-column gap-1">
-              <div class="d-flex align-items-center justify-content-between"
-                v-if="chainSelected.toLowerCase() == 'all chains' || chainSelected == 'Arbitrum'">
-                <div>Arbitrum</div>
-                <div v-if="!chains_data" class="totals_loader">
-                  <ThreeDots />
-                </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
-                  ${{ formatBigNumber(tvl_data['TVL Arbitrum']) }}
-                </div>
-              </div>
-              <div v-if="chainSelected.toLowerCase() == 'all chains' || chainSelected == 'Binance'"
+            
+              <div 
                 class="d-flex align-items-center justify-content-between">
-                <div>Binance</div>
+                <div>WP-BTC-ETH</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -56,9 +45,9 @@
                   ${{ formatBigNumber(tvl_data['TVL Binance']) }}
                 </div>
               </div>
-              <div v-if="chainSelected.toLowerCase() == 'all chains' || chainSelected == 'Polygon'"
+              <div 
                 class="d-flex align-items-center justify-content-between">
-                <div>Polygon</div>
+                <div>CL-AVAX-LIDO</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -68,75 +57,10 @@
               </div>
             </div>
           </div>
-        </CCollapse> -->
-      </div>
-
-      <div class="mb-xxl-4 mb-2">
-        <div @click="visibleTotalRevenue = !visibleTotalRevenue" class="visible_head" style="cursor: pointer">
-          <div class="d-flex align-items-center gap-2" style="margin-left: -20px">
-            <div>
-              <div>
-                <img :src="arrow_up" :width="10" :class="!visibleTotalRevenue ? 'toggle-down' : 'toggle-up'" />
-              </div>
-            </div>
-            <div style="
-                font-weight: 700;
-                font-family: Inter;
-                color: white;
-                width: 100%;
-              ">
-              <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Inter; font-weight: 400;" class="arbitrage_bot_sections_text">
-                  Total Revenue
-                </div>
-                <div v-if="!chains_data" class="totals_loader">
-                  <ThreeDots />
-                </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
-                  ${{ formatBigNumber(chains_data['Sum']['Revenue']) }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <CCollapse :visible="visibleTotalRevenue">
-          <div style="
-              color: rgba(204, 204, 204, 1);
-              margin-top: 10px;
-              margin-bottom: 5px;
-            ">
-            <div class="d-flex flex-column gap-1">
-              <div class="d-flex align-items-center justify-content-between">
-                <div>Revenue 24 Hours</div>
-                <div v-if="!chains_data" class="totals_loader">
-                  <ThreeDots />
-                </div>
-                <div v-else style="color: white; font-weight: 400; ">
-                  ${{ formatBigNumber(chains_data['Sum']['Revenue 24H']) }}
-                </div>
-              </div>
-              <div class="d-flex align-items-center justify-content-between">
-                <div>Revenue 7 Days</div>
-                <div v-if="!chains_data" class="totals_loader">
-                  <ThreeDots />
-                </div>
-                <div v-else style="color: white; font-weight: 400; ">
-                  ${{ formatBigNumber(chains_data['Sum']['Revenue 7D']) }}
-                </div>
-              </div>
-              <div class="d-flex align-items-center justify-content-between">
-                <div>Revenue 30 Days</div>
-                <div v-if="!chains_data" class="totals_loader">
-                  <ThreeDots />
-                </div>
-                <div v-else style="color: white; font-weight: 400; ">
-                  ${{ formatBigNumber(chains_data['Sum']['Revenue 30D']) }}
-                </div>
-              </div>
-            </div>
-          </div>
         </CCollapse>
       </div>
+
+
 
       <div class="mb-xxl-4 mb-2">
         <div @click="visibleTotalGas = !visibleTotalGas" style="cursor: pointer">
@@ -154,7 +78,7 @@
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style="font-family: Inter; font-weight: 400;" class="arbitrage_bot_sections_text">
-                  Total Gas Fees Spent
+                  TAverage APR
                 </div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
@@ -174,7 +98,7 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
-                <div>Gas Fees 24 Hours</div>
+                <div>Daily APR</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -183,7 +107,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>Gas Fees 7 Days</div>
+                <div>Weekly APR</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -192,7 +116,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>Gas Fees 30 Days</div>
+                <div>Monthly APR</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -221,7 +145,7 @@
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style="font-family: Inter; font-weight: 400;" class="arbitrage_bot_sections_text">
-                  Total Profits
+                  Profits Earned
                 </div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
@@ -241,7 +165,7 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
-                <div>Profits 24 Hours</div>
+                <div>24H Volume</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -250,7 +174,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>Profits 7 Days</div>
+                <div>7 Days Volume</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -259,7 +183,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>Profits 30 Days</div>
+                <div>30 Days Volume</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -271,8 +195,50 @@
           </div>
         </CCollapse>
       </div>
-
-
+      <div style="cursor: pointer" class="visible_head">
+        <div class="d-flex align-items-center gap-2" style="margin-left: -10px">
+          <div></div>
+          <div
+            style="
+              font-weight: 700;
+              font-family: Inter;
+              color: white;
+              width: 100%;
+            "
+          >
+        
+            <div
+              class="d-flex align-items-center justify-content-between visible_head mt-3"
+            >
+              <div
+                style="
+                  font-family: Inter;
+                  font-weight: 400;
+                  font-size: clamp(10px, 0.8vw, clamp(10px, 0.8vw, 14px));
+                  font-size: clamp(10px, 0.9vw, 16px);
+                "
+              >
+              My Rewards
+              </div>
+              <div
+                v-if="pool"
+                style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)"
+              >
+              $524.72m
+              </div>
+              <div v-else>
+                <ThreeDots></ThreeDots>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="referrals_button"
+       
+      >
+      Claim Rewards
+      </div>
     </div>
   </div>
 </template>
@@ -470,6 +436,28 @@ const visibleTotalGas = ref(true)
     border-width: 1px 1px 0px 1px;
     border-radius: 20px 20px 0px 0px;
     padding: 20px 20px 10px 20px;
+  }
+}
+
+.referrals_button {
+  width: 100%;
+  cursor: pointer;
+  margin-top: 25px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #ffffff;
+  text-align: center;
+  padding: 6px;
+  background: linear-gradient(45deg, #2abdff 0%, #0e3e9b 100%);
+  box-shadow: 0px 4px 8.899999618530273px 0px #00aae01a;
+
+  &:hover {
+    filter: drop-shadow(0 0 0.7rem #00c9ff);
+    background: #2abdff;
   }
 }
 </style>
