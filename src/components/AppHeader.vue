@@ -43,6 +43,12 @@
           ">
           Portfolio
         </div>
+        <div @click="router.push('/referrals')" :class="router.currentRoute.value.path === '/referrals'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+          ">
+          Referrals
+        </div>
       </div>
 
       <div style="position: relative; cursor: text">
@@ -1271,7 +1277,7 @@ const computedNetworkImage = computed(() =>
 
 .navigation_text {
   font-family: Inter;
-  font-size: 15px;
+  font-size: clamp(10px, 0.8vw, 15px);
   font-weight: 600;
   line-height: 22px;
   letter-spacing: 0em;
@@ -1301,6 +1307,11 @@ const computedNetworkImage = computed(() =>
   border: 1px solid #222222c9;
   border-radius: 16px;
   width: 500px;
+
+  @media (max-width:1300px) {
+    width: 370px;
+
+  }
 
   &:hover {
     // border: 1px solid #00c8ffb7;
