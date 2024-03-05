@@ -1,4 +1,5 @@
 import { GetCachedTreasuryYields } from '@/composables/api/useTreasuryYields'
+import { usePool30dProfit } from '@/composables/pools/usePoolSwapsStats'
 import {
   addDaysToDate,
   calculateAverage,
@@ -421,7 +422,9 @@ export function CalculateTotalTokenAPR(
     first_ts = addDaysToDate(new Date(first_ts * 1000), 1).getTime() / 1000
   }
   let filtered_swaps = swapsData.filter(
-    (item) => item.token.toLowerCase() == token_info.address && item.timestamp <= last_ts,
+    (item) =>
+      item.token.toLowerCase() == token_info.address &&
+      item.timestamp <= last_ts,
   )
   let profitItem = {
     Profits: filtered_swaps.reduce((sum, value) => sum + value.profit, 0),
@@ -627,4 +630,24 @@ export function CalculateRoi(amountSpent, amountGained) {
   if (amountSpent == 0) return 0
   if (amountGained == 0) return 1
   return ((amountGained - amountSpent) / amountSpent) * 100
+}
+
+export function CalculateCLAPR(poolSnapshots, trades, poolId) {
+  let formattedTvls = poolSnapshots.toReversed()
+  formattedTvls = formattedTvls.map((item) => ({
+    TVL: {
+      'All Chains': parseFloat(item.totalValueLockedUSD),
+      timestamp: item.timestamp,
+    },
+  }))
+  let pool_trades = trades.filter((item) =>
+    item.swaps[0].poolIdVault[0].includes(poolId),
+  )
+  let profit = usePool30dProfit(pool_trades).value
+  return CalculateAvgApr(
+    { Profits: profit },
+    formattedTvls,
+    'Monthly',
+    'All Chains',
+  )
 }
