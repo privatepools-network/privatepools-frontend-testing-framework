@@ -7,13 +7,17 @@ import { UNISWAP_SUBGRAPHS } from './constants'
 
 export async function useUniswapTvlSnapshots(poolId) {
   let data = await useGraphQLQuery(
-    UNISWAP_SUBGRAPHS[1],
+    UNISWAP_SUBGRAPHS[56],
     poolId
       ? UNISWAP_TVL_SNAPSHOTS_QUERY(poolId)
       : UNISWAP_TVL_SNAPSHOTS_ALL_QUERY,
   )
-  if (data && data['liquidityPoolDailySnapshots']) {
-    return data.liquidityPoolDailySnapshots
+  if (data && data['poolDayDatas']) {
+    return data.poolDayDatas.map((item) => ({
+      timestamp: item.date,
+      totalValueLockedUSD: item.totalValueLockedUSD,
+      ...item,
+    }))
   }
-  return 0
+  return []
 }

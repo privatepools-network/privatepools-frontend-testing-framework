@@ -9,7 +9,8 @@
         <div>LP Rewards</div>
         <div>
           $-
-          <img class="pair_avatars_manage_pool" v-for="(tokenEntity, tokenEntityIndex) in [token0.symbol, token1.symbol]"
+          <img class="pair_avatars_manage_pool"
+            v-for="(tokenEntity, tokenEntityIndex) in [token0.symbol, token1.symbol]"
             :key="`token-entity-key-${tokenEntityIndex}`" :title="tokenEntity"
             :src="getTokenEntity(tokenEntity, 'short').icon" />
         </div>
@@ -18,7 +19,8 @@
         <div>Earned Fees</div>
         <div>
           $-
-          <img class="pair_avatars_manage_pool" v-for="(tokenEntity, tokenEntityIndex) in  [token0.symbol, token1.symbol]"
+          <img class="pair_avatars_manage_pool"
+            v-for="(tokenEntity, tokenEntityIndex) in  [token0.symbol, token1.symbol]"
             :key="`token-entity-key-${tokenEntityIndex}`" :title="tokenEntity"
             :src="getTokenEntity(tokenEntity, 'short').icon" />
         </div>
@@ -95,7 +97,9 @@
       </div>
     </div>
 
-    <div v-if="router.currentRoute.value.path === '/pools/concentrated_pool/add/withdraw' || router.currentRoute.value.path === '/pools/concentrated_pool/add/deposit'" class="mt-3">
+    <div
+      v-if="router.currentRoute.value.path === '/pools/concentrated_pool/add/withdraw' || router.currentRoute.value.path === '/pools/concentrated_pool/add/deposit'"
+      class="mt-3">
       <div class="compose_text mb-3">Position Range</div>
       <div class="position_range_container">
         <div class="d-flex gap-2 align-items-center">
@@ -103,8 +107,8 @@
             <img :src="getTokenEntity(token0.symbol, 'short').icon" width="30" />
           </div>
           <div class="d-flex flex-column gap-1">
-            <div style="color: white">5,043.63 {{ token0.symbol }}</div>
-            <div style="color: #a3a3a3">= $40,043K</div>
+            <div style="color: white">{{ parseFloat(token0.amount).toFixed(2) }} {{ token0.symbol }}</div>
+            <div style="color: #a3a3a3">= ${{ (token0.amount * token0.price).toFixed(2) }}</div>
           </div>
         </div>
 
@@ -116,8 +120,8 @@
 
         <div class="d-flex gap-2 align-items-center">
           <div class="d-flex flex-column gap-1">
-            <div style="color: white">2,043.63 {{ token1.symbol }}</div>
-            <div style="color: #a3a3a3">= $10,043K</div>
+            <div style="color: white">{{ parseFloat(token1.amount).toFixed(2) }} {{ token1.symbol }}</div>
+            <div style="color: #a3a3a3">= ${{ (token1.amount * token1.price).toFixed(2) }}</div>
           </div>
           <div>
             <img :src="getTokenEntity(token1.symbol, 'short').icon" width="30" />
@@ -131,8 +135,8 @@
       <div class="d-flex justify-content-between mb-3">
         <span style="font-size: 16px">Pool Info</span>
         <a :href="`${configService.getNetworkConfig(networkId).explorer
-          }/address/${poolInfo.address}`" style="text-decoration: underline">Address: {{ shorten(poolInfo.address)
-  }}</a>
+    }/address/${poolInfo.address}`" style="text-decoration: underline">Address: {{ shorten(poolInfo.address)
+          }}</a>
       </div>
       <div class="d-flex justify-content-between">
         <span>Current Swap Fee:</span>
@@ -155,6 +159,7 @@
     <hr class="compose_hr" />
   </div>
 </template>
+
 <script setup>
 import router from '@/router'
 
@@ -207,6 +212,7 @@ function prettify(ts) {
   return `${Number(ts).toFixed(2)}`
 }
 </script>
+
 <style lang="scss" scoped>
 .total_epoch {
   background: #00000024;
