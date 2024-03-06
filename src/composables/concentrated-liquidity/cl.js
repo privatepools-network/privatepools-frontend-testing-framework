@@ -931,6 +931,7 @@ export async function fetchPositions(signer, tokens, networkId) {
     signer,
   )
   let address = await signer.getAddress()
+  address = '0x759ee62a73a8a0690a0e20fc489d3f462b4385c0'
   const numPositions = await nfpmContract.balanceOf(address)
   const calls = []
 

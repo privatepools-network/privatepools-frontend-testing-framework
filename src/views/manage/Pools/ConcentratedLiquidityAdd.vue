@@ -44,13 +44,13 @@
 
             <div class="tabs_container">
               <div class="tabs_button" :class="liquidityActionTab === 'Add' ? 'tabs_button_selected' : ''
-                " @click="liquidityActionTab = 'Add'">
+      " @click="liquidityActionTab = 'Add'">
                 Increase Liquidity
               </div>
               <div class="tabs_button" :class="liquidityActionTab === 'Withdraw'
-                ? 'tabs_button_selected'
-                : ''
-                " @click="liquidityActionTab = 'Withdraw'">
+      ? 'tabs_button_selected'
+      : ''
+      " @click="liquidityActionTab = 'Withdraw'">
                 Remove Liquidity
               </div>
             </div>
@@ -101,10 +101,10 @@
                           " v-model="depositAmount1" @blur="updateDepositAmount2" />
                         <div style="color: #858c90; font-size: 12px">
                           ≈${{
-                            (depositAmount1 * (pairToken1.price || 0)).toFixed(
-                              2,
-                            )
-                          }}
+      (depositAmount1 * (pairToken1.price || 0)).toFixed(
+        2,
+      )
+    }}
                         </div>
                       </div>
                     </div>
@@ -150,10 +150,10 @@
                           " v-model="depositAmount2" @blur="updateDepositAmount1" />
                         <div style="color: #858c90; font-size: 12px">
                           ≈${{
-                            (depositAmount2 * (pairToken2.price || 0)).toFixed(
-                              2,
-                            )
-                          }}
+      (depositAmount2 * (pairToken2.price || 0)).toFixed(
+        2,
+      )
+    }}
                         </div>
                       </div>
                     </div>
@@ -191,9 +191,9 @@
               <div class="liquidity_slider">
                 <div class="fee_tier_container">
                   <div :class="type.selected
-                    ? 'fee_tier_container_card fee_tier_container_card__selected'
-                    : 'fee_tier_container_card'
-                    " v-for="(type, i) in withdrawPercents" :key="`tiers-${i}`" @click="selectRange(type)">
+      ? 'fee_tier_container_card fee_tier_container_card__selected'
+      : 'fee_tier_container_card'
+      " v-for="(type, i) in withdrawPercents" :key="`tiers-${i}`" @click="selectRange(type)">
                     <div style="color: #858c90">{{ type.name }}%</div>
                   </div>
                 </div>
@@ -219,7 +219,7 @@
                   <div class="d-flex flex-column gap-1">
                     <div style="color: white">{{ pairToken1.symbol }}</div>
                     <div style="color: #a3a3a3">{{ ((selectedPosition.amountReadable0 / 100) *
-                      lineNumberPercent).toFixed(2) }}</div>
+      lineNumberPercent).toFixed(2) }}</div>
                   </div>
                 </div>
                 <div>
@@ -231,7 +231,7 @@
                   <div class="d-flex flex-column gap-1">
                     <div style="color: white">{{ pairToken2.symbol }}</div>
                     <div style="color: #a3a3a3">{{ ((selectedPosition.amountReadable1 / 100) *
-                      lineNumberPercent).toFixed(2) }}</div>
+      lineNumberPercent).toFixed(2) }}</div>
                   </div>
                   <div>
                     <img :src="getTokenEntity(pairToken2.symbol, 'short').icon" width="40" />
@@ -275,18 +275,6 @@ import { fetchDataAndMerge } from '@/composables/pools/trades/fetch/useFetchTrad
 import Slider from '@vueform/slider'
 import SelectPositionModal from '@/components/modals/SelectPositionModal.vue'
 import {
-  getPoolInfo,
-  FEE_AMOUNTS,
-  convertPairToken,
-  adjustPrices,
-  getDecrementLower,
-  getDecrementUpper,
-  getIncrementLower,
-  getIncrementUpper,
-  parseTicks,
-  MintPosition,
-  GetSecondAmount,
-  GetPricesAtLimit,
   RemoveLiquidityFromPosition,
   fetchPositions,
   AddLiquidityToPosition
@@ -558,8 +546,8 @@ const poolApr = computed(() => {
 
 watch((selectedPosition), async () => {
   if (selectedPosition.value) {
-    additionalInfo1.value = await getTokenAdditionalInfo(pairToken1)
-    additionalInfo2.value = await getTokenAdditionalInfo(pairToken2)
+    additionalInfo1.value = { ...await getTokenAdditionalInfo(pairToken1), amount: selectedPosition.value.amountReadable0, }
+    additionalInfo2.value = { ...await getTokenAdditionalInfo(pairToken2), amount: selectedPosition.value.amountReadable1, }
   }
 })
 
