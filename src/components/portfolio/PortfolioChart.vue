@@ -450,17 +450,17 @@ const optionObj = ref({
   ],
   series: [
     {
-      type: 'line',
+      type: 'bar',
       name: 'ROI',
       data: dataProfits,
 
-      color: '#8bff8e',
+      color: '#00FF75',
       sampling: 'lttb',
       areaStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: '#8bff8e',
+            color: '#00FF75',
           },
           {
             offset: 1,
@@ -470,27 +470,28 @@ const optionObj = ref({
       },
       smooth: true,
       showSymbol: false,
-      lineStyle: {
-        width: 1,
-        color: '#8bff8e',
-      },
+   
+      itemStyle: {
+            color: '#00FF75',
+            borderRadius: [5, 5, 0, 0],
+          },
       emphasis: {
         focus: 'series',
         blurScope: 'coordinateSystem',
       },
     },
     {
-      type: 'line',
+      type: 'bar',
       name: 'Capital Gains',
       data: dataCapitalGains,
 
-      color: '#8bff8e',
+      color: '#FAFF00',
       sampling: 'lttb',
       areaStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: '#8bff8e',
+            color: '#FAFF00',
           },
           {
             offset: 1,
@@ -500,10 +501,10 @@ const optionObj = ref({
       },
       smooth: true,
       showSymbol: false,
-      lineStyle: {
-        width: 1,
-        color: '#8bff8e',
-      },
+      itemStyle: {
+            color: '#FAFF00',
+            borderRadius: [5, 5, 0, 0],
+          },
       emphasis: {
         focus: 'series',
         blurScope: 'coordinateSystem',
@@ -533,13 +534,13 @@ const optionObj = ref({
       name: 'PNL',
       type: 'bar',
       data: dataGasFees,
-      color: '#87F1FF',
+      color: '#00C9FF',
       sampling: 'lttb',
       areaStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: '#87F1FF',
+            color: '#00C9FF',
           },
           {
             offset: 1,
@@ -549,10 +550,10 @@ const optionObj = ref({
       },
       smooth: true,
       showSymbol: false,
-      lineStyle: {
-        width: 1,
-        color: '#87F1FF',
-      },
+      itemStyle: {
+            color: '#00C9FF',
+            borderRadius: [5, 5, 0, 0],
+          },
       emphasis: {
         focus: 'series',
         blurScope: 'coordinateSystem',
@@ -560,15 +561,15 @@ const optionObj = ref({
     },
     {
       name: 'APR',
-      type: 'bar',
+      type: 'line',
       data: dataAPR,
-      color: '#87F1FF',
+      color: '#FFC925',
       sampling: 'lttb',
       areaStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: '#87F1FF',
+            color: '#FFC925',
           },
           {
             offset: 1,
@@ -580,7 +581,7 @@ const optionObj = ref({
       showSymbol: false,
       lineStyle: {
         width: 1,
-        color: '#87F1FF',
+        color: '#FFC925',
       },
       emphasis: {
         focus: 'series',
@@ -619,10 +620,10 @@ const optionObj = ref({
       },
     },
     {
-      type: 'line',
+      type: 'bar',
       name: 'Rewards',
       data: dataRewards,
-      color: '#f07e07',
+      color: '#05FF00',
       sampling: 'lttb',
       xAxisIndex: 0,
       yAxisIndex: 1,
@@ -630,7 +631,7 @@ const optionObj = ref({
         color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
           {
             offset: 0,
-            color: '#f07e07',
+            color: '#05FF00',
           },
           {
             offset: 1,
@@ -640,9 +641,9 @@ const optionObj = ref({
       },
       smooth: true,
       showSymbol: false,
-      lineStyle: {
-        width: 1,
-        color: '#f07e07',
+      itemStyle: {
+        color: '#05FF00',
+        borderRadius: [5, 5, 0, 0],
       },
       emphasis: {
         focus: 'series',
@@ -653,7 +654,7 @@ const optionObj = ref({
       name: 'Number of Trades',
       type: 'bar',
       data: dataTrades,
-      color: '#6e27b2',
+      color: '#6E27B2',
       sampling: 'lttb',
       areaStyle: {},
       xAxisIndex: 0,
@@ -661,7 +662,7 @@ const optionObj = ref({
       smooth: true,
       showSymbol: false,
       itemStyle: {
-        color: '#6e27b2',
+        color: '#6E27B2',
         borderRadius: [5, 5, 0, 0],
       },
       emphasis: {

@@ -160,7 +160,7 @@ const specificPortfolioStats = ref([
   },
 ])
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/_variables.scss';
 
 .affiliates_table {

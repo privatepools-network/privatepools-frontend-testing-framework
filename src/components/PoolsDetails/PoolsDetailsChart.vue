@@ -227,8 +227,15 @@ const preFiltersList = computed(() =>
       ]
     : [
         {
-          title: 'PNL',
-          code: 'PNL',
+          title: 'Revenue',
+          code: 'Revenue',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
+          title: 'Gas Fees',
+          code: 'Gas Fees',
           isSolo: true,
           selected: true,
           cumulable: true,
@@ -248,32 +255,41 @@ const preFiltersList = computed(() =>
           cumulable: true,
         },
         {
-          title: 'Staked Liquidity',
-          code: 'Staked Liquidity',
+          title: 'TVL',
+          code: 'TVL',
           isSolo: true,
           selected: true,
-          cumulable: true,
+          cumulable: false,
         },
+       
         {
           title: 'Average APR',
           code: 'Average APR',
           isSolo: true,
           selected: true,
-          cumulable: true,
+          cumulable: false,
         },
+        
         {
-          title: 'Rewards',
-          code: 'Rewards',
+          title: 'Profit',
+          code: 'Profit',
           isSolo: true,
           selected: true,
-          cumulable: true,
+          cumulable: false,
         },
         {
           title: 'Capital Gains',
           code: 'Capital Gains',
           isSolo: true,
           selected: true,
-          cumulable: true,
+          cumulable: false,
+        },
+        {
+          title: 'PNL',
+          code: 'PNL',
+          isSolo: true,
+          selected: true,
+          cumulable: false,
         },
         {
           title: 'ROI',
@@ -283,8 +299,8 @@ const preFiltersList = computed(() =>
           cumulable: true,
         },
         {
-          title: 'Pool Percentage',
-          code: 'Pool Percentage',
+          title: 'Token Incentives',
+          code: 'Token Incentives',
           isSolo: true,
           selected: true,
           cumulable: true,
@@ -296,11 +312,24 @@ const preFiltersList = computed(() =>
           selected: true,
           cumulable: true,
         },
+        {
+          title: 'Volatility Index',
+          code: 'Volatility Index',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
+          title: 'Pool percentage',
+          code: 'Pool percentage',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
       ],
 )
 const filters = ref(
-  props.selectedOverallTab === 'Overall view'
-    ? {
+   {
         Revenue: true,
         ['Gas Fees']: true,
         ['Trades']: true,
@@ -308,25 +337,17 @@ const filters = ref(
         TVL: true,
         ['Average APR']: true,
         ['Profit']: true,
-        ['Capital Gains']: false,
-        ['PNL']: false,
-        ['ROI']: false,
-        ['Token Incentives']: false,
-        ['Impermanent Loss']: false,
-        ['Volatility Index']: true,
-      }
-    : {
-        ['PNL']: true,
-        ['Trades']: true,
-        Volume: true,
-        ['Staked Liquidity']: true,
-        ['Average APR']: true,
-        ['Rewards']: true,
         ['Capital Gains']: true,
+        ['PNL']: true,
         ['ROI']: true,
-        ['Pool Percentage']: true,
+        ['Token Incentives']: true,
         ['Impermanent Loss']: true,
-      },
+        ['Volatility Index']: true,
+        ['Pool Percentage']: true,
+        ['Rewards']: true,
+        ['Staked Liquidity']: true,
+      }
+    
 )
 const assets = computed(() =>
   pool.value ? Array.from(new Set(pool.value.tokens.map((t) => t.symbol))) : [],
@@ -450,13 +471,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Revenue',
           data: dataRevenues.value,
-          color: '#00C9FF',
+          color: '#01B47E',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00C9FF',
+                color: '#01B47E',
               },
               {
                 offset: 1,
@@ -468,7 +489,7 @@ const series = computed(() =>
           showSymbol: false,
           itemStyle: {
             borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
+            color: '#01B47E',
           },
           emphasis: {
             focus: 'series',
@@ -567,13 +588,13 @@ const series = computed(() =>
           type: 'line',
           name: 'Volatility Index',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#FF8FD6',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#FF8FD6',
               },
               {
                 offset: 1,
@@ -585,7 +606,7 @@ const series = computed(() =>
           showSymbol: false,
           lineStyle: {
             width: 1,
-            color: '#ff8fd6',
+            color: '#FF8FD6',
           },
           emphasis: {
             focus: 'series',
@@ -594,15 +615,44 @@ const series = computed(() =>
         },
         {
           type: 'line',
+          name: 'TVL',
+          data: dataVolatilityIndexes.value,
+          color: '#F07E07',
+          sampling: 'lttb',
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: '#F07E07',
+              },
+              {
+                offset: 1,
+                color: 'transparent',
+              },
+            ]),
+          },
+          smooth: true,
+          showSymbol: false,
+          lineStyle: {
+            width: 1,
+            color: '#F07E07',
+          },
+          emphasis: {
+            focus: 'series',
+            blurScope: 'coordinateSystem',
+          },
+        },
+        {
+          type: 'bar',
           name: 'Profit',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#05FF00',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#05FF00',
               },
               {
                 offset: 1,
@@ -612,9 +662,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ff8fd6',
+          itemStyle: {
+            color: '#05FF00',
+            borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
             focus: 'series',
@@ -622,16 +672,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'line',
+          type: 'bar',
           name: 'Capital Gains',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#FAFF00',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#FAFF00',
               },
               {
                 offset: 1,
@@ -641,9 +691,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ff8fd6',
+          itemStyle: {
+            color: '#FAFF00',
+            borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
             focus: 'series',
@@ -651,16 +701,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'line',
+          type: 'bar',
           name: 'PNL',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#FF00B8',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#FF00B8',
               },
               {
                 offset: 1,
@@ -670,9 +720,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ff8fd6',
+          itemStyle: {
+            color: '#FF00B8',
+            borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
             focus: 'series',
@@ -683,13 +733,13 @@ const series = computed(() =>
           type: 'line',
           name: 'ROI',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#8FBCFF',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#8FBCFF',
               },
               {
                 offset: 1,
@@ -701,7 +751,7 @@ const series = computed(() =>
           showSymbol: false,
           lineStyle: {
             width: 1,
-            color: '#ff8fd6',
+            color: '#8FBCFF',
           },
           emphasis: {
             focus: 'series',
@@ -709,16 +759,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'line',
+          type: 'bar',
           name: 'Token Incentives',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#00FF75',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#00FF75',
               },
               {
                 offset: 1,
@@ -728,9 +778,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ff8fd6',
+          itemStyle: {
+            color: '#00FF75',
+            borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
             focus: 'series',
@@ -738,16 +788,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'line',
+          type: 'bar',
           name: 'Impermanent Loss',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#E052C6',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#E052C6',
               },
               {
                 offset: 1,
@@ -757,9 +807,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ff8fd6',
+          itemStyle: {
+            color: '#E052C6',
+            borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
             focus: 'series',
@@ -769,17 +819,17 @@ const series = computed(() =>
    
       ]
     : [
-        {
+    {
           type: 'bar',
           name: 'PNL',
-          data: dataRevenues.value,
-          color: '#00C9FF',
+          data: dataTrades.value,
+          color: '#FF00B8',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00C9FF',
+                color: '#FF00B8',
               },
               {
                 offset: 1,
@@ -790,8 +840,8 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
+            color: '#FF00B8',
             borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
           },
           emphasis: {
             focus: 'series',
@@ -799,28 +849,18 @@ const series = computed(() =>
           },
         },
         {
-          type: 'bar',
           name: 'Trades',
-          data: dataRevenues.value,
-          color: '#00C9FF',
+          type: 'bar',
+          data: dataTrades.value,
+          color: '#6e27b2',
           sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#00C9FF',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
+          areaStyle: {},
+
           smooth: true,
           showSymbol: false,
           itemStyle: {
+            color: '#6e27b2',
             borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
           },
           emphasis: {
             focus: 'series',
@@ -828,28 +868,19 @@ const series = computed(() =>
           },
         },
         {
-          type: 'bar',
           name: 'Volume',
-          data: dataRevenues.value,
-          color: '#00C9FF',
+          type: 'bar',
+          data: dataVolumes.value,
+          color: '#FF4242',
           sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#00C9FF',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
+          areaStyle: {},
+          xAxisIndex: 0,
+          yAxisIndex: 1,
           smooth: true,
           showSymbol: false,
           itemStyle: {
+            color: '#FF4242',
             borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
           },
           emphasis: {
             focus: 'series',
@@ -857,16 +888,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'bar',
+          type: 'line',
           name: 'Staked Liquidity',
           data: dataRevenues.value,
-          color: '#00C9FF',
+          color: '#F07E07',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00C9FF',
+                color: '#F07E07',
               },
               {
                 offset: 1,
@@ -876,9 +907,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
+          lineStyle: {
+            width: 1,
+            color: '#F07E07',
           },
           emphasis: {
             focus: 'series',
@@ -886,16 +917,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'bar',
           name: 'Average APR',
-          data: dataRevenues.value,
-          color: '#00C9FF',
+          type: 'line',
+          data: dataAvgApr.value,
+          color: '#ffc925',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00C9FF',
+                color: '#ffc925',
               },
               {
                 offset: 1,
@@ -905,9 +936,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
+          lineStyle: {
+            width: 1,
+            color: '#ffc925',
           },
           emphasis: {
             focus: 'series',
@@ -918,13 +949,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Rewards',
           data: dataRevenues.value,
-          color: '#00C9FF',
+          color: '#05FF00',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00C9FF',
+                color: '#05FF00',
               },
               {
                 offset: 1,
@@ -936,7 +967,7 @@ const series = computed(() =>
           showSymbol: false,
           itemStyle: {
             borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
+            color: '#05FF00',
           },
           emphasis: {
             focus: 'series',
@@ -946,14 +977,14 @@ const series = computed(() =>
         {
           type: 'bar',
           name: 'Capital Gains',
-          data: dataRevenues.value,
-          color: '#00C9FF',
+          data: dataVolatilityIndexes.value,
+          color: '#FAFF00',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00C9FF',
+                color: '#FAFF00',
               },
               {
                 offset: 1,
@@ -964,8 +995,8 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
+            color: '#FAFF00',
             borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
           },
           emphasis: {
             focus: 'series',
@@ -973,16 +1004,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'bar',
+          type: 'line',
           name: 'ROI',
-          data: dataRevenues.value,
-          color: '#00C9FF',
+          data: dataVolatilityIndexes.value,
+          color: '#8FBCFF',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00C9FF',
+                color: '#8FBCFF',
               },
               {
                 offset: 1,
@@ -992,9 +1023,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
+          lineStyle: {
+            width: 1,
+            color: '#8FBCFF',
           },
           emphasis: {
             focus: 'series',
@@ -1002,16 +1033,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'bar',
+          type: 'line',
           name: 'Pool Percentage',
           data: dataRevenues.value,
-          color: '#00C9FF',
+          color: '#FF8FD6',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00C9FF',
+                color: '#FF8FD6',
               },
               {
                 offset: 1,
@@ -1021,9 +1052,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
+          lineStyle: {
+            width: 1,
+            color: '#FF8FD6',
           },
           emphasis: {
             focus: 'series',
@@ -1033,14 +1064,14 @@ const series = computed(() =>
         {
           type: 'bar',
           name: 'Impermanent Loss',
-          data: dataRevenues.value,
-          color: '#00C9FF',
+          data: dataVolatilityIndexes.value,
+          color: '#E052C6',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00C9FF',
+                color: '#E052C6',
               },
               {
                 offset: 1,
@@ -1051,8 +1082,8 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
+            color: '#E052C6',
             borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
           },
           emphasis: {
             focus: 'series',

@@ -1,5 +1,7 @@
 <template>
   <Drawer :is-open="sidebarWalletOpen" :speed="500" @close="closeSidebar">
+    {{ console.log('sidebarWalletState', sidebarWalletState) }}
+    {{ console.log('sidebarWalletOpen', sidebarWalletOpen) }}
     <div style="height: 100%;">
       <ConnectedSidebar @setAddress="(addr) => address = addr" :address="address"
         v-if="address && sidebarWalletState !== 'Settings'" :isConnectedToWeb3="address != null && address != ''"
