@@ -248,7 +248,7 @@
           <div class="d-flex flex-column gap-2">
             <a v-for="(item, i) in addressActivity.filter((el) => el.type == 'month')" :key="`${i}-token`"
               :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`"
-              class="p-2 d-flex align-items-center justify-content-between gap-2">
+              class="p-2 d-flex align-items-center justify-content-between gap-2" style="text-decoration: none;">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
                 <div class="d-flex flex-column">
@@ -262,7 +262,9 @@
               </div>
               <div>
                 <div class="d-flex flex-column align-items-end">
-                  <div style="font-size: 12px; color: #ffffff">
+                  <div style="font-size: 12px; color: #ffffff;  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;">
                     {{ item.time }}
                   </div>
                 </div>

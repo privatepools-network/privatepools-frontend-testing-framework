@@ -304,13 +304,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Revenue',
           data: dataRevenues.value,
-          color: '#00C9FF',
+          color: '#01B47E',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00C9FF',
+                color: '#01B47E',
               },
               {
                 offset: 1,
@@ -322,7 +322,7 @@ const series = computed(() =>
           showSymbol: false,
           itemStyle: {
             borderRadius: [5, 5, 0, 0],
-            color: '#00C9FF',
+            color: '#01B47E',
           },
           emphasis: {
             focus: 'series',
@@ -421,13 +421,13 @@ const series = computed(() =>
           type: 'line',
           name: 'Volatility Index',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#FF8FD6',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#FF8FD6',
               },
               {
                 offset: 1,
@@ -439,7 +439,7 @@ const series = computed(() =>
           showSymbol: false,
           lineStyle: {
             width: 1,
-            color: '#ff8fd6',
+            color: '#FF8FD6',
           },
           emphasis: {
             focus: 'series',
@@ -447,16 +447,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'line',
+          type: 'bar',
           name: 'Profit',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#05FF00',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#05FF00',
               },
               {
                 offset: 1,
@@ -466,9 +466,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ff8fd6',
+          itemStyle: {
+            color: '#05FF00',
+            borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
             focus: 'series',
@@ -476,16 +476,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'line',
+          type: 'bar',
           name: 'Capital Gains',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#FAFF00',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#FAFF00',
               },
               {
                 offset: 1,
@@ -495,9 +495,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ff8fd6',
+          itemStyle: {
+            color: '#FAFF00',
+            borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
             focus: 'series',
@@ -505,16 +505,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'line',
+          type: 'bar',
           name: 'PNL',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#FF00B8',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#FF00B8',
               },
               {
                 offset: 1,
@@ -524,9 +524,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ff8fd6',
+          itemStyle: {
+            color: '#FF00B8',
+            borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
             focus: 'series',
@@ -537,13 +537,13 @@ const series = computed(() =>
           type: 'line',
           name: 'ROI',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#8FBCFF',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#8FBCFF',
               },
               {
                 offset: 1,
@@ -555,7 +555,7 @@ const series = computed(() =>
           showSymbol: false,
           lineStyle: {
             width: 1,
-            color: '#ff8fd6',
+            color: '#8FBCFF',
           },
           emphasis: {
             focus: 'series',
@@ -563,16 +563,16 @@ const series = computed(() =>
           },
         },
         {
-          type: 'line',
+          type: 'bar',
           name: 'Token Incentives',
           data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
+          color: '#00FF75',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#00FF75',
               },
               {
                 offset: 1,
@@ -582,9 +582,9 @@ const series = computed(() =>
           },
           smooth: true,
           showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ff8fd6',
+          itemStyle: {
+            color: '#00FF75',
+            borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
             focus: 'series',
@@ -595,13 +595,13 @@ const series = computed(() =>
           type: 'line',
           name: 'TVL',
           data: dataTVL.value,
-          color: '#ff8fd6',
+          color: '#F07E07',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ff8fd6',
+                color: '#F07E07',
               },
               {
                 offset: 1,
@@ -613,42 +613,42 @@ const series = computed(() =>
           showSymbol: false,
           lineStyle: {
             width: 1,
-            color: '#ff8fd6',
+            color: '#F07E07',
           },
           emphasis: {
             focus: 'series',
             blurScope: 'coordinateSystem',
           },
         },
-        {
-          type: 'line',
-          name: 'Impermanent Loss',
-          data: dataVolatilityIndexes.value,
-          color: '#ff8fd6',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#ff8fd6',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ff8fd6',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
+        // {
+        //   type: 'line',
+        //   name: 'Impermanent Loss',
+        //   data: dataVolatilityIndexes.value,
+        //   color: '#ff8fd6',
+        //   sampling: 'lttb',
+        //   areaStyle: {
+        //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        //       {
+        //         offset: 0,
+        //         color: '#ff8fd6',
+        //       },
+        //       {
+        //         offset: 1,
+        //         color: 'transparent',
+        //       },
+        //     ]),
+        //   },
+        //   smooth: true,
+        //   showSymbol: false,
+        //   lineStyle: {
+        //     width: 1,
+        //     color: '#ff8fd6',
+        //   },
+        //   emphasis: {
+        //     focus: 'series',
+        //     blurScope: 'coordinateSystem',
+        //   },
+        // },
    
       ])
 

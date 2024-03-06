@@ -21,18 +21,18 @@
           </div>
           <template #popper>
             <div class="header__popup" style="width: 100px;">
-            <div @click="router.push('/general')" :class="router.currentRoute.value.path === '/general'
+            <a href="/general" :class="router.currentRoute.value.path === '/general'
               ? 'navigation_text_selected navigation_text'
               : 'navigation_text'
               ">
               General
-            </div>
-            <div @click="router.push('/user_analytics')" :class="router.currentRoute.value.path === '/user_analytics'
+            </a>
+            <a href="/user_analytics"  :class="router.currentRoute.value.path === '/user_analytics'
               ? 'navigation_text_selected navigation_text'
               : 'navigation_text'
               ">
               User
-            </div>
+            </a>
           </div>
           </template>
         </Dropdown>
@@ -1283,6 +1283,7 @@ const computedNetworkImage = computed(() =>
   letter-spacing: 0em;
   text-align: center;
   color: #7d7d7d;
+  text-decoration: none;
 
   &:hover {
     color: #2abdff;

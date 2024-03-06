@@ -339,13 +339,13 @@ const series = computed(() =>
       type: 'bar',
       name: 'Revenue',
       data: dataRevenues.value,
-      color: '#00C9FF',
+      color: '#01B47E',
       sampling: 'lttb',
       areaStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: '#00C9FF',
+            color: '#01B47E',
           },
           {
             offset: 1,
@@ -357,7 +357,7 @@ const series = computed(() =>
       showSymbol: false,
       itemStyle: {
         borderRadius: [5, 5, 0, 0],
-        color: '#00C9FF',
+        color: '#01B47E',
       },
       emphasis: {
         focus: 'series',
@@ -386,7 +386,7 @@ const series = computed(() =>
       type: 'line',
       name: 'TVL',
       data: dataTvl.value,
-      color: '#f07e07',
+      color: '#F07E07',
       sampling: 'lttb',
       xAxisIndex: 0,
       yAxisIndex: 2,
@@ -394,7 +394,7 @@ const series = computed(() =>
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: '#f07e07',
+            color: '#F07E07',
           },
           {
             offset: 1,
@@ -406,7 +406,7 @@ const series = computed(() =>
       showSymbol: false,
       lineStyle: {
         width: 1,
-        color: '#f07e07',
+        color: '#F07E07',
       },
       emphasis: {
         focus: 'series',
@@ -504,13 +504,13 @@ const series = computed(() =>
       type: 'line',
       name: 'Volatility Index',
       data: dataVolatilityIndexes.value,
-      color: '#ff8fd6',
+      color: '#FF8FD6',
       sampling: 'lttb',
       areaStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: '#ff8fd6',
+            color: '#FF8FD6',
           },
           {
             offset: 1,
@@ -522,7 +522,7 @@ const series = computed(() =>
       showSymbol: false,
       lineStyle: {
         width: 1,
-        color: '#ff8fd6',
+        color: '#FF8FD6',
       },
       emphasis: {
         focus: 'series',
