@@ -92,7 +92,8 @@
                   </g>
                   <defs>
                     <clipPath id="clip0_74_4052">
-                      <rect width="5.12436" height="5.12436" fill="white" transform="translate(4.4375 7) rotate(-150)" />
+                      <rect width="5.12436" height="5.12436" fill="white"
+                        transform="translate(4.4375 7) rotate(-150)" />
                     </clipPath>
                   </defs>
                 </svg>
@@ -141,8 +142,8 @@
                 </div>
                 <div style="font-size: 10px; color: #8e8e8e" class="d-flex align-items-center gap-1">
                   <svg v-if="item.percentChange !== 'Out of range' &&
-                    item.percentChange !== 'On range'
-                    " width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+          item.percentChange !== 'On range'
+          " width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_74_4052)">
                       <path
                         d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z"
@@ -157,12 +158,12 @@
                   </svg>
                   {{ item.percentChange }}
                   <svg v-if="item.percentChange === 'Out of range' ||
-                    item.percentChange === 'On range'
-                    " width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+          item.percentChange === 'On range'
+          " width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="2.5" cy="2.5" r="2.5" :fill="item.percentChange === 'Out of range'
-                      ? '#EC9E13'
-                      : '#40B66B'
-                      " />
+          ? '#EC9E13'
+          : '#40B66B'
+          " />
                   </svg>
                 </div>
               </div>
@@ -191,7 +192,8 @@
         <div>
           <div class="tab my-2" style="font-size: 12px">Today</div>
           <div class="d-flex flex-column gap-2">
-            <div v-for="(item, i) in addressActivity.filter((el) => el.type == 'today')" :key="`${i}-token`"
+            <a :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`"
+              v-for="(item, i) in addressActivity.filter((el) => el.type == 'today')" :key="`${i}-token`"
               class="p-2 d-flex align-items-center justify-content-between gap-2">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
@@ -211,13 +213,14 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
         <div>
           <div class="tab my-2" style="font-size: 12px">This week</div>
           <div class="d-flex flex-column gap-2">
-            <div v-for="(item, i) in addressActivity.filter((el) => el.type == 'week')" :key="`${i}-token`"
+            <a :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`"
+              v-for="(item, i) in addressActivity.filter((el) => el.type == 'week')" :key="`${i}-token`"
               class="p-2 d-flex align-items-center justify-content-between gap-2">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
@@ -237,13 +240,14 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
         <div>
           <div class="tab my-2" style="font-size: 12px">This month</div>
           <div class="d-flex flex-column gap-2">
-            <div v-for="(item, i) in addressActivity.filter((el) => el.type == 'month')" :key="`${i}-token`"
+            <a v-for="(item, i) in addressActivity.filter((el) => el.type == 'month')" :key="`${i}-token`"
+              :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`"
               class="p-2 d-flex align-items-center justify-content-between gap-2">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
@@ -263,13 +267,14 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, defineProps, computed, watch, onMounted } from 'vue'
 import { defineEmits } from 'vue'
@@ -278,6 +283,7 @@ import { Network, networkId } from '@/composables/useNetwork'
 import router from '@/router'
 import { getTokenEntity } from '@/lib/helpers/util'
 import { useWalletActivity } from "@/composables/wallet/useWalletActivity"
+import { configService } from '@/services/config/config.service'
 import { useWalletPools } from "@/composables/wallet/useWalletPools"
 import { InitializeMetamask } from '@/lib/utils/metamask'
 const props = defineProps(['isConnectedToWeb3', 'address'])
@@ -373,6 +379,7 @@ async function handlePortfolioData() {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .sidebar_header {
   font-family: Inter;

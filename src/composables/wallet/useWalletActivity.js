@@ -35,6 +35,7 @@ function formatEtherscanTx(tx) {
     return {
       label: 'Transfer',
       desc: shorten(tx.hash),
+      hash: tx.hash,
       img: contractImage,
       time: generateCustomTimeAgoString(tx.timeStamp),
       type,
@@ -43,6 +44,7 @@ function formatEtherscanTx(tx) {
     return {
       label: 'Contract interaction',
       desc: tx.functionName,
+      hash: tx.hash,
       img: contractImage,
       time: generateCustomTimeAgoString(tx.timeStamp),
       type,
