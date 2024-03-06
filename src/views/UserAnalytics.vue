@@ -39,8 +39,10 @@
     >
       Top Referrals
       <svg
-        width="16"
-        height="16"
+      @click="router.push('/referrals')"
+      style="cursor: pointer;"
+        width="11"
+        height="11"
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -116,6 +118,7 @@ import { GetActiveUsers } from '@/composables/users/useActiveUsers'
 import UserAnalyticsPortfoliosTable from '@/components/General/UserAnalyticsPortfoliosTable.vue'
 import SpecificTopPortfolio from './SpecificTopPortfolio.vue'
 import TopReferralsPortfolioTable from '@/components/General/TopReferralsPortfolioTable.vue'
+import router from '@/router'
 
 const allPoolsTableData = ref([])
 const allPairsTableData = ref([])

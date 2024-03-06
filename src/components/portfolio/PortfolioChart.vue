@@ -13,23 +13,13 @@
         <LoaderPulse />
       </div>
       <div v-else class="chart_inside">
-        <div class="timeline_container">
-          <div class="chart-timeline">
-            <div class="chart-equivalent">
-              <div class="chart-equivalent__el" v-for="timeline in timelines" :key="timeline.name" :class="{
-                'chart-equivalent__el_active':
-                  currentTimeline.name == timeline.name,
-              }" @click="changeTimeline(timeline)">
-                {{ timeline.name }}
-              </div>
-              <div class="chart-equivalent__el" :class="{
-                'chart-equivalent__el_active': isCumulativeMode == true,
-              }" @click="isCumulativeMode = !isCumulativeMode">
-                Cumulative
-              </div>
-            </div>
-          </div>
-        </div>
+        <ChartTimeline
+          :isCumulativeMode="isCumulativeMode"
+          :currentTimeline="currentTimeline"
+          :timelines="timelines"
+          @changeCumulativeMode="changeCumulativeMode"
+          @changeTimeline="changeTimeline"
+        />
         <img :src="logo" alt="D3" class="chart-logo" />
         <VChart class="chart" :option="optionObj" :autoresize="true" />
       </div>
@@ -80,6 +70,7 @@ use([
 import { Network, DisplayNetwork } from "@/composables/useNetwork"
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import { networkId } from "@/composables/useNetwork"
+import ChartTimeline from '@/UI/ChartTimeline.vue'
 const emit = defineEmits(['updateChart'])
 
 const props = defineProps(['networks_data', 'chainSelected'])
@@ -91,16 +82,22 @@ const filteredData = computed(() => getFilteredData())
 
 
 const filters = ref({
-  'Gas Fees': true,
-  'Avg Profit per Trade': true,
-  TVL: true,
+  'PNL': true,
+  'Rewards': true,
+  'APR': true,
+  'ROI': true,
+  'Staked Liquidity': true,
   Volume: true,
   'Number of Trades': true,
+  'Capital Gains': true,
 })
 
 const filterKeys = computed(() => Object.keys(filters.value))
 
 const timelines = [
+  {
+    name: 'All-time',
+  },
   {
     name: 'Daily',
   },
@@ -118,7 +115,9 @@ const currentTimeline = ref(timelines[0])
 function changeTimeline(tl) {
   currentTimeline.value = tl
 }
-
+function changeCumulativeMode() {
+  isCumulativeMode.value = !isCumulativeMode.value
+}
 
 const dates = computed(() => {
   return filteredData.value.map((v) => v.Date)
@@ -126,16 +125,37 @@ const dates = computed(() => {
 
 const dataGasFees = computed(() => {
   if (
-    preFiltersList.value.find((f) => f.code == 'Gas Fees').selected
+    preFiltersList.value.find((f) => f.code == 'PNL').selected
   )
-    return filteredData.value.map((v) => v['Gas Fees'])
+    return filteredData.value.map((v) => v['PNL'])
+  return []
+})
+const dataCapitalGains = computed(() => {
+  if (
+    preFiltersList.value.find((f) => f.code == 'Capital Gains').selected
+  )
+    return filteredData.value.map((v) => v['Capital Gains'])
+  return []
+})
+const dataRewards = computed(() => {
+  if (
+    preFiltersList.value.find((f) => f.code == 'Rewards').selected
+  )
+    return filteredData.value.map((v) => v['Rewards'])
+  return []
+})
+const dataAPR = computed(() => {
+  if (
+    preFiltersList.value.find((f) => f.code == 'APR').selected
+  )
+    return filteredData.value.map((v) => v['APR'])
   return []
 })
 const dataProfits = computed(() => {
   if (
-    preFiltersList.value.find((f) => f.code == 'Avg Profit per Trade').selected
+    preFiltersList.value.find((f) => f.code == 'ROI').selected
   )
-    return filteredData.value.map((v) => v['Avg Profit per Trade'])
+    return filteredData.value.map((v) => v['ROI'])
   return []
 })
 
@@ -216,6 +236,7 @@ function formatChartData(formatted_tvl, formatted_token_snapshots, chart_data) {
         Blockchain: '',
         timestamp: formatted_tvl[i].timestamp,
         "Avg Profit per Trade": 0,
+        "ROI": 0,
         "Revenue": 0,
         "Gas Fees": 0,
         "Volume": 0,
@@ -366,7 +387,7 @@ const optionObj = ref({
     },
     {
       type: 'value',
-      name: 'TVL',
+      name: 'Volume',
       position: 'right',
       offset: 0,
       alignTicks: true,
@@ -430,8 +451,38 @@ const optionObj = ref({
   series: [
     {
       type: 'line',
-      name: 'Avg Profit per Trade',
+      name: 'ROI',
       data: dataProfits,
+
+      color: '#8bff8e',
+      sampling: 'lttb',
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: '#8bff8e',
+          },
+          {
+            offset: 1,
+            color: 'transparent',
+          },
+        ]),
+      },
+      smooth: true,
+      showSymbol: false,
+      lineStyle: {
+        width: 1,
+        color: '#8bff8e',
+      },
+      emphasis: {
+        focus: 'series',
+        blurScope: 'coordinateSystem',
+      },
+    },
+    {
+      type: 'line',
+      name: 'Capital Gains',
+      data: dataCapitalGains,
 
       color: '#8bff8e',
       sampling: 'lttb',
@@ -479,7 +530,7 @@ const optionObj = ref({
       },
     },
     {
-      name: 'Gas Fees',
+      name: 'PNL',
       type: 'bar',
       data: dataGasFees,
       color: '#87F1FF',
@@ -508,9 +559,69 @@ const optionObj = ref({
       },
     },
     {
+      name: 'APR',
+      type: 'bar',
+      data: dataAPR,
+      color: '#87F1FF',
+      sampling: 'lttb',
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: '#87F1FF',
+          },
+          {
+            offset: 1,
+            color: 'transparent',
+          },
+        ]),
+      },
+      smooth: true,
+      showSymbol: false,
+      lineStyle: {
+        width: 1,
+        color: '#87F1FF',
+      },
+      emphasis: {
+        focus: 'series',
+        blurScope: 'coordinateSystem',
+      },
+    },
+    {
       type: 'line',
-      name: 'TVL',
+      name: 'Staked Liquidity',
       data: dataTvl,
+      color: '#f07e07',
+      sampling: 'lttb',
+      xAxisIndex: 0,
+      yAxisIndex: 1,
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
+          {
+            offset: 0,
+            color: '#f07e07',
+          },
+          {
+            offset: 1,
+            color: 'transparent',
+          },
+        ]),
+      },
+      smooth: true,
+      showSymbol: false,
+      lineStyle: {
+        width: 1,
+        color: '#f07e07',
+      },
+      emphasis: {
+        focus: 'series',
+        blurScope: 'coordinateSystem',
+      },
+    },
+    {
+      type: 'line',
+      name: 'Rewards',
+      data: dataRewards,
       color: '#f07e07',
       sampling: 'lttb',
       xAxisIndex: 0,
@@ -640,6 +751,7 @@ const optionObj = ref({
 })
 
 const TimelineFilters = {
+  ['All-time']: groupTimestampsByDayWithIndexes,
   Daily: groupTimestampsByDayWithIndexes,
   Weekly: groupTimestampsByWeekWithIndexes,
   Monthly: groupTimestampsByMonthWithIndexes,
@@ -647,15 +759,29 @@ const TimelineFilters = {
 
 const preFiltersList = ref([
   {
-    title: 'TVL',
-    code: 'TVL',
+    title: 'Staked Liquidity',
+    code: 'Staked Liquidity',
     selected: true,
     cumulable: false,
     isSolo: true,
   },
   {
-    title: 'Gas Fees',
-    code: 'Gas Fees',
+    title: 'PNL',
+    code: 'PNL',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'APR',
+    code: 'APR',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'Rewards',
+    code: 'Rewards',
     selected: true,
     cumulable: true,
     isSolo: true,
@@ -675,8 +801,15 @@ const preFiltersList = ref([
     isSolo: true,
   },
   {
-    title: 'Avg Profit per Trade',
-    code: 'Avg Profit per Trade',
+    title: 'ROI',
+    code: 'ROI',
+    selected: true,
+    cumulable: false,
+    isSolo: true,
+  },
+  {
+    title: 'Capital Gains',
+    code: 'Capital Gains',
     selected: true,
     cumulable: false,
     isSolo: true,

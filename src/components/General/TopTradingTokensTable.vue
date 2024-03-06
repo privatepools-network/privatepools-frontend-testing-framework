@@ -321,8 +321,8 @@ const headers = [
   '#',
   'Tokens name',
   'TVL',
-  'Fees',
-  'APR',
+  'Volume',
+  'Balance',
 
 ]
 

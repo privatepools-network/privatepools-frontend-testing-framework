@@ -1,6 +1,5 @@
 <template>
   <MainCard>
-    <div class="center_container">
       <CRow class="mb-4">
         <div class="d-flex align-items-center justify-content-between">
           <div class="caption-row">
@@ -145,7 +144,7 @@
       Invested Pools
     </div>
     <SpecificPortfolioTable/>
-    </div>
+ 
   </MainCard>
 </template>
 <script setup>

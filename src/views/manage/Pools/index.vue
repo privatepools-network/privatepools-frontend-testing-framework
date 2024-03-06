@@ -1310,19 +1310,18 @@ function filterPoolAmount() {
 
 .load_more {
   font-family: Inter;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 24px;
-  letter-spacing: 0em;
-  text-align: center;
-  color: #7D7D7D;
-  padding: 15px;
-
-  &:hover {
-    color: #00affe;
-    cursor: pointer;
-    background: #ffffff0e;
-  }
+font-size: clamp(12px, 0.8vw, 14px);
+font-weight: 600;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: center;
+color: #7D7D7D;
+padding: 15px;
+&:hover {
+  color: #00affe;
+  cursor: pointer;
+  background: #ffffff0e;
+}
 }
 </style>
 

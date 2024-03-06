@@ -398,6 +398,7 @@ const filteredActivities = [
   @include cells-widths;
 }
 .table {
+  
   &__header {
     display: flex;
     margin-bottom: 18px;
@@ -445,9 +446,11 @@ const filteredActivities = [
     width: 100%;
     display: table;
     table-layout: fixed;
-    // background: #22222224;
-    // box-shadow: 0px 4px 4px 0px #00000040;
-    // border-radius: 16px;
+  vertical-align: middle;
+    background: #22222224;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    border-radius: 16px;
+    margin-top: 10px;
   }
 
   &-cell {

@@ -4,550 +4,574 @@
     <LoaderPulse />
   </div>
   <div class="stats_container">
-    
-    <div class="stats_column_tables">
-      <div class="stats_column_tables_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              ROI
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">ROI</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Average ROI:</b> Mean Return on Investment.</div>
-                    <div><b>VS USD</b> ROI compared to US Dollar.</div>
-                    <div><b>VS LIDO</b> Shows ROI relative to Lido across various intervals.</div>
-                    <div><b>VS BTC</b> Compares ROI against Bitcoin.</div>
-                    <div><b>VS DeFi Yield</b> ROI versus average DeFi yields.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-        </div>
+       
 
-        <DataTable v-if="roiData"
-          :default_head_captions="['Period', 'ROI', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']" :data="roiData"
-          :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
-          :header_cells_bg="'table_header_cell_bg'" :displayTable="roiData"
-          :header_cells_inside="'table_header_cell_inside'">
-          <template v-slot:default="{ dataCell, dataCellKey }">
-            <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
-              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
-              data-coreui-placement="left" :title="dataCell">
-              {{ dataCell }}
-            </div>
-            <div v-else :class="`text-truncate file-table-cell ${parseFloat(dataCell) > 0
-              ? 'positive'
-              : parseFloat(dataCell) < 0
-                ? 'negative'
-                : ''
-              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
-              :title="dataCell">
-              <div class="d-flex align-items-center justify-content-end"
-                :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
-                <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
-                <div>{{ formatBigNumber(dataCell) }}</div>
-                <div>%</div>
-              </div>
-            </div>
-          </template>
-        </DataTable>
-      </div>
-      <div class="stats_column_tables_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px">
-          <div class="d-flex gap-2 align-items-center">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              APR
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">APR</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Average APR:</b> Mean annualized return.</div>
-                    <div><b>VS USD</b> APR comparison against US Dollar.</div>
-                    <div><b>VS LIDO</b> APR relative to Lido over selected timeframes.</div>
-                    <div><b>VS BTC</b> APR benchmarked against Bitcoin.</div>
-                    <div><b>VS DeFi Yield</b> APR versus typical DeFi yields.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-        </div>
+       <div class="stats_column_tables">
+           <div class="stats_column_tables_inside">
+               <div class="d-flex align-items-center justify-content-between"
+                   style="background: #2222225d; padding: 8px">
+                   <div class="d-flex gap-2">
+                       <div style="
+               color: rgba(243, 244, 246, 1);
+               font-weight: 500;
+               font-size: clamp(10px, 0.9vw, 15px);
+             ">
+                           ROI
+                       </div>
+                       <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+                           <div style="cursor: help">
+                               <img :src="info" class="info_icon" />
+                           </div>
+                           <template #popper>
+                               <div style="
+                     background: linear-gradient(
+                       rgba(89, 89, 89, 0.75),
+                       rgba(73, 73, 73, 0.15)
+                     );
+                     backdrop-filter: blur(10px);
+                     padding: 10px;
+                     border-radius: 4px;
+                     width: 400px;
+                   ">
+                                   <div style="font-size:clamp(10px, 0.9vw, 16px)">ROI</div>
+                                   <div
+                                       style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                                       <div><b>Average ROI:</b> Mean Return on Investment.</div>
+                                       <div><b>VS USD</b> ROI compared to US Dollar.</div>
+                                       <div><b>VS LIDO</b> Shows ROI relative to Lido across various intervals.</div>
+                                       <div><b>VS BTC</b> Compares ROI against Bitcoin.</div>
+                                       <div><b>VS DeFi Yield</b> ROI versus average DeFi yields.</div>
+                                       <div><b></b> </div>
+                                   </div>
+                               </div>
+                           </template>
+                       </VTooltip>
+                   </div>
+               </div>
 
-        <DataTable v-if="aprData && aprData.length > 0" :data="aprData" :table_bg="'rgba(7, 14, 15, 0.5)'"
-          :rowHeight="'h-25'" fontSizeTable="small" :header_cells_bg="'table_header_cell_bg'" :displayTable="aprData"
-          :default_head_captions="['Period', 'APR', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
-          :header_cells_inside="'table_header_cell_inside'">
-          <template v-slot:default="{ dataCell, dataCellKey }">
-            <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
-              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
-              data-coreui-placement="left" :title="dataCell">
-              {{ dataCell }}
-            </div>
-            <div v-else :class="`text-truncate file-table-cell  ${parseFloat(dataCell) > 0
-              ? 'positive'
-              : parseFloat(dataCell) < 0
-                ? 'negative'
-                : ''
-              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
-              :title="dataCell">
-              <div class="d-flex align-items-center justify-content-end"
-                :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
-                <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
-                <div>{{ formatBigNumber(dataCell) }}</div>
-                <div>%</div>
-              </div>
-            </div>
-          </template>
-        </DataTable>
-        <LoaderPulse style="height: 200px;" v-else></LoaderPulse>
-      </div>
+               <DataTable :default_head_captions="['Period', 'ROI', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
+                   :data="roiData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
+                   :header_cells_bg="'table_header_cell_bg'" :displayTable="roiData"
+                   :header_cells_inside="'table_header_cell_inside'">
+                   <template v-slot:default="{ dataCell, dataCellKey }">
+                       <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
+                           style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
+                           data-coreui-placement="left" :title="dataCell">
+                           {{ dataCell }}
+                       </div>
+                       <div v-else :class="`text-truncate file-table-cell ${parseFloat(dataCell) > 0
+                           ? 'positive'
+                           : parseFloat(dataCell) < 0
+                               ? 'negative'
+                               : ''
+                           }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip"
+                           data-coreui-placement="left" :title="dataCell">
+                           <div class="d-flex align-items-center justify-content-end"
+                               :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
+                               <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
+                               <div>{{ formatBigNumber(dataCell) }}</div>
+                               <div>%</div>
+                           </div>
+                       </div>
+                   </template>
+               </DataTable>
+           </div>
+           <div class="stats_column_tables_inside">
+               <div class="d-flex align-items-center justify-content-between"
+                   style="background: #2222225d; padding: 8px">
+                   <div class="d-flex gap-2">
+                       <div style="
+               color: rgba(243, 244, 246, 1);
+               font-weight: 500;
+               font-size: clamp(10px, 0.9vw, 15px);
+             ">
+                           APR
+                       </div>
+                       <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+                           <div style="cursor: help">
+                               <img :src="info" class="info_icon" />
+                           </div>
+                           <template #popper>
+                               <div style="
+                     background: linear-gradient(
+                       rgba(89, 89, 89, 0.75),
+                       rgba(73, 73, 73, 0.15)
+                     );
+                     backdrop-filter: blur(10px);
+                     padding: 10px;
+                     border-radius: 4px;
+                     width: 400px;
+                   ">
+                                   <div style="font-size:clamp(10px, 0.9vw, 16px)">APR</div>
+                                   <div
+                                       style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                                       <div><b>Average APR:</b> Mean annualized return.</div>
+                                       <div><b>VS USD</b> APR comparison against US Dollar.</div>
+                                       <div><b>VS LIDO</b> APR relative to Lido over selected timeframes.</div>
+                                       <div><b>VS BTC</b> APR benchmarked against Bitcoin.</div>
+                                       <div><b>VS DeFi Yield</b> APR versus typical DeFi yields.</div>
+                                       <div><b></b> </div>
+                                   </div>
+                               </div>
+                           </template>
+                       </VTooltip>
+                   </div>
+               </div>
 
+               <DataTable :default_head_captions="['Period', 'APR', 'VS USD', 'VS LIDO', 'VS BTC', 'VS DeFi YIELD']"
+                   :data="aprData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
+                   :header_cells_bg="'table_header_cell_bg'" :displayTable="aprData"
+                   :header_cells_inside="'table_header_cell_inside'">
+                   <template v-slot:default="{ dataCell, dataCellKey }">
+                       <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
+                           style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
+                           data-coreui-placement="left" :title="dataCell">
+                           {{ dataCell }}
+                       </div>
+                       <div v-else :class="`text-truncate file-table-cell  ${parseFloat(dataCell) > 0
+                           ? 'positive'
+                           : parseFloat(dataCell) < 0
+                               ? 'negative'
+                               : ''
+                           }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip"
+                           data-coreui-placement="left" :title="dataCell">
+                           <div class="d-flex align-items-center justify-content-end"
+                               :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
+                               <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
+                               <div>{{ formatBigNumber(dataCell) }}</div>
+                               <div>%</div>
+                           </div>
+                       </div>
+                   </template>
+               </DataTable>
+           </div>
+       </div>
+       <div class="stats_column gap-xxl-5 gap-1">
+           <div class="stats_column_inside">
+               <div class="d-flex align-items-center justify-content-between"
+                   style="background: #2222225d; padding: 8px">
+                   <div class="d-flex gap-2">
+                       <div style="
+               color: rgba(243, 244, 246, 1);
+               font-weight: 500;
+               font-size: clamp(10px, 0.9vw, 15px);
+             ">
+                           Drawdowns
+                       </div>
+                       <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+                           <div style="cursor: help">
+                               <img :src="info" class="info_icon" />
+                           </div>
+                           <template #popper>
+                               <div style="
+                     background: linear-gradient(
+                       rgba(89, 89, 89, 0.75),
+                       rgba(73, 73, 73, 0.15)
+                     );
+                     backdrop-filter: blur(10px);
+                     padding: 10px;
+                     border-radius: 4px;
+                     width: 400px;
+                   ">
+                                   <div style="font-size:clamp(10px, 0.9vw, 16px)">Dradowns</div>
+                                   <div
+                                       style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                                       <div><b>Maximum Drawdown:</b> Peak-to-trough loss magnitude.</div>
+                                       <div><b>Duration:</b> Time from drawdown start to lowest point.</div>
+                                       <div><b>Recovery Period:</b> Time to return to peak after low.</div>
+                                       <div><b>Capital Loss:</b> Actual monetary loss amount.</div>
+                                       <div><b>Percentual Impact:</b> Loss as a percentage of total investment.</div>
+                                       <div><b></b> </div>
+                                   </div>
+                               </div>
+                           </template>
+                       </VTooltip>
+                   </div>
+                   <div class="d-flex align-items-center gap-2">
 
-      <!-- <div class="stats_column_tables_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              Investments
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">ROI</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Average ROI:</b> Mean Return on Investment.</div>
-                    <div><b>VS USD</b> ROI compared to US Dollar.</div>
-                    <div><b>VS LIDO</b> Shows ROI relative to Lido across various intervals.</div>
-                    <div><b>VS BTC</b> Compares ROI against Bitcoin.</div>
-                    <div><b>VS DeFi Yield</b> ROI versus average DeFi yields.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-        </div>
+                       <VueDatePicker class="dp__theme_dark" v-model="datePickerDrawdown" placeholder="Filter by Date" utc
+                           dark="true" range>
+                           <template #trigger>
+                               <div style="cursor: pointer;"><img :src="calendar" /></div>
 
-        <DataTable v-if="investmentsData"
-          :default_head_captions="['Assets', 'Deposit', 'Withdraw', 'Current Amount', 'Profit', 'Deviation %']"
-          :data="investmentsData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
-          :header_cells_bg="'table_header_cell_bg'" :displayTable="investmentsData"
-          :header_cells_inside="'table_header_cell_inside'">
-          <template v-slot:default="{ dataCell, dataCellKey }">
-            <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
-              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
-              data-coreui-placement="left" :title="dataCell">
-              {{ dataCell }}
-            </div>
-            <div v-else :class="`text-truncate file-table-cell ${parseFloat(dataCell) > 0
-              ? 'positive'
-              : parseFloat(dataCell) < 0
-                ? 'negative'
-                : ''
-              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
-              :title="dataCell">
-              <div class="d-flex align-items-center justify-content-end"
-                :class="{ 'text-danger': parseFloat(dataCell) < 0, 'text-success': parseFloat(dataCell) > 0 }">
-                <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
-                <div>{{ formatBigNumber(dataCell) }}</div>
-                <div>%</div>
-              </div>
-            </div>
-          </template>
-        </DataTable>
-      </div> -->
+                           </template>
+                       </VueDatePicker>
+                   </div>
+               </div>
+               <div v-if="drawDownData.length > 0" v-for="item in drawDownData" :key="item" style="padding: 0px 8px">
+                   <div class="d-flex align-items-center justify-content-between" style="
+             border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+             padding: 8px 0px;
+           ">
+                       <div class="stats_text">{{ item.text }}</div>
+                       <div class="stats_value">{{ item.value }}</div>
+                   </div>
+               </div>
+               <div v-else v-for="item in drawDownTitles" :key="`draw-down-title-${item}`" style="padding: 0px 8px">
+                   <div class="d-flex align-items-center justify-content-between" style="
+             border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+             padding: 8px 0px;
+           ">
+                       <div class="stats_text">{{ item }}</div>
+                       <div class="stats_value">
+                           <ThreeDots></ThreeDots>
+                       </div>
+                   </div>
+               </div>
+           </div>
+           <!-- <div style="width: 500px; display: flex; flex-direction: column;">
+       <div
+         class="d-flex align-items-center justify-content-between"
+         style="background: #2222225d; padding: 8px"
+       >
+         <div class="d-flex align-items-center gap-2">
+           <div class="d-flex gap-2">
+             <div
+               style="
+                 color: rgba(243, 244, 246, 1);
+                 font-weight: 500;
+                 font-size: clamp(10px, 0.9vw, 15px);
+               "
+             >
+               Return on Investments
+             </div>
+             <img :src="info" />
+             <div class="vr"></div>
+           </div>
 
-    </div>
-    <div class="stats_column gap-xxl-5 gap-1">
-      <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              Drawdowns
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">Dradowns</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Maximum Drawdown:</b> Peak-to-trough loss magnitude.</div>
-                    <div><b>Duration:</b> Time from drawdown start to lowest point.</div>
-                    <div><b>Recovery Period:</b> Time to return to peak after low.</div>
-                    <div><b>Capital Loss:</b> Actual monetary loss amount.</div>
-                    <div><b>Percentual Impact:</b> Loss as a percentage of total investment.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-          <div class="d-flex align-items-center gap-2">
+           <div
+             class="d-flex gap-2 align-items-center"
+             style="cursor: pointer"
+           >
+             <img :src="InvestSettings" />
+             <div class="stats_text" style="color: #00C9FF">
+               USD
+             </div>
+           </div>
+         </div>
+         <img :src="calendar" />
+       </div>
+       <div
+         v-for="item in returnInvestMOCK"
+         :key="item"
+         style="padding: 0px 8px"
+       >
+         <div
+           class="d-flex align-items-center justify-content-between"
+           style="
+             border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+             padding: 8px 0px;
+           "
+         >
+           <div class="stats_text">{{ item.text }}</div>
+           <div
+             class="stats_value"
+             :class="item.value < 0 ? 'text-danger' : 'text-success'"
+           >
+             {{ item.value }}
+           </div>
+         </div>
+       </div>
+     </div> -->
 
-            <VueDatePicker class="dp__theme_dark" v-model="datePickerDrawdown" placeholder="Filter by Date" utc
-              dark="true" range>
-              <template #trigger>
-                <div style="cursor: pointer;"><img :src="calendar" /></div>
+           <div class="stats_column_inside">
+               <div class="d-flex align-items-center justify-content-between"
+                   style="background: #2222225d; padding: 8px">
+                   <div class="d-flex gap-2">
+                       <div style="
+               color: rgba(243, 244, 246, 1);
+               font-weight: 500;
+               font-size: clamp(10px, 0.9vw, 15px);
+             ">
+                           Risk Metrics
+                       </div>
+                       <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+                           <div style="cursor: help">
+                               <img :src="info" class="info_icon" />
+                           </div>
+                           <template #popper>
+                               <div style="
+                     background: linear-gradient(
+                       rgba(89, 89, 89, 0.75),
+                       rgba(73, 73, 73, 0.15)
+                     );
+                     backdrop-filter: blur(10px);
+                     padding: 10px;
+                     border-radius: 4px;
+                     width: 400px;
+                   ">
+                                   <div style="font-size:clamp(10px, 0.9vw, 16px)">Risk Metrics</div>
+                                   <div
+                                       style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                                       <div><b>Sharpe Ratio:</b> Assesses excess return per unit of risk.</div>
+                                       <div><b>Sortino Ratio:</b> Evaluates return for downside risk only.</div>
+                                       <div><b>Volatility:</b> Measures price fluctuation intensity.</div>
+                                       <div><b></b> </div>
+                                   </div>
+                               </div>
+                           </template>
+                       </VTooltip>
+                   </div>
+                   <div class="d-flex align-items-center gap-2">
+                       <VueDatePicker class="dp__theme_dark" v-model="datePickerRisks" placeholder="Filter by Date" utc
+                           dark="true" range>
+                           <template #trigger>
+                               <div style="cursor: pointer;"><img :src="calendar" /></div>
 
-              </template>
-            </VueDatePicker>
-          </div>
-        </div>
-        <div v-for="item in drawDownData" :key="item" style="padding: 0px 8px">
-          <div class="d-flex align-items-center justify-content-between" style="
-              border-bottom: 1px solid rgba(44, 44, 44, 0.2);
-              padding: 8px 0px;
-            ">
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
-          </div>
-        </div>
-      </div>
+                           </template>
+                       </VueDatePicker>
+                       <Dropdown :distance="4" :placement="'bottom-center'">
+                           <div style="cursor: pointer;">
+                               <img :src="riskMetricsIcon" />
 
-      <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              Risk Metrics
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">Risk Metrics</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Sharpe Ratio:</b> Assesses excess return per unit of risk.</div>
-                    <div><b>Sortino Ratio:</b> Evaluates return for downside risk only.</div>
-                    <div><b>Volatility:</b> Measures price fluctuation intensity.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-          <div class="d-flex align-items-center gap-2">
-            <VueDatePicker class="dp__theme_dark" v-model="datePickerRisks" placeholder="Filter by Date" utc dark="true"
-              range>
-              <template #trigger>
-                <div style="cursor: pointer;"><img :src="calendar" /></div>
+                           </div>
+                           <template #popper>
+                               <div style="
+                     width: 250px;
+                     background-color: rgba(7, 14, 15, 0.9);
+                     color: rgba(255, 255, 255, 1);
+                     border-radius: 5px 5px 0px 0px;
+                     padding: 10px;
 
-              </template>
-            </VueDatePicker>
-            <Dropdown :distance="4" :placement="'bottom-center'">
-              <div style="cursor: pointer;">
-                <img :src="riskMetricsIcon" />
-
-              </div>
-              <template #popper>
-                <div style="
-                      width: 250px;
-                      background-color: rgba(7, 14, 15, 0.9);
-                      color: rgba(255, 255, 255, 1);
-                      border-radius: 5px 5px 0px 0px;
-                      padding: 10px;
-
-                    ">
-                  <p @click="riskFreeOption = 'bonds'" v-close-popper class="chart_dropdown_items">
-                    Risk-Free American Bonds
-                  </p>
-                  <p @click="riskFreeOption = 'dai'" v-close-popper class="chart_dropdown_items">
-                    Risk-Free Staked DAI
-                  </p>
-
-
-                </div>
-              </template>
-            </Dropdown>
-          </div>
-        </div>
-        <div v-for="item in riskMetrics" :key="item" style="padding: 0px 8px">
-          <div class="d-flex align-items-center justify-content-between" style="
-              border-bottom: 1px solid rgba(44, 44, 44, 0.2);
-              padding: 8px 0px;
-            ">
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px">
-          <div class="d-flex gap-2">
-            <div style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              ">
-              Profits
-            </div>
-            <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-              <div style="cursor: help">
-                <img :src="info" class="info_icon" />
-              </div>
-              <template #popper>
-                <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                  <div style="font-size:clamp(10px, 0.9vw, 16px)">Profits</div>
-                  <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                    <div><b>Average Profit per Trade:</b> The mean earnings across individual trades.</div>
-                    <div><b>Average Profit per Pool:</b> Average earnings calculated over a specific pool of trades.</div>
-                    <div><b></b> </div>
-                  </div>
-                </div>
-              </template>
-            </VTooltip>
-          </div>
-          <div class="d-flex align-items-center gap-2">
-            <VueDatePicker class="dp__theme_dark" v-model="datePickerProfit" placeholder="Filter by Date" utc dark="true"
-              range>
-              <template #trigger>
-                <div style="cursor: pointer;"><img :src="calendar" /></div>
-
-              </template>
-            </VueDatePicker>
-          </div>
-        </div>
-        <div v-for="item in profitsData" :key="item" style="padding: 0px 8px">
-          <div class="d-flex align-items-center justify-content-between" style="
-              border-bottom: 1px solid rgba(44, 44, 44, 0.2);
-              padding: 8px 0px;
-            ">
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
-          </div>
-        </div>
-      </div>
+                   ">
+                                   <p @click="riskFreeOption = 'bonds'" v-close-popper
+                                       :class="{ 'chart_dropdown_items_active': riskFreeOption == 'bonds' }"
+                                       class="chart_dropdown_items">
+                                       Risk-Free American Bonds
+                                   </p>
+                                   <p @click="riskFreeOption = 'dai'" v-close-popper
+                                       :class="{ 'chart_dropdown_items_active': riskFreeOption == 'dai' }"
+                                       class="chart_dropdown_items">
+                                       Risk-Free Staked DAI
+                                   </p>
 
 
-    </div>
+                               </div>
+                           </template>
+                       </Dropdown>
+                   </div>
+               </div>
+               <div v-if="riskMetrics.length > 0" v-for="item in riskMetrics" :key="item" style="padding: 0px 8px">
+                   <div class="d-flex align-items-center justify-content-between" style="
+             border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+             padding: 8px 0px;
+           ">
+                       <div class="stats_text">{{ item.text }}</div>
+                       <div class="stats_value">{{ item.value }}</div>
+                   </div>
+               </div>
+               <div v-else v-for="item in riskMetricsTitles" :key="`risk-metrics-title-${item}`" style="padding: 0px 8px">
+                   <div class="d-flex align-items-center justify-content-between" style="
+             border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+             padding: 8px 0px;
+           ">
+                       <div class="stats_text">{{ item }}</div>
+                       <div class="stats_value">
+                           <ThreeDots></ThreeDots>
+                       </div>
+                   </div>
+               </div>
+
+           </div>
+
+           <div class="stats_column_inside">
+               <div class="d-flex align-items-center justify-content-between"
+                   style="background: #2222225d; padding: 8px">
+                   <div class="d-flex gap-2">
+                       <div style="
+               color: rgba(243, 244, 246, 1);
+               font-weight: 500;
+               font-size: clamp(10px, 0.9vw, 15px);
+             ">
+                           Profits
+                       </div>
+                       <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+                           <div style="cursor: help">
+                               <img :src="info" class="info_icon" />
+                           </div>
+                           <template #popper>
+                               <div style="
+                     background: linear-gradient(
+                       rgba(89, 89, 89, 0.75),
+                       rgba(73, 73, 73, 0.15)
+                     );
+                     backdrop-filter: blur(10px);
+                     padding: 10px;
+                     border-radius: 4px;
+                     width: 400px;
+                   ">
+                                   <div style="font-size:clamp(10px, 0.9vw, 16px)">Profits</div>
+                                   <div
+                                       style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                                       <div><b>Average Profit per Trade:</b> The mean earnings across individual trades.
+                                       </div>
+                                       <div><b>Average Profit per Pool:</b> Average earnings calculated over a specific
+                                           pool of trades.</div>
+                                       <div><b></b> </div>
+                                   </div>
+                               </div>
+                           </template>
+                       </VTooltip>
+                   </div>
+                   <div class="d-flex align-items-center gap-2">
+                       <VueDatePicker class="dp__theme_dark" v-model="datePickerProfit" placeholder="Filter by Date" utc
+                           dark="true" range>
+                           <template #trigger>
+                               <div style="cursor: pointer;"><img :src="calendar" /></div>
+
+                           </template>
+                       </VueDatePicker>
+                   </div>
+               </div>
+               <div v-if="profitsData.length > 0" v-for="item in profitsData" :key="item" style="padding: 0px 8px">
+                   <div class="d-flex align-items-center justify-content-between" style="
+             border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+             padding: 8px 0px;
+           ">
+                       <div class="stats_text">{{ item.text }}</div>
+                       <div class="stats_value">{{ item.value }}</div>
+                   </div>
+               </div>
+               <div v-else v-for="item in profitsTitles" :key="`profits-${item}`" style="padding: 0px 8px">
+                   <div class="d-flex align-items-center justify-content-between" style="
+             border-bottom: 1px solid rgba(44, 44, 44, 0.2);
+             padding: 8px 0px;
+           ">
+                       <div class="stats_text">{{ item }}</div>
+                       <div class="stats_value">
+                           <ThreeDots></ThreeDots>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <div class="stats_column_charts" style="gap:30px;">
+           <div class="stats_column_inside">
+               <div class="d-flex align-items-center justify-content-between"
+                   style="background: #2222225d; padding: 8px">
+                   <div class="d-flex align-items-center gap-2">
+                       <div class="d-flex gap-2 align-items-baseline">
+                           <div style="
+                 color: rgba(243, 244, 246, 1);
+                 font-weight: 500;
+                 font-size: clamp(10px, 0.9vw, 15px);
+               ">
+                               {{ AssetsChart }}
+                           </div>
 
 
-    <div class="stats_column_charts" style="gap:30px">
-      <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px">
-          <div class="d-flex align-items-center gap-2">
-            <div class="d-flex gap-2 align-items-baseline">
-              <div style="
-                  color: rgba(243, 244, 246, 1);
-                  font-weight: 500;
-                  font-size: clamp(10px, 0.9vw, 15px);
-                ">
-                {{ AssetsChart }}
-              </div>
+                       </div>
 
 
-            </div>
+                   </div>
+                   <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+                       <div style="cursor: help">
+                           <img :src="info" class="info_icon" />
+                       </div>
+                       <template #popper>
+                           <div style="
+                     background: linear-gradient(
+                       rgba(89, 89, 89, 0.75),
+                       rgba(73, 73, 73, 0.15)
+                     );
+                     backdrop-filter: blur(10px);
+                     padding: 10px;
+                     border-radius: 4px;
+                     width: 400px;
+                   ">
+                               <div style="font-size:clamp(10px, 0.9vw, 16px)">Assets Breakdown By Type</div>
+                               <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                                   <div>This pie chart illustrates the distribution of assets, categorized by type. Each
+                                       segment represents a different asset class, showing the proportion of each within
+                                       the total portfolio.</div>
+                               </div>
+                           </div>
+                       </template>
+                   </VTooltip>
+               </div>
+               <div class="diagram-container">
+                   <div v-if="assets.length > 0">
+                       <apexchart v-if="AssetsChart === 'Assets Breakdown'" :options="dynamicDonut(
+                           assets.map(a => a.symbol),
+                           assets.map((a) => stringToColor(a.symbol)), assets)" :series="assets.map(a => a.percent)"
+                           :height="410" :width="370" />
+                       <apexchart v-else
+                           :options="dynamicDonut(
+                               ['Bitcoin (BTC)', 'Ethereum (ETH)', 'RWAs', 'LSDs', 'Stablecoins', 'Infrastructure', 'L1s', 'L2s', 'DeFi'],
+                               ['rgba(230, 177, 12, 1)', '#00C9FF', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)'])"
+                           :series="[44, 55, 41, 17, 15, 22, 11, 8, 6]" :height="410" :width="415" />
+                   </div>
+                   <div v-else style="height: 228px">
+                       <LoaderPulse></LoaderPulse>
+                   </div>
+               </div>
+
+           </div>
 
 
-          </div>
-          <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-            <div style="cursor: help">
-              <img :src="info" class="info_icon" />
-            </div>
-            <template #popper>
-              <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                <div style="font-size:clamp(10px, 0.9vw, 16px)">Assets Breakdown By Type</div>
-                <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                  <div>This pie chart illustrates the distribution of assets, categorized by type. Each segment represents
-                    a different asset class, showing the proportion of each within the total portfolio.</div>
-                </div>
-              </div>
-            </template>
-          </VTooltip>
-        </div>
-        <div class="diagram-container">
-          <div v-if="assets">
-            <apexchart v-if="AssetsChart === 'Assets Breakdown'" :options="dynamicDonut(
-              assets.map(a => a.symbol),
-              assets.map((a) => stringToColor(a.symbol)), assets)" :series="assets.map(a => a.percent)" :height="410"
-              :width="370" />
-            <apexchart v-else
-              :options="dynamicDonut(
-                ['Bitcoin (BTC)', 'Ethereum (ETH)', 'RWAs', 'LSDs', 'Stablecoins', 'Infrastructure', 'L1s', 'L2s', 'DeFi'],
-                ['rgba(230, 177, 12, 1)', '#00C9FF', 'rgba(248, 71, 71, 1)', 'rgba(194, 119, 237, 1)', 'rgba(0, 199, 242, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)', 'rgba(0, 252, 2, 1)'])"
-              :series="[44, 55, 41, 17, 15, 22, 11, 8, 6]" :height="410" :width="415" />
-          </div>
-          <div v-else style="height: 228px">
-            <LoaderPulse></LoaderPulse>
-          </div>
-        </div>
-
-      </div>
+           <div class="stats_column_inside">
+               <div class="d-flex align-items-center justify-content-between"
+                   style="background: #2222225d; padding: 8px">
+                   <div class="d-flex align-items-center gap-2">
+                       <div class="d-flex gap-2 align-items-baseline">
+                           <div style="
+                 color: rgba(243, 244, 246, 1);
+                 font-weight: 500;
+                 font-size: clamp(10px, 0.9vw, 15px);
+               ">
+                               {{ BreakdownChart }}
+                           </div>
 
 
-      <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px">
-          <div class="d-flex align-items-center gap-2">
-            <div class="d-flex gap-2 align-items-baseline">
-              <div style="
-                  color: rgba(243, 244, 246, 1);
-                  font-weight: 500;
-                  font-size: clamp(10px, 0.9vw, 15px);
-                ">
-                {{ BreakdownChart }}
-              </div>
+                       </div>
 
 
-            </div>
+                   </div>
+                   <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
+                       <div style="cursor: help">
+                           <img :src="info" class="info_icon" />
+                       </div>
+                       <template #popper>
+                           <div style="
+                     background: linear-gradient(
+                       rgba(89, 89, 89, 0.75),
+                       rgba(73, 73, 73, 0.15)
+                     );
+                     backdrop-filter: blur(10px);
+                     padding: 10px;
+                     border-radius: 4px;
+                     width: 400px;
+                   ">
+                               <div style="font-size:clamp(10px, 0.9vw, 16px)">Assets Breakdown By Type</div>
+                               <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
+                                   <div>This pie chart illustrates the distribution of assets, categorized by type. Each
+                                       segment represents a different asset class, showing the proportion of each within
+                                       the total portfolio.</div>
+                               </div>
+                           </div>
+                       </template>
+                   </VTooltip>
+               </div>
+               <div class="diagram-container">
+                   <div v-if="pairs.length > 0">
+                       <apexchart v-if="BreakdownChart === 'Pairs Breakdown'" :options="dynamicDonut(
+                           pairs.map(a => a.symbol),
+                           pairs.map((a) => stringToColor(a.symbol)), pairs)" :series="pairs.map(a => a.percent)"
+                           :height="410" :width="415" />
+                       <apexchart v-else :options="dynamicDonut(
+                           ['USDT/BTC/ETH', 'SUSHI/DAI/FRAX', 'USDT/USDC'],
+                           ['rgba(0, 199, 242, 1)', 'rgba(194, 119, 237, 1)', 'rgba(251, 198, 47, 1)'])"
+                           :series="[44, 55, 41]" :height="410" :width="415" />
+                   </div>
+                   <div v-else style="height: 228px">
+                       <LoaderPulse></LoaderPulse>
+                   </div>
+               </div>
 
+           </div>
 
-          </div>
-          <VTooltip style="margin-top: -3px;" :distance="0" :placement="'right'">
-            <div style="cursor: help">
-              <img :src="info" class="info_icon" />
-            </div>
-            <template #popper>
-              <div style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    ">
-                <div style="font-size:clamp(10px, 0.9vw, 16px)">Assets Breakdown By Type</div>
-                <div style="display: flex; flex-direction: column; font-size: clamp(10px, 0.8vw, 14px);">
-                  <div>This pie chart illustrates the distribution of assets, categorized by type. Each segment represents
-                    a different asset class, showing the proportion of each within the total portfolio.</div>
-                </div>
-              </div>
-            </template>
-          </VTooltip>
-        </div>
-        <div class="diagram-container">
-          <div v-if="assets">
-            <apexchart v-if="BreakdownChart === 'Pairs Breakdown'" :options="dynamicDonut(
-              pairs.map(a => a.symbol),
-              pairs.map((a) => stringToColor(a.symbol)), pairs)" :series="pairs.map(a => a.percent)" :height="410"
-              :width="415" />
-            <apexchart v-else :options="dynamicDonut(
-              ['USDT/BTC/ETH', 'SUSHI/DAI/FRAX', 'USDT/USDC'],
-              ['rgba(0, 199, 242, 1)', 'rgba(194, 119, 237, 1)', 'rgba(251, 198, 47, 1)'])" :series="[44, 55, 41]"
-              :height="410" :width="415" />
-          </div>
-          <div v-else style="height: 228px">
-            <LoaderPulse></LoaderPulse>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
+       </div>
+   </div>
 </template>
 <script setup>
 import { ref, defineProps, toRefs, computed, onBeforeMount, watch } from 'vue'
@@ -777,201 +801,201 @@ watch(chartData, async () => {
 @import '@/styles/_variables.scss';
 
 .positive {
-  color: rgba(63, 185, 80, 1) !important;
+    color: rgba(63, 185, 80, 1) !important;
 }
 
 .negative {
-  color: rgba(248, 81, 73, 1) !important;
+    color: rgba(248, 81, 73, 1) !important;
 }
 
 .stats_text {
-  color: rgba(243, 244, 246, 1);
-  font-family: Inter;
-  font-size: clamp(10px, 0.8vw, 14px);
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
+    color: rgba(243, 244, 246, 1);
+    font-family: Inter;
+    font-size: clamp(10px, 0.8vw, 14px);
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
 }
 
 .stats_value {
-  color: white;
-  margin-right: 15px;
-  font-family: Inter;
-  font-size: clamp(10px, 0.8vw, 13px);
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
+    color: white;
+    margin-right: 15px;
+    font-family: Inter;
+    font-size: clamp(10px, 0.8vw, 13px);
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
 }
 
 .table_header_cell_bg {
-  background: linear-gradient(152.97deg, #1C1C1C 0%, rgba(0, 0, 0, 0) 100%)
- !important;
-  color: #9299AA !important;
-  font-weight: 500 !important;
+    background: #2c2c2c50 !important;
+    color: #9299AA !important;
+    font-weight: 500 !important;
 }
 
 .table_header_cell_inside {
-  justify-content: end;
+    justify-content: end;
 }
 
 .diagram-container {
-  border-width: 0px, 1px, 1px, 1px;
-  padding: clamp(10px, 0.9vw, 15px);
-  border-style: solid;
-  background: linear-gradient(152.97deg, #1C1C1C 0%, rgba(0, 0, 0, 0) 100%);
+    border-width: 0px, 1px, 1px, 1px;
+    padding: clamp(10px, 0.9vw, 15px);
+    background: linear-gradient(152.97deg, #1C1C1C 0%, rgba(0, 0, 0, 0) 100%);
 
-  border-color: #a3a4a50e;
+    border-style: solid;
+
+    border-color: #a3a4a50e;
 
 
-  .apexcharts-inner {
-    filter: drop-shadow(0 0 0.55rem rgba(98, 104, 143, 1));
-  }
+    .apexcharts-inner {
+        filter: drop-shadow(0 0 0.55rem rgba(98, 104, 143, 1));
+    }
 }
 
 .chart_dropdown_items {
-  cursor: pointer;
-  font-size: clamp(10px, 0.8vw, 14px);
+    cursor: pointer;
+    font-size: clamp(10px, 0.8vw, 14px);
+
+    &_active {
+        color: #00c8ffda;
+
+    }
 }
 
 .chart_dropdown_items:hover {
-  color: #00C9FF;
+    color: #00C9FF;
 }
 
 .stats_container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: space-between;
-  padding: 30px 18px;
-  border-radius: 20px;
-  background: #22222224;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 30px 18px;
+    border-radius: 20px;
+    background: #22222224;
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 4px 0px #00000040;
 
 }
 
 .stats_column {
-  display: flex;
-  flex-direction: column;
-  width: 450px;
-  gap: 100px !important;
+    display: flex;
+    flex-direction: column;
+    width: 450px;
 }
 
 .stats_column_charts {
-  display: flex;
-  flex-direction: column;
-
+    display: flex;
+    flex-direction: column;
+    width: 30%;
 }
 
 .stats_column_tables {
-  display: flex;
-  flex-direction: column;
-  width: 550px;
-  gap: 50px;
-  
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    gap: 50px
 }
 
 .stats_column_tables_inside {
-  width: 100%;
+    width: 100%;
 }
 
 .stats_column_inside {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  background: #22222224;
-  box-shadow: 0px 4px 4px 0px #00000040;
-
-}
-
-@media (max-width:$xxl2) {
-  .stats_container {
-    justify-content: space-around;
-  }
-
-  .stats_column {
-
-    width: 30%;
-  }
-
-  .stats_column_tables {
-    gap: 0px;
-    width: 35%;
-  }
-
-  .stats_column_charts {
-    width: 30%;
-  }
-}
-
-
-@media (max-width:$xl) {
-  .stats_container {
-    justify-content: space-around;
-  }
-
-  .stats_column {
-
-    width: 100%;
-  }
-
-  .stats_column_tables {
-    margin-top: 20px;
-    gap: 0px;
-    width: 100%;
-  }
-
-  .stats_column_charts {
     display: flex;
     flex-direction: column;
     width: 100%;
+}
 
-  }
+@media (max-width: $xxl2) {
+    .stats_container {
+        justify-content: space-around;
+    }
+
+    .stats_column {
+
+        width: 30%;
+    }
+
+    .stats_column_tables {
+        gap: 0px;
+        width: 35%;
+    }
+
+    .stats_column_charts {
+        width: 30%;
+    }
+}
+
+
+@media (max-width: $xl) {
+    .stats_container {
+        justify-content: space-around;
+    }
+
+    .stats_column {
+
+        width: 100%;
+    }
+
+    .stats_column_tables {
+        margin-top: 20px;
+        gap: 0px;
+        width: 100%;
+    }
+
+    .stats_column_charts {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+    }
 }
 
 @media (max-width: $sm) {
-  .diagram-container {
-    display: flex;
-    justify-content: center;
-  }
+    .diagram-container {
+        display: flex;
+        justify-content: center;
+    }
 }
 
 
 .stats_column_tables_inside {
-  overflow-x: scroll;
-  overflow-y: hidden;
+    overflow-x: scroll;
+    overflow-y: hidden;
 
-  &::-webkit-scrollbar {
-    height: 6px;
-  }
+    &::-webkit-scrollbar {
+        height: 6px;
+    }
 
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
 
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 192, 135);
-    border-radius: 3px;
-  }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 192, 135);
+        border-radius: 3px;
+    }
 }
 
 .dp__theme_dark {
-  --dp-background-color: rgba(15, 17, 19, 1);
-  --dp-primary-color: #00C9FF;
-  --dp-highlight-color: #00c8ff42;
-  --dp-border-color: #00C9FF;
-  --dp-menu-border-color: #00C9FF;
-  --dp-border-color-hover: #00C9FF;
-  --dp-border-radius: clamp(10px, 0.8vw, 13px);
-  --dp-input-icon-padding: 8px;
-  --dp-action-buttons-padding: 3px 9px;
-  --dp-action-button-height: 32px
+    --dp-background-color: rgba(15, 17, 19, 1);
+    --dp-primary-color: #00C9FF;
+    --dp-highlight-color: #00c8ff42;
+    --dp-border-color: #00C9FF;
+    --dp-menu-border-color: #00C9FF;
+    --dp-border-color-hover: #00C9FF;
+    --dp-border-radius: clamp(10px, 0.8vw, 13px);
+    --dp-input-icon-padding: 8px;
+    --dp-action-buttons-padding: 3px 9px;
+    --dp-action-button-height: 32px
 }
 
 .dp__action_button {
-  line-height: normal;
+    line-height: normal;
 }
 </style>
 @/lib/formatter/statistics/roi/statisticsRoiFormatter
