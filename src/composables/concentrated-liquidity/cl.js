@@ -185,13 +185,31 @@ async function constructRangeOrderPosition(
   feeAmount,
 ) {
   // POOL TOKENS ORDER MATTER
+  if (tickLower >= tickUpper) {
+    tickLower = tickUpper -= pool.tickSpacing
+  }
+  if (!token0Amount) {
+    return Position.fromAmount1({
+      pool: pool,
+      tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
+      tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
+      amount1: token1Amount.quotient,
+    })
+  }
+  if (!token1Amount) {
+    return Position.fromAmount0({
+      pool: pool,
+      tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
+      tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
+      amount0: token0Amount.quotient,
+    })
+  }
   return Position.fromAmounts({
     pool: pool,
     tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
     tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
     amount0: token0Amount.quotient,
     amount1: token1Amount.quotient,
-    useFullPrecision: true,
   })
 }
 export default function tryParseCurrencyAmount(value, currency) {
@@ -484,6 +502,7 @@ export async function MintPosition(
   lowPrice,
   highPrice,
   currentPrice = null,
+  step = null,
 ) {
   const { tickLower, tickUpper } = parseDisplayTicks(
     token0,
@@ -524,9 +543,12 @@ export async function MintPosition(
   const { amount0, amount1 } = order.position.mintAmounts
   let token0Contract = new ethers.Contract(token0.address, ERC20_ABI, signer)
   let token1Contract = new ethers.Contract(token1.address, ERC20_ABI, signer)
+  step.value = 3
   await ApproveToken(token1Contract, signer, amount1, token1.decimals)
   await ApproveToken(token0Contract, signer, amount0, token0.decimals)
+  step.value = 4
   await mintPosition(order, signer)
+  step.value = 0
 }
 
 export async function AddLiquidityToPosition(
@@ -534,17 +556,10 @@ export async function AddLiquidityToPosition(
   position,
   depositAmount0,
   depositAmount1,
+  step,
 ) {
   let parsed0 = tryParseCurrencyAmount(depositAmount0, position.token0)
   let parsed1 = tryParseCurrencyAmount(depositAmount1, position.token1)
-  const configuredPool = new Pool(
-    position.token0,
-    position.token1,
-    position.pool.fee,
-    position.pool.sqrtPriceX96.toString(),
-    position.pool.liquidity.toString(),
-    position.pool.tick,
-  )
   let order = await constructTakeProfitOrder(
     signer,
     position.pool,
@@ -567,15 +582,12 @@ export async function AddLiquidityToPosition(
     ERC20_ABI,
     signer,
   )
+  step.value = 3
   await ApproveToken(token1Contract, signer, amount1, position.token1.decimals)
   await ApproveToken(token0Contract, signer, amount0, position.token0.decimals)
+  step.value = 4
   await addLiquidity(order, signer, position.id)
-
-  // const addLiquidityOptions: AddLiquidityOptions = {
-  //   deadline: Math.floor(Date.now() / 1000) + 60 * 20,
-  //   slippageTolerance: new Percent(50, 10_000),
-  //   tokenId,
-  // }
+  step.value = 0
 }
 export async function RemoveLiquidityFromPosition(signer, position, percent) {
   let parsed0 = tryParseCurrencyAmount(
@@ -676,13 +688,6 @@ async function mintPosition(order, signer) {
     gasLimit: '1000000',
   }
 
-  const txRes = await signer.call(transaction)
-
-  const decodedRes = ethers.utils.defaultAbiCoder.decode(
-    ['tuple(uint256, uint128, uint256, uint256)'],
-    txRes,
-  )
-  console.log(decodedRes)
   let tx = await signer.sendTransaction(transaction)
   const receipt = await tx.wait()
   console.log('SUCCESS', receipt)
@@ -820,7 +825,7 @@ export function GetSecondAmount(
     ? formatUnits(mint_amount1.toString(), token1.decimals)
     : formatUnits(mint_amount0.toString(), token0.decimals)
   if (parseFloat(string_amount0) == 0 || parseFloat(string_amount1) == 0) {
-    return token0Changed ? amount0 : amount1
+    return null
   }
   return changed_amount
 }
@@ -921,7 +926,7 @@ function getTokenAmounts(
   console.log('Amount Token1 wei: ' + amount1wei)
   console.log('Amount Token0 : ' + amount0Human)
   console.log('Amount Token1 : ' + amount1Human)
-  return [amount0wei, amount1wei]
+  return [amount0Human, amount1Human]
 }
 
 export async function fetchPositions(signer, tokens, networkId) {
@@ -931,7 +936,6 @@ export async function fetchPositions(signer, tokens, networkId) {
     signer,
   )
   let address = await signer.getAddress()
-  address = '0x759ee62a73a8a0690a0e20fc489d3f462b4385c0'
   const numPositions = await nfpmContract.balanceOf(address)
   const calls = []
 
@@ -985,10 +989,16 @@ export async function fetchPositions(signer, tokens, networkId) {
           token0: token0,
           token1: token1,
           fee: position.fee,
-          amount0: amounts[0],
-          amount1: amounts[1],
-          amountReadable0: ethers.utils.formatUnits(amounts[0].toString()),
-          amountReadable1: ethers.utils.formatUnits(amounts[1].toString()),
+          amount0: ethers.utils.parseUnits(
+            amounts[0].toString(),
+            token0.decimals,
+          ),
+          amount1: ethers.utils.parseUnits(
+            amounts[1].toString(),
+            token1.decimals,
+          ),
+          amountReadable0: amounts[0].toString(),
+          amountReadable1: amounts[1].toString(),
           pool,
         }
       } catch (err) {
