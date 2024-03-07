@@ -184,7 +184,12 @@
                   </div>
                 </div>
               </div>
-              <button :class="'concentrated_button mt-4'" @click="addLiquidityHandler">Add liquidity</button>
+              <button :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep < 3"
+                @click="addLiquidityHandler">Add liquidity</button>
+              <div :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep === 3"
+                @click="addLiquidityHandler">Approving all tokens for minting liquidity</div>
+              <div :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep === 4"
+                @click="addLiquidityHandler">Minting liquidity</div>
             </div>
             <div v-else-if="liquidityActionTab === 'Withdraw'">
               <div class="compose_text fw-light mt-3">Withdraw Liquidity</div>
@@ -632,8 +637,9 @@ async function addLiquidityHandler() {
       selectedPosition.value,
       depositAmount1.value,
       depositAmount2.value,
+      concentratedLiquidityStep
     )
-    concentratedLiquidityStep.value = 3
+    concentratedLiquidityStep.value = 0
   } catch (e) {
     console.error('[ADD LIQUIDITY ERROR] Error happened during adding liquidity ', e)
   }
