@@ -99,6 +99,15 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
+                <div>Volume 24 Hours</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
                 <div>Volume 7 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
@@ -167,6 +176,15 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
+                <div>Profit 24 Hours</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
                 <div>Profit 7 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
@@ -234,6 +252,15 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
+                <div>APR 24 Hours</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
                 <div>APR 7 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
@@ -280,7 +307,7 @@
                   font-size: clamp(10px, 0.9vw, 16px);
                 "
               >
-              Number of Index Pools
+             {{ router.currentRoute.value.path === '/user_analytics' ? 'Number of Users' : 'Number of Index Pools' }} 
               </div>
               <div
               
@@ -328,6 +355,7 @@ import {
 import { groupBy } from '@/lib/utils'
 import SidebarHeaderDropdown from '@/components/TrackTrades/SidebarHeaderDropdown.vue'
 import TokenCCollapse from '@/components/TrackTrades/TokenCCollapse.vue'
+import router from '@/router'
 
 
 const props = defineProps([

@@ -279,11 +279,11 @@ const filters = ref({
         TVL: true,
         ['Average APR']: true,
         ['Profit']: true,
-        ['Capital Gains']: false,
-        ['PNL']: false,
-        ['ROI']: false,
-        ['Token Incentives']: false,
-        ['Impermanent Loss']: false,
+        ['Capital Gains']: true,
+        ['PNL']: true,
+        ['ROI']: true,
+        ['Token Incentives']: true,
+        ['Impermanent Loss']: true,
         ['Volatility Index']: true,
       })
 
@@ -450,13 +450,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Profit',
           data: dataVolatilityIndexes.value,
-          color: '#05FF00',
+          color: '#00FF75',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#05FF00',
+                color: '#00FF75',
               },
               {
                 offset: 1,
@@ -467,7 +467,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#05FF00',
+            color: '#00FF75',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -566,13 +566,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Token Incentives',
           data: dataVolatilityIndexes.value,
-          color: '#00FF75',
+          color: '#05FF00',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00FF75',
+                color: '#05FF00',
               },
               {
                 offset: 1,
@@ -583,7 +583,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#00FF75',
+            color: '#05FF00',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {

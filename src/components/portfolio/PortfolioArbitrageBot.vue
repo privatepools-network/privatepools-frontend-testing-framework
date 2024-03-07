@@ -78,7 +78,7 @@
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style="font-family: Inter; font-weight: 400;" class="arbitrage_bot_sections_text">
-                  TAverage APR
+                  Average APR
                 </div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
@@ -98,7 +98,7 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
-                <div>Daily APR</div>
+                <div>APR 24 Hours</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -107,7 +107,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>Weekly APR</div>
+                <div>APR 7 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -116,7 +116,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>Monthly APR</div>
+                <div>APR 30 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -165,7 +165,7 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
-                <div>24H Volume</div>
+                <div>Volume 24 Hours</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -174,7 +174,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>7 Days Volume</div>
+                <div>Volume 7 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -183,7 +183,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>30 Days Volume</div>
+                <div>Volume 30 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>

@@ -209,7 +209,7 @@
             <CTableDataCell scope="row" class="text-success table-cell">
               <div  @click="router.push('/referrals')">
                 Manage my code
-                <span style="padding-left: 20px; cursor: pointer">
+                <span style="padding-left: 8px; cursor: pointer">
                   <svg
                     width="9"
                     height="15"
