@@ -15,6 +15,7 @@
           {{ timeline.name }}
         </div>
         <div
+        v-if="isCumulativeMode !== undefined"
           class="chart-equivalent__el"
           :class="{
             'chart-equivalent__el_active': isCumulativeMode == true,
@@ -41,7 +42,7 @@ const emit = defineEmits(['changeTimeline', 'changeCumulativeMode'])
     padding: 0px;
     color: #FFFFFF;
     font-size: clamp(8px, 0.5vw, 13px);
-    margin-right: 15px;
+    // margin-right: 15px;
     display: flex;
     justify-self: flex-start;
     border-radius: 16px;

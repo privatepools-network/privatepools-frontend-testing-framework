@@ -24,7 +24,7 @@
       <div class="affiliates_table">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div class="text_header">My Referral Codes</div>
-          <div class="referrals_button" @click="() => codeEditModalOpen()">+ Create</div>
+          <div class="referrals_button w-auto" @click="() => codeEditModalOpen()">+ Create</div>
         </div>
         <hr
           style="

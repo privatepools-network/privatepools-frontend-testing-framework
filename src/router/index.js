@@ -222,6 +222,11 @@ const routes = [
         component: () => import('@/views/Referrals.vue'),
       },
       {
+        path: '/buy',
+        name: 'Buy',
+        component: () => import('@/views/Buy.vue'),
+      },
+      {
         path: '/portfolio/investments/details/:id',
         name: 'Investment Details',
         component: () => import('@/views/portfolio/Details.vue'),

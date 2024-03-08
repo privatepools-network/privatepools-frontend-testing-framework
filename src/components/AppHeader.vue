@@ -49,6 +49,12 @@
           ">
           Referrals
         </div>
+        <div @click="router.push('/buy')" :class="router.currentRoute.value.path === '/buy'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+          ">
+          Buy
+        </div>
       </div>
 
       <div style="position: relative; cursor: text">
@@ -818,7 +824,8 @@ const computedNetworkImage = computed(() =>
     width: 200px;
     border-radius: 16px;
     background: #171717;
-
+    display: flex;
+    flex-direction: column;
     box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
     border: 0.5px solid #ffffff0d;
     padding: 13px 8px;
