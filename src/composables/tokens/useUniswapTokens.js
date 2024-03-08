@@ -2,7 +2,7 @@ import axios from 'axios'
 import { removeDuplicates } from '../../lib/utils'
 
 export async function fetchUniswapTokens(networkId) {
-  const url = 'https://cloudflare-ipfs.com/ipns/tokens.uniswap.org'
+  const url = 'https://tokens.coingecko.com/binance-smart-chain/all.json'
   let response = await axios.get(url)
   return removeDuplicates(
     response.data.tokens

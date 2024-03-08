@@ -24,48 +24,22 @@
           <div class="mt-3">
             <div style="color: white; font-size: 16px">Common Tokens</div>
             <div class="d-flex flex-wrap gap-3 justify-content-between">
-              <div class="common_token d-flex gap-2">
-                <img :src="getTokenEntity('BTC', 'short').icon" width="30" />
-                BTC
-              </div>
-              <div class="common_token d-flex gap-2">
-                <img :src="getTokenEntity('BTC', 'short').icon" width="30" />
-                BTC
-              </div>
-              <div class="common_token d-flex gap-2">
-                <img :src="getTokenEntity('BTC', 'short').icon" width="30" />
-                BTC
-              </div>
-              <div class="common_token d-flex gap-2">
-                <img :src="getTokenEntity('BTC', 'short').icon" width="30" />
-                BTC
-              </div>
-              <div class="common_token d-flex gap-2">
-                <img :src="getTokenEntity('BTC', 'short').icon" width="30" />
-                BTC
-              </div>
-              <div class="common_token d-flex gap-2">
-                <img :src="getTokenEntity('BTC', 'short').icon" width="30" />
-                BTC
-              </div>
-              <div class="common_token d-flex gap-2">
-                <img :src="getTokenEntity('BTC', 'short').icon" width="30" />
-                BTC
-              </div>
-              <div class="common_token d-flex gap-2">
-                <img :src="getTokenEntity('BTC', 'short').icon" width="30" />
-                BTC
+              <div class="common_token d-flex gap-2" v-for="token in commonTokens" :key="token.symbol" @click="
+    emit('updateToken', { ...token }, props.pairIndex), emit('tokenSelectModalOpen')
+    ">
+                <img :src="getTokenEntity(token.symbol, 'short').icon || token.logoURI" width="30" />
+                {{ token.symbol }}
               </div>
             </div>
           </div>
           <div class="mt-3 tokens_container">
             <div v-for="(token, index) in filteredPossibleTokens" :key="`tokens-key-${index}`"
               class="d-flex align-items-center justify-content-between p-3 gap-3 token_card" @click="
-                emit('updateToken', { ...token }, props.pairIndex), emit('tokenSelectModalOpen')
-                ">
+    emit('updateToken', { ...token }, props.pairIndex), emit('tokenSelectModalOpen')
+    ">
               <div class="d-flex align-items-center">
                 <img :src="token.logoURI || getTokenEntity(token.symbol, 'short').icon
-                  " width="60" class="p-2" />
+    " width="60" class="p-2" />
                 <div class="d-flex flex-column">
                   <div class="modal_body_header">{{ token.symbol }}</div>
                   <div class="modal_body_header">{{ token.name }}</div>
@@ -104,6 +78,10 @@ const filteredPossibleTokens = computed(() =>
       t.address.toLowerCase().includes(filterName.value.toLowerCase()),
   ),
 )
+
+const commonTokens = computed(() => {
+  return possibleComposeTokens.value.filter((item) => ['Binance Bridged USDT  BNB Smart Chain ', "Binance Bridged USDC  BNB Smart Chain ", "Dai", "Binance Peg BUSD", "Wrapped BNB", "Binance Bitcoin", "WETH", "Binance Peg XRP", "Chainlink", "Binance Peg Avalanche"].includes(item.name)).slice(0, 8)
+})
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
