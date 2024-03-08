@@ -29,7 +29,7 @@
             <div class="d-flex gap-3">
               <!-- Tokens selector 1 separate comp-->
               <div @click="() => tokenSelectModalOpen(1)" class="selector_button">
-                <img :src="pairToken1.img || pairToken1.logoURI" width="24" />
+                <img :src="getTokenEntity(pairToken1.symbol, 'short').icon || pairToken1.logoURI" width="24" />
                 <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M5.98255 6.46495L11.007 1.44044C11.187 1.26045 11.0596 0.952698 10.805 0.952698H0.756015C0.50147 0.952698 0.373993 1.26045 0.553983 1.44044L5.5785 6.46495C5.69007 6.57653 5.87098 6.57653 5.98255 6.46495Z"
@@ -41,7 +41,7 @@
                 <!-- Tokens selector 2 separate comp -->
               </div>
               <div @click="() => tokenSelectModalOpen(2)" class="selector_button">
-                <img :src="pairToken2.img || pairToken2.logoURI" width="24" />
+                <img :src="getTokenEntity(pairToken2.symbol, 'short').icon || pairToken2.logoURI" width="24" />
                 <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M5.98255 6.46495L11.007 1.44044C11.187 1.26045 11.0596 0.952698 10.805 0.952698H0.756015C0.50147 0.952698 0.373993 1.26045 0.553983 1.44044L5.5785 6.46495C5.69007 6.57653 5.87098 6.57653 5.98255 6.46495Z"
@@ -279,7 +279,7 @@
                     ">
                     <div class="d-flex flex-column justify-content-around h-100">
                       <div class="d-flex align-items-center gap-2">
-                        <img :src="pairToken1.img || pairToken1.logoURI" width="24" />
+                        <img :src="getTokenEntity(pairToken1.symbol, 'short').icon || pairToken1.logoURI" width="24" />
 
                         <h4 style="
                             font-size: 21px;
@@ -338,7 +338,7 @@
                     ">
                     <div class="d-flex flex-column justify-content-around h-100">
                       <div class="d-flex align-items-center gap-2">
-                        <img :src="pairToken2.img || pairToken2.logoURI" width="24" />
+                        <img :src="getTokenEntity(pairToken2.symbol, 'short').icon || pairToken2.logoURI" width="24" />
 
                         <h4 style="
                             font-size: 21px;
@@ -495,6 +495,7 @@ import { fetchUniswapTokens } from '@/composables/tokens/useUniswapTokens'
 import { networkId } from '@/composables/useNetwork'
 import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
 import useBalance from '@/composables/useBalance'
+import { getTokenEntity } from '@/lib/helpers/util'
 import { ethers } from 'ethers'
 import { calculatePercentageDifference } from '@/lib/utils'
 import { useUniswapTvl } from '@/composables/concentrated-liquidity/useUniswapTvl'
@@ -524,12 +525,12 @@ const tokenSelectModal = ref(false)
 const pairIndex = ref(1)
 
 const pairToken1 = ref({
-  img: not_found,
+  logoURI: not_found,
   symbol: '',
 })
 
 const pairToken2 = ref({
-  img: not_found,
+  logoURI: not_found,
   symbol: '',
 })
 const feeAmount = computed(() => FEE_AMOUNTS[feeTier.value])
