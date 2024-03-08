@@ -22,7 +22,7 @@
           '',
         ]"
       >
-        <CTableBody v-if="filteredActivities" class="text-white table-body">
+        <CTableBody v-if="filteredActivities" class="text-white table-body"  style="margin-left: 12px; margin-right: 12px;">
           <CTableRow
             v-for="(item, i) in filteredActivities"
             :key="i"
@@ -108,7 +108,7 @@
           <!-- Your rating -->
           <hr style="border: 1px solid #ffffff1f" class="my-2" />
           <CTableRow
-            class="table-row"
+            class="table-row  mb-4"
             @click="$emit('changeToSpecificPortfolio')"
             style="cursor: pointer"
           >
@@ -393,7 +393,7 @@ function computedAddress(address) {
 
   &-body {
     display: block;
-    max-height: 500px;
+    max-height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
 
@@ -434,11 +434,13 @@ function computedAddress(address) {
     display: table;
     table-layout: fixed;
     vertical-align: middle;
-    // background: #22222224;
-    // box-shadow: 0px 4px 4px 0px #00000040;
-    // border-radius: 16px;
-    // margin-top: 10px;
-  
+    background: #22222224;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    border-radius: 16px;
+    margin-top: 10px;
+    &:hover {
+      background: #00c8ff07;
+    }
   }
 
   &-cell {
@@ -513,5 +515,11 @@ function computedAddress(address) {
       }
     }
   }
+}
+
+.row {
+
+    margin-right: 0 !important;
+    margin-left: 0 !important;
 }
 </style>
