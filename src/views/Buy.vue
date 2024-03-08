@@ -215,8 +215,8 @@
       >
         PPN Token
       </div>
-      <div class="d-flex gap-3">
-        <div class="chart_container" style="width: 55%">
+      <div class="d-flex gap-5">
+        <div class="chart_container" style="width: 65%">
           <div class="d-flex justify-content-between">
             <div>PPN/USDC</div>
             <div>$65.62</div>
@@ -226,17 +226,120 @@
               <img :src="walletPoolsImg" width="18" />
               <img :src="getTokenEntity('USDC', 'short').icon" width="18" />
             </div>
-            <div>+0.59%</div>
+            <div class="text-success">+0.59%</div>
           </div>
-          <div class="d-flex justify-content-end">
+          <div class="d-flex justify-content-end mt-4">
             <ChartTimeline
               :currentTimeline="currentTimeline"
               :timelines="timelines"
               @changeTimeline="changeTimeline"
             />
           </div>
+          <div>
+            <apexchart
+              type="area"
+              height="350"
+              :options="chartOptions"
+              :series="series"
+            ></apexchart>
+          </div>
         </div>
-        <div class="buy_balance_container" style="width: 45%"></div>
+        <div class="buy_balance_container" style="width: 35%">
+          <div style="font-size: clamp(16px, 0.8vw, 22px)">$PPN Token</div>
+          <div class="d-flex justify-content-between mt-3">
+            <div class="d-flex flex-column gap-3">
+              <div>
+                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                  PPN Price
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
+                      fill="#848E9C"
+                    />
+                  </svg>
+                </div>
+                <div style="font-size: clamp(16px, 0.8vw, 22px)">$65.62</div>
+              </div>
+              <div>
+                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                  Volume
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
+                      fill="#848E9C"
+                    />
+                  </svg>
+                </div>
+                <div style="font-size: clamp(16px, 0.8vw, 22px)">A$85.66B</div>
+              </div>
+            </div>
+            <div class="d-flex flex-column gap-3">
+              <div>
+                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                  Market Cap<svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
+                      fill="#848E9C"
+                    />
+                  </svg>
+                </div>
+                <div style="font-size: clamp(16px, 0.8vw, 22px)">
+                  $1,997.25B
+                </div>
+              </div>
+              <div>
+                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                  Circulation Supply
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
+                      fill="#848E9C"
+                    />
+                  </svg>
+                </div>
+                <div style="font-size: clamp(16px, 0.8vw, 22px)">19.65M</div>
+              </div>
+            </div>
+          </div>
+          <div class="ppn_token_desc">
+            PPN is a blockchain gaming ecosystem. Gamers can explore different
+            type of games and have their experiences interact across each other
+            on the Gala platform. The PPN token is the utility token and primary
+            medium of exchange of the ecosystem.
+          </div>
+        </div>
       </div>
     </div>
   </MainCard>
@@ -322,6 +425,105 @@ const howToBuyCards = ref([
     icon: thirdIcon,
   },
 ])
+
+const series = ref([
+  {
+    name: 'series1',
+    data: [31, 40, 28, 51, 42, 109, 100],
+  },
+])
+
+const chartOptions = ref({
+  chart: {
+    height: 250,
+    type: 'area',
+    toolbar: false,
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  colors: ['white'],
+  stroke: {
+    curve: 'smooth',
+  },
+  xaxis: {
+    type: 'datetime',
+    categories: [
+      '2018-09-19T00:00:00.000Z',
+      '2018-09-19T01:30:00.000Z',
+      '2018-09-19T02:30:00.000Z',
+      '2018-09-19T03:30:00.000Z',
+      '2018-09-19T04:30:00.000Z',
+      '2018-09-19T05:30:00.000Z',
+      '2018-09-19T06:30:00.000Z',
+    ],
+    labels: {
+      show: true,
+   
+
+      style: {
+        colors: '#fff',
+        fontSize: '10px',
+        fontFamily: 'Poppins',
+        fontWeight: 700,
+      },
+    },
+  },
+  yaxis: {
+    opposite: true,
+    labels: {
+      show: true,
+      formatter: (value) => { return `${value}K` },
+
+      style: {
+        colors: '#fff',
+        fontSize: '10px',
+        fontFamily: 'Poppins',
+        fontWeight: 700,
+      },
+    },
+  },
+  tooltip: {
+    theme: false,
+    enabled: true,
+    backgroundColor: 'rgba(89, 89, 89, 1), rgba(73, 73, 73, 0.45)',
+    // eslint-disable-next-line
+    custom({ series, dataPointIndex, w }) {
+      console.log(w)
+      return (
+        '<div style="backdrop-filter: blur(10px); background: linear-gradient(rgba(89, 89, 89, 1), rgba(73, 73, 73, 0.45)); color:white; padding: 10px;">' +
+        '<div style="display:flex; flex-direction:column; font-size: clamp(10px, 0.8vw, 14px)">' +
+        '<span>' +
+        '<span style="font-weight:700">' +
+        'PPN Token Price ' +
+        series[0][dataPointIndex] +
+        ' ' +
+        (series[0][dataPointIndex] === 1 ? '$' : '$') +
+        '</span>' +
+        
+
+        '</div>' +
+        '</div>'
+      )
+    },
+  },
+  grid: {
+    show: true,
+    borderColor: 'rgba(86, 87, 122, 0.4)',
+    position: 'back',
+    xaxis: {
+      lines: {
+        show: false,
+      },
+    },
+    yaxis: {
+      position: 'back',
+      lines: {
+        show: true,
+      },
+    },
+  },
+})
 
 const selectedTab = ref('Buy')
 
@@ -511,5 +713,24 @@ const notSelectedPossibleComposeTokens = ref([])
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.chart_container {
+  font-family: Poppins;
+  font-size: clamp(16px, 0.8vw, 22px);
+  font-weight: 700;
+  letter-spacing: 0em;
+  color: #eaecef;
+}
+
+.ppn_token_desc {
+  margin-top: 30px;
+  margin-bottom: 100px;
+  font-family: Arial;
+  font-size: clamp(12px, 0.8vw, 16px);
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  color: #b7bdc6;
 }
 </style>
