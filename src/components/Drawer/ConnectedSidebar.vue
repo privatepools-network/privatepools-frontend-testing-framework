@@ -192,7 +192,7 @@
         <div>
           <div class="tab my-2" style="font-size: 12px">Today</div>
           <div class="d-flex flex-column gap-2">
-            <a :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`"
+            <a :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`" target="_blank"
               v-for="(item, i) in addressActivity.filter((el) => el.type == 'today')" :key="`${i}-token`"
               class="p-2 d-flex align-items-center justify-content-between gap-2">
               <div class="d-flex align-items-center gap-2">
@@ -219,7 +219,7 @@
         <div>
           <div class="tab my-2" style="font-size: 12px">This week</div>
           <div class="d-flex flex-column gap-2">
-            <a :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`"
+            <a :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`" target="_blank"
               v-for="(item, i) in addressActivity.filter((el) => el.type == 'week')" :key="`${i}-token`"
               class="p-2 d-flex align-items-center justify-content-between gap-2">
               <div class="d-flex align-items-center gap-2">
@@ -247,7 +247,7 @@
           <div class="tab my-2" style="font-size: 12px">This month</div>
           <div class="d-flex flex-column gap-2">
             <a v-for="(item, i) in addressActivity.filter((el) => el.type == 'month')" :key="`${i}-token`"
-              :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`"
+              target="_blank" :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`"
               class="p-2 d-flex align-items-center justify-content-between gap-2" style="text-decoration: none;">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
