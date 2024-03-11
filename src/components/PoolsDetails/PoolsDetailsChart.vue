@@ -16,7 +16,7 @@
       <div v-if="dataRevenues.length == 0" class="chart_inside">
         <LoaderPulse />
       </div>
-      <div v-else class="chart_inside">
+      <div v-else-if="dataRevenues.length > 0 && selectedOverallTab === 'Overall view'" class="chart_inside">
         <ChartTimeline
           :isCumulativeMode="isCumulativeMode"
           :currentTimeline="currentTimeline"
@@ -36,6 +36,23 @@
           :silent="true"
         />
       </div>
+      <div v-else class="d-flex flex-column gap-2 justify-content-center align-items-center h-100">
+          <svg width="74" height="72" viewBox="0 0 74 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M3 51.4851L9.664 48.0541C12.2844 46.7035 15.1774 46 18.1111 46C21.0448 46 23.9378 46.7035 26.5582 48.0541L28.5529 49.083C31.1733 50.4337 34.0663 51.1372 37 51.1372C39.9337 51.1372 42.8267 50.4337 45.4471 49.083L47.4418 48.0541C50.0622 46.7035 52.9552 46 55.8889 46C58.8226 46 61.7156 46.7035 64.336 48.0541L71 51.4851M3 69L9.664 65.5651C12.2844 64.2145 15.1774 63.511 18.1111 63.511C21.0448 63.511 23.9378 64.2145 26.5582 65.5651L28.5529 66.594C31.1733 67.9447 34.0663 68.6481 37 68.6481C39.9337 68.6481 42.8267 67.9447 45.4471 66.594L47.4418 65.5651C50.0622 64.2145 52.9552 63.511 55.8889 63.511C58.8226 63.511 61.7156 64.2145 64.336 65.5651L71 69"
+              stroke="#1E5973" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M37.5 18.525C48.2707 18.525 57 14.884 57 10.3974C57 5.91091 48.2707 2.2699 37.5 2.2699C26.7293 2.2699 18 5.91091 18 10.3974C18 14.884 26.7293 18.525 37.5 18.525ZM37.5 31.5199C30.058 31.5199 23.4768 29.7299 19.3254 26.9648C18.4799 27.8789 18 28.8615 18 29.8974C18 34.384 26.7293 38.025 37.5 38.025C48.2707 38.025 57 34.384 57 29.8974C57 28.8615 56.5201 27.8789 55.6746 26.9724C51.5232 29.7299 44.942 31.5199 37.5 31.5199ZM37.5 21.7699C30.058 21.7699 23.4768 19.9799 19.3254 17.2148C18.4799 18.1289 18 19.1115 18 20.1474C18 24.634 26.7293 28.275 37.5 28.275C48.2707 28.275 57 24.634 57 20.1474C57 19.1115 56.5201 18.1289 55.6746 17.2224C51.5232 19.9799 44.942 21.7699 37.5 21.7699Z"
+              fill="#7D7D7D" />
+          </svg>
+         
+          <div class="text-white" style="font-size: 12px; text-align: center">
+            Please add Liquidity to be able to see your own statistics.
+          </div>
+          <div  class="add_liq_btn_pools">
+            <div class="d-flex gap-1">+ Add liquidity</div>
+          </div>
+        </div>
     </div>
   </div>
 </template>
@@ -384,9 +401,9 @@ function legendSelectedChange(e) {
 const filterKeys = computed(() => Object.keys(filters.value))
 
 const timelines = [
-  {
-    name: 'All-time',
-  },
+  // {
+  //   name: 'All-time',
+  // },
   {
     name: 'Daily',
   },
@@ -1364,7 +1381,7 @@ watch(props, () => {
 })
 
 const TimelineFilters = {
-  'All-time': groupTimestampsByDayWithIndexes,
+  // 'All-time': groupTimestampsByDayWithIndexes,
   Daily: groupTimestampsByDayWithIndexes,
   Weekly: groupTimestampsByWeekWithIndexes,
   Monthly: groupTimestampsByMonthWithIndexes,
@@ -1805,6 +1822,28 @@ onMounted(() => {
       border-radius: 20px;
       border: 1px solid #00c9ff;
     }
+  }
+}
+
+
+.add_liq_btn_pools {
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  background: #2abdff;
+  border-radius: 5px;
+  font-family: Inter;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
+  text-align: center;
+  color: white;
+
+  &:hover {
+    background: #1ab6ff;
+    filter: drop-shadow(0 0 0.6rem #2abcff91);
+    cursor: pointer;
   }
 }
 </style>
