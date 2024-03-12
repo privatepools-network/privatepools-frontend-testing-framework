@@ -1,7 +1,11 @@
 <template>
   <MainCard>
-    <div style="color: white; font-size: 20px; font-weight: 700" class="my-3">
-      Private Pools Analytics
+    <div style="color: white; font-size: 18px; font-weight: 700" class="my-3">
+      Overview
+    </div>
+    <GeneralOverview />
+    <div style="color: white; font-size: 20px; font-weight: 700" class=" mt-5 mb-3">
+      Analytics Chart
     </div>
     <!-- <GeneralAnalyticsChart @changeToDepositView="changeToDepositView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices" :pool="pool"
         :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="chartData"
@@ -13,10 +17,7 @@
         :tokensData="tokensData" :symbol="currencySymbol" />
     </div>
 
-    <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
-      Overview
-    </div>
-    <GeneralOverview />
+    
     <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
       Top Perfomance Pools
     </div>

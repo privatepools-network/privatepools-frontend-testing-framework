@@ -227,7 +227,7 @@
               </div>
               <div class="rewards_inside">
                 <div style="color: #626262; font-size: 12px">
-                  Pending pool rewards
+                  Total staked
                 </div>
                 <div>
                   $234.34
@@ -241,11 +241,56 @@
           </template>
         </Dropdown>
 
+        <Dropdown :distance="4" :placement="'bottom-center'">
         <div class="wallet_address" style="padding: 10px">
           <img :src="walletPoolsImg" />
 
           $1.23
         </div>
+        <template #popper>
+            <div class="header__popup">
+              <h4 style="
+                  font-size: 14px;
+                  color: #626262;
+                  
+                  margin-bottom: 10px;
+                  /* text-align: center; */
+                ">
+                PPN Token
+              </h4>
+              <div class="rewards_inside">
+                <div style="color: #626262; font-size: 12px">
+                  PPN Price
+                </div>
+                <div>
+                  $1.2345
+             
+                </div>
+              </div>
+              <div class="rewards_inside">
+                <div style="color: #626262; font-size: 12px">
+                  Market Cap
+                </div>
+                <div>
+                  $1,827,643
+                </div>
+                
+              </div>
+              <div class="rewards_inside">
+                <div style="color: #626262; font-size: 12px">
+                  Circulating Supply
+                </div>
+                <div>
+                  6,001,859 PPN
+                </div>
+                
+              </div>
+              <div class="rewards_button_dropdown"> <img :src="walletPoolsImg" /> Add PPN to wallet</div>
+            </div>
+          </template>
+      </Dropdown>
+
+
         <div class="wallet_address" @click="$emit('toggleSidebar')">
           <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_74_4008)">

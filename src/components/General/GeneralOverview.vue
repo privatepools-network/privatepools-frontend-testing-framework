@@ -29,20 +29,19 @@
           type="line"
           style="
             height: 70px;
-          
             filter: drop-shadow(0 0 0.5rem #00c9ff);
           "
           :data="{
-            labels: [1, 3, 2, 1, 4, 4, 2, 1, 3, 2, 1, 4, 4, 2],
+            labels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
             datasets: [
               {
-                label: 'My First dataset',
+                label: 'Profit',
                 backgroundColor: '#03F5AE00',
                 borderColor: '#03ACF599',
-                data: [1, 3, 2, 1, 4, 4, 2, 6, 7, 2, 1, 4, 4, 2],
+                data: [1, 3, 2, 1, 4, 3],
                 fill: true,
-                pointRadius: 0,
-                pointHitRadius: 0,
+                pointRadius: 1,
+                pointHitRadius: 2,
               },
             ],
           }"
@@ -52,7 +51,7 @@
                 display: false,
               },
               tooltip: {
-                enabled: false,
+                enabled: true,
               },
             },
 
@@ -70,11 +69,11 @@
                 borderWidth: 2,
                 tension: 0.4,
               },
-              point: {
-                radius: 0,
-                hitRadius: 10,
-                hoverRadius: 4,
-              },
+              // point: {
+              //   radius: 0,
+              //   hitRadius: 10,
+              //   hoverRadius: 4,
+              // },
             },
           }"
         />
@@ -112,20 +111,19 @@
           type="line"
           style="
             height: 70px;
-          
             filter: drop-shadow(0 0 0.5rem #00c9ff);
           "
           :data="{
-            labels: [1, 3, 2, 2, 4, 2, 2, 2, 3, 2, 7, 8, 9, 7],
+            labels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
             datasets: [
               {
-                label: 'My First dataset',
+                label: 'APR',
                 backgroundColor: '#03F5AE00',
                 borderColor: '#03ACF599',
-                data: [1, 3, 2, 2, 4, 2, 2, 2, 3, 2, 7, 8, 9, 7],
+                data: [3, 5, 6, 5, 3, 1],
                 fill: true,
-                pointRadius: 0,
-                pointHitRadius: 0,
+                pointRadius: 1,
+                pointHitRadius: 2,
               },
             ],
           }"
@@ -135,7 +133,7 @@
                 display: false,
               },
               tooltip: {
-                enabled: false,
+                enabled: true,
               },
             },
 
@@ -153,11 +151,11 @@
                 borderWidth: 2,
                 tension: 0.4,
               },
-              point: {
-                radius: 0,
-                hitRadius: 10,
-                hoverRadius: 4,
-              },
+              // point: {
+              //   radius: 0,
+              //   hitRadius: 10,
+              //   hoverRadius: 4,
+              // },
             },
           }"
         />
@@ -180,20 +178,19 @@
           type="line"
           style="
             height: 70px;
-          
             filter: drop-shadow(0 0 0.5rem #00c9ff);
           "
           :data="{
-            labels: [1, 2, 3, 2],
+            labels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
             datasets: [
               {
-                label: 'My First dataset',
+                label: 'PPN Price',
                 backgroundColor: '#03F5AE00',
                 borderColor: '#03ACF599',
-                data: [1, 2, 3, 2],
+                data: [3, 3, 3, 4, 3, 3],
                 fill: true,
-                pointRadius: 0,
-                pointHitRadius: 0,
+                pointRadius: 1,
+                pointHitRadius: 2,
               },
             ],
           }"
@@ -203,7 +200,7 @@
                 display: false,
               },
               tooltip: {
-                enabled: false,
+                enabled: true,
               },
             },
 
@@ -221,11 +218,11 @@
                 borderWidth: 2,
                 tension: 0.4,
               },
-              point: {
-                radius: 0,
-                hitRadius: 10,
-                hoverRadius: 4,
-              },
+              // point: {
+              //   radius: 0,
+              //   hitRadius: 10,
+              //   hoverRadius: 4,
+              // },
             },
           }"
         />
@@ -329,5 +326,9 @@ const smallContainerMock = [
   font-weight: 700;
   line-height: 34px;
   color: #ffffff;
+}
+
+:deep(.chartjs-tooltip) {
+  display: none !important;
 }
 </style>

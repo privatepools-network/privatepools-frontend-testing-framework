@@ -252,9 +252,9 @@ const dataVolatilityIndexes = computed(() => {
 })
 
 const timelines = [
-{
-    name: 'All-time',
-  },
+// {
+//     name: 'All-time',
+//   },
   {
     name: 'Daily',
   },
@@ -273,18 +273,18 @@ function changeTimeline(tl) {
 
 const filters = ref({
         Revenue: true,
-        ['Gas Fees']: true,
+        ['Gas Fees']: false,
         ['Trades']: true,
         Volume: true,
-        TVL: true,
+        TVL: false,
         ['Average APR']: true,
-        ['Profit']: true,
-        ['Capital Gains']: true,
-        ['PNL']: true,
-        ['ROI']: true,
-        ['Token Incentives']: true,
-        ['Impermanent Loss']: true,
-        ['Volatility Index']: true,
+        ['Profit']: false,
+        ['Capital Gains']: false,
+        ['PNL']: false,
+        ['ROI']: false,
+        ['Token Incentives']: false,
+        ['Impermanent Loss']: false,
+        ['Volatility Index']: false,
       })
 
 
@@ -944,7 +944,7 @@ const optionObj = ref({
 })
 
 const TimelineFilters = {
-  'All-time': groupTimestampsByDayWithIndexes,
+  // 'All-time': groupTimestampsByDayWithIndexes,
   Daily: groupTimestampsByDayWithIndexes,
   Weekly: groupTimestampsByWeekWithIndexes,
   Monthly: groupTimestampsByMonthWithIndexes,

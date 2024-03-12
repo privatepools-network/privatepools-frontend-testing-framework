@@ -303,7 +303,7 @@
           :visible="visibleTotalProfit"
           v-if="poolSwapStats['Volume All Time']"
         >
-          <div
+        <div
             style="
               color: rgba(204, 204, 204, 1);
               margin-top: 10px;
@@ -311,72 +311,59 @@
             "
           >
             <div class="d-flex flex-column gap-1">
-              <SidebarHeaderDropdown
-                :symbol="currencySelected.symbol"
-                :currencyDecimals="currencyDecimals"
-                :headerValue="
-                  swapsData.length > 0 ? poolSwapStats['Volume 24 H'] : null
-                "
-                :headerTitle="'24H Volume'"
-                :visible="dropdownChildrenVisibility['Volume 24 Hours']"
-                @headerClick="
-                  (v) => (dropdownChildrenVisibility['Volume 24 Hours'] = v)
-                "
-                @closeAllDrops="closeAllDropdowns"
-              ></SidebarHeaderDropdown>
-              <TokenCCollapse
-                :symbol="currencySelected.symbol"
-                :currencyDecimals="currencyDecimals"
-                :data="volumeInfo['24h']"
-                :tokensAmountData="volumeInfo['24hAmount']"
-                :visible="dropdownChildrenVisibility['Volume 24 Hours']"
-              >
-              </TokenCCollapse>
-              <SidebarHeaderDropdown
-                :symbol="currencySelected.symbol"
-                :currencyDecimals="currencyDecimals"
-                :headerValue="
-                  swapsData.length > 0 ? poolSwapStats['Volume 7 D'] : null
-                "
-                :headerTitle="'7 Days Volume'"
-                :visible="dropdownChildrenVisibility['Volume 7 Days']"
-                @headerClick="
-                  (v) => (dropdownChildrenVisibility['Volume 7 Days'] = v)
-                "
-                @closeAllDrops="closeAllDropdowns"
-              ></SidebarHeaderDropdown>
-              <TokenCCollapse
-                :symbol="currencySelected.symbol"
-                :currencyDecimals="currencyDecimals"
-                :data="volumeInfo['7d']"
-                :tokensAmountData="volumeInfo['7dAmount']"
-                :visible="dropdownChildrenVisibility['Volume 7 Days']"
-              >
-              </TokenCCollapse>
-              <SidebarHeaderDropdown
-                :symbol="currencySelected.symbol"
-                :currencyDecimals="currencyDecimals"
-                :headerValue="
-                  swapsData.length > 0 ? poolSwapStats['Volume 30 D'] : null
-                "
-                :headerTitle="'30 Days Volume'"
-                :visible="dropdownChildrenVisibility['Volume 30 Days']"
-                @headerClick="
-                  (v) => (dropdownChildrenVisibility['Volume 30 Days'] = v)
-                "
-                @closeAllDrops="closeAllDropdowns"
-              ></SidebarHeaderDropdown>
-              <TokenCCollapse
-                :data="volumeInfo['30d']"
-                :tokensAmountData="volumeInfo['30dAmount']"
-                :visible="dropdownChildrenVisibility['Volume 30 Days']"
-              >
-              </TokenCCollapse>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>24H Volume</div>
+                <div
+                  v-if="pool && historical_tvl.length > 0"
+                  style="
+                    color: white;
+                    font-weight: 400;
+                    font-size: clamp(10px, 0.8vw, 14px);
+                  "
+                >
+                  {{ poolApr['Daily'].toFixed(2) }}%
+                </div>
+                <div v-else>
+                  <ThreeDots></ThreeDots>
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>7 Days Volume</div>
+                <div
+                  v-if="pool && historical_tvl.length > 0"
+                  style="
+                    color: white;
+                    font-weight: 400;
+                    font-size: clamp(10px, 0.8vw, 14px);
+                  "
+                >
+                  {{ poolApr['Weekly'].toFixed(2) }}%
+                </div>
+                <div v-else>
+                  <ThreeDots></ThreeDots>
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>30 Days Volume</div>
+                <div
+                  v-if="pool && historical_tvl.length > 0"
+                  style="
+                    color: white;
+                    font-weight: 400;
+                    font-size: clamp(10px, 0.8vw, 14px);
+                  "
+                >
+                  {{ poolApr['Monthly'].toFixed(2) }}%
+                </div>
+                <div v-else>
+                  <ThreeDots></ThreeDots>
+                </div>
+              </div>
             </div>
           </div>
         </CCollapse>
       </div>
-      <div style="cursor: pointer" class="visible_head">
+      <div style="cursor: pointer" class="visible_head mt-4">
         <div class="d-flex align-items-center gap-2" style="margin-left: -10px">
           <div></div>
           <div

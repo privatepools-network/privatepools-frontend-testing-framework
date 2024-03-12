@@ -208,6 +208,83 @@
         </CCollapse>
       </div>
 
+
+      <div class="mb-xxl-4 mb-2">
+        <div @click="clickOnVisibleTotalTrades()" class="visible_head" style="cursor: pointer">
+          <div class="d-flex align-items-center gap-2" style="margin-left: -20px">
+            <div>
+              <div>
+                <img :src="arrow_up" :width="10" :class="!visibleTotalTrades ? 'toggle-down' : 'toggle-up'" />
+              </div>
+            </div>
+            <div style="
+                font-weight: 700;
+                font-family: Inter;
+                color: white;
+                width: 100%;
+              ">
+              <div class="d-flex align-items-baseline justify-content-between visible_head">
+                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text">
+                  Total Trades
+                </div>
+                <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                  <span v-if="currencySelected.symbol === '₿'">
+                    <img :src="btcSymbol" width="9" />
+                  </span>
+                  <span v-else-if="currencySelected.symbol === 'Ξ'">
+                    <img :src="ethSymbol" width="9" />
+                  </span>
+                  <span v-else>{{ currencySelected.symbol }} </span> {{
+                    numberToAposthrophe(revenueInfo.total, currencyDecimals)
+                  }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <CCollapse :visible="visibleTotalTrades">
+          <div style="
+              color: rgba(204, 204, 204, 1);
+              margin-top: 10px;
+              margin-bottom: 5px;
+            ">
+            <div class="d-flex flex-column gap-1">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>Trades 24 Hours</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>Trades 7 Days</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>Trades 30 Days</div>
+                <div v-if="!chains_data" class="totals_loader">
+                  <ThreeDots />
+                </div>
+                <div v-else style="color: white; font-weight: 400; ">
+                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 7D']) }}
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </CCollapse>
+      </div>
+
       <div class="mb-xxl-4 mb-2">
         <div @click="clickOnVisibleGas()" class="visible_head" style="cursor: pointer">
           <div class="d-flex align-items-center gap-2" style="margin-left: -20px">
@@ -377,6 +454,7 @@ const visibleTVL = ref(true)
 const visibleTotalRevenue = ref(true)
 const visibleTotalProfit = ref(true)
 const visibleTotalGas = ref(true)
+const visibleTotalTrades = ref(true)
 
 const dropdownChildrenVisibility = ref({})
 
@@ -409,6 +487,12 @@ function clickOnVisibleGas() {
   // visibleTotalProfit.value = false
   // visibleTVL.value = false
   visibleTotalGas.value = !visibleTotalGas.value
+}
+function clickOnVisibleTotalTrades() {
+  // visibleTotalRevenue.value = false
+  // visibleTotalProfit.value = false
+  // visibleTVL.value = false
+  visibleTotalTrades.value = !visibleTotalTrades.value
 }
 
 const chainFilteredSwapsData = computed(() =>

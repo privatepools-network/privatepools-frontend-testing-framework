@@ -1,7 +1,13 @@
 <template>
   <MainCard>
       <CRow class="mb-4">
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <div class="back_button" @click="$emit('changeToSpecificPortfolio')">
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M7 12.2969C6.9503 12.1035 6.82181 11.9655 6.68491 11.8288C5.1041 10.2512 3.5259 8.671 1.94425 7.0942C1.86866 7.0188 1.86891 6.981 1.94438 6.9058C3.5261 5.3291 5.1044 3.749 6.6853 2.1714C6.8222 2.0347 6.9506 1.8966 7 1.7031V1.4922C6.9218 1.2423 6.7587 1.0772 6.5078 1H6.27341C6.0819 1.0617 5.9438 1.1957 5.8055 1.3341C4.1154 3.0261 2.4241 4.71686 0.731455 6.4063C0.590385 6.5471 0.452015 6.6866 0.390625 6.8828V7.1172C0.452995 7.3128 0.589825 7.4533 0.731125 7.5943C2.4239 9.2835 4.11521 10.9742 5.80511 12.6663C5.94351 12.8049 6.08221 12.9379 6.27341 13H6.5078C6.5535 12.9807 6.5994 12.962 6.6448 12.9421C6.8371 12.8579 6.9314 12.6933 7 12.5078V12.2969Z" fill="white" stroke="#ADABAB" stroke-width="0.2"/>
+</svg>
+
+          </div>
           <div class="caption-row">
             <svg
               width="48"
@@ -88,30 +94,7 @@
               </defs>
             </svg>
           </div>
-          <div class="back_button" @click="$emit('changeToSpecificPortfolio')">
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 6L6 18"
-                stroke="#FFFFFF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M6 6L18 18"
-                stroke="#FFFFFF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </div>
+        
         </div>
       </CRow>
       <div class="w-100 d-flex justify-content-between">

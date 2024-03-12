@@ -11,7 +11,7 @@ background: #22222224;
 box-shadow: 0px 4px 4px 0px #00000040;
 
 border: 1px solid #FFFFFF0D;">
-    <Table :headers="['Actions', 'Details', 'Value', 'Profit', 'Time']">
+    <Table :headers="['Actions', 'Details', 'Value', 'Time']">
       <CTableBody v-if="activities" class="text-white table-body">
         <CTableRow v-for="(item, i) in activities" :key="i" class="table-row">
           <CTableDataCell scope="row" class="text-white table-cell">
@@ -87,11 +87,7 @@ border: 1px solid #FFFFFF0D;">
               {{ item['Value'] }}
             </div>
           </CTableDataCell>
-          <CTableDataCell scope="row" class="text-white table-cell">
-            <div>
-              {{ item['Value'] }}
-            </div>
-          </CTableDataCell>
+       
           <CTableDataCell scope="row" class="text-white table-cell">
             <div class="time-cell">
               <a target="_blank" :href="`${configService.getNetworkConfig(item.chainId).explorer}/tx/${item.Tx}`">

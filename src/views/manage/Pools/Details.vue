@@ -9,7 +9,7 @@
   </MainCard>
 
   <MainCard v-else-if="!visibleDepositComponent && !visibleWithdrawComponent">
-    <CRow class="mb-5" v-if="pool && pool.tokens">
+    <CRow class="mb-3 mt-4" v-if="pool && pool.tokens">
       <div style="color: white; font-size: 20px; font-weight: 700" class="mb-3">
         Weighted Pool
       </div>
@@ -1020,7 +1020,7 @@ const PoolsDetailsDiagrams = defineAsyncComponent(() =>
   import('@/components/PoolsDetailsDiagrams/index.vue'),
 )
 
-const selectedOverallTab = ref('Overall view')
+const selectedOverallTab = ref('My view')
 
 function changeSelectedOverallTab(_new) {
   selectedOverallTab.value = _new
@@ -2553,9 +2553,10 @@ watch(visibleWithdrawModal, (newValue) => {
 
 .rewards_button {
   background: #22222224;
+  border: 1px solid #2ABDFF;
   box-shadow: 0px 4px 4px 0px #00000040;
   color: #2abdff;
-  padding: 8px 16px;
+  padding: 4px 24px;
   font-family: Inter;
   font-size: 14px;
   font-weight: 600;
