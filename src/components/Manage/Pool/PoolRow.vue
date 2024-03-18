@@ -1,10 +1,10 @@
 <template>
   <div :class="`pools-row__wrapper${inactive ? '__inactive' : ''}`">
     <div class="pools-row" @click="isActions ? (visibleDetails = !visibleDetails) : false">
-      <div class="pools-row__col">
+      <div class="pools-row__col justify-content-start">
         <DataTableCellTokenNamePaired :value="pool['Pool Name']" />
       </div>
-      <div class="pools-row__col">
+      <div class="pools-row__col justify-content-start">
         <div class="pools-row__info" style="display: flex !important; align-items: center; gap: 6px; flex-wrap: wrap;">
           <div class="pools-row__value" v-for="(item, i) in pool['Pool Weight'][0]" :key="`${i}-tokens`">
             <div class="d-flex gap-2 chip_token align-items-center">
@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <div class="pools-row__col">
+      <div class="pools-row__col ">
         <div class="pools-row__info">
           <div class="pools-row__value">
             {{ pool['ROI'] }}
@@ -304,6 +304,7 @@ const visibleDetails = ref(false)
       display: flex;
       color: #fff;
       width: 18%;
+      justify-content: center;
 
       @media (max-width: $xxl) {
         width: 23%;
@@ -342,7 +343,7 @@ const visibleDetails = ref(false)
       }
 
       &:last-child {
-        justify-content: start;
+        // justify-content: start;
       }
     }
 
@@ -385,7 +386,7 @@ const visibleDetails = ref(false)
       }
 
       &__inactive {
-        opacity: 0.5;
+        // opacity: 0.5;
       }
     }
 

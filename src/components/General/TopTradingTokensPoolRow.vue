@@ -207,7 +207,7 @@
         }
   
         &__inactive {
-          opacity: 0.5;
+          // opacity: 0.5;
         }
       }
   
