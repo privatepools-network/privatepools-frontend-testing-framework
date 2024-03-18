@@ -954,15 +954,25 @@ export async function fetchPositions(signer, tokens, networkId) {
   let positionInfos = await Promise.all(
     callResponses.map(async (position, index) => {
       try {
-        let token0 = convertPairToken(
-          tokens.find((item) => item.address == position.token0),
-          networkId,
+        let token0Found = tokens.find(
+          (item) => item.address.toLowerCase() == position.token0.toLowerCase(),
         )
-        let token1 = convertPairToken(
-          tokens.find((item) => item.address == position.token1),
-          networkId,
+        let token1Found = tokens.find(
+          (item) => item.address.toLowerCase() == position.token1.toLowerCase(),
         )
+        if (!token0Found || !token1Found) return null
+        let token0 = convertPairToken(token0Found, networkId)
+        let token1 = convertPairToken(token1Found, networkId)
         let pool = await getPoolInfo(signer, token0, token1, position.fee, null)
+        let _pool = new Pool(
+          token0,
+          token1,
+          position.fee,
+          pool.sqrtPriceX96,
+          pool.liquidity,
+          pool.tick,
+        )
+        console.log('POOL - ', _pool)
         let liquidity = JSBI.BigInt(position.liquidity)
         let amounts = getTokenAmounts(
           BigNumber.from(position.liquidity).toString(),
