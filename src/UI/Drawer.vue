@@ -2,7 +2,6 @@
   <div class="drawer" :class="{ 'is-open': isOpen, 'is-visible': isVisible }">
     <div
       class="drawer__content"
-      v-click-away="closeDrawer"
       :style="{
         maxWidth: maxWidth,
         transitionDuration: `${speed}ms`,
