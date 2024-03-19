@@ -1454,6 +1454,8 @@ function filterPoolAmount() {
   background: black;
   padding: 11.5px;
   width: 140px;
+  height: 160px;
+  overflow-y: auto;
   font-family: Segoe UI;
   font-size: 13px;
   font-weight: 600;
@@ -1470,6 +1472,21 @@ function filterPoolAmount() {
       cursor: pointer;
     }
   }
+}
+
+/* Scrollbar */
+.select_token_dropdown::-webkit-scrollbar {
+  height: 0px;
+  width: 4px;
+}
+
+.select_token_dropdown::-webkit-scrollbar {
+  background: transparent;
+}
+
+.select_token_dropdown::-webkit-scrollbar-thumb {
+  background-color: #2abdff9e;
+  border-radius: 8px;
 }
 
 .checkbox_custom {
