@@ -457,7 +457,7 @@ export function convertPairToken(pairToken, chainId) {
   return new Token(
     chainId,
     pairToken.address,
-    pairToken.decimals,
+    parseInt(pairToken.decimals),
     pairToken.symbol,
     pairToken.name,
   )
@@ -516,7 +516,7 @@ export async function MintPosition(
     token0,
     token1,
     feeAmount,
-    currentPrice,
+    currentPrice > 0 ? currentPrice : (highPrice + lowPrice) / 2,
   )
   let swapped = checkTokensSwapped(
     poolInfo,
