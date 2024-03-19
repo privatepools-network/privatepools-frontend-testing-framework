@@ -15,70 +15,33 @@
       <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
         <div class="d-flex align-items-center gap-3">
           <div v-click-away="onClickAway">
-            <div
-              class="filter_button"
-              style="width: 140px"
-              :style="
-                selectTokenDropdownOpen === true
-                  ? 'border-radius: 16px 16px 0px 0px;'
-                  : ''
-              "
-              @click="selectTokenDropdownOpen = !selectTokenDropdownOpen"
-            >
-              <svg
-                width="22"
-                height="16"
-                viewBox="0 0 22 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+            <div class="filter_button" style="width: 140px" :style="selectTokenDropdownOpen === true
+        ? 'border-radius: 16px 16px 0px 0px;'
+        : ''
+        " @click="selectTokenDropdownOpen = !selectTokenDropdownOpen">
+              <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M11.005 0.00292969C17.08 0.00292969 22.005 2.68893 22.005 6.00293V10.0029C22.005 13.3169 17.08 16.0029 11.005 16.0029C5.038 16.0029 0.181005 13.4119 0.0100049 10.1799L0.00500488 10.0029V6.00293C0.00500488 2.68893 4.93001 0.00292969 11.005 0.00292969ZM11.005 12.0029C7.285 12.0029 3.995 10.9949 2.005 9.45293V10.0029C2.005 11.8849 5.888 14.0029 11.005 14.0029C16.015 14.0029 19.843 11.9729 20 10.1209L20.005 10.0029L20.006 9.45293C18.016 10.9949 14.726 12.0029 11.005 12.0029ZM11.005 2.00293C5.888 2.00293 2.005 4.12093 2.005 6.00293C2.005 7.88493 5.888 10.0029 11.005 10.0029C16.122 10.0029 20.005 7.88493 20.005 6.00293C20.005 4.12093 16.122 2.00293 11.005 2.00293Z"
-                  fill="#F8F8F8"
-                />
+                  fill="#F8F8F8" />
               </svg>
               Select token
             </div>
-            <div
-              v-if="selectTokenDropdownOpen === true"
-              class="select_token_dropdown"
-            >
-              <div
-                v-for="(item, i) in optionsTokens"
-                :key="`${i}-tokens-search`"
-              >
-                <div
-                  @click="item.selected = !item.selected"
-                  class="select_token_dropdown_text d-flex justify-content-between align-items-center"
-                >
+            <div v-if="selectTokenDropdownOpen === true" class="select_token_dropdown">
+              <div v-for="(item, i) in optionsTokens" :key="`${i}-tokens-search`">
+                <div @click="item.selected = !item.selected"
+                  class="select_token_dropdown_text d-flex justify-content-between align-items-center">
                   <div>
-                    <img
-                      :src="getTokenEntity(item.code, 'short').icon"
-                      width="17"
-                    />
+                    <img :src="getTokenEntity(item.code, 'short').icon" width="17" />
                     {{ item.name }}
                   </div>
                   <div>
-                    <div
-                      :class="
-                        item.selected === true
-                          ? 'checkbox_custom_selected'
-                          : 'checkbox_custom'
-                      "
-                    >
-                      <svg
-                        v-if="item.selected === true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="8"
-                        height="8"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="white"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        style="margin-top: -11px"
-                      >
+                    <div :class="item.selected === true
+        ? 'checkbox_custom_selected'
+        : 'checkbox_custom'
+        ">
+                      <svg v-if="item.selected === true" xmlns="http://www.w3.org/2000/svg" width="8" height="8"
+                        viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" style="margin-top: -11px">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
                     </div>
@@ -88,73 +51,35 @@
             </div>
           </div>
           <div v-click-away="onClickAwayFilters">
-            <div
-              class="filter_button"
-              style="width: 140px"
-              :style="
-                moreFiltersDropdownOpen === true
-                  ? 'border-radius: 16px 16px 0px 0px;'
-                  : ''
-              "
-              @click="moreFiltersDropdownOpen = !moreFiltersDropdownOpen"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M14.6666 2H1.33331L6.66665 8.30667V12.6667L9.33331 14V8.30667L14.6666 2Z"
-                  stroke="white"
-                  stroke-width="1.33333"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+            <div class="filter_button" style="width: 140px" :style="moreFiltersDropdownOpen === true
+        ? 'border-radius: 16px 16px 0px 0px;'
+        : ''
+        " @click="moreFiltersDropdownOpen = !moreFiltersDropdownOpen">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.6666 2H1.33331L6.66665 8.30667V12.6667L9.33331 14V8.30667L14.6666 2Z" stroke="white"
+                  stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
 
               More filters
             </div>
-            <div
-              v-if="moreFiltersDropdownOpen === true"
-              class="select_token_dropdown"
-            >
+            <div v-if="moreFiltersDropdownOpen === true" class="select_token_dropdown">
               <div style="font-size: 13px; font-weight: 700; color: white">
                 Pool Type
               </div>
-              <div
-                v-for="(item, i) in optionsPoolType"
-                :key="`${i}-pooltype-search`"
-              >
-                <div
-                  @click="item.selected = !item.selected"
-                  class="select_token_dropdown_text d-flex justify-content-between align-items-center"
-                >
+              <div v-for="(item, i) in optionsPoolType" :key="`${i}-pooltype-search`">
+                <div @click="item.selected = !item.selected"
+                  class="select_token_dropdown_text d-flex justify-content-between align-items-center">
                   <div>
                     {{ item.name }}
                   </div>
                   <div>
-                    <div
-                      :class="
-                        item.selected === true
-                          ? 'checkbox_custom_selected'
-                          : 'checkbox_custom'
-                      "
-                    >
-                      <svg
-                        v-if="item.selected === true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="8"
-                        height="8"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="white"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        style="margin-top: -11px"
-                      >
+                    <div :class="item.selected === true
+        ? 'checkbox_custom_selected'
+        : 'checkbox_custom'
+        ">
+                      <svg v-if="item.selected === true" xmlns="http://www.w3.org/2000/svg" width="8" height="8"
+                        viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" style="margin-top: -11px">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
                     </div>
@@ -164,38 +89,20 @@
               <div style="font-size: 13px; font-weight: 700; color: white">
                 Pool attributes
               </div>
-              <div
-                v-for="(item, i) in optionsPoolAttribute"
-                :key="`${i}-pooltype-search`"
-              >
-                <div
-                  @click="item.selected = !item.selected"
-                  class="select_token_dropdown_text d-flex justify-content-between align-items-center"
-                >
+              <div v-for="(item, i) in optionsPoolAttribute" :key="`${i}-pooltype-search`">
+                <div @click="item.selected = !item.selected"
+                  class="select_token_dropdown_text d-flex justify-content-between align-items-center">
                   <div>
                     {{ item.name }}
                   </div>
                   <div>
-                    <div
-                      :class="
-                        item.selected === true
-                          ? 'checkbox_custom_selected'
-                          : 'checkbox_custom'
-                      "
-                    >
-                      <svg
-                        v-if="item.selected === true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="8"
-                        height="8"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="white"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        style="margin-top: -11px"
-                      >
+                    <div :class="item.selected === true
+        ? 'checkbox_custom_selected'
+        : 'checkbox_custom'
+        ">
+                      <svg v-if="item.selected === true" xmlns="http://www.w3.org/2000/svg" width="8" height="8"
+                        viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" style="margin-top: -11px">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
                     </div>
@@ -216,83 +123,31 @@
         </div>
         <div class="manage-pools-filters">
           <div v-if="width > 768">
-            <div
-              class="button d-flex align-items-center justify-content-evenly gap-2"
-              :style="
-                composePoolDropdownOpen === true
-                  ? 'border-radius: 8px 8px 0px 0px;'
-                  : ''
-              "
-              @click="composePoolDropdownOpen = !composePoolDropdownOpen"
-            >
+            <div class="button d-flex align-items-center justify-content-evenly gap-2" :style="composePoolDropdownOpen === true
+        ? 'border-radius: 8px 8px 0px 0px;'
+        : ''
+        " @click="composePoolDropdownOpen = !composePoolDropdownOpen">
               Compose Pool
-              <svg
-                :style="
-                  composePoolDropdownOpen ? 'transform: rotate(180deg)' : ''
-                "
-                width="10"
-                height="6"
-                viewBox="0 0 10 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg :style="composePoolDropdownOpen ? 'transform: rotate(180deg)' : ''
+        " width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M8.22502 5.74172L4.99166 2.50836L1.75832 5.74172C1.43332 6.06672 0.908323 6.06672 0.583323 5.74172C0.258324 5.41672 0.258324 4.89169 0.583323 4.56669L4.40832 0.74169C4.73332 0.41669 5.25832 0.41669 5.58332 0.74169L9.40835 4.56669C9.73335 4.89169 9.73335 5.41672 9.40835 5.74172C9.08335 6.05839 8.55002 6.06672 8.22502 5.74172Z"
-                  fill="#00C9FF"
-                />
+                  fill="#00C9FF" />
               </svg>
             </div>
-            <div
-              v-if="composePoolDropdownOpen === true"
-              class="compose_pool_dropdown"
-            >
-              <div
-                @click="onClickConcentratedPool"
-                class="compose_pool_dropdown_text"
-              >
+            <div v-if="composePoolDropdownOpen === true" class="compose_pool_dropdown">
+              <div @click="onClickConcentratedPool" class="compose_pool_dropdown_text">
                 CL Pools
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6 2.5V9.5"
-                    stroke="#F8F8F8"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    d="M2.5 6H9.5"
-                    stroke="#F8F8F8"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 2.5V9.5" stroke="#F8F8F8" stroke-width="2" stroke-linecap="round" />
+                  <path d="M2.5 6H9.5" stroke="#F8F8F8" stroke-width="2" stroke-linecap="round" />
                 </svg>
               </div>
               <div @click="onClick" class="compose_pool_dropdown_text">
                 Weighted Pools
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6 2.5V9.5"
-                    stroke="#F8F8F8"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    d="M2.5 6H9.5"
-                    stroke="#F8F8F8"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                  />
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 2.5V9.5" stroke="#F8F8F8" stroke-width="2" stroke-linecap="round" />
+                  <path d="M2.5 6H9.5" stroke="#F8F8F8" stroke-width="2" stroke-linecap="round" />
                 </svg>
               </div>
             </div>
@@ -303,27 +158,16 @@
     <CRow>
       <div class="pools-rows" v-if="viewMode == 'rows'">
         <div class="pools-row pools-row_header">
-          <div
-            class="pools-row__col"
+          <div class="pools-row__col"
             :class="headCaption === 'Composition' || headCaption === 'Tokens' ? 'justify-content-start' : 'justify-content-center'"
-            v-for="(headCaption, headCaptionIndex) in headers"
-            :key="headCaption"
-          >
-          {{ console.log('headCaption', headCaption) }}
+            v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
             <div class="file-table-header-cell">
-              <div
-                class="d-flex align-items-center gap-1"
-                :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
-                style="cursor: pointer; height: 20px"
-              >
-                <div
-                  style=""
-                  v-if="
-                    !['pool composition', 'actions', 'tokens'].includes(
-                      headCaption.toLowerCase(),
-                    ) && sortedHeader.caption !== headCaption
-                  "
-                >
+              <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+                style="cursor: pointer; height: 20px">
+                <div style="" v-if="!['pool composition', 'actions', 'tokens'].includes(
+        headCaption.toLowerCase(),
+      ) && sortedHeader.caption !== headCaption
+        ">
                   <!-- <svg
                     @click="
                       $emit('table-header-click', headCaption, headCaptionIndex)
@@ -344,90 +188,59 @@
                     />
                   </svg> -->
                 </div>
-                <div
-                  style="
+                <div style="
                     width: 20px;
                     display: flex;
                     align-items: center;
                     gap: 6px;
-                  "
-                  v-if="
-                    ['tokens'].includes(headCaption.toLowerCase()) &&
-                    sortedHeader.caption !== headCaption
-                  "
-                >
-                  <svg
-                    width="24"
-                    height="16"
-                    viewBox="0 0 24 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                  " v-if="['tokens'].includes(headCaption.toLowerCase()) &&
+        sortedHeader.caption !== headCaption
+        ">
+                  <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_156_47)">
                       <g clip-path="url(#clip1_156_47)">
                         <path
                           d="M7.5 15C11.366 15 14.5 11.866 14.5 8C14.5 4.13401 11.366 1 7.5 1C3.63401 1 0.5 4.13401 0.5 8C0.5 11.866 3.63401 15 7.5 15Z"
-                          stroke="white"
-                        />
+                          stroke="white" />
                         <path
                           d="M16.5 15C20.366 15 23.5 11.866 23.5 8C23.5 4.13401 20.366 1 16.5 1C12.634 1 9.5 4.13401 9.5 8C9.5 11.866 12.634 15 16.5 15Z"
-                          stroke="white"
-                        />
+                          stroke="white" />
                       </g>
                     </g>
                     <defs>
                       <clipPath id="clip0_156_47">
-                        <rect
-                          width="24"
-                          height="15"
-                          fill="white"
-                          transform="translate(0 0.5)"
-                        />
+                        <rect width="24" height="15" fill="white" transform="translate(0 0.5)" />
                       </clipPath>
                       <clipPath id="clip1_156_47">
-                        <rect
-                          width="24"
-                          height="15"
-                          fill="white"
-                          transform="translate(0 0.5)"
-                        />
+                        <rect width="24" height="15" fill="white" transform="translate(0 0.5)" />
                       </clipPath>
                     </defs>
                   </svg>
                 </div>
 
-                <div
-                  @click="onDatatableHeaderClick(headCaption)"
-                  :class="'head_caption_text'"
-                >
+                <div @click="onDatatableHeaderClick(headCaption)" :class="'head_caption_text'">
                   {{ headCaption }}
                 </div>
-                <div
-                  @click="
-                    $emit('table-header-click', headCaption, headCaptionIndex)
-                  "
-                  style="font-family: Inter; font-weight: 700; width: 20px"
-                  v-if="
-                    (sortedHeader && sortedHeader.caption == 'Time') ||
-                    (headCaptionIndex != 0 &&
-                      sortedHeader &&
-                      sortedHeader.caption)
-                  "
-                >
+                <div @click="
+        $emit('table-header-click', headCaption, headCaptionIndex)
+        " style="font-family: Inter; font-weight: 700; width: 20px" v-if="(sortedHeader && sortedHeader.caption == 'Time') ||
+        (headCaptionIndex != 0 &&
+          sortedHeader &&
+          sortedHeader.caption)
+        ">
                   {{
-                    sortedHeader &&
-                    sortedHeader.caption &&
-                    sortedHeader.caption == headCaption
-                      ? sortSymbol
-                      : ''
-                  }}
+        sortedHeader &&
+          sortedHeader.caption &&
+          sortedHeader.caption == headCaption
+          ? sortSymbol
+          : ''
+      }}
                 </div>
-            
+
               </div>
             </div>
           </div>
         </div>
-        {{ console.log('filterByStatus', filterByStatus) }}
         <!-- <div
           v-if="poolsNoResult"
           style="
@@ -440,50 +253,18 @@
           <LoaderPulse />
         </div>
         <div v-else-if="pools.length === 0" class="no_results">No results.</div> -->
-        {{ console.log('all_pools', all_pools) }}
-        {{ console.log('filterPoolAmount', filterPoolAmount()) }}
-        <PoolRow
-          v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
-          :poolsLength="filterByStatus.length"
-          :perPage="perPage"
-          :key="pool.name"
-          :pool="pool"
-          :inactive="isPoolInactive(pool)"
-          :index="index"
-          @goToPoolWithdraw="goToPoolWithdraw"
-          @goToCLPool="goToCLPool"
-          @goToPool="goToPool"
-          @goToPoolDeposit="goToPoolDeposit"
-          @goToCL="goToCL"
-          :isActions="true"
-        />
+        <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :poolsLength="filterByStatus.length"
+          :perPage="perPage" :key="pool.name" :pool="pool" :inactive="isPoolInactive(pool)" :index="index"
+          @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
+          @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL" :isActions="true" />
 
-        <div
-          @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
-          class="load_more"
-        >
+        <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more">
           Load More
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 22 22"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11 4.58331V17.4166"
-              stroke="#7D7D7D"
-              stroke-width="1.33333"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M17.4167 11L11 17.4167L4.58334 11"
-              stroke="#7D7D7D"
-              stroke-width="1.33333"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 4.58331V17.4166" stroke="#7D7D7D" stroke-width="1.33333" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M17.4167 11L11 17.4167L4.58334 11" stroke="#7D7D7D" stroke-width="1.33333" stroke-linecap="round"
+              stroke-linejoin="round" />
           </svg>
         </div>
       </div>
@@ -737,15 +518,27 @@ const onClickConcentratedPool = () => {
 }
 
 function goToPoolDeposit(args) {
-  router.push({
-    name: 'Pool Deposit',
-    params: {
-      // id: filterByStatus.value[args.index].id,
-      id: all_pools.value[args.index].id,
-      onMountedActivity: args.onMountedActivity,
-      chainSelected: DisplayChain[networkId.value],
-    },
-  })
+  if (all_pools.value[args.index].type == "WP") {
+    router.push({
+      name: 'Pool Deposit',
+      params: {
+        // id: filterByStatus.value[args.index].id,
+        id: all_pools.value[args.index].id,
+        onMountedActivity: args.onMountedActivity,
+        chainSelected: DisplayChain[networkId.value],
+      },
+    })
+  }
+  else {
+    router.push({
+      name: 'Concentrated liquidity',
+      query: {
+        tokens: all_pools.value[args.index].tokens,
+        fee: all_pools.value[args.index].fee,
+      },
+    })
+  }
+
 }
 function goToPoolWithdraw(args) {
   router.push({
@@ -783,7 +576,7 @@ function goToCLPool(args) {
 
 function goToCL(args) {
   router.push({
-    name: 'Concentrated liquidity Preselected',
+    name: 'Concentrated liquidity',
     params: {
       // id: filterByStatus.value[args.index].id,
       // id: poolsMock[args.index].id,
@@ -869,6 +662,7 @@ onMounted(async () => {
   cl_snapshots.value = await useUniswapTvlSnapshots(null)
   cl_pools.value = (await useUniswapPools(56)).map((item) => ({
     id: item.id,
+    address: item.id,
     'Pool Name': [[item.token0.symbol, item.token1.symbol]],
     'Pool Weight': [
       [
@@ -876,6 +670,7 @@ onMounted(async () => {
         { token: item.token1.symbol, weight: '50%' },
       ],
     ],
+    tokens: [item.token0.id, item.token1.id],
     time_created: item.createdAtTimestamp,
     LiquidityType: 'CL',
     ROI: '-',
@@ -890,6 +685,7 @@ onMounted(async () => {
       poolSwapsData.value,
       item.id,
     ),
+    fee: item.feeTier,
     Blockchain: 'Binance',
   }))
   console.log('CL POOLS - ', cl_pools.value)
@@ -966,7 +762,6 @@ const all_pools = computed(() => {
   }
   if (hidePools.value) {
     let user_pools_ids = user_staked_pools.value.map((item) => item.id)
-    console.log('USER POOL IDS', user_pools_ids)
     result = result.filter((item) => user_pools_ids.includes(item.id))
   }
   if (optionsPoolAttribute.value[0].selected) {
@@ -986,7 +781,7 @@ const all_pools = computed(() => {
           .length > 0,
     )
   }
-
+  console.log("ALL POOLS - ", result)
   return result.toSorted((a, b) => b.TVL - a.TVL)
 })
 
@@ -1098,11 +893,9 @@ function filterPoolAmount() {
     padding: 0;
     border-radius: 16px;
     border: 1px solid #ffffff0d;
-    background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 2%),
-      rgba(255, 255, 255, 0%)
-    );
+    background: linear-gradient(0deg,
+        rgba(255, 255, 255, 2%),
+        rgba(255, 255, 255, 0%));
     box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
     margin-bottom: 30px;
@@ -1511,6 +1304,7 @@ function filterPoolAmount() {
   text-align: center;
   color: #7d7d7d;
   padding: 15px;
+
   &:hover {
     color: #00affe;
     cursor: pointer;

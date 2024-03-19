@@ -11,7 +11,10 @@ export async function useUniswapPools(networkId) {
     UNISWAP_POOLS_QUERY,
   )
   if (data && data['pools']) {
-    return data.pools.map((item) => ({ ...item, chainId: networkId }))
+    return data.pools.map((item) => ({
+      ...item,
+      chainId: networkId,
+    }))
   }
   return []
 }

@@ -5,10 +5,13 @@ export const UNISWAP_POOLS_QUERY = `{
     totalValueLockedUSD
     token0{
         symbol
+        id
     }
     token1{
         symbol
+        id
     }
+    feeTier
   }
 }`
 export const UNISWAP_FILTERED_POOLS_QUERY = (ids) => `{
@@ -18,9 +21,12 @@ export const UNISWAP_FILTERED_POOLS_QUERY = (ids) => `{
     totalValueLockedUSD
     token0{
         symbol
+        id
     }
     token1{
         symbol
+        id
     }
+    feeTier
   }
 }`
