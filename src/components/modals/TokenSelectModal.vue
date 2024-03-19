@@ -76,7 +76,7 @@ const filteredPossibleTokens = computed(() =>
       filterName.value == '' ||
       t.symbol.toLowerCase().includes(filterName.value.toLowerCase()) ||
       t.address.toLowerCase().includes(filterName.value.toLowerCase()),
-  ),
+  ).slice(0,50)
 )
 
 const commonTokens = computed(() => {

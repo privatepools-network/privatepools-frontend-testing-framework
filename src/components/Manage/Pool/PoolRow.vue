@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="pool_type" :class="pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
-            ">
+    ">
             {{ pool['LiquidityType'] === 'CL' ? 'CLP' : 'WLP' }}
           </div>
         </div>
@@ -108,9 +108,9 @@
           <div
             @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'deposit' }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })"
             class="liquidity_button" :class="pool['LiquidityType'] === 'CL'
-              ? 'liquidity_button_LP'
-              : 'liquidity_button_WP'
-              ">
+    ? 'liquidity_button_LP'
+    : 'liquidity_button_WP'
+    ">
             ADD LIQUIDITY
           </div>
         </div>
@@ -128,7 +128,7 @@
 
             <div style="font-size: 18px; font-weight: 700">{{ lp_name }} LP</div>
             <div style="font-size: 9px; font-weight: 700">
-               {{pool['LiquidityType'] === 'CL' ? 'Number of positions: 2' : '50% AAVE and 50% wstETH' }}
+              {{ pool['LiquidityType'] === 'CL' ? 'Number of positions: 2' : '50% AAVE and 50% wstETH' }}
             </div>
             <div class="d-flex align-items-end justify-content-between mt-3">
               <div v-if="pool['LiquidityType'] === 'WP'" style="font-size: 9px; font-weight: 700">
@@ -154,7 +154,7 @@
               </div>
               <div class="actions_button"
                 @click="pool['LiquidityType'] === 'CL' ? router.push('/pools/concentrated_pool/add/withdraw') : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })">
-                {{pool['LiquidityType'] === 'CL' ? 'Manage Position' : 'Add liquidity'}}
+                {{ pool['LiquidityType'] === 'CL' ? 'Manage Position' : 'Add liquidity' }}
               </div>
             </div>
           </div>
@@ -179,8 +179,8 @@
               </div>
               <div class="actions_button"
                 @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { onMountedActivity: 'withdraw' }) : $emit('goToPoolWithdraw', { index, onMountedActivity: 'withdraw' })">
-                
-                {{pool['LiquidityType'] === 'CL' ? 'Add New Position' : 'WITHDRAW'}}
+
+                {{ pool['LiquidityType'] === 'CL' ? 'Add New Position' : 'WITHDRAW' }}
               </div>
             </div>
           </div>

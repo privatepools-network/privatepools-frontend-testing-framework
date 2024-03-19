@@ -515,15 +515,15 @@ import {
   GetSecondAmount,
   GetPricesAtLimit,
 } from '@/composables/concentrated-liquidity/cl'
+import { useRoute } from 'vue-router'
 import { CalculateAvgApr } from '@/composables/math/chartMath/trackingInfoMath'
 import { usePool30dProfit } from '@/composables/pools/usePoolSwapsStats'
 import router from '@/router'
-
+const route = useRoute()
 const concentratedLiquidityStep = ref(1)
 const feeTier = ref(0)
 const tokenSelectModal = ref(false)
 const pairIndex = ref(1)
-
 const pairToken1 = ref({
   logoURI: not_found,
   symbol: '',
@@ -536,7 +536,7 @@ const pairToken2 = ref({
 const feeAmount = computed(() => FEE_AMOUNTS[feeTier.value])
 
 const tokensInitialized = computed(
-  () => pairToken1.value.price && pairToken2.value.price,
+  () => pairToken1.value.address && pairToken2.value.address,
 )
 
 const convertedPairToken1 = computed(() =>
@@ -658,9 +658,9 @@ function selectRange(rng) {
     priceRange2.value = upperPrice
   } else {
     priceRange1.value =
-      relativePrice.value + (relativePrice.value / 100) * rng.APR_MIN
+      (relativePrice.value + (relativePrice.value / 100) * rng.APR_MIN).toFixed(6)
     priceRange2.value =
-      relativePrice.value + (relativePrice.value / 100) * rng.APR_MAX
+      (relativePrice.value + (relativePrice.value / 100) * rng.APR_MAX).toFixed(6)
     adjustTokenPrices()
   }
   console.log(priceRange1.value)
@@ -727,6 +727,7 @@ function incrementPriceRange(lower = true) {
         feeAmount.value,
       )
     }
+
   }
 }
 function decrementPriceRange(lower = true) {
@@ -788,13 +789,14 @@ function adjustTokenPrices() {
       priceRange2.value,
       feeAmount.value,
     )
+    console.log(newPrices)
     console.log(
       'NEW PRICES - ',
-      newPrices.priceLower.toSignificant(8),
-      newPrices.priceUpper.toSignificant(8),
+      newPrices.priceLower,
+      newPrices.priceUpper
     )
-    priceRange1.value = newPrices.priceLower.toSignificant(8)
-    priceRange2.value = newPrices.priceUpper.toSignificant(8)
+    priceRange1.value = newPrices.priceLower.toSignificant(6)
+    priceRange2.value = newPrices.priceUpper.toSignificant(6)
   }
 }
 
@@ -884,16 +886,31 @@ watch(poolInfo, async () => {
 
 onMounted(async () => {
   trades.value = await fetchDataAndMerge()
+  if (route.query.fee) {
+    let index = FEE_AMOUNTS.indexOf(parseInt(route.query.fee))
+    if (index != -1) {
+      selectTier(index)
+    }
+    await initPossibleComposeTokens()
+  }
 })
 
 watch((networkId), async () => {
+  await initPossibleComposeTokens()
+})
+
+async function initPossibleComposeTokens() {
   if (networkId.value) {
     notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(
       networkId.value,
     )
-    console.log(notSelectedPossibleComposeTokens.value)
+    if (route.query.tokens.length == 2) {
+      console.log("TOKENS - ", notSelectedPossibleComposeTokens)
+      pairToken1.value = notSelectedPossibleComposeTokens.value.find((item) => item.address == route.query.tokens[0])
+      pairToken2.value = notSelectedPossibleComposeTokens.value.find((item) => item.address == route.query.tokens[1])
+    }
   }
-})
+}
 </script>
 
 <style lang="scss" scoped>
