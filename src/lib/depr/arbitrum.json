@@ -66,7 +66,7 @@
       "symbol": "USDT",
       "decimals": 6,
       "address": "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
-      "logoURI": "./images/tokens/usdt.png",
+      "logoURI": "./images/tokens/USDT.png",
       "apiId": "USDT"
     },
     "usdc": {
@@ -90,7 +90,7 @@
       "symbol": "ARB",
       "decimals": 18,
       "address": "0x912CE59144191C1204E64559FE8253a0e49E6548",
-      "logoURI": "./images/tokens/arb.png",
+      "logoURI": "./images/tokens/ARB.png",
       "apiId": "ARB"
     },
     "stg": {
@@ -98,7 +98,7 @@
       "symbol": "STG",
       "decimals": 18,
       "address": "0x6694340fc020c5E6B96567843da2df01b2CE1eb6",
-      "logoURI": "./images/tokens/stargate.png",
+      "logoURI": "./images/tokens/STG.png",
       "apiId": "STG"
     },
     "wbtc": {
@@ -106,7 +106,7 @@
       "symbol": "WBTC",
       "decimals": 8,
       "address": "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
-      "logoURI": "./images/tokens/btc.png",
+      "logoURI": "./images/tokens/BTC.png",
       "apiId": "BTC"
     },
     "pendle": {
@@ -114,7 +114,7 @@
       "symbol": "PENDLE",
       "decimals": 18,
       "address": "0x0c880f6761f1af8d9aa9c466984b80dab9a8c9e8",
-      "logoURI": "./images/tokens/btc.png",
+      "logoURI": "./images/tokens/BTC.png",
       "apiId": "PENDLE"
     },
     "magic": {
@@ -130,7 +130,7 @@
       "symbol": "GMX",
       "decimals": 18,
       "address": "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
-      "logoURI": "./images/tokens/gmx-logo.png",
+      "logoURI": "./images/tokens/GMX.png",
       "apiId": "GMX"
     },
     "RDNT": {

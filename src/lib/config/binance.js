@@ -111,7 +111,7 @@ export default {
       symbol: 'USDT',
       decimals: 6,
       address: '0x55d398326f99059ff775485246999027b3197955',
-      logoURI: './images/tokens/usdt.png',
+      logoURI: './images/tokens/USDT.png',
       apiId: 'USDT',
     },
     WBNB: {
@@ -127,7 +127,7 @@ export default {
       symbol: 'STG',
       decimals: 18,
       address: '0xB0D502E938ed5f4df2E681fE6E419ff29631d62b',
-      logoURI: './images/tokens/stargate.png',
+      logoURI: './images/tokens/STG.png',
       apiId: 'STG',
     },
     BETH: {
@@ -159,7 +159,7 @@ export default {
       symbol: 'BTCB',
       decimals: 18,
       apiId: 'BTCB',
-      logoURI: './images/tokens/btc.png',
+      logoURI: './images/tokens/BTC.png',
       address: '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c',
     },
     XRP: {

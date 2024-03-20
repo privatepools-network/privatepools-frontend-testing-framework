@@ -8,9 +8,7 @@
       <div style="color: white; font-size: 20px; font-weight: 700" class="my-3">
         Users Analytics
       </div>
-      <!-- <GeneralAnalyticsChart @changeToDepositView="changeToDepositView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices" :pool="pool"
-        :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="chartData"
-        :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected" /> -->
+
       <div class="track_info_container">
         <GeneralBotCard
           :currencySelected="currencySelected"
@@ -92,7 +90,6 @@
 </template>
 
 <script setup>
-import GeneralAnalyticsChart from '@/components/PoolsDetails/GeneralAnalyticsChart.vue'
 import MainCard from '../UI/MainCard.vue'
 import GeneralBotCard from '@/components/General/GeneralBotCard.vue'
 import TrackingInfoChart from '@/components/TrackInfo/TrackingInfoChart.vue'

@@ -7,19 +7,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
-@font-face {
-  font-family: 'Poppins';
-  src: url('@/assets/fonts/Poppins-Medium.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
-@font-face {
-  font-family: 'Inter';
-  src: url('@/assets/fonts/Inter-Medium.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
 $form-switch-checked-color: red !important;
 

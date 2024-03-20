@@ -243,7 +243,6 @@
   </div>
 </template>
 <script setup>
-// import darkpool_logo from '@/assets/icons/darkpool_logo.svg'
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import { ref, defineProps, toRefs, computed } from 'vue'
 import ThreeDots from '@/components/loaders/ThreeDots.vue'
