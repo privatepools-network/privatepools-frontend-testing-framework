@@ -681,6 +681,13 @@ function updateToken(token, index) {
   if (index == 2) {
     pairToken2.value = token
   }
+  if (pairToken1.value.address && pairToken2.value.address) {
+    if (ethers.BigNumber.from(pairToken1.value.address).gt(pairToken2.value.address)) {
+      let temp = pairToken2.value
+      pairToken2.value = pairToken1.value
+      pairToken1.value = temp
+    }
+  }
 }
 
 async function updateTokenInfo(token) {
@@ -689,9 +696,9 @@ async function updateTokenInfo(token) {
     return
   }
   let price = await GetTokenPriceUsd(token.value.symbol)
+  token.value.price = price
   let user = await mmProvider.value.getSigner().getAddress()
   let balance = await useBalance(token.value.address, mmProvider.value, user)
-  token.value.price = price
   token.value.balance = balance
   if (pairToken1.value.price && pairToken2.value.price) {
     priceRange1.value = relativePrice.value - (relativePrice.value / 100) * 5 // -5% difference
@@ -906,8 +913,8 @@ async function initPossibleComposeTokens() {
     )
     if (route.query.tokens.length == 2) {
       console.log("TOKENS - ", notSelectedPossibleComposeTokens)
-      pairToken1.value = notSelectedPossibleComposeTokens.value.find((item) => item.address == route.query.tokens[0])
-      pairToken2.value = notSelectedPossibleComposeTokens.value.find((item) => item.address == route.query.tokens[1])
+      updateToken(notSelectedPossibleComposeTokens.value.find((item) => item.address == route.query.tokens[0]), 1)
+      updateToken(pairToken2.value = notSelectedPossibleComposeTokens.value.find((item) => item.address == route.query.tokens[1]), 2)
     }
   }
 }

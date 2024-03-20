@@ -3,7 +3,7 @@ import { configService } from '@/services/config/config.service'
 import {
   FILTERED_HISTORICAL_TOKENS_QUERY,
   HISTORICAL_TOKENS_QUERY,
-} from '../queries/financialStatement/historicalTokensQuery'
+} from '../financialStatement/historicalTokensQuery'
 import { DisplayNetwork, networkId } from '../useNetwork'
 
 /**
