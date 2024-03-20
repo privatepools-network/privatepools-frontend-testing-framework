@@ -28,17 +28,17 @@
             <div class="compose_text fw-light">Pair</div>
             <div class="d-flex gap-3">
               <!-- Tokens selector 1 separate comp-->
-              <div  class="selector_button">
+              <div class="selector_button">
                 <img :src="pairToken1.img || pairToken1.logoURI" width="24" />
-               
+
                 <h4 style="font-size: 21px; margin-bottom: 0; color: white">
                   {{ pairToken1.symbol }}
                 </h4>
                 <!-- Tokens selector 2 separate comp -->
               </div>
-              <div  class="selector_button">
+              <div class="selector_button">
                 <img :src="pairToken2.img || pairToken2.logoURI" width="24" />
-              
+
                 <h4 style="font-size: 21px; margin-bottom: 0; color: white">
                   {{ pairToken2.symbol }}
                 </h4>
@@ -48,9 +48,9 @@
               <div class="compose_text fw-light mt-3">Fee Tier</div>
               <div class="fee_tier_container">
                 <div :class="tier.selected
-                  ? 'fee_tier_container_card fee_tier_container_card__selected'
-                  : 'fee_tier_container_card'
-                  " v-for="(tier, i) in fee_tiers" :key="`tiers-${i}`" @click="selectTier(i)">
+      ? 'fee_tier_container_card fee_tier_container_card__selected'
+      : 'fee_tier_container_card'
+      " v-for="(tier, i) in fee_tiers" :key="`tiers-${i}`" @click="selectTier(i)">
                   <div style="color: #c1c8ce">{{ tier.percent }}</div>
                   <div style="color: #858c90">{{ tier.name }}</div>
                 </div>
@@ -94,10 +94,10 @@
                           color: #858c90;
                         ">
                         ≈ = ${{
-                          !fullRangeSelected
-                          ? ((pairToken1.price || 0) * priceRange1).toFixed(2)
-                          : 0
-                        }}
+      !fullRangeSelected
+        ? ((pairToken1.price || 0) * priceRange1).toFixed(2)
+        : 0
+    }}
                       </div>
                     </div>
                     <div style="
@@ -107,13 +107,13 @@
                         color: #858c90;
                       ">
                       {{
-                        !fullRangeSelected
-                        ? calculatePercentageDifference(
-                          relativePrice,
-                          priceRange1,
-                        ).toFixed(2)
-                        : 0
-                      }}%
+        !fullRangeSelected
+          ? calculatePercentageDifference(
+            relativePrice,
+            priceRange1,
+          ).toFixed(2)
+          : 0
+      }}%
                     </div>
                     <!--TODO: implement decrement/increment logic based on next tick position-->
                     <div v-if="concentratedLiquidityStep === 2" style="
@@ -178,10 +178,10 @@
                           color: #858c90;
                         ">
                         ≈ = ${{
-                          !fullRangeSelected
-                          ? ((pairToken1.price || 0) * priceRange2).toFixed(2)
-                          : '∞'
-                        }}
+      !fullRangeSelected
+        ? ((pairToken1.price || 0) * priceRange2).toFixed(2)
+        : '∞'
+    }}
                       </div>
                     </div>
                     <div style="
@@ -191,13 +191,13 @@
                         color: #858c90;
                       ">
                       {{
-                        !fullRangeSelected
-                        ? calculatePercentageDifference(
-                          relativePrice,
-                          priceRange2,
-                        ).toFixed(2)
-                        : '∞'
-                      }}%
+        !fullRangeSelected
+          ? calculatePercentageDifference(
+            relativePrice,
+            priceRange2,
+          ).toFixed(2)
+          : '∞'
+      }}%
                     </div>
                     <div v-if="concentratedLiquidityStep === 2" style="
                         position: absolute;
@@ -230,9 +230,9 @@
               <div class="compose_text fw-light mt-3 mb-3">Range Type:</div>
               <div v-if="concentratedLiquidityStep === 2" class="fee_tier_container">
                 <div :class="type.selected
-                  ? 'fee_tier_container_card fee_tier_container_card__selected'
-                  : 'fee_tier_container_card'
-                  " v-for="(type, i) in range_types" :key="`tiers-${i}`" @click="selectRange(type)">
+      ? 'fee_tier_container_card fee_tier_container_card__selected'
+      : 'fee_tier_container_card'
+      " v-for="(type, i) in range_types" :key="`tiers-${i}`" @click="selectRange(type)">
                   <div style="color: #858c90">{{ type.name }}</div>
                   <div style="color: #c1c8ce; font-size: clamp(6px, 0.6vw, 10px);">{{ type.percent }}</div>
 
@@ -303,8 +303,8 @@
                         " v-model="depositAmount1" @blur="updateDepositAmount2" />
                       <div style="color: #858c90; font-size: 12px">
                         ≈${{
-                          (depositAmount1 * (pairToken1.price || 0)).toFixed(2)
-                        }}
+      (depositAmount1 * (pairToken1.price || 0)).toFixed(2)
+    }}
                       </div>
                     </div>
                   </div>
@@ -362,8 +362,8 @@
                         " v-model="depositAmount2" @blur="updateDepositAmount1" />
                       <div style="color: #858c90; font-size: 12px">
                         ≈${{
-                          (depositAmount2 * (pairToken2.price || 0)).toFixed(2)
-                        }}
+      (depositAmount2 * (pairToken2.price || 0)).toFixed(2)
+    }}
                       </div>
                     </div>
                   </div>
@@ -400,24 +400,24 @@
             </div>
 
             <div class="my-3 d-flex justify-content-center position-relative" v-if="concentratedLiquidityStep === 3 ||
-                concentratedLiquidityStep === 4 ||
-                concentratedLiquidityStep === 5
-                ">
+      concentratedLiquidityStep === 4 ||
+      concentratedLiquidityStep === 5
+      ">
               <div class="d-flex gap-2">
                 <!-- First step marker -->
                 <div class="position-relative">
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="15" cy="15" r="14.5" :stroke="concentratedLiquidityStep === 3 ||
-                      concentratedLiquidityStep === 4 ||
-                      concentratedLiquidityStep === 5
-                      ? '#00C9FF'
-                      : 'white'
-                      " />
+      concentratedLiquidityStep === 4 ||
+      concentratedLiquidityStep === 5
+      ? '#00C9FF'
+      : 'white'
+      " />
                   </svg>
                   <div v-if="concentratedLiquidityStep === 3" :class="concentratedLiquidityStep === 3
-                    ? 'step_number step_number_active'
-                    : 'step_number'
-                    ">
+      ? 'step_number step_number_active'
+      : 'step_number'
+      ">
                     1
                   </div>
                   <div v-else-if="concentratedLiquidityStep === 4" class="step_number">
@@ -435,12 +435,12 @@
                 <div class="position-relative">
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="15" cy="15" r="14.5" :stroke="concentratedLiquidityStep === 5 ? '#00C9FF' : 'white'
-                      " />
+      " />
                   </svg>
                   <div :class="concentratedLiquidityStep === 5
-                    ? 'step_number step_number_active'
-                    : 'step_number'
-                    ">
+      ? 'step_number step_number_active'
+      : 'step_number'
+      ">
                     2
                   </div>
                 </div>
@@ -448,9 +448,9 @@
             </div>
 
             <button v-if="!tokensInitialized" :class="!tokensInitialized
-              ? 'concentrated_button concentrated_button_disabled'
-              : 'concentrated_button'
-              ">
+      ? 'concentrated_button concentrated_button_disabled'
+      : 'concentrated_button'
+      ">
               Add liquidity
             </button>
             <button v-else-if="tokensInitialized" :class="'concentrated_button'" @click="mintPosition">
@@ -675,6 +675,13 @@ function updateToken(token, index) {
   if (index == 2) {
     pairToken2.value = token
   }
+  if (pairToken1.value.address && pairToken2.value.address) {
+    if (ethers.BigNumber.from(pairToken1.value.address).gt(pairToken2.value.address)) {
+      let temp = pairToken2.value
+      pairToken2.value = pairToken1.value
+      pairToken1.value = temp
+    }
+  }
 }
 
 async function updateTokenInfo(token) {
@@ -808,7 +815,8 @@ async function mintPosition() {
       depositAmount2.value,
       priceRange1.value,
       priceRange2.value,
-      relativePrice.value
+      relativePrice.value,
+      concentratedLiquidityStep
     )
     concentratedLiquidityStep.value = 3
   } catch (e) {

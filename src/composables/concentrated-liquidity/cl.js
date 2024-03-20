@@ -511,6 +511,19 @@ export async function MintPosition(
     highPrice,
     feeAmount,
   )
+  let result = checkTokensSwapped(
+    null,
+    token0,
+    token1,
+    depositAmount0,
+    depositAmount1,
+  )
+  ;[token0, token1, depositAmount0, depositAmount1] = [
+    result.token0,
+    result.token1,
+    result.depositAmount0,
+    result.depositAmount1,
+  ]
   const poolInfo = await getPoolInfo(
     signer,
     token0,
@@ -645,7 +658,10 @@ function checkTokensSwapped(
   depositAmount1,
 ) {
   let swapped = false
-  if (poolInfo.token0 != token0.address) {
+  if (
+    (poolInfo && poolInfo.token0 != token0.address) ||
+    ethers.BigNumber.from(token0.address).gt(token1.address)
+  ) {
     let _token0 = token0
     token0 = token1
     token1 = _token0
@@ -879,6 +895,7 @@ async function deployPool(token0, token1, fee, price, signer) {
     console.log('RECEIPT - ', receipt)
     return true
   } catch (e) {
+    // check if you can deploy doge on default uniswap
     console.error(e)
     return false
   }
