@@ -403,7 +403,6 @@
   </div>
 </template>
 <script setup>
-// import darkpool_logo from '@/assets/icons/darkpool_logo.svg'
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import { ref, defineProps, toRefs, computed, onMounted } from 'vue'
 import ThreeDots from '@/components/loaders/ThreeDots.vue'
@@ -430,8 +429,6 @@ import {
   usePool30dRevenueTokensAmount,
 } from '@/composables/pools/usePoolSwapsStats'
 import { groupBy } from '@/lib/utils'
-import SidebarHeaderDropdown from '@/components/TrackTrades/SidebarHeaderDropdown.vue'
-import TokenCCollapse from '@/components/TrackTrades/TokenCCollapse.vue'
 import router from '@/router'
 
 

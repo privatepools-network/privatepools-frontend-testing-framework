@@ -78,53 +78,42 @@ export const timestampToDateTime = (timestamp) => {
   return [formattedDate, formattedTime]
 }
 
-import Ether from '@/assets/images/tokens/ether.png'
-import USDT from '@/assets/images/tokens/usdt.png'
+import Ether from '@/assets/images/tokens/ETH.png'
+import USDT from '@/assets/images/tokens/USDT.png'
 import USDC from '@/assets/images/tokens/usdc.png'
-import ARB from '@/assets/images/tokens/arb.png'
+import ARB from '@/assets/images/tokens/ARB.png'
 import WBNB from '@/assets/images/tokens/wbnb.webp'
-import STG from '@/assets/images/tokens/stargate.png'
+import STG from '@/assets/images/tokens/STG.png'
 import GHST from '@/assets/images/tokens/GHST.png'
 import DAI from '@/assets/images/tokens/DAI.png'
 // import Ethereum from '@/assets/images/networks/ethereum.png'
 import PENDLE from '@/assets/images/tokens/pendle.png'
 import MAGIC from '@/assets/images/tokens/magic.png'
 import MATIC from '@/assets/images/tokens/matic.png'
-import GMX from '@/assets/images/tokens/gmx-logo.png'
+import GMX from '@/assets/images/tokens/GMX.png'
 import RDNT from '@/assets/images/tokens/rdnt.png'
-import Btc from '@/assets/images/tokens/btc.png'
+import Btc from '@/assets/images/tokens/BTC.png'
 import WBTC from '@/assets/images/tokens/WBTC.png'
-import CHFsmall from '@/assets/images/tokens/small/flags/CH.png'
-import GBsmall from '@/assets/images/tokens/small/flags/GB.png'
-import USsmall from '@/assets/images/tokens/small/flags/US.png'
-import EUsmall from '@/assets/images/tokens/small/flags/EU.png'
-import LDOsmall from '@/assets/images/tokens/small/LDO.png'
-import LINK from '@/assets/images/tokens/small/LINK.png'
-import APPLEsmall from '@/assets/images/tokens/small/APPLE.png'
-import ADAsmall from '@/assets/images/tokens/small/ADA.png'
-import AVAXsmall from '@/assets/images/tokens/small/AVAX.png'
-import BNBsmall from '@/assets/images/tokens/small/BNB.png'
-import BTCsmall from '@/assets/images/tokens/small/BTC.png'
-import DOGEsmall from '@/assets/images/tokens/small/DOGE.png'
-import ETHsmall from '@/assets/images/tokens/small/ETH.png'
-import FTMsmall from '@/assets/images/tokens/small/FTM.png'
-import GHSTsmall from '@/assets/images/tokens/small/GHST.png'
-import GMXsmall from '@/assets/images/tokens/small/GMX.png'
-import IMXsmall from '@/assets/images/tokens/small/IMX.png'
-import LTCsmall from '@/assets/images/tokens/small/LTC.png'
-import MATICsmall from '@/assets/images/tokens/small/MATIC.png'
-import MKRsmall from '@/assets/images/tokens/small/MKR.png'
-import OPsmall from '@/assets/images/tokens/small/OP.png'
-import PAXsmall from '@/assets/images/tokens/small/PAX.png'
+
+import LDOsmall from '@/assets/images/tokens/LDO.png'
+import LINK from '@/assets/images/tokens/LINK.png'
+import ADAsmall from '@/assets/images/tokens/ADA.png'
+import AVAXsmall from '@/assets/images/tokens/AVAX.png'
+import BNBsmall from '@/assets/images/tokens/BNB.png'
+import BTCsmall from '@/assets/images/tokens/BTC.png'
+import DOGEsmall from '@/assets/images/tokens/DOGE.png'
+import ETHsmall from '@/assets/images/tokens/ETH.png'
+import GHSTsmall from '@/assets/images/tokens/GHST.png'
+import GMXsmall from '@/assets/images/tokens/GMX.png'
+import LTCsmall from '@/assets/images/tokens/LTC.png'
+import MATICsmall from '@/assets/images/tokens/matic.png'
+import OPsmall from '@/assets/images/tokens/OP.png'
 import PAXG from '@/assets/images/tokens/PAXG.png'
-import SNXsmall from '@/assets/images/tokens/small/SNX.png'
-import SOLsmall from '@/assets/images/tokens/small/SOL.png'
-import STGsmall from '@/assets/images/tokens/small/STG.png'
-import UNIsmall from '@/assets/images/tokens/small/UNI.png'
-// import USDTsmall from '@/assets/images/tokens/small/usdt.png'
-import XRPsmall from '@/assets/images/tokens/small/XRP.png'
-import ARBsmall from '@/assets/images/tokens/small/ARB.png'
-import VELOsmall from '@/assets/images/tokens/small/VELO.png'
+import SOLsmall from '@/assets/images/tokens/SOL.png'
+import STGsmall from '@/assets/images/tokens/STG.png'
+// import USDTsmall from '@/assets/images/tokens/USDT.png'
+import XRPsmall from '@/assets/images/tokens/XRP.png'
+import ARBsmall from '@/assets/images/tokens/ARB.png'
 import BETH from '@/assets/images/tokens/BETH.png'
 import VLX from '@/assets/images/tokens/VLX.png'
 import CAKE from '@/assets/images/tokens/cake.png'
@@ -272,42 +261,14 @@ const tokenHT = [
     short: 'BTC',
     icon: Btc,
   },
-  {
-    key: 'CHF',
-    name: 'CHF',
-    short: 'CHF',
-    icon: CHFsmall,
-  },
-  {
-    key: 'GBP',
-    name: 'GBP',
-    short: 'GBP',
-    icon: GBsmall,
-  },
-  {
-    key: 'EUR',
-    name: 'EUR',
-    short: 'EUR',
-    icon: EUsmall,
-  },
-  {
-    key: 'US',
-    name: 'US',
-    short: 'US',
-    icon: USsmall,
-  },
+
   {
     key: 'LDO',
     name: 'LDO',
     short: 'LDO',
     icon: LDOsmall,
   },
-  {
-    key: 'APPLE',
-    name: 'APPLE',
-    short: 'AAPL',
-    icon: APPLEsmall,
-  },
+
   {
     key: 'ADA',
     name: 'ADA',
@@ -344,12 +305,7 @@ const tokenHT = [
     short: 'ETH',
     icon: ETHsmall,
   },
-  {
-    key: 'FTM',
-    name: 'FTM',
-    short: 'FTM',
-    icon: FTMsmall,
-  },
+
   {
     key: 'GHST',
     name: 'GHST',
@@ -362,12 +318,7 @@ const tokenHT = [
     short: 'GMX',
     icon: GMXsmall,
   },
-  {
-    key: 'IMX',
-    name: 'IMX',
-    short: 'IMX',
-    icon: IMXsmall,
-  },
+
   {
     key: 'LTC',
     name: 'LTC',
@@ -380,36 +331,21 @@ const tokenHT = [
     short: 'MATIC',
     icon: MATICsmall,
   },
-  {
-    key: 'MKR',
-    name: 'MKR',
-    short: 'MKR',
-    icon: MKRsmall,
-  },
+
   {
     key: 'OP',
     name: 'OP',
     short: 'OP',
     icon: OPsmall,
   },
-  {
-    key: 'PAX',
-    name: 'PAX',
-    short: 'PAXG',
-    icon: PAXsmall,
-  },
+
   {
     key: 'PAXG',
     name: 'PAXG',
     short: 'PAXG',
     icon: PAXG,
   },
-  {
-    key: 'SNX',
-    name: 'SNX',
-    short: 'SNX',
-    icon: SNXsmall,
-  },
+
   {
     key: 'SOL',
     name: 'SOL',
@@ -422,12 +358,7 @@ const tokenHT = [
     short: 'STG',
     icon: STGsmall,
   },
-  {
-    key: 'UNI',
-    name: 'UNI',
-    short: 'UNI',
-    icon: UNIsmall,
-  },
+
   {
     key: 'USDT',
     name: 'USDT',
@@ -459,12 +390,7 @@ const tokenHT = [
     short: 'Cake',
     icon: CAKE,
   },
-  {
-    key: 'VELO',
-    name: 'VELO',
-    short: 'VELO',
-    icon: VELOsmall,
-  },
+
   {
     key: 'DOT',
     name: 'DOT',

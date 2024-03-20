@@ -1,28 +1,26 @@
-import btc from '../assets/images/tokens/btc.png'
+import btc from '../assets/images/tokens/BTC.png'
 import wbtc from '../assets/images/tokens/WBTC.png'
 import binance from '../assets/images/tokens/wbnb.webp'
 import beth from '../assets/images/tokens/BETH.png'
 import VLX from '../assets/images/tokens/VLX.png'
 import GHST from '../assets/images/tokens/GHST.png'
-import eth from '../assets/images/tokens/ether.png'
-import arb from '../assets/images/tokens/arb.png'
+import eth from '../assets/images/tokens/ETH.png'
+import arb from '../assets/images/tokens/ARB.png'
 import rdnt from '../assets/images/tokens/rdnt.png'
-import usdt from '../assets/images/tokens/usdt.png'
+import usdt from '../assets/images/tokens/USDT.png'
 import usdc from '../assets/images/tokens/usdc.png'
 import matic from '../assets/images/tokens/matic.png'
-import stg from '../assets/images/tokens/stargate.png'
-import gmx from '../assets/images/tokens/gmx-logo.png'
-import xrp from '../assets/images/tokens/small/XRP.png'
-import ada from '../assets/images/tokens/small/ADA.png'
+import xrp from '../assets/images/tokens//XRP.png'
+import ada from '../assets/images/tokens//ADA.png'
 import cake from '../assets/images/tokens/cake.png'
-import avax from '../assets/images/tokens/small/AVAX.png'
-import sol from '../assets/images/tokens/small/SOL.png'
+import avax from '../assets/images/tokens//AVAX.png'
+import sol from '../assets/images/tokens//SOL.png'
 import inj from '../assets/images/tokens/inj.png'
 import DOGE from '../assets/images/tokens/DOGE.png'
 import DAI from '../assets/images/tokens/DAI.png'
 import dot from '../assets/images/tokens/DOT.webp'
-import link from '../assets/images/tokens/small/LINK.png'
-import ldo from '../assets/images/tokens/small/LDO.png'
+import link from '../assets/images/tokens//LINK.png'
+import ldo from '../assets/images/tokens//LDO.png'
 
 export default function computedTokenImage(token) {
   if (token.symbol === 'WBTC' || token === 'WBTC') {
@@ -80,12 +78,7 @@ export default function computedTokenImage(token) {
   if (token.symbol === 'WMATIC' || token === 'WMATIC') {
     return matic
   }
-  if (token.symbol === 'STG' || token === 'STG') {
-    return stg
-  }
-  if (token.symbol === 'GMX' || token === 'GMX') {
-    return gmx
-  }
+
   if (token.symbol === 'XRP' || token === 'XRP') {
     return xrp
   }

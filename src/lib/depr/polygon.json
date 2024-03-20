@@ -108,7 +108,7 @@
             "symbol": "USDT",
             "decimals": 6,
             "address": "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
-            "logoURI": "./images/tokens/usdt.png",
+            "logoURI": "./images/tokens/USDT.png",
             "apiId": "USDT"
         },
         "STG": {
@@ -116,7 +116,7 @@
             "symbol": "STG",
             "decimals": 18,
             "address": "0x2f6f07cdcf3588944bf4c42ac74ff24bf56e7590",
-            "logoURI": "./images/tokens/stargate.png",
+            "logoURI": "./images/tokens/STG.png",
             "apiId": "STG"
         },
         "MATIC": {
@@ -140,7 +140,7 @@
             "symbol": "WBTC",
             "decimals": 8,
             "address": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
-            "logoURI": "./images/tokens/btc.png",
+            "logoURI": "./images/tokens/BTC.png",
             "apiId": "BTC"
         },
         "PAXG": {

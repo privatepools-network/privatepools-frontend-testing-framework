@@ -4,7 +4,6 @@
       class="d-flex align-items-center justify-content-between gap-2 flex-wrap"
     >
       <div class="d-flex align-items-center justify-content-between w-100">
-        <!-- <img :src="darkpool_logo" /> -->
         <div
           style="
             font-size: clamp(10px, 0.9vw, 16px);
@@ -29,7 +28,7 @@
     </div>
 
     <div class="px-2">
-      <div style="margin-top: 5%; color: rgba(204, 204, 204, 1);">
+      <div style="margin-top: 5%; color: rgba(204, 204, 204, 1)">
         Total Value Locked
       </div>
       <div class="mb-2">
@@ -303,7 +302,7 @@
           :visible="visibleTotalProfit"
           v-if="poolSwapStats['Volume All Time']"
         >
-        <div
+          <div
             style="
               color: rgba(204, 204, 204, 1);
               margin-top: 10px;
@@ -385,7 +384,7 @@
                   font-size: clamp(10px, 0.9vw, 16px);
                 "
               >
-              My Rewards
+                My Rewards
               </div>
               <div
                 v-if="pool"
@@ -410,7 +409,7 @@
                   font-size: clamp(10px, 0.9vw, 16px);
                 "
               >
-              My Balance
+                My Balance
               </div>
               <div
                 v-if="pool"
@@ -435,17 +434,16 @@
         style="
           color: white;
           background: linear-gradient(85.18deg, #2775ca 0%, #2abdff 100%);
-        " @click="$emit('changeToDepositView')"
+        "
+        @click="$emit('changeToDepositView')"
       >
         Add Liquidity
       </div>
-      <div style="
-          color: white;" class="rewards_button w-100">Withdraw</div>
+      <div style="color: white" class="rewards_button w-100">Withdraw</div>
     </div>
   </div>
 </template>
 <script setup>
-// import darkpool_logo from '@/assets/icons/darkpool_logo.svg'
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import { ref, defineProps, defineEmits, toRefs, computed, onMounted } from 'vue'
 // import { formatBigNumber } from '@/lib/utils'
@@ -467,13 +465,9 @@ import {
   usePool7dVolumeTokensAmount,
   usePool30dVolumeTokensAmount,
 } from '@/composables/pools/usePoolSwapsStats'
-import SidebarHeaderDropdown from '@/components/TrackTrades/SidebarHeaderDropdown.vue'
-import TokenCCollapse from '@/components/TrackTrades/TokenCCollapse.vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 
-const emit = defineEmits([
-  'changeToDepositView'
-])
+const emit = defineEmits(['changeToDepositView'])
 const props = defineProps([
   'changeToDepositView',
   'tokenPrices',
@@ -719,19 +713,18 @@ function GetTokenPrice(address) {
   margin-right: -2px;
 }
 
-
 .rewards_button {
   background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
-color: #2ABDFF;
-padding: 8px 12px;
-font-family: Inter;
-font-size: clamp(8px, 0.7vw, 12px);
-font-weight: 600;
-line-height: 24px;
+  color: #2abdff;
+  padding: 8px 12px;
+  font-family: Inter;
+  font-size: clamp(8px, 0.7vw, 12px);
+  font-weight: 600;
+  line-height: 24px;
   border-radius: 8px;
-text-align: center;
- cursor: pointer;
+  text-align: center;
+  cursor: pointer;
 }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>

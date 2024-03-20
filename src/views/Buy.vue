@@ -214,11 +214,13 @@
         </div>
       </div>
 
+      <div style="margin-top: 140px;">
       <div
         style="
           color: white;
           font-size: clamp(24px, 0.8vw, 40px);
           font-weight: 700;
+          
         "
         class="my-5"
       >
@@ -328,6 +330,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </MainCard>
 </template>
@@ -523,7 +526,7 @@ const notSelectedPossibleComposeTokens = ref([])
   &_section_1 {
     display: flex;
     justify-content: space-between;
-    margin-top: 80px;
+    margin-top: 140px;
     gap: 30px;
   }
 }
