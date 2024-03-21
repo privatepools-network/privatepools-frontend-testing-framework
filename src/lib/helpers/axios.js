@@ -23,18 +23,5 @@ axiosInstance.interceptors.request.use(
   (err) => Promise.reject(err),
 )
 
-// Response interceptor for API calls
-// axiosInstance.interceptors.response.use(
-//   (response) => {
-//     if (response.status === 200 || response.status === 201) {
-//       return Promise.resolve(response.data)
-//     } else {
-//       return Promise.reject(response)
-//     }
-//   },
-//   async (error) => {
-//     console.log(error)
-//   },
-// )
 
 export default axiosInstance

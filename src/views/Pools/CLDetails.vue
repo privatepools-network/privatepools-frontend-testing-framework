@@ -759,24 +759,7 @@ border: 1px solid #FFFFFF0D;">
 
     {{ console.log('pool!!!', pool) }}
   </MainCard>
-  
-  <!-- <DepositComponent v-else-if="visibleDepositComponent && networkId > 0 &&
-    tokenPrices &&
-    pool &&
-    pool.tokens &&
-    tokens.length > 0 &&
-    poolActivity
-    " :chainSelected="chainSelected" :tokenPrices="tokenPrices" :pool="pool" :tokens="tokens"
-    :visibleDepositModal="visibleDepositComponent" @changeToDepositView="changeToDepositView" /> -->
-    
-  <!-- <WithdrawComponent v-else-if="visibleWithdrawComponent && networkId > 0 &&
-    tokenPrices &&
-    pool &&
-    pool.tokens &&
-    tokens.length > 0 &&
-    poolActivity
-    " :chainSelected="chainSelected" :tokenPrices="tokenPrices" :pool="pool" :tokens="tokens"
-    @changeToWithdrawView="changeToWithdrawView" /> -->
+
 </template>
 
 <script setup>
@@ -797,13 +780,10 @@ import { CanvasRenderer } from 'echarts/renderers'
 import router from '@/router'
 import { GetPoolActivity } from '@/composables/pools/usePoolActivity'
 import { FormatPoolActivity } from '@/lib/formatter/poolActivityFormatter'
-// import { SummarizeTokens } from '@/lib/utils'
 import { GetSinglePool } from '@/composables/pools/usePool.js'
 import { GetPoolTokenPrices } from '@/composables/useTokenPrices'
-// import { FormatPoolTVL } from '@/lib/formatter/poolTvlFormatter'
 import { GetPoolSwapsData } from '@/composables/pools/charts/usePoolSwapsData'
 import { GetPoolHistoricValues } from '@/composables/pools/charts/usePoolHistoricValues'
-// import { useCryptoCompareTokenPrices } from '@/composables/balances/useCryptoCompareTokenPrices'
 import { formatBigNumber } from '@/lib/utils/index'
 import { GetPool24hProfit } from '@/composables/pools/usePoolSwapsStats'
 import { configService } from '@/services/config/config.service'
@@ -811,7 +791,6 @@ import {
   Network,
   networkId,
 } from '@/composables/useNetwork'
-// import PoolInfo from '@/components/PoolInfo'
 import MainCard from '@/UI/MainCard.vue'
 import Title from '@/UI/Title.vue'
 import { useStore } from 'vuex'

@@ -267,13 +267,11 @@ import grid from '@/assets/images/grid.png'
 import ChartAndPoolInfo from '@/components/ComposePool/ChartAndPoolInfo.vue'
 import not_found from '@/assets/icons/not_found.svg'
 import { ref, onMounted, watch, computed } from 'vue'
-import metamask from '@/assets/icons/approveTokenSteps/metamask.svg'
 import { fetchUniswapTokens } from '@/composables/tokens/useUniswapTokens'
 import { networkId } from '@/composables/useNetwork'
 import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
 import useBalance from '@/composables/useBalance'
 import { ethers } from 'ethers'
-import { calculatePercentageDifference } from '@/lib/utils'
 import { useUniswapTvl } from '@/composables/concentrated-liquidity/useUniswapTvl'
 import { useUniswapTvlSnapshots } from '@/composables/concentrated-liquidity/useUniswapTvlSnapshots'
 import { fetchDataAndMerge } from '@/composables/pools/trades/fetch/useFetchTrades'
@@ -295,9 +293,7 @@ const liquidityActionTab = ref('Add')
 const lineNumberPercent = ref(100)
 const selectPositionModalState = ref(false)
 
-function ChangeSelectPositionModalState() {
-  selectPositionModalState.value = !selectPositionModalState.value
-}
+
 
 const positions = ref([])
 
@@ -402,8 +398,7 @@ const chartOptions = computed(() => ({
 }))
 
 const concentratedLiquidityStep = ref(1)
-const feeTier = ref(0)
-const pairIndex = ref(1)
+
 
 
 const selectedPosition = ref(null)
@@ -428,22 +423,7 @@ const pairToken2 = computed(() => {
   return { ...selectedPosition.value.token1, ...additionalInfo2.value }
 })
 
-const feeAmount = computed(() => selectedPosition.value.pool.fee)
 
-const tokensInitialized = computed(
-  () => pairToken1.value.price && pairToken2.value.price,
-)
-
-// const convertedPairToken1 = computed(() =>
-//   pairToken1.value.symbol != ''
-//     ? convertPairToken(pairToken1.value, networkId.value)
-//     : null,
-// )
-// const convertedPairToken2 = computed(() =>
-//   pairToken2.value.symbol != ''
-//     ? convertPairToken(pairToken2.value, networkId.value)
-//     : null,
-// )
 
 const depositAmount1 = ref(0)
 const depositAmount2 = ref(0)
@@ -455,42 +435,8 @@ const mmProvider = computed(
   () => new ethers.providers.Web3Provider(window.ethereum),
 )
 
-const range_types = ref([
-  {
-    name: 'Full Range',
-    percent: '[-100%, ∞]',
-    APR: '',
-    APR_MIN: -100,
-    APR_MAX: 100,
-    selected: false,
-  },
-  {
-    name: 'Wide',
-    percent: '[-12.5%, +12.5%]',
-    APR: '',
-    APR_MIN: -12.5,
-    APR_MAX: 12.5,
-    selected: false,
-  },
-  {
-    name: 'Narrow',
-    percent: '[-7.5%, +7.5%]',
-    APR: '',
-    APR_MIN: -7.5,
-    APR_MAX: 7.5,
-    selected: false,
-  },
-  {
-    name: 'Aggressive',
-    percent: '[-5%, +5%]',
-    APR: '',
-    APR_MIN: -5,
-    APR_MAX: 5,
-    selected: false,
-  },
-])
 
-const fullRangeSelected = computed(() => range_types.value[0].selected)
+
 const relativePrice = computed(() =>
   pairToken1.value.price && pairToken2.value.price
     ? pairToken1.value.price / pairToken2.value.price

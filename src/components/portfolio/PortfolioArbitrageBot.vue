@@ -41,7 +41,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
                   ${{ formatBigNumber(tvl_data['TVL Binance']) }}
                 </div>
               </div>
@@ -51,7 +51,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
                   ${{ formatBigNumber(tvl_data['TVL Polygon']) }}
                 </div>
               </div>
@@ -83,7 +83,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee']) }}
                 </div>
               </div>
@@ -150,7 +150,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
                   ${{ formatBigNumber(chains_data['Sum']['Profit']) }}
                 </div>
               </div>
@@ -214,7 +214,7 @@
                 style="
                   font-family: Inter;
                   font-weight: 400;
-                  font-size: clamp(10px, 0.8vw, clamp(10px, 0.8vw, 14px));
+                  font-size: clamp(10px, 0.8vw, 14px);
                   font-size: clamp(10px, 0.9vw, 16px);
                 "
               >
@@ -222,11 +222,11 @@
               </div>
               <div
                 v-if="pool"
-                style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)"
+                style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)"
               >
               $524.72m
               </div>
-              <div v-else>
+              <div v-else style="margin-right: 15px;">
                 <ThreeDots></ThreeDots>
               </div>
             </div>

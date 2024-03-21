@@ -484,7 +484,6 @@
 import MainCard from '@/UI/MainCard.vue'
 import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
 import ChartAndPoolInfo from '@/components/ComposePool/ChartAndPoolInfo.vue'
-import not_found from '@/assets/icons/not_found.svg'
 import { ref, onMounted, watch, computed } from 'vue'
 import metamask from '@/assets/icons/approveTokenSteps/metamask.svg'
 import { fetchUniswapTokens } from '@/composables/tokens/useUniswapTokens'

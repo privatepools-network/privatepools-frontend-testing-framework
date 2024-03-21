@@ -337,7 +337,7 @@
 
 <script setup>
 import Tabs from '@/UI/Tabs.vue'
-import MainCard from '../UI/MainCard.vue'
+import MainCard from '@/UI/MainCard.vue'
 import { ref } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
@@ -510,7 +510,7 @@ function tokenSelectModalOpen() {
 const notSelectedPossibleComposeTokens = ref([])
 </script>
 <style lang="scss" scoped>
-@import '../styles/_variables.scss';
+@import '@/styles/_variables.scss';
 
 .buy_container {
   // display: flex;

@@ -33,7 +33,7 @@
 
 <script setup>
 import Tabs from '@/UI/Tabs.vue'
-import MainCard from '../UI/MainCard.vue'
+import MainCard from '@/UI/MainCard.vue'
 import { ref } from 'vue';
 import Investors from '@/components/Referrals/Investors.vue'
 import Affiliates from '@/components/Referrals/Affiliates.vue';
@@ -45,6 +45,6 @@ function changeSelectedTab(_new) {
 }
 </script>
 <style lang="scss">
-@import '../styles/_variables.scss';
+@import '@/styles/_variables.scss';
 
 </style>

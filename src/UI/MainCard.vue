@@ -1,11 +1,9 @@
 <template>
-  <!-- <AppBreadcrumb :title="false" /> -->
   <div :class="gradient_bg ? 'main_card_bg' : 'main_card'">
     <slot></slot>
   </div>
 </template>
 <script setup>
-// import AppBreadcrumb from '@/components/AppBreadcrumb.vue';
 import { defineProps } from 'vue'
 defineProps(['gradient_bg', 'maxWidth'])
 
@@ -16,16 +14,6 @@ defineProps(['gradient_bg', 'maxWidth'])
 
 .main_card {
   max-width: v-bind(maxWidth);
-  // border-radius: 20px;
-  // box-shadow: 0px 8px 10px 0px #00000033;
-  // box-shadow: 0px 6px 30px 0px #0000001F;
-  // box-shadow: 0px 16px 24px 0px #00000024;
-
-  // background: linear-gradient(152.97deg, rgba(29, 21, 21, 0) 30%, rgba(0, 0, 0, 0) 40%);
-  // background: rgba(31, 31, 31, 0.10);
-
-
-  // border-image-source: linear-gradient(90deg, rgba(11, 12, 13, 0) 0%, #E0E1E2 49.52%, rgba(224, 225, 226, 0.15625) 99.04%);
   backdrop-filter: blur(60px);
 
   margin-bottom: 2%;

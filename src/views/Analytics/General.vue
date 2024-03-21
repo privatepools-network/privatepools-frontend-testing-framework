@@ -1,10 +1,10 @@
 <template>
   <MainCard>
-    <div style="color: white; font-size: 18px; font-weight: 700" class="my-3">
+    <div class="title my-3">
       Overview
     </div>
     <GeneralOverview />
-    <div style="color: white; font-size: 20px; font-weight: 700" class=" mt-5 mb-3">
+    <div class="title mt-5 mb-3">
       Analytics Chart
     </div>
 
@@ -16,17 +16,17 @@
     </div>
 
     
-    <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
+    <div style="" class="mt-5 mb-3 title">
       Top Perfomance Pools
     </div>
     <GeneralPerformanceTable />
-    <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
+    <div  class="mt-5 mb-3 title">
       Top Trading Tokens
     </div>
     <TopTradingTokensTable />
 
 
-    <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
+    <div class="mt-5 mb-3 title">
       Private Pools Activity
     </div>
     <GeneralPrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" />
@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import MainCard from '../UI/MainCard.vue'
+import MainCard from '@/UI/MainCard.vue'
 import GeneralBotCard from '@/components/General/GeneralBotCard.vue';
 import TrackingInfoChart from '@/components/TrackInfo/TrackingInfoChart.vue';
 import { ref, onBeforeMount, watch, computed, onMounted } from 'vue'
@@ -266,7 +266,7 @@ async function InitPoolsData(network) {
 
 </script>
 <style lang="scss">
-@import '../styles/_variables.scss';
+@import '@/styles/_variables.scss';
 
 
 .track_info_container {
@@ -286,5 +286,9 @@ async function InitPoolsData(network) {
 
   }
 
+}
+
+.title {
+  color: white; font-size: 18px; font-weight: 700
 }
 </style>

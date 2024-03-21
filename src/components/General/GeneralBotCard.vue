@@ -3,28 +3,6 @@
     <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
       <div class="d-flex align-items-center justify-content-between w-100">
       </div>
-      <!-- <div>
-        <multiselect :modelValue="chainSelected" @update:modelValue="chainSelected = $event" placeholder="" label="title"
-          track-by="code" :options="chainOptions" :option-height="104" :show-labels="true" :searchable="false"
-          :allow-empty="false" :hide-selected="true" :close-on-select="true" :taggable="false" :showLabels="false">
-          <template v-slot:singleLabel="{ option }">
-            <div style="display: flex; align-items: center">
-              <img v-if="option.code !== 'ALL'" style="width: 20px; height: 20px; margin-right: 5px"
-                :src="option.img" /><span> {{ option.name
-                }}</span>
-
-            </div>
-          </template>
-          <template v-slot:option="{ option }">
-            <div style="display: flex; align-items: center">
-              <img v-if="option.code !== 'ALL'" style="width: 20px; height: 20px; margin-right: 5px"
-                :src="option.img" /><span> {{ option.name
-                }}</span>
-
-            </div>
-          </template>
-        </multiselect>
-      </div> -->
     </div>
 
     <div class="px-2">
@@ -39,12 +17,6 @@
               <ThreeDots />
             </div>
             <div v-else style="font-weight: 700; font-family: Inter; font-size: 18px;" class="visible_head arbitrage_bot_sections_text">
-              <!-- <span v-if="currencySelected.symbol === '₿'">
-                <img :src="btcSymbol" width="9" />
-              </span>
-              <span v-else-if="currencySelected.symbol === 'Ξ'">
-                <img :src="ethSymbol" width="9" />
-              </span> -->
               <div class="d-flex align-items-center">
 
                 ${{ numberToAposthrophe(tvlAll, currencyDecimals) }}
@@ -76,7 +48,7 @@
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
                   <span v-if="currencySelected.symbol === '₿'">
                     <img :src="btcSymbol" width="9" />
                   </span>
@@ -153,7 +125,7 @@
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
                   <span v-if="currencySelected.symbol === '₿'">
                     <img :src="btcSymbol" width="9" />
                   </span>
@@ -230,7 +202,7 @@
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
                   <span v-if="currencySelected.symbol === '₿'">
                     <img :src="btcSymbol" width="9" />
                   </span>
@@ -306,7 +278,7 @@
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
                   <span v-if="currencySelected.symbol === '₿'">
                     <img :src="btcSymbol" width="9" />
                   </span>
@@ -380,7 +352,7 @@
                 style="
                   font-family: Inter;
                   font-weight: 400;
-                  font-size: clamp(10px, 0.8vw, clamp(10px, 0.8vw, 14px));
+                 font-size: clamp(10px, 0.8vw, 14px);
                   font-size: clamp(10px, 0.9vw, 16px);
                 "
               >
@@ -388,7 +360,7 @@
               </div>
               <div
               
-                style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)"
+                style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)"
               >
               20
               </div>
@@ -678,9 +650,7 @@ const feesInfo = computed(() => {
   )
   return result
 })
-const arb_init = computed(() => process.env.VUE_APP_KEY_ARBITRUM)
-const bnb_init = computed(() => process.env.VUE_APP_KEY_BINANCE)
-const matic_init = computed(() => process.env.VUE_APP_KEY_POLYGON)
+
 </script>
 <style lang="scss">
 @import '@/styles/_variables.scss';

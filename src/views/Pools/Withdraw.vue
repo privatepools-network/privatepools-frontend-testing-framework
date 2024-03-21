@@ -313,12 +313,11 @@
 <script setup>
 import MainCard from '@/UI/MainCard.vue'
 import { getTokenEntity } from '@/lib/helpers/util'
-// import router from '@/router'
-import { ref, defineProps } from 'vue'
+import { ref } from 'vue'
 import Slider from '@vueform/slider'
 
 import WithdrawModalV2 from '@/components/modals/WithdrawModalV2.vue'
-import { toRefs, computed, onBeforeMount, watch, watchEffect } from 'vue'
+import { computed, onBeforeMount, watch } from 'vue'
 import useWithdrawMath from '@/composables/math/withdrawMath/useWithdrawMath'
 import { usePoolActionBalances } from '@/composables/balances/usePoolActionBalances'
 import { GetPoolShares } from '@/composables/pools/usePoolShares'

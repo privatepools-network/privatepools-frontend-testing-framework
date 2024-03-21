@@ -90,7 +90,7 @@
 </template>
 
 <script setup>
-import MainCard from '../UI/MainCard.vue'
+import MainCard from '@/UI/MainCard.vue'
 import GeneralBotCard from '@/components/General/GeneralBotCard.vue'
 import TrackingInfoChart from '@/components/TrackInfo/TrackingInfoChart.vue'
 import { ref, onBeforeMount, watch, computed } from 'vue'
@@ -402,7 +402,7 @@ async function InitPoolsData(network) {
 }
 </script>
 <style lang="scss">
-@import '../styles/_variables.scss';
+@import '@/styles/_variables.scss';
 
 .track_info_container {
   display: flex;

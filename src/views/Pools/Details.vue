@@ -913,18 +913,14 @@ import { CanvasRenderer } from 'echarts/renderers'
 import router from '@/router'
 import { GetPoolActivity } from '@/composables/pools/usePoolActivity'
 import { FormatPoolActivity } from '@/lib/formatter/poolActivityFormatter'
-// import { SummarizeTokens } from '@/lib/utils'
 import { GetSinglePool } from '@/composables/pools/usePool.js'
 import { GetPoolTokenPrices } from '@/composables/useTokenPrices'
-// import { FormatPoolTVL } from '@/lib/formatter/poolTvlFormatter'
 import { GetPoolSwapsData } from '@/composables/pools/charts/usePoolSwapsData'
 import { GetPoolHistoricValues } from '@/composables/pools/charts/usePoolHistoricValues'
-// import { useCryptoCompareTokenPrices } from '@/composables/balances/useCryptoCompareTokenPrices'
 import { formatBigNumber } from '@/lib/utils/index'
 import { GetPool24hProfit } from '@/composables/pools/usePoolSwapsStats'
 import { configService } from '@/services/config/config.service'
 import { Network, networkId } from '@/composables/useNetwork'
-// import PoolInfo from '@/components/PoolInfo'
 import MainCard from '@/UI/MainCard.vue'
 import Title from '@/UI/Title.vue'
 import { useStore } from 'vuex'
@@ -955,8 +951,7 @@ import {
   updateTokenPrices,
 } from '@/composables/pools/useTokenPairs'
 import { DisplayNetwork } from '@/composables/useNetwork'
-import DepositComponent from './Deposit.vue'
-import WithdrawComponent from './Withdraw.vue'
+
 import PoolDetailsTable from '@/components/PoolsDetails/PoolDetailsTable.vue'
 import { convertSwapsCurrency } from '@/composables/pools/usePoolSwapsStats'
 import { CalculateJoinExitPrice } from '@/lib/formatter/financialStatement/financialStatementFormatter'
@@ -964,7 +959,6 @@ import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import info from '@/assets/images/info.svg'
 import { FormatAllTokensData } from '@/lib/formatter/trackTokensFormatter'
 import { FormatAllPairsData } from '@/lib/formatter/trackPairsFormatter'
-import CurrencySelector from '@/UI/CurrencySelector.vue'
 import { setPoolsTvls } from '@/composables/pools/usePools'
 const store = useStore()
 const trackCurrentNetwork = computed(() => {
@@ -1470,9 +1464,6 @@ const visibleWithdrawComponent = ref(false)
 
 const poolsLoader = ref(false)
 
-const visibleDepositModal = ref(false)
-const visibleWithdrawModal = ref(false)
-
 const perPage = ref(25)
 const currentPage = ref(1)
 
@@ -1719,17 +1710,8 @@ function changeToDepositView() {
   visibleDepositComponent.value = !visibleDepositComponent.value
 }
 
-function changeVisibleDeposit() {
-  visibleDepositModal.value = !visibleDepositModal.value
-}
 
-function changeVisibleWithdraw() {
-  visibleWithdrawModal.value = !visibleWithdrawModal.value
-}
 
-watch(visibleWithdrawModal, (newValue) => {
-  console.log('visibleWithdrawModal changed:', newValue)
-})
 
 // let poolsData = ref()
 // let historicValues = ref()
