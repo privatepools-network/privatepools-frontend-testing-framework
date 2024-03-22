@@ -52,7 +52,6 @@ import { FormatTokenSnapshots } from '@/lib/formatter/tokenSnapshotsFormatter'
 import { FormatAllTokensData } from '@/lib/formatter/trackTokensFormatter'
 import { GetHistoricalTokenPrices } from '@/composables/balances/useHistoricalTokenPrices'
 import { addEmptyDays } from '@/lib/formatter/chart/chartFormatter'
-import Tabs from "@/UI/Tabs.vue";
 import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
 import { formatSimpleTimestamp } from '@/lib/utils/index'
@@ -60,7 +59,6 @@ import { GetTokenPricesBySymbols } from "@/composables/balances/cryptocompare"
 import {
   convertSwapsCurrency
 } from '@/composables/pools/usePoolSwapsStats'
-import CurrencySelector from '@/UI/CurrencySelector.vue'
 import { GetActiveUsers } from '@/composables/users/useActiveUsers'
 import GeneralOverview from '@/components/General/GeneralOverview.vue';
 import GeneralPrivatePoolsTable from '@/components/General/GeneralPrivatePoolsTable.vue';
@@ -245,15 +243,6 @@ function formatChartData(formatted_tvl, formatted_token_snapshots, chart_data) {
       chart_data[i].TVL[chainSelected.value.name] = tvl
       chart_data[i].TVL["All chains"] = tvl
     }
-    // if (!chart_data[i].TVL && !nearestTvl) {
-    //   nearestTvl = { ...chart_data.find((d) => d.TVL != null).TVL }
-    //   chart_data[i].TVL = { ...nearestTvl }
-    // } else if (!chart_data[i].TVL) {
-    //   chart_data[i].TVL = { ...nearestTvl }
-    // }
-    // nearestTvl = { ...chart_data[i].TVL }
-
-
   }
 }
 
@@ -282,8 +271,6 @@ async function InitPoolsData(network) {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    /* gap: 15px; */
-
   }
 
 }

@@ -157,32 +157,7 @@
               </div>
             </div>
           </div>
-          <!-- <div class="buy_balance_container">
-            <div class="d-flex mb-2" style="font-weight: 600">
-              <div class="buy_balance_container_row">My Tokens</div>
-              <div class="buy_balance_container_row_right">Balance</div>
-              <div class="buy_balance_container_row_right">Value</div>
-            </div>
-            <div
-              class="d-flex my-3"
-              v-for="(item, i) in tokens_balances"
-              :key="`${i}-balance`"
-            >
-              <div class="buy_balance_container_row">
-                <img
-                  :src="getTokenEntity(item.name, 'short').icon"
-                  width="14"
-                />
-                {{ item.name }}
-              </div>
-              <div class="buy_balance_container_row_right">
-                {{ item.balance }} {{ item.name }}
-              </div>
-              <div class="buy_balance_container_row_right">
-                ${{ item.value }}
-              </div>
-            </div>
-          </div> -->
+         
         </div>
         <div class="chart_container" style="width: 65%">
           <div class="d-flex justify-content-between">

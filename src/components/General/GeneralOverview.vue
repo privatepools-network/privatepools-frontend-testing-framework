@@ -1,248 +1,87 @@
 <template>
-    <div class="d-flex gap-1 flex-wrap justify-content-between">
-  <div class="d-flex gap-4">
-    <div class="overview_big_container">
-      <div class="icon_container">
-        <svg
-          width="28"
-          height="27"
-          viewBox="0 0 28 27"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M3.66406 6H0.664062V27H3.66406V6Z" fill="white" />
-          <path d="M11.6641 11H8.66406V27H11.6641V11Z" fill="white" />
-          <path d="M19.6641 4H16.6641V27H19.6641V4Z" fill="white" />
-          <path d="M27.6641 0H24.6641V27H27.6641V0Z" fill="#00C9FF" />
-        </svg>
-      </div>
-      <div>
-        <div class="text_header">Total profits</div>
-        <div class="text_value">$12.71M</div>
-      </div>
-      <div>
-        <div class="text_header">24H profits</div>
-        <div class="text_value">$169.14K</div>
-      </div>
-      <div class="mt-5">
-        <CChart
-          type="line"
-          style="
-            height: 70px;
-            filter: drop-shadow(0 0 0.5rem #00c9ff);
-          "
-          :data="{
-            labels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
-            datasets: [
-              {
-                label: 'Profit',
-                backgroundColor: '#03F5AE00',
-                borderColor: '#03ACF599',
-                data: [1, 3, 2, 1, 4, 3],
-                fill: true,
-                pointRadius: 1,
-                pointHitRadius: 2,
-              },
-            ],
-          }"
-          :options="{
-            plugins: {
-              legend: {
-                display: false,
-              },
-              tooltip: {
-                enabled: true,
-              },
-            },
-
-            maintainAspectRatio: false,
-            scales: {
-              x: {
-                display: false,
-              },
-              y: {
-                display: false,
-              },
-            },
-            elements: {
-              line: {
-                borderWidth: 2,
-                tension: 0.4,
-              },
-              // point: {
-              //   radius: 0,
-              //   hitRadius: 10,
-              //   hoverRadius: 4,
-              // },
-            },
-          }"
-        />
-      </div>
-    </div>
-    <div class="overview_big_container">
-      <div class="icon_container">
-        <svg
-          width="32"
-          height="28"
-          viewBox="0 0 32 28"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M22.5875 0.320007V3.20001H26.5306L22.5368 7.59311L19.7075 4.76381L11.7875 12.6838L8.95525 9.85161L0.0185547 17.9741L1.95635 20.1059L8.85955 13.8284L11.7875 16.7563L19.7075 8.83631L22.6367 11.7655L28.3475 5.48521V8.96001H31.2275V0.320007H22.5875ZM26.9075 12.56V27.68H29.7875V12.56H26.9075ZM16.8275 14.72V27.68H19.7075V14.72H16.8275ZM21.8675 14.72V27.68H24.7475V14.72H21.8675ZM6.74745 18.32V27.68H9.62745V18.32H6.74745ZM11.7875 19.04V27.68H14.6675V19.04H11.7875ZM1.70745 21.92V27.68H4.58745V21.92H1.70745Z"
-            fill="#00C9FF"
-          />
-          <path
-            d="M26.907 12.56V27.68H29.787V12.56H26.907ZM16.827 14.72V27.68H19.707V14.72H16.827ZM21.867 14.72V27.68H24.747V14.72H21.867ZM6.74703 18.32V27.68H9.62703V18.32H6.74703ZM11.787 19.04V27.68H14.667V19.04H11.787ZM1.70703 21.92V27.68H4.58703V21.92H1.70703Z"
-            fill="white"
-          />
-        </svg>
-      </div>
-      <div>
-        <div class="text_header">Average APR</div>
-        <div class="text_value">3.14%</div>
-      </div>
-      <div>
-        <div class="text_header">24H APR</div>
-        <div class="text_value">34%</div>
-      </div>
-      <div class="mt-5">
-        <CChart
-          type="line"
-          style="
-            height: 70px;
-            filter: drop-shadow(0 0 0.5rem #00c9ff);
-          "
-          :data="{
-            labels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
-            datasets: [
-              {
-                label: 'APR',
-                backgroundColor: '#03F5AE00',
-                borderColor: '#03ACF599',
-                data: [3, 5, 6, 5, 3, 1],
-                fill: true,
-                pointRadius: 1,
-                pointHitRadius: 2,
-              },
-            ],
-          }"
-          :options="{
-            plugins: {
-              legend: {
-                display: false,
-              },
-              tooltip: {
-                enabled: true,
-              },
-            },
-
-            maintainAspectRatio: false,
-            scales: {
-              x: {
-                display: false,
-              },
-              y: {
-                display: false,
-              },
-            },
-            elements: {
-              line: {
-                borderWidth: 2,
-                tension: 0.4,
-              },
-              // point: {
-              //   radius: 0,
-              //   hitRadius: 10,
-              //   hoverRadius: 4,
-              // },
-            },
-          }"
-        />
-      </div>
-    </div>
-    <div class="overview_big_container">
-      <div class="icon_container">
-        <img :src="walletPoolsImg" />
-      </div>
-      <div>
-        <div class="text_header">PPN TVL</div>
-        <div class="text_value">$275.01K</div>
-      </div>
-      <div>
-        <div class="text_header">PPN price</div>
-        <div class="text_value">$1.18</div>
-      </div>
-      <div class="mt-5">
-        <CChart
-          type="line"
-          style="
-            height: 70px;
-            filter: drop-shadow(0 0 0.5rem #00c9ff);
-          "
-          :data="{
-            labels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
-            datasets: [
-              {
-                label: 'PPN Price',
-                backgroundColor: '#03F5AE00',
-                borderColor: '#03ACF599',
-                data: [3, 3, 3, 4, 3, 3],
-                fill: true,
-                pointRadius: 1,
-                pointHitRadius: 2,
-              },
-            ],
-          }"
-          :options="{
-            plugins: {
-              legend: {
-                display: false,
-              },
-              tooltip: {
-                enabled: true,
-              },
-            },
-
-            maintainAspectRatio: false,
-            scales: {
-              x: {
-                display: false,
-              },
-              y: {
-                display: false,
-              },
-            },
-            elements: {
-              line: {
-                borderWidth: 2,
-                tension: 0.4,
-              },
-              // point: {
-              //   radius: 0,
-              //   hitRadius: 10,
-              //   hoverRadius: 4,
-              // },
-            },
-          }"
-        />
-      </div>
-    </div>
-    
-  </div>
-  <div class="d-flex gap-4 flex-wrap justify-content-end" style="width: 35%;">
-      <div class="overview_small_container" v-for="item, i in smallContainerMock" :key="`${i}-small`">
+  <div class="d-flex gap-1 flex-wrap justify-content-between">
+    <div class="d-flex gap-4">
+      <div
+        class="overview_big_container"
+        v-for="(item, i) in bigContainerMock"
+        :key="`${i}-big-container`"
+      >
         <div class="icon_container">
-         <img :src="item.icon" />
+          <img :src="item.icon" />
+        </div>
+        <div>
+          <div class="text_header">{{ item.name }}</div>
+          <div class="text_value">{{ item.value }}</div>
+        </div>
+        <div>
+          <div class="text_header">{{ item.description }}</div>
+          <div class="text_value">{{ item.value_2 }}</div>
+        </div>
+        <div class="mt-5">
+          <CChart
+            type="line"
+            style="height: 70px; filter: drop-shadow(0 0 0.5rem #00c9ff)"
+            :data="{
+              labels: item.chartLabels,
+              datasets: [
+                {
+                  label: 'Profit',
+                  backgroundColor: '#03F5AE00',
+                  borderColor: '#03ACF599',
+                  data: item.chartData,
+                  fill: true,
+                  pointRadius: 1,
+                  pointHitRadius: 2,
+                },
+              ],
+            }"
+            :options="{
+              plugins: {
+                legend: {
+                  display: false,
+                },
+                tooltip: {
+                  enabled: true,
+                },
+              },
+
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  display: false,
+                },
+                y: {
+                  display: false,
+                },
+              },
+              elements: {
+                line: {
+                  borderWidth: 2,
+                  tension: 0.4,
+                },     
+              },
+            }"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="d-flex gap-4 flex-wrap justify-content-end" style="width: 35%">
+      <div
+        class="overview_small_container"
+        v-for="(item, i) in smallContainerMock"
+        :key="`${i}-small`"
+      >
+        <div class="icon_container">
+          <img :src="item.icon" />
         </div>
         <div>
           <div class="text_header">{{ item.name }}</div>
           <div class="text_value">{{ item.value }}</div>
         </div>
       </div>
- 
     </div>
-</div>
+  </div>
+  
 </template>
 <script setup>
 import { CChart } from '@coreui/vue-chartjs'
@@ -251,28 +90,61 @@ import totalUsers from '@/assets/icons/generalIcons/totalUsers.svg'
 import DepositedLiquidity from '@/assets/icons/generalIcons/DepositedLiquidity.svg'
 import FeesIcon from '@/assets/icons/generalIcons/Fees.svg'
 import RealizedProfit from '@/assets/icons/generalIcons/realizedProfit.svg'
+import TotalProfitsIcon from '@/assets/icons/generalIcons/TotalProfits.svg'
+import averageAPRIcon from '@/assets/icons/generalIcons/averageAPR.svg'
+
+const bigContainerMock = [
+  {
+    icon: TotalProfitsIcon,
+    name: 'Total profits',
+    value: '$12.71M',
+    description: '24H profits',
+    value_2: '$169.14K',
+    chartLabels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
+    chartData: [1, 3, 2, 1, 4, 3]
+  },
+  {
+    icon: averageAPRIcon,
+    name: 'Average APR',
+    value: '3.14%',
+    description: '24H APR',
+    value_2: '34%',
+    chartLabels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
+    chartData: [3, 5, 6, 5, 3, 1]
+  },
+  {
+    icon: walletPoolsImg,
+    name: 'PPN TVL',
+    value: '$275.01K',
+    description: 'PPN price',
+    value_2: '$1.18',
+    chartLabels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
+    chartData: [3, 3, 3, 4, 3, 3]
+  },
+]
+
 
 const smallContainerMock = [
-    {
-        icon:  totalUsers,
-          name: 'Total users',
-          value: '95'
-    },
-    {
-        icon:  DepositedLiquidity,
-          name: 'TVL',
-          value: '$725.79K'
-    },
-    {
-        icon:  FeesIcon,
-          name: '24H Trades',
-          value: '107'
-    },
-    {
-        icon:  RealizedProfit,
-          name: '24H Volume',
-          value: '$326.04'
-    },
+  {
+    icon: totalUsers,
+    name: 'Total users',
+    value: '95',
+  },
+  {
+    icon: DepositedLiquidity,
+    name: 'TVL',
+    value: '$725.79K',
+  },
+  {
+    icon: FeesIcon,
+    name: '24H Trades',
+    value: '107',
+  },
+  {
+    icon: RealizedProfit,
+    name: '24H Volume',
+    value: '$326.04',
+  },
 ]
 
 </script>
@@ -294,8 +166,6 @@ const smallContainerMock = [
   width: 12.5vw;
   height: fit-content;
 }
-
-
 
 .icon_container {
   background: #22222224;

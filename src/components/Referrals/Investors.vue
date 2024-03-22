@@ -2,7 +2,6 @@
   <ReferralsCodeEditModal
     :codeEditModal="codeEditModal"
     @codeEditModalOpen="codeEditModalOpen"
-
   />
   <div class="center_container mt-5" v-if="investorsSteps < 5">
     <div class="d-flex justify-content-center flex-column align-items-center">
@@ -75,24 +74,12 @@
           <div class="text_header">{{ item.name }}</div>
           <div class="text_value">
             {{ item.value }}
-            <svg
+            <img
+              :src="editIcon"
               v-if="i === 0"
               @click="() => codeEditModalOpen()"
               style="cursor: pointer"
-              width="14"
-              height="14"
-              viewBox="0 0 19 19"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 3.99994L15 6.99994M10 17.9999H18M2 13.9999L1 17.9999L5 16.9999L16.586 5.41394C16.9609 5.03889 17.1716 4.53027 17.1716 3.99994C17.1716 3.46961 16.9609 2.961 16.586 2.58594L16.414 2.41394C16.0389 2.039 15.5303 1.82837 15 1.82837C14.4697 1.82837 13.9611 2.039 13.586 2.41394L2 13.9999Z"
-                stroke="#F8F8F8"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            />
           </div>
           <div v-if="i === 0" style="color: white; font-size: 10px">
             Tier 1 (5% discount)
@@ -106,6 +93,7 @@
 <script setup>
 import { ref } from 'vue'
 import ReferralsCodeEditModal from '@/components/modals/ReferralsCodeEditModal.vue'
+import editIcon from '@/assets/icons/Referrals/edit.svg'
 
 const codeEditModal = ref(false)
 function codeEditModalOpen() {
