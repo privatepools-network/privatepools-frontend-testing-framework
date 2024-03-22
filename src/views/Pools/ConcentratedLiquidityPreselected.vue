@@ -509,13 +509,16 @@ import {
   GetSecondAmount,
   GetPricesAtLimit,
 } from '@/composables/concentrated-liquidity/cl'
+import { configService } from '@/services/config/config.service'
+import { useRoute } from 'vue-router'
 import { CalculateAvgApr } from '@/composables/math/chartMath/trackingInfoMath'
 import { usePool30dProfit } from '@/composables/pools/usePoolSwapsStats'
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import erc20abi from '@/lib/abi/ERC20.json'
 import router from '@/router'
-import DAIimg from '@/assets/images/tokens/DAI.png'
-import DOGEimg from '@/assets/images/tokens/DOGE.png'
-
-const concentratedLiquidityStep = ref(2)
+import { checkErc20 } from '@/composables/poolActions/compose/usePossibleComposeTokens'
+const route = useRoute()
+const concentratedLiquidityStep = ref(1)
 const feeTier = ref(0)
 const tokenSelectModal = ref(false)
 const pairIndex = ref(1)
@@ -627,6 +630,40 @@ const range_types = ref([
   },
 ])
 
+
+async function onAddToken(value) {
+  let address = value.toLowerCase()
+  let isAlreadyIn = notSelectedPossibleComposeTokens.value.find((item) => item.id == address)
+  if (isAlreadyIn) return
+  if (ethers.utils.isAddress(address)) {
+    let network_id = networkId.value
+    let config = configService.getNetworkConfig(network_id)
+    if (config) {
+      let provider = await InitializeMetamask()
+      let token_contract = new ethers.Contract(address, erc20abi, provider)
+      let tokenInfo = await checkErc20(token_contract)
+      if (tokenInfo) {
+        let account = await provider.getSigner().getAddress()
+        let balance = await useBalance(address, provider, account)
+        // let tokenOnProtocolInfo = await GetSingleToken(network_id, address)
+        notSelectedPossibleComposeTokens.value = [
+          {
+            balance,
+            price: tokenInfo.price,
+            decimals: tokenInfo.decimals,
+            img: getTokenEntity(tokenInfo.symbol, 'short').icon,
+            value: 0,
+            symbol: tokenInfo.symbol,
+            name: tokenInfo.name,
+            id: address,
+            address: address,
+          },
+          ...notSelectedPossibleComposeTokens.value,
+        ]
+      }
+    }
+  }
+}
 const fullRangeSelected = computed(() => range_types.value[0].selected)
 const relativePrice = computed(() =>
   pairToken1.value.price && pairToken2.value.price

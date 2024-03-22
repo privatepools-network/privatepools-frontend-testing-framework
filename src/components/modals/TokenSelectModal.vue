@@ -99,6 +99,7 @@
 import Search from '@/assets/images/search.png'
 import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
+import { COMMON_TOKENS } from "@/composables/poolActions/compose/usePossibleComposeTokens"
 const props = defineProps([
   'tokenSelectModal',
   'possibleComposeTokens',
@@ -109,33 +110,17 @@ const emit = defineEmits(['updateToken', 'addToken', 'tokenSelectModalClose'])
 const filterName = ref('')
 
 const filteredPossibleTokens = computed(() =>
-  possibleComposeTokens.value
-    .filter(
-      (t) =>
-        filterName.value == '' ||
-        t.symbol.toLowerCase().includes(filterName.value.toLowerCase()) ||
-        t.address.toLowerCase().includes(filterName.value.toLowerCase()),
-    )
-    .slice(0, 50),
+  possibleComposeTokens.value.filter(
+    (t) =>
+      filterName.value == '' ||
+      t.symbol.toLowerCase().includes(filterName.value.toLowerCase()) ||
+      t.address.toLowerCase().includes(filterName.value.toLowerCase()),
+  ).slice(0, 50)
 )
 
 const commonTokens = computed(() => {
-  return possibleComposeTokens.value
-    .filter((item) =>
-      [
-        'Binance Bridged USDT  BNB Smart Chain ',
-        'Binance Bridged USDC  BNB Smart Chain ',
-        'Dai',
-        'Binance Peg BUSD',
-        'Wrapped BNB',
-        'Binance Bitcoin',
-        'WETH',
-        'Binance Peg XRP',
-        'Chainlink',
-        'Binance Peg Avalanche',
-      ].includes(item.name),
-    )
-    .slice(0, 8)
+  console.log("POSSIBLE TOKENS - ", possibleComposeTokens.value)
+  return possibleComposeTokens.value.filter((item) => COMMON_TOKENS.includes(item.name)).slice(0, 8)
 })
 </script>
 <style lang="scss" scoped>

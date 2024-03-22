@@ -172,21 +172,11 @@
         >
           <div class="liquidity_button_text !text-black dark:!text-white">no liquidity deposited</div>
           <div
-            @click="
-              pool['LiquidityType'] === 'CL'
-                ? $emit('goToCL', { onMountedActivity: 'deposit' })
-                : $emit('goToPoolDeposit', {
-                    index,
-                    onMountedActivity: 'deposit',
-                  })
-            "
-            class="liquidity_button"
-            :class="
-              pool['LiquidityType'] === 'CL'
-                ? 'liquidity_button_LP'
-                : 'liquidity_button_WP'
-            "
-          >
+            @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', {index}) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })"
+            class="liquidity_button" :class="pool['LiquidityType'] === 'CL'
+    ? 'liquidity_button_LP'
+    : 'liquidity_button_WP'
+    ">
             ADD LIQUIDITY
           </div>
         </div>
@@ -302,22 +292,10 @@
                   - AAVE - wstETH
                 </div>
               </div>
-              <div
-                class="actions_button text-black dark:!text-white"
-                @click="
-                  pool['LiquidityType'] === 'CL'
-                    ? $emit('goToCL', { onMountedActivity: 'withdraw' })
-                    : $emit('goToPoolWithdraw', {
-                        index,
-                        onMountedActivity: 'withdraw',
-                      })
-                "
-              >
-                {{
-                  pool['LiquidityType'] === 'CL'
-                    ? 'Add New Position'
-                    : 'WITHDRAW'
-                }}
+              <div class="actions_button"
+                @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { index, onMountedActivity: 'withdraw' }) : $emit('goToPoolWithdraw', { index, onMountedActivity: 'withdraw' })">
+
+                {{ pool['LiquidityType'] === 'CL' ? 'Add New Position' : 'WITHDRAW' }}
               </div>
             </div>
           </div>

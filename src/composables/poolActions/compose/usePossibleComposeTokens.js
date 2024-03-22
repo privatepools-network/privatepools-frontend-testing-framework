@@ -6,6 +6,7 @@ import useBalance from '@/composables/useBalance'
 import { useTokenPrices } from '@/composables/useTokenPrice'
 import { GetSwapTokenPrices } from '@/composables/admin/swap/useSwapTokenPrices'
 import { GetTokens } from '@/composables/tokens/useTokenSymbols'
+import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
 
 /**
  * Replace W char in token symbol (W stands for wrapped usually)
@@ -85,4 +86,50 @@ export function usePossibleComposeTokens(options = {}) {
     },
     onSuccess: () => {},
   })
+}
+
+export const COMMON_TOKENS = [
+  'Binance Bridged USDT  BNB Smart Chain ',
+  'Binance Bridged USDC  BNB Smart Chain ',
+  'Dai',
+  'Binance Peg BUSD',
+  'Wrapped BNB',
+  'Binance Bitcoin',
+  'WETH',
+  'ETH',
+  'Binance Peg XRP',
+  'Chainlink',
+  'Binance Peg Avalanche',
+  'WBNB',
+  'LINK',
+  'Avalanche',
+  'USDT',
+  'USDC',
+  'BUSD',
+  'BTCB',
+  'DAI',
+  'WBNB Token',
+  'XRP Token',
+  'LINK Token',
+  'AVAX Token',
+  'USDT Token',
+  'Tether USD',
+  'SOLANA',
+  'USDC Token',
+  'Matic Token',
+  'BUSD Token',
+  'BTCB Token',
+  'DAI Token',
+  'WETH Token',
+]
+
+export async function checkErc20(contract) {
+  try {
+    let promises = [contract.symbol(), contract.name(), contract.decimals()]
+    let results = await Promise.all(promises)
+    let price = await GetTokenPriceUsd(results[0])
+    return { symbol: results[0], name: results[1], decimals: results[2], price }
+  } catch (e) {
+    return null
+  }
 }

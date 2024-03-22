@@ -3,6 +3,8 @@ export const UNISWAP_POOLS_QUERY = `{
     id
     createdAtTimestamp
     totalValueLockedUSD
+    totalValueLockedToken0
+    totalValueLockedToken1
     token0{
         symbol
         id
