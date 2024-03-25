@@ -1,4 +1,12 @@
 <template>
+ <fwb-modal v-if="codeEditModal" @close="codeEditModalClose" class="dark:!bg-[#22222224]">
+
+    <template #body>
+      <ReferralsCodeGenerateModal/>
+    </template>
+ 
+  </fwb-modal>
+
   <MainCard>
     <div class="my-3 title">Referrals</div>
     <div class="my-1 description">
@@ -18,7 +26,7 @@
       <Investors />
     </div>
     <div class="mt-5" v-else>
-      <Affiliates />
+      <Affiliates @codeEditModalOpen="codeEditModalOpen"/>
     </div>
   </MainCard>
 </template>
@@ -29,12 +37,24 @@ import MainCard from '@/UI/MainCard.vue'
 import { ref } from 'vue'
 import Investors from '@/components/Referrals/Investors.vue'
 import Affiliates from '@/components/Referrals/Affiliates.vue'
+import {  FwbModal } from 'flowbite-vue'
+import ReferralsCodeGenerateModal from '@/components/modals/ReferralsCodeGenerateModal.vue'
 
 const selectedTab = ref('Investors')
 
 function changeSelectedTab(_new) {
   selectedTab.value = _new
 }
+
+
+const codeEditModal = ref(false)
+function codeEditModalClose() {
+  codeEditModal.value = false
+}
+function codeEditModalOpen() {
+  codeEditModal.value = true
+}
+
 </script>
 <style lang="scss">
 @import '@/styles/_variables.scss';

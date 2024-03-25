@@ -1,6 +1,6 @@
 <template>
   <div class="token-name-container">
-    <div v-if="route.name === 'Manage Pools'">
+    <div v-if="route.name === 'Manage Pools'" class="flex flex-wrap">
       
     <img
   
@@ -13,7 +13,7 @@
       :title="tokenEntity.short"
     />
   </div>
-    <div v-else>
+    <div v-else class="flex flex-wrap">
     <img
       
       class="pair_avatars"

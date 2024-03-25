@@ -30,20 +30,20 @@
       </a>
     </div>
     <div class="d-flex justify-content-between mt-5 w-100">
-      <div class="d-flex gap-2 footer_text">
-        <div>
+      <div class="flex gap-2 footer_text">
+        <div class="flex gap-1 items-center">
           About
           <img :src="footerLinkIcon" />
         </div>
-        <div>
+        <div class="flex gap-1 items-center">
           Docs
           <img :src="footerLinkIcon" />
         </div>
-        <div>
+        <div class="flex gap-1 items-center">
           Bug bounty
           <img :src="footerLinkIcon" />
         </div>
-        <div>
+        <div class="flex gap-1 items-center">
           Analytics
           <img :src="footerLinkIcon" />
         </div>

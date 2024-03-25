@@ -1,11 +1,5 @@
 <!DOCTYPE html>
-<!--
-* DarkPool Admin Template
-* @version v4.2.0
-* @link https://coreui.io/vue/
-* Copyright (c) 2021 creativeLabs Łukasz Holeczek
-* License (https://coreui.io/pro/license)
--->
+
 <html>
 
 <head>
@@ -13,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,shrink-to-fit=no">
   <meta name="description" content="DarkPool Admin">
-  <meta name="author" content="creativeLabs Łukasz Holeczek">
+  <meta name="author" content="">
   <title>DarkPool Admin</title>
   <!-- favicons for all devices -->
 
@@ -47,7 +41,17 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
+  <!-- <meta name="theme-color" content="#ffffff"> -->
+
+
+  <script>
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (localStorage.getItem('vueuse-color-scheme') === 'auto' || (!('vueuse-color-scheme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
+</script>
 </head>
 
 <body>

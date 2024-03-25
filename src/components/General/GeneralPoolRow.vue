@@ -119,7 +119,7 @@
               </svg>
             </div>
             <div class="details-el__activity details-el__activity_withdraw">
-              <a :href="`${etherscan_link}/contract/${pool.address}`" target="_blank"> VIEW CONTRACT <img :src="etherscan"
+              <a  class="flex items-center gap-1" :href="`${etherscan_link}/contract/${pool.address}`" target="_blank"> VIEW CONTRACT <img :src="etherscan"
                   style="margin-left: 5px" /></a>
             </div>
           </div>
@@ -374,6 +374,9 @@
       }
   
       &__activity {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         font-family: Inter;
         font-size: 11px;
         font-weight: 700;

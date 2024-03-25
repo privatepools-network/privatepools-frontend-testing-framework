@@ -1,6 +1,6 @@
 <template>
   <Dropdown :distance="4" :placement="'bottom-center'">
-        <div class="button_drop" style="padding: 10px">
+        <div class="button_drop " style="padding: 10px">
           <img :src="walletPoolsImg" />
 
           $1.23
@@ -67,6 +67,10 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 }
 
 .rewards_button_dropdown {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
   cursor: pointer;
   margin-top: 10px;
   border-radius: 2px;
@@ -85,7 +89,7 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 
 .button_drop {
   height: 40px;
-  background: #15151580;
+  // background: #15151580;
   border: 1px solid #2222220d;
   box-shadow: 0px 4px 4px 0px #00000040;
 

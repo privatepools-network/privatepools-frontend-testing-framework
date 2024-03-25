@@ -178,22 +178,30 @@
         />
       </svg>
     </div>
-    <div style="position: absolute; right: 12px; top: 7px; color: #7d7d7d">
-          <svg width="5" height="12" viewBox="0 0 5 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4.35511 0.863636L1.54261 11.3125H0.191761L3.00426 0.863636H4.35511Z" fill="#7D7D7D" />
-          </svg>
-        </div>
+    <!-- <div style="position: absolute; right: 12px; top: 7px; color: #7d7d7d">
+      <svg
+        width="5"
+        height="12"
+        viewBox="0 0 5 12"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4.35511 0.863636L1.54261 11.3125H0.191761L3.00426 0.863636H4.35511Z"
+          fill="#7D7D7D"
+        />
+      </svg>
+    </div> -->
   </div>
 </template>
 <script setup>
 import router from '@/router'
 import { defineProps } from 'vue'
 import { DisplayChain } from '@/composables/useNetwork'
-import { getTokenEntity } from '@/lib/helpers/util';
+import { getTokenEntity } from '@/lib/helpers/util'
 import VueSelect from 'vue-next-select'
 import 'vue-next-select/dist/index.css'
 import computedTokenImage from '@/composables/useComputedTokenImage'
-
 
 defineProps(['selectOptions', 'handleInput'])
 

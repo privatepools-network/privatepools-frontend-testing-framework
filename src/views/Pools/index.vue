@@ -429,6 +429,8 @@ const all_pools = computed(() => {
 
 }
 .load_more {
+  display: flex;
+  justify-content: center;
   font-family: Inter;
   font-size: clamp(12px, 0.8vw, 14px);
   font-weight: 600;

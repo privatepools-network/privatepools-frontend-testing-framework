@@ -149,6 +149,9 @@ const onClickConcentratedPool = () => {
   box-shadow: 0px 0px 4.600000381469727px 0px #00affe;
 
   &_text {
+    display: flex;
+    align-items: center;
+    gap: 4px;
     &:hover {
       color: #00c9ff;
       cursor: pointer;

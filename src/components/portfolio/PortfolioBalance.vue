@@ -53,7 +53,7 @@
           My rewards
           <span class="portfolio-header__variation-period"> 24H </span>
         </div>
-        <div class="portfolio-stats__amount portfolio-stats__amount_success">
+        <div class="portfolio-stats__amount portfolio-stats__amount_success flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="12"
@@ -71,7 +71,7 @@
     </div>
 
     <div class="portfolio-stats__el">
-      <div v-if="performers.best">
+      <div v-if="performers.best" class="flex items-center">
         <img
           v-for="img in performers.best.tokens"
           :key="img"
@@ -83,7 +83,7 @@
 
       <div class="portfolio-stats__info">
         <div class="portfolio-stats__title">Best performer</div>
-        <div class="portfolio-stats__amount portfolio-stats__amount_success">
+        <div class="portfolio-stats__amount portfolio-stats__amount_success flex items-center">
           <svg
             v-if="performers.best"
             xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +106,7 @@
       </div>
     </div>
     <div class="portfolio-stats__el">
-      <div v-if="performers.worst">
+      <div v-if="performers.worst" class="flex items-center">
         <img
           v-for="img in performers.worst.tokens"
           :key="img"
@@ -117,7 +117,7 @@
       </div>
       <div class="portfolio-stats__info">
         <div class="portfolio-stats__title">Worst performer</div>
-        <div class="portfolio-stats__amount portfolio-stats__amount_danger">
+        <div class="portfolio-stats__amount portfolio-stats__amount_danger flex items-center">
           <svg
             v-if="performers.worst"
             xmlns="http://www.w3.org/2000/svg"

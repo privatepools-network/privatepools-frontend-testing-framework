@@ -4,7 +4,7 @@
     @codeEditModalOpen="codeEditModalOpen"
   />
   <div class="center_container mt-5" v-if="investorsSteps < 5">
-    <div class="d-flex justify-content-center flex-column align-items-center">
+    <div class="d-flex justify-content-center flex-column align-items-center ">
       <div
         style="
           color: white;

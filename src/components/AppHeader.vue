@@ -954,6 +954,9 @@ input[readonly] {
 }
 
 .search_groups {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-family: Inter;
   font-size: 12px;
   font-weight: 500;

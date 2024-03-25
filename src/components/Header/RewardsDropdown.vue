@@ -1,6 +1,6 @@
 <template>
 <Dropdown :distance="4" :placement="'bottom-center'">
-          <div class="button_drop" style="padding: 10px">
+          <div class="button_drop p-2 ">
             <img :src="rewards_icon"/>
 
             $1.23
@@ -18,7 +18,7 @@
                 <div style="color: #626262; font-size: 12px">
                   Pending pool rewards
                 </div>
-                <div>
+                <div class="flex items-center gap-1">
                   $1.23
                   <img :src="rewards_icon" width="16"/>
                 </div>
@@ -45,6 +45,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
 </script>
 <style lang="scss" scoped>
 .rewards_inside {
+
   border-radius: 2px;
   background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
@@ -75,7 +76,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
 
 .button_drop {
   height: 40px;
-  background: #15151580;
+ 
   border: 1px solid #2222220d;
   box-shadow: 0px 4px 4px 0px #00000040;
 

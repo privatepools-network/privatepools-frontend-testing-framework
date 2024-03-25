@@ -34,7 +34,7 @@
             @click="item.selected = !item.selected"
             class="select_token_dropdown_text d-flex justify-content-between align-items-center"
           >
-            <div>
+            <div class="flex gap-1 items-center">
               <img :src="getTokenEntity(item.code, 'short').icon" width="17" />
               {{ item.name }}
             </div>
@@ -108,7 +108,7 @@
             @click="item.selected = !item.selected"
             class="select_token_dropdown_text d-flex justify-content-between align-items-center"
           >
-            <div>
+            <div  class="flex gap-1 items-center">
               {{ item.name }}
             </div>
             <div>
@@ -149,7 +149,7 @@
             @click="item.selected = !item.selected"
             class="select_token_dropdown_text d-flex justify-content-between align-items-center"
           >
-            <div>
+            <div  class="flex gap-1 items-center">
               {{ item.name }}
             </div>
             <div>

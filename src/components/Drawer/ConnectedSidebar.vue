@@ -469,7 +469,9 @@ async function handlePortfolioData() {
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0em;
-
+  display: flex;
+  align-items: center;
+  gap: 4px;
   color: #898989;
 }
 

@@ -1,9 +1,5 @@
 <template>
-    <ReferralsCodeGenerateModal
-    :codeEditModal="codeEditModal"
-    @codeEditModalOpen="codeEditModalOpen"
 
-  />
   <div>
     <div class="w-100 d-flex justify-content-center gap-3 mt-5">
       <div
@@ -24,7 +20,7 @@
       <div class="affiliates_table">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div class="text_header">My Referral Codes</div>
-          <div class="referrals_button w-auto" @click="() => codeEditModalOpen()">+ Create</div>
+          <div class="referrals_button w-auto" @click="$emit('codeEditModalOpen')">+ Create</div>
         </div>
         <hr
           style="
@@ -72,11 +68,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import ReferralsCodeGenerateModal from '@/components/modals/ReferralsCodeGenerateModal.vue'
+import { ref, defineEmits } from 'vue'
 import copyCodeIcon from '@/assets/icons/Referrals/copyCode.svg'
 import twitterIcon from '@/assets/icons/Referrals/twitter.svg'
 
+defineEmits(['codeEditModalOpen'])
 
 const headers = ref([
   'Referral Code',
@@ -84,11 +80,6 @@ const headers = ref([
   'Investors Reffered',
   'Total Rewards',
 ])
-
-const codeEditModal = ref(false)
-function codeEditModalOpen() {
-  codeEditModal.value = !codeEditModal.value
-}
 
 const specificPortfolioStats = ref([
   {

@@ -65,7 +65,7 @@
 
       <div class="pools-row__col">
         <div class="pools-row__info">
-          <div class="pools-row__value">
+          <div class="pools-row__value flex">
             {{ Number(pool['APR']).toFixed(0) }}%
             <img :src="APRIcon" />
           </div>
@@ -128,6 +128,7 @@
             <a
               :href="`${etherscan_link}/contract/${pool.address}`"
               target="_blank"
+              class="flex items-center gap-1"
             >
               VIEW CONTRACT <img :src="etherscan" style="margin-left: 5px"
             /></a>
@@ -193,6 +194,7 @@
               <div
                 v-if="pool['LiquidityType'] === 'WP'"
                 style="font-size: 9px; font-weight: 700"
+                class="flex items-center gap-1"
               >
                 APR: {{ pool.APR }}%
                 <svg
@@ -547,6 +549,7 @@ const visibleDetails = ref(false)
     }
 
     &__activity {
+      
       font-family: Inter;
       font-size: 11px;
       font-weight: 700;
