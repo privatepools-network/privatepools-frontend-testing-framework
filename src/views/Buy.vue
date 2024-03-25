@@ -1,43 +1,26 @@
 <template>
-  <Modal v-if="tokenSelectModal" @close="tokenSelectModalClose" size="lg">
-    <template #body>
-      <TokenSelectModal
-        @tokenSelectModalClose="tokenSelectModalClose"
-        :pairIndex="pairIndex"
-        @updateToken="updateToken"
-        :possibleComposeTokens="notSelectedPossibleComposeTokens"
-        @addToken="onAddToken"
-      />
-    </template>
-  </Modal>
+  <TokenSelectModal :tokenSelectModal="tokenSelectModal" @tokenSelectModalOpen="tokenSelectModalOpen"
+    :pairIndex="pairIndex" @updateToken="updateToken" :possibleComposeTokens="notSelectedPossibleComposeTokens"
+    @addToken="onAddToken" />
   <MainCard>
     <div class="buy_container">
       <HowToBuyPPNTokens />
 
       <div class="buy_container_section_1">
         <div style="margin-top: -60px">
-          <div
-            style="
+          <div style="
               color: white;
               font-size: clamp(24px, 0.8vw, 40px);
               font-weight: 700;
-            "
-            class="my-4"
-          >
+            " class="my-4">
             Trade PPN Tokens
           </div>
           <div class="buy_token_container">
             <div class="d-flex">
-              <div
-                @click="selectedTab = 'Buy'"
-                :class="selectedTab === 'Sell' ? 'buy_tab' : 'buy_tab_active'"
-              >
+              <div @click="selectedTab = 'Buy'" :class="selectedTab === 'Sell' ? 'buy_tab' : 'buy_tab_active'">
                 Buy
               </div>
-              <div
-                @click="selectedTab = 'Sell'"
-                :class="selectedTab === 'Buy' ? 'buy_tab' : 'buy_tab_active'"
-              >
+              <div @click="selectedTab = 'Sell'" :class="selectedTab === 'Buy' ? 'buy_tab' : 'buy_tab_active'">
                 Sell
               </div>
             </div>
@@ -45,10 +28,7 @@
               <div class="selector_button">
                 <div class="d-flex flex-column gap-2">
                   <div>Spend</div>
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    style="
+                  <input type="number" placeholder="0.00" style="
                       background: none;
                       border: none;
                       outline: none;
@@ -56,19 +36,16 @@
                       color: rgb(193, 200, 206);
                       font-weight: 600;
                       font-size: 20px;
-                    "
-                  />
+                    " v-model="token0Amount" @blur="onToken0Blur" />
                 </div>
-                <div
-                  @click="() => tokenSelectModalOpen()"
-                  class="d-flex flex-column gap-2"
-                >
+                <div @click="() => tokenSelectModalOpen()" class="d-flex flex-column gap-2">
                   <div style="color: #7d7d7d; font-size: 12px">
-                    Balance: {{ selectedTab === 'Buy' ? '1.00BTC' : '1.00PPN' }}
+                    Balance: {{ selectedTab === 'Buy' ? `${tokenCurrency.balance.toFixed(4)} ${tokenCurrency.symbol}` :
+    `${tokenPPN.balance.toFixed(4)} ${tokenPPN.symbol}` }}
                   </div>
                   <div
                     v-if="selectedTab === 'Buy'"
-                    class="text-[16px] mb-0 text-black dark:!text-white flex items-center gap-1"
+                    style="font-size: 16px; margin-bottom: 0; color: white"
                   >
                     <img
                       :src="getTokenEntity('BTC', 'short').icon"
@@ -91,20 +68,17 @@
                   </div>
                   <div
                     v-else
-                    class="text-[16px] mb-0 text-black dark:!text-white flex items-center gap-1"
+                    style="font-size: 16px; margin-bottom: 0; color: white"
                   >
                     <img :src="walletPoolsImg" />
-                    <span style="margin-left: 5px">PPN</span>
+                    <span style="margin-left: 5px">{{ tokenPPN.symbol }}</span>
                   </div>
                 </div>
               </div>
               <div class="selector_button">
                 <div class="d-flex flex-column gap-2">
                   <div>Receive</div>
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    style="
+                  <input type="number" placeholder="0.00" style="
                       background: none;
                       border: none;
                       outline: none;
@@ -112,20 +86,17 @@
                       color: rgb(193, 200, 206);
                       font-weight: 600;
                       font-size: 20px;
-                    "
-                  />
+                    " v-model="token1Amount" @blur="onToken1Blur" />
                 </div>
-                <div
-                  @click="() => tokenSelectModalOpen()"
-                  class="d-flex flex-column gap-2"
-                >
+                <div @click="() => tokenSelectModalOpen()" class="d-flex flex-column gap-2">
                   <div style="color: #7d7d7d; font-size: 12px">
                     Balance:
-                    {{ selectedTab === 'Sell' ? '1.00BTC' : '1.00PPN' }}
+                    {{ selectedTab === 'Sell' ? `${tokenCurrency.balance.toFixed(4)} ${tokenCurrency.symbol}` :
+    `${tokenPPN.balance.toFixed(4)} ${tokenPPN.symbol}` }}
                   </div>
                   <div
                     v-if="selectedTab === 'Sell'"
-                    class="text-[16px] mb-0 text-black dark:!text-white flex items-center gap-1"
+                    style="font-size: 16px; margin-bottom: 0; color: white"
                   >
                     <img
                       :src="getTokenEntity('BTC', 'short').icon"
@@ -148,18 +119,19 @@
                   </div>
                   <div
                     v-else
-                    class="text-[16px] mb-0 text-black dark:!text-white flex items-center gap-1"
+                    style="font-size: 16px; margin-bottom: 0; color: white"
                   >
                     <img :src="walletPoolsImg" />
-                    <span style="margin-left: 5px">PPN</span>
+                    <span style="margin-left: 5px">{{ tokenPPN.symbol }}</span>
                   </div>
                 </div>
               </div>
-              <div class="referrals_button">
+              <div class="referrals_button" @click="buyClick()">
                 {{ selectedTab === 'Sell' ? 'Sell' : 'Buy' }}
               </div>
             </div>
           </div>
+         
         </div>
         <div class="chart_container" style="width: 65%">
           <div class="d-flex justify-content-between">
@@ -174,146 +146,125 @@
             <div class="text-success">+0.59%</div>
           </div>
           <div class="d-flex justify-content-end mt-4">
-            <ChartTimeline
-              :currentTimeline="currentTimeline"
-              :timelines="timelines"
-              @changeTimeline="changeTimeline"
-            />
+            <ChartTimeline :currentTimeline="currentTimeline" :timelines="timelines" @changeTimeline="changeTimeline" />
           </div>
           <div>
-            <apexchart
-              type="area"
-              height="350"
-              :options="chartOptions"
-              :series="series"
-            ></apexchart>
+            <apexchart type="area" height="350" :options="chartOptions" :series="series"></apexchart>
           </div>
         </div>
       </div>
 
-      <div style="margin-top: 140px">
-        <div
-          style="
-            color: white;
-            font-size: clamp(24px, 0.8vw, 40px);
-            font-weight: 700;
-          "
-          class="my-5"
-        >
-          Private Pool Network Token
-        </div>
-        <div class="d-flex gap-5">
-          <div class="buy_balance_container">
-            <div style="font-size: clamp(16px, 0.8vw, 22px)">$PPN Token</div>
-            <div class="d-flex justify-content-between mt-3">
-              <div class="d-flex justify-content-between w-100 gap-3">
-                <div>
-                  <div
-                     class="text-black dark:!text-[#b7bdc6] text-xs flex items-center gap-1"
+      <div
+        style="
+          color: white;
+          font-size: clamp(24px, 0.8vw, 40px);
+          font-weight: 700;
+        "
+        class="my-5"
+      >
+        Private Pool Network Token
+      </div>
+      <div class="d-flex gap-5">
+        <div class="buy_balance_container">
+          <div style="font-size: clamp(16px, 0.8vw, 22px)">$PPN Token</div>
+          <div class="d-flex justify-content-between mt-3">
+        
+            <div class="d-flex justify-content-between w-100 gap-3">
+              <div>
+                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                  PPN Price
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    PPN Price
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                        fill="#848E9C"
-                      />
-                    </svg>
-                  </div>
-                  <div style="font-size: clamp(16px, 0.8vw, 22px)">$65.62</div>
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
+                      fill="#848E9C"
+                    />
+                  </svg>
                 </div>
+                <div style="font-size: clamp(16px, 0.8vw, 22px)">$65.62</div>
+              </div>
 
-                <div>
-                  <div
-                      class="text-black dark:!text-[#b7bdc6] text-xs flex items-center gap-1"
+              <div>
+                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                  Market Cap <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    Market Cap
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                        fill="#848E9C"
-                      />
-                    </svg>
-                  </div>
-                  <div style="font-size: clamp(16px, 0.8vw, 22px)">
-                    $1,997.25B
-                  </div>
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
+                      fill="#848E9C"
+                    />
+                  </svg>
                 </div>
-
-                <div>
-                  <div
-                      class="text-black dark:!text-[#b7bdc6] text-xs flex items-center gap-1"
-                  >
-                    Volume
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                        fill="#848E9C"
-                      />
-                    </svg>
-                  </div>
-                  <div style="font-size: clamp(16px, 0.8vw, 22px)">
-                    A$85.66B
-                  </div>
-                </div>
-
-                <div>
-                  <div
-                      class="text-black dark:!text-[#b7bdc6] text-xs flex items-center gap-1"
-                  >
-                    Circulation Supply
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                        fill="#848E9C"
-                      />
-                    </svg>
-                  </div>
-                  <div style="font-size: clamp(16px, 0.8vw, 22px)">19.65M</div>
+                <div style="font-size: clamp(16px, 0.8vw, 22px)">
+                  $1,997.25B
                 </div>
               </div>
+
+              <div>
+                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                  Volume
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
+                      fill="#848E9C"
+                    />
+                  </svg>
+                </div>
+                <div style="font-size: clamp(16px, 0.8vw, 22px)">A$85.66B</div>
+              </div>
+              
+              <div>
+                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                  Circulation Supply
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
+                      fill="#848E9C"
+                    />
+                  </svg>
+                </div>
+                <div style="font-size: clamp(16px, 0.8vw, 22px)">19.65M</div>
+              </div>
             </div>
-            <div class="ppn_token_desc">
-              PPN is a blockchain gaming ecosystem. Gamers can explore different
-              type of games and have their experiences interact across each
-              other on the Gala platform. The PPN token is the utility token and
-              primary medium of exchange of the ecosystem. PPN is a blockchain
-              gaming ecosystem. Gamers can explore different type of games and
-              have their experiences interact across each other on the Gala
-              platform. The PPN token is the utility token and primary medium of
-              exchange of the ecosystem.
-            </div>
+          </div>
+          <div class="ppn_token_desc">
+            PPN is a blockchain gaming ecosystem. Gamers can explore different
+            type of games and have their experiences interact across each other
+            on the Gala platform. The PPN token is the utility token and primary
+            medium of exchange of the ecosystem. PPN is a blockchain gaming
+            ecosystem. Gamers can explore different type of games and have their
+            experiences interact across each other on the Gala platform. The PPN
+            token is the utility token and primary medium of exchange of the
+            ecosystem.
           </div>
         </div>
       </div>
@@ -323,12 +274,11 @@
 
 <script setup>
 import Tabs from '@/UI/Tabs.vue'
-import MainCard from '@/UI/MainCard.vue'
+import MainCard from '../UI/MainCard.vue'
 import { ref } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
 import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
-import Modal from '@/UI/Modal.vue'
 
 import ChartTimeline from '@/UI/ChartTimeline.vue'
 import HowToBuyPPNTokens from '@/components/Buy/HowToBuyPPNTokens.vue'
@@ -353,38 +303,6 @@ const currentTimeline = ref(timelines[0])
 function changeTimeline(tl) {
   currentTimeline.value = tl
 }
-const tokens_balances = ref([
-  {
-    name: 'USDC',
-    balance: 100,
-    value: 100,
-  },
-  {
-    name: 'BNB',
-    balance: 1,
-    value: 410,
-  },
-  {
-    name: 'BTC',
-    balance: 1,
-    value: 660036,
-  },
-  {
-    name: 'ETH',
-    balance: 33,
-    value: 4100,
-  },
-  {
-    name: 'AVAX',
-    balance: 200,
-    value: 30,
-  },
-  {
-    name: 'SOL',
-    balance: 1200,
-    value: 140,
-  },
-])
 
 const series = ref([
   {
@@ -508,6 +426,7 @@ const notSelectedPossibleComposeTokens = ref([])
   // width: 70%;
   padding-left: 200px;
   padding-right: 200px;
+
   @media (max-width: $xxl) {
     padding-left: 100px;
     padding-right: 100px;
@@ -537,9 +456,11 @@ const notSelectedPossibleComposeTokens = ref([])
 
   &_row {
     width: 150px;
+
     @media (max-width: $xxl) {
       width: 100px;
     }
+
     &_right {
       width: 150px;
       text-align: right;
@@ -573,11 +494,13 @@ const notSelectedPossibleComposeTokens = ref([])
   line-height: 28px;
   text-align: center;
   color: #5e6673;
+
   &:hover {
     color: white;
     cursor: pointer;
   }
 }
+
 .buy_tab_active {
   width: 100%;
   border-radius: 16px 16px 0px 0px;
