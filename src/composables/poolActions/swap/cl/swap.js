@@ -20,6 +20,11 @@ import { fromReadableAmount } from '@/composables/concentrated-liquidity/cl'
 import { useUniswapTicks } from '@/composables/concentrated-liquidity/useUniswapTicks'
 
 export async function GetCLPoolInfo(tokenIn, tokenOut, poolFee, signer) {
+  // if (BigNumber.from(tokenIn.address).gt(BigNumber.from(tokenOut.address))) {
+  //   const temp = { ...tokenIn }
+  //   tokenIn = { ...tokenOut }
+  //   tokenOut = temp
+  // }
   const currentPoolAddress = computePoolAddress({
     factoryAddress: POOL_FACTORY_CONTRACT_ADDRESS,
     tokenA: tokenIn,
@@ -56,15 +61,21 @@ export async function SwapCLTokens(
   poolInfo,
   amount,
   signer,
+  exact = 'in',
   slippage = '50',
   chainId = 56,
-  exact = 'in',
 ) {
   try {
-    const trade = await quoteCLTrade(token1, token2, poolInfo, amount, exact)
+    const { trade } = await quoteCLTrade(
+      token1,
+      token2,
+      poolInfo,
+      amount,
+      exact,
+    )
     const wallet = await signer.getAddress() // should be a checksummed recipient address
     const result = await getTokenTransferApproval(
-      token1,
+      trade.swaps[0].route.input,
       amount,
       V3_SWAP_ROUTER_ADDRESS,
       signer,
@@ -83,7 +94,6 @@ export async function SwapCLTokens(
       to: V3_SWAP_ROUTER_ADDRESS,
       value: methodParameters.value,
       from: wallet,
-      gasLimit: ethers.utils.hexlify(10000000),
     }
 
     const transaction = await signer.sendTransaction(tx)
@@ -95,6 +105,7 @@ export async function SwapCLTokens(
 }
 export async function getTokenTransferApproval(token, tokenAmount, to, signer) {
   let address = await signer.getAddress()
+  console.log(await signer.getTransactionCount())
   if (!signer || !address) {
     console.log('No Provider Found')
     return false
@@ -123,33 +134,34 @@ export async function quoteCL(
   exact = 'in',
   slippage = '50',
 ) {
-  const trade = await quoteCLTrade(token1, token2, poolInfo, amount, exact)
+  const { trade } = await quoteCLTrade(token1, token2, poolInfo, amount, exact)
   return extractAmountOut(trade, slippage, exact)
 }
 
-function extractAmountOut(trade, slippage, token1, token2, exact = 'in') {
+function extractAmountOut(trade, slippage, exact = 'in') {
   const slippageTolerance = new Percent(slippage, '10000') // 50 bips, or 0.50% - Slippage tolerance
-  const amountOutMin =
-    exact == 'in'
-      ? trade.minimumAmountOut(slippageTolerance)
-      : trade.minimumAmountIn(slippageTolerance) // needs to be converted to e.g. hex
-  return amountOutMin.toFixed().toString()
+  const amountOutMin = trade.minimumAmountOut(slippageTolerance)
+  return amountOutMin.toFixed()
 }
 
 async function quoteCLTrade(token1, token2, poolInfo, amount, exact = 'in') {
   const POOL_FEE = 500
   const pool = new Pool(
-    token1,
-    token2,
+    exact == 'in' ? token2 : token1,
+    exact == 'in' ? token1 : token2,
     POOL_FEE,
     poolInfo.sqrtPriceX96.toString(),
     poolInfo.liquidity.toString(),
     poolInfo.tick,
     poolInfo.ticks,
   )
-  const route = new Route([pool], token1, token2) // a fully specified path from input token to output token
-  let inputAmount = CurrencyAmount.fromRawAmount(
+  const route = new Route(
+    [pool],
     exact == 'in' ? token2 : token1,
+    exact == 'in' ? token1 : token2,
+  ) // a fully specified path from input token to output token
+  let inputAmount = CurrencyAmount.fromRawAmount(
+    exact == 'in' ? token2 : token1, // token1 - output, token2 - input
     ethers.utils
       .parseUnits(
         amount.toString(),
@@ -157,13 +169,8 @@ async function quoteCLTrade(token1, token2, poolInfo, amount, exact = 'in') {
       )
       .toString(),
   )
-  console.log(inputAmount.toFixed())
   const [amountOut, _] =
-    poolInfo.ticks.length > 0
-      ? exact == 'in'
-        ? await pool.getOutputAmount(inputAmount)
-        : await pool.getInputAmount(inputAmount)
-      : 0
+    poolInfo.ticks.length > 0 ? await pool.getOutputAmount(inputAmount) : 0
   let outputAmount = CurrencyAmount.fromRawAmount(
     exact == 'in' ? token1 : token2,
     ethers.utils
@@ -173,12 +180,22 @@ async function quoteCLTrade(token1, token2, poolInfo, amount, exact = 'in') {
       )
       .toString(),
   )
+  console.log(inputAmount.toFixed())
+  console.log(outputAmount.toFixed())
+  console.log(pool.priceOf(token1).toFixed())
+  console.log(pool.priceOf(token2).toFixed())
   const trade = Trade.createUncheckedTrade({
     route: route,
-    inputAmount: exact == 'in' ? outputAmount : inputAmount,
-    outputAmount: exact == 'in' ? inputAmount : outputAmount,
-    tradeType: exact == 'in' ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT,
+    inputAmount:
+      route.input.address == inputAmount.currency.address
+        ? inputAmount
+        : outputAmount,
+    outputAmount:
+      route.input.address == inputAmount.currency.address
+        ? outputAmount
+        : inputAmount,
+    tradeType: TradeType.EXACT_INPUT,
   })
 
-  return trade
+  return { trade, inputAmount, outputAmount, route }
 }

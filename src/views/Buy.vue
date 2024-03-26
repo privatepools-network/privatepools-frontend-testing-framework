@@ -28,7 +28,7 @@
               <div class="selector_button">
                 <div class="d-flex flex-column gap-2">
                   <div>Spend</div>
-                  <input type="number" placeholder="0.00" style="
+                  <input v-if="selectedTab === 'Buy'" type="number" placeholder="0.00" style="
                       background: none;
                       border: none;
                       outline: none;
@@ -36,7 +36,16 @@
                       color: rgb(193, 200, 206);
                       font-weight: 600;
                       font-size: 20px;
-                    " v-model="token0Amount" @blur="onToken0Blur" />
+                    " v-model="token0Amount" @blur="onToken0Blur" @focus="onToken0Focus" />
+                  <input v-else type="number" placeholder="0.00" style="
+                      background: none;
+                      border: none;
+                      outline: none;
+                      width: 180px;
+                      color: rgb(193, 200, 206);
+                      font-weight: 600;
+                      font-size: 20px;
+                    " v-model="token1Amount" @blur="onToken1Blur" @focus="onToken1Focus" />
                 </div>
                 <div @click="() => tokenSelectModalOpen()" class="d-flex flex-column gap-2">
                   <div style="color: #7d7d7d; font-size: 12px">
@@ -78,7 +87,7 @@
               <div class="selector_button">
                 <div class="d-flex flex-column gap-2">
                   <div>Receive</div>
-                  <input type="number" placeholder="0.00" style="
+                  <input v-if="selectedTab == 'Buy'" type="number" placeholder="0.00" style="
                       background: none;
                       border: none;
                       outline: none;
@@ -86,7 +95,16 @@
                       color: rgb(193, 200, 206);
                       font-weight: 600;
                       font-size: 20px;
-                    " v-model="token1Amount" @blur="onToken1Blur" />
+                    " v-model="token1Amount" @blur="onToken1Blur" @focus="onToken1Focus" />
+                  <input v-else type="number" placeholder="0.00" style="
+                      background: none;
+                      border: none;
+                      outline: none;
+                      width: 180px;
+                      color: rgb(193, 200, 206);
+                      font-weight: 600;
+                      font-size: 20px;
+                    " v-model="token0Amount" @blur="onToken0Blur" @focus="onToken0Focus" />
                 </div>
                 <div @click="() => tokenSelectModalOpen()" class="d-flex flex-column gap-2">
                   <div style="color: #7d7d7d; font-size: 12px">
@@ -282,6 +300,37 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 
 import ChartTimeline from '@/UI/ChartTimeline.vue'
 import HowToBuyPPNTokens from '@/components/Buy/HowToBuyPPNTokens.vue'
+import useBalance from '@/composables/useBalance'
+import useDecimals from '@/composables/useDecimals'
+import { Token } from "@uniswap/sdk-core";
+import { GetCLPoolInfo, quoteCL, SwapCLTokens } from "@/composables/poolActions/swap/cl/swap"
+const tokenPPN = ref({
+  address: "0x0cfa47331af179f9b932ae87f447f675a2b500d1",
+  symbol: "PPN",
+  balance: 0,
+  decimals: 18
+})
+// const tokenPPN = ref({
+//   address: "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
+//   symbol: "DAI",
+//   balance: 0,
+//   decimals: 18
+// })
+const tokenCurrency = ref({
+  address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+  symbol: "WBNB",
+  balance: 0,
+  decimals: 18,
+})
+
+const convertedTokenPPN = computed(() => new Token(56, tokenPPN.value.address, tokenPPN.value.decimals, tokenPPN.value.symbol, tokenPPN.value.symbol))
+const convertedTokenCurrency = computed(() => new Token(56, tokenCurrency.value.address, tokenCurrency.value.decimals, tokenCurrency.value.symbol, tokenCurrency.value.symbol))
+
+
+const token0Amount = ref(0)
+const token1Amount = ref(0)
+
+const poolInfo = ref(null)
 
 const timelines = [
   {
@@ -416,6 +465,65 @@ function tokenSelectModalOpen() {
   tokenSelectModal.value = true
 }
 const notSelectedPossibleComposeTokens = ref([])
+
+
+const address = ref(null)
+onMounted(async () => {
+  const provider = await InitializeMetamask()
+  if (provider) {
+    const signer = provider.getSigner()
+    address.value = await signer.getAddress()
+    const [balance0, balance1] = await Promise.all([useBalance(tokenPPN.value.address, provider, address.value), useBalance(tokenCurrency.value.address, provider, address.value)])
+    tokenPPN.value.balance = parseFloat(balance0)
+    tokenCurrency.value.balance = parseFloat(balance1)
+    const [decimals1, decimals2] = await Promise.all([
+      useDecimals(tokenPPN.value.address, signer),
+      useDecimals(tokenCurrency.value.address, signer),
+    ])
+    tokenPPN.value.decimals = decimals1
+    tokenCurrency.value.decimals = decimals2
+    poolInfo.value = await GetCLPoolInfo(convertedTokenPPN.value, convertedTokenCurrency.value, 500, signer)
+  }
+})
+
+
+async function buyClick() {
+
+  const provider = await InitializeMetamask()
+  if (provider) {
+
+    await SwapCLTokens(convertedTokenPPN.value, convertedTokenCurrency.value, poolInfo.value, selectedTab.value == "Buy" ? token0Amount.value : token1Amount.value, provider.getSigner(), selectedTab.value == "Buy" ? "in" : "out")
+  }
+}
+
+const token0InitialAmount = ref(0)
+const token1InitialAmount = ref(0)
+
+function onToken0Focus() {
+  token0InitialAmount.value = token0Amount.value
+  console.log(token0Amount.value)
+}
+
+function onToken1Focus() {
+  token1InitialAmount.value = token1Amount.value
+  console.log(token1Amount.value)
+}
+
+async function onToken0Blur() {
+  if (token0InitialAmount.value == token0Amount.value) {
+    return
+  }
+  const secondAmount = await quoteCL(convertedTokenPPN.value, convertedTokenCurrency.value, poolInfo.value, token0Amount.value, "in")
+  token1Amount.value = secondAmount
+}
+async function onToken1Blur() {
+  if (token1InitialAmount.value == token1Amount.value) {
+    return
+  }
+  const secondAmount = await quoteCL(convertedTokenPPN.value, convertedTokenCurrency.value, poolInfo.value, token1Amount.value, "out")
+  token0Amount.value = secondAmount
+}
+
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
