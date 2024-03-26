@@ -4,11 +4,15 @@
       class="pools-row"
       @click="isActions ? (visibleDetails = !visibleDetails) : false"
     >
-      <div class="pools-row__col justify-content-start">
+      <div
+        class="pools-row__col text-black dark:!text-white justify-content-start"
+      >
         <DataTableCellTokenNamePaired :value="pool['Pool Name']" />
       </div>
 
-      <div class="pools-row__col justify-content-start">
+      <div
+        class="pools-row__col text-black dark:!text-white justify-content-start"
+      >
         <div
           class="pools-row__info"
           style="
@@ -23,13 +27,13 @@
             v-for="(item, i) in pool['Pool Weight'][0]"
             :key="`${i}-tokens`"
           >
-            <div class="d-flex gap-2 chip_token align-items-center">
-              <span class="chip_token_name">{{ item.token }}</span>
-              <span class="chip_token_weight">{{ item.weight }}</span>
+            <div class="d-flex gap-2 chip_token align-items-center  !bg-[#EAF0F6] dark:!bg-[#22222224]">
+              <span class="chip_token_name text-black dark:!text-white">{{ item.token }}</span>
+              <span class="chip_token_weight text-[#475569] dark:!text-[#8f8f8f]">{{ item.weight }}</span>
             </div>
           </div>
           <div
-            class="pool_type"
+            class="pool_type text-white"
             :class="
               pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
             "
@@ -39,7 +43,7 @@
         </div>
       </div>
 
-      <div class="pools-row__col">
+      <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
             {{ pool['ROI'] }}
@@ -47,7 +51,7 @@
         </div>
       </div>
 
-      <div class="pools-row__col">
+      <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
             ${{ numberToAposthrophe(Number(pool['TVL']).toFixed(0)) }}
@@ -55,7 +59,7 @@
         </div>
       </div>
 
-      <div class="pools-row__col">
+      <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
             ${{ numberToAposthrophe(Number(pool['Volume']).toFixed(0)) }}
@@ -63,7 +67,7 @@
         </div>
       </div>
 
-      <div class="pools-row__col">
+      <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value flex">
             {{ Number(pool['APR']).toFixed(0) }}%
@@ -72,10 +76,24 @@
         </div>
       </div>
 
-      <div class="pools-row__col" v-if="isActions">
+      <div class="pools-row__col !justify-center text-black dark:!text-white" v-if="isActions">
         <div class="pools-row__dropdown" v-if="visibleDetails == false">
           Details
-          <img :src="arrow_up" style="transform: rotate(180deg)" />
+     
+          <svg
+            width="10"
+            height="6"
+            viewBox="0 0 10 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+             
+          >
+            <path
+              d="M1.6263 0.741797L4.85966 3.97516L8.09299 0.741797C8.41799 0.416797 8.943 0.416797 9.26799 0.741797C9.59299 1.0668 9.59299 1.59183 9.26799 1.91683L5.44299 5.74183C5.11799 6.06683 4.59299 6.06683 4.26799 5.74183L0.442969 1.91683C0.117969 1.59183 0.117969 1.0668 0.442969 0.741797C0.767969 0.42513 1.3013 0.416797 1.6263 0.741797Z"
+            
+              class="fill-black dark:!fill-white"
+            />
+          </svg>
         </div>
         <div
           class="pools-row__dropdown"
@@ -83,7 +101,20 @@
           v-else
         >
           Hide
-          <img :src="arrow_up" />
+          <svg
+            width="10"
+            height="6"
+            viewBox="0 0 10 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="rotate-180"
+          >
+            <path
+              d="M1.6263 0.741797L4.85966 3.97516L8.09299 0.741797C8.41799 0.416797 8.943 0.416797 9.26799 0.741797C9.59299 1.0668 9.59299 1.59183 9.26799 1.91683L5.44299 5.74183C5.11799 6.06683 4.59299 6.06683 4.26799 5.74183L0.442969 1.91683C0.117969 1.59183 0.117969 1.0668 0.442969 0.741797C0.767969 0.42513 1.3013 0.416797 1.6263 0.741797Z"
+            
+              class="fill-black dark:!fill-white"
+            />
+          </svg>
         </div>
       </div>
     </div>
@@ -91,7 +122,7 @@
       <div class="details-el">
         <div class="details-el__col flex-column gap-3">
           <div
-            class="details-el__activity"
+            class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]"
             @click="
               $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })
             "
@@ -99,7 +130,7 @@
             Add {{ lp_name }} LP
           </div>
           <div
-            class="details-el__activity"
+            class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]"
             @click="
               pool['LiquidityType'] === 'CL'
                 ? $emit('goToCLPool', { index, onMountedActivity: 'info' })
@@ -124,11 +155,11 @@
               />
             </svg>
           </div>
-          <div class="details-el__activity">
+          <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]">
             <a
               :href="`${etherscan_link}/contract/${pool.address}`"
               target="_blank"
-              class="flex items-center gap-1"
+              class="flex items-center gap-1 !text-black dark:!text-white hover:!text-[#03a6e9]"
             >
               VIEW CONTRACT <img :src="etherscan" style="margin-left: 5px"
             /></a>
@@ -137,9 +168,9 @@
         {{ console.log('pool!', pool) }}
         <div
           v-if="pool['Liquidity'] === '0.00000' || pool['Liquidity'] === '0'"
-          class="liquidity_button_container"
+          class="liquidity_button_container text-black dark:!text-white !bg-white dark:!bg-[#171717]"
         >
-          <div class="liquidity_button_text">no liquidity deposited</div>
+          <div class="liquidity_button_text !text-black dark:!text-white">no liquidity deposited</div>
           <div
             @click="
               pool['LiquidityType'] === 'CL'
@@ -162,7 +193,7 @@
 
         <div
           v-else
-          class="d-flex gap-5 align-items-center liquidity_button_container"
+          class="d-flex gap-5 align-items-center liquidity_button_container text-black dark:!text-white !bg-white dark:!bg-[#171717]"
         >
           <div class="details-el__col">
             <div
@@ -232,7 +263,7 @@
                 </div>
               </div>
               <div
-                class="actions_button"
+                class="actions_button text-black dark:!text-white"
                 @click="
                   pool['LiquidityType'] === 'CL'
                     ? router.push('/pools/concentrated_pool/add/withdraw')
@@ -272,7 +303,7 @@
                 </div>
               </div>
               <div
-                class="actions_button"
+                class="actions_button text-black dark:!text-white"
                 @click="
                   pool['LiquidityType'] === 'CL'
                     ? $emit('goToCL', { onMountedActivity: 'withdraw' })
@@ -342,7 +373,7 @@
                   - AAVE - wstETH
                 </div>
               </div>
-              <div class="actions_button">HARVEST</div>
+              <div class="actions_button text-black dark:!text-white">HARVEST</div>
             </div>
           </div>
         </div>
@@ -427,7 +458,7 @@ const visibleDetails = ref(false)
 
     &__col {
       display: flex;
-      color: #fff;
+      // color: #fff;
       width: 18%;
       justify-content: center;
 
@@ -476,6 +507,7 @@ const visibleDetails = ref(false)
     &__dropdown {
       cursor: pointer;
       display: flex;
+      align-items: center;
       gap: 5px;
 
       @media (max-width: $xxl) {
@@ -543,20 +575,19 @@ const visibleDetails = ref(false)
       &:last-child {
         .details-el__value {
           font-weight: 400;
-          color: #fff;
+          // color: #fff;
         }
       }
     }
 
     &__activity {
-      
       font-family: Inter;
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       display: flex;
       align-items: center;
-      color: #8f8f8f;
+      // color: #8f8f8f;
       cursor: pointer;
       &:hover {
         color: #03a6e9;
@@ -609,7 +640,7 @@ const visibleDetails = ref(false)
 
 .chip_token {
   border-radius: 16px;
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
 
   padding: 3px 5px;
@@ -619,7 +650,7 @@ const visibleDetails = ref(false)
     font-size: 12px;
     font-weight: 400;
     line-height: 24px;
-    color: #ffffff;
+    // color: #ffffff;
   }
 
   &_weight {
@@ -627,7 +658,7 @@ const visibleDetails = ref(false)
     font-size: 12px;
     font-weight: 400;
     line-height: 16px;
-    color: #8f8f8f;
+    // color: #8f8f8f;
   }
 }
 
@@ -650,10 +681,10 @@ const visibleDetails = ref(false)
 }
 
 .liquidity_button_container {
-  background: #171717;
+  // background: #171717;
   padding: 10px 20px;
   border-radius: 20px;
-  border: 1px solid #191919;
+  // border: 1px solid #191919;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
 
@@ -663,7 +694,7 @@ const visibleDetails = ref(false)
   font-size: 12px;
   font-weight: 700;
   line-height: 21px;
-  color: #ffffff;
+  // color: #ffffff;
   width: 60vw;
   padding: 10px;
   text-align: center;
@@ -694,7 +725,7 @@ const visibleDetails = ref(false)
   font-size: 12px;
   font-weight: 400;
   line-height: 21px;
-  color: #f0f0f0;
+  // color: #f0f0f0;
   text-transform: uppercase;
   margin-bottom: 10px;
 }
@@ -740,7 +771,7 @@ const visibleDetails = ref(false)
   font-size: 10px;
   font-weight: 600;
   line-height: 21px;
-  color: #ffffff;
+  // color: #ffffff;
   border: 1px solid #2abdff;
   padding: 6px 10px;
   border-radius: 20px;

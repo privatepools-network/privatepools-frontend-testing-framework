@@ -32,7 +32,7 @@
               style="cursor: pointer; height: 20px"
             >
               <div
-                :class="'head_caption_text'"
+                :class="'head_caption_text text-black dark:!text-white'"
               >
                 {{ headCaption }}
               </div>
@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div v-if="all_pools.length === 0" class="my-5">
+      <div v-if="all_pools.length === 0" class="my-28">
         <LoaderPulse/>
       </div>
       <PoolRow
@@ -406,7 +406,7 @@ const all_pools = computed(() => {
   font-size: 12px;
   font-weight: 400;
   line-height: 24px;
-  color: white;
+  // color: white;
 }
 
 .pools {

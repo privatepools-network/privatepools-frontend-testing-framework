@@ -15,7 +15,9 @@ select {
   font-family: Poppins;
 }
 
-
+input {
+  --tw-ring-shadow: 0 0 #000 !important;
+}
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

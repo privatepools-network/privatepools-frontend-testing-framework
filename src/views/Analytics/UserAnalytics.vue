@@ -38,7 +38,7 @@
 
       <div
         style="color: white; font-size: 18px; font-weight: 700"
-        class="mt-5 mb-3"
+        class="mt-5 mb-3 flex items-center gap-1"
       >
         Top Referrals
         <svg

@@ -1,23 +1,19 @@
 <template>
   <Dropdown :distance="4" :placement="'bottom-center'">
-        <div class="button_drop " style="padding: 10px">
+        <div class="button_drop text-black dark:!text-white" style="padding: 10px">
           <img :src="walletPoolsImg" />
 
           $1.23
         </div>
         <template #popper>
-            <div class="header__popup">
-              <h4 style="
-                  font-size: 14px;
-                  color: #626262;
-                  
-                  margin-bottom: 10px;
-                  /* text-align: center; */
-                ">
+            <div class="header__popup bg-white dark:!bg-[#171717]">
+              <h4 
+                class="text-[14px] text-black dark:!text-[#626262] mb-[10px]"
+                >
                 PPN Token
               </h4>
-              <div class="rewards_inside">
-                <div style="color: #626262; font-size: 12px">
+              <div class="rewards_inside text-black dark:!text-white">
+                <div  class="text-[12px] text-black dark:!text-[#626262]">
                   PPN Price
                 </div>
                 <div>
@@ -25,8 +21,8 @@
              
                 </div>
               </div>
-              <div class="rewards_inside">
-                <div style="color: #626262; font-size: 12px">
+              <div class="rewards_inside text-black dark:!text-white">
+                <div class="text-[12px] text-black dark:!text-[#626262]">
                   Market Cap
                 </div>
                 <div>
@@ -34,8 +30,8 @@
                 </div>
                 
               </div>
-              <div class="rewards_inside">
-                <div style="color: #626262; font-size: 12px">
+              <div class="rewards_inside text-black dark:!text-white">
+                <div class="text-[12px] text-black dark:!text-[#626262]">
                   Circulating Supply
                 </div>
                 <div>
@@ -101,7 +97,7 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
   line-height: 18px;
   letter-spacing: 0em;
   text-align: center;
-  color: white;
+  // color: white;
 
   display: flex;
   align-items: center;

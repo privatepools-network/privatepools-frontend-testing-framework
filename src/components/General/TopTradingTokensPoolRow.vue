@@ -10,7 +10,7 @@
         </div>
         <div class="pools-row__col">
           <div class="pools-row__info">
-            <div class="pools-row__value">
+            <div class="pools-row__value flex items-center gap-1">
               <img :src="getTokenEntity(pool['Token'], 'short').icon" width="28" /> {{ pool['Token'] }} <span style="color: #FFFFFF4A;">({{ pool['Token'] }})</span>
             </div>
           </div>
@@ -363,13 +363,7 @@
     }
   }
   
-  .liquidity_button_container {
-    background: #171717;
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: 1px solid #191919;
-    box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  }
+
   
   .liquidity_button {
     border-radius: 12px;

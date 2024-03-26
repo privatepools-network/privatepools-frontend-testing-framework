@@ -1,7 +1,7 @@
 <template>
   <div style="height: 92%;">
     <div class="d-flex align-items-center justify-content-between">
-      <div class="sidebar_header">Connect wallet</div>
+      <div class="sidebar_header text-black dark:!text-white">Connect wallet</div>
       <div class="sidebar_settings_icon" @click="$emit('toggleSettings')">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="d-flex flex-column justify-content-between h-100 gap-3 mt-3">
-      <div class="wallet_container_sidebar" @click="connectWallet(true)">
+      <div class="wallet_container_sidebar bg-white dark:!bg-[#10101099] hover:!bg-[#1313134d]" @click="connectWallet(true)">
         <div><img :src="metamask" width="40" /></div>
         <div class="wallet_text">MetaMask</div>
       </div>
@@ -111,7 +111,7 @@ async function handleChainChanged() {
   font-weight: 600;
   line-height: 44px;
   letter-spacing: 0px;
-  color: #ffffff;
+  // color: #ffffff;
 }
 
 .sidebar_settings_icon {
@@ -123,7 +123,7 @@ async function handleChainChanged() {
 }
 
 .wallet_container_sidebar {
-  background: #10101099;
+  // background: #10101099;
   border-radius: 20px;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   display: flex;

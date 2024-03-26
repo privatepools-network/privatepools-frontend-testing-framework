@@ -25,7 +25,7 @@
     </div>
     <div
       v-if="totalPage !== 0"
-      style="display: flex; gap: 5px; justify-content: end; align-items: center"
+      style="display: flex; gap: 5px; justify-content: end;"
     >
       <CButton
      
@@ -103,48 +103,64 @@ console.log("pools are ", pools);
 const isPerPageSelectOpened = ref(false)
 </script>
 
-<style lang="sass">
-.pools-pagination
-  display: flex
-  justify-content: space-between
-  margin-bottom: 30px
-  .form-select
-    background-color: #000
-  &__text
-    font-size: 15px
-    color: #ffffff
-    font-weight: 400
-    font-family: Poppins
-    @media (max-width: 1400px)
-      font-size: 12px
-.pagination-select
-  position: relative
-  cursor: pointer
-  &__wrapper
-    position: absolute
-    border: 1px solid #00C9FF
-    width: 100%
-    border-radius: 10px 10px 0 0
-    top: -79px
-    background: #02120a
-    display: none
-    @media (max-width: 1400px)
-      top: -69px
-    &_active
-      display: block
-  &__title
-    padding: 4px 8px
-    border-radius: 20px
-    font-size: 12px
-    border: 1px solid #00C9FF
-    @media (max-width: 1400px)
-      font-size: 10px
-    &_active
-      border-radius: 0 0 20px 20px
-  &__option
-    padding: 4px 8px
-    width: 100%
-    font-size: 12px
-    @media (max-width: 1400px)
-      font-size: 10px
+<style lang="scss" scoped>
+.pools-pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  .form-select {
+    background-color: #000;
+  }
+  &__text {
+    font-size: 15px;
+    color: #ffffff;
+    font-weight: 400;
+    font-family: Poppins;
+    @media (max-width: 1400px) {
+      font-size: 12px;
+    }
+  }
+}
+.pagination-select {
+  position: relative;
+  cursor: pointer;
+  &__wrapper {
+    position: absolute;
+    border: 1px solid #00C9FF;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    top: -79px;
+    background: #02120a;
+    display: none;
+    @media (max-width: 1400px) {
+      top: -69px;
+    }
+    &_active {
+      display: block;
+    }
+  }
+  &__title {
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    border: 1px solid #00C9FF;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    @media (max-width: 1400px) {
+      font-size: 10px;
+    }
+    &_active {
+      border-radius: 0 0 20px 20px;
+    }
+  }
+  &__option {
+    padding: 4px 8px;
+    width: 100%;
+    font-size: 12px;
+    @media (max-width: 1400px) {
+      font-size: 10px;
+    }
+  }
+}
 </style>

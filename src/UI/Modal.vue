@@ -1,37 +1,137 @@
 <template>
-  <!-- Main modal -->
-<div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
+  <div>
+    <div
+      class=" fixed inset-0 z-40"
+    />
+    <div
+      ref="modalRef"
+      class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
+      tabindex="0"
+      @click.self="clickOutside"
+      @keyup.esc="closeWithEsc"
+   
+    >
+      <div
+        :class="`${modalSizeClasses[size]}`"
+        class="fixed p-4 w-full"
+       
+      >
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          
-            <!-- Modal body -->
-            <div class="p-4 md:p-5 space-y-4">
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
+        <div class="relative bg-white rounded-lg shadow dark:!bg-[#141414]">
+          <!-- Modal header -->
+          <div
+            :class="
+              $slots.header
+                ? 'border-b border-gray-200 dark:border-gray-600'
+                : ''
+            "
+            class="pt-4 px-4 rounded-t flex justify-between items-center"
+          >
+            <slot name="header" />
+            <div class="flex justify-end w-full">
+              <div
+                class="back_button"
+                v-if="!persistent"
+                aria-label="close"
+                @click="closeModal"
+              >
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18 6L6 18"
+                    stroke="#FFFFFF"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6 6L18 18"
+                    stroke="#FFFFFF"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
             </div>
-          
+          </div>
+          <!-- Modal body -->
+          <div :class="$slots.header ? '' : 'pt-0'" class="p-6">
+            <slot name="body" />
+          </div>
+          <!-- Modal footer -->
+          <div
+            v-if="$slots.footer"
+            class="p-6 rounded-b border-gray-200 border-t dark:border-gray-600"
+          >
+            <slot name="footer" />
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
+  </div>
 </template>
-<script setup>
-import { defineProps, toRefs } from 'vue'
 
+<script setup>
+import { onMounted, ref, defineProps, defineEmits } from 'vue'
 
 const props = defineProps({
-  label: String,
-  toggle: Boolean,
+  notEscapable: { type: Boolean, required: false, default: false },
+  persistent: { type: Boolean, required: false, default: false },
+  size: { type: String, required: false, default: '2xl' },
 })
 
-  const { toggle } = toRefs(props)
-</script>
+const emit = defineEmits(['close', 'click:outside'])
+const modalSizeClasses = {
+  xs: 'max-w-xs',
+  sm: 'max-w-sm',
+  md: 'max-w-md',
+  lg: 'max-w-lg',
+  xl: 'max-w-xl',
+  '2xl': 'max-w-2xl',
+  '3xl': 'max-w-3xl',
+  '4xl': 'max-w-4xl',
+  '5xl': 'max-w-5xl',
+  '6xl': 'max-w-6xl',
+  '7xl': 'max-w-7xl',
+}
 
+function closeModal() {
+  emit('close')
+}
+function clickOutside() {
+  if (!props.persistent) {
+    emit('click:outside')
+    closeModal()
+  }
+}
+
+function closeWithEsc() {
+  if (!props.notEscapable && !props.persistent) closeModal()
+}
+const modalRef = ref(null)
+onMounted(() => {
+  if (modalRef.value) {
+    modalRef.value.focus()
+  }
+})
+</script>
 <style lang="scss" scoped>
-@import '@/styles/_variables.scss';
+.back_button {
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  background: #00000024;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  border: 1px solid #ffffff0d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
 </style>

@@ -754,6 +754,9 @@ function changeVisibleDeposit() {
 }
 
 .modal_stake_token_inner_name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   border-radius: 17px;
   background: rgba(76, 76, 76, 0.14);
   color: white;

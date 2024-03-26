@@ -1,5 +1,5 @@
 <template>
-  <CHeader position="static" :class="isHeaderBg ? 'header_main header_main_bg' : 'header_main'" ref="headRef">
+  <CHeader position="static" :class="isHeaderBg ? `header_main ${isDark ? 'header_main_bg' : 'header_main_bg-white'} ` : 'header_main'" ref="headRef">
     <CContainer fluid class="header_container">
 
       <HeaderNavigation />
@@ -7,7 +7,7 @@
       <HeaderSearchbar :selectOptions="selectOptions" :handleInput="handleInput"/>
 
       <div v-if="!address">
-        <div class="connect_wallet" @click="$emit('toggleSidebar')">
+        <div class="connect_wallet " @click="$emit('toggleSidebar')">
           Connect
         </div>
       </div>
@@ -18,7 +18,7 @@
       
 
 
-        <div class="wallet_address" @click="$emit('toggleSidebar')">
+        <div class="wallet_address text-black dark:!text-white" @click="$emit('toggleSidebar')">
           <img :src="connectWalletIcon" />
           {{ computedAddress }}
         </div>
@@ -52,6 +52,9 @@ import { fetchDataAndMerge } from '@/composables/pools/trades/fetch/useFetchTrad
 import { GetPools } from '@/composables/pools/usePools'
 import { useUniswapPools } from '@/composables/concentrated-liquidity/useUniswapPools'
 import 'vue3-toastify/dist/index.css'
+import { useDark } from '@vueuse/core'
+
+const isDark = useDark()
 
 const emit = defineEmits(['toggleSidebar', 'setAddress'])
 const props = defineProps(['address'])
@@ -370,6 +373,13 @@ const computedAddress = computed(() =>
     -webkit-backdrop-filter: blur(60px);
     backdrop-filter: blur(60px);
   }
+  &_bg-white {
+    background: linear-gradient(356.2deg,
+        rgba(197, 197, 197, 0.755) 0%,
+        #ffffff 105.42%) !important;
+    -webkit-backdrop-filter: blur(60px);
+    backdrop-filter: blur(60px);
+  }
 }
 
 .header_main_container {
@@ -384,6 +394,7 @@ const computedAddress = computed(() =>
   border-bottom: none;
   padding: 16px 33px 16px 33px;
   background-color: transparent;
+  z-index: 100;
 
   &-nav {
     display: flex;
@@ -439,7 +450,8 @@ const computedAddress = computed(() =>
   &__popup {
     width: 200px;
     border-radius: 16px;
-    background: #171717;
+    // background: #171717;
+    z-index: 1000;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
@@ -702,101 +714,9 @@ const computedAddress = computed(() =>
   border-radius: 20px;
 }
 
-.bell_container {
-  cursor: pointer;
-  margin-right: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 12px;
-  border-radius: 8px;
-  box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 0 6px 30px 0 rgba(0, 0, 0, 0.122);
-  box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.141);
-  background: radial-gradient(50% 50% at 26.04% 40.42%,
-      rgba(0, 201, 255, 0.13) 0,
-      rgba(0, 201, 255, 0) 100%);
-  background-color: #1f1f1f;
-  color: #fff;
-
-  img {
-    width: 24px;
-  }
-}
-
-.bell_container:hover {
-  background: radial-gradient(50% 50% at 26.04% 40.42%,
-      rgba(0, 201, 255, 0.13) 0,
-      rgba(0, 201, 255, 0) 100%);
-}
-
-.bell_icon {
-  color: white;
-}
-
-.bell_container:hover .bell_icon {
-  color: #009065;
-}
 
 @media (max-width: $md) {
-  .sidemenu__btn {
-    display: block;
-    width: 36px;
-    height: 36px;
-    background: none;
-    border: none;
-    position: relative;
-    z-index: 100;
-    appearance: none;
-    cursor: pointer;
-    standard: none;
 
-    span {
-      display: block;
-      width: 20px;
-      height: 2px;
-      margin: auto;
-      background: white;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      transition: all 0.4s ease;
-      border-radius: 10px;
-
-      &.mid {
-        width: 13px;
-        margin-left: 8px;
-      }
-
-      &.top {
-        transform: translateY(-8px);
-      }
-
-      &.bottom {
-        transform: translateY(8px);
-        width: 15px;
-        margin-left: 8px;
-      }
-    }
-
-    &.active {
-      .top {
-        transform: rotate(-45deg);
-      }
-
-      .mid {
-        transform: translateX(-20px) rotate(360deg);
-        opacity: 0;
-      }
-
-      .bottom {
-        transform: rotate(45deg);
-        width: 20px;
-      }
-    }
-  }
 
   .header_main {
     padding-bottom: 5px;
@@ -851,29 +771,9 @@ const computedAddress = computed(() =>
   }
 }
 
-.badge {
-  background: #00c9ff;
-  margin-right: -20px;
-  border-radius: 50%;
-  width: 12px;
-  height: 12px;
-  text-align: center;
-  padding: 5%;
-  position: relative;
-  right: 16.8px;
-  top: -3px;
-  float: right;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.message-count {
-  position: relative;
-  color: white;
-  font: bold 8px Helvetica, Verdana, Tahoma;
-  text-align: center;
-}
+
+
 
 
 
@@ -882,11 +782,13 @@ const computedAddress = computed(() =>
 }
 
 .vue-select {
-  background: linear-gradient(0deg, #090909, #090909),
-    linear-gradient(0deg, rgba(115, 115, 115, 0.06), rgba(115, 115, 115, 0.06));
+  // background: linear-gradient(0deg, #090909, #090909),
+  //   linear-gradient(0deg, rgba(115, 115, 115, 0.06), rgba(115, 115, 115, 0.06));
+  // background: #171717;
   border: 1px solid #222222c9;
   border-radius: 16px;
   width: 500px;
+
 
   @media (max-width:1300px) {
     width: 370px;
@@ -916,9 +818,13 @@ const computedAddress = computed(() =>
 }
 
 .vue-dropdown {
-  background: #090909;
+  // background: #171717;
+  background: #00000018;
+  
   border: 1px solid #222222c9;
-  color: white;
+  // color: white;
+     -webkit-backdrop-filter: blur(50px);
+    backdrop-filter: blur(50px);
 }
 
 /* Scrollbar */
@@ -962,14 +868,14 @@ input[readonly] {
   font-weight: 500;
   line-height: 15px;
   letter-spacing: 0em;
-  color: #7d7d7d;
+  // color: #7d7d7d;
   padding: 8px;
 }
 
 .connect_wallet {
   border-radius: 16px;
-  background: linear-gradient(0deg, #090909, #090909),
-    linear-gradient(0deg, rgba(42, 189, 255, 0.62), rgba(42, 189, 255, 0.62));
+  // background: linear-gradient(0deg, #090909, #090909),
+  //   linear-gradient(0deg, rgba(42, 189, 255, 0.62), rgba(42, 189, 255, 0.62));
   border: 1px solid #2abdff9e;
   box-shadow: 0px 4px 4px 0px #2abdff40;
   color: #2abdff;
@@ -990,8 +896,8 @@ input[readonly] {
 
 .wallet_address {
   height: 40px;
-  background: #15151580;
-  border: 1px solid #2222220d;
+  // background: #15151580;
+  // border: 1px solid #2222220d;
   box-shadow: 0px 4px 4px 0px #00000040;
 
   border-radius: 16px;
@@ -1002,7 +908,8 @@ input[readonly] {
   line-height: 18px;
   letter-spacing: 0em;
   text-align: center;
-  color: white;
+  // color: white;
+
 
   display: flex;
   align-items: center;

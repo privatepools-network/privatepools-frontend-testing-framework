@@ -10,7 +10,7 @@
     </div>
   </Drawer>
   <main class="main_containter">
-    <div class="app_container">
+    <div class="app_container bg-white dark:!bg-[#171717]">
       <div class="wrapper d-flex flex-column min-vh-100">
         <AppHeader @setAddress="(addr) => address = addr" :address="address" @toggleSidebar="toggleSidebar" />
         <div class="body flex-grow-1 px-1 px-md-3 pt-1" style="
@@ -76,7 +76,7 @@ watch(address, () => {
 }
 
 .app_container {
-  background: #171717;
+  // background: #171717;
 }
 
 

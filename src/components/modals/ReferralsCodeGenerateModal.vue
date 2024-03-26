@@ -1,42 +1,15 @@
 <template>
-  <div class="modal_body_inside dark:!bg-[#222222]">
+  <div class="modal_body_inside">
     <div>
       <div
         class="modal_body_header d-flex justify-content-end align-items-start"
       >
-        <!-- <div class="back_button" @click="codeEditModal = false">
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18 6L6 18"
-              stroke="#FFFFFF"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M6 6L18 18"
-              stroke="#FFFFFF"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div> -->
+       
       </div>
     </div>
     <div class="d-flex justify-content-center flex-column align-items-center">
       <div
-        style="
-          color: white;
-          font-size: clamp(16px, 0.9vw, 20px);
-          font-weight: 700;
-        "
+        class="text-black dark:!text-white text-[18px] font-bold"
       >
         Generate Referral Code
       </div>
@@ -46,7 +19,7 @@
           font-size: clamp(10px, 0.8vw, 14px);
           font-weight: 500;
         "
-        class="my-3"
+        class="text-black dark:!text-white text-[12px] font-medium my-3"
       >
         Create a referral code now, share it and start earning!
       </div>
@@ -54,9 +27,9 @@
         <input
           type="text"
           placeholder="Enter referral code"
-          style="color: #fff !important"
+         
           aria-label="Search by name, symbol or address"
-          class="search-input"
+          class="search-input !text-black dark:!text-white"
         />
       </div>
       <div class="referrals_button">Generate code</div>
@@ -82,7 +55,7 @@ import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 .search-input {
   width: 100%;
   font-size: 12px;
-  color: white !important;
+  // color: white !important;
   border: 1px solid #2abdff;
   border-radius: 16px;
   padding: 8px 12px;
@@ -127,17 +100,6 @@ import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
   font-size: 14px;
 }
 
-.back_button {
-  width: 32px;
-  height: 32px;
-  border-radius: 100%;
-  background: #00000024;
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  border: 1px solid #ffffff0d;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
+
 </style>
 @/composables/math/investMath/useInvestMath@/composables/poolActions/deposit/useApproveTokens

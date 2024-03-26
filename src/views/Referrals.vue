@@ -1,11 +1,11 @@
 <template>
- <fwb-modal v-if="codeEditModal" @close="codeEditModalClose" class="dark:!bg-[#22222224]">
+ <Modal v-if="codeEditModal" @close="codeEditModalClose">
 
     <template #body>
       <ReferralsCodeGenerateModal/>
     </template>
  
-  </fwb-modal>
+  </Modal>
 
   <MainCard>
     <div class="my-3 title">Referrals</div>
@@ -37,8 +37,8 @@ import MainCard from '@/UI/MainCard.vue'
 import { ref } from 'vue'
 import Investors from '@/components/Referrals/Investors.vue'
 import Affiliates from '@/components/Referrals/Affiliates.vue'
-import {  FwbModal } from 'flowbite-vue'
 import ReferralsCodeGenerateModal from '@/components/modals/ReferralsCodeGenerateModal.vue'
+import Modal from '@/UI/Modal.vue'
 
 const selectedTab = ref('Investors')
 

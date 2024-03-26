@@ -9,7 +9,7 @@
       placeholder="Search tokens and liquidity pools"
     >
       <template #dropdown-item="{ option }">
-        <div v-if="option.firstToken" class="search_groups">
+        <div v-if="option.firstToken" class="search_groups  text-black dark:!text-[#7d7d7d]">
           <svg
             width="18"
             height="8"
@@ -35,7 +35,7 @@
             <div class="d-flex align-items-center gap-2">
               <img :src="getTokenEntity(option.img, 'short').icon" width="38" />
               <div class="d-flex flex-column">
-                <div style="font-size: 12px; color: #ffffff">
+                <div style="font-size: 12px; color: #ffffff" class="drop-shadow-lg">
                   {{ option.label }}
                 </div>
                 <div style="font-size: 10px; color: #8e8e8e">
@@ -82,7 +82,7 @@
             </div>
           </div>
         </template>
-        <div v-if="option.firstPool" class="search_groups">
+        <div v-if="option.firstPool" class="search_groups text-black dark:!text-[#7d7d7d]">
           <svg
             width="18"
             height="8"
@@ -115,7 +115,7 @@
                 :title="tokenEntity"
               />
               <div class="d-flex flex-column">
-                <div style="font-size: 12px; color: #ffffff; margin-left: 18px">
+                <div style="font-size: 12px; color: #ffffff; margin-left: 18px" class="drop-shadow-lg">
                   {{ option.label }}
                 </div>
                 <div style="font-size: 10px; color: #8e8e8e; margin-left: 18px">
@@ -164,7 +164,7 @@
         </template>
       </template>
     </vue-select>
-    <div style="position: absolute; left: 7px; top: 6px; color: #858c90">
+    <div style="position: absolute; left: 7px; top: 9px; color: #858c90">
       <svg
         width="20"
         height="20"

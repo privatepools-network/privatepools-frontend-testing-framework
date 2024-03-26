@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between items-center">
-    <span class="text text-white">
+    <span class="text text-black dark:!text-white">
       {{ isDark ? 'Dark' : 'Light' }} Mode
     </span>
 

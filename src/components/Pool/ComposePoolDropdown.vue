@@ -2,7 +2,7 @@
   <div class="manage-pools-filters">
     <div v-if="width > 768">
       <div
-        class="button d-flex align-items-center justify-content-evenly gap-2"
+        class="button d-flex align-items-center justify-content-evenly gap-2 text-black dark:!text-white"
         :style="
           composePoolDropdownOpen === true
             ? 'border-radius: 8px 8px 0px 0px;'
@@ -22,12 +22,13 @@
           <path
             d="M8.22502 5.74172L4.99166 2.50836L1.75832 5.74172C1.43332 6.06672 0.908323 6.06672 0.583323 5.74172C0.258324 5.41672 0.258324 4.89169 0.583323 4.56669L4.40832 0.74169C4.73332 0.41669 5.25832 0.41669 5.58332 0.74169L9.40835 4.56669C9.73335 4.89169 9.73335 5.41672 9.40835 5.74172C9.08335 6.05839 8.55002 6.06672 8.22502 5.74172Z"
             fill="#00C9FF"
+      
           />
         </svg>
       </div>
       <div
         v-if="composePoolDropdownOpen === true"
-        class="compose_pool_dropdown"
+        class="compose_pool_dropdown bg-white dark:!bg-black  text-black dark:!text-white"
       >
         <div
           @click="onClickConcentratedPool"
@@ -43,13 +44,13 @@
           >
             <path
               d="M6 2.5V9.5"
-              stroke="#F8F8F8"
               stroke-width="2"
               stroke-linecap="round"
+              class="stroke-black dark:!stroke-white"
             />
             <path
               d="M2.5 6H9.5"
-              stroke="#F8F8F8"
+              class="stroke-black dark:!stroke-white"
               stroke-width="2"
               stroke-linecap="round"
             />
@@ -66,13 +67,13 @@
           >
             <path
               d="M6 2.5V9.5"
-              stroke="#F8F8F8"
+              class="stroke-black dark:!stroke-white"
               stroke-width="2"
               stroke-linecap="round"
             />
             <path
               d="M2.5 6H9.5"
-              stroke="#F8F8F8"
+              class="stroke-black dark:!stroke-white"
               stroke-width="2"
               stroke-linecap="round"
             />
@@ -119,7 +120,7 @@ const onClickConcentratedPool = () => {
   border: 1px solid #2abdff;
   box-shadow: 0px 0px 4.600000381469727px 0px #00affe;
   width: 143px;
-  color: white;
+  // color: white;
   font-weight: 600;
   padding: 7px 13px;
   font-size: 12px;
@@ -136,14 +137,14 @@ const onClickConcentratedPool = () => {
   gap: 12px;
   z-index: 100;
   position: absolute;
-  background: black;
+  // background: black;
   padding: 11.5px;
   font-family: Segoe UI;
   font-size: 13px;
   font-weight: 600;
   line-height: 19px;
   letter-spacing: 0em;
-  color: #ffffff;
+  // color: #ffffff;
   border-radius: 0px 0px 8px 8px;
   border: 1px solid #2abdff;
   box-shadow: 0px 0px 4.600000381469727px 0px #00affe;

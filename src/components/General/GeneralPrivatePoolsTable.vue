@@ -83,6 +83,7 @@
                 :href="`${
                   configService.getNetworkConfig(item.chainId).explorer
                 }/tx/${item.Tx}`"
+                class="flex items-center gap-1"
               >
                 {{ item['Time'] }}
                 <img :src="linkIcon" />

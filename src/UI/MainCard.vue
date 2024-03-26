@@ -14,7 +14,7 @@ defineProps(['gradient_bg', 'maxWidth'])
 
 .main_card {
   max-width: v-bind(maxWidth);
-  backdrop-filter: blur(60px);
+  // backdrop-filter: blur(60px);
 
   margin-bottom: 2%;
   padding: 1.3rem 2.3rem;

@@ -1,52 +1,90 @@
 <template>
   <div style="height: 92%">
     <div class="d-flex align-items-center">
-      <div class="sidebar_settings_icon" style="margin-right: 35%" @click="
-        settingsState === 'Language' || settingsState === 'Currency'
-          ? (settingsState = 'Main')
-          : $emit('toggleToWallets')
-        ">
-        <img :src="arrow_back_sidebar" />
+      <div
+        class="sidebar_settings_icon"
+        style="margin-right: 35%"
+        @click="
+          settingsState === 'Language' || settingsState === 'Currency'
+            ? (settingsState = 'Main')
+            : $emit('toggleToWallets')
+        "
+      >
+        <svg
+          width="17"
+          height="15"
+          viewBox="0 0 17 15"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1.20801 7.5L15.7913 7.5M1.20801 7.5L7.45801 1.25M1.20801 7.5L7.45801 13.75"
+            class="stroke-black dark:!stroke-white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
       </div>
-      <div class="sidebar_header">{{ settingsState === 'Language' ? 'Language' : settingsState === 'Currency' ? 'Currency'
-        : 'Settings' }} </div>
+      <div class="sidebar_header text-black dark:!text-white">
+        {{
+          settingsState === 'Language'
+            ? 'Language'
+            : settingsState === 'Currency'
+            ? 'Currency'
+            : 'Settings'
+        }}
+      </div>
     </div>
     <div class="d-flex flex-column justify-content-between h-100 gap-3 mt-3">
       <div v-if="settingsState === 'Main'">
-        <div class="settings_text flex items-center justify-between">
+        <div class="settings_text text-black dark:!text-white flex items-center justify-between">
           <div>Hide small balances</div>
-          
-            <Toggler :toggle="HideSmallBalances" :label="''"/>
+
+          <Toggler :toggle="HideSmallBalances" :label="''" />
         </div>
-        <ThemeToggler/>
-        <div class="d-flex justify-content-between align-items-center settings_text" @click="settingsState = 'Language'">
+        <ThemeToggler />
+        <div
+          class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
+          @click="settingsState = 'Language'"
+        >
           <div>Language</div>
           <div class="cursor-pointer flex items-center gap-1">
             English
-            <img :src="arrow_right"/>
+            <img :src="arrow_right" />
           </div>
         </div>
-        <div class="d-flex justify-content-between align-items-center settings_text" @click="settingsState = 'Currency'">
+        <div
+          class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
+          @click="settingsState = 'Currency'"
+        >
           <div>Currency</div>
           <div class="cursor-pointer flex items-center gap-1">
             USD
-            <img :src="arrow_right"/>
+            <img :src="arrow_right" />
           </div>
         </div>
       </div>
       <div v-if="settingsState === 'Language'">
-        <div class="d-flex justify-content-between align-items-center settings_text" style="cursor: pointer"
-          v-for="language in languages" :key="language">
+        <div
+          class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
+          style="cursor: pointer"
+          v-for="language in languages"
+          :key="language"
+        >
           <div>{{ language.nativeName }}</div>
           <div>
-          <img :src="check_icon" />
+            <img :src="check_icon" />
           </div>
         </div>
       </div>
       <div v-if="settingsState === 'Currency'">
-        <div class="d-flex justify-content-between align-items-center settings_text" style="cursor: pointer">
+        <div
+          class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
+          style="cursor: pointer"
+        >
           <div class="d-flex align-items-center gap-1">
-           <img :src="usa" />
+            <img :src="usa" />
             USD
           </div>
           <div>
@@ -61,13 +99,13 @@
 <script setup>
 import { ref } from 'vue'
 import { defineEmits } from 'vue'
-import languages from "@/assets/localization/languages"
-import arrow_back_sidebar from "@/assets/icons/arrow/arrow_back_sidebar.svg"
-import arrow_right from "@/assets/icons/arrow/arrow_right.svg"
-import check_icon from "@/assets/icons/sidebarIcons/check_icon.svg"
-import usa from "@/assets/icons/sidebarIcons/flags/usa.svg"
-import Toggler from "@/UI/Toggler.vue"
-import ThemeToggler from "@/UI/ThemeToggler.vue"
+import languages from '@/assets/localization/languages'
+import arrow_back_sidebar from '@/assets/icons/arrow/arrow_back_sidebar.svg'
+import arrow_right from '@/assets/icons/arrow/arrow_right.svg'
+import check_icon from '@/assets/icons/sidebarIcons/check_icon.svg'
+import usa from '@/assets/icons/sidebarIcons/flags/usa.svg'
+import Toggler from '@/UI/Toggler.vue'
+import ThemeToggler from '@/UI/ThemeToggler.vue'
 
 defineEmits(['toggleToWallets'])
 const HideSmallBalances = ref(true)
@@ -80,7 +118,7 @@ const settingsState = ref('Main')
   font-weight: 600;
   line-height: 44px;
   letter-spacing: 0px;
-  color: #ffffff;
+  // color: #ffffff;
 }
 
 .sidebar_settings_icon {
@@ -135,6 +173,6 @@ const settingsState = ref('Main')
   font-weight: 400;
   line-height: 44px;
   letter-spacing: 0px;
-  color: #ffffff;
+  // color: #ffffff;
 }
 </style>

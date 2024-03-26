@@ -4,6 +4,7 @@
       <div class="mb-4" style="font-size: 22px; font-weight: 700; color: white">
         My Portfolio
       </div>
+      <div class="flex items-center">
       <span>Current balance</span>
       <svg
         @click="isBalanceHidden = !isBalanceHidden"
@@ -26,6 +27,7 @@
           fill="#E1E1E1"
         />
       </svg>
+    </div>
     </div>
     <div class="portfolio-header__balance" v-if="isBalanceHidden == false">
       ${{ formattedBalance }}

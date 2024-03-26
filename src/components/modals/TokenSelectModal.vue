@@ -1,60 +1,98 @@
 <template>
-  <CModal alignment="normal" :visible="tokenSelectModal">
-    <!-- <CModalHeader :close-button="false">
-    </CModalHeader> -->
-    <CModalBody>
-      <div class="modal_body_inside">
-        <div>
-          <div class="modal_body_header d-flex justify-content-between align-items-start mb-3">
-            <p style="font-size: 20px">Token search</p>
-            <div class="back_button" @click="tokenSelectModal = false">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M6 6L18 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </div>
-          <CInputGroup class="d-flex align-items-normal justify-content-start search-input-group">
-            <CAvatar :src="Search" class="search-input-avatar" />
-            <CFormInput type="text" placeholder="Search by name, symbol or address" style="color: #fff !important"
-              aria-label="Search by name, symbol or address" class="search-input" v-model="filterName"
-              v-on:keyup.enter="emit('addToken', filterName)" />
-          </CInputGroup>
+  <div class="modal_body_inside">
+    <div>
+      <div
+        class="modal_body_header d-flex justify-content-between align-items-start mb-1"
+      >
+        <p style="font-size: 20px">Token search</p>
+      </div>
 
-          <div class="mt-3">
-            <div style="color: white; font-size: 16px">Common Tokens</div>
-            <div class="d-flex flex-wrap gap-3 justify-content-between">
-              <div class="common_token d-flex gap-2" v-for="token in commonTokens" :key="token.symbol" @click="
-    emit('updateToken', { ...token }, props.pairIndex), emit('tokenSelectModalOpen')
-    ">
-                <img :src="getTokenEntity(token.symbol, 'short').icon || token.logoURI" width="30" />
-                {{ token.symbol }}
-              </div>
-            </div>
-          </div>
-          <div class="mt-3 tokens_container">
-            <div v-for="(token, index) in filteredPossibleTokens" :key="`tokens-key-${index}`"
-              class="d-flex align-items-center justify-content-between p-3 gap-3 token_card" @click="
-    emit('updateToken', { ...token }, props.pairIndex), emit('tokenSelectModalOpen')
-    ">
-              <div class="d-flex align-items-center">
-                <img :src="token.logoURI || getTokenEntity(token.symbol, 'short').icon
-    " width="60" class="p-2" />
-                <div class="d-flex flex-column">
-                  <div class="modal_body_header">{{ token.symbol }}</div>
-                  <div class="modal_body_header">{{ token.name }}</div>
-                </div>
-              </div>
-              <div class="d-flex flex-column align-items-end text-white">
-                <div>{{ token.balance }} {{ token.symbol }}</div>
-                <div>${{ token.balance * token.price }}</div>
-              </div>
-            </div>
+
+      <label
+        for="search"
+        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+        >Search</label
+      >
+      <div class="relative">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
+        </div>
+        <input
+          type="search"
+          id="search"
+          class="block w-full ps-10 text-sm text-gray-900  border-gray-300 rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-[#141414] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Search by name, symbol or address"
+          aria-label="Search by name, symbol or address"
+          v-model="filterName"
+          v-on:keyup.enter="emit('addToken', filterName)"
+        />
+      </div>
+
+      <div class="mt-3">
+        <div style="color: white; font-size: 16px">Common Tokens</div>
+        <div class="d-flex flex-wrap gap-3 justify-content-between">
+          <div
+            class="common_token d-flex gap-2"
+            v-for="token in commonTokens"
+            :key="token.symbol"
+            @click="
+              emit('updateToken', { ...token }, props.pairIndex),
+                emit('tokenSelectModalClose')
+            "
+          >
+            <img
+              :src="getTokenEntity(token.symbol, 'short').icon || token.logoURI"
+              width="30"
+            />
+            {{ token.symbol }}
           </div>
         </div>
       </div>
-    </CModalBody>
-  </CModal>
+      <div class="mt-3 tokens_container">
+        <div
+          v-for="(token, index) in filteredPossibleTokens"
+          :key="`tokens-key-${index}`"
+          class="d-flex align-items-center justify-content-between p-3 gap-3 token_card"
+          @click="
+            emit('updateToken', { ...token }, props.pairIndex),
+              emit('tokenSelectModalClose')
+          "
+        >
+          <div class="d-flex align-items-center">
+            <img
+              :src="token.logoURI || getTokenEntity(token.symbol, 'short').icon"
+              width="60"
+              class="p-2"
+            />
+            <div class="d-flex flex-column">
+              <div class="modal_body_header">{{ token.symbol }}</div>
+              <div class="modal_body_header">{{ token.name }}</div>
+            </div>
+          </div>
+          <div class="d-flex flex-column align-items-end text-white">
+            <div>{{ token.balance }} {{ token.symbol }}</div>
+            <div>${{ token.balance * token.price }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -67,20 +105,37 @@ const props = defineProps([
   'pairIndex',
 ])
 const { possibleComposeTokens } = toRefs(props)
-const emit = defineEmits(['updateToken', 'addToken', 'tokenSelectModalOpen'])
+const emit = defineEmits(['updateToken', 'addToken', 'tokenSelectModalClose'])
 const filterName = ref('')
 
 const filteredPossibleTokens = computed(() =>
-  possibleComposeTokens.value.filter(
-    (t) =>
-      filterName.value == '' ||
-      t.symbol.toLowerCase().includes(filterName.value.toLowerCase()) ||
-      t.address.toLowerCase().includes(filterName.value.toLowerCase()),
-  ).slice(0,50)
+  possibleComposeTokens.value
+    .filter(
+      (t) =>
+        filterName.value == '' ||
+        t.symbol.toLowerCase().includes(filterName.value.toLowerCase()) ||
+        t.address.toLowerCase().includes(filterName.value.toLowerCase()),
+    )
+    .slice(0, 50),
 )
 
 const commonTokens = computed(() => {
-  return possibleComposeTokens.value.filter((item) => ['Binance Bridged USDT  BNB Smart Chain ', "Binance Bridged USDC  BNB Smart Chain ", "Dai", "Binance Peg BUSD", "Wrapped BNB", "Binance Bitcoin", "WETH", "Binance Peg XRP", "Chainlink", "Binance Peg Avalanche"].includes(item.name)).slice(0, 8)
+  return possibleComposeTokens.value
+    .filter((item) =>
+      [
+        'Binance Bridged USDT  BNB Smart Chain ',
+        'Binance Bridged USDC  BNB Smart Chain ',
+        'Dai',
+        'Binance Peg BUSD',
+        'Wrapped BNB',
+        'Binance Bitcoin',
+        'WETH',
+        'Binance Peg XRP',
+        'Chainlink',
+        'Binance Peg Avalanche',
+      ].includes(item.name),
+    )
+    .slice(0, 8)
 })
 </script>
 <style lang="scss" scoped>
@@ -307,6 +362,10 @@ const commonTokens = computed(() => {
   line-height: 28px;
   color: white;
   padding: 8px;
+  &:hover {
+    cursor: pointer;
+    background: #304d6930;
+  }
 }
 </style>
 @/composables/math/investMath/useInvestMath@/composables/poolActions/deposit/useApproveTokens

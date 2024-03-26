@@ -85,9 +85,9 @@
               <div>${{ item['Rewards'] }}</div>
             </CTableDataCell>
             <CTableDataCell scope="row" class="text-success table-cell">
-              <div>
+              <div  class=" flex items-center gap-3 cursor-pointer">
                 Copy Code
-                <span style="padding-left: 30px; cursor: pointer">
+                <span>
                   <svg
                     width="11"
                     height="11"
@@ -207,9 +207,9 @@
               <div>$25.907</div>
             </CTableDataCell>
             <CTableDataCell scope="row" class="text-success table-cell">
-              <div  @click="router.push('/referrals')">
+              <div  @click="router.push('/referrals')" class=" flex items-center gap-2 cursor-pointer">
                 Manage my code
-                <span style="padding-left: 8px; cursor: pointer">
+                <span>
                   <svg
                     width="9"
                     height="15"

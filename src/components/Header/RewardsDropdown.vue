@@ -1,21 +1,17 @@
 <template>
 <Dropdown :distance="4" :placement="'bottom-center'">
-          <div class="button_drop p-2 ">
+          <div class="button_drop text-black dark:!text-white p-2 ">
             <img :src="rewards_icon"/>
 
             $1.23
           </div>
           <template #popper>
-            <div class="header__popup">
-              <h4 style="
-                  font-size: 14px;
-                  color: #626262;
-                  margin-bottom: 10px;
-                ">
+            <div class="header__popup bg-white dark:!bg-[#171717]">
+              <h4 class="text-[14px] text-black dark:!text-[#626262] mb-[10px]">
                 Rewards
               </h4>
-              <div class="rewards_inside">
-                <div style="color: #626262; font-size: 12px">
+              <div class="rewards_inside text-black dark:!text-white">
+                <div class="text-[12px] text-black dark:!text-[#626262]">
                   Pending pool rewards
                 </div>
                 <div class="flex items-center gap-1">
@@ -23,14 +19,14 @@
                   <img :src="rewards_icon" width="16"/>
                 </div>
               </div>
-              <div class="rewards_inside">
-                <div style="color: #626262; font-size: 12px">
+              <div class="rewards_inside text-black dark:!text-white">
+                <div class="text-[12px] text-black dark:!text-[#626262]">
                   Total staked
                 </div>
                 <div>
                   $234.34
                 </div>
-                <div style="color: #626262; font-size: 12px">
+                <div class="text-[12px] text-black dark:!text-[#626262]">
                   in 2 farm(s)
                 </div>
               </div>
@@ -54,7 +50,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
-  color: white;
+  // color: white;
 }
 
 .rewards_button_dropdown {
@@ -88,7 +84,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
   line-height: 18px;
   letter-spacing: 0em;
   text-align: center;
-  color: white;
+  // color: white;
 
   display: flex;
   align-items: center;

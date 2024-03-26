@@ -64,7 +64,7 @@
   
         <div class="pools-row__col">
           <div class="pools-row__info">
-            <div class="pools-row__value">
+            <div class="pools-row__value flex items-center gap-1">
               {{ Number(pool['APR']).toFixed(0) }}%
               <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -461,10 +461,10 @@
   }
   
   .liquidity_button_container {
-    background: #171717;
+    // background: #171717;
     padding: 10px 20px;
     border-radius: 20px;
-    border: 1px solid #191919;
+    // border: 1px solid #191919;
     box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   }
   

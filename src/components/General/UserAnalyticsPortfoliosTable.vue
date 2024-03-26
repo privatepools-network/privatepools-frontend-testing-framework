@@ -129,9 +129,9 @@
               </div>
             </CTableDataCell>
             <CTableDataCell scope="row" class="text-danger table-cell">
-              <div>
+              <div class=" flex items-center gap-3 cursor-pointer">
                 {{ item['GasFees'] }}
-                <span style="padding-left: 30px; cursor: pointer">
+                <span >
                   <svg
                     width="9"
                     height="15"
@@ -246,9 +246,9 @@
               <div>$2,744.94</div>
             </CTableDataCell>
             <CTableDataCell scope="row" class="text-danger table-cell">
-              <div>
+              <div class=" flex items-center gap-3 cursor-pointer">
                 -$2,744.94
-                <span style="padding-left: 30px; cursor: pointer">
+                <span>
                   <svg
                     width="9"
                     height="15"
