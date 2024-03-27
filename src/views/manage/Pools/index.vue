@@ -3,107 +3,148 @@
     <Title :title="'Private Pools'" />
 
     <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
-      <!-- <PoolFilters
+      <PoolFilters
         :hidePools="hidePools"
         :optionsPoolType="optionsPoolType"
         :optionsPoolAttribute="optionsPoolAttribute"
         :optionsTokens="optionsTokens"
-      /> -->
-      <ComposePoolDropdown />
+      />
     </div>
 
     <div class="pools-rows">
       <div class="pools-row pools-row_header">
-        <div class="pools-row__col" :class="
-      // Table headers positioning by header names
-      headCaption === 'Composition' || headCaption === 'Tokens'
-        ? 'justify-content-start'
-        : 'justify-content-center'
-      " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
+        <div
+          class="pools-row__col"
+          :class="
+            // Table headers positioning by header names
+            headCaption === 'Composition' || headCaption === 'Tokens'
+              ? 'justify-content-start'
+              : 'justify-content-center'
+          "
+          v-for="(headCaption, headCaptionIndex) in headers"
+          :key="headCaption"
+        >
           <div class="file-table-header-cell">
-            <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
-              style="cursor: pointer; height: 20px">
+            <div
+              class="d-flex align-items-center gap-1"
+              :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+              style="cursor: pointer; height: 20px"
+            >
               <div :class="'head_caption_text'">
                 {{ headCaption }}
               </div>
-
             </div>
           </div>
         </div>
       </div>
-    </CRow>
+    </div>
+
     <CRow>
       <div class="pools-rows" v-if="viewMode == 'rows'">
         <div class="pools-row pools-row_header">
-          <div class="pools-row__col"
-            :class="headCaption === 'Composition' || headCaption === 'Tokens' ? 'justify-content-start' : 'justify-content-center'"
-            v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
+          <div
+            class="pools-row__col"
+            :class="
+              headCaption === 'Composition' || headCaption === 'Tokens'
+                ? 'justify-content-start'
+                : 'justify-content-center'
+            "
+            v-for="(headCaption, headCaptionIndex) in headers"
+            :key="headCaption"
+          >
             <div class="file-table-header-cell">
-              <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
-                style="cursor: pointer; height: 20px">
-                <div style="" v-if="!['pool composition', 'actions', 'tokens'].includes(
-        headCaption.toLowerCase(),
-      ) && sortedHeader.caption !== headCaption
-        ">
-                  <!-- <svg
-                    @click="
-                      $emit('table-header-click', headCaption, headCaptionIndex)
-                    "
-                    width="11"
-                    height="20"
-                    viewBox="0 0 11 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.2975 8.72852L6.09047 5.00977C5.99867 4.90332 5.82192 4.90332 5.72914 5.00977L2.52211 8.72852C2.40297 8.86719 2.51039 9.07031 2.70278 9.07031H9.11684C9.30922 9.07031 9.41664 8.86719 9.2975 8.72852Z"
-                      fill="#808080"
-                    />
-                    <path
-                      d="M9.11684 10.9297H2.70278C2.51039 10.9297 2.40297 11.1328 2.52211 11.2715L5.72914 14.9902C5.82094 15.0967 5.9977 15.0967 6.09047 14.9902L9.2975 11.2715C9.41664 11.1328 9.30922 10.9297 9.11684 10.9297Z"
-                      fill="#808080"
-                    />
-                  </svg> -->
-                </div>
-                <div style="
+              <div
+                class="d-flex align-items-center gap-1"
+                :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+                style="cursor: pointer; height: 20px"
+              >
+                <div
+                  style=""
+                  v-if="
+                    !['pool composition', 'actions', 'tokens'].includes(
+                      headCaption.toLowerCase(),
+                    ) && sortedHeader.caption !== headCaption
+                  "
+                ></div>
+                <div
+                  style="
                     width: 20px;
                     display: flex;
                     align-items: center;
                     gap: 6px;
-                  " v-if="['tokens'].includes(headCaption.toLowerCase()) &&
-        sortedHeader.caption !== headCaption
-        ">
-                  <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  "
+                  v-if="
+                    ['tokens'].includes(headCaption.toLowerCase()) &&
+                    sortedHeader.caption !== headCaption
+                  "
+                >
+                  <svg
+                    width="24"
+                    height="16"
+                    viewBox="0 0 24 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <g clip-path="url(#clip0_156_47)">
                       <g clip-path="url(#clip1_156_47)">
                         <path
                           d="M7.5 15C11.366 15 14.5 11.866 14.5 8C14.5 4.13401 11.366 1 7.5 1C3.63401 1 0.5 4.13401 0.5 8C0.5 11.866 3.63401 15 7.5 15Z"
-                          stroke="white" />
+                          stroke="white"
+                        />
                         <path
                           d="M16.5 15C20.366 15 23.5 11.866 23.5 8C23.5 4.13401 20.366 1 16.5 1C12.634 1 9.5 4.13401 9.5 8C9.5 11.866 12.634 15 16.5 15Z"
-                          stroke="white" />
+                          stroke="white"
+                        />
                       </g>
                     </g>
                     <defs>
                       <clipPath id="clip0_156_47">
-                        <rect width="24" height="15" fill="white" transform="translate(0 0.5)" />
+                        <rect
+                          width="24"
+                          height="15"
+                          fill="white"
+                          transform="translate(0 0.5)"
+                        />
                       </clipPath>
                       <clipPath id="clip1_156_47">
-                        <rect width="24" height="15" fill="white" transform="translate(0 0.5)" />
+                        <rect
+                          width="24"
+                          height="15"
+                          fill="white"
+                          transform="translate(0 0.5)"
+                        />
                       </clipPath>
                     </defs>
                   </svg>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div v-if="all_pools.length === 0" class="my-5">
         <LoaderPulse />
       </div>
-      <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
-        :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
-        @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL" :isActions="true" />
+      <PoolRow
+        v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
+        :key="pool.name"
+        :pool="pool"
+        :inactive="isPoolInactive(pool)"
+        :index="index"
+        @goToPoolWithdraw="goToPoolWithdraw"
+        @goToCLPool="goToCLPool"
+        @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit"
+        @goToCL="goToCL"
+        :isActions="true"
+      />
 
       {{ console.log('all_pools', all_pools) }}
-      <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more">
+      <div
+        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more"
+      >
         Load More
         <!-- <img :src="arrow_bottom" /> -->
       </div>
@@ -125,6 +166,8 @@
 import { computed, ref, onMounted, watch } from 'vue'
 import router from '@/router'
 import ComposePoolDropdown from '@/components/Pool/ComposePoolDropdown.vue'
+import PoolFilters from '@/components/Pool/PoolFilters.vue'
+
 import { useRoute } from 'vue-router'
 import { GetPools } from '@/composables/pools/usePools.js'
 import {
@@ -136,10 +179,7 @@ import { ethers } from 'ethers'
 import { GetPoolSwapsData } from '@/composables/pools/charts/usePoolSwapsData'
 import { GetPoolHistoricValues } from '@/composables/pools/charts/usePoolHistoricValues'
 import PoolRow from '@/components/Manage/Pool/PoolRow.vue'
-import PoolCard from '@/components/Manage/Pool/PoolCard.vue'
-import Pagination from '@/components/Manage/Pool/Pagination.vue'
 import MainCard from '@/UI/MainCard.vue'
-import ChainSelector from '@/UI/ChainSelectorV2.vue'
 import Title from '@/UI/Title'
 import { GetHistoricalTvl } from '@/composables/pools/snapshots/usePoolHistoricalTvl'
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
@@ -152,12 +192,9 @@ import {
 } from '@/composables/useNetwork'
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import { useWalletPools } from '@/composables/wallet/useWalletPools'
-// import Warning from "@/UI/Warning";
 import { useDevice } from '@/composables/adaptive/useDevice'
 import { isTimestampWithinLast7Days } from '@/lib/utils'
-import Multiselect from 'vue-multiselect'
 import { useUniswapTvlSnapshots } from '@/composables/concentrated-liquidity/useUniswapTvlSnapshots'
-import { getTokenEntity } from '@/lib/helpers/util'
 import { CalculateCLAPR } from '@/composables/math/chartMath/trackingInfoMath'
 const viewMode = ref('rows')
 const { width } = useDevice()
@@ -358,7 +395,7 @@ const onClickConcentratedPool = () => {
 }
 
 function goToPoolDeposit(args) {
-  if (all_pools.value[args.index].LiquidityType == "CL") {
+  if (all_pools.value[args.index].LiquidityType == 'CL') {
     router.push({
       name: 'Concentrated liquidity',
       query: {
@@ -366,9 +403,7 @@ function goToPoolDeposit(args) {
         fee: all_pools.value[args.index].fee,
       },
     })
-
-  }
-  else {
+  } else {
     router.push({
       name: 'Pool Deposit',
       params: {
@@ -379,7 +414,6 @@ function goToPoolDeposit(args) {
       },
     })
   }
-
 }
 function goToPoolWithdraw(args) {
   router.push({
@@ -621,7 +655,7 @@ const all_pools = computed(() => {
           .length > 0,
     )
   }
-  console.log("ALL POOLS - ", result)
+  console.log('ALL POOLS - ', result)
   return result.toSorted((a, b) => b.TVL - a.TVL)
 })
 
@@ -733,9 +767,11 @@ function filterPoolAmount() {
     padding: 0;
     border-radius: 16px;
     border: 1px solid #ffffff0d;
-    background: linear-gradient(0deg,
-        rgba(255, 255, 255, 2%),
-        rgba(255, 255, 255, 0%));
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 2%),
+      rgba(255, 255, 255, 0%)
+    );
     box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
     margin-bottom: 30px;

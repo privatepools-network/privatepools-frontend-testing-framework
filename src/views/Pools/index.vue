@@ -23,7 +23,7 @@
           <div class="file-table-header-cell">
             <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
               style="cursor: pointer; height: 20px">
-              <div :class="'head_caption_text'">
+              <div :class="'head_caption_text text-black dark:!text-white'">
                 {{ headCaption }}
               </div>
 

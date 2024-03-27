@@ -206,7 +206,7 @@ export default {
       name: 'INJ',
       symbol: 'INJ',
       apiId: 'INJ',
-      logoURI: './images/tokens/inj.png',
+      logoURI: './images/tokens/INJ.png',
       decimals: 18,
       address: '0xa2B726B1145A4773F68593CF171187d8EBe4d495',
     },

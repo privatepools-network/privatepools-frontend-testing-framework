@@ -1,26 +1,45 @@
 <template>
-  <TokenSelectModal :tokenSelectModal="tokenSelectModal" @tokenSelectModalOpen="tokenSelectModalOpen"
-    :pairIndex="pairIndex" @updateToken="updateToken" :possibleComposeTokens="notSelectedPossibleComposeTokens"
-    @addToken="onAddToken" />
+  <Modal v-if="tokenSelectModal" @close="tokenSelectModalClose" size="lg">
+    <template #body>
+      <TokenSelectModal
+        :tokenSelectModal="tokenSelectModal"
+        @tokenSelectModalClose="tokenSelectModalClose"
+        :pairIndex="pairIndex"
+        @updateToken="updateToken"
+        :possibleComposeTokens="notSelectedPossibleComposeTokens"
+        @addToken="onAddToken"
+      />
+    </template>
+  </Modal>
+
   <MainCard>
     <div class="buy_container">
       <HowToBuyPPNTokens />
 
       <div class="buy_container_section_1">
         <div style="margin-top: -60px">
-          <div style="
+          <div
+            style="
               color: white;
               font-size: clamp(24px, 0.8vw, 40px);
               font-weight: 700;
-            " class="my-4">
+            "
+            class="my-4"
+          >
             Trade PPN Tokens
           </div>
           <div class="buy_token_container">
             <div class="d-flex">
-              <div @click="selectedTab = 'Buy'" :class="selectedTab === 'Sell' ? 'buy_tab' : 'buy_tab_active'">
+              <div
+                @click="selectedTab = 'Buy'"
+                :class="selectedTab === 'Sell' ? 'buy_tab' : 'buy_tab_active'"
+              >
                 Buy
               </div>
-              <div @click="selectedTab = 'Sell'" :class="selectedTab === 'Buy' ? 'buy_tab' : 'buy_tab_active'">
+              <div
+                @click="selectedTab = 'Sell'"
+                :class="selectedTab === 'Buy' ? 'buy_tab' : 'buy_tab_active'"
+              >
                 Sell
               </div>
             </div>
@@ -28,7 +47,11 @@
               <div class="selector_button">
                 <div class="d-flex flex-column gap-2">
                   <div>Spend</div>
-                  <input v-if="selectedTab === 'Buy'" type="number" placeholder="0.00" style="
+                  <input
+                    v-if="selectedTab === 'Buy'"
+                    type="number"
+                    placeholder="0.00"
+                    style="
                       background: none;
                       border: none;
                       outline: none;
@@ -36,8 +59,16 @@
                       color: rgb(193, 200, 206);
                       font-weight: 600;
                       font-size: 20px;
-                    " v-model="token0Amount" @blur="onToken0Blur" @focus="onToken0Focus" />
-                  <input v-else type="number" placeholder="0.00" style="
+                    "
+                    v-model="token0Amount"
+                    @blur="onToken0Blur"
+                    @focus="onToken0Focus"
+                  />
+                  <input
+                    v-else
+                    type="number"
+                    placeholder="0.00"
+                    style="
                       background: none;
                       border: none;
                       outline: none;
@@ -45,23 +76,55 @@
                       color: rgb(193, 200, 206);
                       font-weight: 600;
                       font-size: 20px;
-                    " v-model="token1Amount" @blur="onToken1Blur" @focus="onToken1Focus" />
+                    "
+                    v-model="token1Amount"
+                    @blur="onToken1Blur"
+                    @focus="onToken1Focus"
+                  />
                 </div>
-                <div @click="() => tokenSelectModalOpen()" class="d-flex flex-column gap-2">
+                <div
+                  @click="() => tokenSelectModalOpen()"
+                  class="d-flex flex-column gap-2"
+                >
                   <div style="color: #7d7d7d; font-size: 12px">
-                    Balance: {{ selectedTab === 'Buy' ? `${tokenCurrency.balance.toFixed(4)} ${tokenCurrency.symbol}` :
-    `${tokenPPN.balance.toFixed(4)} ${tokenPPN.symbol}` }}
+                    Balance:
+                    {{
+                      selectedTab === 'Buy'
+                        ? `${tokenCurrency.balance.toFixed(4)} ${
+                            tokenCurrency.symbol
+                          }`
+                        : `${tokenPPN.balance.toFixed(4)} ${tokenPPN.symbol}`
+                    }}
                   </div>
-                  <div v-if="selectedTab === 'Buy'" style="font-size: 16px; margin-bottom: 0; color: white">
-                    <img :src="getTokenEntity(tokenCurrency.symbol, 'short').icon" width="18" />
-                    <span style="margin-left: 5px">{{ tokenCurrency.symbol }}</span>
-                    <svg style="margin-left: 10px" width="9" height="6" viewBox="0 0 9 6" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path d="M8.36011 0.0750122V1.95001L4.61011 5.92501L0.860107 1.95001V0.0750122H8.36011Z"
-                        fill="#848E9C" />
+                  <div
+                    v-if="selectedTab === 'Buy'"
+                    class="text-[14px] mb-0 text-white flex items-center gap-1"
+                  >
+                    <img
+                      :src="getTokenEntity(tokenCurrency.symbol, 'short').icon"
+                      width="18"
+                    />
+                    <span style="margin-left: 5px">{{
+                      tokenCurrency.symbol
+                    }}</span>
+                    <svg
+                      style="margin-left: 10px"
+                      width="9"
+                      height="6"
+                      viewBox="0 0 9 6"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8.36011 0.0750122V1.95001L4.61011 5.92501L0.860107 1.95001V0.0750122H8.36011Z"
+                        fill="#848E9C"
+                      />
                     </svg>
                   </div>
-                  <div v-else style="font-size: 16px; margin-bottom: 0; color: white">
+                  <div
+                    v-else
+                    class="text-[14px] mb-0 text-white flex items-center gap-1"
+                  >
                     <img :src="walletPoolsImg" />
                     <span style="margin-left: 5px">{{ tokenPPN.symbol }}</span>
                   </div>
@@ -70,7 +133,11 @@
               <div class="selector_button">
                 <div class="d-flex flex-column gap-2">
                   <div>Receive</div>
-                  <input v-if="selectedTab == 'Buy'" type="number" placeholder="0.00" style="
+                  <input
+                    v-if="selectedTab == 'Buy'"
+                    type="number"
+                    placeholder="0.00"
+                    style="
                       background: none;
                       border: none;
                       outline: none;
@@ -78,8 +145,16 @@
                       color: rgb(193, 200, 206);
                       font-weight: 600;
                       font-size: 20px;
-                    " v-model="token1Amount" @blur="onToken1Blur" @focus="onToken1Focus" />
-                  <input v-else type="number" placeholder="0.00" style="
+                    "
+                    v-model="token1Amount"
+                    @blur="onToken1Blur"
+                    @focus="onToken1Focus"
+                  />
+                  <input
+                    v-else
+                    type="number"
+                    placeholder="0.00"
+                    style="
                       background: none;
                       border: none;
                       outline: none;
@@ -87,24 +162,55 @@
                       color: rgb(193, 200, 206);
                       font-weight: 600;
                       font-size: 20px;
-                    " v-model="token0Amount" @blur="onToken0Blur" @focus="onToken0Focus" />
+                    "
+                    v-model="token0Amount"
+                    @blur="onToken0Blur"
+                    @focus="onToken0Focus"
+                  />
                 </div>
-                <div @click="() => tokenSelectModalOpen()" class="d-flex flex-column gap-2">
+                <div
+                  @click="() => tokenSelectModalOpen()"
+                  class="d-flex flex-column gap-2"
+                >
                   <div style="color: #7d7d7d; font-size: 12px">
                     Balance:
-                    {{ selectedTab === 'Sell' ? `${tokenCurrency.balance.toFixed(4)} ${tokenCurrency.symbol}` :
-    `${tokenPPN.balance.toFixed(4)} ${tokenPPN.symbol}` }}
+                    {{
+                      selectedTab === 'Sell'
+                        ? `${tokenCurrency.balance.toFixed(4)} ${
+                            tokenCurrency.symbol
+                          }`
+                        : `${tokenPPN.balance.toFixed(4)} ${tokenPPN.symbol}`
+                    }}
                   </div>
-                  <div v-if="selectedTab === 'Sell'" style="font-size: 16px; margin-bottom: 0; color: white">
-                    <img :src="getTokenEntity(tokenCurrency.symbol, 'short').icon" width="18" />
-                    <span style="margin-left: 5px">{{ tokenCurrency.symbol }}</span>
-                    <svg style="margin-left: 10px" width="9" height="6" viewBox="0 0 9 6" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path d="M8.36011 0.0750122V1.95001L4.61011 5.92501L0.860107 1.95001V0.0750122H8.36011Z"
-                        fill="#848E9C" />
+                  <div
+                    v-if="selectedTab === 'Sell'"
+                    class="text-[14px] mb-0 text-white flex items-center gap-1"
+                  >
+                    <img
+                      :src="getTokenEntity(tokenCurrency.symbol, 'short').icon"
+                      width="18"
+                    />
+                    <span style="margin-left: 5px">{{
+                      tokenCurrency.symbol
+                    }}</span>
+                    <svg
+                      style="margin-left: 10px"
+                      width="9"
+                      height="6"
+                      viewBox="0 0 9 6"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8.36011 0.0750122V1.95001L4.61011 5.92501L0.860107 1.95001V0.0750122H8.36011Z"
+                        fill="#848E9C"
+                      />
                     </svg>
                   </div>
-                  <div v-else style="font-size: 16px; margin-bottom: 0; color: white">
+                  <div
+                    v-else
+                    class="text-[14px] mb-0 text-white flex items-center gap-1"
+                  >
                     <img :src="walletPoolsImg" />
                     <span style="margin-left: 5px">{{ tokenPPN.symbol }}</span>
                   </div>
@@ -122,53 +228,82 @@
             <div>$65.62</div>
           </div>
           <div class="d-flex justify-content-between">
-            <div>
+            <div class="flex items-center gap-2">
               <img :src="walletPoolsImg" width="18" />
               <img :src="getTokenEntity('USDC', 'short').icon" width="18" />
             </div>
             <div class="text-success">+0.59%</div>
           </div>
           <div class="d-flex justify-content-end mt-4">
-            <ChartTimeline :currentTimeline="currentTimeline" :timelines="timelines" @changeTimeline="changeTimeline" />
+            <ChartTimeline
+              :currentTimeline="currentTimeline"
+              :timelines="timelines"
+              @changeTimeline="changeTimeline"
+            />
           </div>
           <div>
-            <apexchart type="area" height="350" :options="chartOptions" :series="series"></apexchart>
+            <apexchart
+              type="area"
+              height="350"
+              :options="chartOptions"
+              :series="series"
+            ></apexchart>
           </div>
         </div>
       </div>
 
-      <div style="
+      <div
+        style="
           color: white;
           font-size: clamp(24px, 0.8vw, 40px);
           font-weight: 700;
-        " class="my-5">
+        "
+        class="my-5"
+      >
         Private Pool Network Token
       </div>
       <div class="d-flex gap-5">
         <div class="buy_balance_container">
           <div style="font-size: clamp(16px, 0.8vw, 22px)">$PPN Token</div>
           <div class="d-flex justify-content-between mt-3">
-
             <div class="d-flex justify-content-between w-100 gap-3">
               <div>
-                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                <div class="text-[10px] text-[#b7bdc6] flex items-center gap-1">
                   PPN Price
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
                       d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C" />
+                      fill="#848E9C"
+                    />
                   </svg>
                 </div>
                 <div style="font-size: clamp(16px, 0.8vw, 22px)">$65.62</div>
               </div>
 
               <div>
-                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
-                  Market Cap <svg width="12" height="12" viewBox="0 0 16 16" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
+                <div class="text-[10px] text-[#b7bdc6] flex items-center gap-1">
+                  Market Cap
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
                       d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C" />
+                      fill="#848E9C"
+                    />
                   </svg>
                 </div>
                 <div style="font-size: clamp(16px, 0.8vw, 22px)">
@@ -177,24 +312,42 @@
               </div>
 
               <div>
-                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                <div class="text-[10px] text-[#b7bdc6] flex items-center gap-1">
                   Volume
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
                       d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C" />
+                      fill="#848E9C"
+                    />
                   </svg>
                 </div>
                 <div style="font-size: clamp(16px, 0.8vw, 22px)">A$85.66B</div>
               </div>
 
               <div>
-                <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
+                <div class="text-[10px] text-[#b7bdc6] flex items-center gap-1">
                   Circulation Supply
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
                       d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C" />
+                      fill="#848E9C"
+                    />
                   </svg>
                 </div>
                 <div style="font-size: clamp(16px, 0.8vw, 22px)">19.65M</div>
@@ -229,14 +382,20 @@ import ChartTimeline from '@/UI/ChartTimeline.vue'
 import HowToBuyPPNTokens from '@/components/Buy/HowToBuyPPNTokens.vue'
 import useBalance from '@/composables/useBalance'
 import useDecimals from '@/composables/useDecimals'
-import { Token } from "@uniswap/sdk-core";
-import { GetCLPoolInfo, quoteCL, SwapCLTokens } from "@/composables/poolActions/swap/cl/swap"
-import { useUniswapPPNHistory } from "@/composables/concentrated-liquidity/useUniswapPPNHistory"
+import { Token } from '@uniswap/sdk-core'
+import {
+  GetCLPoolInfo,
+  quoteCL,
+  SwapCLTokens,
+} from '@/composables/poolActions/swap/cl/swap'
+import { useUniswapPPNHistory } from '@/composables/concentrated-liquidity/useUniswapPPNHistory'
+import Modal from '@/UI/Modal.vue'
+
 const tokenPPN = ref({
-  address: "0x0cfa47331af179f9b932ae87f447f675a2b500d1",
-  symbol: "PPN",
+  address: '0x0cfa47331af179f9b932ae87f447f675a2b500d1',
+  symbol: 'PPN',
   balance: 0,
-  decimals: 18
+  decimals: 18,
 })
 // const tokenPPN = ref({
 //   address: "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
@@ -245,15 +404,32 @@ const tokenPPN = ref({
 //   decimals: 18
 // })
 const tokenCurrency = ref({
-  address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
-  symbol: "WBNB",
+  address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+  symbol: 'WBNB',
   balance: 0,
   decimals: 18,
 })
 
-const convertedTokenPPN = computed(() => new Token(56, tokenPPN.value.address, tokenPPN.value.decimals, tokenPPN.value.symbol, tokenPPN.value.symbol))
-const convertedTokenCurrency = computed(() => new Token(56, tokenCurrency.value.address, tokenCurrency.value.decimals, tokenCurrency.value.symbol, tokenCurrency.value.symbol))
-
+const convertedTokenPPN = computed(
+  () =>
+    new Token(
+      56,
+      tokenPPN.value.address,
+      tokenPPN.value.decimals,
+      tokenPPN.value.symbol,
+      tokenPPN.value.symbol,
+    ),
+)
+const convertedTokenCurrency = computed(
+  () =>
+    new Token(
+      56,
+      tokenCurrency.value.address,
+      tokenCurrency.value.decimals,
+      tokenCurrency.value.symbol,
+      tokenCurrency.value.symbol,
+    ),
+)
 
 const token0Amount = ref(0)
 const token1Amount = ref(0)
@@ -285,7 +461,9 @@ function changeTimeline(tl) {
 const series = computed(() => [
   {
     name: 'series1',
-    data: chartData.value ? chartData.value[currentTimeline.value.name].data : [],
+    data: chartData.value
+      ? chartData.value[currentTimeline.value.name].data
+      : [],
   },
 ])
 
@@ -304,7 +482,9 @@ const chartOptions = computed(() => ({
   },
   xaxis: {
     type: 'category',
-    categories: chartData.value ? chartData.value[currentTimeline.value.name].dates : [],
+    categories: chartData.value
+      ? chartData.value[currentTimeline.value.name].dates
+      : [],
     labels: {
       show: true,
 
@@ -379,11 +559,13 @@ const selectedTab = ref('Buy')
 // }
 
 const tokenSelectModal = ref(false)
+function tokenSelectModalClose() {
+  tokenSelectModal.value = false
+}
 function tokenSelectModalOpen() {
-  tokenSelectModal.value = !tokenSelectModal.value
+  tokenSelectModal.value = true
 }
 const notSelectedPossibleComposeTokens = ref([])
-
 
 const address = ref(null)
 
@@ -392,7 +574,10 @@ onMounted(async () => {
   if (provider) {
     const signer = provider.getSigner()
     address.value = await signer.getAddress()
-    const [balance0, balance1] = await Promise.all([useBalance(tokenPPN.value.address, provider, address.value), useBalance(tokenCurrency.value.address, provider, address.value)])
+    const [balance0, balance1] = await Promise.all([
+      useBalance(tokenPPN.value.address, provider, address.value),
+      useBalance(tokenCurrency.value.address, provider, address.value),
+    ])
     tokenPPN.value.balance = parseFloat(balance0)
     tokenCurrency.value.balance = parseFloat(balance1)
     const [decimals1, decimals2] = await Promise.all([
@@ -401,19 +586,28 @@ onMounted(async () => {
     ])
     tokenPPN.value.decimals = decimals1
     tokenCurrency.value.decimals = decimals2
-    poolInfo.value = await GetCLPoolInfo(convertedTokenPPN.value, convertedTokenCurrency.value, 500, signer)
+    poolInfo.value = await GetCLPoolInfo(
+      convertedTokenPPN.value,
+      convertedTokenCurrency.value,
+      500,
+      signer,
+    )
   }
   chartData.value = await useUniswapPPNHistory(56)
-  console.log("DATA - ", chartData.value)
+  console.log('DATA - ', chartData.value)
 })
 
-
 async function buyClick() {
-
   const provider = await InitializeMetamask()
   if (provider) {
-
-    await SwapCLTokens(convertedTokenPPN.value, convertedTokenCurrency.value, poolInfo.value, selectedTab.value == "Buy" ? token0Amount.value : token1Amount.value, provider.getSigner(), selectedTab.value == "Buy" ? "in" : "out")
+    await SwapCLTokens(
+      convertedTokenPPN.value,
+      convertedTokenCurrency.value,
+      poolInfo.value,
+      selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
+      provider.getSigner(),
+      selectedTab.value == 'Buy' ? 'in' : 'out',
+    )
   }
 }
 
@@ -434,17 +628,28 @@ async function onToken0Blur() {
   if (token0InitialAmount.value == token0Amount.value) {
     return
   }
-  const secondAmount = await quoteCL(convertedTokenPPN.value, convertedTokenCurrency.value, poolInfo.value, token0Amount.value, "in")
+  const secondAmount = await quoteCL(
+    convertedTokenPPN.value,
+    convertedTokenCurrency.value,
+    poolInfo.value,
+    token0Amount.value,
+    'in',
+  )
   token1Amount.value = secondAmount
 }
 async function onToken1Blur() {
   if (token1InitialAmount.value == token1Amount.value) {
     return
   }
-  const secondAmount = await quoteCL(convertedTokenPPN.value, convertedTokenCurrency.value, poolInfo.value, token1Amount.value, "out")
+  const secondAmount = await quoteCL(
+    convertedTokenPPN.value,
+    convertedTokenCurrency.value,
+    poolInfo.value,
+    token1Amount.value,
+    'out',
+  )
   token0Amount.value = secondAmount
 }
-
 </script>
 <style lang="scss" scoped>
 @import '../styles/_variables.scss';
