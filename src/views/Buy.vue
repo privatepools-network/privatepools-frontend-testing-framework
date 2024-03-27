@@ -462,6 +462,7 @@ const notSelectedPossibleComposeTokens = ref([])
 
 
 const address = ref(null)
+
 onMounted(async () => {
   const provider = await InitializeMetamask()
   if (provider) {

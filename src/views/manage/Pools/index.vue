@@ -1,155 +1,32 @@
 <template>
   <MainCard>
-    <!-- <div class="mb-4">
-      <ChainSelector @updateChain="(newChain) => (chainSelected = newChain)" />
-    </div> -->
-    <CRow class="caption-row">
-      <Title :title="caption" style="margin-bottom: 0 !important"></Title>
-    </CRow>
-    <CRow>
-      <!-- <div class="d-flex justify-content-between mt-3 flex-wrap">
-        <div v-if="width <= 768" @click="onClick" class="button">
-          Compose Pool
-        </div>
-      </div> -->
-      <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
-        <div class="d-flex align-items-center gap-3">
-          <div v-click-away="onClickAway">
-            <div class="filter_button" style="width: 140px" :style="selectTokenDropdownOpen === true
-        ? 'border-radius: 16px 16px 0px 0px;'
-        : ''
-        " @click="selectTokenDropdownOpen = !selectTokenDropdownOpen">
-              <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M11.005 0.00292969C17.08 0.00292969 22.005 2.68893 22.005 6.00293V10.0029C22.005 13.3169 17.08 16.0029 11.005 16.0029C5.038 16.0029 0.181005 13.4119 0.0100049 10.1799L0.00500488 10.0029V6.00293C0.00500488 2.68893 4.93001 0.00292969 11.005 0.00292969ZM11.005 12.0029C7.285 12.0029 3.995 10.9949 2.005 9.45293V10.0029C2.005 11.8849 5.888 14.0029 11.005 14.0029C16.015 14.0029 19.843 11.9729 20 10.1209L20.005 10.0029L20.006 9.45293C18.016 10.9949 14.726 12.0029 11.005 12.0029ZM11.005 2.00293C5.888 2.00293 2.005 4.12093 2.005 6.00293C2.005 7.88493 5.888 10.0029 11.005 10.0029C16.122 10.0029 20.005 7.88493 20.005 6.00293C20.005 4.12093 16.122 2.00293 11.005 2.00293Z"
-                  fill="#F8F8F8" />
-              </svg>
-              Select token
-            </div>
-            <div v-if="selectTokenDropdownOpen === true" class="select_token_dropdown">
-              <div v-for="(item, i) in optionsTokens" :key="`${i}-tokens-search`">
-                <div @click="item.selected = !item.selected"
-                  class="select_token_dropdown_text d-flex justify-content-between align-items-center">
-                  <div>
-                    <img :src="getTokenEntity(item.code, 'short').icon" width="17" />
-                    {{ item.name }}
-                  </div>
-                  <div>
-                    <div :class="item.selected === true
-        ? 'checkbox_custom_selected'
-        : 'checkbox_custom'
-        ">
-                      <svg v-if="item.selected === true" xmlns="http://www.w3.org/2000/svg" width="8" height="8"
-                        viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" style="margin-top: -11px">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-click-away="onClickAwayFilters">
-            <div class="filter_button" style="width: 140px" :style="moreFiltersDropdownOpen === true
-        ? 'border-radius: 16px 16px 0px 0px;'
-        : ''
-        " @click="moreFiltersDropdownOpen = !moreFiltersDropdownOpen">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14.6666 2H1.33331L6.66665 8.30667V12.6667L9.33331 14V8.30667L14.6666 2Z" stroke="white"
-                  stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
+    <Title :title="'Private Pools'" />
 
-              More filters
-            </div>
-            <div v-if="moreFiltersDropdownOpen === true" class="select_token_dropdown">
-              <div style="font-size: 13px; font-weight: 700; color: white">
-                Pool Type
-              </div>
-              <div v-for="(item, i) in optionsPoolType" :key="`${i}-pooltype-search`">
-                <div @click="item.selected = !item.selected"
-                  class="select_token_dropdown_text d-flex justify-content-between align-items-center">
-                  <div>
-                    {{ item.name }}
-                  </div>
-                  <div>
-                    <div :class="item.selected === true
-        ? 'checkbox_custom_selected'
-        : 'checkbox_custom'
-        ">
-                      <svg v-if="item.selected === true" xmlns="http://www.w3.org/2000/svg" width="8" height="8"
-                        viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" style="margin-top: -11px">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div style="font-size: 13px; font-weight: 700; color: white">
-                Pool attributes
-              </div>
-              <div v-for="(item, i) in optionsPoolAttribute" :key="`${i}-pooltype-search`">
-                <div @click="item.selected = !item.selected"
-                  class="select_token_dropdown_text d-flex justify-content-between align-items-center">
-                  <div>
-                    {{ item.name }}
-                  </div>
-                  <div>
-                    <div :class="item.selected === true
-        ? 'checkbox_custom_selected'
-        : 'checkbox_custom'
-        ">
-                      <svg v-if="item.selected === true" xmlns="http://www.w3.org/2000/svg" width="8" height="8"
-                        viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" style="margin-top: -11px">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
+      <!-- <PoolFilters
+        :hidePools="hidePools"
+        :optionsPoolType="optionsPoolType"
+        :optionsPoolAttribute="optionsPoolAttribute"
+        :optionsTokens="optionsTokens"
+      /> -->
+      <ComposePoolDropdown />
+    </div>
 
-          <!-- <div class="d-flex align-items-center gap-2">
-            <div style="cursor: pointer; height: 30px">
-              <CFormSwitch size="lg" v-model="hidePools" id="hidePools" />
-            </div>
-            <div class="text-white" style="font-size: clamp(12px, 0.8vw, 16px)">
-              Staked only
-            </div>
-          </div> -->
-        </div>
-        <div class="manage-pools-filters">
-          <div v-if="width > 768">
-            <div class="button d-flex align-items-center justify-content-evenly gap-2" :style="composePoolDropdownOpen === true
-        ? 'border-radius: 8px 8px 0px 0px;'
-        : ''
-        " @click="composePoolDropdownOpen = !composePoolDropdownOpen">
-              Compose Pool
-              <svg :style="composePoolDropdownOpen ? 'transform: rotate(180deg)' : ''
-        " width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M8.22502 5.74172L4.99166 2.50836L1.75832 5.74172C1.43332 6.06672 0.908323 6.06672 0.583323 5.74172C0.258324 5.41672 0.258324 4.89169 0.583323 4.56669L4.40832 0.74169C4.73332 0.41669 5.25832 0.41669 5.58332 0.74169L9.40835 4.56669C9.73335 4.89169 9.73335 5.41672 9.40835 5.74172C9.08335 6.05839 8.55002 6.06672 8.22502 5.74172Z"
-                  fill="#00C9FF" />
-              </svg>
-            </div>
-            <div v-if="composePoolDropdownOpen === true" class="compose_pool_dropdown">
-              <div @click="onClickConcentratedPool" class="compose_pool_dropdown_text">
-                CL Pools
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 2.5V9.5" stroke="#F8F8F8" stroke-width="2" stroke-linecap="round" />
-                  <path d="M2.5 6H9.5" stroke="#F8F8F8" stroke-width="2" stroke-linecap="round" />
-                </svg>
+    <div class="pools-rows">
+      <div class="pools-row pools-row_header">
+        <div class="pools-row__col" :class="
+      // Table headers positioning by header names
+      headCaption === 'Composition' || headCaption === 'Tokens'
+        ? 'justify-content-start'
+        : 'justify-content-center'
+      " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
+          <div class="file-table-header-cell">
+            <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+              style="cursor: pointer; height: 20px">
+              <div :class="'head_caption_text'">
+                {{ headCaption }}
               </div>
-              <div @click="onClick" class="compose_pool_dropdown_text">
-                Weighted Pools
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 2.5V9.5" stroke="#F8F8F8" stroke-width="2" stroke-linecap="round" />
-                  <path d="M2.5 6H9.5" stroke="#F8F8F8" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </div>
+
             </div>
           </div>
         </div>
@@ -218,55 +95,17 @@
                   </svg>
                 </div>
 
-                <div @click="onDatatableHeaderClick(headCaption)" :class="'head_caption_text'">
-                  {{ headCaption }}
-                </div>
-                <div @click="
-        $emit('table-header-click', headCaption, headCaptionIndex)
-        " style="font-family: Inter; font-weight: 700; width: 20px" v-if="(sortedHeader && sortedHeader.caption == 'Time') ||
-        (headCaptionIndex != 0 &&
-          sortedHeader &&
-          sortedHeader.caption)
-        ">
-                  {{
-        sortedHeader &&
-          sortedHeader.caption &&
-          sortedHeader.caption == headCaption
-          ? sortSymbol
-          : ''
-      }}
-                </div>
+      <div v-if="all_pools.length === 0" class="my-5">
+        <LoaderPulse />
+      </div>
+      <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
+        :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
+        @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL" :isActions="true" />
 
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- <div
-          v-if="poolsNoResult"
-          style="
-            display: flex;
-            justify-content: center;
-            margin-top: 20%;
-            margin-bottom: 20%;
-          "
-        >
-          <LoaderPulse />
-        </div>
-        <div v-else-if="pools.length === 0" class="no_results">No results.</div> -->
-        <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :poolsLength="filterByStatus.length"
-          :perPage="perPage" :key="pool.name" :pool="pool" :inactive="isPoolInactive(pool)" :index="index"
-          @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
-          @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL" :isActions="true" />
-
-        <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more">
-          Load More
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 4.58331V17.4166" stroke="#7D7D7D" stroke-width="1.33333" stroke-linecap="round"
-              stroke-linejoin="round" />
-            <path d="M17.4167 11L11 17.4167L4.58334 11" stroke="#7D7D7D" stroke-width="1.33333" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
-        </div>
+      {{ console.log('all_pools', all_pools) }}
+      <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more">
+        Load More
+        <!-- <img :src="arrow_bottom" /> -->
       </div>
 
       <!-- <Pagination
@@ -285,7 +124,7 @@
 <script setup>
 import { computed, ref, onMounted, watch } from 'vue'
 import router from '@/router'
-import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
+import ComposePoolDropdown from '@/components/Pool/ComposePoolDropdown.vue'
 import { useRoute } from 'vue-router'
 import { GetPools } from '@/composables/pools/usePools.js'
 import {
@@ -916,401 +755,6 @@ function filterPoolAmount() {
       justify-content: space-between;
     }
   }
-}
-
-#manage-pools-filters__el {
-  .multiselect {
-    min-height: 35.5px;
-
-    @media (max-width: $xxl) {
-      min-height: 24px !important;
-    }
-  }
-
-  .multiselect__placeholder {
-    color: rgba(255, 255, 255, 0.61) !important;
-    font-size: 13px !important;
-    margin-bottom: 0 !important;
-    line-height: 19.5px !important;
-
-    @media (max-width: $xxl) {
-      font-size: 10px !important;
-      line-height: normal !important;
-    }
-  }
-
-  .multiselect__tags {
-    padding: 5px 40px 7px 13px !important;
-    border-radius: 20px !important;
-    border: 1px solid #00c9ff !important;
-    background: transparent !important;
-    color: #fff !important;
-    min-width: 170px !important;
-    height: 35.5px !important;
-    min-height: 35.5px !important;
-
-    @media (max-width: $xxl) {
-      min-height: 24px !important;
-      padding: 0px 10px 5px 10px !important;
-      min-width: 190px;
-      height: 24px !important;
-    }
-  }
-
-  .multiselect__select {
-    @media (max-width: $xxl) {
-      width: 24px;
-      height: 28px;
-    }
-  }
-
-  .multiselect--active {
-    .multiselect__tags {
-      border-radius: 20px 20px 0 0 !important;
-    }
-  }
-
-  .multiselect__content-wrapper {
-    border-radius: 0 0 20px 20px !important;
-    border: 1px solid #00c9ff !important;
-    border-top: none !important;
-    background: #02120a !important;
-  }
-
-  .multiselect__option {
-    color: #a3a4a5 !important;
-    background: #02120a !important;
-
-    &:hover {
-      color: #00c9ff !important;
-      background: lighten(#02120a, 0.7) !important;
-    }
-  }
-
-  .multiselect__single {
-    background: #02120a !important;
-    margin-bottom: 0 !important;
-  }
-}
-
-.manage-pools {
-  &-filters {
-    display: flex;
-    align-items: end;
-    gap: 16px;
-
-    @media all and (max-width: 767px) {
-      width: 100%;
-      margin-top: 20px;
-      align-items: flex-start;
-    }
-
-    &__title {
-      font-size: 12px;
-      font-weight: 700;
-      font-family: Poppins;
-      color: #fff;
-
-      @media (max-width: $xxl) {
-        font-size: 10px;
-      }
-    }
-
-    &__input {
-      border-radius: 8px;
-      border: 1px solid #1f1f1f;
-      background: #1f1f1f;
-      padding: 0 13px;
-      min-height: 35.5px;
-      font-size: 13px;
-      line-height: 24px;
-      // background: transparent;
-      color: #fff;
-      outline: none;
-
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.61);
-      }
-
-      @media (max-width: $xxl) {
-        min-height: 24px;
-        font-size: 10px;
-      }
-    }
-  }
-
-  &__warning {
-    position: absolute;
-    width: 660px;
-    height: 300px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-</style>
-
-<style lang="scss" scoped>
-@import '@/styles/_variables.scss';
-
-.button {
-  border-radius: 16px;
-  border: 1px solid #2abdff;
-  box-shadow: 0px 0px 4.600000381469727px 0px #00affe;
-  width: 143px;
-  color: white;
-  font-weight: 600;
-  padding: 7px 13px;
-  font-size: 12px;
-  display: inline-block;
-  cursor: pointer;
-
-  @media (max-width: 1400px) {
-    // padding: 4px 10px;
-    // font-size: 10px;
-    // font-weight: 400;
-    // min-height: 25.33px;
-  }
-
-  @media (max-width: 768px) {
-    // padding: 6px 12px;
-    // // color: rgba(126, 246, 178, 1);
-    // font-family: Segoe UI;
-    // font-size: 12px;
-    // font-weight: 600;
-    // line-height: 19px;
-    // letter-spacing: 0em;
-  }
-}
-
-.view-mode__active {
-  path {
-    fill: #00c9ff;
-  }
-}
-
-.positive {
-  color: #17eb5f !important;
-}
-
-.negative {
-  color: #feb2b2 !important;
-}
-
-.filter_button__active {
-  stroke: #ffffff !important;
-}
-
-.caption-row {
-  justify-content: space-between;
-
-  .caption {
-    font-family: Inter;
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 32px;
-
-    color: #ffffff;
-  }
-
-  .button {
-    width: fit-content;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 19px;
-    letter-spacing: 0em;
-    color: #ffffff;
-    text-wrap: nowrap;
-
-    background: transparent;
-
-    padding-left: 16px;
-    padding-right: 16px;
-    height: 40px;
-
-    border: 1px #00c9ff solid;
-    border-radius: 10px;
-  }
-}
-
-:deep(.tag_close:hover) {
-  color: rgb(255, 146, 146);
-  cursor: pointer;
-}
-
-.dp__theme_dark {
-  --dp-background-color: rgba(15, 17, 19, 1);
-  --dp-primary-color: #00c9ff;
-  --dp-highlight-color: #00c8ff42;
-}
-
-.dp__input {
-  min-height: 41.5px;
-  min-width: 265px !important;
-  max-width: 265px !important;
-}
-
-.filters_container {
-  display: flex;
-  align-items: flex-start;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-:deep(.multiselect__tags) {
-  background: none !important;
-  border-color: rgba(0, 0, 0, 0) !important;
-  padding: 8px 20px 0 8px !important;
-}
-
-:deep(.multiselect__content-wrapper) {
-  border-color: #00c9ff !important;
-  border-top: 1px solid;
-  width: 190px;
-  right: 0px;
-
-  @media (max-width: $md) {
-    border-radius: 20px;
-  }
-}
-
-.multiselect__single {
-  background: none !important;
-  color: white !important;
-}
-
-.multiselect__option {
-  background: rgb(15, 17, 19) !important;
-  color: white !important;
-}
-
-:deep(.multiselect__option:hover) {
-  background: rgba(1, 180, 126, 0.884) !important;
-}
-
-:deep(.multiselect__option--selected) {
-  color: #00c9ff !important;
-}
-
-:deep(.multiselect__option--selected:hover) {
-  color: rgb(229, 83, 83) !important;
-  background: rgb(15, 17, 19) !important;
-}
-
-.no_results {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-top: 20%;
-  margin-bottom: 20%;
-  font-family: Poppins;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 25px;
-  color: rgb(255 255 255 / 95%);
-}
-
-.compose_pool_dropdown {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 100;
-  position: absolute;
-  background: black;
-  padding: 11.5px;
-  font-family: Segoe UI;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 19px;
-  letter-spacing: 0em;
-  color: #ffffff;
-  border-radius: 0px 0px 8px 8px;
-  border: 1px solid #2abdff;
-  box-shadow: 0px 0px 4.600000381469727px 0px #00affe;
-
-  &_text {
-    &:hover {
-      color: #00c9ff;
-      cursor: pointer;
-    }
-  }
-}
-
-.select_token_dropdown {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 100;
-  position: absolute;
-  background: black;
-  padding: 11.5px;
-  width: 140px;
-  height: 160px;
-  overflow-y: auto;
-  font-family: Segoe UI;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 19px;
-  letter-spacing: 0em;
-  color: #ffffff;
-  border-radius: 0px 0px 16px 16px;
-  border: 1px solid #3737374a;
-  box-shadow: 0px 4px 4px 0px #15151540;
-
-  &_text {
-    &:hover {
-      color: #00c9ff;
-      cursor: pointer;
-    }
-  }
-}
-
-/* Scrollbar */
-.select_token_dropdown::-webkit-scrollbar {
-  height: 0px;
-  width: 4px;
-}
-
-.select_token_dropdown::-webkit-scrollbar {
-  background: transparent;
-}
-
-.select_token_dropdown::-webkit-scrollbar-thumb {
-  background-color: #2abdff9e;
-  border-radius: 8px;
-}
-
-.checkbox_custom {
-  width: 10px;
-  height: 10px;
-  border: 1px solid #1f1f1f;
-}
-
-.checkbox_custom_selected {
-  width: 10px;
-  height: 10px;
-  border: 1px solid #1f1f1f;
-  background: #00affe;
-}
-
-.filter_button {
-  background: linear-gradient(0deg, #090909, #090909),
-    linear-gradient(0deg, rgba(55, 55, 55, 0.29), rgba(55, 55, 55, 0.29));
-  border-radius: 16px;
-  border: 1px solid #3737374a;
-  box-shadow: 0px 4px 4px 0px #15151540;
-  cursor: pointer;
-  padding: 8px 12px;
-  color: white;
-  font-family: Inter;
-  font-size: 14px;
-  font-weight: 400;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .load_more {
