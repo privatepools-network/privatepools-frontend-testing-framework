@@ -1,7 +1,7 @@
 <template>
   <div :class="`pools-row__wrapper${inactive ? '__inactive' : ''}`">
     <div
-      class="pools-row"
+      class="pools-row hover:!bg-[#66c5ff3d] dark:hover:!bg-[#2b2b2b1d]"
       @click="isActions ? (visibleDetails = !visibleDetails) : false"
     >
       <div
@@ -255,13 +255,8 @@
               <div
                 class="actions_button text-black dark:!text-white"
                 @click="
-                  pool['LiquidityType'] === 'CL'
-                    ? router.push('/pools/concentrated_pool/add/withdraw')
-                    : $emit('goToPoolDeposit', {
-                        index,
-                        onMountedActivity: 'deposit',
-                      })
-                "
+              $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })
+            "
               >
                 {{
                   pool['LiquidityType'] === 'CL'
@@ -415,7 +410,7 @@ const visibleDetails = ref(false)
     display: flex;
     align-items: center;
     padding: 24px 32px;
-    border-bottom: 1px solid rgba(49, 56, 61, 0.81);
+    border-bottom: 1px solid rgba(49, 56, 61, 0.568);
     cursor: pointer;
 
     @media all and (max-width: $lg) {
@@ -427,11 +422,11 @@ const visibleDetails = ref(false)
     }
 
     &:hover {
-      background: linear-gradient(
-        0deg,
-        rgba(43, 43, 43, 0.33),
-        rgba(43, 43, 43, 0.115)
-      );
+      // background: linear-gradient(
+      //   0deg,
+      //   rgba(43, 43, 43, 0.33),
+      //   rgba(43, 43, 43, 0.115)
+      // );
     }
 
     &__col {
@@ -533,11 +528,11 @@ const visibleDetails = ref(false)
     display: flex;
     align-items: center;
     padding: 24px 32px;
-    background: linear-gradient(
-      0deg,
-      rgba(43, 43, 43, 33%),
-      rgba(43, 43, 43, 11.5%)
-    );
+    // background: linear-gradient(
+    //   0deg,
+    //   rgba(43, 43, 43, 33%),
+    //   rgba(43, 43, 43, 11.5%)
+    // );
     justify-content: space-between;
     border-bottom: 1px solid rgba(49, 56, 61, 0.81);
     color: #fff;

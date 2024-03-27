@@ -3,12 +3,12 @@
     <Title :title="'Private Pools'" />
 
     <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
-      <!-- <PoolFilters
+      <PoolFilters
         :hidePools="hidePools"
         :optionsPoolType="optionsPoolType"
         :optionsPoolAttribute="optionsPoolAttribute"
         :optionsTokens="optionsTokens"
-      /> -->
+      />
       <ComposePoolDropdown />
     </div>
 
@@ -40,9 +40,12 @@
         @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL" :isActions="true" />
 
       {{ console.log('all_pools', all_pools) }}
-      <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more">
+      <div
+        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more text-black dark:!text-white"
+      >
         Load More
-        <!-- <img :src="arrow_bottom" /> -->
+        <img :src="arrow_bottom" />
       </div>
     </div>
   </MainCard>
@@ -78,6 +81,10 @@ import { isTimestampWithinLast7Days } from '@/lib/utils'
 import { useUniswapTvlSnapshots } from '@/composables/concentrated-liquidity/useUniswapTvlSnapshots'
 import { CalculateCLAPR } from '@/composables/math/chartMath/trackingInfoMath'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
+import PoolFilters from '@/components/Pool/PoolFilters.vue'
+import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
+
+
 
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 
@@ -389,9 +396,9 @@ const all_pools = computed(() => {
     padding: 0;
     border-radius: 16px;
     border: 1px solid #ffffff0d;
-    background: linear-gradient(0deg,
-        rgba(255, 255, 255, 2%),
-        rgba(255, 255, 255, 0%));
+    // background: linear-gradient(0deg,
+    //     rgba(255, 255, 255, 2%),
+    //     rgba(255, 255, 255, 0%));
     box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
     margin-bottom: 30px;
 
@@ -411,7 +418,7 @@ const all_pools = computed(() => {
   line-height: 24px;
   letter-spacing: 0em;
   text-align: center;
-  color: #7d7d7d;
+  // color: #7d7d7d;
   padding: 15px;
   border-top: 1px solid #7d7d7d2d;
 

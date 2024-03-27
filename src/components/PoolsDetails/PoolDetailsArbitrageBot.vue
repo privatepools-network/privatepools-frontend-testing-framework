@@ -12,6 +12,7 @@
             color: white;
           "
           v-if="pool && pool.tokens"
+          class="flex items-center "
         >
           <img
             class="pair_avatars_manage_pool pair_avatars_active"
@@ -41,7 +42,7 @@
             class="d-flex align-items-center gap-2"
             style="
               margin-left: -20px;
-              width: clamp(10px, 0.8vw, clamp(10px, 0.8vw, 14px));
+              width: clamp(10px, 0.8vw, 14px);
             "
           >
             <div>
@@ -92,7 +93,7 @@
                   />
                 </div>
                 <div
-                  style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)"
+                  style="color: white; font-weight: 800; "
                 >
                   <CurrencySymbol :symbol="currencySelected.symbol" />{{
                     numberToAposthrophe(
@@ -159,7 +160,7 @@
                   style="
                     font-family: Inter;
                     font-weight: 400;
-                    font-size: clamp(10px, 0.8vw, clamp(10px, 0.8vw, 14px));
+                    font-size: clamp(10px, 0.8vw, 14px);
                     font-size: clamp(10px, 0.9vw, 16px);
                   "
                 >
@@ -167,7 +168,7 @@
                 </div>
                 <div
                   v-if="pool && historical_tvl.length > 0"
-                  style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)"
+                  style="color: white; font-weight: 800; "
                 >
                   {{ poolApr['Total'].toFixed(2) }}%
                 </div>
@@ -274,14 +275,14 @@
                   style="
                     font-family: Inter;
                     font-weight: 400;
-                    font-size: clamp(10px, 0.8vw, clamp(10px, 0.8vw, 14px));
+                    font-size: clamp(10px, 0.8vw, 14px);
                     font-size: clamp(10px, 0.9vw, 16px);
                   "
                 >
                   Pool Volume
                 </div>
                 <div
-                  style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)"
+                  style="color: white; font-weight: 800;"
                   v-if="swapsData.length > 0"
                 >
                   <CurrencySymbol :symbol="currencySelected.symbol" />{{
@@ -380,7 +381,7 @@
                 style="
                   font-family: Inter;
                   font-weight: 400;
-                  font-size: clamp(10px, 0.8vw, clamp(10px, 0.8vw, 14px));
+                  font-size: clamp(10px, 0.8vw, 14px);
                   font-size: clamp(10px, 0.9vw, 16px);
                 "
               >
@@ -388,7 +389,7 @@
               </div>
               <div
                 v-if="pool"
-                style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)"
+                style="color: white; font-weight: 800;"
               >
                 <CurrencySymbol :symbol="currencySelected.symbol" />{{
                   numberToAposthrophe(pool.lpPrice, currencyDecimals || 2)
@@ -405,7 +406,7 @@
                 style="
                   font-family: Inter;
                   font-weight: 400;
-                  font-size: clamp(10px, 0.8vw, clamp(10px, 0.8vw, 14px));
+                  font-size: clamp(10px, 0.8vw, 14px);
                   font-size: clamp(10px, 0.9vw, 16px);
                 "
               >
@@ -413,7 +414,7 @@
               </div>
               <div
                 v-if="pool"
-                style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)"
+                style="color: white; font-weight: 800; "
               >
                 <CurrencySymbol :symbol="currencySelected.symbol" />{{
                   numberToAposthrophe(0)

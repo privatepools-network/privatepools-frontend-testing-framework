@@ -320,9 +320,9 @@
       display: flex;
       align-items: center;
       padding: 24px 32px;
-      background: linear-gradient(0deg,
-          rgba(43, 43, 43, 33%),
-          rgba(43, 43, 43, 11.5%));
+      // background: linear-gradient(0deg,
+      //     rgba(43, 43, 43, 33%),
+      //     rgba(43, 43, 43, 11.5%));
       justify-content: space-between;
       border-bottom: 1px solid rgba(49, 56, 61, 0.81);
       color: #fff;

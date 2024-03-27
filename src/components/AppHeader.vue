@@ -785,7 +785,7 @@ const computedAddress = computed(() =>
   // background: linear-gradient(0deg, #090909, #090909),
   //   linear-gradient(0deg, rgba(115, 115, 115, 0.06), rgba(115, 115, 115, 0.06));
   // background: #171717;
-  border: 1px solid #222222c9;
+  // border: 1px solid #222222c9;
   border-radius: 16px;
   width: 500px;
 
@@ -814,7 +814,7 @@ const computedAddress = computed(() =>
 
 .vue-input input {
   background: transparent;
-  color: white;
+  // color: white;
 }
 
 .vue-dropdown {

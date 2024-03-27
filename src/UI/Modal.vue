@@ -6,6 +6,7 @@
     <div
       ref="modalRef"
       class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
+      style="backdrop-filter: blur(5px);"
       tabindex="0"
       @click.self="clickOutside"
       @keyup.esc="closeWithEsc"
@@ -17,7 +18,7 @@
        
       >
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:!bg-[#141414]">
+        <div class="relative bg-white rounded-lg shadow dark:!bg-[#141414] z-50">
           <!-- Modal header -->
           <div
             :class="
