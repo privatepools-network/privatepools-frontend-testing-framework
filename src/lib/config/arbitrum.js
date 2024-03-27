@@ -104,7 +104,7 @@ export default {
       symbol: 'MAGIC',
       decimals: 18,
       address: '0x539bdE0d7Dbd336b79148AA742883198BBF60342',
-      logoURI: './images/tokens/MAGIC.png',
+      logoURI: './images/tokens/magic.png',
       apiId: 'MAGIC',
     },
     gmx: {
