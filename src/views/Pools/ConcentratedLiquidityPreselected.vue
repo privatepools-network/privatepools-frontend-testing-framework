@@ -516,6 +516,7 @@ import { usePool30dProfit } from '@/composables/pools/usePoolSwapsStats'
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import erc20abi from '@/lib/abi/ERC20.json'
 import router from '@/router'
+import { getTokenEntity } from '@/lib/helpers/util'
 import { checkErc20 } from '@/composables/poolActions/compose/usePossibleComposeTokens'
 const route = useRoute()
 const concentratedLiquidityStep = ref(1)
@@ -524,12 +525,12 @@ const tokenSelectModal = ref(false)
 const pairIndex = ref(1)
 
 const pairToken1 = ref({
-  img: DAIimg,
+  img: "",
   symbol: 'DAI',
 })
 
 const pairToken2 = ref({
-  img: DOGEimg,
+  img: "",
   symbol: 'DOGE',
 })
 const feeAmount = computed(() => FEE_AMOUNTS[feeTier.value])

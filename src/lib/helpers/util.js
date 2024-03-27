@@ -37,25 +37,24 @@ export function JsTimeToDate(time) {
 }
 
 export function getTimeDifferenceFormatted(pastTime) {
-  const now = moment();
-  const past = moment(pastTime);
-  const diff = moment.duration(now.diff(past));
+  const now = moment()
+  const past = moment(pastTime)
+  const diff = moment.duration(now.diff(past))
 
-  const days = diff.days();
-  const hours = diff.hours();
-  const minutes = diff.minutes();
-  const seconds = diff.seconds();
+  const days = diff.days()
+  const hours = diff.hours()
+  const minutes = diff.minutes()
+  const seconds = diff.seconds()
 
   // Building the string conditionally to avoid showing "0 days" or "0 hours"
-  let result = "";
-  if (days > 0) result += `${days}d `;
-  if (hours > 0) result += `${hours}h `;
-  if (minutes > 0) result += `${minutes}mins `;
-  result += `${seconds}secs ago`;
+  let result = ''
+  if (days > 0) result += `${days}d `
+  if (hours > 0) result += `${hours}h `
+  if (minutes > 0) result += `${minutes}mins `
+  result += `${seconds}secs ago`
 
-  return result;
+  return result
 }
-
 
 export const timestampToDateTime = (timestamp) => {
   const timestampInt = parseInt(timestamp) // Convert the string to a number
@@ -80,18 +79,18 @@ export const timestampToDateTime = (timestamp) => {
 
 import Ether from '@/assets/images/tokens/ETH.png'
 import USDT from '@/assets/images/tokens/USDT.png'
-import USDC from '@/assets/images/tokens/usdc.png'
+import USDC from '@/assets/images/tokens/USDC.png'
 import ARB from '@/assets/images/tokens/ARB.png'
-import WBNB from '@/assets/images/tokens/wbnb.webp'
+import WBNB from '@/assets/images/tokens/WBNB.webp'
 import STG from '@/assets/images/tokens/STG.png'
 import GHST from '@/assets/images/tokens/GHST.png'
 import DAI from '@/assets/images/tokens/DAI.png'
 // import Ethereum from '@/assets/images/networks/ethereum.png'
-import PENDLE from '@/assets/images/tokens/pendle.png'
-import MAGIC from '@/assets/images/tokens/magic.png'
-import MATIC from '@/assets/images/tokens/matic.png'
+import PENDLE from '@/assets/images/tokens/PENDLE.png'
+import MAGIC from '@/assets/images/tokens/MAGIC.png'
+import MATIC from '@/assets/images/tokens/MATIC.png'
 import GMX from '@/assets/images/tokens/GMX.png'
-import RDNT from '@/assets/images/tokens/rdnt.png'
+import RDNT from '@/assets/images/tokens/RDNT.png'
 import Btc from '@/assets/images/tokens/BTC.png'
 import WBTC from '@/assets/images/tokens/WBTC.png'
 
@@ -106,7 +105,7 @@ import ETHsmall from '@/assets/images/tokens/ETH.png'
 import GHSTsmall from '@/assets/images/tokens/GHST.png'
 import GMXsmall from '@/assets/images/tokens/GMX.png'
 import LTCsmall from '@/assets/images/tokens/LTC.png'
-import MATICsmall from '@/assets/images/tokens/matic.png'
+import MATICsmall from '@/assets/images/tokens/MATIC.png'
 import OPsmall from '@/assets/images/tokens/OP.png'
 import PAXG from '@/assets/images/tokens/PAXG.png'
 import SOLsmall from '@/assets/images/tokens/SOL.png'
@@ -116,9 +115,9 @@ import XRPsmall from '@/assets/images/tokens/XRP.png'
 import ARBsmall from '@/assets/images/tokens/ARB.png'
 import BETH from '@/assets/images/tokens/BETH.png'
 import VLX from '@/assets/images/tokens/VLX.png'
-import CAKE from '@/assets/images/tokens/cake.png'
+import CAKE from '@/assets/images/tokens/CAKE.png'
 import DOT from '@/assets/images/tokens/DOT.webp'
-import INJ from '@/assets/images/tokens/inj.png'
+import INJ from '@/assets/images/tokens/INJ.png'
 import DOGE from '@/assets/images/tokens/DOGE.png'
 
 const tokenHT = [

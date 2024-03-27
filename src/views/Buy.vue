@@ -52,33 +52,16 @@
                     Balance: {{ selectedTab === 'Buy' ? `${tokenCurrency.balance.toFixed(4)} ${tokenCurrency.symbol}` :
     `${tokenPPN.balance.toFixed(4)} ${tokenPPN.symbol}` }}
                   </div>
-                  <div
-                    v-if="selectedTab === 'Buy'"
-                    style="font-size: 16px; margin-bottom: 0; color: white"
-                  >
-                    <img
-                      :src="getTokenEntity('BTC', 'short').icon"
-                      width="18"
-                    />
-                    <span style="margin-left: 5px">BTC</span>
-                    <svg
-                      style="margin-left: 10px"
-                      width="9"
-                      height="6"
-                      viewBox="0 0 9 6"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8.36011 0.0750122V1.95001L4.61011 5.92501L0.860107 1.95001V0.0750122H8.36011Z"
-                        fill="#848E9C"
-                      />
+                  <div v-if="selectedTab === 'Buy'" style="font-size: 16px; margin-bottom: 0; color: white">
+                    <img :src="getTokenEntity(tokenCurrency.symbol, 'short').icon" width="18" />
+                    <span style="margin-left: 5px">{{ tokenCurrency.symbol }}</span>
+                    <svg style="margin-left: 10px" width="9" height="6" viewBox="0 0 9 6" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8.36011 0.0750122V1.95001L4.61011 5.92501L0.860107 1.95001V0.0750122H8.36011Z"
+                        fill="#848E9C" />
                     </svg>
                   </div>
-                  <div
-                    v-else
-                    style="font-size: 16px; margin-bottom: 0; color: white"
-                  >
+                  <div v-else style="font-size: 16px; margin-bottom: 0; color: white">
                     <img :src="walletPoolsImg" />
                     <span style="margin-left: 5px">{{ tokenPPN.symbol }}</span>
                   </div>
@@ -112,33 +95,16 @@
                     {{ selectedTab === 'Sell' ? `${tokenCurrency.balance.toFixed(4)} ${tokenCurrency.symbol}` :
     `${tokenPPN.balance.toFixed(4)} ${tokenPPN.symbol}` }}
                   </div>
-                  <div
-                    v-if="selectedTab === 'Sell'"
-                    style="font-size: 16px; margin-bottom: 0; color: white"
-                  >
-                    <img
-                      :src="getTokenEntity('BTC', 'short').icon"
-                      width="18"
-                    />
-                    <span style="margin-left: 5px">BTC</span>
-                    <svg
-                      style="margin-left: 10px"
-                      width="9"
-                      height="6"
-                      viewBox="0 0 9 6"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8.36011 0.0750122V1.95001L4.61011 5.92501L0.860107 1.95001V0.0750122H8.36011Z"
-                        fill="#848E9C"
-                      />
+                  <div v-if="selectedTab === 'Sell'" style="font-size: 16px; margin-bottom: 0; color: white">
+                    <img :src="getTokenEntity(tokenCurrency.symbol, 'short').icon" width="18" />
+                    <span style="margin-left: 5px">{{ tokenCurrency.symbol }}</span>
+                    <svg style="margin-left: 10px" width="9" height="6" viewBox="0 0 9 6" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8.36011 0.0750122V1.95001L4.61011 5.92501L0.860107 1.95001V0.0750122H8.36011Z"
+                        fill="#848E9C" />
                     </svg>
                   </div>
-                  <div
-                    v-else
-                    style="font-size: 16px; margin-bottom: 0; color: white"
-                  >
+                  <div v-else style="font-size: 16px; margin-bottom: 0; color: white">
                     <img :src="walletPoolsImg" />
                     <span style="margin-left: 5px">{{ tokenPPN.symbol }}</span>
                   </div>
@@ -149,7 +115,6 @@
               </div>
             </div>
           </div>
-         
         </div>
         <div class="chart_container" style="width: 65%">
           <div class="d-flex justify-content-between">
@@ -172,38 +137,26 @@
         </div>
       </div>
 
-      <div
-        style="
+      <div style="
           color: white;
           font-size: clamp(24px, 0.8vw, 40px);
           font-weight: 700;
-        "
-        class="my-5"
-      >
+        " class="my-5">
         Private Pool Network Token
       </div>
       <div class="d-flex gap-5">
         <div class="buy_balance_container">
           <div style="font-size: clamp(16px, 0.8vw, 22px)">$PPN Token</div>
           <div class="d-flex justify-content-between mt-3">
-        
+
             <div class="d-flex justify-content-between w-100 gap-3">
               <div>
                 <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
                   PPN Price
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
                       d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C"
-                    />
+                      fill="#848E9C" />
                   </svg>
                 </div>
                 <div style="font-size: clamp(16px, 0.8vw, 22px)">$65.62</div>
@@ -211,19 +164,11 @@
 
               <div>
                 <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
-                  Market Cap <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                  Market Cap <svg width="12" height="12" viewBox="0 0 16 16" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
                       d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C"
-                    />
+                      fill="#848E9C" />
                   </svg>
                 </div>
                 <div style="font-size: clamp(16px, 0.8vw, 22px)">
@@ -234,40 +179,22 @@
               <div>
                 <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
                   Volume
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
                       d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C"
-                    />
+                      fill="#848E9C" />
                   </svg>
                 </div>
                 <div style="font-size: clamp(16px, 0.8vw, 22px)">A$85.66B</div>
               </div>
-              
+
               <div>
                 <div style="color: #b7bdc6; font-size: clamp(8px, 0.6vw, 12px)">
                   Circulation Supply
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
                       d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C"
-                    />
+                      fill="#848E9C" />
                   </svg>
                 </div>
                 <div style="font-size: clamp(16px, 0.8vw, 22px)">19.65M</div>
@@ -292,12 +219,12 @@
 
 <script setup>
 import Tabs from '@/UI/Tabs.vue'
+import { InitializeMetamask } from '@/lib/utils/metamask'
 import MainCard from '../UI/MainCard.vue'
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
 import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
-
 import ChartTimeline from '@/UI/ChartTimeline.vue'
 import HowToBuyPPNTokens from '@/components/Buy/HowToBuyPPNTokens.vue'
 import useBalance from '@/composables/useBalance'
@@ -377,7 +304,7 @@ const chartOptions = computed(() => ({
   },
   xaxis: {
     type: 'category',
-    categories:chartData.value ? chartData.value[currentTimeline.value.name].dates : [],
+    categories: chartData.value ? chartData.value[currentTimeline.value.name].dates : [],
     labels: {
       show: true,
 
@@ -452,11 +379,8 @@ const selectedTab = ref('Buy')
 // }
 
 const tokenSelectModal = ref(false)
-function tokenSelectModalClose() {
-  tokenSelectModal.value = false
-}
 function tokenSelectModalOpen() {
-  tokenSelectModal.value = true
+  tokenSelectModal.value = !tokenSelectModal.value
 }
 const notSelectedPossibleComposeTokens = ref([])
 
@@ -523,7 +447,7 @@ async function onToken1Blur() {
 
 </script>
 <style lang="scss" scoped>
-@import '@/styles/_variables.scss';
+@import '../styles/_variables.scss';
 
 .buy_container {
   // display: flex;
@@ -540,7 +464,7 @@ async function onToken1Blur() {
   &_section_1 {
     display: flex;
     justify-content: space-between;
-    margin-top: 140px;
+    margin-top: 80px;
     gap: 30px;
   }
 }

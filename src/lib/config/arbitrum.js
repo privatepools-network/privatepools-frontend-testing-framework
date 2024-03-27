@@ -104,7 +104,7 @@ export default {
       symbol: 'MAGIC',
       decimals: 18,
       address: '0x539bdE0d7Dbd336b79148AA742883198BBF60342',
-      logoURI: './images/tokens/magic.png',
+      logoURI: './images/tokens/MAGIC.png',
       apiId: 'MAGIC',
     },
     gmx: {
@@ -120,7 +120,7 @@ export default {
       symbol: 'RDNT',
       decimals: 18,
       address: '0x3082CC23568eA640225c2467653dB90e9250AaA0',
-      logoURI: './images/tokens/rdnt.png',
+      logoURI: './images/tokens/RDNT.png',
       apiId: 'RDNT',
     },
     WBNB: {
@@ -128,7 +128,7 @@ export default {
       symbol: 'WBNB',
       decimals: 18,
       address: '0x20865e63B111B2649ef829EC220536c82C58ad7B',
-      logoURI: './images/tokens/wbnb.webp',
+      logoURI: './images/tokens/WBNB.webp',
       apiId: 'WBNB',
     },
     MATIC: {
@@ -136,7 +136,7 @@ export default {
       symbol: 'MATIC',
       decimals: 18,
       address: '0x561877b6b3DD7651313794e5F2894B2F18bE0766',
-      logoURI: './images/tokens/matic.png',
+      logoURI: './images/tokens/MATIC.png',
       apiId: 'MATIC',
     },
   },

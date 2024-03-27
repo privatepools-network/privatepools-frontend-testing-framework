@@ -1,4 +1,3 @@
-import UniswapRouterAbi from '@/lib/abi/UniswapRouter.json'
 import {
   FeeAmount,
   Pool,
