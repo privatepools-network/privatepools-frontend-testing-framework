@@ -48,7 +48,7 @@ export default {
       symbol: 'USDT',
       decimals: 6,
       address: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
-      logoURI: './images/tokens/USDT.png',
+      logoURI: './images/tokens/usdt.png',
       apiId: 'USDT',
     },
     usdc: {
@@ -72,7 +72,7 @@ export default {
       symbol: 'ARB',
       decimals: 18,
       address: '0x912CE59144191C1204E64559FE8253a0e49E6548',
-      logoURI: './images/tokens/ARB.png',
+      logoURI: './images/tokens/arb.png',
       apiId: 'ARB',
     },
     stg: {
@@ -88,7 +88,7 @@ export default {
       symbol: 'WBTC',
       decimals: 8,
       address: '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f',
-      logoURI: './images/tokens/BTC.png',
+      logoURI: './images/tokens/btc.png',
       apiId: 'BTC',
     },
     pendle: {
@@ -96,7 +96,7 @@ export default {
       symbol: 'PENDLE',
       decimals: 18,
       address: '0x0c880f6761f1af8d9aa9c466984b80dab9a8c9e8',
-      logoURI: './images/tokens/BTC.png',
+      logoURI: './images/tokens/btc.png',
       apiId: 'PENDLE',
     },
     magic: {
@@ -120,7 +120,7 @@ export default {
       symbol: 'RDNT',
       decimals: 18,
       address: '0x3082CC23568eA640225c2467653dB90e9250AaA0',
-      logoURI: './images/tokens/RDNT.png',
+      logoURI: './images/tokens/rdnt.png',
       apiId: 'RDNT',
     },
     WBNB: {
@@ -128,7 +128,7 @@ export default {
       symbol: 'WBNB',
       decimals: 18,
       address: '0x20865e63B111B2649ef829EC220536c82C58ad7B',
-      logoURI: './images/tokens/WBNB.webp',
+      logoURI: './images/tokens/wbnb.webp',
       apiId: 'WBNB',
     },
     MATIC: {
@@ -136,7 +136,7 @@ export default {
       symbol: 'MATIC',
       decimals: 18,
       address: '0x561877b6b3DD7651313794e5F2894B2F18bE0766',
-      logoURI: './images/tokens/MATIC.png',
+      logoURI: './images/tokens/matic.png',
       apiId: 'MATIC',
     },
   },

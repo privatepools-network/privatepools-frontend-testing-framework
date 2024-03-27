@@ -27,7 +27,7 @@
 <script setup>
 import Multiselect from 'vue-multiselect'
 import usdSymbol from '@/assets/images/tokens/usdSymbol.png'
-import btc from '@/assets/images/tokens/BTC.png'
+import btc from '@/assets/images/tokens/btc.png'
 import eth from '@/assets/images/tokens/ETH.png'
 import { ref, defineEmits, watch } from 'vue'
 

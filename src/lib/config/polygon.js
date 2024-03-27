@@ -110,7 +110,7 @@ export default {
       symbol: 'USDT',
       decimals: 6,
       address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f',
-      logoURI: './images/tokens/USDT.png',
+      logoURI: './images/tokens/usdt.png',
       apiId: 'USDT',
     },
     STG: {
@@ -126,7 +126,7 @@ export default {
       symbol: 'MATIC',
       decimals: 18,
       address: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
-      logoURI: './images/tokens/MATIC.png',
+      logoURI: './images/tokens/matic.png',
       apiId: 'MATIC',
     },
     weth: {
@@ -142,7 +142,7 @@ export default {
       symbol: 'WBTC',
       decimals: 8,
       address: '0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6',
-      logoURI: './images/tokens/BTC.png',
+      logoURI: './images/tokens/btc.png',
       apiId: 'BTC',
     },
     PAXG: {
@@ -166,7 +166,7 @@ export default {
       symbol: 'USDC.e',
       decimals: 6,
       address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
-      logoURI: './images/tokens/USDC.png',
+      logoURI: './images/tokens/usdc.png',
       apiId: 'USDC',
     },
     LINK: {

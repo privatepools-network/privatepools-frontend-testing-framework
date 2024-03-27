@@ -108,7 +108,7 @@
       "symbol": "USDT",
       "decimals": 6,
       "address": "0x55d398326f99059ff775485246999027b3197955",
-      "logoURI": "./images/tokens/USDT.png",
+      "logoURI": "./images/tokens/usdt.png",
       "apiId": "USDT"
     },
     "weth": {
