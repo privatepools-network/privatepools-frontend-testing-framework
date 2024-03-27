@@ -304,6 +304,7 @@ import useBalance from '@/composables/useBalance'
 import useDecimals from '@/composables/useDecimals'
 import { Token } from "@uniswap/sdk-core";
 import { GetCLPoolInfo, quoteCL, SwapCLTokens } from "@/composables/poolActions/swap/cl/swap"
+import { useUniswapPPNHistory } from "@/composables/concentrated-liquidity/useUniswapPPNHistory"
 const tokenPPN = ref({
   address: "0x0cfa47331af179f9b932ae87f447f675a2b500d1",
   symbol: "PPN",
@@ -331,10 +332,11 @@ const token0Amount = ref(0)
 const token1Amount = ref(0)
 
 const poolInfo = ref(null)
+const chartData = ref(null)
 
 const timelines = [
   {
-    name: '24h',
+    name: '24H',
   },
   {
     name: '7D',
@@ -347,20 +349,20 @@ const timelines = [
   },
 ]
 
-const currentTimeline = ref(timelines[0])
+const currentTimeline = ref(timelines[1])
 
 function changeTimeline(tl) {
   currentTimeline.value = tl
 }
 
-const series = ref([
+const series = computed(() => [
   {
     name: 'series1',
-    data: [31, 40, 28, 51, 42, 109, 100],
+    data: chartData.value ? chartData.value[currentTimeline.value.name].data : [],
   },
 ])
 
-const chartOptions = ref({
+const chartOptions = computed(() => ({
   chart: {
     height: 250,
     type: 'area',
@@ -374,16 +376,8 @@ const chartOptions = ref({
     curve: 'smooth',
   },
   xaxis: {
-    type: 'datetime',
-    categories: [
-      '2018-09-19T00:00:00.000Z',
-      '2018-09-19T01:30:00.000Z',
-      '2018-09-19T02:30:00.000Z',
-      '2018-09-19T03:30:00.000Z',
-      '2018-09-19T04:30:00.000Z',
-      '2018-09-19T05:30:00.000Z',
-      '2018-09-19T06:30:00.000Z',
-    ],
+    type: 'category',
+    categories:chartData.value ? chartData.value[currentTimeline.value.name].dates : [],
     labels: {
       show: true,
 
@@ -449,7 +443,7 @@ const chartOptions = ref({
       },
     },
   },
-})
+}))
 
 const selectedTab = ref('Buy')
 
@@ -484,6 +478,8 @@ onMounted(async () => {
     tokenCurrency.value.decimals = decimals2
     poolInfo.value = await GetCLPoolInfo(convertedTokenPPN.value, convertedTokenCurrency.value, 500, signer)
   }
+  chartData.value = await useUniswapPPNHistory(56)
+  console.log("DATA - ", chartData.value)
 })
 
 

@@ -3,79 +3,54 @@
     <Title :title="'Private Pools'" />
 
     <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
-      <PoolFilters
+      <!-- <PoolFilters
         :hidePools="hidePools"
         :optionsPoolType="optionsPoolType"
         :optionsPoolAttribute="optionsPoolAttribute"
         :optionsTokens="optionsTokens"
-      />
+      /> -->
       <ComposePoolDropdown />
     </div>
 
     <div class="pools-rows">
       <div class="pools-row pools-row_header">
-        <div
-          class="pools-row__col"
-          :class="
-          // Table headers positioning by header names
-            headCaption === 'Composition' || headCaption === 'Tokens'
-              ? 'justify-content-start'
-              : 'justify-content-center'
-          "
-          v-for="(headCaption, headCaptionIndex) in headers"
-          :key="headCaption"
-        >
+        <div class="pools-row__col" :class="
+      // Table headers positioning by header names
+      headCaption === 'Composition' || headCaption === 'Tokens'
+        ? 'justify-content-start'
+        : 'justify-content-center'
+      " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
           <div class="file-table-header-cell">
-            <div
-              class="d-flex align-items-center gap-1"
-              :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
-              style="cursor: pointer; height: 20px"
-            >
-              <div
-                :class="'head_caption_text text-black dark:!text-white'"
-              >
+            <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+              style="cursor: pointer; height: 20px">
+              <div :class="'head_caption_text'">
                 {{ headCaption }}
               </div>
-            
+
             </div>
           </div>
         </div>
       </div>
 
-      <div v-if="all_pools.length === 0" class="my-28">
-        <LoaderPulse/>
+      <div v-if="all_pools.length === 0" class="my-5">
+        <LoaderPulse />
       </div>
-      <PoolRow
-        v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
-        :key="pool.name"
-        :pool="pool"
-        :inactive="isPoolInactive(pool)"
-        :index="index"
-        @goToPoolWithdraw="goToPoolWithdraw"
-        @goToCLPool="goToCLPool"
-        @goToPool="goToPool"
-        @goToPoolDeposit="goToPoolDeposit"
-        @goToCL="goToCL"
-        :isActions="true"
-      />
+      <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
+        :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
+        @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL" :isActions="true" />
 
-      {{console.log('all_pools', all_pools)}}
-      <div
-        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
-        class="load_more"
-      >
+      {{ console.log('all_pools', all_pools) }}
+      <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more">
         Load More
-        <img :src="arrow_bottom" />
+        <!-- <img :src="arrow_bottom" /> -->
       </div>
     </div>
   </MainCard>
 </template>
 
 <script setup>
-import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
 import { computed, ref, onMounted, watch } from 'vue'
 import router from '@/router'
-import PoolFilters from '@/components/Pool/PoolFilters.vue'
 import ComposePoolDropdown from '@/components/Pool/ComposePoolDropdown.vue'
 import { useRoute } from 'vue-router'
 import { GetPools } from '@/composables/pools/usePools.js'
@@ -414,11 +389,9 @@ const all_pools = computed(() => {
     padding: 0;
     border-radius: 16px;
     border: 1px solid #ffffff0d;
-    background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 2%),
-      rgba(255, 255, 255, 0%)
-    );
+    background: linear-gradient(0deg,
+        rgba(255, 255, 255, 2%),
+        rgba(255, 255, 255, 0%));
     box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
     margin-bottom: 30px;
 
@@ -428,6 +401,7 @@ const all_pools = computed(() => {
   }
 
 }
+
 .load_more {
   display: flex;
   justify-content: center;
