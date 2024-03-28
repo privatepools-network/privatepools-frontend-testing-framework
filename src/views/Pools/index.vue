@@ -3,12 +3,8 @@
     <Title :title="'Private Pools'" />
 
     <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
-      <PoolFilters
-        :hidePools="hidePools"
-        :optionsPoolType="optionsPoolType"
-        :optionsPoolAttribute="optionsPoolAttribute"
-        :optionsTokens="optionsTokens"
-      />
+      <PoolFilters :hidePools="hidePools" :optionsPoolType="optionsPoolType"
+        :optionsPoolAttribute="optionsPoolAttribute" :optionsTokens="optionsTokens" />
       <ComposePoolDropdown />
     </div>
 
@@ -36,14 +32,12 @@
         <LoaderPulse />
       </div>
       <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
-        :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
-        @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToCL="goToCL" :isActions="true" />
+        :userPools="user_staked_pools" :inactive="isPoolInactive(pool)" :index="index"
+        @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
 
       {{ console.log('all_pools', all_pools) }}
-      <div
-        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
-        class="load_more text-black dark:!text-white"
-      >
+      <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
         Load More
         <img :src="arrow_bottom" />
       </div>
@@ -123,7 +117,7 @@ watch(networkId, async () => {
 async function InitUserStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
-    let address = await mmProvider.getSigner().getAddress()
+    let address = await mmProvider.getSigner().getAddress()//'0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //
     user_staked_pools.value = await useWalletPools(
       address,
       networkId.value,
@@ -167,7 +161,7 @@ function isPoolInactive(pool) {
 }
 
 function goToPoolDeposit(args) {
-  if (all_pools.value[args.index].type == 'WP') {
+  if (all_pools.value[args.index].type != 'CL') {
     router.push({
       name: 'Pool Deposit',
       params: {
@@ -183,6 +177,25 @@ function goToPoolDeposit(args) {
         tokens: all_pools.value[args.index].tokens,
         fee: all_pools.value[args.index].fee,
       },
+    })
+  }
+}
+function goToPoolManage(args) {
+  if (all_pools.value[args.index].type == 'WP') {
+    router.push({
+      name: 'Pool Deposit',
+      params: {
+        id: all_pools.value[args.index].id,
+        onMountedActivity: args.onMountedActivity,
+        chainSelected: DisplayChain[networkId.value],
+      },
+    })
+  } else {
+    router.push({
+      name: 'Concentrated liquidity Add',
+      params: {
+        onMountedActivity: "deposit",
+      }
     })
   }
 }
@@ -220,10 +233,9 @@ function goToCLPool(args) {
 function goToCL(args) {
   router.push({
     name: 'Concentrated liquidity',
-    params: {
-      // id: poolsMock[args.index].id,
-      onMountedActivity: args.onMountedActivity,
-      // chainSelected: DisplayChain[networkId.value],
+    query: {
+      tokens: all_pools.value[args.index].tokens,
+      fee: all_pools.value[args.index].fee,
     },
   })
 }
@@ -373,7 +385,6 @@ const all_pools = computed(() => {
           .length > 0,
     )
   }
-  console.log('ALL POOLS - ', result)
   return result.toSorted((a, b) => b.TVL - a.TVL)
 })
 

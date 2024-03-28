@@ -2,6 +2,7 @@
   <div class="pools_chart_container">
     <PoolDetailsArbitrageBot
       @changeToDepositView="changeToDepositView"
+      @changeToWithdrawView="changeToWithdrawView"
       :chart_data="all_chart_data"
       :tokenPrices="poolTokenPrices"
       :currencySelected="currencySelected"
@@ -116,6 +117,7 @@ use([
 const chart = ref(null)
 const props = defineProps([
   'changeToDepositView',
+  'changeToWithdrawView',
   'historical_tvl',
   'tokenPrices',
   'pool',

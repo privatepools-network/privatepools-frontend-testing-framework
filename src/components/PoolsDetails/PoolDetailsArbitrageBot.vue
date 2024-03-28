@@ -1,27 +1,16 @@
 <template>
   <div class="arbitrage_bot_card py-3 px-4">
-    <div
-      class="d-flex align-items-center justify-content-between gap-2 flex-wrap"
-    >
+    <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
       <div class="d-flex align-items-center justify-content-between w-100">
-        <div
-          style="
+        <div style="
             font-size: clamp(10px, 0.9vw, 16px);
             font-weight: 700;
             font-family: Inter;
             color: white;
-          "
-          v-if="pool && pool.tokens"
-          class="flex items-center "
-        >
-          <img
-            class="pair_avatars_manage_pool pair_avatars_active"
-            :data-tooltip="tokenEntity.symbol"
-            v-for="(tokenEntity, tokenEntityIndex) in pool?.tokens"
-            :key="`token-entity-key-${tokenEntityIndex}`"
-            :src="computedTokenImage(tokenEntity.symbol)"
-            :title="tokenEntity.symbol"
-          />
+          " v-if="pool && pool.tokens" class="flex items-center ">
+          <img class="pair_avatars_manage_pool pair_avatars_active" :data-tooltip="tokenEntity.symbol"
+            v-for="(tokenEntity, tokenEntityIndex) in pool?.tokens" :key="`token-entity-key-${tokenEntityIndex}`"
+            :src="computedTokenImage(tokenEntity.symbol)" :title="tokenEntity.symbol" />
           <!-- {{ pool && pool.tokens ? pool.tokens.map(t => t.symbol).join("/") : "" }} -->
         </div>
         <ThreeDots v-else style="margin-left: 20px" />
@@ -33,38 +22,24 @@
         Total Value Locked
       </div>
       <div class="mb-2">
-        <div
-          @click="clickOnVisibleTVL()"
-          class="visible_head"
-          style="cursor: pointer"
-        >
-          <div
-            class="d-flex align-items-center gap-2"
-            style="
+        <div @click="clickOnVisibleTVL()" class="visible_head" style="cursor: pointer">
+          <div class="d-flex align-items-center gap-2" style="
               margin-left: -20px;
               width: clamp(10px, 0.8vw, 14px);
-            "
-          >
+            ">
             <div>
               <div>
-                <img
-                  :src="arrow_up"
-                  :class="!visibleTVL ? 'toggle-down' : 'toggle-up'"
-                />
+                <img :src="arrow_up" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
               </div>
             </div>
-            <div
-              v-if="pool"
-              style="
+            <div v-if="pool" style="
                 font-size: clamp(16px, 1vw, 30px);
                 font-weight: 600;
                 font-family: Inter;
-              "
-              class="visible_head"
-            >
+              " class="visible_head">
               <CurrencySymbol :symbol="currencySelected.symbol" />{{
-                numberToAposthrophe(pool.totalLiquidity, currencyDecimals)
-              }}
+            numberToAposthrophe(pool.totalLiquidity, currencyDecimals)
+          }}
             </div>
             <div v-else style="margin-left: 20px">
               <ThreeDots></ThreeDots>
@@ -76,31 +51,20 @@
             <div style="font-size: 13px; margin-top: 10px; margin-bottom: 5px">
               Assets Breakdown
             </div>
-            <div
-              class="d-flex flex-column gap-1"
-              v-if="pool && pool.tokens && tokenPrices"
-            >
-              <div
-                v-for="token in pool.tokens"
-                :key="token.symbol"
-                class="d-flex align-items-center justify-content-between"
-              >
+            <div class="d-flex flex-column gap-1" v-if="pool && pool.tokens && tokenPrices">
+              <div v-for="token in pool.tokens" :key="token.symbol"
+                class="d-flex align-items-center justify-content-between">
                 <div>
                   {{ Number(token.balance).toFixed(2) }} {{ token.symbol }}
-                  <img
-                    :src="getTokenEntity(token.symbol, 'short').icon"
-                    width="10"
-                  />
+                  <img :src="getTokenEntity(token.symbol, 'short').icon" width="10" />
                 </div>
-                <div
-                  style="color: white; font-weight: 800; "
-                >
+                <div style="color: white; font-weight: 800; ">
                   <CurrencySymbol :symbol="currencySelected.symbol" />{{
-                    numberToAposthrophe(
-                      token.balance * GetTokenPrice(token.address),
-                      currencyDecimals,
-                    )
-                  }}
+            numberToAposthrophe(
+              token.balance * GetTokenPrice(token.address),
+              currencyDecimals,
+            )
+          }}
                 </div>
               </div>
             </div>
@@ -127,49 +91,29 @@
       </div>
 
       <div class="mb-2">
-        <div
-          @click="clickOnVisibleRevenue()"
-          class="visible_head"
-          style="cursor: pointer"
-        >
-          <div
-            class="d-flex align-items-center gap-2"
-            style="margin-left: -20px"
-          >
+        <div @click="clickOnVisibleRevenue()" class="visible_head" style="cursor: pointer">
+          <div class="d-flex align-items-center gap-2" style="margin-left: -20px">
             <div>
               <div>
-                <img
-                  :src="arrow_up"
-                  :width="10"
-                  :class="!visibleTotalRevenue ? 'toggle-down' : 'toggle-up'"
-                />
+                <img :src="arrow_up" :width="10" :class="!visibleTotalRevenue ? 'toggle-down' : 'toggle-up'" />
               </div>
             </div>
-            <div
-              style="
+            <div style="
                 font-weight: 700;
                 font-family: Inter;
                 color: white;
                 width: 100%;
-              "
-            >
-              <div
-                class="d-flex align-items-center justify-content-between visible_head"
-              >
-                <div
-                  style="
+              ">
+              <div class="d-flex align-items-center justify-content-between visible_head">
+                <div style="
                     font-family: Inter;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
                     font-size: clamp(10px, 0.9vw, 16px);
-                  "
-                >
+                  ">
                   Pool APR
                 </div>
-                <div
-                  v-if="pool && historical_tvl.length > 0"
-                  style="color: white; font-weight: 800; "
-                >
+                <div v-if="pool && historical_tvl.length > 0" style="color: white; font-weight: 800; ">
                   {{ poolApr['Total'].toFixed(2) }}%
                 </div>
                 <div v-else>
@@ -180,24 +124,19 @@
           </div>
         </div>
         <CCollapse :visible="visibleTotalRevenue">
-          <div
-            style="
+          <div style="
               color: rgba(204, 204, 204, 1);
               margin-top: 10px;
               margin-bottom: 5px;
-            "
-          >
+            ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
                 <div>Daily APR</div>
-                <div
-                  v-if="pool && historical_tvl.length > 0"
-                  style="
+                <div v-if="pool && historical_tvl.length > 0" style="
                     color: white;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
-                  "
-                >
+                  ">
                   {{ poolApr['Daily'].toFixed(2) }}%
                 </div>
                 <div v-else>
@@ -206,14 +145,11 @@
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <div>Weekly APR</div>
-                <div
-                  v-if="pool && historical_tvl.length > 0"
-                  style="
+                <div v-if="pool && historical_tvl.length > 0" style="
                     color: white;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
-                  "
-                >
+                  ">
                   {{ poolApr['Weekly'].toFixed(2) }}%
                 </div>
                 <div v-else>
@@ -222,14 +158,11 @@
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <div>Monthly APR</div>
-                <div
-                  v-if="pool && historical_tvl.length > 0"
-                  style="
+                <div v-if="pool && historical_tvl.length > 0" style="
                     color: white;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
-                  "
-                >
+                  ">
                   {{ poolApr['Monthly'].toFixed(2) }}%
                 </div>
                 <div v-else>
@@ -242,55 +175,35 @@
       </div>
 
       <div class="mb-2">
-        <div
-          @click="clickOnVisibleProfit()"
-          style="cursor: pointer"
-          class="visible_head"
-        >
-          <div
-            class="d-flex align-items-center gap-2"
-            style="margin-left: -20px"
-          >
+        <div @click="clickOnVisibleProfit()" style="cursor: pointer" class="visible_head">
+          <div class="d-flex align-items-center gap-2" style="margin-left: -20px">
             <div>
               <div>
-                <img
-                  :src="arrow_up"
-                  :width="10"
-                  :class="!visibleTotalProfit ? 'toggle-down' : 'toggle-up'"
-                />
+                <img :src="arrow_up" :width="10" :class="!visibleTotalProfit ? 'toggle-down' : 'toggle-up'" />
               </div>
             </div>
-            <div
-              style="
+            <div style="
                 font-weight: 700;
                 font-family: Inter;
                 color: white;
                 width: 100%;
-              "
-            >
-              <div
-                class="d-flex align-items-center justify-content-between visible_head"
-              >
-                <div
-                  style="
+              ">
+              <div class="d-flex align-items-center justify-content-between visible_head">
+                <div style="
                     font-family: Inter;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
                     font-size: clamp(10px, 0.9vw, 16px);
-                  "
-                >
+                  ">
                   Pool Volume
                 </div>
-                <div
-                  style="color: white; font-weight: 800;"
-                  v-if="swapsData.length > 0"
-                >
+                <div style="color: white; font-weight: 800;" v-if="swapsData.length > 0">
                   <CurrencySymbol :symbol="currencySelected.symbol" />{{
-                    numberToAposthrophe(
-                      poolSwapStats['Volume All Time'],
-                      currencyDecimals,
-                    )
-                  }}
+            numberToAposthrophe(
+              poolSwapStats['Volume All Time'],
+              currencyDecimals,
+            )
+          }}
                 </div>
                 <div v-else>
                   <ThreeDots></ThreeDots>
@@ -299,28 +212,20 @@
             </div>
           </div>
         </div>
-        <CCollapse
-          :visible="visibleTotalProfit"
-          v-if="poolSwapStats['Volume All Time']"
-        >
-          <div
-            style="
+        <CCollapse :visible="visibleTotalProfit" v-if="poolSwapStats['Volume All Time']">
+          <div style="
               color: rgba(204, 204, 204, 1);
               margin-top: 10px;
               margin-bottom: 5px;
-            "
-          >
+            ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
                 <div>24H Volume</div>
-                <div
-                  v-if="pool && historical_tvl.length > 0"
-                  style="
+                <div v-if="pool && historical_tvl.length > 0" style="
                     color: white;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
-                  "
-                >
+                  ">
                   {{ poolApr['Daily'].toFixed(2) }}%
                 </div>
                 <div v-else>
@@ -329,14 +234,11 @@
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <div>7 Days Volume</div>
-                <div
-                  v-if="pool && historical_tvl.length > 0"
-                  style="
+                <div v-if="pool && historical_tvl.length > 0" style="
                     color: white;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
-                  "
-                >
+                  ">
                   {{ poolApr['Weekly'].toFixed(2) }}%
                 </div>
                 <div v-else>
@@ -345,14 +247,11 @@
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <div>30 Days Volume</div>
-                <div
-                  v-if="pool && historical_tvl.length > 0"
-                  style="
+                <div v-if="pool && historical_tvl.length > 0" style="
                     color: white;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
-                  "
-                >
+                  ">
                   {{ poolApr['Monthly'].toFixed(2) }}%
                 </div>
                 <div v-else>
@@ -366,59 +265,43 @@
       <div style="cursor: pointer" class="visible_head mt-4">
         <div class="d-flex align-items-center gap-2" style="margin-left: -10px">
           <div></div>
-          <div
-            style="
+          <div style="
               font-weight: 700;
               font-family: Inter;
               color: white;
               width: 100%;
-            "
-          >
-            <div
-              class="d-flex align-items-center justify-content-between visible_head"
-            >
-              <div
-                style="
+            ">
+            <div class="d-flex align-items-center justify-content-between visible_head">
+              <div style="
                   font-family: Inter;
                   font-weight: 400;
                   font-size: clamp(10px, 0.8vw, 14px);
                   font-size: clamp(10px, 0.9vw, 16px);
-                "
-              >
+                ">
                 My Rewards
               </div>
-              <div
-                v-if="pool"
-                style="color: white; font-weight: 800;"
-              >
+              <div v-if="pool" style="color: white; font-weight: 800;">
                 <CurrencySymbol :symbol="currencySelected.symbol" />{{
-                  numberToAposthrophe(pool.lpPrice, currencyDecimals || 2)
-                }}
+            numberToAposthrophe(pool.lpPrice, currencyDecimals || 2)
+          }}
               </div>
               <div v-else>
                 <ThreeDots></ThreeDots>
               </div>
             </div>
-            <div
-              class="d-flex align-items-center justify-content-between visible_head mt-3"
-            >
-              <div
-                style="
+            <div class="d-flex align-items-center justify-content-between visible_head mt-3">
+              <div style="
                   font-family: Inter;
                   font-weight: 400;
                   font-size: clamp(10px, 0.8vw, 14px);
                   font-size: clamp(10px, 0.9vw, 16px);
-                "
-              >
+                ">
                 My Balance
               </div>
-              <div
-                v-if="pool"
-                style="color: white; font-weight: 800; "
-              >
+              <div v-if="pool" style="color: white; font-weight: 800; ">
                 <CurrencySymbol :symbol="currencySelected.symbol" />{{
-                  numberToAposthrophe(0)
-                }}
+            numberToAposthrophe(0)
+          }}
               </div>
               <div v-else>
                 <ThreeDots></ThreeDots>
@@ -430,17 +313,13 @@
     </div>
 
     <div class="d-flex justify-content-between w-100 gap-3 mt-4">
-      <div
-        class="rewards_button w-100"
-        style="
+      <div class="rewards_button w-100" style="
           color: white;
           background: linear-gradient(85.18deg, #2775ca 0%, #2abdff 100%);
-        "
-        @click="$emit('changeToDepositView')"
-      >
+        " @click="$emit('changeToDepositView')">
         Add Liquidity
       </div>
-      <div style="color: white" class="rewards_button w-100">Withdraw</div>
+      <div style="color: white" class="rewards_button w-100" @click="$emit('changeToWithdrawView')">Withdraw</div>
     </div>
   </div>
 </template>
@@ -468,9 +347,8 @@ import {
 } from '@/composables/pools/usePoolSwapsStats'
 import { getTokenEntity } from '@/lib/helpers/util'
 
-const emit = defineEmits(['changeToDepositView'])
+const emit = defineEmits(['changeToDepositView', 'changeToWithdrawView'])
 const props = defineProps([
-  'changeToDepositView',
   'tokenPrices',
   'cryptocomparePrices',
   'historical_tvl',
@@ -531,22 +409,22 @@ const poolSwapStats = computed(() =>
 const volumeInfo = computed(() =>
   pool.value
     ? {
-        '24h': usePool24hVolumeTokens(swapsData.value, pool.value.tokens),
-        '7d': usePool7dVolumeTokens(swapsData.value, pool.value.tokens),
-        '30d': usePool30dVolumeTokens(swapsData.value, pool.value.tokens),
-        '24hAmount': usePool24hVolumeTokensAmount(
-          swapsData.value,
-          pool.value.tokens,
-        ),
-        '7dAmount': usePool7dVolumeTokensAmount(
-          swapsData.value,
-          pool.value.tokens,
-        ),
-        '30dAmount': usePool30dVolumeTokensAmount(
-          swapsData.value,
-          pool.value.tokens,
-        ),
-      }
+      '24h': usePool24hVolumeTokens(swapsData.value, pool.value.tokens),
+      '7d': usePool7dVolumeTokens(swapsData.value, pool.value.tokens),
+      '30d': usePool30dVolumeTokens(swapsData.value, pool.value.tokens),
+      '24hAmount': usePool24hVolumeTokensAmount(
+        swapsData.value,
+        pool.value.tokens,
+      ),
+      '7dAmount': usePool7dVolumeTokensAmount(
+        swapsData.value,
+        pool.value.tokens,
+      ),
+      '30dAmount': usePool30dVolumeTokensAmount(
+        swapsData.value,
+        pool.value.tokens,
+      ),
+    }
     : { '24h': [], '7d': [], '30d': [] },
 )
 
@@ -565,50 +443,50 @@ const poolApr = computed(() => ({
   Daily:
     pool.value && historical_tvl.value.length > 0
       ? GetAvgAprForPeriod(
-          chart_data.value,
-          pool.value.tokens.map((t) => ({
-            ...t,
-            Blockchain: chainSelected.value,
-          })),
-          chainSelected.value,
-          '24H',
-        )
+        chart_data.value,
+        pool.value.tokens.map((t) => ({
+          ...t,
+          Blockchain: chainSelected.value,
+        })),
+        chainSelected.value,
+        '24H',
+      )
       : 0,
   Weekly:
     pool.value && historical_tvl.value.length > 0
       ? GetAvgAprForPeriod(
-          chart_data.value,
-          pool.value.tokens.map((t) => ({
-            ...t,
-            Blockchain: chainSelected.value,
-          })),
-          chainSelected.value,
-          '7D',
-        )
+        chart_data.value,
+        pool.value.tokens.map((t) => ({
+          ...t,
+          Blockchain: chainSelected.value,
+        })),
+        chainSelected.value,
+        '7D',
+      )
       : 0,
   Monthly:
     pool.value && historical_tvl.value.length > 0
       ? GetAvgAprForPeriod(
-          chart_data.value,
-          pool.value.tokens.map((t) => ({
-            ...t,
-            Blockchain: chainSelected.value,
-          })),
-          chainSelected.value,
-          '1M',
-        )
+        chart_data.value,
+        pool.value.tokens.map((t) => ({
+          ...t,
+          Blockchain: chainSelected.value,
+        })),
+        chainSelected.value,
+        '1M',
+      )
       : 0,
   Total:
     pool.value && historical_tvl.value.length > 0
       ? GetAvgAprForPeriod(
-          chart_data.value,
-          pool.value.tokens.map((t) => ({
-            ...t,
-            Blockchain: chainSelected.value,
-          })),
-          chainSelected.value,
-          'total',
-        )
+        chart_data.value,
+        pool.value.tokens.map((t) => ({
+          ...t,
+          Blockchain: chainSelected.value,
+        })),
+        chainSelected.value,
+        'total',
+      )
       : 0,
 }))
 
@@ -653,6 +531,7 @@ function GetTokenPrice(address) {
 .visible_head {
   color: #fff;
 }
+
 .visible_head:hover {
   color: #00a3ff;
 }

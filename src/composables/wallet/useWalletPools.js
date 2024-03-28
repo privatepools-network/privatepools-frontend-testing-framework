@@ -122,6 +122,7 @@ function formatWeightedPools(shares, pools) {
       price: `$${(pool.lpPrice * shares[i].balance).toFixed(2)}`,
       img: `APR ${pool['APR 7 D']}%`,
       percentChange: '0',
+      id: pool.id,
     })
   }
   return formatted

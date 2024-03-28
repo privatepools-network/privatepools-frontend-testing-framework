@@ -78,6 +78,9 @@ async function GetPriceBySymbolCoingecko(symbol, toToken = 'UDST') {
  * @returns {Promise<number>} price of the token
  */
 export async function GetTokenPriceUsd(symbol, toToken = 'USD') {
+  if (!symbol) {
+    return 0
+  }
   symbol = replaceFirstCharIfW(symbol, '')
   let token_price_usd = await GetPriceBySymbol(symbol, toToken)
   if (token_price_usd == undefined) {
