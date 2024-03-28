@@ -31,6 +31,9 @@ import {
   POOL_FACTORY_CONTRACT_ADDRESS,
 } from './constants'
 import { formatUnits, parseUnits } from '@ethersproject/units'
+import Toast from '@/UI/Toast.vue'
+import { toast } from 'vue3-toastify'
+
 const { BigNumber } = require('ethers')
 const bn = require('bignumber.js')
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 })
@@ -557,11 +560,40 @@ export async function MintPosition(
   let token0Contract = new ethers.Contract(token0.address, ERC20_ABI, signer)
   let token1Contract = new ethers.Contract(token1.address, ERC20_ABI, signer)
   step.value = 3
+  const ApproveTokensToastPending = toast.loading(Toast, {
+    data: {
+      header_text: 'Approve pending',
+      toast_text: 'Approve all requested tokens in your wallet',
+      tx_link: '',
+      speedUp: '',
+    },
+    position: toast.POSITION.TOP_RIGHT,
+    theme: 'dark',
+    closeOnClick: false,
+  })
   await ApproveToken(token1Contract, signer, amount1, token1.decimals)
   await ApproveToken(token0Contract, signer, amount0, token0.decimals)
+  toast.update(ApproveTokensToastPending, {
+    render: Toast,
+    data: {
+      header_text: 'All tokens approved',
+      toast_text: `All tokens from wallet successfully approved`,
+      tx_link: ``,
+      speedUp: '',
+    },
+
+    closeOnClick: false,
+    autoClose: 5000,
+    closeButton: false,
+    type: 'success',
+    isLoading: false,
+  })
+
   step.value = 4
+
   await mintPosition(order, signer)
-  step.value = 0
+
+  // step.value = 0
 }
 
 export async function AddLiquidityToPosition(
@@ -704,8 +736,34 @@ async function mintPosition(order, signer) {
     gasLimit: '1000000',
   }
 
+  const MintingToastPending = toast.loading(Toast, {
+    data: {
+      header_text: 'Minting liquidity',
+      toast_text: 'Minting CL position',
+      tx_link: '',
+      speedUp: '',
+    },
+    position: toast.POSITION.TOP_RIGHT,
+    theme: 'dark',
+    closeOnClick: false,
+  })
   let tx = await signer.sendTransaction(transaction)
   const receipt = await tx.wait()
+  toast.update(MintingToastPending, {
+    render: Toast,
+    data: {
+      header_text: 'Minting Confirm',
+      toast_text: `Minted a CL position`,
+      tx_link: ``,
+      speedUp: '',
+    },
+
+    closeOnClick: false,
+    autoClose: 5000,
+    closeButton: false,
+    type: 'success',
+    isLoading: false,
+  })
   console.log('SUCCESS', receipt)
   return receipt
 }

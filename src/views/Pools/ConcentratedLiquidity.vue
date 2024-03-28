@@ -232,11 +232,11 @@
                         justify-content: space-between;
                         border-radius: 0px 6px 6px 0px;
                       "
-                      class="p-4"
+                      class="p-3 py-6"
                     >
                       <div
                         @click="incrementPriceRange(true)"
-                        style="cursor: pointer"
+                        style="cursor: pointer; z-index: 10;"
                       >
                         <svg
                           width="14"
@@ -253,7 +253,7 @@
                       </div>
                       <div
                         @click="decrementPriceRange(true)"
-                        style="cursor: pointer"
+                        style="cursor: pointer; z-index: 10;"
                       >
                         <svg
                           width="14"
@@ -364,11 +364,11 @@
                         justify-content: space-between;
                         border-radius: 0px 6px 6px 0px;
                       "
-                      class="p-4"
+                      class="p-3 py-6"
                     >
                       <div
                         @click="incrementPriceRange(false)"
-                        style="cursor: pointer"
+                        style="cursor: pointer; z-index: 10;"
                       >
                         <svg
                           width="14"
@@ -385,7 +385,7 @@
                       </div>
                       <div
                         @click="decrementPriceRange(false)"
-                        style="cursor: pointer"
+                        style="cursor: pointer; z-index: 10;"
                       >
                         <svg
                           width="14"
@@ -490,7 +490,11 @@
                       </div>
                       <div>
                         Balance:
-                        {{ (pairToken1.balance || 0) - depositAmount1 }}
+                        {{
+                          parseFloat(
+                            (pairToken1.balance || 0) - depositAmount1,
+                          ).toFixed(4)
+                        }}
                       </div>
                     </div>
                     <div
@@ -572,7 +576,11 @@
                       </div>
                       <div>
                         Balance:
-                        {{ (pairToken2.balance || 0) - depositAmount2 }}
+                        {{
+                          parseFloat(
+                            (pairToken2.balance || 0) - depositAmount2,
+                          ).toFixed(4)
+                        }}
                       </div>
                     </div>
                     <div
@@ -671,7 +679,7 @@
             >
               <div class="d-flex gap-2">
                 <!-- First step marker -->
-                <div class="position-relative">
+                <div class="position-relative flex items-center justify-center">
                   <svg
                     width="30"
                     height="30"
@@ -693,9 +701,9 @@
                     />
                   </svg>
                   <div
-                    v-if="concentratedLiquidityStep === 3"
+                    v-if="concentratedLiquidityStep === 2"
                     :class="
-                      concentratedLiquidityStep === 3
+                      concentratedLiquidityStep === 2
                         ? 'step_number step_number_active'
                         : 'step_number'
                     "
@@ -703,27 +711,16 @@
                     1
                   </div>
                   <div
-                    v-else-if="concentratedLiquidityStep === 4"
+                    v-else-if="concentratedLiquidityStep === 3"
                     class="step_number"
                   >
                     <img :src="metamask" width="20" />
                   </div>
                   <div
-                    v-else-if="concentratedLiquidityStep === 5"
+                    v-else-if="concentratedLiquidityStep > 3"
                     class="step_number"
                   >
-                    <svg
-                      width="15"
-                      height="11"
-                      viewBox="0 0 15 11"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4.97 10.583L0 5.613L0.714 4.9L4.97 9.156L14.126 0L14.839 0.713L4.97 10.583Z"
-                        fill="#00C9FF"
-                      />
-                    </svg>
+                    <img :src="checked_step_img" />
                   </div>
                 </div>
 
@@ -741,18 +738,31 @@
                       cy="15"
                       r="14.5"
                       :stroke="
-                        concentratedLiquidityStep === 5 ? '#00C9FF' : 'white'
+                        concentratedLiquidityStep === 4 || concentratedLiquidityStep === 5 ? '#00C9FF' : 'white'
                       "
                     />
                   </svg>
                   <div
+                  v-if="concentratedLiquidityStep < 4"
                     :class="
-                      concentratedLiquidityStep === 5
+                      concentratedLiquidityStep === 5 || concentratedLiquidityStep === 4
                         ? 'step_number step_number_active'
                         : 'step_number'
                     "
                   >
                     2
+                  </div>
+                  <div
+                    v-else-if="concentratedLiquidityStep === 4"
+                    class="step_number"
+                  >
+                    <img :src="metamask" width="20" />
+                  </div>
+                  <div
+                    v-else-if="concentratedLiquidityStep === 5"
+                    class="step_number"
+                  >
+                    <img :src="checked_step_img" />
                   </div>
                 </div>
               </div>
@@ -786,6 +796,12 @@
               :class="'concentrated_button'"
             >
               Minting liquidity <span class="button_loader pl-2"></span>
+            </div>
+            <div
+              v-else-if="concentratedLiquidityStep === 5"
+              :class="'concentrated_button'"
+            >
+              Manage position
             </div>
           </div>
         </div>
@@ -844,7 +860,7 @@ import { CalculateAvgApr } from '@/composables/math/chartMath/trackingInfoMath'
 import { usePool30dProfit } from '@/composables/pools/usePoolSwapsStats'
 import router from '@/router'
 import Modal from '@/UI/Modal.vue'
-
+import checked_step_img from '@/assets/icons/CLIcons/checked_step.svg'
 
 
 const route = useRoute()
@@ -1168,7 +1184,7 @@ async function mintPosition() {
   } catch (e) {
     console.error('[MINT ERROR] Error happened during position minting')
   }
-  concentratedLiquidityStep.value = 0
+  concentratedLiquidityStep.value = 5
 }
 
 function updateDepositAmount2() {
@@ -1272,7 +1288,7 @@ async function initPossibleComposeTokens() {
   background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  margin: 1% 10% 10% 10%;
+  margin: 1% 5% 5% 5%;
   padding: 2.5%;
   border-radius: 16px;
 }
@@ -1429,6 +1445,11 @@ async function initPossibleComposeTokens() {
   letter-spacing: -0.4000000059604645px;
   text-align: center;
   color: white;
+
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 
   &_active {
     color: #00c9ff;

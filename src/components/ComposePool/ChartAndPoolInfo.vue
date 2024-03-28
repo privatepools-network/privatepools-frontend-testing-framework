@@ -77,7 +77,7 @@
         <img :src="range_chart_icon" width="100" />
         <div class="compose_text mt-3">Your position will appear here.</div>
       </div>
-      <div v-else class="w-100">
+      <div v-else class="w-[350px]">
         <HistogramSlider style="padding: 0px 60px" :width="'100%'" :bar-height="180" :bar-gap="0" :bar-width="41"
           :bar-radius="0" gridNum="10" :prettify="prettify" :data="data" :drag-interval="true" :force-edges="false"
           :colors="['#4facfe', '#00C9FF']" :min="0" :max="price * 2" :forceEdges="true" />
