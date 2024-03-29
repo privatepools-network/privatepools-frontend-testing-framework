@@ -1,46 +1,45 @@
 <template>
-  <CModal alignment="normal" :visible="selectPositionModalState">
-    <!-- <CModalHeader :close-button="false">
-    </CModalHeader> -->
-    <CModalBody>
-      <div class="modal_body_inside">
-        <div>
-          <div class="modal_body_header d-flex justify-content-between align-items-start mb-3">
-            <p style="font-size: 20px">Select Position</p>
-            <div class="back_button" @click="selectPositionModalState = false">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M6 6L18 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </div>
+  <div class="modal_body_inside z-[10000]">
+    <div>
+      <div
+        class="modal_body_header d-flex justify-content-between align-items-start mb-3"
+      >
+        <p style="font-size: 20px">Select Position</p>
+       
+      </div>
 
-          <div class="mt-3">
-            <div style="color: white; font-size: 14px">Your CL Positions</div>
-          </div>
-          <div class="mt-3 tokens_container">
-            <div v-for="pos, PosIndex in positions" :key="`tokens-key-${PosIndex}`" class="p-3 gap-3 token_card"
-              @click="selectPositionHandler(PosIndex)">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center gap-1">
-                  <img class="pair_avatars_manage_pool" v-for="(tokenEntity, tokenEntityIndex) in pos.tokens"
-                    :key="`token-entity-key-${tokenEntityIndex}`" :title="tokenEntity"
-                    :src="getTokenEntity(tokenEntity, 'short').icon" />
-                  <span class="liquidity_title">{{ pos.name }}</span>
-                  <span class="fee_container">{{ pos.fee }} Fee</span>
-                </div>
-                <div>{{ pos.CLP }}</div>
-              </div>
-              <div class="d-flex align-items-center justify-content-between">
-                <div>Position Size</div>
-                <div>{{ pos.positionSize }}</div>
-              </div>
+      <div class="mt-3">
+        <div style="color: white; font-size: 14px">Your CL Positions</div>
+      </div>
+      <div class="mt-3 tokens_container h-[400px] overflow-auto">
+        <div
+          v-for="(pos, PosIndex) in positions"
+          :key="`tokens-key-${PosIndex}`"
+          class="p-3 gap-3 token_card"
+          @click="selectPositionHandler(PosIndex)"
+        >
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-1">
+              <img
+                class="pair_avatars_manage_pool"
+                v-for="(tokenEntity, tokenEntityIndex) in pos.tokens"
+                :key="`token-entity-key-${tokenEntityIndex}`"
+                :title="tokenEntity"
+                :src="getTokenEntity(tokenEntity, 'short').icon"
+              />
+              <span class="liquidity_title">{{ pos.name }}</span>
+              <span class="fee_container">{{ pos.fee }} Fee</span>
             </div>
+            <div>{{ pos.CLP }}</div>
+          </div>
+          <div class="d-flex align-items-center justify-content-between">
+            <div>Position Size</div>
+            <div>{{ pos.positionSize }}</div>
           </div>
         </div>
       </div>
-    </CModalBody>
-  </CModal>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -52,7 +51,7 @@ const emit = defineEmits(['updateToken', 'selectPosition'])
 
 function selectPositionHandler(positionIndex) {
   emit('selectPosition', positionIndex)
-  props.selectPositionModalState = false;
+  props.selectPositionModalState = false
 }
 </script>
 <style lang="scss" scoped>
@@ -74,7 +73,6 @@ function selectPositionHandler(positionIndex) {
   color: white;
   text-align: center;
   box-shadow: 0px 4px 4px 0px #00000040;
-
 }
 
 .token-input {
@@ -244,7 +242,6 @@ function selectPositionHandler(positionIndex) {
 }
 
 .token_card {
-  overflow-y: auto;
   border-radius: 16px;
   // box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   padding: 10px;

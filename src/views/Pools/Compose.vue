@@ -79,7 +79,7 @@
             Choose tokens & weights
           </div>
 
-          <div class="compose_text my-1" v-else-if="activeStep === 2">
+          <div class="compose_text flex items-center gap-1 my-1" v-else-if="activeStep === 2">
             <svg
               style="cursor: pointer"
               width="16"
@@ -863,7 +863,7 @@
           <div
             class="d-flex justify-content-center flex-column align-items-center"
           >
-            <div class="compose_text">
+            <div class="compose_text flex items-center gap-1">
               In your wallet <img :src="info" class="info_icon" />
             </div>
             <div
@@ -1625,6 +1625,11 @@ const dynamicDonut = computed(() => {
   letter-spacing: -0.4000000059604645px;
   text-align: center;
   color: white;
+
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 
   &_active {
     color: #00c9ff;
