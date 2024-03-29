@@ -19,8 +19,11 @@ export const UNISWAP_POOLS_QUERY = `{
 export const UNISWAP_FILTERED_POOLS_QUERY = (ids) => `{
   pools(where:{id_in:[${ids.map((item) => `"${item}"`).join(',')}]}){
     id
+    liquidity
     createdAtTimestamp
     totalValueLockedUSD
+    totalValueLockedToken0
+    totalValueLockedToken1
     token0{
         symbol
         id

@@ -84,7 +84,7 @@
       <div class="details-el">
         <div class="details-el__col flex-column gap-3">
           <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]" @click="
-    $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })
+    addTokenToMetamask(pool.address, lp_name)
     ">
             Add {{ lp_name }} LP
           </div>
@@ -102,7 +102,7 @@
             </svg>
           </div>
           <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]">
-            <a :href="`${etherscan_link}/contract/${pool.address}`" target="_blank"
+            <a :href="`${etherscan_link}/token/${pool.address}`" target="_blank"
               class="flex items-center gap-1 !text-black dark:!text-white hover:!text-[#03a6e9]">
               VIEW CONTRACT <img :src="etherscan" style="margin-left: 5px" /></a>
           </div>
@@ -253,7 +253,7 @@ import etherscan from '@/assets/icons/etherscan.svg'
 import router from '@/router'
 import APRIcon from '@/assets/icons/APRIcon.svg'
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
-
+import { addTokenToMetamask } from "@/lib/utils/metamask"
 const props = defineProps({
   pool: Object,
   index: Number,
@@ -273,6 +273,7 @@ const etherscan_link = computed(() => {
     ReversedDisplayNetwork[pool.value.Blockchain],
   ).explorer
 })
+console.log(pool)
 
 const visibleDetails = ref(false)
 </script>

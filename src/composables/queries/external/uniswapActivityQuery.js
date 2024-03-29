@@ -33,7 +33,56 @@ export const UNISWAP_ACTIVITY_QUERY = `
   swaps{
     amountUSD
     amount1
+    amount0
+    transaction{
+      id
+    }
+    token0{
+      symbol
+    }
+    token1{
+      symbol
+    }
+    timestamp
+  }
+}`
+
+export const UNISWAP_POOL_ACTIVITY_QUERY = (poolId) => `
+{
+  burns(where:{pool:"${poolId}"}){
+    amountUSD
+    transaction{
+      id
+    }
+    amount0
     amount1
+    timestamp
+    token0{
+      symbol
+    }
+    token1{
+      symbol
+    }
+  }
+  mints(where:{pool:"${poolId}"}){
+    amountUSD
+    transaction{
+      id
+    }
+    amount0
+    amount1
+    timestamp
+    token0{
+      symbol
+    }
+    token1{
+      symbol
+    }
+  }
+  swaps(where:{pool:"${poolId}"}){
+    amountUSD
+    amount1
+    amount0
     transaction{
       id
     }

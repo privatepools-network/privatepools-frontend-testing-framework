@@ -164,6 +164,7 @@
     return configService.getNetworkConfig(ReversedDisplayNetwork[pool.value.Blockchain]).explorer
   })
   
+
   const tokenEntities = computed(() => {
     let tokens = pool?.value['Pool Name']?.flat()
     let entities = tokens?.map((propValue) => getTokenEntity(propValue, 'short'))

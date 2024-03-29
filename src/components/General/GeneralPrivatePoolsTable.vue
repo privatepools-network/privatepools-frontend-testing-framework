@@ -1,17 +1,9 @@
 <template>
   <div class="table__header">
-    <Tabs
-      style="margin-right: 15px"
-      :selectedTab="activitiesSelectedMode"
-      :tabsOptions="activitiesModes"
-      @changeTab="changeActivitiesMode"
-    ></Tabs>
+    <Tabs style="margin-right: 15px" :selectedTab="activitiesSelectedMode" :tabsOptions="activitiesModes"
+      @changeTab="changeActivitiesMode"></Tabs>
 
-    <Tabs
-      :selectedTab="actSelectedPeriodOfData"
-      :tabsOptions="periodsOfData"
-      @changeTab="changeActPeriodOfData"
-    >
+    <Tabs :selectedTab="actSelectedPeriodOfData" :tabsOptions="periodsOfData" @changeTab="changeActPeriodOfData">
     </Tabs>
   </div>
   <CRow id="pool-activity-row" class="table-wrapper">
@@ -30,40 +22,22 @@
           </CTableDataCell>
           <CTableDataCell scope="row" class="text-white table-cell">
             <div class="details-cell">
-              <div
-                v-for="(tokenEntry, tokenIndex) in item['Details']"
-                class="details-cell__token-entity"
-                :key="`activity-token-key-${tokenIndex}`"
-              >
-                <div
-                  v-for="(tokenInfo, tokenInfoIndex) in Object.entries(
-                    tokenEntry,
-                  )"
-                  :class="
-                    tokenInfo[0] !== 'action'
-                      ? 'details-cell__token-entity'
-                      : ''
-                  "
-                  :key="`activity-token-info-key-${tokenInfoIndex}`"
-                >
-                  <div
-                    v-if="tokenInfo[0] !== 'action'"
-                    class="d-flex align-items-center"
-                  >
-                    <img
-                      :src="getTokenEntity(tokenInfo[0], 'short').icon"
-                      class="details-cell__token-entity__icon"
-                    />
+              <div v-for="(tokenEntry, tokenIndex) in item['Details']" class="details-cell__token-entity"
+                :key="`activity-token-key-${tokenIndex}`">
+                <div v-for="(tokenInfo, tokenInfoIndex) in Object.entries(
+      tokenEntry,
+    )" :class="tokenInfo[0] !== 'action'
+      ? 'details-cell__token-entity'
+      : ''
+      " :key="`activity-token-info-key-${tokenInfoIndex}`">
+                  <div v-if="tokenInfo[0] !== 'action'" class="d-flex align-items-center">
+                    <img :src="getTokenEntity(tokenInfo[0], 'short').icon" class="details-cell__token-entity__icon" />
                     <div class="details-cell__token-entity__token-name">
                       {{ tokenInfo[1] }}
                     </div>
-                    <div
-                      v-if="
-                        tokenEntry.action === 'Swap' && tokenInfoIndex === 1
-                      "
-                      style="margin-left: 10px"
-                    >
-                   <img :src="swapArrowIcon"/>
+                    <div v-if="tokenEntry.action === 'Swap' && tokenInfoIndex === 1
+      " style="margin-left: 10px">
+                      <img :src="swapArrowIcon" />
                     </div>
                   </div>
                 </div>
@@ -78,13 +52,8 @@
 
           <CTableDataCell scope="row" class="text-white table-cell">
             <div class="time-cell">
-              <a
-                target="_blank"
-                :href="`${
-                  configService.getNetworkConfig(item.chainId).explorer
-                }/tx/${item.Tx}`"
-                class="flex items-center gap-1"
-              >
+              <a target="_blank" :href="`${configService.getNetworkConfig(item.chainId).explorer
+      }/tx/${item.Tx}`" class="flex items-center gap-1">
                 {{ item['Time'] }}
                 <img :src="linkIcon" />
               </a>
@@ -121,7 +90,7 @@ const activities = computed(() => {
     result.push(...getWpActivity())
   }
   if (clActivity.value) {
-    result.push(...getClActivity())
+    result.push(...clActivity.value)
   }
   let now = Date.now() / 1000
   let filtered_time_ago = now - actSelectedPeriodOfData.value.number
@@ -188,59 +157,6 @@ function getWpActivity() {
   return result
 }
 
-function getClActivity() {
-  let result = []
-  let cl_joins = clActivity.value.filter((item) => item.type == 'Join')
-  let cl_exits = clActivity.value.filter((item) => item.type == 'Exit')
-  let cl_swaps = clActivity.value.filter((item) => item.type == 'Swap')
-  console.log('HERE - ', cl_joins)
-  result.push(
-    ...cl_swaps.map((item) => {
-      let out = {
-        Actions: 'Swap',
-        Details: [
-          {
-            action: 'Swap',
-          },
-        ],
-        Value: item.amountUSD,
-        Time: generateTimeAgoString(item.timestamp),
-        Tx: item.transaction.id,
-        timestamp: item.timestamp,
-        chainId: item.chainId,
-      }
-      out['Details'][0][item.token0.symbol] = parseFloat(item.amount0).toFixed(
-        2,
-      )
-      out['Details'][0][item.token1.symbol] = parseFloat(item.amount1).toFixed(
-        2,
-      )
-      return out
-    }),
-  )
-  let cl_joinExits = cl_joins.concat(cl_exits)
-  result.push(
-    ...cl_joinExits.map((item) => {
-      let out = {
-        Actions: item.type == 'Join' ? 'Deposit' : 'Withdraw',
-        Details: [{}],
-        Value: parseFloat(item.amountUSD).toFixed(2),
-        Time: generateTimeAgoString(item.timestamp),
-        Tx: item.transaction.id,
-        timestamp: item.timestamp,
-        chainId: item.chainId,
-      }
-      out['Details'][0][item.token0.symbol] = parseFloat(item.amount0).toFixed(
-        2,
-      )
-      out['Details'][0][item.token1.symbol] = parseFloat(item.amount1).toFixed(
-        2,
-      )
-      return out
-    }),
-  )
-  return result
-}
 
 const periodsOfData = [
   {

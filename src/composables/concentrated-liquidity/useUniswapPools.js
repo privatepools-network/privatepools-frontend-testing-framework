@@ -47,3 +47,32 @@ function calculatePoolTvls(pools, token_prices) {
       pool.totalValueLockedToken1 * token_prices[pool.token1.symbol]
   }
 }
+
+export async function GetSingleCLPool(network, poolId) {
+  let data = await useGraphQLQuery(
+    UNISWAP_SUBGRAPHS[network],
+    UNISWAP_FILTERED_POOLS_QUERY([poolId]),
+  )
+  if (data.pools) {
+    let token_symbols = Array.from(
+      new Set(
+        data['pools']
+          .map((item) => [item.token0.symbol, item.token1.symbol])
+          .flat(),
+      ),
+    )
+    let token_prices = await GetTokenPricesBySymbols(token_symbols)
+    calculatePoolTvls(data['pools'], token_prices)
+    return data.pools.map((item) => ({
+      ...item,
+      chainId: network,
+      totalLiquidity: item.totalValueLockedUSD,
+      lpPrice: item.totalValueLockedUSD / item.liquidity,
+      tokens: [
+        { ...item.token0, balance: item.totalValueLockedToken0, weight: 50 },
+        { ...item.token1, balance: item.totalValueLockedToken1, weight: 50 },
+      ],
+    }))[0]
+  }
+  return null
+}
