@@ -1004,13 +1004,13 @@ function getTokenAmounts(
   return [amount0Human, amount1Human]
 }
 
-export async function fetchPositions(signer, tokens, networkId) {
+export async function fetchPositions(signer, tokens, networkId, fee = null) {
   const nfpmContract = new ethers.Contract(
     NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
     NonfungiblePositionManagerAbi.abi,
     signer,
   )
-  let address = await signer.getAddress()
+  let address = '0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //await signer.getAddress()
   const numPositions = await nfpmContract.balanceOf(address)
   const calls = []
 
@@ -1036,6 +1036,7 @@ export async function fetchPositions(signer, tokens, networkId) {
           (item) => item.address.toLowerCase() == position.token1.toLowerCase(),
         )
         if (!token0Found || !token1Found) return null
+        if (fee && position.fee != fee) return null
         let token0 = convertPairToken(token0Found, networkId)
         let token1 = convertPairToken(token1Found, networkId)
         let pool = await getPoolInfo(signer, token0, token1, position.fee, null)

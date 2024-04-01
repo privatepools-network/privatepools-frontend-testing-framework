@@ -130,7 +130,8 @@
       <PoolsDetailsChart :changeToDepositView="changeToDepositView" :changeToWithdrawView="changeToWithdrawView"
         :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices" :pool="pool" :swapsData="poolSwapsData"
         :chainSelected="chainSelected.chain" :all_chart_data="chartData" :historical_tvl="historical_tvl"
-        :symbol="currencySymbol" :currencySelected="currencySelected" />
+        :symbol="currencySymbol" :currencySelected="currencySelected"
+        :userBalance="shares ? shares.token0Usd + shares.token1Usd : 0" />
     </CRow>
 
     <!-- <CRow class="pool-information-row">
@@ -434,13 +435,13 @@
                 <div class="d-flex align-items-center gap-1" style="color: #0082A5">
                   <div>
                     {{
-    pool?.factory?.substring(0, 6) +
+    POOL_FACTORY_CONTRACT_ADDRESS.substring(0, 6) +
     '....' +
-    pool?.factory?.substring(pool?.factory?.length - 4)
+    POOL_FACTORY_CONTRACT_ADDRESS.substring(POOL_FACTORY_CONTRACT_ADDRESS.length - 4)
   }}
                   </div>
                   <a target="_blank"
-                    :href="`${configService.getNetworkConfig(networkId).explorer}/address/${pool.factory}`">
+                    :href="`${configService.getNetworkConfig(networkId).explorer}/address/${POOL_FACTORY_CONTRACT_ADDRESS}`">
                     <img :src="link" />
                   </a>
                 </div>
@@ -472,14 +473,14 @@
                 <div class="d-flex align-items-center gap-1" style="color: #0082A5">
                   <div>
                     {{
-    configService.getNetworkConfig(networkId).addresses.vault.substring(0, 6) +
+    V3_SWAP_ROUTER_ADDRESS.substring(0, 6) +
     '....' +
-    configService.getNetworkConfig(networkId).addresses.vault.substring(configService.getNetworkConfig(networkId).addresses.vault.length
+    V3_SWAP_ROUTER_ADDRESS.substring(V3_SWAP_ROUTER_ADDRESS.length
       - 4)
   }}
                   </div>
                   <a target="_blank"
-                    :href="`${configService.getNetworkConfig(networkId).explorer}/address/${configService.getNetworkConfig(networkId).addresses.vault}`">
+                    :href="`${configService.getNetworkConfig(networkId).explorer}/address/${V3_SWAP_ROUTER_ADDRESS}`">
                     <img :src="link" />
                   </a>
                 </div>
@@ -512,9 +513,7 @@
 
         <div class="diagram-section" style="width: 28%" v-if="pool &&
     pool.tokens &&
-    tokenPrices &&
-    tokenWeights.length > 0 &&
-    pool.id == router.currentRoute.value.params['id']
+    tokenWeights.length > 0
     ">
           <div class="d-flex align-items-center justify-content-between" style="
               background-color: #1C1C1C;
@@ -599,10 +598,9 @@
         Pool Analytics
       </div>
       <CRow id="pool-stats-row">
-        <PoolsDetailsDiagrams v-if="assetsPerformance && poolTradesData && poolProfitsData"
-          :tradesData="poolTradesData.tradesData" :tradesTimestamps="poolTradesData.tradesTimestamps"
-          :profitsData="poolProfitsData.profitsData" :profitsTimestamps="poolProfitsData.profitsTimestamps"
-          :symbol="currencySymbol" :decimals="currencyDecimals"
+        <PoolsDetailsDiagrams v-if="assetsPerformance" :tradesData="poolTradesData.tradesData"
+          :tradesTimestamps="poolTradesData.tradesTimestamps" :profitsData="poolProfitsData.profitsData"
+          :profitsTimestamps="poolProfitsData.profitsTimestamps" :symbol="currencySymbol" :decimals="currencyDecimals"
           :assetsPerformanceData="assetsPerformance.assetsPerformanceData" :assetsPerformanceTimestamps="assetsPerformance.assetsPerformanceTimestamps
     " :tokens="pool.tokens" />
         <div class="pool-section" v-else style="height: 330px; width: 70%">
@@ -798,6 +796,7 @@ import { GetPoolHistoricValues } from '@/composables/pools/charts/usePoolHistori
 import { formatBigNumber } from '@/lib/utils/index'
 import { GetPool24hProfit } from '@/composables/pools/usePoolSwapsStats'
 import { configService } from '@/services/config/config.service'
+import { POOL_FACTORY_CONTRACT_ADDRESS, V3_SWAP_ROUTER_ADDRESS } from "@/composables/concentrated-liquidity/constants"
 import {
   Network,
   networkId,
@@ -824,7 +823,7 @@ import { GetHistoricalTokenPrices } from '@/composables/balances/useHistoricalTo
 import { stringToColor, formatSimpleTimestamp } from '@/lib/utils/index'
 import ThreeDots from '@/components/loaders/ThreeDots'
 import { GetPoolHistoricalBalances } from '@/composables/pools/usePoolHistoricalBalances'
-import { UseDiagramsData } from '@/composables/pools/charts/diagrams/useDiagramsData'
+import { UseCLDiagramsData } from '@/composables/pools/charts/diagrams/useDiagramsData'
 import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
 import { GetTokenPricesBySymbols } from "@/composables/balances/cryptocompare"
 import { GetTokenPairs, updateTokenPrices } from "@/composables/pools/useTokenPairs"
@@ -840,10 +839,12 @@ import CurrencySymbol from "@/components/TrackInfo/CurrencySymbol.vue"
 import info from '@/assets/images/info.svg'
 import { FormatAllTokensData } from '@/lib/formatter/trackTokensFormatter'
 import { FormatAllPairsData } from '@/lib/formatter/trackPairsFormatter'
-import CurrencySelector from '@/UI/CurrencySelector.vue'
 import { setPoolsTvls } from "@/composables/pools/usePools"
 import { GetSingleCLPool } from "@/composables/concentrated-liquidity/useUniswapPools"
 import { GetUniswapPoolActivity } from "@/composables/concentrated-liquidity/useUniswapActivity"
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import { useUniswapShares } from "@/composables/concentrated-liquidity/useUniswapShares"
+import { useUniswapHistoricalTokens } from "@/composables/concentrated-liquidity/useUniswapHistoricalTokens"
 const store = useStore()
 const trackCurrentNetwork = computed(() => {
   return store.getters.getCurrentNetwork
@@ -907,6 +908,7 @@ const historicalPrices = ref([])
 const historicSharesData = ref([])
 const historicalData = ref([])
 const poolActivity = ref(null)
+const historicalTokens = ref([])
 const tokenPrices = ref(null)
 const historical_tvl = ref([])
 
@@ -948,12 +950,22 @@ const scannerLink = computed(() => {
 
 const current_pool_token_prices = ref({})
 const unformattedPoolActivity = ref(null)
+const shares = ref(null)
 onMounted(async () => {
   pool.value = await GetSingleCLPool(chainSelected.value.chain, poolId)
   console.log(pool.value)
-  //await SetNetworkData()
   poolActivity.value = await GetUniswapPoolActivity(chainSelected.value.chain, poolId)
-  console.log('done 2')
+  const provider = await InitializeMetamask()
+  if (provider) {
+    shares.value = await useUniswapShares(poolId, provider.getSigner(), chainSelected.value.chain)
+  }
+  historicalPrices.value = await GetHistoricalTokenPrices(
+    Array.from(new Set([...pool.value.tokens.map((t) => t.symbol)])),
+    true,
+    500,
+    currency.value
+  )
+  historicalTokens.value = await useUniswapHistoricalTokens(poolId, chainSelected.value.chain)
 })
 
 watch(unformattedPoolActivity, async () => {
@@ -1046,10 +1058,6 @@ async function SetNetworkData() {
 
 async function SetAdditionalData(_poolActivity) {
 
-  tokenPrices.value = await GetPoolTokenPrices(
-    tokens.value,
-    chainSelected.value.chain,
-  )
   poolActivity.value = FormatPoolActivity(
     _poolActivity,
     pool.value.tokens,
@@ -1226,10 +1234,10 @@ const tokenWeights = computed(() =>
 )
 
 const diagramsData = computed(() =>
-  poolActivity.value && historicalPrices.value && historicalPrices.value.length > 0
-    ? UseDiagramsData(
+  poolActivity.value && historicalTokens.value.length > 0 && historicalPrices.value && historicalPrices.value.length > 0
+    ? UseCLDiagramsData(
       poolSwapsData.value,
-      historicalData.value.historicalBalances,
+      historicalTokens.value,
       pool.value.tokens,
       historicalPrices.value,
     )

@@ -11,6 +11,7 @@
       :pool="pool"
       :historical_tvl="FormatHistoricalTvl(historical_tvl)"
       :chainSelected="chainSelectedName"
+      :userBalance="userBalance"
     />
 
     <div class="track_chart_card">
@@ -129,6 +130,7 @@ const props = defineProps([
   'chainSelected',
   'currencySelected',
   'selectedOverallTab',
+  'userBalance'
 ])
 const {
   historical_tvl,
@@ -138,6 +140,7 @@ const {
   swapsData,
   chainSelected,
   all_chart_data,
+  userBalance
 } = toRefs(props)
 const chainSelectedName = computed(() => DisplayNetwork[chainSelected.value])
 

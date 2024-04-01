@@ -7,6 +7,7 @@ import { usePoolProfitTimeType } from './usePoolProfits'
 import { usePoolTradesTimeType } from './usePoolTrades'
 import { TIME_TYPES } from '@/composables/admin/mappings'
 import { getShortHourString } from '@/lib/utils'
+import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
 
 /**
  * @typedef {import('./usePoolProfits').ProfitsDiagram} ProfitsDiagram
@@ -45,6 +46,34 @@ export function UseDiagramsData(
   tokens,
   prices = null,
 ) {
+  assetsPerformance = ConvertAssetsPerformanceToArray(assetsPerformance, prices)
+  return createResults(filtered, assetsPerformance, tokens)
+}
+
+export function UseCLDiagramsData(
+  filtered,
+  historicalTokens,
+  tokens,
+  prices = null,
+) {
+  const formattedHistoricalTokens = historicalTokens.map((item) => ({
+    pricingAsset: item.token.id,
+    timestamp: item.date,
+    balanceUsd:
+      item.totalValueLocked *
+      getTokensPricesForTimestamp([item.token.symbol], prices, item.date)[
+        item.token.symbol
+      ],
+    balance: item.totalValueLocked,
+  }))
+  return createResults(
+    filtered,
+    formattedHistoricalTokens,
+    tokens.map((t) => ({ ...t, address: t.id })),
+  )
+}
+
+function createResults(filtered, assetsPerformance, tokens) {
   let time_types = [
     {
       method: getShortHourString,
@@ -62,7 +91,6 @@ export function UseDiagramsData(
       assetsPerformanceTimestamps: {},
     },
   }
-  assetsPerformance = ConvertAssetsPerformanceToArray(assetsPerformance, prices)
   for (let i = 0; i < time_types.length; i++) {
     let time_type = time_types[i]
     console.log(time_type.name)
@@ -95,3 +123,11 @@ export function UseDiagramsData(
   }
   return results
 }
+
+// pricingAsset: token_info.token.address,
+// timestamp: assetsPerformance[i].timestamp,
+// balanceUsd:
+//   _prices != null
+//     ? token_info.balance * _prices[token_info.token.symbol]
+//     : token_info.balanceUsd,
+// balance: token_info.balance,

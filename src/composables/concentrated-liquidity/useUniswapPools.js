@@ -5,6 +5,8 @@ import {
 import useGraphQLQuery from '../useQuery'
 import { UNISWAP_SUBGRAPHS } from './constants'
 import { GetTokenPricesBySymbols } from '../balances/cryptocompare'
+import { formatDateFromTimestamp, generateTimeAgoString } from '@/lib/utils'
+import { usePoolHolders } from './usePoolHolders'
 export async function useUniswapPools(networkId) {
   let data = await useGraphQLQuery(
     UNISWAP_SUBGRAPHS[networkId],
@@ -61,13 +63,17 @@ export async function GetSingleCLPool(network, poolId) {
           .flat(),
       ),
     )
-    let token_prices = await GetTokenPricesBySymbols(token_symbols)
+    const token_prices = await GetTokenPricesBySymbols(token_symbols)
+    const poolHolders = await usePoolHolders(poolId, network)
     calculatePoolTvls(data['pools'], token_prices)
     return data.pools.map((item) => ({
       ...item,
       chainId: network,
+      createdAt: formatDateFromTimestamp(item.createdAtTimestamp),
+      timeAgo: generateTimeAgoString(item.createdAtTimestamp),
       totalLiquidity: item.totalValueLockedUSD,
       lpPrice: item.totalValueLockedUSD / item.liquidity,
+      holdersCount: poolHolders.length,
       tokens: [
         { ...item.token0, balance: item.totalValueLockedToken0, weight: 50 },
         { ...item.token1, balance: item.totalValueLockedToken1, weight: 50 },

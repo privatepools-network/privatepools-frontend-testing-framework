@@ -21,6 +21,7 @@ export const UNISWAP_FILTERED_POOLS_QUERY = (ids) => `{
     id
     liquidity
     createdAtTimestamp
+    owner
     totalValueLockedUSD
     totalValueLockedToken0
     totalValueLockedToken1

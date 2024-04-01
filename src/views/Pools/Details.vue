@@ -64,7 +64,8 @@
       <PoolsDetailsChart :selectedOverallTab="selectedOverallTab" :changeToDepositView="changeToDepositView"
         :changeToWithdrawView="changeToWithdrawView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices"
         :pool="pool" :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="chartData"
-        :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected" />
+        :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected"
+        :userBalance="balance" />
     </CRow>
 
     <div style="display: inline-block; margin-bottom: 24px">
@@ -683,7 +684,7 @@ import {
   updateTokenPrices,
 } from '@/composables/pools/useTokenPairs'
 import { DisplayNetwork } from '@/composables/useNetwork'
-
+import { InitializeMetamask } from '@/lib/utils/metamask'
 import PoolDetailsTable from '@/components/PoolsDetails/PoolDetailsTable.vue'
 import { convertSwapsCurrency } from '@/composables/pools/usePoolSwapsStats'
 import { CalculateJoinExitPrice } from '@/lib/formatter/financialStatement/financialStatementFormatter'
@@ -692,6 +693,7 @@ import info from '@/assets/images/info.svg'
 import { FormatAllTokensData } from '@/lib/formatter/trackTokensFormatter'
 import { FormatAllPairsData } from '@/lib/formatter/trackPairsFormatter'
 import { setPoolsTvls } from '@/composables/pools/usePools'
+import { GetPoolShares } from "@/composables/pools/usePoolShares"
 const store = useStore()
 const trackCurrentNetwork = computed(() => {
   return store.getters.getCurrentNetwork
@@ -939,6 +941,8 @@ async function SetNetworkData() {
   )
 }
 
+const balance = ref(0)
+
 async function SetAdditionalData(_poolActivity) {
   tokenPrices.value = await GetPoolTokenPrices(
     tokens.value,
@@ -951,6 +955,14 @@ async function SetAdditionalData(_poolActivity) {
     currencySymbol.value,
     currencyDecimals.value,
   )
+  const provider = await InitializeMetamask()
+  if (provider) {
+    const address = await provider.getSigner().getAddress()
+    const share = await GetPoolShares(pool.value.id, { value: address })
+    if (share.percentage) {
+      balance.value = pool.value.totalLiquidity / 100 * share.percentage
+    }
+  }
   console.log('DONE 3')
 }
 

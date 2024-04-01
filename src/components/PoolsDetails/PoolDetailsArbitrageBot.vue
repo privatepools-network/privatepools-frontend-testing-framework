@@ -300,8 +300,8 @@
               </div>
               <div v-if="pool" style="color: white; font-weight: 800; ">
                 <CurrencySymbol :symbol="currencySelected.symbol" />{{
-            numberToAposthrophe(0)
-          }}
+            numberToAposthrophe(userBalance)
+                }}
               </div>
               <div v-else>
                 <ThreeDots></ThreeDots>
@@ -358,6 +358,7 @@ const props = defineProps([
   'chart_data',
   'chainSelected',
   'currencySelected',
+  'userBalance'
 ])
 const {
   tokenPrices,
@@ -368,6 +369,7 @@ const {
   chainSelected,
   cryptocomparePrices,
   currencySelected,
+  userBalance
 } = toRefs(props)
 
 const currencyDecimals = computed(() =>
