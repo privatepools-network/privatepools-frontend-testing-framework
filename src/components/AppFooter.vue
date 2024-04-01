@@ -1,5 +1,5 @@
 <template>
-  <CFooter class="footer">
+  <CFooter :class="'footer dark:!bg-[#0c0c0c3d] bg-[#B0B0B01A]'">
     <div class="d-flex justify-content-end gap-2 w-100">
       <a href="https://twitter.com/D3_firm" target="_blank">
         <div class="link_logo">
@@ -150,7 +150,7 @@ import twitterIcon from '@/assets/icons/Footer/twitter.svg'
 </script>
 <style lang="scss" scoped>
 .footer {
-  background: #0c0c0c3d;
+  // background: #0c0c0c3d;
   border: none;
   width: 100%;
   padding: 30px 80px;

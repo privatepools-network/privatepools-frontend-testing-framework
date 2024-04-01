@@ -9,7 +9,10 @@
       placeholder="Search tokens and liquidity pools"
     >
       <template #dropdown-item="{ option }">
-        <div v-if="option.firstToken" class="search_groups  text-black dark:!text-[#7d7d7d]">
+        <div
+          v-if="option.firstToken"
+          class="search_groups !text-black dark:!text-[#7d7d7d]"
+        >
           <svg
             width="18"
             height="8"
@@ -35,22 +38,24 @@
             <div class="d-flex align-items-center gap-2">
               <img :src="getTokenEntity(option.img, 'short').icon" width="38" />
               <div class="d-flex flex-column">
-                <div style="font-size: 12px; color: #ffffff" class="drop-shadow-lg">
+                <div class="drop-shadow-lg text-[12px] !text-black dark:!text-white">
                   {{ option.label }}
                 </div>
-                <div style="font-size: 10px; color: #8e8e8e">
+                <div
+                  class="drop-shadow-lg text-[10px] !text-black dark:!text-[#7d7d7d]"
+                >
                   {{ option.img }}
                 </div>
               </div>
             </div>
             <div>
               <div class="d-flex flex-column align-items-end">
-                <div style="font-size: 12px; color: #ffffff">
+                <div class="drop-shadow-lg text-[12px] !text-black dark:!text-white">
                   {{ option.price }}
                 </div>
                 <div
-                  style="font-size: 10px; color: #8e8e8e"
-                  class="d-flex align-items-center gap-1"
+                  style="font-size: 10px"
+                  class="d-flex align-items-center gap-1 text-[12px] !text-black dark:!text-[#8e8e8e]"
                 >
                   <svg
                     width="7"
@@ -82,7 +87,10 @@
             </div>
           </div>
         </template>
-        <div v-if="option.firstPool" class="search_groups text-black dark:!text-[#7d7d7d]">
+        <div
+          v-if="option.firstPool"
+          class="search_groups !text-black dark:!text-[#7d7d7d]"
+        >
           <svg
             width="18"
             height="8"
@@ -115,22 +123,27 @@
                 :title="tokenEntity"
               />
               <div class="d-flex flex-column">
-                <div style="font-size: 12px; color: #ffffff; margin-left: 18px" class="drop-shadow-lg">
+                <div
+                  class="drop-shadow-lg text-[12px] !text-black dark:!text-white ml-[18px]"
+                >
                   {{ option.label }}
                 </div>
-                <div style="font-size: 10px; color: #8e8e8e; margin-left: 18px">
+                <div
+                  class="drop-shadow-lg  !text-black dark:!text-[#7d7d7d] ml-[18px] text-[10px]"
+                >
                   {{ option.desc }}
                 </div>
               </div>
             </div>
             <div>
               <div class="d-flex flex-column align-items-end">
-                <div style="font-size: 12px; color: #ffffff">
+                <div
+                  class="drop-shadow-lg text-[12px] !text-black dark:!text-white ml-[18px]"
+                >
                   {{ option.price }}
                 </div>
                 <div
-                  style="font-size: 10px; color: #8e8e8e"
-                  class="d-flex align-items-center gap-1"
+                  class="d-flex align-items-center gap-1 drop-shadow-lg text-[12px] !text-black dark:!text-[#7d7d7d] ml-[18px]"
                 >
                   <svg
                     width="7"

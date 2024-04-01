@@ -10,7 +10,7 @@
               <h4 class="text-[14px] text-black dark:!text-[#626262] mb-[10px]">
                 Rewards
               </h4>
-              <div class="rewards_inside text-black dark:!text-white">
+              <div class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white">
                 <div class="text-[12px] text-black dark:!text-[#626262]">
                   Pending pool rewards
                 </div>
@@ -19,7 +19,7 @@
                   <img :src="rewards_icon" width="16"/>
                 </div>
               </div>
-              <div class="rewards_inside text-black dark:!text-white">
+              <div class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white">
                 <div class="text-[12px] text-black dark:!text-[#626262]">
                   Total staked
                 </div>
@@ -43,13 +43,13 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
 .rewards_inside {
 
   border-radius: 2px;
-  background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
   padding: 5px;
   font-family: Inter;
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
+  margin-bottom: 4px;
   // color: white;
 }
 

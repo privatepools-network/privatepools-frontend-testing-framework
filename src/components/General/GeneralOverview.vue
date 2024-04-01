@@ -2,20 +2,20 @@
   <div class="d-flex gap-1 flex-wrap justify-content-between">
     <div class="d-flex gap-4">
       <div
-        class="overview_big_container"
+        class="overview_big_container bg-[#FFFFFF24] dark:!bg-[#22222224]"
         v-for="(item, i) in bigContainerMock"
         :key="`${i}-big-container`"
       >
-        <div class="icon_container">
+        <div class="icon_container bg-white dark:!bg-[#22222224]">
           <img :src="item.icon" />
         </div>
         <div>
-          <div class="text_header">{{ item.name }}</div>
-          <div class="text_value">{{ item.value }}</div>
+          <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">{{ item.name }}</div>
+          <div class="text_value text-black dark:!text-white">{{ item.value }}</div>
         </div>
         <div>
-          <div class="text_header">{{ item.description }}</div>
-          <div class="text_value">{{ item.value_2 }}</div>
+          <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">{{ item.description }}</div>
+          <div class="text_value text-black dark:!text-white">{{ item.value_2 }}</div>
         </div>
         <div class="mt-5">
           <CChart
@@ -67,16 +67,16 @@
     </div>
     <div class="d-flex gap-4 flex-wrap justify-content-end" style="width: 35%">
       <div
-        class="overview_small_container"
+        class="overview_small_container bg-[#FFFFFF24] dark:!bg-[#22222224]"
         v-for="(item, i) in smallContainerMock"
         :key="`${i}-small`"
       >
-        <div class="icon_container">
+        <div class="icon_container bg-white dark:!bg-[#22222224]">
           <img :src="item.icon" />
         </div>
         <div>
-          <div class="text_header">{{ item.name }}</div>
-          <div class="text_value">{{ item.value }}</div>
+          <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">{{ item.name }}</div>
+          <div class="text_value text-black dark:!text-white">{{ item.value }}</div>
         </div>
       </div>
     </div>
@@ -92,6 +92,10 @@ import FeesIcon from '@/assets/icons/generalIcons/Fees.svg'
 import RealizedProfit from '@/assets/icons/generalIcons/realizedProfit.svg'
 import TotalProfitsIcon from '@/assets/icons/generalIcons/TotalProfits.svg'
 import averageAPRIcon from '@/assets/icons/generalIcons/averageAPR.svg'
+import { useDark } from '@vueuse/core'
+
+const isDark = useDark()
+
 
 const bigContainerMock = [
   {
@@ -150,16 +154,16 @@ const smallContainerMock = [
 </script>
 <style lang="scss" scoped>
 .overview_big_container {
-  background: #22222224;
-  box-shadow: 0px 4px 4px 0px #00000040;
+  // background: #22222224;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
   border: 1px solid #ffffff0d;
   border-radius: 16px;
   padding: 20px 30px;
   width: 17vw;
 }
 .overview_small_container {
-  background: #22222224;
-  box-shadow: 0px 4px 4px 0px #00000040;
+  // background: #22222224;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
   border: 1px solid #ffffff0d;
   border-radius: 16px;
   padding: 20px 30px;
@@ -168,7 +172,7 @@ const smallContainerMock = [
 }
 
 .icon_container {
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
 
   border-radius: 16px;
@@ -186,7 +190,7 @@ const smallContainerMock = [
   font-size: clamp(10px, 0.7vw, 13px);
   font-weight: 400;
   line-height: 17px;
-  color: #ffffffb2;
+  // color: #ffffffb2;
 }
 .text_value {
   margin-top: 5px;
@@ -195,7 +199,7 @@ const smallContainerMock = [
   font-size: clamp(14px, 0.8vw, 19px);
   font-weight: 700;
   line-height: 34px;
-  color: #ffffff;
+  // color: #ffffff;
 }
 
 :deep(.chartjs-tooltip) {

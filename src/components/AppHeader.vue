@@ -368,17 +368,17 @@ const computedAddress = computed(() =>
 
   &_bg {
     background: linear-gradient(356.2deg,
-        rgba(0, 29, 37, 0.755) 0%,
+        rgba(0, 29, 37, 0.955) 0%,
         #000000 105.42%) !important;
-    -webkit-backdrop-filter: blur(60px);
-    backdrop-filter: blur(60px);
+    // -webkit-backdrop-filter: blur(60px);
+    // backdrop-filter: blur(60px);
   }
   &_bg-white {
     background: linear-gradient(356.2deg,
-        rgba(197, 197, 197, 0.755) 0%,
+        rgba(221, 221, 221, 0.955) 0%,
         #ffffff 105.42%) !important;
-    -webkit-backdrop-filter: blur(60px);
-    backdrop-filter: blur(60px);
+    // -webkit-backdrop-filter: blur(60px);
+    // backdrop-filter: blur(60px);
   }
 }
 
@@ -785,7 +785,7 @@ const computedAddress = computed(() =>
   // background: linear-gradient(0deg, #090909, #090909),
   //   linear-gradient(0deg, rgba(115, 115, 115, 0.06), rgba(115, 115, 115, 0.06));
   // background: #171717;
-  // border: 1px solid #222222c9;
+  border: 1px solid #22222273;
   border-radius: 16px;
   width: 500px;
 
@@ -797,7 +797,7 @@ const computedAddress = computed(() =>
 
   &:hover {
     // border: 1px solid #00c8ffb7;
-    filter: drop-shadow(0 0 0.3rem #00c8ff63);
+    // filter: drop-shadow(0 0 0.3rem #00c8ff63);
   }
 }
 
@@ -819,7 +819,7 @@ const computedAddress = computed(() =>
 
 .vue-dropdown {
   // background: #171717;
-  background: #00000018;
+  background: #00000000;
   
   border: 1px solid #222222c9;
   // color: white;
