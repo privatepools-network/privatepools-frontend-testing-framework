@@ -104,7 +104,7 @@
           <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]">
             <a :href="`${etherscan_link}/token/${pool.address}`" target="_blank"
               class="flex items-center gap-1 !text-black dark:!text-white hover:!text-[#03a6e9]">
-              VIEW CONTRACT <img :src="etherscan" style="margin-left: 5px" /></a>
+              VIEW CONTRACT <img :src="isDark ? etherscan : binanceScanLight" style="margin-left: 5px" /></a>
           </div>
         </div>
         <div v-if="!isUserStaked"
@@ -112,7 +112,7 @@
           <div class="liquidity_button_text !text-black dark:!text-white">no liquidity deposited</div>
           <div
             @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { index }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })"
-            class="liquidity_button" :class="pool['LiquidityType'] === 'CL'
+            class="liquidity_button !text-white" :class="pool['LiquidityType'] === 'CL'
     ? 'liquidity_button_LP'
     : 'liquidity_button_WP'
     ">
@@ -254,6 +254,12 @@ import router from '@/router'
 import APRIcon from '@/assets/icons/APRIcon.svg'
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import { addTokenToMetamask } from "@/lib/utils/metamask"
+import { useDark } from '@vueuse/core'
+import binanceScanLight from '@/assets/icons/binanceScanLight.svg'
+
+const isDark = useDark()
+
+
 const props = defineProps({
   pool: Object,
   index: Number,

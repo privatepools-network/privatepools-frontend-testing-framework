@@ -178,19 +178,18 @@
         </div>
       </div>
     </div>
-    <!-- <div class="d-flex align-items-center gap-2">
-            <div style="cursor: pointer; height: 30px">
-              <CFormSwitch size="lg" v-model="hidePools" id="hidePools" />
-            </div>
-            <div class="text-white" style="font-size: clamp(12px, 0.8vw, 16px)">
-              Staked only
-            </div>
-    </div> -->
+     <!-- <div class="flex items-center gap-2">
+        <Toggler :toggle="hidePools"  :label="''" />
+        <div class="dark:!text-white text-black" style="font-size: clamp(12px, 0.8vw, 16px)">
+          Staked only
+        </div>
+      </div> -->
   </div>
 </template>
 <script setup>
 import { getTokenEntity } from '@/lib/helpers/util';
-import {ref, defineProps} from 'vue'
+import {ref, defineProps, defineEmits} from 'vue'
+// import Toggler from '@/UI/Toggler.vue'
 
 
 defineProps(['hidePools', 'optionsPoolType', 'optionsPoolAttribute', 'optionsTokens'])

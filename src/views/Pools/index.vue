@@ -3,26 +3,63 @@
     <Title :title="'Private Pools'" />
 
     <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
-      <PoolFilters :hidePools="hidePools" :optionsPoolType="optionsPoolType"
-        :optionsPoolAttribute="optionsPoolAttribute" :optionsTokens="optionsTokens" />
+      <div class="flex gap-4">
+        <PoolFilters
+          :hidePools="hidePools"
+          :optionsPoolType="optionsPoolType"
+          :optionsPoolAttribute="optionsPoolAttribute"
+          :optionsTokens="optionsTokens"
+        />
+
+        <div class="flex items-center gap-2">
+          <label class="inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              class="sr-only peer"
+              :value="hidePools"
+              @click="hidePools = !hidePools"
+              :checked="hidePools"
+            />
+            <div
+              class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+            ></div>
+          </label>
+          <div
+            class="dark:!text-white text-black"
+            style="font-size: clamp(12px, 0.8vw, 16px)"
+          >
+            Staked only
+          </div>
+        </div>
+      </div>
+
       <ComposePoolDropdown />
+
+      {{ console.log('hidePools', hidePools) }}
     </div>
 
     <div class="pools-rows">
       <div class="pools-row pools-row_header">
-        <div class="pools-row__col" :class="
-      // Table headers positioning by header names
-      headCaption === 'Composition' || headCaption === 'Tokens'
-        ? 'justify-content-start'
-        : 'justify-content-center'
-      " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
+        <div
+          class="pools-row__col"
+          :class="
+            // Table headers positioning by header names
+            headCaption === 'Composition' || headCaption === 'Tokens'
+              ? 'justify-content-start'
+              : 'justify-content-center'
+          "
+          v-for="(headCaption, headCaptionIndex) in headers"
+          :key="headCaption"
+        >
           <div class="file-table-header-cell">
-            <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
-              style="cursor: pointer; height: 20px">
+            <div
+              class="d-flex align-items-center gap-1"
+              :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+              style="cursor: pointer; height: 20px"
+            >
               <div :class="'head_caption_text text-black dark:!text-white'">
                 {{ headCaption }}
               </div>
-
             </div>
           </div>
         </div>
@@ -31,13 +68,27 @@
       <div v-if="all_pools.length === 0" class="my-5">
         <LoaderPulse />
       </div>
-      <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
-        :userPools="user_staked_pools" :inactive="isPoolInactive(pool)" :index="index"
-        @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
-        @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
+      <PoolRow
+        v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
+        :key="pool.name"
+        :pool="pool"
+        :userPools="user_staked_pools"
+        :inactive="isPoolInactive(pool)"
+        :index="index"
+        @goToPoolWithdraw="goToPoolWithdraw"
+        @goToCLPool="goToCLPool"
+        @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit"
+        @goToPoolManage="goToPoolManage"
+        @goToCL="goToCL"
+        :isActions="true"
+      />
 
       {{ console.log('all_pools', all_pools) }}
-      <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
+      <div
+        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more text-black dark:!text-white"
+      >
         Load More
         <img :src="arrow_bottom" />
       </div>
@@ -46,7 +97,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watch } from 'vue'
+import { computed, ref, onMounted, watch, defineEmits } from 'vue'
 import router from '@/router'
 import ComposePoolDropdown from '@/components/Pool/ComposePoolDropdown.vue'
 import { useRoute } from 'vue-router'
@@ -77,8 +128,7 @@ import { CalculateCLAPR } from '@/composables/math/chartMath/trackingInfoMath'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import PoolFilters from '@/components/Pool/PoolFilters.vue'
 import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
-
-
+import Toggler from '@/UI/Toggler.vue'
 
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 
@@ -95,7 +145,6 @@ const headers = [
 ]
 
 const route = useRoute()
-
 
 const optionsTokens = ref([])
 const optionsPoolType = ref([
@@ -117,7 +166,7 @@ watch(networkId, async () => {
 async function InitUserStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
-    let address = await mmProvider.getSigner().getAddress()//'0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //
+    let address = await mmProvider.getSigner().getAddress() //'0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //
     user_staked_pools.value = await useWalletPools(
       address,
       networkId.value,
@@ -194,8 +243,8 @@ function goToPoolManage(args) {
     router.push({
       name: 'Concentrated liquidity Add',
       params: {
-        onMountedActivity: "deposit",
-      }
+        onMountedActivity: 'deposit',
+      },
     })
   }
 }
@@ -347,12 +396,7 @@ onMounted(async () => {
     let provider = new ethers.providers.Web3Provider(window.ethereum)
     networksSupported.value = await provider.getNetwork()
   }
-
-
-
 })
-
-
 
 const all_pools = computed(() => {
   let result = []
@@ -387,8 +431,6 @@ const all_pools = computed(() => {
   }
   return result.toSorted((a, b) => b.TVL - a.TVL)
 })
-
-
 </script>
 
 <style lang="scss">
@@ -417,7 +459,6 @@ const all_pools = computed(() => {
       overflow-x: auto;
     }
   }
-
 }
 
 .load_more {

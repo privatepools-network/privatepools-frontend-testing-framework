@@ -12,7 +12,7 @@
                 >
                 PPN Token
               </h4>
-              <div class="rewards_inside text-black dark:!text-white">
+              <div class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white">
                 <div  class="text-[12px] text-black dark:!text-[#626262]">
                   PPN Price
                 </div>
@@ -21,7 +21,7 @@
              
                 </div>
               </div>
-              <div class="rewards_inside text-black dark:!text-white">
+              <div class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white">
                 <div class="text-[12px] text-black dark:!text-[#626262]">
                   Market Cap
                 </div>
@@ -30,7 +30,7 @@
                 </div>
                 
               </div>
-              <div class="rewards_inside text-black dark:!text-white">
+              <div class="rewards_inside bg-[white] dark:!bg-[#22222224]  text-black dark:!text-white">
                 <div class="text-[12px] text-black dark:!text-[#626262]">
                   Circulating Supply
                 </div>
@@ -52,14 +52,16 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 <style lang="scss" scoped>
 .rewards_inside {
   border-radius: 2px;
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
   padding: 5px;
   font-family: Inter;
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
-  color: white;
+  // color: white;
+  margin-bottom: 4px;
+
 }
 
 .rewards_button_dropdown {
