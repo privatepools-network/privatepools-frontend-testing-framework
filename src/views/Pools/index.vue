@@ -68,6 +68,9 @@
       <div v-if="all_pools.length === 0" class="my-5">
         <LoaderPulse />
       </div>
+
+      {{ console.log('user_staked_pools', user_staked_pools) }}
+
       <PoolRow
         v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
         :key="pool.name"

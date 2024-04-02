@@ -2,7 +2,7 @@
   <div class="pools-rows">
     <div class="pools-row pools-row_header">
       <div
-        class="pools-row__col"
+        class="pools-row__col !text-black dark:!text-white"
         v-for="(headCaption, headCaptionIndex) in headers"
         :key="headCaption"
       >
@@ -76,19 +76,80 @@
     </div>
     {{ console.log('filterByStatus', filterByStatus) }}
 
-    <GeneralPoolRow
-      v-for="(pool, index) in all_pools"
-      :poolsLength="all_pools.length"
-      :key="pool.name"
-      :pool="pool"
-      :index="index"
-      :isActions="true"
-    />
+    <PoolRow
+        v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
+        :key="pool.name"
+        :pool="pool"
+        :userPools="user_staked_pools"
+        :index="index"
+        @goToPoolWithdraw="goToPoolWithdraw"
+        @goToCLPool="goToCLPool"
+        @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit"
+        @goToPoolManage="goToPoolManage"
+        @goToCL="goToCL"
+        :isActions="true"
+      />
   </div>
 </template>
 <script setup>
-import GeneralPoolRow from './GeneralPoolRow.vue'
-
+import PoolRow from '../Pool/PoolRow.vue';
+const user_staked_pools = [
+    {
+        "id": "0x4fbc353def45f2c3d396b38d6feffe91d94cfa26",
+        "label": "ETH / USDT",
+        "img": "",
+        "percentChange": "0",
+        "price": "$13.16",
+        "tvlToken0": 11.155263999999999,
+        "tvlToken1": 1.9998014306351013
+    },
+    {
+        "id": "0xdd411f1dd1f48689622fd7931292747ecf21e2c2",
+        "label": "DAI / USDT",
+        "img": "",
+        "percentChange": "0",
+        "price": "$1.66",
+        "tvlToken0": 0.6614289990263649,
+        "tvlToken1": 0.9999
+    },
+    {
+        "id": "0xd81fd1a5972b8c87b800e572247cd6a977a008b9",
+        "label": "DAI / DOGE",
+        "img": "",
+        "percentChange": "0",
+        "price": "$7.78",
+        "tvlToken0": 3.6992600038445027,
+        "tvlToken1": 4.080071129939999
+    },
+    {
+        "id": "0xa3b7ecc240f1fb49c3fa295ccfa698e8f164851a",
+        "label": "ETH / USDC",
+        "img": "",
+        "percentChange": "0",
+        "price": "$65.30",
+        "tvlToken0": 39.739908040946794,
+        "tvlToken1": 25.55595299543693
+    },
+    {
+        "id": "0x631b9f9996c30ce37c2d57d1704fdc568429ef41",
+        "label": "BTCB / WBNB",
+        "img": "",
+        "percentChange": "0",
+        "price": "$914.96",
+        "tvlToken0": 466.1625030538951,
+        "tvlToken1": 448.79497027544363
+    },
+    {
+        "id": "0xcde3e063c375cae742ed7b0cd43fe943b0d8296a",
+        "label": "DAI / WBNB",
+        "img": "",
+        "percentChange": "0",
+        "price": "$18.71",
+        "tvlToken0": 7.666540002018327,
+        "tvlToken1": 11.046600000000002
+    }
+]
 const all_pools = [
   {
     id: '0x88e6378567c912e346e22e5de18ab417e5c8d9a3000100000000000000000007',
@@ -257,14 +318,11 @@ const all_pools = [
 ]
 
 const headers = [
-  '#',
   'Tokens',
-  'Profits',
-  'Revenue',
-  'Trades',
-  'Volume (24h)',
+  'Composition',
+  'ROI',
   'TVL',
-  'Fees',
+  'Volume (24h)',
   'APR',
   'Actions',
 ]
@@ -273,6 +331,19 @@ const headers = [
 @import '@/styles/_variables.scss';
 
 .pools-row {
+  display: flex;
+    align-items: center;
+    padding: 24px 32px;
+    border-bottom: 1px solid rgba(49, 56, 61, 0.81);
+    cursor: pointer;
+
+    @media all and (max-width: $lg) {
+      min-width: 130%;
+    }
+
+    @media all and (max-width: $md) {
+      min-width: 300%;
+    }
   &_header {
     font-size: 10px;
     font-family: Poppins;
@@ -282,46 +353,48 @@ const headers = [
       font-size: 8px;
     }
   }
+  &__col {
+      display: flex;
+      // color: #fff;
+      width: 18%;
+      // justify-content: center;
 
-  .multiselect__single {
-    background: none;
-  }
+      @media (max-width: $xxl) {
+        width: 23%;
+      }
 
-  :deep(.multiselect__tags) {
-    background: none !important;
-    border-color: rgba(0, 0, 0, 0) !important;
-    padding: 8px 20px 0 8px !important;
-  }
+      &:first-child {
+        min-width: 180px;
+        display: flex;
+        justify-content: start;
 
-  :deep(.multiselect__content-wrapper) {
-    border-color: #00c9ff !important;
-    border-top: 1px solid;
-    width: 190px;
-    right: 0px;
-  }
+        @media (max-width: $xl) {
+          min-width: 250px;
+        }
 
-  .multiselect__single {
-    background: none !important;
-    color: white !important;
-  }
+        @media (max-width: $lg) {
+          min-width: 200px;
+        }
+      }
 
-  .multiselect__option {
-    background: rgb(15, 17, 19) !important;
-    color: white !important;
-  }
+      &:nth-child(2) {
+        min-width: 30%;
 
-  :deep(.multiselect__option:hover) {
-    background: rgba(1, 180, 126, 0.884) !important;
-  }
+        @media (max-width: $xl) {
+          min-width: 250px;
+        }
 
-  :deep(.multiselect__option--selected) {
-    color: #00c9ff !important;
-  }
+        @media (max-width: $lg) {
+          min-width: 200px;
+        }
+      }
 
-  :deep(.multiselect__option--selected:hover) {
-    color: rgb(229, 83, 83) !important;
-    background: rgb(15, 17, 19) !important;
-  }
+      &:last-child {
+        width: 10%;
+      }
+    }
+
+  
 }
 .pools {
   &-rows {

@@ -1,13 +1,13 @@
 <template>
   <div class="timeline_container">
     <div class="chart-timeline">
-      <div class="chart-equivalent">
+      <div class="chart-equivalent bg-white dark:!bg-[#22222224]">
         <div
-          class="chart-equivalent__el"
+          class="chart-equivalent__el text-black dark:!text-white"
           v-for="timeline in timelines"
           :key="timeline.name"
           :class="{
-            'chart-equivalent__el_active':
+            'chart-equivalent__el_active text-white':
               currentTimeline.name == timeline.name,
           }"
           @click="emit('changeTimeline', timeline)"
@@ -16,7 +16,7 @@
         </div>
         <div
         v-if="isCumulativeMode !== undefined"
-          class="chart-equivalent__el"
+          class="chart-equivalent__el text-black dark:!text-white"
           :class="{
             'chart-equivalent__el_active': isCumulativeMode == true,
           }"
@@ -40,13 +40,13 @@ const emit = defineEmits(['changeTimeline', 'changeCumulativeMode'])
 
   &-equivalent {
     padding: 0px;
-    color: #FFFFFF;
+    // color: #FFFFFF;
     font-size: clamp(8px, 0.5vw, 13px);
     // margin-right: 15px;
     display: flex;
     justify-self: flex-start;
     border-radius: 16px;
-    background: #22222224;
+    // background: #22222224;
     box-shadow: 0px 4px 4px 0px #00000040;
 
 

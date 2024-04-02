@@ -1,10 +1,10 @@
 <template>
   <div class="pools-pagination">
-    <div class="pools-pagination__page-num">
+    <div class="pools-pagination__page-num !text-black dark:!text-white">
       <div
-        style="display: flex; align-items: center; gap: 7px; color: white"
+        style="display: flex; align-items: center; gap: 7px;"
       >
-        <div class="pools-pagination__text">Show:</div>
+        <div class="pools-pagination__text !text-black dark:!text-white">Show:</div>
         <div>
           <div class="pagination-select">
             <div class="pagination-select__title" :class="{'pagination-select__title_active':isPerPageSelectOpened==true}" @click="isPerPageSelectOpened=!isPerPageSelectOpened">
@@ -13,14 +13,14 @@
                 <path d="M0.929932 1.16992L5.42993 5.66992L9.92993 1.16992" stroke="#00C9FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <div class="pagination-select__wrapper" :class="{'pagination-select__wrapper_active':isPerPageSelectOpened==true}">
+            <div class="pagination-select__wrapper bg-white dark:!bg-[#02120a]" :class="{'pagination-select__wrapper_active':isPerPageSelectOpened==true}">
               <div class="pagination-select__option" v-for="item in perPageOptions" :key="item" @click="$emit('changePerPage', item), isPerPageSelectOpened=false">
                 {{item}}
               </div>
             </div>
           </div>
         </div>
-        <div class="pools-pagination__text">Records</div>
+        <div class="pools-pagination__text !text-black dark:!text-white">Records</div>
       </div>
     </div>
     <div
@@ -54,8 +54,8 @@
           />
         </svg>
       </CButton>
-      <CButton class="border-success text-white" style="border-radius: 20px;
-      border: 1px solid #00C9FF !important;color: #FFFFFF !important;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;">{{ currentPage }}</CButton>
+      <CButton class="border-success !text-black dark:!text-white" style="border-radius: 20px;
+      border: 1px solid #00C9FF !important; font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;">{{ currentPage }}</CButton>
      {{ console.log('totalPage', pools) }}
      <CButton
         :disabled="currentPage >= totalPage / perPage"
@@ -113,7 +113,7 @@ const isPerPageSelectOpened = ref(false)
   }
   &__text {
     font-size: 15px;
-    color: #ffffff;
+    // color: #ffffff;
     font-weight: 400;
     font-family: Poppins;
     @media (max-width: 1400px) {
@@ -130,7 +130,7 @@ const isPerPageSelectOpened = ref(false)
     width: 100%;
     border-radius: 10px 10px 0 0;
     top: -79px;
-    background: #02120a;
+    // background: #02120a;
     display: none;
     @media (max-width: 1400px) {
       top: -69px;

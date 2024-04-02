@@ -2,13 +2,13 @@
   <MainCard>
       <CRow class="mb-4">
         <div class="d-flex align-items-center gap-3">
-          <div class="back_button" @click="$emit('changeToSpecificPortfolio')">
+          <div class="back_button dark:!bg-[#00000024] bg-white" @click="$emit('changeToSpecificPortfolio')">
             <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M7 12.2969C6.9503 12.1035 6.82181 11.9655 6.68491 11.8288C5.1041 10.2512 3.5259 8.671 1.94425 7.0942C1.86866 7.0188 1.86891 6.981 1.94438 6.9058C3.5261 5.3291 5.1044 3.749 6.6853 2.1714C6.8222 2.0347 6.9506 1.8966 7 1.7031V1.4922C6.9218 1.2423 6.7587 1.0772 6.5078 1H6.27341C6.0819 1.0617 5.9438 1.1957 5.8055 1.3341C4.1154 3.0261 2.4241 4.71686 0.731455 6.4063C0.590385 6.5471 0.452015 6.6866 0.390625 6.8828V7.1172C0.452995 7.3128 0.589825 7.4533 0.731125 7.5943C2.4239 9.2835 4.11521 10.9742 5.80511 12.6663C5.94351 12.8049 6.08221 12.9379 6.27341 13H6.5078C6.5535 12.9807 6.5994 12.962 6.6448 12.9421C6.8371 12.8579 6.9314 12.6933 7 12.5078V12.2969Z" fill="white" stroke="#ADABAB" stroke-width="0.2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M7 12.2969C6.9503 12.1035 6.82181 11.9655 6.68491 11.8288C5.1041 10.2512 3.5259 8.671 1.94425 7.0942C1.86866 7.0188 1.86891 6.981 1.94438 6.9058C3.5261 5.3291 5.1044 3.749 6.6853 2.1714C6.8222 2.0347 6.9506 1.8966 7 1.7031V1.4922C6.9218 1.2423 6.7587 1.0772 6.5078 1H6.27341C6.0819 1.0617 5.9438 1.1957 5.8055 1.3341C4.1154 3.0261 2.4241 4.71686 0.731455 6.4063C0.590385 6.5471 0.452015 6.6866 0.390625 6.8828V7.1172C0.452995 7.3128 0.589825 7.4533 0.731125 7.5943C2.4239 9.2835 4.11521 10.9742 5.80511 12.6663C5.94351 12.8049 6.08221 12.9379 6.27341 13H6.5078C6.5535 12.9807 6.5994 12.962 6.6448 12.9421C6.8371 12.8579 6.9314 12.6933 7 12.5078V12.2969Z" fill="white" stroke="#ADABAB" stroke-width="0.2" class=" dark:!fill-[white] fill-black"/>
 </svg>
 
           </div>
-          <div class="caption-row">
+          <div class="caption-row text-black dark:!text-white">
             <svg
               width="48"
               height="48"
@@ -99,7 +99,7 @@
       </CRow>
       <div class="w-100 d-flex justify-content-between">
       <div
-        class="d-flex specific_container"
+        class="d-flex specific_container bg-white dark:!bg-[#22222224]"
         v-for="(item, i) in specificPortfolioStats"
         :key="`${i}-specific-stats`"
       >
@@ -108,9 +108,9 @@
             <img :src="item.icon" />
           </div>
           <div>
-            <div class="text_header">{{ item.name }}</div>
+            <div class="text_header text-black dark:!text-[#ffffffb2]">{{ item.name }}</div>
             <div
-              class="text_value"
+              class="text_value text-black dark:!text-white"
               :class="
                 item.value > 0 && item.name === 'Total PnL'
                   ? 'text-success'
@@ -123,7 +123,7 @@
         </div>
       </div>
     </div>
-    <div style="color: white; font-size: 18px; font-weight: 700" class="mt-5 mb-3">
+    <div class="mt-5 mb-3 font-bold text-[18px] text-black dark:!text-white">
       Invested Pools
     </div>
     <SpecificPortfolioTable/>
@@ -168,7 +168,7 @@ const specificPortfolioStats = ref([
 <style lang="scss" scoped>
 
 .specific_container {
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
   border: 1px solid #FFFFFF0D;
   padding: 8px 16px;
@@ -191,7 +191,7 @@ const specificPortfolioStats = ref([
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-  color: white;
+  // color: white;
   gap: 10px;
 }
 
@@ -201,7 +201,7 @@ const specificPortfolioStats = ref([
   font-size: clamp(10px, 0.7vw, 13px);
   font-weight: 400;
   line-height: 17px;
-  color: #ffffffb2;
+  // color: #ffffffb2;
 }
 .text_value {
   margin-top: 5px;
@@ -210,14 +210,14 @@ const specificPortfolioStats = ref([
   font-size: clamp(14px, 0.8vw, 19px);
   font-weight: 700;
   line-height: 34px;
-  color: #ffffff;
+  // color: #ffffff;
 }
 
 .back_button {
   width: 32px;
   height: 32px;
   border-radius: 100%;
-  background: #00000024;
+  // background: #00000024;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   border: 1px solid #ffffff0d;
   display: flex;

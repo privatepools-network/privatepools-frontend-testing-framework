@@ -1,6 +1,6 @@
 <template>
     <div :class="`pools-row__wrapper${inactive ? '__inactive' : ''}`">
-      <div class="pools-row" @click="isActions ? (visibleDetails = !visibleDetails) : false">
+      <div class="pools-row text-black dark:!text-white" @click="isActions ? (visibleDetails = !visibleDetails) : false">
         <div class="pools-row__col">
           <div class="pools-row__info">
             <div class="pools-row__value">
@@ -11,7 +11,7 @@
         <div class="pools-row__col">
           <div class="pools-row__info">
             <div class="pools-row__value flex items-center gap-1">
-              <img :src="getTokenEntity(pool['Token'], 'short').icon" width="28" /> {{ pool['Token'] }} <span style="color: #FFFFFF4A;">({{ pool['Token'] }})</span>
+              <img :src="getTokenEntity(pool['Token'], 'short').icon" width="28" /> {{ pool['Token'] }} <span class="!text-[#00000077] dark:!text-[#FFFFFF4A]">({{ pool['Token'] }})</span>
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@
   
       &__col {
         display: flex;
-        color: #fff;
+        // color: #fff;
         width: 18%;
   
         @media (max-width: $xxl) {
@@ -133,6 +133,8 @@
   
         &:first-child {
           min-width: 145px;
+          display: flex;
+          justify-content: start;
   
           @media (max-width: $xl) {
             min-width: 250px;
@@ -144,28 +146,11 @@
         }
   
         &:nth-child(2) {
-          min-width: 25%;
-  
-          @media (max-width: $xl) {
-            min-width: 250px;
-          }
-  
-          @media (max-width: $lg) {
-            min-width: 200px;
-          }
-        }
-  
-        &:last-child {
-          width: 10%;
-        }
-  
-        &:not(:first-child) {
-          // justify-content: center;
-        }
-  
-        &:last-child {
+          display: flex;
           justify-content: start;
         }
+  
+        
       }
   
       &__value {

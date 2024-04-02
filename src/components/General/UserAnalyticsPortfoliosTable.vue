@@ -20,15 +20,15 @@
           'Gas Fees',
         ]"
       >
-        <CTableBody v-if="filteredActivities" class="text-white table-body" style="margin-left: 12px; margin-right: 12px;">
+        <CTableBody v-if="filteredActivities" class="dark:!dark:!text-white text-black text-black table-body" style="margin-left: 12px; margin-right: 12px;">
           <CTableRow
             v-for="(item, i) in filteredActivities"
             :key="i"
-            class="table-row"
+            class="table-row bg-white dark:!bg-[#22222224]"
             @click="$emit('changeToSpecificPortfolio')"
             style="cursor: pointer"
           >
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div class="actions-cell">
                 <img
                   v-if="item['Place'] === 1"
@@ -45,12 +45,12 @@
                   :src="thirdPlace"
                   style="margin-top: -5px"
                 />
-                <div v-else class="actions-cell__text">
+                <div v-else class="actions-cell__text dark:!text-white text-black table-cell">
                   {{ item['Place'] }}
                 </div>
               </div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div class="d-flex align-items-center gap-2">
                 <svg
                   width="25"
@@ -118,12 +118,12 @@
                 {{ item['Profit'] }}
               </div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>
                 {{ item['Number of Pools'] }}
               </div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>
                 {{ item['Traded Volume'] }}
               </div>
@@ -168,16 +168,16 @@
           <!-- Your rating -->
           <hr style="border: 1px solid #ffffff1f" class="my-3" />
           <CTableRow
-            class="table-row mb-4"
+            class="table-row bg-white dark:!bg-[#22222224] mb-4"
             @click="$emit('changeToSpecificPortfolio')"
             style="cursor: pointer"
           >
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div class="actions-cell">
-                <div class="actions-cell__text">69</div>
+                <div class="actions-cell__text dark:!text-white text-black">69</div>
               </div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div class="d-flex align-items-center gap-2">
                 <svg
                   width="25"
@@ -239,10 +239,10 @@
             <CTableDataCell scope="row" class="text-success table-cell">
               <div>+$2,744.94</div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>10</div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>$2,744.94</div>
             </CTableDataCell>
             <CTableDataCell scope="row" class="text-danger table-cell">
@@ -447,7 +447,7 @@ const filteredActivities = [
     display: table;
     table-layout: fixed;
   vertical-align: middle;
-    background: #22222224;
+    // background: #22222224;
     box-shadow: 0px 4px 4px 0px #00000040;
     border-radius: 16px;
     margin-top: 10px;
@@ -499,7 +499,7 @@ const filteredActivities = [
     font-weight: 300;
     line-height: 24px;
     letter-spacing: 0em;
-    color: #ffffff;
+    // color: #ffffff;
     margin-left: 12px;
 
     @media (max-width: $xxl) {

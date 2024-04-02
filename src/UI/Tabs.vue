@@ -1,7 +1,7 @@
 <template>
   <div class="tabs_filter" v-if="tabsOptions[0].title">
     <div
-      class="tabs_filter__el"
+      class="tabs_filter__el text-black dark:!text-white"
       v-for="option in tabsOptions"
       :key="option"
       :class="{
@@ -14,7 +14,7 @@
   </div>
   <div :class="filterEye === false ? 'tabs_filter' : 'tabs'" v-else>
     <div
-      class="tabs__el"
+      class="tabs__el bg-[#6d6d6d24] dark:!bg-[#22222224] text-black dark:!text-white"
       v-for="option in tabsOptions"
       :key="option"
       :class="{
@@ -73,7 +73,7 @@ const { selectedTab, tabsOptions, filterEye } = toRefs(props)
     // box-shadow: 0px 4px 4px 0px #00000040;
 
     // border-radius: 20px;
-    color: white;
+    // color: white;
     padding: 3px 9px;
     font-size: 13px;
     @media (max-width: $xxl) {
@@ -81,7 +81,7 @@ const { selectedTab, tabsOptions, filterEye } = toRefs(props)
       padding: 2px 6px;
     }
     &_active {
-      color: #fff;
+      color: #fff !important;
       border-radius: 20px;
       background: linear-gradient(152.97deg, #001d24 0%, #00c9ff 100%);
     }
@@ -105,11 +105,11 @@ const { selectedTab, tabsOptions, filterEye } = toRefs(props)
     padding: 2px;
   }
   &__el {
-    background: #22222224;
+    // background: #22222224;
     box-shadow: 0px 4px 4px 0px #00000040;
 
     border-radius: 20px;
-    color: white;
+    // color: white;
     padding: 3px 9px;
     font-size: 13px;
     @media (max-width: $xxl) {
@@ -117,7 +117,7 @@ const { selectedTab, tabsOptions, filterEye } = toRefs(props)
       padding: 2px 6px;
     }
     &_active {
-      color: #fff;
+      color: #fff !important;
       border-radius: 20px;
       background: linear-gradient(152.97deg, #001d24 0%, #00c9ff 100%);
     }
