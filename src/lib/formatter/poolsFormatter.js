@@ -437,7 +437,7 @@ export function FormatAllToDisplay(allData, network) {
       'Pool Weight': [
         p.tokens.map((token) => ({
           token: token.symbol,
-          weight: `${token.weight}%`,
+          weight: `${token.weight * 100}%`,
         })),
       ],
       LiquidityType: 'WP',

@@ -948,13 +948,14 @@ const scannerLink = computed(() => {
 })
 
 
-const current_pool_token_prices = ref({})
+const current_pool_token_prices = ref(null)
 const unformattedPoolActivity = ref(null)
 const shares = ref(null)
 onMounted(async () => {
   pool.value = await GetSingleCLPool(chainSelected.value.chain, poolId)
   console.log(pool.value)
   poolActivity.value = await GetUniswapPoolActivity(chainSelected.value.chain, poolId)
+  current_pool_token_prices.value = await GetTokenPricesBySymbols(pool.value.tokens.map((t) => t.symbol), currency.value)
   const provider = await InitializeMetamask()
   if (provider) {
     shares.value = await useUniswapShares(poolId, provider.getSigner(), chainSelected.value.chain)
@@ -966,6 +967,7 @@ onMounted(async () => {
     currency.value
   )
   historicalTokens.value = await useUniswapHistoricalTokens(poolId, chainSelected.value.chain)
+
 })
 
 watch(unformattedPoolActivity, async () => {
@@ -1049,7 +1051,7 @@ async function SetNetworkData() {
   unformattedPoolActivity.value = _poolActivity
 
 
-  current_pool_token_prices.value = await GetTokenPricesBySymbols(pool.value.tokens.map((t) => t.symbol), currency.value)
+  
 }
 
 
@@ -1349,9 +1351,10 @@ const dynamicDonut = computed(() => {
 
 
   let balances = pool.value.tokens.map((t) =>
-    historicalPrices.value ? t.balance * current_pool_token_prices.value[t.symbol] : 0,
+    current_pool_token_prices.value ? t.balance * current_pool_token_prices.value[t.symbol] : 0,
   )
   console.log(balances)
+  console.log(current_pool_token_prices.value)
   let total_balance = balances.reduce((sum, item) => sum + item, 0)
   let data = balances
     .map((b) => parseFloat((b / (total_balance / 100)).toFixed(2)))
