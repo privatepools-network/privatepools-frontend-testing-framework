@@ -5,7 +5,7 @@
       @changeToSpecificPortfolio="changeToSpecificPortfolio"
     />
     <div v-else>
-      <div style="color: white; font-size: 20px; font-weight: 700" class="my-3">
+      <div class="my-3 text-black dark:!text-white text-[20px] font-bold">
         Users Analytics
       </div>
 
@@ -27,8 +27,8 @@
       </div>
 
       <div
-        style="color: white; font-size: 18px; font-weight: 700"
-        class="mt-5 mb-3"
+     
+        class="mt-5 mb-3 text-black dark:!text-white text-[18px] font-bold"
       >
         Top Portfolios
       </div>
@@ -37,8 +37,7 @@
       />
 
       <div
-        style="color: white; font-size: 18px; font-weight: 700"
-        class="mt-5 mb-3 flex items-center gap-1"
+        class="mt-5 mb-3 flex items-center gap-1 text-black dark:!text-white text-[18px] font-bold"
       >
         Top Referrals
         <svg

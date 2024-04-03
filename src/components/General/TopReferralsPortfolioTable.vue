@@ -22,15 +22,15 @@
           '',
         ]"
       >
-        <CTableBody v-if="filteredActivities" class="text-white table-body"  style="margin-left: 12px; margin-right: 12px;">
+        <CTableBody v-if="filteredActivities" class="dark:!text-white text-black table-body"  style="margin-left: 12px; margin-right: 12px;">
           <CTableRow
             v-for="(item, i) in filteredActivities"
             :key="i"
-            class="table-row"
+            class="table-row bg-white dark:!bg-[#22222224]"
             @click="$emit('changeToSpecificPortfolio')"
             style="cursor: pointer"
           >
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div class="actions-cell">
                 <img
                   v-if="item['Place'] === 1"
@@ -47,12 +47,12 @@
                   :src="thirdPlace"
                   style="margin-top: -5px"
                 />
-                <div v-else class="actions-cell__text">
+                <div v-else class="actions-cell__text dark:!text-white text-black">
                   {{ item['Place'] }}
                 </div>
               </div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div class="d-flex align-items-center gap-2">
                 <div class="d-flex flex-column">
                   <div>{{ computedAddress(item['Wallet']) }}</div>
@@ -68,20 +68,20 @@
                 <div style="color: #8b968c; font-size: 11px">5% discount</div>
               </div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>
                 {{ item['PeopleRef'] }}
               </div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>
                 {{ item['Number of Pools'] }}
               </div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>${{ item['TotalVolumeReferred'] }}</div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>${{ item['Rewards'] }}</div>
             </CTableDataCell>
             <CTableDataCell scope="row" class="text-success table-cell">
@@ -97,7 +97,8 @@
                   >
                     <path
                       d="M10.5417 0H3.20833C3.08678 0 2.9702 0.0482886 2.88424 0.134243C2.79829 0.220197 2.75 0.336776 2.75 0.458333V2.75H0.458333C0.336776 2.75 0.220197 2.79829 0.134243 2.88424C0.0482886 2.9702 0 3.08678 0 3.20833V10.5417C0 10.6632 0.0482886 10.7798 0.134243 10.8658C0.220197 10.9517 0.336776 11 0.458333 11H7.79167C7.91322 11 8.0298 10.9517 8.11576 10.8658C8.20171 10.7798 8.25 10.6632 8.25 10.5417V8.25H10.5417C10.6632 8.25 10.7798 8.20171 10.8658 8.11576C10.9517 8.0298 11 7.91322 11 7.79167V0.458333C11 0.336776 10.9517 0.220197 10.8658 0.134243C10.7798 0.0482886 10.6632 0 10.5417 0ZM7.33333 10.0833H0.916667V3.66667H7.33333V10.0833ZM10.0833 7.33333H8.25V3.20833C8.25 3.08678 8.20171 2.9702 8.11576 2.88424C8.0298 2.79829 7.91322 2.75 7.79167 2.75H3.66667V0.916667H10.0833V7.33333Z"
-                      fill="#F8F8F8"
+                     
+                      class="dark:!fill-[#F8F8F8] fill-[black]"
                     />
                   </svg>
                 </span>
@@ -108,16 +109,16 @@
           <!-- Your rating -->
           <hr style="border: 1px solid #ffffff1f" class="my-2" />
           <CTableRow
-            class="table-row  mb-4"
+            class="table-row bg-white dark:!bg-[#22222224] mb-4"
             @click="$emit('changeToSpecificPortfolio')"
             style="cursor: pointer"
           >
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div class="actions-cell">
-                <div class="actions-cell__text">69</div>
+                <div class="actions-cell__text dark:!text-white text-black">69</div>
               </div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div class="d-flex align-items-center gap-2">
                 <div class="d-flex flex-column">
                   <div class="d-flex align-items-center gap-2">
@@ -194,16 +195,16 @@
                 <div style="color: #8b968c; font-size: 11px">5% discount</div>
               </div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>118</div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>1</div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>$518,150.000</div>
             </CTableDataCell>
-            <CTableDataCell scope="row" class="text-white table-cell">
+            <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div>$25.907</div>
             </CTableDataCell>
             <CTableDataCell scope="row" class="text-success table-cell">
@@ -433,7 +434,7 @@ function computedAddress(address) {
     display: table;
     table-layout: fixed;
     vertical-align: middle;
-    background: #22222224;
+    // background: #22222224;
     box-shadow: 0px 4px 4px 0px #00000040;
     border-radius: 16px;
     margin-top: 10px;
@@ -484,7 +485,7 @@ function computedAddress(address) {
     font-weight: 300;
     line-height: 24px;
     letter-spacing: 0em;
-    color: #ffffff;
+    // color: #ffffff;
     margin-left: 12px;
 
     @media (max-width: $xxl) {

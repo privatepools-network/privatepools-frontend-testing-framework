@@ -1,5 +1,5 @@
 <template>
-  <div class="track_chart_card">
+  <div class="track_chart_card  bg-white dark:!bg-[#22222224]">
 
     <div class="d-flex justify-content-end"></div>
     <div v-if="filteredData.length === 0" class="chart_inside">
@@ -53,6 +53,11 @@ import {
 
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import ChartTimeline from '@/UI/ChartTimeline.vue'
+import { useDark } from '@vueuse/core'
+
+const isDark = useDark()
+
+
 use([
   CanvasRenderer,
   CandlestickChart,
@@ -652,7 +657,11 @@ const series = computed(() =>
    
       ])
 
+
+      console.log('isDark', isDark)
+
 const optionObj = ref({
+
   legend: {
     data: filterKeys,
     selected: filters,
@@ -1398,7 +1407,7 @@ function getDefaultChainsMapValue() {
   border-radius: 0px 20px 20px 0px;
   width: 100%;
   padding: 20px;
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 4px 0px #00000040;
 }

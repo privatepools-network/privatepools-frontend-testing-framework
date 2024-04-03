@@ -1,12 +1,12 @@
 <template>
-  <div class="arbitrage_bot_card py-3 px-4">
-    <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
-      <div class="d-flex align-items-center justify-content-between w-100">
+  <div class="arbitrage_bot_card bg-white dark:!bg-[#22222224] py-3 px-4">
+    <div class="d-flex align-items-center justify-content-between text-black dark:!text-white gap-2 flex-wrap">
+      <div class="d-flex align-items-center justify-content-between text-black dark:!text-white w-100">
       </div>
     </div>
 
     <div class="px-2">
-      <div class="arbitrage_bot_sections_text" style="margin-top: 5%; color: rgba(204, 204, 204, 1)">
+      <div class="arbitrage_bot_sections_text mt-[5%] text-black dark:!text-white" >
         Total Value Locked
       </div>
       <div class="mb-xxl-4 mb-2">
@@ -16,7 +16,7 @@
             <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader_header">
               <ThreeDots />
             </div>
-            <div v-else style="font-weight: 700; font-family: Inter; font-size: 18px;" class="visible_head arbitrage_bot_sections_text">
+            <div v-else style="font-weight: 700; font-family: Inter; font-size: 18px;" class="visible_head arbitrage_bot_sections_text text-black dark:!text-white">
               <div class="d-flex align-items-center">
 
                 ${{ numberToAposthrophe(tvlAll, currencyDecimals) }}
@@ -38,17 +38,16 @@
             <div style="
                 font-weight: 700;
                 font-family: Inter;
-                color: white;
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text">
+                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
                   Total Volume
                 </div>
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
+                <div v-else class="text-black dark:!text-white font-[800]" style="font-size: clamp(10px, 0.8vw, 14px)">
                   <span v-if="currencySelected.symbol === '₿'">
                     <img :src="btcSymbol" width="9" />
                   </span>
@@ -70,30 +69,30 @@
               margin-bottom: 5px;
             ">
             <div class="d-flex flex-column gap-1">
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>Volume 24 Hours</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
                 </div>
               </div>
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>Volume 7 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
                 </div>
               </div>
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>Volume 30 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 7D']) }}
                 </div>
               </div>
@@ -119,13 +118,13 @@
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text">
+                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
                   Total Profits
                 </div>
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
+                <div v-else class="text-black dark:!text-white font-[800]" style="font-size: clamp(10px, 0.8vw, 14px)">
                   <span v-if="currencySelected.symbol === '₿'">
                     <img :src="btcSymbol" width="9" />
                   </span>
@@ -147,30 +146,30 @@
               margin-bottom: 5px;
             ">
             <div class="d-flex flex-column gap-1">
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>Profit 24 Hours</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
                 </div>
               </div>
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>Profit 7 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
                 </div>
               </div>
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>Profit 30 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 7D']) }}
                 </div>
               </div>
@@ -192,17 +191,16 @@
             <div style="
                 font-weight: 700;
                 font-family: Inter;
-                color: white;
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text">
+                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
                   Total Trades
                 </div>
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
+                <div v-else class="text-black dark:!text-white font-[800]"  style=" font-size: clamp(10px, 0.8vw, 14px)">
                   <span v-if="currencySelected.symbol === '₿'">
                     <img :src="btcSymbol" width="9" />
                   </span>
@@ -224,30 +222,30 @@
               margin-bottom: 5px;
             ">
             <div class="d-flex flex-column gap-1">
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>Trades 24 Hours</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
                 </div>
               </div>
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>Trades 7 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
                 </div>
               </div>
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>Trades 30 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 7D']) }}
                 </div>
               </div>
@@ -268,17 +266,17 @@
             <div style="
                 font-weight: 700;
                 font-family: Inter;
-                color: white;
+         
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text">
+                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
                   Average APR
                 </div>
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)">
+                <div v-else class="text-black dark:!text-white font-[800]"  style=" font-size: clamp(10px, 0.8vw, 14px)">
                   <span v-if="currencySelected.symbol === '₿'">
                     <img :src="btcSymbol" width="9" />
                   </span>
@@ -300,30 +298,30 @@
               margin-bottom: 5px;
             ">
             <div class="d-flex flex-column gap-1">
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>APR 24 Hours</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
                 </div>
               </div>
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>APR 7 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
                 </div>
               </div>
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
                 <div>APR 30 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else style="color: white; font-weight: 400; ">
+                <div v-else class="text-black dark:!text-white font-[400]">
                   ${{ formatBigNumber(chains_data['Sum']['Gas Fee 7D']) }}
                 </div>
               </div>
@@ -340,13 +338,13 @@
             style="
               font-weight: 700;
               font-family: Inter;
-              color: white;
+           
               width: 100%;
             "
           >
         
             <div
-              class="d-flex align-items-center justify-content-between visible_head mt-3"
+              class="d-flex align-items-center justify-content-between text-black dark:!text-white visible_head mt-3"
             >
               <div
                 style="
@@ -359,8 +357,8 @@
              {{ router.currentRoute.value.path === '/user_analytics' ? 'Number of Users' : 'Number of Index Pools' }} 
               </div>
               <div
-              
-                style="color: white; font-weight: 800; font-size: clamp(10px, 0.8vw, 14px)"
+              class="text-black dark:!text-white font-[800]" 
+                style=" font-size: clamp(10px, 0.8vw, 14px)"
               >
               20
               </div>
@@ -723,7 +721,7 @@ const feesInfo = computed(() => {
 
 .arbitrage_bot_card {
   width: 30%;
-  background: #22222224;
+
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 4px 0px #00000040;  border-radius: 20px 0px 0px 20px;
 }

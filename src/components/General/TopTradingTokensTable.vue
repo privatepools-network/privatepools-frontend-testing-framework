@@ -2,7 +2,7 @@
   <div class="pools-rows" >
     <div class="pools-row pools-row_header">
       <div
-        class="pools-row__col"
+        class="pools-row__col text-black dark:!text-white"
         v-for="(headCaption, headCaptionIndex) in headers"
         :key="headCaption"
       >
@@ -322,46 +322,37 @@ const headers = [
       font-size: 8px;
     }
   }
+  &__col {
+      display: flex;
+      // color: #fff;
+      width: 18%;
+      // justify-content: center;
 
-  .multiselect__single {
-    background: none;
-  }
+      @media (max-width: $xxl) {
+        width: 23%;
+      }
 
-  :deep(.multiselect__tags) {
-    background: none !important;
-    border-color: rgba(0, 0, 0, 0) !important;
-    padding: 8px 20px 0 8px !important;
-  }
+      &:first-child {
+        min-width: 180px;
+        display: flex;
+        justify-content: start;
 
-  :deep(.multiselect__content-wrapper) {
-    border-color: #00c9ff !important;
-    border-top: 1px solid;
-    width: 190px;
-    right: 0px;
-  }
+        @media (max-width: $xl) {
+          min-width: 250px;
+        }
 
-  .multiselect__single {
-    background: none !important;
-    color: white !important;
-  }
+        @media (max-width: $lg) {
+          min-width: 200px;
+        }
+      }
+      &:nth-child(2) {
+          display: flex;
+          justify-content: start;
+        }
+      
 
-  .multiselect__option {
-    background: rgb(15, 17, 19) !important;
-    color: white !important;
-  }
-
-  :deep(.multiselect__option:hover) {
-    background: rgba(1, 180, 126, 0.884) !important;
-  }
-
-  :deep(.multiselect__option--selected) {
-    color: #00c9ff !important;
-  }
-
-  :deep(.multiselect__option--selected:hover) {
-    color: rgb(229, 83, 83) !important;
-    background: rgb(15, 17, 19) !important;
-  }
+      
+    }
 }
 .pools {
   &-rows {
@@ -379,6 +370,7 @@ const headers = [
       overflow-x: auto;
     }
   }
+
 
 
 }

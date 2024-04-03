@@ -1,8 +1,8 @@
 <template>
-  <CTable style="table-layout: fixed">
+  <CTable style="table-layout: fixed" class="!bg-[white] dark:!bg-[#fff0]">
     <CTableHead color="transparent">
-      <CTableRow class="table-row">
-        <CTableHeaderCell class="text-left table-header-font-folder" v-for="header in headers" :key="header">
+      <CTableRow class="table-row text-black dark:!text-white">
+        <CTableHeaderCell class="text-left table-header-font-folder text-black dark:!text-white" v-for="header in headers" :key="header">
           <span v-if="header.toUpperCase() == 'BESTOUTFIRSTSWAPAMOUNT'">Bestoutamount</span>
           <span v-else>{{ header }}</span>
         </CTableHeaderCell>
@@ -29,7 +29,7 @@ const { headers } = toRefs(props)
   }
 
   &-header-font-folder {
-    color: #ffffff;
+    // color: #ffffff;
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;

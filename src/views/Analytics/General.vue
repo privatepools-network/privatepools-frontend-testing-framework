@@ -1,10 +1,10 @@
 <template>
   <MainCard>
-    <div class="title my-3">
+    <div class="title text-black dark:!text-white my-3">
       Overview
     </div>
     <GeneralOverview />
-    <div class="title mt-5 mb-3">
+    <div class="title text-black dark:!text-white mt-5 mb-3">
       Analytics Chart
     </div>
 
@@ -16,17 +16,17 @@
     </div>
 
     
-    <div style="" class="mt-5 mb-3 title">
+    <div style="" class="mt-5 mb-3 title text-black dark:!text-white">
       Top Perfomance Pools
     </div>
     <GeneralPerformanceTable />
-    <div  class="mt-5 mb-3 title">
+    <div  class="mt-5 mb-3 title text-black dark:!text-white">
       Top Trading Tokens
     </div>
     <TopTradingTokensTable />
 
 
-    <div class="mt-5 mb-3 title">
+    <div class="mt-5 mb-3 title text-black dark:!text-white">
       Private Pools Activity
     </div>
     <GeneralPrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" />
@@ -276,6 +276,6 @@ async function InitPoolsData(network) {
 }
 
 .title {
-  color: white; font-size: 18px; font-weight: 700
+  font-size: 18px; font-weight: 700
 }
 </style>
