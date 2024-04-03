@@ -1,5 +1,5 @@
 <template>
-  <div class="token-name-container">
+  <div class="token-name-container text-black dark:!text-white">
     <div v-if="route.name === 'Manage Pools'" class="flex flex-wrap">
       
     <img
@@ -66,7 +66,7 @@ const tokenEntities = computed(() => {
     font-weight: 500;
     line-height: 19px;
     letter-spacing: 0em;
-    color: #ffffff;
+    // color: #ffffff;
     margin-left: 8px;
   }
 }

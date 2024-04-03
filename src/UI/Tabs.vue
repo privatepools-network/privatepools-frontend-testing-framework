@@ -14,7 +14,7 @@
   </div>
   <div :class="filterEye === false ? 'tabs_filter' : 'tabs'" v-else>
     <div
-      class="tabs__el bg-[#6d6d6d24] dark:!bg-[#22222224] text-black dark:!text-white"
+      class="tabs__el bg-[white] dark:!bg-[#22222224] text-black dark:!text-white"
       v-for="option in tabsOptions"
       :key="option"
       :class="{
@@ -60,7 +60,7 @@ const { selectedTab, tabsOptions, filterEye } = toRefs(props)
 .tabs_filter {
   padding: 4px;
   border-radius: 16px;
-  background: #22222224;
+  // background: #22222224;
   gap: 10px;
   box-shadow: 0px 4px 4px 0px #00000040;
 

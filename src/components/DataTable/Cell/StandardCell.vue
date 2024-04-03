@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-truncate cell"
+    class="text-truncate cell text-black dark:!text-white"
     data-coreui-toggle="tooltip"
     data-coreui-placement="left"
     :title="value"
@@ -20,6 +20,6 @@ defineProps(['value'])
     text-align: center;
     font-weight: 400;
     letter-spacing: 0em;
-    color: #ffffff !important;
+    // color: #ffffff !important;
   }
 </style>

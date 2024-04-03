@@ -3,7 +3,7 @@
 
     <PortfolioArbitrageBot :networks_data="networks_data" :chainSelected="chainSelected" />
 
-    <div class="track_chart_card">
+    <div class="track_chart_card bg-[white] dark:!bg-[#22222224]">
 
 
 
@@ -334,7 +334,7 @@ const optionObj = ref({
     width: '50%',
     inactiveColor: '#777',
     textStyle: {
-      color: '#ccc',
+      color: '#777',
       fontSize: '10px',
       fontFamily: 'Poppins',
       fontWeight: 700,
@@ -1119,7 +1119,7 @@ function getFilteredData() {
   border-radius: 0px 20px 20px 0px;
   width: 100%;
   padding: 20px;
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 4px 0px #00000040;
 }

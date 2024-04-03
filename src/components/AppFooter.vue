@@ -1,5 +1,5 @@
 <template>
-  <CFooter :class="'footer dark:!bg-[#0c0c0c3d] bg-[#B0B0B01A]'">
+  <CFooter :class="'footer dark:!bg-[#0c0c0c3d] !bg-[#F8F8F8]'">
     <div class="d-flex justify-content-end gap-2 w-100">
       <a href="https://twitter.com/D3_firm" target="_blank">
         <div class="link_logo">
