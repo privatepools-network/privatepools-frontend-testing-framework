@@ -1,10 +1,10 @@
 <template>
-  <CTable borderless hover
+  <CTable borderless  class="!bg-white dark:!bg-[#fff0]"
     :class="{ 'table_full': isFullTable == true, 'table_small': isFullTable != true, 'table_small_loading': isFullTable != true && displayTable == null }">
     <CTableHead color="" class="file-table-head">
       <CTableRow class="file-table-row" :class="rowHeight ? rowHeight : 'file-table-row'">
         <CTableHeaderCell v-for="(headCaption, headCaptionIndex) in headCaptions"
-          :key="`head-caption-key-${headCaptionIndex}`" class="text-left"
+          :key="`head-caption-key-${headCaptionIndex}`" class="text-left dark:!bg-[#171718] bg-white text-black dark:!text-white"
           :class="{ 'file-table-header-container_full': isFullTable == true, ' file-table-header-container': isFullTable != true, header_cells_bg }">
           {{ console.log(headCaption) }}
           <div class="file-table-header-cell">
@@ -42,41 +42,10 @@
               </div>
               <div @click="
                 $emit('table-header-click', headCaption, headCaptionIndex)
-                " :class="fontSizeTable">
+                " :class="fontSizeTable" class="text-black dark:!text-white">
                 {{ headCaption }}
               </div>
 
-
-              <div v-if="headerDropdownSort && filterableHeaders.includes(headCaption)
-                " style="margin-right: -15px;">
-                <div>
-                  <multiselect :modelValue="filtersSelected[headCaptionIndex]" @update:modelValue="
-                    $emit('filter-click', $event, headCaption);
-                  filtersSelected[headCaptionIndex] = $event
-                    " placeholder="" openDirection="bottom" label="title" track-by="code"
-                    :options="filterOptions[headCaptionIndex]" :option-height="104" :show-labels="false"
-                    :searchable="false" :allow-empty="false" :close-on-select="true" :multiple="false" :taggable="true">
-                    <template v-slot:selection="">
-                      <div style="display: flex; align-items: center"></div>
-                    </template>
-                    <template v-slot:option="{ option }">
-                      <div class="multiselect-tag is-user" style="
-                          display: flex;
-                          align-items: center;
-                          justify-content: space-between;
-                          padding: 0px 8px 0px 0px;
-                          gap: 6px;
-                          font-size: clamp(10px, 0.9vw, 12px);
-                        ">
-                        <div style="display: flex; align-items: center">
-                          {{ option.code }}
-                        </div>
-                      </div>
-                    </template>
-                  </multiselect>
-                </div>
-              </div>
-              <div v-else-if="sortedHeader" style="width: 17px"></div>
             </div>
           </div>
         </CTableHeaderCell>
@@ -102,7 +71,7 @@
         <LoaderPulse />
       </div>
       <CTableRow v-if="displayTable && displayTable.length > 0 && !displayTable[0]['VS USD'] && !isFullTable"
-        class="file-table-row" :class="table_bg && rowHeight ? rowHeight : 'file-table-row'"
+        class="file-table-row text-black dark:!text-white" :class="table_bg && rowHeight ? rowHeight : 'file-table-row'"
         v-for="(dataRow, dataRowIndex) in data" :key="`data-row-key-${dataRowIndex}`"
         @click="$emit('table-row-click', dataRow, dataRowIndex)">
         <CTableDataCell scope="row" class="align-middle file-table-cell-container" v-for="(dataCell, dataCellKey, dataCellIndex) in getDataRow(
@@ -117,9 +86,9 @@
 
       </CTableRow>
       <CTableRow v-else class="file-table-row" :class="table_bg && rowHeight ? rowHeight : 'file-table-row'"
-        v-for="(dataRow, dataRowIndex) in data" :key="`data-row-key-${dataRowIndex}`"
+        v-for="(dataRow, dataRowIndex) in data" :key="`data-row-key1-${dataRowIndex}`"
         @click="$emit('table-row-click', dataRow, dataRowIndex)">
-        <CTableDataCell scope="row" class="align-middle file-table-cell-container" v-for="(dataCell, dataCellKey, dataCellIndex) in getDataRow(
+        <CTableDataCell scope="row" class="align-middle file-table-cell-container text-black dark:!text-white" v-for="(dataCell, dataCellKey, dataCellIndex) in getDataRow(
           dataRow,
           dataRowIndex,
         )" :key="`file-table-cell-key-${dataCellKey}`">
@@ -299,7 +268,7 @@ const getDataRow = (dataRow) => {
 }
 
 .file-table-header-container_full {
-  color: #ffffff;
+  // color: #ffffff;
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
@@ -347,7 +316,7 @@ const getDataRow = (dataRow) => {
 .file-table-header-container {
   white-space: nowrap;
   text-wrap: nowrap;
-  background: #171718;
+  // background: #171718;
   border-right: 1px solid #2C2C2C;
 
   &:last-child {
@@ -446,7 +415,7 @@ const getDataRow = (dataRow) => {
     display: table;
     width: 100%;
     table-layout: fixed;
-    color: white !important;
+    // color: white !important;
   }
 
   .file-table-head {

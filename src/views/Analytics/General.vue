@@ -29,8 +29,10 @@
     <div class="mt-5 mb-3 title text-black dark:!text-white">
       Private Pools Activity
     </div>
-    <GeneralPrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" />
-
+    {{ console.log('clActivity', clActivity) }}
+    {{ console.log('joinExits', joinExits) }}
+    <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" />
+    
   </MainCard>
 </template>
 
@@ -61,7 +63,7 @@ import {
 } from '@/composables/pools/usePoolSwapsStats'
 import { GetActiveUsers } from '@/composables/users/useActiveUsers'
 import GeneralOverview from '@/components/General/GeneralOverview.vue';
-import GeneralPrivatePoolsTable from '@/components/General/GeneralPrivatePoolsTable.vue';
+import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue';
 import GeneralPerformanceTable from '@/components/General/GeneralPerformanceTable.vue';
 import TopTradingTokensTable from '@/components/General/TopTradingTokensTable.vue';
 import { GetUniswapActivity } from "@/composables/concentrated-liquidity/useUniswapActivity"

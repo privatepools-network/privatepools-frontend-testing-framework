@@ -46,7 +46,7 @@
           </PortfolioFinancialStatement>
         </div>
         <div class="portfolio-table" v-else-if="activeTab == 'Investments'">
-          <div class="text-white fw-medium fs-6 mb-3">My Investments</div>
+          <div class="text-black dark:!text-white fw-medium fs-6 mb-3">My Investments</div>
           <div class="portfolio-table__header">
             <div
               class="portfolio-table__header__left"
@@ -90,26 +90,11 @@
           </div>
         </div>
         <div class="portfolio-table mt-5" v-if="activeTab == 'Investments'">
-          <div class="text-white fw-medium fs-6 mb-3">Portfolio Activity</div>
-          <div class="portfolio-table__header">
-            <div class="portfolio-table__header__left">
-              <Tabs
-                style="margin-right: 15px"
-                :selectedTab="activitiesSelectedMode"
-                :tabsOptions="activitiesModes"
-                @changeTab="changeActivitiesMode"
-              ></Tabs>
+          <div class="text-black dark:!text-white fw-medium fs-6 mb-3">Portfolio Activity</div>
+          
 
-              <Tabs
-                :selectedTab="actSelectedPeriodOfData"
-                :tabsOptions="periodsOfData"
-                @changeTab="changeActPeriodOfData"
-              ></Tabs>
-            </div>
-          </div>
-
-         <PortfolioActivityTable :displayActivities="displayActivities" :account="account" :filteredActivities="filteredActivities" />
-
+         <!-- <PortfolioActivityTable :displayActivities="displayActivities" :account="account" :filteredActivities="filteredActivities" /> -->
+         <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" />
         </div>
       </div>
     </CRow>
@@ -157,6 +142,282 @@ import { GetActivePeriodsSwapsData } from '@/lib/formatter/portfolio/portfolioSw
 import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { GetUserUniswapPools } from '@/composables/wallet/useWalletPools'
 import PortfolioBalance from '@/components/portfolio/PortfolioBalance.vue'
+import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
+
+
+const clActivity = ref([
+    {
+        "Actions": "Swap",
+        "Details": [
+            {
+                "action": "Swap",
+                "ETH": "-0.00",
+                "USDT": "0.00"
+            }
+        ],
+        "Value": "0",
+        "Time": "1 month ago",
+        "Tx": "0x049538159d5f10f741626caaf6cef43a0c58f396286d96fa727116da20bdad5d",
+        "timestamp": "1708532754",
+        "chainId": 56,
+        "chain": "Binance"
+    },
+    {
+        "Actions": "Swap",
+        "Details": [
+            {
+                "action": "Swap",
+                "BTCB": "0.00",
+                "WBNB": "-0.02"
+            }
+        ],
+        "Value": "0",
+        "Time": "9 days ago",
+        "Tx": "0x085edbdad9c6d433d4cd3d006c088ada94f2994dd6a07cb0131827168833cd4e",
+        "timestamp": "1711363947",
+        "chainId": 56,
+        "chain": "Binance"
+    },
+   
+])
+const joinExits = ref(
+  [
+    {
+        "user": {
+            "id": "0x4bde150b69408dafbe4833f0d7b9689246a6597b"
+        },
+        "amounts": [
+            "13.465999999999999304",
+            "0.001",
+            "0.001",
+            "0",
+            "0.001",
+            "0",
+            "0.001",
+            "0.001"
+        ],
+        "pool": {
+            "tokens": [
+                {
+                    "symbol": "Cake"
+                },
+                {
+                    "symbol": "AVAX"
+                },
+                {
+                    "symbol": "XRP"
+                },
+                {
+                    "symbol": "ETH"
+                },
+                {
+                    "symbol": "ADA"
+                },
+                {
+                    "symbol": "DOT"
+                },
+                {
+                    "symbol": "INJ"
+                },
+                {
+                    "symbol": "WBNB"
+                }
+            ]
+        },
+        "valueUSD": "0",
+        "type": "Join",
+        "timestamp": 1702503184,
+        "chain": "Binance",
+        "chainId": 56
+    },
+    {
+        "user": {
+            "id": "0x4bde150b69408dafbe4833f0d7b9689246a6597b"
+        },
+        "amounts": [
+            "7.554760289442242907",
+            "3.770726094964460187",
+            "0.006792699854304051",
+            "1.176872358543111302"
+        ],
+        "pool": {
+            "tokens": [
+                {
+                    "symbol": "AVAX"
+                },
+                {
+                    "symbol": "SOL"
+                },
+                {
+                    "symbol": "BTCB"
+                },
+                {
+                    "symbol": "WBNB"
+                }
+            ]
+        },
+        "valueUSD": "1137.184818600137953607662435191093",
+        "type": "Exit",
+        "timestamp": 1702639931,
+        "chain": "Binance",
+        "chainId": 56
+    },
+    {
+        "user": {
+            "id": "0x4bde150b69408dafbe4833f0d7b9689246a6597b"
+        },
+        "amounts": [
+            "0.307402",
+            "0.158687",
+            "0.000289",
+            "0.04967"
+        ],
+        "pool": {
+            "tokens": [
+                {
+                    "symbol": "AVAX"
+                },
+                {
+                    "symbol": "SOL"
+                },
+                {
+                    "symbol": "BTCB"
+                },
+                {
+                    "symbol": "WBNB"
+                }
+            ]
+        },
+        "valueUSD": "47.93505265238665018797586063640085",
+        "type": "Exit",
+        "timestamp": 1702646626,
+        "chain": "Binance",
+        "chainId": 56
+    },
+    {
+        "user": {
+            "id": "0x4bde150b69408dafbe4833f0d7b9689246a6597b"
+        },
+        "amounts": [
+            "3.096000000000000085",
+            "0",
+            "0",
+            "0"
+        ],
+        "pool": {
+            "tokens": [
+                {
+                    "symbol": "AVAX"
+                },
+                {
+                    "symbol": "SOL"
+                },
+                {
+                    "symbol": "BTCB"
+                },
+                {
+                    "symbol": "WBNB"
+                }
+            ]
+        },
+        "valueUSD": "41.84800387934665651679103821900545",
+        "type": "Join",
+        "timestamp": 1702638092,
+        "chain": "Binance",
+        "chainId": 56
+    },
+    {
+        "user": {
+            "id": "0x4bde150b69408dafbe4833f0d7b9689246a6597b"
+        },
+        "amounts": [
+            "0.19",
+            "1.8",
+            "0.0003",
+            "0.5"
+        ],
+        "pool": {
+            "tokens": [
+                {
+                    "symbol": "SOL"
+                },
+                {
+                    "symbol": "DOT"
+                },
+                {
+                    "symbol": "BTCB"
+                },
+                {
+                    "symbol": "INJ"
+                }
+            ]
+        },
+        "valueUSD": "0",
+        "type": "Join",
+        "timestamp": 1702469234,
+        "chain": "Binance",
+        "chainId": 56
+    },
+    {
+        "user": {
+            "id": "0xdd2ee0c16f58dc53ebec021dae05cecf8051373f"
+        },
+        "amounts": [
+            "0.2",
+            "3",
+            "0.3",
+            "0.005"
+        ],
+        "pool": {
+            "tokens": [
+                {
+                    "symbol": "AVAX"
+                },
+                {
+                    "symbol": "USDT"
+                },
+                {
+                    "symbol": "SOL"
+                },
+                {
+                    "symbol": "WBNB"
+                }
+            ]
+        },
+        "valueUSD": "3",
+        "type": "Join",
+        "timestamp": 1702602127,
+        "chain": "Binance",
+        "chainId": 56
+    },
+    {
+        "user": {
+            "id": "0x4bde150b69408dafbe4833f0d7b9689246a6597b"
+        },
+        "amounts": [
+            "0.239010698854900089",
+            "0.000005451740851665"
+        ],
+        "pool": {
+            "tokens": [
+                {
+                    "symbol": "USDT"
+                },
+                {
+                    "symbol": "BTCB"
+                }
+            ]
+        },
+        "valueUSD": "0.4730702492177080825503071512930907",
+        "type": "Exit",
+        "timestamp": 1702647027,
+        "chain": "Binance",
+        "chainId": 56
+    },
+
+]
+)
+
 
 const NetworkUnsupported = ref(false)
 const networksSupported = ref(false)
@@ -905,7 +1166,7 @@ onMounted(async () => {
       &-period {
         font-size: clamp(9px, 0.7vw, 12px);
         padding: 2px 6px;
-        background-color: #1a1d1e;
+        background: #1A1D1E;
         border-radius: 5px;
       }
     }
@@ -926,7 +1187,7 @@ onMounted(async () => {
       height: 20px;
     }
     &__title {
-      color: #e1e1e1;
+      // color: #e1e1e1;
       font-size: clamp(10px, 0.8vw, 14px);
       margin-bottom: 4px;
     }
