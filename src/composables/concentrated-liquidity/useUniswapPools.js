@@ -75,8 +75,18 @@ export async function GetSingleCLPool(network, poolId) {
       lpPrice: item.totalValueLockedUSD / item.liquidity,
       holdersCount: poolHolders.length,
       tokens: [
-        { ...item.token0, balance: item.totalValueLockedToken0, weight: 50 },
-        { ...item.token1, balance: item.totalValueLockedToken1, weight: 50 },
+        {
+          ...item.token0,
+          balance: item.totalValueLockedToken0,
+          weight: 50,
+          address: item.token0.id,
+        },
+        {
+          ...item.token1,
+          balance: item.totalValueLockedToken1,
+          weight: 50,
+          address: item.token1.id,
+        },
       ],
     }))[0]
   }

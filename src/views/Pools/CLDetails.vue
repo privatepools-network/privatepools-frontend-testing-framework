@@ -837,8 +837,8 @@ import {
 import { CalculateJoinExitPrice } from "@/lib/formatter/financialStatement/financialStatementFormatter"
 import CurrencySymbol from "@/components/TrackInfo/CurrencySymbol.vue"
 import info from '@/assets/images/info.svg'
-import { FormatAllTokensData } from '@/lib/formatter/trackTokensFormatter'
-import { FormatAllPairsData } from '@/lib/formatter/trackPairsFormatter'
+import { FormatAllTokensData, FormatCLTokens } from '@/lib/formatter/trackTokensFormatter'
+import { FormatAllPairsData, FormatCLPair } from '@/lib/formatter/trackPairsFormatter'
 import { setPoolsTvls } from "@/composables/pools/usePools"
 import { GetSingleCLPool } from "@/composables/concentrated-liquidity/useUniswapPools"
 import { GetUniswapPoolActivity } from "@/composables/concentrated-liquidity/useUniswapActivity"
@@ -956,6 +956,7 @@ onMounted(async () => {
   console.log(pool.value)
   poolActivity.value = await GetUniswapPoolActivity(chainSelected.value.chain, poolId)
   current_pool_token_prices.value = await GetTokenPricesBySymbols(pool.value.tokens.map((t) => t.symbol), currency.value)
+  poolSwapsData.value = await GetPoolSwapsData(poolId, chainSelected.value.chain)
   const provider = await InitializeMetamask()
   if (provider) {
     shares.value = await useUniswapShares(poolId, provider.getSigner(), chainSelected.value.chain)
@@ -967,7 +968,8 @@ onMounted(async () => {
     currency.value
   )
   historicalTokens.value = await useUniswapHistoricalTokens(poolId, chainSelected.value.chain)
-
+  allPairsTableData.value = FormatCLPair(pool.value, poolSwapsData.value, current_pool_token_prices.value, chainSelected.value.chain)
+  allTokensTableData.value = FormatCLTokens(pool.value, poolSwapsData.value, current_pool_token_prices.value, chainSelected.value.chain)
 })
 
 watch(unformattedPoolActivity, async () => {
@@ -1051,7 +1053,7 @@ async function SetNetworkData() {
   unformattedPoolActivity.value = _poolActivity
 
 
-  
+
 }
 
 
@@ -1265,9 +1267,9 @@ const assetsPerformance = computed(() =>
 console.log('VALUES - ', poolTradesData, poolProfitsData, assetsPerformance)
 console.log(diagramsData)
 //const lpInfo = ref({ tvl: 0, percentChange: 0 })
-const profitInfo = ref(null)
+const profitInfo = ref({})
 
-watch(poolActivity, async () => {
+watch(poolSwapsData, async () => {
   profitInfo.value = GetPool24hProfit(poolSwapsData.value)
 })
 

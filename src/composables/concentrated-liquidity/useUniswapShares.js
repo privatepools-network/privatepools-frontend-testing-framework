@@ -5,7 +5,7 @@ import { fetchPositions } from './cl'
 import { UNISWAP_SUBGRAPHS } from './constants'
 
 export async function useUniswapShares(poolId, signer, networkId) {
-  const address = '0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //await signer.getAddress()
+  const address = await signer.getAddress() //'0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //
   let data = await useGraphQLQuery(
     UNISWAP_SUBGRAPHS[networkId],
     UNISWAP_SHARES_QUERY(poolId, address),
