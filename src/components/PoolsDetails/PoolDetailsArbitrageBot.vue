@@ -51,7 +51,7 @@
             <div style="font-size: 13px; margin-top: 10px; margin-bottom: 5px">
               Assets Breakdown
             </div>
-            <div class="d-flex flex-column gap-1" v-if="pool && pool.tokens && tokenPrices">
+            <div class="d-flex flex-column gap-1" v-if="pool && pool.tokens && cryptocomparePrices">
               <div v-for="token in pool.tokens" :key="token.symbol"
                 class="d-flex align-items-center justify-content-between">
                 <div>
@@ -221,12 +221,12 @@
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
                 <div>24H Volume</div>
-                <div v-if="pool && historical_tvl.length > 0" style="
+                <div v-if="pool" style="
                     color: white;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
                   ">
-                  {{ poolApr['Daily'].toFixed(2) }}%
+                  {{ parseFloat(poolSwapStats['Volume 24 H']).toFixed(2) }}$
                 </div>
                 <div v-else>
                   <ThreeDots></ThreeDots>
@@ -234,12 +234,12 @@
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <div>7 Days Volume</div>
-                <div v-if="pool && historical_tvl.length > 0" style="
+                <div v-if="pool" style="
                     color: white;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
                   ">
-                  {{ poolApr['Weekly'].toFixed(2) }}%
+                  {{ parseFloat(poolSwapStats['Volume 7 D']).toFixed(2) }}$
                 </div>
                 <div v-else>
                   <ThreeDots></ThreeDots>
@@ -247,12 +247,12 @@
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <div>30 Days Volume</div>
-                <div v-if="pool && historical_tvl.length > 0" style="
+                <div v-if="pool" style="
                     color: white;
                     font-weight: 400;
                     font-size: clamp(10px, 0.8vw, 14px);
                   ">
-                  {{ poolApr['Monthly'].toFixed(2) }}%
+                  {{ parseFloat(poolSwapStats['Volume 30 D']).toFixed(2) }}$
                 </div>
                 <div v-else>
                   <ThreeDots></ThreeDots>
@@ -492,10 +492,10 @@ const poolApr = computed(() => ({
       : 0,
 }))
 
-console.log(tokenPrices)
 function GetTokenPrice(address) {
   let token = pool.value.tokens.find((t) => t.address == address)
   let found = cryptocomparePrices.value.find((t) => t.symbol == token.symbol)
+  console.log("FOUND - ", address, found)
   if (!found) return 0
   return CalculateTokenOrderPrice(found.Hourly[found.Hourly.length - 1])
   // console.log(cryptocomparePrices.value)

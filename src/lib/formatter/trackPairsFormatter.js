@@ -244,3 +244,54 @@ export function isEqualPairs(pair0, pair1) {
     (pair0_0 == pair1_1 && pair0_1 == pair1_0)
   )
 }
+
+export function FormatCLPair(
+  pool,
+  poolSwapsData,
+  prices,
+  network,
+  decimals = 3,
+) {
+  const filtered = poolSwapsData.filter((item) =>
+    item.swaps[0].poolIdVault[0].includes(pool.id),
+  )
+  const additionalData = getAdditionalInfoByTimeline(
+    TIMELINE_MAPPING,
+    filtered,
+    decimals,
+  )
+  additionalData['Pair Id'] = pool.id
+  let token0Price = prices[pool.token0.symbol]
+  let token1Price = prices[pool.token1.symbol]
+  let balance0Usd = token0Price
+    ? token0Price * parseFloat(pool.totalValueLockedToken0)
+    : 0
+  let balance1Usd = token1Price
+    ? token1Price * parseFloat(pool.totalValueLockedToken1)
+    : 0
+  const result = {
+    Name: [pool.token0.symbol, pool.token1.symbol],
+    TVL: (balance0Usd + balance1Usd).toFixed(decimals),
+    balance0: balance0Usd,
+    balance1: balance1Usd,
+    ...additionalData,
+  }
+
+  let allData = [
+    {
+      id: result['Pair Id'],
+      'Pair Name': result.Name,
+      Profit: result['Profit All Time'],
+      Revenue: result['Revenue All Time'],
+      Trades: result['Trades All Time'],
+      Volume: result['Volume All Time'],
+      TVL: result.TVL,
+      Fees: result['Fees All Time'],
+      Blockchain: DisplayNetwork[network],
+      balance0: result.balance0,
+      balance1: result.balance1,
+      ...result,
+    },
+  ]
+  return allData
+}

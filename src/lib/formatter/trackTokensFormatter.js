@@ -162,3 +162,41 @@ export function FormatAllTokensToDisplay(allData, network) {
       Blockchain: p['Blockchain'],
     }))
 }
+
+export function FormatCLTokens(
+  pool,
+  poolSwapsData,
+  prices,
+  network,
+  decimals = 3,
+) {
+  let token0Price = prices[pool.token0.symbol]
+  let token1Price = prices[pool.token1.symbol]
+  let balance0Usd = token0Price
+    ? token0Price * parseFloat(pool.totalValueLockedToken0)
+    : 0
+  let balance1Usd = token1Price
+    ? token1Price * parseFloat(pool.totalValueLockedToken1)
+    : 0
+  const token0 = { ...pool.token0, totalBalanceUSD: balance0Usd }
+  const token1 = { ...pool.token1, totalBalanceUSD: balance1Usd }
+  let formatted = FormatTokensData(
+    [token0, token1],
+    poolSwapsData,
+    true,
+    decimals,
+  )
+  let allData = formatted.map((p) => ({
+    id: p['Token Id'],
+    'Token Name': p['Name'].flat(),
+    Profit: p['Profit All Time'],
+    Revenue: p['Revenue All Time'],
+    Trades: p['Trades All Time'],
+    Volume: p['Volume All Time'],
+    TVL: p.TVL,
+    Fees: p['Fees All Time'],
+    Blockchain: DisplayNetwork[network],
+    ...p,
+  }))
+  return allData
+}
