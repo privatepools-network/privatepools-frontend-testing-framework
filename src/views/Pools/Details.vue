@@ -7,7 +7,7 @@
 
   <MainCard v-else-if="!visibleDepositComponent && !visibleWithdrawComponent">
     <CRow class="mb-3 mt-4" v-if="pool && pool.tokens">
-      <div style="color: white; font-size: 20px; font-weight: 700" class="mb-3">
+      <div class="mb-3 text-black dark:!text-white text-[20px] font-bold">
         Weighted Pool
       </div>
       <div class="d-flex align-items-center" style="justify-content: space-between">
@@ -17,10 +17,10 @@
         {{ console.log('pool.tokens', pool.tokens) }}
         <div class="caption-row">
           <div v-for="(poolToken, poolTokenIndex) in pool.tokens" :key="`pool-token-${poolTokenIndex}`"
-            class="big-chip">
+            class="big-chip dark:!bg-[#151515] bg-white">
             <CAvatar :src="getTokenEntity(poolToken.symbol, 'short').icon" class="big-chip__image" />
-            <div class="big-chip__text">{{ poolToken.symbol }}</div>
-            <div class="big-chip__text">{{ poolToken.weight }}%</div>
+            <div class="big-chip__text text-black dark:!text-white">{{ poolToken.symbol }}</div>
+            <div class="big-chip__text text-[#626262] dark:!text-white">{{ poolToken.weight }}%</div>
           </div>
           <div class="d-flex align-items-center gap-1 ml-1">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@
           <Tabs :filterEye="false" :selectedTab="selectedOverallTab" :tabsOptions="['Overall view', 'My view']"
             @changeTab="changeSelectedOverallTab" />
         </div>
-        <div class="rewards_button">Rewards</div>
+        <div class="rewards_button dark:!bg-[#22222224] !bg-[white]">Rewards</div>
       </div>
     </CRow>
     <div style="height: 34px" class="mb-5" v-else>
@@ -2072,7 +2072,7 @@ function changeToDepositView() {
 }
 
 .big-chip {
-  background: #151515;
+  // background: #151515;
 
   padding-left: 5px;
   padding-right: 10px;
@@ -2093,7 +2093,7 @@ function changeToDepositView() {
     font-weight: 400;
     line-height: 14px;
     letter-spacing: 0em;
-    color: #ffffff;
+    // color: #ffffff;
 
     &:nth-child(2) {
       margin-left: 4px;
@@ -2246,7 +2246,7 @@ function changeToDepositView() {
 }
 
 .rewards_button {
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #2ABDFF;
   box-shadow: 0px 4px 4px 0px #00000040;
   color: #2abdff;

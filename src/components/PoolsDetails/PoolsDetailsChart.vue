@@ -6,7 +6,7 @@
       :historical_tvl="FormatHistoricalTvl(historical_tvl)" :chainSelected="chainSelectedName"
       :userBalance="userBalance" />
 
-    <div class="track_chart_card">
+  <div class="track_chart_card bg-white dark:!bg-[#22222224]">
       <div v-if="dataRevenues.length == 0" class="chart_inside">
         <LoaderPulse />
       </div>
@@ -27,7 +27,7 @@
             fill="#7D7D7D" />
         </svg>
 
-        <div class="text-white" style="font-size: 12px; text-align: center">
+        <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
           Please add Liquidity to be able to see your own statistics.
         </div>
         <div class="add_liq_btn_pools">
@@ -1750,7 +1750,7 @@ onMounted(() => {
   border-radius: 0px 20px 20px 0px;
   width: 100%;
   padding: 20px;
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;
 }

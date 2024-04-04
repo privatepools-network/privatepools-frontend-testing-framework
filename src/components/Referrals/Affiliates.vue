@@ -1,15 +1,16 @@
 <template>
-
   <div>
     <div class="w-100 d-flex justify-content-center gap-3 mt-5">
       <div
-        class="d-flex specific_container"
+        class="d-flex specific_container dark:!bg-[#22222224] bg-white"
         v-for="(item, i) in specificPortfolioStats"
         :key="`${i}-specific-stats`"
       >
         <div class="d-flex align-items-center flex-column gap-2 w-100">
-          <div class="text_header">{{ item.name }}</div>
-          <div class="text_value">
+          <div class="text_header !text-black dark:!text-white">
+            {{ item.name }}
+          </div>
+          <div class="text_value !text-black dark:!text-white">
             {{ item.value }}
           </div>
         </div>
@@ -17,10 +18,17 @@
     </div>
 
     <div>
-      <div class="affiliates_table">
+      <div class="affiliates_table dark:!bg-[#22222224] bg-white">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <div class="text_header">My Referral Codes</div>
-          <div class="referrals_button w-auto" @click="$emit('codeEditModalOpen')">+ Create</div>
+          <div class="text_header !text-black dark:!text-white">
+            My Referral Codes
+          </div>
+          <div
+            class="referrals_button w-auto"
+            @click="$emit('codeEditModalOpen')"
+          >
+            + Create
+          </div>
         </div>
         <hr
           style="
@@ -30,11 +38,11 @@
           "
         />
         <div>
-          <CTable borderless >
+          <CTable borderless>
             <CTableHead>
               <CTableRow>
                 <CTableHeaderCell
-                style="color: #FFFFFF85; font-weight: 400;"
+                  class="text-black dark:!text-white font-normal"
                   scope="col"
                   v-for="(header, i) in headers"
                   :key="`${i}-col`"
@@ -44,21 +52,25 @@
             </CTableHead>
             <CTableBody>
               <CTableRow>
-                <CTableHeaderCell scope="row"
+                <CTableHeaderCell scope="row">
+                  <div
+                    class="d-flex align-items-center gap-1 !text-black dark:!text-white"
                   >
-                  <div class="d-flex align-items-center gap-1">
-                  MyCode
-                <img :src="copyCodeIcon" />
-                <img :src="twitterIcon" />
-                 
-                </div>
+                    MyCode
+                    <img :src="copyCodeIcon" />
+                    <img :src="twitterIcon" />
+                  </div>
                 </CTableHeaderCell>
-                <CTableDataCell>$0.00</CTableDataCell>
-                <CTableDataCell>0</CTableDataCell>
-                <CTableDataCell>$0.00</CTableDataCell>
+                <CTableDataCell class="!text-black dark:!text-white"
+                  >$0.00</CTableDataCell
+                >
+                <CTableDataCell class="!text-black dark:!text-white"
+                  >0</CTableDataCell
+                >
+                <CTableDataCell class="!text-black dark:!text-white"
+                  >$0.00</CTableDataCell
+                >
               </CTableRow>
-           
-           
             </CTableBody>
           </CTable>
         </div>
@@ -104,14 +116,14 @@ const specificPortfolioStats = ref([
 @import '@/styles/_variables.scss';
 
 .affiliates_table {
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #ffffff0d;
   border-radius: 16px;
   box-shadow: 0px 4px 4px 0px #00000040;
   padding: 20px;
   margin: 40px;
 
-  @media (max-width:1300px) {
+  @media (max-width: 1300px) {
     margin-top: 30px;
     margin-left: 10px;
     margin-right: 10px;
@@ -119,7 +131,7 @@ const specificPortfolioStats = ref([
 }
 
 .specific_container {
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
   border: 1px solid #ffffff0d;
   padding: 8px 16px;
@@ -136,7 +148,7 @@ const specificPortfolioStats = ref([
   letter-spacing: 0em;
   text-align: center;
 
-  color: #ffffff;
+  // color: #ffffff;
 }
 .text_value {
   margin-top: 5px;
@@ -147,7 +159,7 @@ const specificPortfolioStats = ref([
   letter-spacing: 0em;
   text-align: center;
 
-  color: #ffffff;
+  // color: #ffffff;
 }
 
 .referrals_button {
