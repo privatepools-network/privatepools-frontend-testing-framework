@@ -2,14 +2,14 @@
  <Modal v-if="codeEditModal" @close="codeEditModalClose">
 
     <template #body>
-      <ReferralsCodeGenerateModal/>
+      <ReferralsCodeGenerateModal />
     </template>
  
   </Modal>
 
   <MainCard>
-    <div class="my-3 title">Referrals</div>
-    <div class="my-1 description">
+    <div class="my-3 title !text-black dark:!text-white">Referrals</div>
+    <div class="my-1 description !text-black dark:!text-white">
       Get fee discounts and earn rebates through the referral program. For more
       information, please read the <a href="">referral program details.</a>
     </div>
@@ -56,17 +56,17 @@ function codeEditModalOpen() {
 }
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/_variables.scss';
 
 .title {
-  color: white;
+  // color: white;
   font-size: clamp(14px, 0.8vw, 20px);
   font-weight: 700;
 }
 
 .description {
-  color: white;
+  // color: white;
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 500;
   width: 38%;

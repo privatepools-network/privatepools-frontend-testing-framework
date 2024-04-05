@@ -1,79 +1,33 @@
 <template>
-  <CModal alignment="normal" :visible="codeEditModal">
-    <CModalBody>
-      <div class="modal_body_inside">
-        <div>
-          <div
-            class="modal_body_header d-flex justify-content-end align-items-start"
-          >
-            <div class="back_button" @click="codeEditModal = false">
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M18 6L6 18"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M6 6L18 18"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div
-          class="d-flex justify-content-center flex-column align-items-center"
-        >
-          <div
-            style="
-              color: white;
-              font-size: clamp(16px, 0.9vw, 20px);
-              font-weight: 700;
-            "
-          >
-            Edit Referral Code
-          </div>
-          <div
-            style="
-              color: white;
-              font-size: clamp(10px, 0.8vw, 14px);
-              font-weight: 500;
-            "
-            class="my-3"
-          >
-            Please input a referral code to change your current one.
-          </div>
-          <div class="w-100 my-3">
-            <input
-              type="text"
-              placeholder="Enter referral code"
-              style="color: #fff !important"
-              aria-label="Search by name, symbol or address"
-              class="search-input"
-            />
-          </div>
-          <div class="referrals_button">Enter referral code</div>
-        </div>
+  <div class="modal_body_inside">
+ 
+    <div class="d-flex justify-content-center flex-column align-items-center">
+      <div
+      
+        class="!text-black dark:!text-white text-[18px] font-bold"
+      >
+        Edit Referral Code
       </div>
-    </CModalBody>
-  </CModal>
+      <div
+       
+        class="my-3 !text-black dark:!text-white text-[12px] font-medium"
+      >
+        Please input a referral code to change your current one.
+      </div>
+      <div class="w-100 my-3">
+        <input
+          type="text"
+          placeholder="Enter referral code"
+          aria-label="Search by name, symbol or address"
+          class="search-input !text-black dark:!text-white"
+        />
+      </div>
+      <div class="referrals_button">Enter referral code</div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
-const props = defineProps(['codeEditModal'])
-const emit = defineEmits(['codeEditModalOpen'])
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
@@ -84,13 +38,11 @@ const emit = defineEmits(['codeEditModalOpen'])
   font-weight: 500;
   line-height: 28px;
   letter-spacing: -0.5px;
-  color: white;
 }
 
 .search-input {
   width: 100%;
   font-size: 12px;
-  color: white !important;
   border: 1px solid #2abdff;
   border-radius: 16px;
   padding: 8px 12px;

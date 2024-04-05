@@ -3,31 +3,19 @@
     <div>
       <div
         class="modal_body_header d-flex justify-content-end align-items-start"
-      >
-       
-      </div>
+      ></div>
     </div>
     <div class="d-flex justify-content-center flex-column align-items-center">
-      <div
-        class="text-black dark:!text-white text-[18px] font-bold"
-      >
+      <div class="text-black dark:!text-white text-[18px] font-bold">
         Generate Referral Code
       </div>
-      <div
-        style="
-          color: white;
-          font-size: clamp(10px, 0.8vw, 14px);
-          font-weight: 500;
-        "
-        class="text-black dark:!text-white text-[12px] font-medium my-3"
-      >
+      <div class="text-black dark:!text-white text-[12px] font-medium my-3">
         Create a referral code now, share it and start earning!
       </div>
       <div class="w-100 my-3">
         <input
           type="text"
           placeholder="Enter referral code"
-         
           aria-label="Search by name, symbol or address"
           class="search-input !text-black dark:!text-white"
         />
@@ -38,7 +26,6 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
@@ -99,7 +86,5 @@ import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
   border-radius: 15px;
   font-size: 14px;
 }
-
-
 </style>
 @/composables/math/investMath/useInvestMath@/composables/poolActions/deposit/useApproveTokens
