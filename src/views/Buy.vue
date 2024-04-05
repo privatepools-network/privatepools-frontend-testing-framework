@@ -28,23 +28,23 @@
           >
             Trade PPN Tokens
           </div>
-          <div class="buy_token_container">
+          <div class="buy_token_container bg-white dark:!bg-[#171717]">
             <div class="d-flex">
               <div
                 @click="selectedTab = 'Buy'"
-                :class="selectedTab === 'Sell' ? 'buy_tab' : 'buy_tab_active'"
+                :class="selectedTab === 'Sell' ? 'buy_tab dark:!text-[#5e6673] text-black dark:!bg-[#2b3139] bg-[#CBCBCB]' : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#171717]'"
               >
                 Buy
               </div>
               <div
                 @click="selectedTab = 'Sell'"
-                :class="selectedTab === 'Buy' ? 'buy_tab' : 'buy_tab_active'"
+                :class="selectedTab === 'Buy' ? 'buy_tab dark:!text-[#eaecef] text-black dark:!bg-[#2b3139] bg-[#CBCBCB]' : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#171717]'"
               >
                 Sell
               </div>
             </div>
             <div class="d-flex flex-column gap-3 p-4">
-              <div class="selector_button">
+              <div class="selector_button dark:!bg-[#22222224] bg-white dark:!text-[#eaecef] text-black">
                 <div class="d-flex flex-column gap-2">
                   <div>Spend</div>
                   <input
@@ -98,7 +98,7 @@
                   </div>
                   <div
                     v-if="selectedTab === 'Buy'"
-                    class="text-[14px] mb-0 text-white flex items-center gap-1"
+                    class="text-[14px] mb-0 dark:!text-white text-black flex items-center gap-1"
                   >
                     <img
                       :src="getTokenEntity(tokenCurrency.symbol, 'short').icon"
@@ -123,14 +123,14 @@
                   </div>
                   <div
                     v-else
-                    class="text-[14px] mb-0 text-white flex items-center gap-1"
+                    class="text-[14px] mb-0 dark:!text-white text-black flex items-center gap-1"
                   >
                     <img :src="walletPoolsImg" />
                     <span style="margin-left: 5px">{{ tokenPPN.symbol }}</span>
                   </div>
                 </div>
               </div>
-              <div class="selector_button">
+              <div class="selector_button dark:!bg-[#22222224] bg-white dark:!text-[#eaecef] text-black">
                 <div class="d-flex flex-column gap-2">
                   <div>Receive</div>
                   <input
@@ -184,7 +184,7 @@
                   </div>
                   <div
                     v-if="selectedTab === 'Sell'"
-                    class="text-[14px] mb-0 text-white flex items-center gap-1"
+                    class="text-[14px] mb-0 dark:!text-white text-black flex items-center gap-1"
                   >
                     <img
                       :src="getTokenEntity(tokenCurrency.symbol, 'short').icon"
@@ -209,7 +209,7 @@
                   </div>
                   <div
                     v-else
-                    class="text-[14px] mb-0 text-white flex items-center gap-1"
+                    class="text-[14px] mb-0 dark:!text-white text-black flex items-center gap-1"
                   >
                     <img :src="walletPoolsImg" />
                     <span style="margin-left: 5px">{{ tokenPPN.symbol }}</span>
@@ -223,7 +223,7 @@
           </div>
         </div>
         <div class="chart_container" style="width: 65%">
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between dark:!text-white text-black">
             <div>PPN/USDC</div>
             <div>$65.62</div>
           </div>
@@ -253,22 +253,17 @@
       </div>
 
       <div
-        style="
-          color: white;
-          font-size: clamp(24px, 0.8vw, 40px);
-          font-weight: 700;
-        "
-        class="my-5"
+        class="my-5 dark:!text-white text-black text-3xl font-bold"
       >
         Private Pool Network Token
       </div>
       <div class="d-flex gap-5">
-        <div class="buy_balance_container">
-          <div style="font-size: clamp(16px, 0.8vw, 22px)">$PPN Token</div>
+        <div class="buy_balance_container dark:!bg-[#22222224] bg-white dark:!text-white text-black">
+          <div class="text-lg font-bold">$PPN Token</div>
           <div class="d-flex justify-content-between mt-3">
             <div class="d-flex justify-content-between w-100 gap-3">
               <div>
-                <div class="text-[10px] text-[#b7bdc6] flex items-center gap-1">
+                <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
                   PPN Price
                   <svg
                     width="12"
@@ -285,11 +280,11 @@
                     />
                   </svg>
                 </div>
-                <div style="font-size: clamp(16px, 0.8vw, 22px)">$65.62</div>
+                <div class="text-lg font-semibold dark:!text-white text-black" >$65.62</div>
               </div>
 
               <div>
-                <div class="text-[10px] text-[#b7bdc6] flex items-center gap-1">
+                <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
                   Market Cap
                   <svg
                     width="12"
@@ -306,13 +301,13 @@
                     />
                   </svg>
                 </div>
-                <div style="font-size: clamp(16px, 0.8vw, 22px)">
+                <div class="text-lg font-semibold dark:!text-white text-black">
                   $1,997.25B
                 </div>
               </div>
 
               <div>
-                <div class="text-[10px] text-[#b7bdc6] flex items-center gap-1">
+                <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
                   Volume
                   <svg
                     width="12"
@@ -329,11 +324,11 @@
                     />
                   </svg>
                 </div>
-                <div style="font-size: clamp(16px, 0.8vw, 22px)">A$85.66B</div>
+                <div class="text-lg font-semibold dark:!text-white text-black">A$85.66B</div>
               </div>
 
               <div>
-                <div class="text-[10px] text-[#b7bdc6] flex items-center gap-1">
+                <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
                   Circulation Supply
                   <svg
                     width="12"
@@ -350,11 +345,11 @@
                     />
                   </svg>
                 </div>
-                <div style="font-size: clamp(16px, 0.8vw, 22px)">19.65M</div>
+                <div class="text-lg font-semibold dark:!text-white text-black">19.65M</div>
               </div>
             </div>
           </div>
-          <div class="ppn_token_desc">
+          <div class="ppn_token_desc   dark:!text-[#b7bdc6] text-black">
             PPN is a blockchain gaming ecosystem. Gamers can explore different
             type of games and have their experiences interact across each other
             on the Gala platform. The PPN token is the utility token and primary
@@ -489,7 +484,7 @@ const chartOptions = computed(() => ({
       show: true,
 
       style: {
-        colors: '#fff',
+        colors: '#777',
         fontSize: '10px',
         fontFamily: 'Poppins',
         fontWeight: 700,
@@ -505,7 +500,7 @@ const chartOptions = computed(() => ({
       },
 
       style: {
-        colors: '#fff',
+        colors: '#777',
         fontSize: '10px',
         fontFamily: 'Poppins',
         fontWeight: 700,
@@ -675,7 +670,7 @@ async function onToken1Blur() {
 }
 
 .buy_balance_container {
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;
   border-radius: 16px;
@@ -685,7 +680,7 @@ async function onToken1Blur() {
   font-weight: 400;
   line-height: 22px;
   letter-spacing: 0em;
-  color: white;
+  // color: white;
   height: fit-content;
 
   &_row {
@@ -707,8 +702,6 @@ async function onToken1Blur() {
 }
 
 .buy_token_container {
-  background: #171717;
-  border: 1px solid #191919;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
   border-radius: 20px;
@@ -717,7 +710,7 @@ async function onToken1Blur() {
 .buy_tab {
   width: 100%;
   border-radius: 16px 16px 0px 0px;
-  background: #2b3139;
+  // background: #2b3139;
   display: flex;
   justify-content: center;
   padding: 12px 60px;
@@ -727,7 +720,7 @@ async function onToken1Blur() {
   font-weight: 700;
   line-height: 28px;
   text-align: center;
-  color: #5e6673;
+  // color: #5e6673;
 
   &:hover {
     color: white;
@@ -740,7 +733,7 @@ async function onToken1Blur() {
   border-radius: 16px 16px 0px 0px;
   font-size: clamp(15px, 0.8vw, 19px);
   position: relative;
-  background: #171717;
+
   display: flex;
   justify-content: center;
   padding: 12px 60px;
@@ -750,7 +743,7 @@ async function onToken1Blur() {
   font-weight: 700;
   line-height: 28px;
   text-align: center;
-  color: #eaecef;
+  // color: #eaecef;
 }
 
 // .buy_tab_active:after {
@@ -783,9 +776,9 @@ async function onToken1Blur() {
   font-weight: 400;
   line-height: 22px;
   letter-spacing: 0em;
-  color: #eaecef;
+  // color: #eaecef;
 
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
   border: 1px solid #ffffff0d;
   border-radius: 16px;
@@ -838,6 +831,6 @@ async function onToken1Blur() {
   font-weight: 400;
   line-height: 24px;
   letter-spacing: 0em;
-  color: #b7bdc6;
+  // color: #b7bdc6;
 }
 </style>

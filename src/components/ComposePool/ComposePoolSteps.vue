@@ -1,6 +1,6 @@
 <template>
-  <div class="compose_steps">
-    <div class="compose_text">Create a weighted pool steps</div>
+  <div class="compose_steps dark:!bg-[#00000024] bg-white">
+    <div class="compose_text dark:!text-white text-black">Create a weighted pool steps</div>
     <!-- Comment -->
     <hr class="compose_hr" />
     <div>
@@ -65,7 +65,7 @@ defineProps(['activeStep'])
   width: 100%;
   height: fit-content;
   border-radius: 16px;
-  background: #00000024;
+  // background: #00000024;
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
 
@@ -73,7 +73,7 @@ defineProps(['activeStep'])
 
 .compose_text {
   font-size: clamp(11px, 0.8vw, 15px);
-  color: white;
+  // color: white;
 }
 
 .compose_hr {

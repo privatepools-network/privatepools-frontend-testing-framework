@@ -4,7 +4,7 @@
       <div
         class="modal_body_header d-flex justify-content-between align-items-start mb-1"
       >
-        <p style="font-size: 20px">Token search</p>
+        <p style="font-size: 20px" class="dark:!text-white text-black">Token search</p>
       </div>
 
 
@@ -45,10 +45,10 @@
       </div>
 
       <div class="mt-3">
-        <div style="color: white; font-size: 16px">Common Tokens</div>
+        <div class="dark:!text-white text-black text-base">Common Tokens</div>
         <div class="d-flex flex-wrap gap-3 justify-content-between">
           <div
-            class="common_token d-flex gap-2"
+            class="common_token text-black dark:!text-white d-flex gap-2"
             v-for="token in commonTokens"
             :key="token.symbol"
             @click="
@@ -81,11 +81,11 @@
               class="p-2"
             />
             <div class="d-flex flex-column">
-              <div class="modal_body_header">{{ token.symbol }}</div>
-              <div class="modal_body_header">{{ token.name }}</div>
+              <div class="modal_body_header text-black dark:!text-white">{{ token.symbol }}</div>
+              <div class="modal_body_header text-black dark:!text-white">{{ token.name }}</div>
             </div>
           </div>
-          <div class="d-flex flex-column align-items-end text-white">
+          <div class="d-flex flex-column align-items-end text-black dark:!text-white">
             <div>{{ token.balance }} {{ token.symbol }}</div>
             <div>${{ token.balance * token.price }}</div>
           </div>
@@ -138,7 +138,7 @@ const commonTokens = computed(() => {
   font-weight: 500;
   line-height: 28px;
   letter-spacing: -0.5px;
-  color: white;
+  // color: white;
 }
 
 .modal_body_inside {
@@ -345,7 +345,7 @@ const commonTokens = computed(() => {
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;
-  color: white;
+  // color: white;
   padding: 8px;
   &:hover {
     cursor: pointer;

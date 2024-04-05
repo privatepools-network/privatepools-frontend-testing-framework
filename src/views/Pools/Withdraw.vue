@@ -22,16 +22,15 @@
       :getTokenWithdrawAmount="getTokenWithdrawAmount"
       :init="init"
     />
-    <div class="center_container">
+    <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
         <div class="d-flex align-items-center justify-content-between">
           <div class="caption-row">
             <div
-              class="caption"
+              class="caption dark:!text-white text-black"
               style="
                 font-size: clamp(10px, 0.9vw, 16px);
                 font-weight: 700;
-                color: white;
               "
             >
               {{
@@ -41,14 +40,14 @@
             <div
               v-for="(poolToken, poolTokenIndex) in allSelectedTokensDisplay"
               :key="`pool-token-${poolTokenIndex}`"
-              class="big-chip"
+              class="big-chip dark:!bg-[#00000024] bg-white"
             >
               <CAvatar
                 :src="getTokenEntity(poolToken.symbol, 'short').icon"
                 class="big-chip__image"
               />
-              <div class="big-chip__text">{{ poolToken.symbol }}</div>
-              <div class="big-chip__text">{{ poolToken.weight }}%</div>
+              <div class="big-chip__text dark:!text-white text-black">{{ poolToken.symbol }}</div>
+              <div class="big-chip__text dark:!text-white text-black">{{ poolToken.weight }}%</div>
             </div>
           </div>
           <div class="back_button" @click="router.push('/pools')">
@@ -79,17 +78,17 @@
       </CRow>
 
       <div class="d-flex align-items-start gap-5">
-        <div class="deposit_choose">
-          <div class="deposit_network_text">{{ chainSelected }}</div>
-          <div class="deposit_text my-1">Withdraw from pool</div>
+        <div class="deposit_choose dark:!bg-[#00000024] bg-white">
+          <div class="deposit_network_text dark:!text-white text-black">{{ chainSelected }}</div>
+          <div class="deposit_text dark:!text-white text-black my-1">Withdraw from pool</div>
 
           <div class="d-flex flex-column gap-2 mt-4">
-            <div class="deposit_text fw-bolder">You provided</div>
+            <div class="deposit_text dark:!text-white text-black fw-bolder">You provided</div>
 
-            <div class="modal_stake_token">
+            <div class="modal_stake_token dark:!text-white text-black dark:!bg-[#15151524] bg-white">
               <div>
                 <div class="d-flex justify-content-between align-items-center">
-                  <div class="modal_stake_token_inner_name">
+                  <div class="modal_stake_token_inner_name dark:!text-white text-black">
                     <svg
                       width="23"
                       height="23"
@@ -127,9 +126,8 @@
                   </div>
                   <input
                     v-if="poolShare.balance && !isNaN(poolShare.balance)"
-                    class="token-input"
+                    class="token-input dark:!text-[#A8A8A8] text-black"
                     style="
-                      color: rgb(168, 168, 168);
                       font-size: clamp(10px, 0.8vw, 14px);
                       font-weight: 500;
                       text-align: right;
@@ -141,7 +139,7 @@
                 </div>
                 <div>
                   <div
-                    class="modal_balance_slider"
+                    class="modal_balance_slider dark:!text-white text-black"
                     v-if="poolShare.balance && !isNaN(poolShare.balance)"
                   >
                     <div class="value-label" ref="inputRefLabel">
@@ -165,7 +163,7 @@
                         Max</span
                       >
                     </div>
-                    <div style="rgba(51, 51, 51, 1)">
+                    <div >
                       ${{
                         (
                           ((poolShare.balance * pool.lpPrice) / 100) *
@@ -194,16 +192,13 @@
               </div>
             </div>
 
-            <div class="deposit_text fw-bolder mt-3">You receive</div>
+            <div class="deposit_text dark:!bg-[#00000024] bg-white dark:!text-white text-black fw-bolder mt-3">You receive</div>
             <div>
               <div
                 style="
                   border-radius: 16px;
                   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-                  background: #00000024;
-
                   border: 1px solid #ffffff0d;
-                  color: white;
                   font-size: clamp(10px, 0.8vw, 14px);
                 "
               >
@@ -231,23 +226,23 @@
                           :src="getTokenEntity(token.symbol, 'short').icon"
                           width="38"
                         />
-                        <div class="d-flex flex-column">
-                          <div style="font-size: 12px; color: #ffffff">
+                        <div class="d-flex flex-column dark:!text-white text-black">
+                          <div style="font-size: 12px;">
                             {{ token.symbol }} 25%
                           </div>
-                          <div style="font-size: 10px; color: #8e8e8e">
+                          <div style="font-size: 10px;" class="dark:!text-white text-black">
                             {{ token.symbol }}
                           </div>
                         </div>
                       </div>
                       <div>
                         <div class="d-flex flex-column align-items-end">
-                          <div style="font-size: 12px; color: #ffffff">
+                          <div style="font-size: 12px;" class="dark:!text-white text-black">
                             {{ token.withdrawAmount }}
                           </div>
                           <div
-                            style="font-size: 10px; color: #8e8e8e"
-                            class="d-flex align-items-center gap-1"
+                            style="font-size: 10px;"
+                            class="d-flex align-items-center gap-1 dark:!text-white text-black"
                           >
                             ${{ token.usdAmount }}
                           </div>
@@ -277,7 +272,7 @@
                     "
                   >
                     <td
-                      class="w-25 fw-bold"
+                      class="w-25 fw-bold dark:!text-white text-black"
                       style="
                         border-right: 1px solid rgba(163, 164, 165, 0.2);
                         padding: 8px;
@@ -289,7 +284,7 @@
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >
-                        <div class="w-25 fw-bold">
+                        <div class="w-25 fw-bold dark:!text-white text-black">
                           {{ (priceImpact * 100).toFixed(1) }}%
                         </div>
                       </div>
@@ -636,7 +631,7 @@ function changeVisibleDeposit() {
 </script>
 <style lang="scss" scoped>
 .center_container {
-  background: #15151524;
+  // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   margin: 1% 10% 10% 10%;
@@ -660,7 +655,7 @@ function changeVisibleDeposit() {
   display: flex;
   align-items: center;
   border-radius: 16px;
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
 
   backdrop-filter: blur(20.067087173461914px);
@@ -673,7 +668,7 @@ function changeVisibleDeposit() {
     font-weight: 400;
     line-height: 14px;
     letter-spacing: 0em;
-    color: #ffffff;
+    // color: #ffffff;
 
     &:nth-child(2) {
       margin-left: 4px;
@@ -713,7 +708,7 @@ function changeVisibleDeposit() {
   padding: 10px;
   width: 40%;
   border-radius: 16px;
-  background: #00000024;
+  // background: #00000024;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
@@ -734,20 +729,20 @@ function changeVisibleDeposit() {
 
 .deposit_text {
   font-size: clamp(11px, 0.8vw, 15px);
-  color: white;
+  // color: white;
 }
 
 .modal_stake_token {
   padding: 15px;
   border-radius: 16px;
-  background: #15151524;
+  // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
 
 .modal_balance_slider {
   margin-top: 20px;
-  color: white;
+  // color: white;
   font-size: clamp(10px, 0.8vw, 14px);
   display: flex;
   justify-content: space-between;
@@ -759,7 +754,7 @@ function changeVisibleDeposit() {
   gap: 4px;
   border-radius: 17px;
   background: rgba(76, 76, 76, 0.14);
-  color: white;
+  // color: white;
   font-size: clamp(10px, 0.8vw, 14px);
   padding: 4px 12px;
 }

@@ -24,17 +24,13 @@
         }))
       "
     />
-    <div class="center_container">
+    <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
         <div class="d-flex align-items-center justify-content-between">
           <div class="caption-row">
             <div
-              class="caption"
-              style="
-                font-size: clamp(10px, 0.9vw, 16px);
-                font-weight: 700;
-                color: white;
-              "
+              class="caption dark:!text-white text-black"
+              style="font-size: clamp(10px, 0.9vw, 16px); font-weight: 700"
             >
               {{
                 pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/')
@@ -44,14 +40,18 @@
             <div
               v-for="(poolToken, poolTokenIndex) in pool.tokens"
               :key="`pool-token-${poolTokenIndex}`"
-              class="big-chip"
+              class="big-chip dark:!bg-[#00000024] bg-white"
             >
               <CAvatar
                 :src="getTokenEntity(poolToken.symbol, 'short').icon"
                 class="big-chip__image"
               />
-              <div class="big-chip__text">{{ poolToken.symbol }}</div>
-              <div class="big-chip__text">{{ poolToken.weight }}%</div>
+              <div class="big-chip__text dark:!text-white text-black">
+                {{ poolToken.symbol }}
+              </div>
+              <div class="big-chip__text dark:!text-white text-black">
+                {{ poolToken.weight }}%
+              </div>
             </div>
           </div>
           <div class="back_button" @click="router.push('/pools')">
@@ -82,17 +82,22 @@
       </CRow>
 
       <div class="d-flex align-items-start gap-5">
-        <div class="deposit_choose">
-          <div class="deposit_network_text">{{ chainSelected }}</div>
-          <div class="deposit_text my-1">Add liquidity</div>
+        <div class="deposit_choose dark:!bg-[#00000024] bg-white">
+          <div class="deposit_network_text dark:!text-white text-black">
+            {{ chainSelected }}
+          </div>
+          <div class="deposit_text dark:!text-white text-black my-1">
+            Add liquidity
+          </div>
 
-          <div class="d-flex justify-content-between currency_container">
+          <div
+            class="d-flex justify-content-between dark:!bg-[#00000024] bg-white currency_container"
+          >
             <CurrencySelector />
             <div>
               <input
-                class="token-input"
+                class="token-input dark:!text-[#A8A8A8] text-black"
                 style="
-                  color: rgb(168, 168, 168);
                   font-size: clamp(10px, 0.8vw, 14px);
                   font-weight: 500;
                   text-align: right;
@@ -110,13 +115,15 @@
             "
           >
             <div
-              class="modal_stake_token"
+              class="modal_stake_token dark:!bg-[#15151524] bg-white"
               v-for="(token, tokenIndex) in pool.tokens"
               :key="`deposit-token-${token.address}`"
             >
               <div>
                 <div class="d-flex justify-content-between align-items-center">
-                  <div class="modal_stake_token_inner_name">
+                  <div
+                    class="modal_stake_token_inner_name dark:!text-white text-black dark:!bg-[#4c4c4c24] bg-white"
+                  >
                     <img
                       :src="getTokenEntity(token.symbol, 'short').icon"
                       width="20"
@@ -124,9 +131,8 @@
                     {{ token.symbol }} {{ token.weight }}%
                   </div>
                   <input
-                    class="token-input"
+                    class="token-input dark:!text-[#A8A8A8] text-black"
                     style="
-                      color: rgb(168, 168, 168);
                       font-size: clamp(10px, 0.8vw, 14px);
                       font-weight: 500;
                       text-align: right;
@@ -141,7 +147,7 @@
                   />
                 </div>
                 <div>
-                  <div class="modal_balance_slider">
+                  <div class="modal_balance_slider dark:!text-white text-black">
                     <div class="value-label" ref="inputRefLabel">
                       Balance:
                       <span class="fw-bold">{{
@@ -155,7 +161,7 @@
                         Max</span
                       >
                     </div>
-                    <div style="rgba(51, 51, 51, 1)">
+                    <div>
                       ${{
                         (
                           (lineNumbers[tokenIndex] / 1000) *
@@ -185,12 +191,12 @@
               <div class="modal_total_container mt-4">
                 <table
                   style="
-                    color: white;
                     width: 100%;
                     border-collapse: separate;
                     border-spacing: 0;
                     overflow: hidden;
                   "
+                  class="dark:!text-white text-black"
                 >
                   <tr
                     style="
@@ -228,7 +234,7 @@
                             )
                           }}
                         </div>
-                        <div class="optimize" @click="OnAllMaxClick">Max</div>
+                        <div class="optimize dark:!bg-[#00000024] bg-white" @click="OnAllMaxClick">Max</div>
                       </div>
                     </td>
                   </tr>
@@ -287,10 +293,11 @@
                             </defs>
                           </svg>
                         </div>
-                        <div class="optimize" style=" background: -webkit-linear-gradient(90deg, #00C9FF 12.1%, #7EF6B2 100.24%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-" @click="OnOptimizeClick">
+                        <div
+                          class="optimize dark:!bg-[#00000024] bg-white"
+                          
+                          @click="OnOptimizeClick"
+                        >
                           Optimize
                         </div>
                       </div>
@@ -311,26 +318,23 @@
         <div
           style="
             border-radius: 16px;
-            background: #00000024;
-            color: white;
+
             font-size: clamp(10px, 0.8vw, 14px);
             height: fit-content;
             width: 250px;
-            box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
-            border: 1px solid #FFFFFF0D
+            box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+            border: 1px solid #ffffff0d;
           "
+          class="dark:!text-white text-black dark:!bg-[#00000024] bg-white"
         >
-          <div
-            class="fw-bold p-3"
-            style="border-bottom: 1px solid #4F4F4F57"
-          >
+          <div class="fw-bold p-3" style="border-bottom: 1px solid #4f4f4f57">
             My wallet
           </div>
           <div
-            class="d-flex flex-column p-2"
+            class="d-flex flex-column p-2 dark:!text-[#dddddd] text-black"
             style="
               font-size: clamp(10px, 0.8vw, 14px);
-              color: rgba(221, 221, 221, 1);
+        
             "
             v-if="
               balances != {} && lastTokenPrices != {} && lineNumbers.length > 0
@@ -380,119 +384,118 @@ import useInvestFormMath from '@/composables/math/investMath/useInvestMath'
 import { bnum } from '@/lib/utils'
 import router from '@/router'
 
-
 const pool = {
-    "id": "0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24000100000000000000000014",
-    "name": "25AVAX-25BTCB-25MATIC-25SOL",
-    "address": "0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24",
-    "poolType": "Weighted",
-    "swapFee": "0.01",
-    "tokensList": [
-        "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
-        "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
-        "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
-        "0xcc42724c6683b7e57334c4e856f4c9965ed682bd"
-    ],
-    "totalLiquidity": 1300.4913998702796,
-    "totalSwapVolume": "6.67",
-    "totalSwapFee": "0.07",
-    "totalShares": "10.145521404190972448",
-    "owner": "0x4bde150b69408dafbe4833f0d7b9689246a6597b",
-    "factory": "0xda1116ec45ca0ae4874557a04875ada9e6eeca9b",
-    "amp": null,
-    "createTime": 1707950801,
-    "swapEnabled": true,
-    "volume24h": "0",
-    "fees24h": "0",
-    "apr": {
-        "total": "0"
+  id: '0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24000100000000000000000014',
+  name: '25AVAX-25BTCB-25MATIC-25SOL',
+  address: '0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24',
+  poolType: 'Weighted',
+  swapFee: '0.01',
+  tokensList: [
+    '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
+    '0x570a5d26f7765ecb712c0924e4de545b89fd43df',
+    '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c',
+    '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
+  ],
+  totalLiquidity: 1300.4913998702796,
+  totalSwapVolume: '6.67',
+  totalSwapFee: '0.07',
+  totalShares: '10.145521404190972448',
+  owner: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
+  factory: '0xda1116ec45ca0ae4874557a04875ada9e6eeca9b',
+  amp: null,
+  createTime: 1707950801,
+  swapEnabled: true,
+  volume24h: '0',
+  fees24h: '0',
+  apr: {
+    total: '0',
+  },
+  tokens: [
+    {
+      name: 'Avalanche',
+      symbol: 'AVAX',
+      decimals: 18,
+      address: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
+      balance: '7.195153658952430465',
+      weight: 25,
+      id: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
+      userBalance: '0.0',
     },
-    "tokens": [
-        {
-            "name": "Avalanche",
-            "symbol": "AVAX",
-            "decimals": 18,
-            "address": "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
-            "balance": "7.195153658952430465",
-            "weight": 25,
-            "id": "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
-            "userBalance": "0.0"
-        },
-        {
-            "name": "SOLANA",
-            "symbol": "SOL",
-            "decimals": 18,
-            "address": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
-            "balance": "2.625205516038463106",
-            "weight": 25,
-            "id": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
-            "userBalance": "0.0"
-        },
-        {
-            "name": "BTCB Token",
-            "symbol": "BTCB",
-            "decimals": 18,
-            "address": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
-            "balance": "0.005930503974917702",
-            "weight": 25,
-            "id": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
-            "userBalance": "0.0"
-        },
-        {
-            "name": "Matic Token",
-            "symbol": "MATIC",
-            "decimals": 18,
-            "address": "0xcc42724c6683b7e57334c4e856f4c9965ed682bd",
-            "balance": "369.659292532285235211",
-            "weight": 25,
-            "id": "0xcc42724c6683b7e57334c4e856f4c9965ed682bd",
-            "userBalance": "0.0"
-        }
-    ],
-    "mainIndex": null,
-    "tokenRates": null,
-    "holdersCount": "2",
-    "swapsCount": "3",
-    "linearPools": null,
-    "createdAt": "Feb.15, 2024",
-    "timeAgo": "12 days ago",
-    "lpPrice": 128.18379145433224,
-    "onchain": {
-        "tokens": {
-            "0x1CE0c2827e2eF14D5C4f29a091d735A204794041": {
-                "decimals": 18,
-                "balance": "7.195153658952430465",
-                "weight": "0.25"
-            },
-            "0x570A5D26f7765Ecb712C0924E4De545B89fD43dF": {
-                "decimals": 18,
-                "balance": "2.625205516038463106",
-                "weight": "0.25"
-            },
-            "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c": {
-                "decimals": 18,
-                "balance": "0.005930503974917702",
-                "weight": "0.25"
-            },
-            "0xCC42724C6683B7E57334c4E856f4c9965ED682bD": {
-                "decimals": 18,
-                "balance": "369.659292532285235211",
-                "weight": "0.25"
-            }
-        },
-        "amp": "0",
-        "swapEnabled": true,
-        "totalSupply": "10.145521404190972448",
-        "decimals": 18,
-        "swapFee": "0.01"
-    }
+    {
+      name: 'SOLANA',
+      symbol: 'SOL',
+      decimals: 18,
+      address: '0x570a5d26f7765ecb712c0924e4de545b89fd43df',
+      balance: '2.625205516038463106',
+      weight: 25,
+      id: '0x570a5d26f7765ecb712c0924e4de545b89fd43df',
+      userBalance: '0.0',
+    },
+    {
+      name: 'BTCB Token',
+      symbol: 'BTCB',
+      decimals: 18,
+      address: '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c',
+      balance: '0.005930503974917702',
+      weight: 25,
+      id: '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c',
+      userBalance: '0.0',
+    },
+    {
+      name: 'Matic Token',
+      symbol: 'MATIC',
+      decimals: 18,
+      address: '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
+      balance: '369.659292532285235211',
+      weight: 25,
+      id: '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
+      userBalance: '0.0',
+    },
+  ],
+  mainIndex: null,
+  tokenRates: null,
+  holdersCount: '2',
+  swapsCount: '3',
+  linearPools: null,
+  createdAt: 'Feb.15, 2024',
+  timeAgo: '12 days ago',
+  lpPrice: 128.18379145433224,
+  onchain: {
+    tokens: {
+      '0x1CE0c2827e2eF14D5C4f29a091d735A204794041': {
+        decimals: 18,
+        balance: '7.195153658952430465',
+        weight: '0.25',
+      },
+      '0x570A5D26f7765Ecb712C0924E4De545B89fD43dF': {
+        decimals: 18,
+        balance: '2.625205516038463106',
+        weight: '0.25',
+      },
+      '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c': {
+        decimals: 18,
+        balance: '0.005930503974917702',
+        weight: '0.25',
+      },
+      '0xCC42724C6683B7E57334c4E856f4c9965ED682bD': {
+        decimals: 18,
+        balance: '369.659292532285235211',
+        weight: '0.25',
+      },
+    },
+    amp: '0',
+    swapEnabled: true,
+    totalSupply: '10.145521404190972448',
+    decimals: 18,
+    swapFee: '0.01',
+  },
 }
 
 const tokens = [
-    "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
-    "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
-    "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
-    "0xcc42724c6683b7e57334c4e856f4c9965ed682bd"
+  '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
+  '0x570a5d26f7765ecb712c0924e4de545b89fd43df',
+  '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c',
+  '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
 ]
 
 console.log('here')
@@ -566,8 +569,7 @@ onMounted(async () => {
 let lastDepositChanged = ref(0)
 function OnSliderValueChange(index, value) {
   if (balances.value[tokens[index].address] * 1000 < value) {
-    lineNumbers.value[index] =
-      balances.value[tokens[index].address] * 1000
+    lineNumbers.value[index] = balances.value[tokens[index].address] * 1000
   }
   lineNumbers.value[index] = value
   if (value > 0) lastDepositChanged.value = index
@@ -596,9 +598,7 @@ function OnOptimizeClick() {
   }
 }
 
-const totalWeeklyYield = computed(() =>
-  weeklyYieldForAPR(`${pool.apr.total}`),
-)
+const totalWeeklyYield = computed(() => weeklyYieldForAPR(`${pool.apr.total}`))
 function weeklyYieldForAPR(apr) {
   return bnum(apr).times(fiatTotal.value).div(52).toString()
 }
@@ -654,7 +654,7 @@ function RemainingBalance(token, index) {
 </script>
 <style lang="scss" scoped>
 .center_container {
-  background: #15151524;
+  // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   margin: 1% 10% 10% 10%;
@@ -670,7 +670,6 @@ function RemainingBalance(token, index) {
 }
 
 .big-chip {
-  
   padding-left: 8px;
   padding-right: 10px;
   padding-top: 3px;
@@ -679,7 +678,7 @@ function RemainingBalance(token, index) {
   display: flex;
   align-items: center;
   border-radius: 16px;
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
 
   backdrop-filter: blur(20.067087173461914px);
@@ -692,7 +691,7 @@ function RemainingBalance(token, index) {
     font-weight: 400;
     line-height: 14px;
     letter-spacing: 0em;
-    color: #ffffff;
+    // color: #ffffff;
 
     &:nth-child(2) {
       margin-left: 4px;
@@ -706,7 +705,7 @@ function RemainingBalance(token, index) {
 }
 
 .currency_container {
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
 
   padding: 10px;
@@ -720,8 +719,8 @@ function RemainingBalance(token, index) {
   height: 32px;
   border-radius: 100%;
   background: #00000024;
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
-  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  border: 1px solid #ffffff0d;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -732,9 +731,9 @@ function RemainingBalance(token, index) {
   padding: 10px;
   width: 40%;
   border-radius: 16px;
-  background: #00000024;
-  border: 1px solid #FFFFFF0D;
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
+  // background: #00000024;
+  border: 1px solid #ffffff0d;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
 
 .token-input {
@@ -748,35 +747,37 @@ function RemainingBalance(token, index) {
   font-weight: 400;
   line-height: 16px;
   letter-spacing: 0em;
-  color: #b6b6b6;
+  // color: #b6b6b6;
 }
 
 .deposit_text {
   font-size: clamp(11px, 0.8vw, 15px);
-  color: white;
+  // color: white;
 }
 
 .modal_stake_token {
   padding: 15px;
   border-radius: 16px;
-  background: #15151524;
-  border: 1px solid #FFFFFF0D;
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
-
+  // background: #15151524;
+  border: 1px solid #ffffff0d;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
 
 .modal_balance_slider {
   margin-top: 20px;
-  color: white;
+  // color: white;
   font-size: clamp(10px, 0.8vw, 14px);
   display: flex;
   justify-content: space-between;
 }
 
 .modal_stake_token_inner_name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   border-radius: 17px;
-  background: rgba(76, 76, 76, 0.14);
-  color: white;
+  // background: rgba(76, 76, 76, 0.14);
+  // color: white;
   font-size: clamp(10px, 0.8vw, 14px);
   padding: 4px 12px;
 }
@@ -813,7 +814,7 @@ function RemainingBalance(token, index) {
 }
 
 .optimize {
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
   font-size: 10px;
   padding: 4px 7px;

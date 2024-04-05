@@ -1,12 +1,12 @@
 <template>
   <div
-    class="total_epoch"
+    class="total_epoch text-black dark:!text-[#c1c8ce] bg-white dark:!bg-[#00000024]"
     v-if="router.currentRoute.value.path === '/pools/concentrated_pool'"
   >
     <div>Average Rewards:</div>
     <div>0%</div>
   </div>
-  <div v-else class="total_epoch">
+  <div v-else class="total_epoch text-black dark:!text-[#c1c8ce] bg-white dark:!bg-[#00000024]">
     <div class="d-flex gap-4">
       <div class="d-flex flex-column">
         <div>LP Rewards</div>
@@ -75,9 +75,9 @@
     </div>
   </div>
 
-  <div class="concentrated_card">
+  <div class="concentrated_card bg-white dark:!bg-[#00000024]">
     <div v-if="router.currentRoute.value.path === '/pools/concentrated_pool'">
-      <div class="compose_text mb-3">Price Range Overview</div>
+      <div class="compose_text text-black dark:!text-white mb-3">Price Range Overview</div>
     </div>
     <!-- <div v-else>
       <div class="d-flex justify-content-between align-items-center mb-3">
@@ -102,11 +102,11 @@
       </div>
     </div> -->
 
-    <div class="range_chart_card">
+    <div class="range_chart_card bg-white dark:!bg-[#00000024]">
       <div class="d-flex justify-content-center flex-column align-items-center">
         <!-- v-if="!tokensInitialized" -->
         <img :src="range_chart_icon" width="100" />
-        <div class="compose_text mt-3">Your position will appear here.</div>
+        <div class="compose_text text-black dark:!text-white mt-3">Your position will appear here.</div>
       </div>
       <!-- <div v-else class="w-[350px]">
         <HistogramSlider style="padding: 0px 60px" :width="'100%'" :bar-height="180" :bar-gap="0" :bar-width="41"
@@ -125,14 +125,14 @@
       v-if="router.currentRoute.value.path === '/pools/concentrated_pool/add'"
       class="d-flex justify-content-between align-items-center my-3"
     >
-      <div class="compose_text">
-        <span style="color: #00c9ff">Min Price:</span> 18.503 ({{
+      <div class="compose_text text-black dark:!text-white">
+        <span >Min Price:</span> 18.503 ({{
           token0.symbol
         }}
         = $34,652)
       </div>
-      <div class="compose_text">
-        <span style="color: #00c9ff">Max Price:</span> 18.503 ({{
+      <div class="compose_text text-black dark:!text-white">
+        <span >Max Price:</span> 18.503 ({{
           token1.symbol
         }}
         = $1,503)
@@ -148,8 +148,8 @@
       "
       class="mt-3"
     >
-      <div class="compose_text mb-3">Position Range</div>
-      <div class="position_range_container relative">
+      <div class="compose_text text-black dark:!text-white mb-3">Position Range</div>
+      <div class="position_range_container bg-white dark:!bg-[#00000024] relative">
         <div class="overflow-hidden">
         <div class="absolute top-[-10px] left-[-20px]">
           <img :src="getTokenEntity(token0.symbol, 'short').icon" width="100" class="opacity-[6%]"/>
@@ -300,7 +300,7 @@ function prettify(ts) {
 
 <style lang="scss" scoped>
 .total_epoch {
-  background: #00000024;
+  // background: #00000024;
   border: 1px solid #ffffff0d;
   padding: 12px;
   border-radius: 16px;
@@ -310,7 +310,7 @@ function prettify(ts) {
   font-size: 12px;
   font-weight: 400;
   line-height: 15px;
-  color: #c1c8ce;
+  // color: #c1c8ce;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -318,7 +318,7 @@ function prettify(ts) {
 
 .concentrated_card {
   margin-top: 50px;
-  background: #00000024;
+  // background: #00000024;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
   border-radius: 16px;
@@ -327,11 +327,11 @@ function prettify(ts) {
 
 .compose_text {
   font-size: clamp(11px, 0.8vw, 15px);
-  color: white;
+  // color: white;
 }
 
 .range_chart_card {
-  background: #00000024;
+  // background: #00000024;
 
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
@@ -415,7 +415,7 @@ function prettify(ts) {
 }
 
 .position_range_container {
-  background: #22222224;
+  // background: #22222224;
   font-size: clamp(10px, 0.8vw, 14px);
   border-radius: 8px;
   box-shadow: 0px 4px 4px 0px #00000040;

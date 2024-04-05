@@ -12,7 +12,7 @@
       </template>
     </Modal>
 
-    <div class="center_container">
+    <div class="center_container dark:!bg-[#15151524] bg-white">
       <div class="d-flex justify-content-end w-100 mb-4">
         <div class="back_button" @click="router.push('/pools')">
           <svg
@@ -42,30 +42,26 @@
       <div class="d-flex gap-5">
         <div class="w-50">
           <div
-            style="
-              font-size: 20px;
-              color: #ebebef;
-              font-weight: 700;
-              text-transform: uppercase;
-            "
-            class="compose_text text-uppercase fw-bolder"
+ 
+            class="compose_text text-uppercase fw-bolder uppercase font-bold text-black dark:!text-white text-2xl"
           >
             CREATE A CL pool
           </div>
-          <div class="compose_text text-secondary" style="font-size: 12px">
+          <div class="compose_text text-black dark:!text-white" style="font-size: 12px">
             Create a Private Pools CL Pool
           </div>
 
-          <div class="concentrated_card">
-            <div class="compose_text mb-3">New CL Position</div>
-            <div class="compose_text fw-light">Pair</div>
+          <div class="concentrated_card dark:!bg-[#00000024] bg-white">
+            <div class="compose_text dark:!text-white text-black mb-3">New CL Position</div>
+            <div class="compose_text dark:!text-white text-black fw-light">Pair</div>
             <div class="d-flex gap-3">
               <!-- Tokens selector 1 separate comp-->
               <div
                 @click="() => tokenSelectModalOpen(1)"
-                class="selector_button"
+                class="selector_button dark:!bg-[#00000024] bg-white"
               >
                 <img
+                class="!bg-gray-300 dark:!bg-transparent rounded-full"
                   :src="
                     getTokenEntity(pairToken1.symbol, 'short').icon ||
                     pairToken1.logoURI
@@ -84,16 +80,17 @@
                     fill="#EBEBEC"
                   />
                 </svg>
-                <h4 style="font-size: 21px; margin-bottom: 0; color: white">
+                <h4 class="text-xl mb-[0px] dark:!text-white text-black">
                   {{ pairToken1.symbol }}
                 </h4>
                 <!-- Tokens selector 2 separate comp -->
               </div>
               <div
                 @click="() => tokenSelectModalOpen(2)"
-                class="selector_button"
+                class="selector_button dark:!bg-[#00000024] bg-white"
               >
                 <img
+                class="!bg-gray-300 dark:!bg-transparent rounded-full"
                   :src="
                     getTokenEntity(pairToken2.symbol, 'short').icon ||
                     pairToken2.logoURI
@@ -112,47 +109,48 @@
                     fill="#EBEBEC"
                   />
                 </svg>
-                <h4 style="font-size: 21px; margin-bottom: 0; color: white">
+                <h4 class="text-xl mb-[0px] dark:!text-white text-black">
                   {{ pairToken2.symbol }}
                 </h4>
               </div>
             </div>
             <div v-if="concentratedLiquidityStep === 1">
-              <div class="compose_text fw-light mt-3">Fee Tier</div>
-              <div class="fee_tier_container">
+              <div class="compose_text dark:!text-white text-black fw-light mt-3">Fee Tier</div>
+              <div class="fee_tier_container dark:!bg-[#00000024] bg-white">
                 <div
                   :class="
                     tier.selected
-                      ? 'fee_tier_container_card fee_tier_container_card__selected'
-                      : 'fee_tier_container_card'
+                      ? 'fee_tier_container_card  fee_tier_container_card__selected'
+                      : 'fee_tier_container_card dark:!bg-[#2f303230] bg-white'
                   "
                   v-for="(tier, i) in fee_tiers"
                   :key="`tiers-${i}`"
                   @click="selectTier(i)"
                 >
-                  <div style="color: #c1c8ce">{{ tier.percent }}</div>
+                  <div  class="dark:!text-[#c1c8ce] text-black">{{ tier.percent }}</div>
                   <div style="color: #858c90">{{ tier.name }}</div>
                 </div>
               </div>
             </div>
-            <div class="compose_text fw-light mt-3 mb-2">Price Range</div>
-            <div class="price_range_container">
+            <div class="compose_text dark:!text-white text-black fw-light mt-3 mb-2">Price Range</div>
+            <div class="price_range_container dark:!bg-[#22222224] bg-white">
               <div class="d-flex gap-3 justify-content-between">
                 <!-- Min per separate comp -->
-                <div class="price_range_card">
+                <div class="price_range_card dark:!bg-[#22222224] bg-white">
                   <div
                     class="d-flex justify-content-center w-100 position-relative"
                   >
                     <div
                       class="d-flex flex-column justify-content-center align-items-center gap-3 p-4"
                     >
-                      <div style="color: #c1c8ce">Min per</div>
+                      <div  class="dark:!text-[#c1c8ce] text-black">Min per</div>
                       <div
                         style="
                           font-size: 20px;
                           font-weight: 600;
-                          color: #c1c8ce;
+                    
                         "
+                        class="dark:!text-[#c1c8ce] text-black"
                       >
                         <input
                           v-if="!fullRangeSelected"
@@ -162,10 +160,11 @@
                             border: none;
                             outline: none;
                             text-align: center;
-                            color: #c1c8ce;
+                       
                             font-weight: 600;
                             font-size: 20px;
                           "
+                          class="dark:!text-[#c1c8ce] !text-black"
                           v-model="priceRange1"
                           @blur="adjustTokenPrices"
                         />
@@ -178,10 +177,11 @@
                             border: none;
                             outline: none;
                             text-align: center;
-                            color: #c1c8ce;
+                        
                             font-weight: 600;
                             font-size: 20px;
                           "
+                          class="dark:!text-[#c1c8ce] text-black"
                           value="0"
                         />
                       </div>
@@ -272,20 +272,21 @@
                   </div>
                 </div>
                 <!-- Max per separate comp -->
-                <div class="price_range_card">
+                <div class="price_range_card dark:!bg-[#22222224] bg-white">
                   <div
                     class="d-flex justify-content-center w-100 position-relative"
                   >
                     <div
                       class="d-flex flex-column justify-content-center align-items-center gap-3 p-4"
                     >
-                      <div style="color: #c1c8ce">Max per</div>
+                      <div class="dark:!text-[#c1c8ce] text-black">Max per</div>
                       <div
                         style="
                           font-size: 20px;
                           font-weight: 600;
-                          color: #c1c8ce;
+                       
                         "
+                        class="dark:!text-[#c1c8ce] text-black"
                       >
                         <input
                           type="number"
@@ -295,10 +296,11 @@
                             border: none;
                             outline: none;
                             text-align: center;
-                            color: #c1c8ce;
+                         
                             font-weight: 600;
                             font-size: 20px;
                           "
+                          class="dark:!text-[#c1c8ce] text-black"
                           v-model="priceRange2"
                           @blur="adjustTokenPrices"
                         />
@@ -311,11 +313,12 @@
                             border: none;
                             outline: none;
                             text-align: center;
-                            color: #c1c8ce;
+                       
                             font-weight: 600;
                             font-size: 20px;
                           "
                           value="∞"
+                          class="dark:!text-[#c1c8ce] text-black"
                         />
                       </div>
                       <div
@@ -404,16 +407,16 @@
                   </div>
                 </div>
               </div>
-              <div class="compose_text fw-light mt-3 mb-3">Range Type:</div>
+              <div class="compose_text dark:!text-white text-black fw-light mt-3 mb-3">Range Type:</div>
               <div
                 v-if="concentratedLiquidityStep === 2"
-                class="fee_tier_container"
+                class="fee_tier_container dark:!bg-[#00000024] bg-white"
               >
                 <div
                   :class="
                     type.selected
-                      ? 'fee_tier_container_card fee_tier_container_card__selected'
-                      : 'fee_tier_container_card'
+                      ? 'fee_tier_container_card  fee_tier_container_card__selected'
+                      : 'fee_tier_container_card dark:!bg-[#2f303230] bg-white'
                   "
                   v-for="(type, i) in range_types"
                   :key="`tiers-${i}`"
@@ -421,7 +424,8 @@
                 >
                   <div style="color: #858c90">{{ type.name }}</div>
                   <div
-                    style="color: #c1c8ce; font-size: clamp(6px, 0.6vw, 10px)"
+                    style=" font-size: clamp(6px, 0.6vw, 10px)"
+                    class="dark:!text-[#c1c8ce] text-black"
                   >
                     {{ type.percent }}
                   </div>
@@ -437,40 +441,44 @@
                 </div>
               </div>
             </div>
-            <div class="compose_text fw-light mt-3">Add Liquidity</div>
-            <div class="price_range_container">
+            <div class="compose_text dark:!text-white text-black fw-light mt-3">Add Liquidity</div>
+            <div class="price_range_container dark:!bg-[#22222224] bg-white">
               <div class="d-flex flex-column gap-4 position-relative">
                 <!-- Add liquidity to singe comp on refactor week -->
 
                 <div
-                  class="d-flex"
+                  class="flex dark:!bg-[#22222224] bg-white"
                   style="
-                    background: #22222224;
+            
                     box-shadow: 0px 4px 4px 0px #00000040;
 
                     border-radius: 16px;
                   "
+                  
                 >
                   <div
                     style="
                       width: 30%;
-                      background: #22222224;
+          
                       box-shadow: 0px 4px 4px 0px #00000040;
 
                       border-radius: 16px;
                       padding: 10px;
-                      color: #c1c8ce;
+                    
                       font-size: 12px;
                       display: flex;
                       align-items: flex-end;
                       justify-content: space-between;
                     "
+                    class="dark:!text-[#c1c8ce] text-black dark:!bg-[#22222224] bg-white"
                   >
                     <div
                       class="d-flex flex-column justify-content-around h-100"
                     >
                       <div class="d-flex align-items-center gap-2">
                         <img
+                        class="!bg-gray-300 dark:!bg-transparent rounded-full"
+
                           :src="
                             getTokenEntity(pairToken1.symbol, 'short').icon ||
                             pairToken1.logoURI
@@ -498,7 +506,7 @@
                       </div>
                     </div>
                     <div
-                      class="max_button"
+                      class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-black"
                       @click="depositAmount1 = pairToken1.balance"
                     >
                       Max
@@ -513,10 +521,11 @@
                           border: none;
                           outline: none;
                           width: 180px;
-                          color: #c1c8ce;
+                   
                           font-weight: 600;
                           font-size: 20px;
                         "
+                        class="dark:!text-[#c1c8ce] text-black"
                         v-model="depositAmount1"
                         @blur="updateDepositAmount2"
                       />
@@ -529,9 +538,9 @@
                   </div>
                 </div>
                 <div
-                  class="d-flex"
+                class="flex dark:!bg-[#22222224] bg-white"
+
                   style="
-                    background: #22222224;
                     box-shadow: 0px 4px 4px 0px #00000040;
 
                     border-radius: 16px;
@@ -540,23 +549,25 @@
                   <div
                     style="
                       width: 30%;
-                      background: #22222224;
                       box-shadow: 0px 4px 4px 0px #00000040;
 
                       border-radius: 16px;
                       padding: 10px;
-                      color: #c1c8ce;
+                    
                       font-size: 12px;
                       display: flex;
                       align-items: flex-end;
                       justify-content: space-between;
                     "
+                       class="dark:!text-[#c1c8ce] text-black dark:!bg-[#22222224] bg-white"
                   >
                     <div
                       class="d-flex flex-column justify-content-around h-100"
                     >
                       <div class="d-flex align-items-center gap-2">
                         <img
+                        class="!bg-gray-300 dark:!bg-transparent rounded-full"
+
                           :src="
                             getTokenEntity(pairToken2.symbol, 'short').icon ||
                             pairToken2.logoURI
@@ -584,7 +595,7 @@
                       </div>
                     </div>
                     <div
-                      class="max_button"
+                      class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-black"
                       @click="depositAmount2 = pairToken2.balance"
                     >
                       Max
@@ -599,10 +610,11 @@
                           border: none;
                           outline: none;
                           width: 180px;
-                          color: #c1c8ce;
+                    
                           font-weight: 600;
                           font-size: 20px;
                         "
+                           class="dark:!text-[#c1c8ce] text-black"
                         v-model="depositAmount2"
                         @blur="updateDepositAmount1"
                       />
@@ -614,7 +626,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="add_liquidity_button">
+                <div class="add_liquidity_button dark:!bg-[#02607a] bg-white">
                   <svg
                     width="14"
                     height="14"
@@ -663,7 +675,7 @@
               </div>
             </div>
             <div
-              class="compose_text fw-light mt-5 d-flex justify-content-between"
+              class="compose_text dark:!text-white text-black fw-light mt-5 d-flex justify-content-between"
             >
               <div>Slippage:</div>
               <div>0.5%</div>
@@ -1285,7 +1297,7 @@ async function initPossibleComposeTokens() {
 
 <style lang="scss" scoped>
 .center_container {
-  background: #15151524;
+  // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   margin: 1% 5% 5% 5%;
@@ -1295,12 +1307,12 @@ async function initPossibleComposeTokens() {
 
 .compose_text {
   font-size: clamp(11px, 0.8vw, 15px);
-  color: white;
+  // color: white;
 }
 
 .concentrated_card {
   margin-top: 50px;
-  background: #00000024;
+  // background: #00000024;
   border: 1px solid #ffffff0d;
   border-radius: 16px;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
@@ -1309,7 +1321,7 @@ async function initPossibleComposeTokens() {
 }
 
 .selector_button {
-  background: #00000024;
+  // background: #00000024;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
   border-radius: 16px;
@@ -1326,7 +1338,7 @@ async function initPossibleComposeTokens() {
 }
 
 .price_range_card {
-  background: #00000024;
+  // background: #00000024;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   border-radius: 16px;
   font-size: clamp(8px, 0.7vw, 14px);
@@ -1339,7 +1351,7 @@ async function initPossibleComposeTokens() {
 .fee_tier_container {
   padding: 16px;
   border-radius: 16px;
-  background: #00000024;
+  // background: #00000024;
 
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
@@ -1354,13 +1366,14 @@ async function initPossibleComposeTokens() {
     align-items: center;
     flex-direction: column;
     padding: 15px 5px;
-    background: #2f303230;
+    // background: #2f303230;
     font-family: Poppins;
     font-size: clamp(8px, 0.7vw, 12px);
     font-weight: 400;
     line-height: 18px;
     text-align: center;
     border-radius: 10px;
+    border: 1px solid #7c7c7ca6;
     cursor: pointer;
 
     &__selected {
@@ -1370,7 +1383,7 @@ async function initPossibleComposeTokens() {
 }
 
 .price_range_container {
-  background: #00000024;
+  // background: #00000024;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
   border-radius: 16px;
@@ -1379,7 +1392,7 @@ async function initPossibleComposeTokens() {
 
 .max_button {
   border-radius: 6px;
-  background: #07090c;
+  // background: #07090c;
   padding: 4px 8px;
   cursor: pointer;
 }
@@ -1389,8 +1402,10 @@ async function initPossibleComposeTokens() {
   top: 70px;
   right: 20px;
   border-radius: 8px;
-  background: linear-gradient(95.22deg, #02607a 0.03%, #000000 133.56%),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.16));
+  // background: linear-gradient(95.22deg, #02607a 0.03%, #000000 133.56%),
+  //   linear-gradient(0deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.16));
+  box-shadow: 0px 4px 4px 0px #00000052;
+
   height: 52px;
   display: flex;
   justify-content: center;
