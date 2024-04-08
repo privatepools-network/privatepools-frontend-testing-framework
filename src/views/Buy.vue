@@ -253,7 +253,7 @@
       </div>
 
       <div
-        class="my-5 dark:!text-white text-black text-3xl font-bold"
+        class=" mt-[160px] mb-5 dark:!text-white text-black text-3xl font-bold"
       >
         Private Pool Network Token
       </div>
@@ -664,7 +664,7 @@ async function onToken1Blur() {
   &_section_1 {
     display: flex;
     justify-content: space-between;
-    margin-top: 80px;
+    margin-top: 160px;
     gap: 30px;
   }
 }

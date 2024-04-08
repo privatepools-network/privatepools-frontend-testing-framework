@@ -1,9 +1,11 @@
 <template>
   <MainCard>
+    <Modal v-if="visibleDepositModal" @close="changeVisibleDepositClose" size="xl">
+      <template #body>
     <DepositModalV2
       :pool="pool"
       :visibleDepositModal="visibleDepositModal"
-      @changeVisibleDeposit="changeVisibleDeposit"
+      @changeVisibleDepositOpen="changeVisibleDepositClose"
       :total="
         lineNumbers.reduce(
           (sum, current, index) =>
@@ -24,6 +26,8 @@
         }))
       "
     />
+    </template>
+    </Modal>
     <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
         <div class="d-flex align-items-center justify-content-between">
@@ -309,7 +313,7 @@
           </div>
           <div
             class="compose_pool_connect_wallet"
-            @click="changeVisibleDeposit"
+            @click="changeVisibleDepositOpen"
           >
             Preview
           </div>
@@ -383,6 +387,7 @@ import 'vue3-toastify/dist/index.css'
 import useInvestFormMath from '@/composables/math/investMath/useInvestMath'
 import { bnum } from '@/lib/utils'
 import router from '@/router'
+import Modal from '@/UI/Modal.vue'
 
 const pool = {
   id: '0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24000100000000000000000014',
@@ -617,7 +622,7 @@ function onTokenInput(event, tokenIndex) {
 
 const visibleDepositModal = ref(false)
 
-function changeVisibleDeposit() {
+function changeVisibleDepositOpen() {
   // let areBiggerThanZero = true
 
   let areBiggerThanZero = lineNumbers.value.some(function (ele) {
@@ -641,8 +646,12 @@ function changeVisibleDeposit() {
       },
     })
   } else {
-    visibleDepositModal.value = !visibleDepositModal.value
+    visibleDepositModal.value = true
   }
+}
+
+function changeVisibleDepositClose() {
+  visibleDepositModal.value = false
 }
 
 function RemainingBalance(token, index) {

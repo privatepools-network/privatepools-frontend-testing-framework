@@ -1,18 +1,16 @@
 <template>
-  <CModal size="lg" backdrop="static" alignment="center" :visible="visibleDepositModal">
-    <CModalHeader :close-button="false">
+
       <div class="d-flex justify-content-between w-100">
         <div style="cursor: pointer" @click="
-          depositStep == 1 ? $emit('changeVisibleDeposit') : depositStep--
+          depositStep == 1 ? $emit('changeVisibleDepositClose') : depositStep--
           ">
           <img :src="arrow_back" />
         </div>
-        <div style="cursor: pointer" @click="$emit('changeVisibleDeposit')">
+        <!-- <div style="cursor: pointer" @click="$emit('changeVisibleDepositClose')">
           <img :src="close_modal_icon" />
-        </div>
+        </div> -->
       </div>
-    </CModalHeader>
-    <CModalBody>
+
       <div class="px-5" v-if="!depositFinished">
         <div class="modal_body_header">
           <h3>Add liquidity preview</h3>
@@ -211,8 +209,7 @@
         <ConfirmationReceipt :link="txLink" :header_text="'Deposit has settled'"
           :header_subtext="'Successfully deposit your tokens'" />
       </div> -->
-    </CModalBody>
-  </CModal>
+
 </template>
 
 <script setup>
@@ -272,8 +269,8 @@ let conf = configService.getNetworkConfig(
 //   popupLink.value = `${conf.explorer}/tx/${hash}`
 // }
 
-const props = defineProps(['visibleDepositModal', 'changeVisibleDeposit', 'tokens', 'total', 'valueLoss', 'pool', 'bptOut', 'account', 'fiatTotal', "weeklyYield"])
-const emit = defineEmits(['changeVisibleDeposit'])
+const props = defineProps(['visibleDepositModal', 'changeVisibleDepositClose', 'tokens', 'total', 'valueLoss', 'pool', 'bptOut', 'account', 'fiatTotal', "weeklyYield"])
+const emit = defineEmits(['changeVisibleDepositClose'])
 console.log("PROPS - ", props)
 const depositFinished = ref(false)
 const approveStep = ref(1)
@@ -430,7 +427,7 @@ async function OnPreviewClick() {
 
   // SetSuccessTxPopup(tx.hash, "Tokens successfully deposited")
   // notify()
-  emit('changeVisibleDeposit')
+  emit('changeVisibleDepositClose')
   depositFinished.value = true
 
   emitter.emit('addNotification', {

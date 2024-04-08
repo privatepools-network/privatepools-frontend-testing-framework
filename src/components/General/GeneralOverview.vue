@@ -93,6 +93,7 @@ import RealizedProfit from '@/assets/icons/generalIcons/realizedProfit.svg'
 import TotalProfitsIcon from '@/assets/icons/generalIcons/TotalProfits.svg'
 import averageAPRIcon from '@/assets/icons/generalIcons/averageAPR.svg'
 import { useDark } from '@vueuse/core'
+import d3logo from '@/assets/images/d3v.png'
 
 const isDark = useDark()
 
@@ -117,7 +118,7 @@ const bigContainerMock = [
     chartData: [3, 5, 6, 5, 3, 1]
   },
   {
-    icon: walletPoolsImg,
+    icon: d3logo,
     name: 'PPN TVL',
     value: '$275.01K',
     description: 'PPN price',

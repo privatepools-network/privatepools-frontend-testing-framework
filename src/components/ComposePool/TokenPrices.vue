@@ -15,7 +15,7 @@
         <div class="d-flex flex-column gap-3">
 
 
-          <div class="d-flex justify-content-between w-100 compose_text" v-for="token in tokenPrices" :key="token.symbol">
+          <div class="d-flex justify-content-between w-100 compose_text dark:!text-white text-black" v-for="token in tokenPrices" :key="token.symbol">
             <div>{{ token.symbol }}</div>
             <div>${{ parseFloat(token.price).toFixed(4) }}</div>
           </div>

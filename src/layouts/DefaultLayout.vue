@@ -3,7 +3,7 @@
     <div style="height: 100%;">
       <ConnectedSidebar @setAddress="(addr) => address = addr" :address="address"
         v-if="address && sidebarWalletState !== 'Settings'" :isConnectedToWeb3="address != null && address != ''"
-        @toggleSettings="toggleSettings" @toggleToWallets="toggleToWallets" />
+        @toggleSettings="toggleSettings"  @toggleToWallets="toggleToWallets" />
       <ConnectWalletsDrawer v-else-if="sidebarWalletState === 'Connect wallet'" @toggleSettings="toggleSettings"
         @setAddress="(addr) => address = addr" @toggleSidebar="toggleSidebar" />
       <SettingsDrawer v-else-if="sidebarWalletState === 'Settings'" @toggleToWallets="toggleToWallets" />
@@ -40,7 +40,7 @@ const sidebarWalletState = ref('Connect wallet')
 const address = ref(null)
 
 function toggleSidebar() {
-  sidebarWalletOpen.value = !sidebarWalletOpen.value
+  sidebarWalletOpen.value = true
 }
 function closeSidebar() {
   sidebarWalletOpen.value = false
