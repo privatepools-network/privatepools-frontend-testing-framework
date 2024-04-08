@@ -1,6 +1,6 @@
 <template>
-  <div class="compose_steps">
-    <div class="compose_text">Token Prices
+  <div class="compose_steps dark:!bg-[#00000024] bg-white">
+    <div class="compose_text dark:!text-white text-black">Token Prices
       <!-- <svg v-if="activeStep === 2" width="15" height="15" viewBox="0 0 20 20" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path
@@ -39,14 +39,14 @@ defineProps(['tokenPrices', 'activeStep'])
 
   height: fit-content;
   border-radius: 16px;
-  background: #00000024;
+  // background: #00000024;
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
 }
 
 .compose_text {
   font-size: clamp(11px, 0.8vw, 15px);
-  color: white;
+  // color: white;
 }
 
 .compose_hr {

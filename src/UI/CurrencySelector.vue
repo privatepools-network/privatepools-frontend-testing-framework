@@ -6,7 +6,7 @@
       <template v-slot:singleLabel="{ option }">
         <div style="display: flex; align-items: center; margin-top: 1px;">
           <img style="width: 22px; padding: 5px; margin-right: 5px" :src="option.img" /><span
-            style="font-size: clamp(10px, 0.8vw, 14px);"> {{ option.name }}</span>
+            style="font-size: clamp(10px, 0.8vw, 14px);" class="text-black dark:!text-white"> {{ option.name }}</span>
           <!-- <span style="color: rgba(108, 114, 132, 1); margin-left: 2.5px"
               >({{ option.code }})</span
             > -->
@@ -15,7 +15,7 @@
       <template v-slot:option="{ option }">
         <div style="display: flex; align-items: center">
           <img style="width: 22px; padding: 5px; margin-right: 5px" :src="option.img" /><span
-            style="font-size: clamp(10px, 0.8vw, 14px);"> {{ option.name }}</span>
+            style="font-size: clamp(10px, 0.8vw, 14px);" class="text-black dark:!text-white"> {{ option.name }}</span>
           <!-- <span style="color: rgba(108, 114, 132, 1); margin-left: 2.5px"
               >({{ option.code }})</span
             > -->
@@ -70,13 +70,13 @@ watch((chainSelected), () => {
 
 :deep(.multiselect__single) {
   background: none !important;
-  color: white !important;
+  color: #777 !important;
   margin-bottom: 1px !important;
 }
 
 :deep(.multiselect__option) {
-  background: rgb(15, 17, 19) !important;
-  color: white !important;
+  background: transparent !important;
+  color: #777 !important;
   min-height: 5px !important;
   padding: 0px !important;
 

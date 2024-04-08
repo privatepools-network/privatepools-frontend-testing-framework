@@ -19,17 +19,18 @@
       </template>
     </Modal>
 
-    <div class="center_container">
+    <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-5">
         <div class="d-flex align-items-center justify-content-between">
           <div>
             <div
               style="
                 font-size: 20px;
-                color: #ebebef;
+              
                 font-weight: 700;
                 text-transform: uppercase;
               "
+              class="dark:!text-white text-black"
             >
               Weighted pools Add Liquidity
             </div>
@@ -71,15 +72,15 @@
             :activeStep="activeStep"
           />
         </div>
-        <div class="compose_choose">
+        <div class="compose_choose dark:!bg-[#00000024] bg-white">
           <div class="compose_network_text">
             {{ DisplayNetwork[networkId] }}
           </div>
-          <div class="compose_text my-1" v-if="activeStep === 1">
+          <div class="compose_text dark:!text-white text-black my-1" v-if="activeStep === 1">
             Choose tokens & weights
           </div>
 
-          <div class="compose_text flex items-center gap-1 my-1" v-else-if="activeStep === 2">
+          <div class="compose_text dark:!text-white text-black flex items-center gap-1 my-1" v-else-if="activeStep === 2">
             <svg
               style="cursor: pointer"
               width="16"
@@ -100,7 +101,7 @@
 
             Preview new weighted pool
           </div>
-          <div class="compose_text my-1" v-else-if="activeStep === 3">
+          <div class="compose_text dark:!text-white text-black my-1" v-else-if="activeStep === 3">
             <svg
               style="cursor: pointer"
               width="16"
@@ -122,7 +123,7 @@
             Add initial liquidity
           </div>
 
-          <div class="compose_text my-1" v-else-if="activeStep === 4">
+          <div class="compose_text dark:!text-white text-black my-1" v-else-if="activeStep === 4">
             <svg
               style="cursor: pointer"
               width="16"
@@ -144,10 +145,10 @@
             Swap
           </div>
 
-          <div v-if="activeStep === 1" class="compose_choose_inner_container">
+          <div v-if="activeStep === 1" class="compose_choose_inner_container dark:!bg-[#00000024] bg-white">
             <div class="d-flex justify-content-between">
-              <div class="compose_text">Token</div>
-              <div class="compose_text">Weight</div>
+              <div class="compose_text dark:!text-white text-black">Token</div>
+              <div class="compose_text dark:!text-white text-black">Weight</div>
             </div>
 
             <div
@@ -187,7 +188,7 @@
               <div class="d-flex align-items-center gap-2">
                 <input
                   type="number"
-                  class="compose_text weight_input"
+                  class="compose_text dark:!text-white text-black weight_input"
                   style="font-size: 14px; text-align: right; width: 50px"
                   v-model="token.weight"
                 /><span style="color: white">%</span>
@@ -311,9 +312,9 @@
               </button>
             </div>
             <div class="d-flex justify-content-between mt-5 mb-1">
-              <div class="compose_text">Total allocated</div>
+              <div class="compose_text dark:!text-white text-black">Total allocated</div>
               <div
-                class="compose_text"
+                class="compose_text dark:!text-white text-black"
                 v-if="
                   tokensData && tokensData.length > 0 && tokensData[0].symbol
                 "
@@ -340,10 +341,10 @@
 
           <div
             v-if="activeStep === 4"
-            class="compose_choose_inner_container mb-5"
+            class="compose_choose_inner_container dark:!bg-[#00000024] bg-white mb-5"
           >
             <div class="d-flex justify-content-between">
-              <div class="compose_text">Preview Trade</div>
+              <div class="compose_text dark:!text-white text-black">Preview Trade</div>
             </div>
             <div
               class="d-flex"
@@ -479,7 +480,7 @@
                 </div>
               </div>
             </div>
-            <div class="compose_text d-flex align-items-center gap-2 mt-1">
+            <div class="compose_text dark:!text-white text-black d-flex align-items-center gap-2 mt-1">
               Auto optimize liquidity
               <div style="cursor: pointer">
                 <CFormSwitch
@@ -549,14 +550,14 @@
 
           <div v-else-if="activeStep === 2">
             <div class="compose_third_step">
-              <div class="compose_text">Tokens and initial seed liquidity</div>
+              <div class="compose_text dark:!text-white text-black">Tokens and initial seed liquidity</div>
               <hr class="compose_hr" />
               <div>
                 <div>
                   <div
                     v-for="(token, index) in tokensData"
                     :key="`tokens-key-${index}`"
-                    class="d-flex align-items-center justify-content-between p-1 gap-2 compose_text"
+                    class="d-flex align-items-center justify-content-between p-1 gap-2 compose_text dark:!text-white text-black"
                   >
                     <div class="d-flex align-items-center">
                       <img
@@ -815,7 +816,7 @@
         </div>
 
         <div class="compose_chart">
-          <div class="compose_text">Pool summary</div>
+          <div class="compose_text dark:!text-white text-black">Pool summary</div>
           <hr class="compose_hr" />
           <div class="chart_container">
             <!-- <LoaderPulse v-if="data.series.length === 0" /> -->
@@ -863,12 +864,12 @@
           <div
             class="d-flex justify-content-center flex-column align-items-center"
           >
-            <div class="compose_text flex items-center gap-1">
+            <div class="compose_text dark:!text-white text-black flex items-center gap-1">
               In your wallet <img :src="info" class="info_icon" />
             </div>
             <div
               v-if="tokensData.length > 0 && tokensData[0].symbol"
-              class="compose_text"
+              class="compose_text dark:!text-white text-black"
             >
               ${{
                 removeDuplicates(tokensData, 'symbol')
@@ -1436,7 +1437,7 @@ const dynamicDonut = computed(() => {
 
 <style lang="scss" scoped>
 .center_container {
-  background: #15151524;
+  // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   margin: 1% 10% 10% 10%;
@@ -1449,7 +1450,7 @@ const dynamicDonut = computed(() => {
   padding: 10px;
   width: 35%;
   border-radius: 16px;
-  background: #00000024;
+  // background: #00000024;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
@@ -1531,7 +1532,7 @@ const dynamicDonut = computed(() => {
   padding: 10px;
   width: 100%;
   border-radius: 16px;
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
 }
 
@@ -1567,7 +1568,7 @@ const dynamicDonut = computed(() => {
 
 .compose_text {
   font-size: clamp(11px, 0.8vw, 15px);
-  color: white;
+  // color: white;
 }
 
 .compose_token_btn {
