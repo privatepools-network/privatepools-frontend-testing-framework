@@ -4,7 +4,7 @@
       <nav v-show="navOpen">
         <div class="sidemenu__wrapper">
             <div class="d-flex mb-3 gap-2 sidemenu__line">
-          <img :src="logo" alt="D3" height="40" />
+          <img :src="logo" alt="D3" height="40px" />
           <div class="">
             <div class="sidemenu__title">D3</div>
             <div class="sidemenu__title__wallet">{{ computedAddress }}</div>

@@ -13,7 +13,7 @@
       <div v-else-if="dataRevenues.length > 0 && selectedOverallTab === 'Overall view'" class="chart_inside">
         <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
           @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
-        <img :src="logo" alt="D3" class="chart-logo" />
+        <img :src="logo" alt="D3" class="chart-logo" height="40px"/>
         <VChart ref="chart" class="chart" :option="optionObj" @legendselectchanged="legendSelectedChange"
           :autoresize="true" :notMerge="true" :lazyUpdate="true" :silent="true" />
       </div>

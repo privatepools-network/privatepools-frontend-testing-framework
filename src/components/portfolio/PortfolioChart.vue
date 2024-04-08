@@ -20,7 +20,7 @@
           @changeCumulativeMode="changeCumulativeMode"
           @changeTimeline="changeTimeline"
         />
-        <img :src="logo" alt="D3" class="chart-logo" />
+        <img :src="logo" alt="D3" class="chart-logo" height="40px"/>
         <VChart class="chart" :option="optionObj" :autoresize="true" />
       </div>
     </div>

@@ -65,11 +65,16 @@
         </div>
       </div>
 
-      <div v-if="all_pools.length === 0" class="my-5">
+      <div v-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
+        <div>No Results</div>
+        <div>Chose a pool to invest or create a pool to get started.</div>
+      </div>
+      <div v-else-if="all_pools.length === 0" class="my-5">
         <LoaderPulse />
       </div>
+     
 
-      {{ console.log('user_staked_pools', user_staked_pools) }}
+      {{ console.log('user_staked_pools', user_staked_pools.length) }}
 
       <PoolRow
         v-for="(pool, index) in all_pools.slice(0, sliceNumber)"

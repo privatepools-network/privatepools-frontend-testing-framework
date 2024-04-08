@@ -13,7 +13,7 @@
           @changeCumulativeMode="changeCumulativeMode"
           @changeTimeline="changeTimeline"
         />
-      <img :src="logo" alt="D3" class="chart-logo" />
+      <img :src="logo" alt="D3" class="chart-logo" height="40px"/>
       <VChart class="chart" :option="optionObj" @legendselectchanged="legendSelectedChange" :autoresize="true" />
     </div>
   </div>
@@ -1179,6 +1179,7 @@ function getDefaultChainsMapValue() {
   top: 52%;
   left: 45%;
   opacity: 0.15;
+  height: 40px;
 }
 
 .chart {

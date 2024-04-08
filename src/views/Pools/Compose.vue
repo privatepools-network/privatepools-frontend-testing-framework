@@ -26,7 +26,7 @@
             <div
               style="
                 font-size: 20px;
-              
+
                 font-weight: 700;
                 text-transform: uppercase;
               "
@@ -76,11 +76,17 @@
           <div class="compose_network_text">
             {{ DisplayNetwork[networkId] }}
           </div>
-          <div class="compose_text dark:!text-white text-black my-1" v-if="activeStep === 1">
+          <div
+            class="compose_text dark:!text-white text-black my-1"
+            v-if="activeStep === 1"
+          >
             Choose tokens & weights
           </div>
 
-          <div class="compose_text dark:!text-white text-black flex items-center gap-1 my-1" v-else-if="activeStep === 2">
+          <div
+            class="compose_text dark:!text-white text-black flex items-center gap-1 my-1"
+            v-else-if="activeStep === 2"
+          >
             <svg
               style="cursor: pointer"
               width="16"
@@ -101,7 +107,10 @@
 
             Preview new weighted pool
           </div>
-          <div class="compose_text dark:!text-white text-black my-1" v-else-if="activeStep === 3">
+          <div
+            class="compose_text dark:!text-white text-black my-1"
+            v-else-if="activeStep === 3"
+          >
             <svg
               style="cursor: pointer"
               width="16"
@@ -123,7 +132,10 @@
             Add initial liquidity
           </div>
 
-          <div class="compose_text dark:!text-white text-black my-1" v-else-if="activeStep === 4">
+          <div
+            class="compose_text dark:!text-white text-black my-1"
+            v-else-if="activeStep === 4"
+          >
             <svg
               style="cursor: pointer"
               width="16"
@@ -145,7 +157,10 @@
             Swap
           </div>
 
-          <div v-if="activeStep === 1" class="compose_choose_inner_container dark:!bg-[#00000024] bg-white">
+          <div
+            v-if="activeStep === 1"
+            class="compose_choose_inner_container dark:!bg-[#00000024] bg-white"
+          >
             <div class="d-flex justify-content-between">
               <div class="compose_text dark:!text-white text-black">Token</div>
               <div class="compose_text dark:!text-white text-black">Weight</div>
@@ -157,7 +172,7 @@
               :key="token.symbol"
             >
               <div
-                class="compose_token_btn"
+                class="compose_token_btn dark:!bg-[#00000024] bg-white dark:!text-white text-black"
                 style="cursor: pointer"
                 @click="() => tokenSelectModalOpen(index)"
               >
@@ -177,7 +192,7 @@
                   >
                     <path
                       d="M1.61035 1L5.61035 5L9.61035 1"
-                      stroke="white"
+                      class="dark:!stroke-white stroke-black"
                       stroke-width="1.33333"
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -211,7 +226,8 @@
                         width="26"
                         height="26"
                         rx="13"
-                        fill="#0F303B"
+                        class="dark:!fill-[#0F303B] fill-white"
+
                         shape-rendering="crispEdges"
                       />
                       <g clip-path="url(#clip0_1807_17197)">
@@ -312,7 +328,9 @@
               </button>
             </div>
             <div class="d-flex justify-content-between mt-5 mb-1">
-              <div class="compose_text dark:!text-white text-black">Total allocated</div>
+              <div class="compose_text dark:!text-white text-black">
+                Total allocated
+              </div>
               <div
                 class="compose_text dark:!text-white text-black"
                 v-if="
@@ -344,7 +362,9 @@
             class="compose_choose_inner_container dark:!bg-[#00000024] bg-white mb-5"
           >
             <div class="d-flex justify-content-between">
-              <div class="compose_text dark:!text-white text-black">Preview Trade</div>
+              <div class="compose_text dark:!text-white text-black">
+                Preview Trade
+              </div>
             </div>
             <div
               class="d-flex"
@@ -480,7 +500,9 @@
                 </div>
               </div>
             </div>
-            <div class="compose_text dark:!text-white text-black d-flex align-items-center gap-2 mt-1">
+            <div
+              class="compose_text dark:!text-white text-black d-flex align-items-center gap-2 mt-1"
+            >
               Auto optimize liquidity
               <div style="cursor: pointer">
                 <CFormSwitch
@@ -549,8 +571,10 @@
           </div>
 
           <div v-else-if="activeStep === 2">
-            <div class="compose_third_step">
-              <div class="compose_text dark:!text-white text-black">Tokens and initial seed liquidity</div>
+            <div class="compose_third_step dark:!bg-[#00000024] bg-white">
+              <div class="compose_text dark:!text-white text-black">
+                Tokens and initial seed liquidity
+              </div>
               <hr class="compose_hr" />
               <div>
                 <div>
@@ -570,7 +594,7 @@
                         <div>Initial weight: {{ token.weight }}</div>
                       </div>
                     </div>
-                    <div class="d-flex flex-column align-items-end text-white">
+                    <div class="d-flex flex-column align-items-end dark:!text-white text-black">
                       <div>{{ token.symbol }}</div>
                       <!-- <div>${{ token.usdAmount }}</div> -->
                     </div>
@@ -587,13 +611,13 @@
                 style="
                   border: 1px solid rgba(163, 164, 165, 0.2);
                   border-radius: 20px;
-                  color: white;
+                  /* color: white; */
                   font-size: clamp(10px, 0.8vw, 14px);
                 "
-                class="my-4"
+                class="my-4 dark:!text-white text-black"
               >
                 <div
-                  class="fw-bold p-2"
+                  class="fw-bold p-2 dark:!text-white text-black"
                   style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
                 >
                   Summary
@@ -606,7 +630,7 @@
                   "
                 >
                   <div
-                    class="d-flex justify-content-between align-items-center"
+                    class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
                     <div>Pool name:</div>
                     <div class="d-flex gap-1">
@@ -618,7 +642,7 @@
                     </div>
                   </div>
                   <div
-                    class="d-flex justify-content-between align-items-center"
+                    class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
                     <div>Pool symbol:</div>
                     <div class="d-flex gap-1">
@@ -630,19 +654,19 @@
                     </div>
                   </div>
                   <div
-                    class="d-flex justify-content-between align-items-center"
+                    class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
                     <div>Pool type:</div>
                     <div class="d-flex gap-1">Weighted</div>
                   </div>
                   <div
-                    class="d-flex justify-content-between align-items-center"
+                    class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
                     <div>Swap fee:</div>
                     <div class="d-flex gap-1">1.00%</div>
                   </div>
                   <div
-                    class="d-flex justify-content-between align-items-center"
+                    class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
                     <div>Swap fee manager:</div>
                     <div class="d-flex gap-1">Darkpool</div>
@@ -670,7 +694,7 @@
                       cx="15"
                       cy="15"
                       r="14.5"
-                      :stroke="activeStep === 2 ? '#00C9FF' : 'white'"
+                      :stroke="activeStep === 2 ? '#00C9FF' : 'gray'"
                     />
                   </svg>
                   <div
@@ -678,14 +702,14 @@
                     :class="
                       activeStep === 2
                         ? 'step_number step_number_active'
-                        : 'step_number'
+                        : 'step_number dark:!text-white text-black'
                     "
                   >
                     1
                   </div>
                   <div
                     v-else-if="activeStep === 2 && mmActive"
-                    class="step_number"
+                    class="step_number dark:!text-white text-black"
                   >
                     <img :src="metamask" width="20" />
                   </div>
@@ -729,7 +753,7 @@
                     cx="15"
                     cy="15"
                     r="14.5"
-                    :stroke="activeStep === 3 ? '#00C9FF' : 'white'"
+                    :stroke="activeStep === 3 ? '#00C9FF' : 'gray'"
                   />
                 </svg>
                 <div
@@ -737,14 +761,14 @@
                   :class="
                     activeStep === 3
                       ? 'step_number step_number_active'
-                      : 'step_number'
+                      : 'step_number dark:!text-white text-black'
                   "
                 >
                   2
                 </div>
                 <div
                   v-else-if="activeStep === 3 && mmActive"
-                  class="step_number"
+                  class="step_number dark:!text-white text-black"
                 >
                   <img :src="metamask" width="20" />
                 </div>
@@ -761,14 +785,14 @@
                     cx="15"
                     cy="15"
                     r="14.5"
-                    :stroke="activeStep === 4 ? '#00C9FF' : 'white'"
+                    :stroke="activeStep === 4 ? '#00C9FF' : 'gray'"
                   />
                 </svg>
                 <div
                   :class="
                     activeStep === 4
                       ? 'step_number step_number_active'
-                      : 'step_number'
+                      : 'step_number dark:!text-white text-black'
                   "
                   v-if="activeStep != 4 || (!mmActive && activeStep == 4)"
                 >
@@ -776,7 +800,7 @@
                 </div>
                 <div
                   v-else-if="activeStep === 4 && mmActive"
-                  class="step_number"
+                  class="step_number dark:!text-white text-black"
                 >
                   <img :src="metamask" width="20" />
                 </div>
@@ -788,7 +812,6 @@
             class="compose_pool_connect_wallet"
             v-if="activeStep === 1"
             @click="onStep1Click"
-            :disabled="!isPoolReady"
           >
             {{ account == '' ? 'Connect wallet' : 'Next step' }}
           </button>
@@ -815,8 +838,10 @@
           </div>
         </div>
 
-        <div class="compose_chart">
-          <div class="compose_text dark:!text-white text-black">Pool summary</div>
+        <div class="compose_chart dark:!bg-[#00000024] bg-white">
+          <div class="compose_text dark:!text-white text-black">
+            Pool summary
+          </div>
           <hr class="compose_hr" />
           <div class="chart_container">
             <!-- <LoaderPulse v-if="data.series.length === 0" /> -->
@@ -832,7 +857,7 @@
             </div>
             <div
               v-else
-              class="d-flex flex-column text-white align-items-center justify-content-center"
+              class="d-flex flex-column dark:!text-white text-black align-items-center justify-content-center"
             >
               <svg
                 style="filter: drop-shadow(0 0 0.7rem #00c9ff)"
@@ -864,7 +889,9 @@
           <div
             class="d-flex justify-content-center flex-column align-items-center"
           >
-            <div class="compose_text dark:!text-white text-black flex items-center gap-1">
+            <div
+              class="compose_text dark:!text-white text-black flex items-center gap-1"
+            >
               In your wallet <img :src="info" class="info_icon" />
             </div>
             <div
@@ -925,9 +952,9 @@ import { useJoinPool } from '@/composables/poolActions/deposit/useJoinPool'
 import { GetDisplayStringError } from '@/lib/utils/balancer/helpers/displayError'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
+import 'vue3-toastify/dist/index.css'
 import Modal from '@/UI/Modal.vue'
 
-import 'vue3-toastify/dist/index.css'
 var emitter = require('tiny-emitter/instance')
 //import { InitBalancer } from '@/composables/math/withdrawMath/balancer.sdk';
 
@@ -1041,6 +1068,7 @@ const networksSupported = ref(null)
 
 const account = ref('')
 
+
 onMounted(async () => {
   if (window.ethereum !== undefined && networkId.value > 0) {
     let provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -1088,6 +1116,14 @@ const totalFiat = computed(() =>
     0,
   ),
 )
+
+const areWeightSmallerThanZero = computed(() =>
+  tokensData.value.some(function (ele) {
+    console.log('ele', ele.weight)
+    return ele.weight <= 0
+  }),
+)
+
 const notSelectedPossibleComposeTokens = computed(() =>
   possibleComposeTokens.value.length > 0
     ? possibleComposeTokens.value.filter(
@@ -1165,12 +1201,48 @@ function RemainingBalance(token, index) {
 }
 
 async function onStep1Click() {
-  if (account.value == '') {
+  console.log('areWeightSmallerThanZero', areWeightSmallerThanZero.value)
+
+  if (!isPoolReady.value) {
+    toast(Toast, {
+      closeOnClick: true,
+      theme: 'dark',
+      type: 'warning',
+      autoClose: 5000,
+      closeButton: false,
+      position: toast.POSITION.TOP_RIGHT,
+      data: {
+        header_text: 'Impossible to Create Pool!',
+        toast_text: 'Please add tokens and weights',
+        tx_link: '',
+        speedUp: '',
+      },
+    })
+  }else if (areWeightSmallerThanZero.value) {
+    toast(Toast, {
+      closeOnClick: true,
+      theme: 'dark',
+      type: 'warning',
+      autoClose: 5000,
+      closeButton: false,
+      position: toast.POSITION.TOP_RIGHT,
+      data: {
+        header_text: 'You have zero token weight!',
+        toast_text: 'Please assure that every token weight > 0',
+        tx_link: '',
+        speedUp: '',
+      },
+    })
+  }else {
+    if (account.value == '') {
     account.value = await (await InitializeMetamask()).getSigner().getAddress()
   } else {
     activeStep.value = 2
   }
+  }
+
 }
+
 
 async function CreateNewPool() {
   let poolCreateService = new PoolCreatorService(networkId.value)
@@ -1480,7 +1552,7 @@ const dynamicDonut = computed(() => {
   width: 100%;
   height: fit-content;
   border-radius: 16px;
-  background: #00000024;
+  // background: #00000024;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
@@ -1490,7 +1562,7 @@ const dynamicDonut = computed(() => {
   width: 25%;
   height: fit-content;
   border-radius: 16px;
-  background: #00000024;
+  // background: #00000024;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
@@ -1576,11 +1648,11 @@ const dynamicDonut = computed(() => {
   align-items: center;
   border-radius: 8px;
   font-size: clamp(11px, 0.8vw, 15px);
-  color: white;
+  // color: white;
   padding: 10px;
   height: 30px;
   border-radius: 16px;
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
 }
 
@@ -1625,12 +1697,12 @@ const dynamicDonut = computed(() => {
   font-weight: 500;
   letter-spacing: -0.4000000059604645px;
   text-align: center;
-  color: white;
+  // color: white;
 
   display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 
   &_active {
     color: #00c9ff;

@@ -194,7 +194,7 @@
           <div class="d-flex flex-column gap-2">
             <a :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`" target="_blank"
               v-for="(item, i) in addressActivity.filter((el) => el.type == 'today')" :key="`${i}-token`"
-              class="p-2 d-flex align-items-center justify-content-between gap-2">
+              class="p-2 d-flex align-items-center justify-content-between gap-2"  style="text-decoration: none;">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
                 <div class="d-flex flex-column">
@@ -208,7 +208,7 @@
               </div>
               <div>
                 <div class="d-flex flex-column align-items-end">
-                  <div class=" text-black dark:!text-white text-[12px]">
+                  <div class=" text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis">
                     {{ item.time }}
                   </div>
                 </div>
@@ -221,7 +221,7 @@
           <div class="d-flex flex-column gap-2">
             <a :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash}`" target="_blank"
               v-for="(item, i) in addressActivity.filter((el) => el.type == 'week')" :key="`${i}-token`"
-              class="p-2 d-flex align-items-center justify-content-between gap-2">
+              class="p-2 d-flex align-items-center justify-content-between gap-2"  style="text-decoration: none;">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
                 <div class="d-flex flex-column">
@@ -235,7 +235,7 @@
               </div>
               <div>
                 <div class="d-flex flex-column align-items-end">
-                  <div class=" text-black dark:!text-white text-[12px]">
+                  <div class=" text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis">
                     {{ item.time }}
                   </div>
                 </div>
@@ -286,6 +286,8 @@ import { useWalletActivity } from "@/composables/wallet/useWalletActivity"
 import { configService } from '@/services/config/config.service'
 import { useWalletPools } from "@/composables/wallet/useWalletPools"
 import { InitializeMetamask } from '@/lib/utils/metamask'
+
+
 const props = defineProps(['isConnectedToWeb3', 'address'])
 const emit = defineEmits(['toggleSettings', 'toggleToWallets', 'setAddress'])
 
