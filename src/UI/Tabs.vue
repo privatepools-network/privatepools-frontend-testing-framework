@@ -77,7 +77,7 @@ const { selectedTab, tabsOptions, filterEye } = toRefs(props)
     padding: 3px 9px;
     font-size: 13px;
     @media (max-width: $xxl) {
-      font-size: 10px;
+      font-size: clamp(10px, 1vw, 14px);
       padding: 2px 6px;
     }
     &_active {
@@ -113,7 +113,7 @@ const { selectedTab, tabsOptions, filterEye } = toRefs(props)
     padding: 3px 9px;
     font-size: 13px;
     @media (max-width: $xxl) {
-      font-size: 10px;
+      font-size: clamp(10px, 1vw, 14px);
       padding: 2px 6px;
     }
     &_active {

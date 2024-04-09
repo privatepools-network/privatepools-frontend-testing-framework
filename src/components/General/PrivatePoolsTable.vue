@@ -14,11 +14,13 @@
     >
     </Tabs>
   </div>
+
+
   <CRow id="pool-activity-row" class="table-wrapper">
     <Table :headers="['Actions', 'Details', 'Value', 'Time']">
       <CTableBody
         v-if="activities"
-        class="text-black dark:!text-white "
+        class="text-black dark:!text-white"
         :class="isDark ? 'table-body' : 'table-body-light'"
       >
         <CTableRow v-for="(item, i) in activities" :key="i" class="table-row">
@@ -136,6 +138,26 @@
           </CTableDataCell>
         </CTableRow>
       </CTableBody>
+      <div
+        v-else-if="activities.length === 0"
+        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20"
+      >
+        <div
+          class="text-black dark:!text-white"
+          style="font-size: 14px; text-align: center"
+        >
+        No Activity yet
+        </div>
+        <div
+          class="text-black dark:!text-white"
+          style="font-size: 12px; text-align: center"
+        >
+          Choose a pool to invest or create a pool to get started.
+        </div>
+        <div class="add_liq_btn_pools">
+          <div class="d-flex gap-1">+ Add liquidity</div>
+        </div>
+      </div>
       <div v-else style="height: 500px">
         <LoaderPulse></LoaderPulse>
       </div>
@@ -157,8 +179,6 @@ import swapArrowIcon from '@/assets/icons/TableAction/swapArrowIcon.svg'
 import { useDark } from '@vueuse/core'
 
 const isDark = useDark()
-
-
 
 const props = defineProps(['clActivity', 'wpActivity'])
 const { clActivity, wpActivity } = toRefs(props)
@@ -391,7 +411,7 @@ function changeActPeriodOfData(_new) {
     @include cells-widths;
 
     @media (max-width: $xxl) {
-      font-size: 10px;
+      font-size: clamp(10px, 1vw, 14px);
       padding: 12px 0 12px 10px !important;
     }
 

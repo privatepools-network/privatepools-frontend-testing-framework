@@ -61,7 +61,7 @@
                 class="selector_button dark:!bg-[#00000024] bg-white"
               >
                 <img
-                class="!bg-gray-300 dark:!bg-transparent rounded-full"
+                class="!bg-gray-200 dark:!bg-transparent rounded-full"
                   :src="
                     getTokenEntity(pairToken1.symbol, 'short').icon ||
                     pairToken1.logoURI
@@ -77,7 +77,7 @@
                 >
                   <path
                     d="M5.98255 6.46495L11.007 1.44044C11.187 1.26045 11.0596 0.952698 10.805 0.952698H0.756015C0.50147 0.952698 0.373993 1.26045 0.553983 1.44044L5.5785 6.46495C5.69007 6.57653 5.87098 6.57653 5.98255 6.46495Z"
-                    fill="#EBEBEC"
+                    class="dark:!fill-[#EBEBEC] fill-black"
                   />
                 </svg>
                 <h4 class="text-xl mb-[0px] dark:!text-white text-black">
@@ -90,7 +90,7 @@
                 class="selector_button dark:!bg-[#00000024] bg-white"
               >
                 <img
-                class="!bg-gray-300 dark:!bg-transparent rounded-full"
+                class="!bg-gray-200 dark:!bg-transparent rounded-full"
                   :src="
                     getTokenEntity(pairToken2.symbol, 'short').icon ||
                     pairToken2.logoURI
@@ -106,7 +106,8 @@
                 >
                   <path
                     d="M5.98255 6.46495L11.007 1.44044C11.187 1.26045 11.0596 0.952698 10.805 0.952698H0.756015C0.50147 0.952698 0.373993 1.26045 0.553983 1.44044L5.5785 6.46495C5.69007 6.57653 5.87098 6.57653 5.98255 6.46495Z"
-                    fill="#EBEBEC"
+                   
+                    class="dark:!fill-[#EBEBEC] fill-black"
                   />
                 </svg>
                 <h4 class="text-xl mb-[0px] dark:!text-white text-black">
@@ -120,8 +121,8 @@
                 <div
                   :class="
                     tier.selected
-                      ? 'fee_tier_container_card  fee_tier_container_card__selected'
-                      : 'fee_tier_container_card dark:!bg-[#2f303230] bg-white'
+                      ? 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]  fee_tier_container_card__selected'
+                      : 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]'
                   "
                   v-for="(tier, i) in fee_tiers"
                   :key="`tiers-${i}`"
@@ -230,7 +231,7 @@
                         flex-direction: column;
                         align-items: center;
                         justify-content: space-between;
-                        border-radius: 0px 6px 6px 0px;
+                        border-radius: 0px 16px 16px 0px;
                       "
                       class="p-3 py-6"
                     >
@@ -365,7 +366,7 @@
                         flex-direction: column;
                         align-items: center;
                         justify-content: space-between;
-                        border-radius: 0px 6px 6px 0px;
+                        border-radius: 0px 16px 16px 0px;
                       "
                       class="p-3 py-6"
                     >
@@ -415,8 +416,8 @@
                 <div
                   :class="
                     type.selected
-                      ? 'fee_tier_container_card  fee_tier_container_card__selected'
-                      : 'fee_tier_container_card dark:!bg-[#2f303230] bg-white'
+                      ? 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]  fee_tier_container_card__selected'
+                      : 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]'
                   "
                   v-for="(type, i) in range_types"
                   :key="`tiers-${i}`"
@@ -477,7 +478,7 @@
                     >
                       <div class="d-flex align-items-center gap-2">
                         <img
-                        class="!bg-gray-300 dark:!bg-transparent rounded-full"
+                        class="!bg-gray-200 dark:!bg-transparent rounded-full"
 
                           :src="
                             getTokenEntity(pairToken1.symbol, 'short').icon ||
@@ -506,7 +507,7 @@
                       </div>
                     </div>
                     <div
-                      class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-black"
+                      class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#2ABDFF]"
                       @click="depositAmount1 = pairToken1.balance"
                     >
                       Max
@@ -566,7 +567,7 @@
                     >
                       <div class="d-flex align-items-center gap-2">
                         <img
-                        class="!bg-gray-300 dark:!bg-transparent rounded-full"
+                        class="!bg-gray-200 dark:!bg-transparent rounded-full"
 
                           :src="
                             getTokenEntity(pairToken2.symbol, 'short').icon ||
@@ -595,7 +596,7 @@
                       </div>
                     </div>
                     <div
-                      class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-black"
+                      class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#2ABDFF]"
                       @click="depositAmount2 = pairToken2.balance"
                     >
                       Max
@@ -626,7 +627,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="add_liquidity_button dark:!bg-[#02607a] bg-white">
+                <div class="add_liquidity_button bg-[#02607a]">
                   <svg
                     width="14"
                     height="14"
@@ -639,7 +640,7 @@
                         <g clip-path="url(#clip2_1807_18018)">
                           <path
                             d="M6.58 0.000427246C6.42536 0.000427246 6.3 0.125787 6.3 0.280427V6.30043H0.28C0.12536 6.30043 0 6.42579 0 6.58043V7.42043C0 7.57506 0.12536 7.70043 0.28 7.70043H6.3V13.7204C6.3 13.8751 6.42536 14.0004 6.58 14.0004H7.42C7.57463 14.0004 7.7 13.8751 7.7 13.7204V7.70043H13.72C13.8746 7.70043 14 7.57506 14 7.42043V6.58043C14 6.42579 13.8746 6.30043 13.72 6.30043H7.7V0.280427C7.7 0.125787 7.57463 0.000427246 7.42 0.000427246H6.58Z"
-                            fill="#EBEBEC"
+                            class="fill-[#EBEBEC]"
                           />
                         </g>
                       </g>
@@ -1392,7 +1393,8 @@ async function initPossibleComposeTokens() {
 
 .max_button {
   border-radius: 6px;
-  // background: #07090c;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
   padding: 4px 8px;
   cursor: pointer;
 }
