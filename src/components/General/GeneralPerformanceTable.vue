@@ -345,7 +345,7 @@ const headers = [
       min-width: 300%;
     }
   &_header {
-    font-size: 10px;
+    font-size: clamp(10px, 1vw, 14px);
     font-family: Poppins;
     font-weight: 600;
 

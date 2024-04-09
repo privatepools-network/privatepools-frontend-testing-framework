@@ -6,9 +6,9 @@
       :class="{ 'is-open': isOpen, 'is-visible': isVisible }"
     >
       <!-- v-click-away="closeDrawer" -->
-      
+      <!-- v-on:click.stop -->
       <div
-        class="drawer__content"
+        class="drawer__content" v-click-away="closeDrawer" v-on:click.stop
         :style="{
           maxWidth: maxWidth,
           transitionDuration: `${speed}ms`,

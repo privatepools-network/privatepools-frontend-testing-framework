@@ -30,8 +30,8 @@ const { headers } = toRefs(props)
 
   &-header-font-folder {
     // color: #ffffff;
-    font-size: 10px;
-    font-weight: 700;
+    font-size: clamp(10px, 1vw, 12px);
+    font-weight: 500;
     text-transform: uppercase;
     padding: 29px 0 29px 10px;
     white-space: nowrap;

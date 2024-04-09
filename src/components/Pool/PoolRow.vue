@@ -370,11 +370,11 @@ const visibleDetails = ref(false)
     }
 
     &__value {
-      font-size: 13px;
+      font-size: clamp(10px, 1vw, 14px);
       font-weight: 400;
 
       @media (max-width: $xxl) {
-        font-size: 10px;
+        // font-size: 10px;
       }
     }
 
@@ -415,11 +415,11 @@ const visibleDetails = ref(false)
     }
 
     &:first-child {
-      .pools-row__value {
-        @media (max-width: $xxl) {
-          font-size: 12px;
-        }
-      }
+      // .pools-row__value {
+      //   @media (max-width: $xxl) {
+      //     font-size: 12px;
+      //   }
+      // }
     }
   }
 }
@@ -497,11 +497,11 @@ const visibleDetails = ref(false)
 
     &__title,
     &__value {
-      font-size: 12px;
+      font-size: clamp(10px, 1vw, 14px);
       font-weight: 600;
 
       @media (max-width: $xxl) {
-        font-size: 10px;
+        // font-size: 10px;
         font-weight: 400;
       }
     }

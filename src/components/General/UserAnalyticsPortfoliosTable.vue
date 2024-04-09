@@ -45,7 +45,7 @@
                   :src="thirdPlace"
                   style="margin-top: -5px"
                 />
-                <div v-else class="actions-cell__text dark:!text-white text-black table-cell">
+                <div v-else class="actions-cell__text dark:!text-white text-black">
                   {{ item['Place'] }}
                 </div>
               </div>
@@ -467,7 +467,7 @@ const filteredActivities = [
     @include cells-widths;
 
     @media (max-width: $xxl) {
-      font-size: 10px;
+      font-size: clamp(10px, 1vw, 14px);
       padding: 16px 0 12px 10px !important;
     }
 

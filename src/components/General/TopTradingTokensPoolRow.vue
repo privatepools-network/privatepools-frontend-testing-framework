@@ -154,11 +154,11 @@
       }
   
       &__value {
-        font-size: 10px;
+        font-size: clamp(10px, 1vw, 14px);
         font-weight: 400;
   
         @media (max-width: $xxl) {
-          font-size: 10px;
+          // font-size: 10px;
         }
       }
   
@@ -167,7 +167,7 @@
         display: flex;
   
         @media (max-width: $xxl) {
-          font-size: 10px;
+          font-size: clamp(10px, 1vw, 14px);
         }
   
         svg {
@@ -197,11 +197,11 @@
       }
   
       &:first-child {
-        .pools-row__value {
-          @media (max-width: $xxl) {
-            font-size: 10px;
-          }
-        }
+        // .pools-row__value {
+        //   @media (max-width: $xxl) {
+        //     font-size: 10px;
+        //   }
+        // }
       }
     }
   }
@@ -285,11 +285,11 @@
   
       &__title,
       &__value {
-        font-size: 12px;
+        font-size: clamp(10px, 1vw, 14px);
         font-weight: 600;
   
         @media (max-width: $xxl) {
-          font-size: 10px;
+          // font-size: 10px;
           font-weight: 400;
         }
       }

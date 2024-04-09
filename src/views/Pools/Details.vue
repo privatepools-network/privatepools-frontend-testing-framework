@@ -1648,7 +1648,7 @@ function changeToDepositView() {
     @include cells-widths;
 
     @media (max-width: $xxl) {
-      font-size: 10px;
+      font-size: clamp(10px, 1vw, 14px);
       padding: 12px 0 12px 10px !important;
     }
 

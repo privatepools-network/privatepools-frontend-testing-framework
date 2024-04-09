@@ -269,7 +269,7 @@ const getDataRow = (dataRow) => {
 
 .file-table-header-container_full {
   // color: #ffffff;
-  font-size: 10px;
+  font-size: clamp(10px, 1vw, 14px);
   font-weight: 600;
   text-transform: uppercase;
   padding: 29px 0 29px 0px;
@@ -303,7 +303,7 @@ const getDataRow = (dataRow) => {
 
   .file-table-header-cell {
     color: #fff;
-    font-size: 10px;
+    font-size: clamp(10px, 1vw, 14px);
     font-weight: 600;
     //width: fit-content;
     max-width: 100%;
