@@ -170,7 +170,7 @@
                         </div>
                       </div>
                       <div
-                        class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#2ABDFF]"
+                        class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                         @click="depositAmount1 = pairToken1.balance"
                       >
                         Max
@@ -246,7 +246,7 @@
                         </div>
                       </div>
                       <div
-                        class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#2ABDFF]"
+                        class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                         @click="depositAmount2 = pairToken2.balance"
                       >
                         Max
@@ -420,7 +420,7 @@
                   >
                     <path
                       d="M19 12.998H13V18.998H11V12.998H5V10.998H11V4.99805H13V10.998H19V12.998Z"
-                      fill="#2ABDFF"
+                      fill="#00e0ff"
                     />
                   </svg>
                 </div>
@@ -1070,7 +1070,7 @@ async function removeLiquidityHandler() {
 }
 
 :deep(.apexcharts-radial-series) {
-  filter: drop-shadow(0 0 0.35rem #2abdff);
+  filter: drop-shadow(0 0 0.35rem #00e0ff);
 }
 
 .liquidity_title {

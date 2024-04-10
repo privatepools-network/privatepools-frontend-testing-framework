@@ -43,7 +43,7 @@
 .search-input {
   width: 100%;
   font-size: 12px;
-  border: 1px solid #2abdff;
+  border: 1px solid #00e0ff;
   border-radius: 16px;
   padding: 8px 12px;
   @media (max-width: $xxl) {
@@ -57,7 +57,7 @@
 
   &:focus-visible {
     // border: 1px solid rgb(18, 180, 255) !important;
-    outline: #2abdff;
+    outline: #00e0ff;
   }
 }
 
@@ -73,12 +73,12 @@
   color: #ffffff;
   text-align: center;
   padding: 6px;
-  background: linear-gradient(45deg, #2abdff 0%, #0e3e9b 100%);
+  background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
   box-shadow: 0px 4px 8.899999618530273px 0px #00aae01a;
 
   &:hover {
     filter: drop-shadow(0 0 0.7rem #00c9ff);
-    background: #2abdff;
+    background: #00e0ff;
   }
 }
 .modal_total_container {

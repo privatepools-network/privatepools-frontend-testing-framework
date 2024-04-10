@@ -185,7 +185,7 @@
               height: 75px;
               margin-top: -15px;
               margin-bottom: -20px;
-              border: 1px solid #2abdff;
+              border: 1px solid #00e0ff;
               filter: drop-shadow(0 0 0.3rem #00c9ff);
             "
           ></div>
@@ -370,14 +370,14 @@ function prettify(ts) {
 }
 
 .claim_button {
-  background: linear-gradient(90deg, #2775ca 0%, #2abdff 100%);
+  background: linear-gradient(90deg, #2775ca 0%, #00e0ff 100%);
   box-shadow: 0px 4px 4px 0px #00000040;
   border-radius: 12px;
   padding: 8px 12px;
   color: #ffffff;
 
   &:hover {
-    background: #2abdff;
+    background: #00e0ff;
     cursor: pointer;
   }
 }

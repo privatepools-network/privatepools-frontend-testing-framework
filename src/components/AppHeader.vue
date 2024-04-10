@@ -838,7 +838,7 @@ const computedAddress = computed(() =>
 }
 
 .vue-dropdown::-webkit-scrollbar-thumb {
-  background-color: #2abdff9e;
+  background-color: #00e0ff9e;
   border-radius: 8px;
 }
 
@@ -876,9 +876,9 @@ input[readonly] {
   border-radius: 16px;
   // background: linear-gradient(0deg, #090909, #090909),
   //   linear-gradient(0deg, rgba(42, 189, 255, 0.62), rgba(42, 189, 255, 0.62));
-  border: 1px solid #2abdff9e;
-  box-shadow: 0px 4px 4px 0px #2abdff40;
-  color: #2abdff;
+  border: 1px solid #00e0ff9e;
+  box-shadow: 0px 4px 4px 0px #00e0ff40;
+  color: #00e0ff;
   font-family: Poppins;
   font-size: 15px;
   font-weight: 600;
@@ -888,7 +888,7 @@ input[readonly] {
   padding: 10px 20px;
 
   &:hover {
-    background: #2abdff;
+    background: #00e0ff;
     color: white;
     cursor: pointer;
   }

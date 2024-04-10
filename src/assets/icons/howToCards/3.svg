@@ -42,12 +42,12 @@
         </filter>
         <linearGradient id="paint0_linear_1193_4249" x1="10.9375" y1="8.67709" x2="67.1905"
             y2="19.495" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#2ABDFF" />
+            <stop stop-color="#00e0ff" />
             <stop offset="1" stop-color="#171717" />
         </linearGradient>
         <linearGradient id="paint1_linear_1193_4249" x1="2.91667" y1="26.9063" x2="78.1156"
             y2="40.832" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#2ABDFF" />
+            <stop stop-color="#00e0ff" />
             <stop offset="1" stop-color="#171717" />
         </linearGradient>
         <linearGradient id="paint2_linear_1193_4249" x1="2.1875" y1="18.7926" x2="70" y2="18.7926"

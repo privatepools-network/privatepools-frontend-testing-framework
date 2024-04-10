@@ -173,12 +173,12 @@ const specificPortfolioStats = ref([
   color: #ffffff;
   text-align: center;
   padding: 6px 12px;
-  background: linear-gradient(45deg, #2abdff 0%, #0e3e9b 100%);
+  background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
   box-shadow: 0px 4px 8.899999618530273px 0px #00aae01a;
 
   &:hover {
     filter: drop-shadow(0 0 0.7rem #00c9ff);
-    background: #2abdff;
+    background: #00e0ff;
   }
 }
 </style>

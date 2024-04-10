@@ -103,7 +103,7 @@ const toggleDark = useToggle(isDark)
 }
 
 .active_theme {
-  background: #2ABDFF29;
+  background: #00e0ff29;
   width: 28px;
   height: 20px;
   display: flex;

@@ -117,7 +117,7 @@ const onClickConcentratedPool = () => {
 
 .button {
   border-radius: 16px;
-  border: 1px solid #2abdff;
+  border: 1px solid #00e0ff;
   box-shadow: 0px 0px 4.600000381469727px 0px #00affe;
   width: 143px;
   // color: white;
@@ -146,7 +146,7 @@ const onClickConcentratedPool = () => {
   letter-spacing: 0em;
   // color: #ffffff;
   border-radius: 0px 0px 8px 8px;
-  border: 1px solid #2abdff;
+  border: 1px solid #00e0ff;
   box-shadow: 0px 0px 4.600000381469727px 0px #00affe;
 
   &_text {

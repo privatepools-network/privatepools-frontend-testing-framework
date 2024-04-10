@@ -1810,7 +1810,7 @@ onMounted(() => {
   padding: 8px;
   display: flex;
   justify-content: center;
-  background: #2abdff;
+  background: #00e0ff;
   border-radius: 5px;
   font-family: Poppins;
   font-size: 11px;

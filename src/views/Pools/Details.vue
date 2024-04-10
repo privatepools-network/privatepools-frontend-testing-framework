@@ -31,7 +31,7 @@
                 <linearGradient id="paint0_linear_25_3105" x1="15.36" y1="-7.68" x2="1.74547" y2="10.1236"
                   gradientUnits="userSpaceOnUse">
                   <stop stop-color="#2775CA" />
-                  <stop offset="1" stop-color="#2ABDFF" />
+                  <stop offset="1" stop-color="#00e0ff" />
                 </linearGradient>
               </defs>
             </svg>
@@ -2247,9 +2247,9 @@ function changeToDepositView() {
 
 .rewards_button {
   // background: #22222224;
-  border: 1px solid #2ABDFF;
+  border: 1px solid #00e0ff;
   box-shadow: 0px 4px 4px 0px #00000040;
-  color: #2abdff;
+  color: #00e0ff;
   padding: 4px 24px;
   font-family: Poppins;
   font-size: 14px;

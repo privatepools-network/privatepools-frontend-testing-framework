@@ -1043,7 +1043,7 @@ const chartOptionsCLPool2 = computed(() => {
         show: false,
       },
     },
-    colors: ['#2ABDFF'],
+    colors: ['#00e0ff'],
     plotOptions: {
       bar: {
         horizontal: false,

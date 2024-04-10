@@ -64,7 +64,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
   color: #FFFFFF;
   text-align: center;
   padding: 8px;
-  background: linear-gradient(45deg, #2ABDFF 0%, #0E3E9B 100%);
+  background: linear-gradient(45deg, #00e0ff 0%, #0E3E9B 100%);
 
   box-shadow: 0px 4px 8.899999618530273px 0px #00AAE01A;
 }

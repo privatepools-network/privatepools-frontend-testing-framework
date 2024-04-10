@@ -277,7 +277,7 @@ const onClickAwayFilters = (event) => {
 }
 
 .select_token_dropdown::-webkit-scrollbar-thumb {
-  background-color: #2abdff9e;
+  background-color: #00e0ff9e;
   border-radius: 8px;
 }
 </style>

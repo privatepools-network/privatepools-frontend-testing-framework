@@ -48,7 +48,7 @@
           <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M9.7148 18.0011H8.7148C7.7148 18.0011 7.2148 17.5011 7.2148 16.5011V1.50107C7.2148 0.501068 7.7148 0.00106812 8.7148 0.00106812H9.7148C10.7148 0.00106812 11.2148 0.501068 11.2148 1.50107V16.5011C11.2148 17.5011 10.7148 18.0011 9.7148 18.0011ZM18.2148 16.5011V6.50107C18.2148 5.50107 17.7148 5.00107 16.7148 5.00107H15.7148C14.7148 5.00107 14.2148 5.50107 14.2148 6.50107V16.5011C14.2148 17.5011 14.7148 18.0011 15.7148 18.0011H16.7148C17.7148 18.0011 18.2148 17.5011 18.2148 16.5011ZM4.21484 16.5011V10.5011C4.21484 9.50109 3.71484 9.00109 2.71484 9.00109H1.71484C0.714844 9.00109 0.214844 9.50109 0.214844 10.5011V16.5011C0.214844 17.5011 0.714844 18.0011 1.71484 18.0011H2.71484C3.71484 18.0011 4.21484 17.5011 4.21484 16.5011Z"
-              fill="#2ABDFF" />
+              fill="#00e0ff" />
           </svg>
           Add liquidity
         </div>
@@ -487,7 +487,7 @@ async function handlePortfolioData() {
   line-height: 24px;
   letter-spacing: 0em;
   text-align: center;
-  color: #2abdff;
+  color: #00e0ff;
 
   &:hover {
     background: #002c44cc;
@@ -500,7 +500,7 @@ async function handlePortfolioData() {
   padding: 8px;
   display: flex;
   justify-content: center;
-  background: #2abdff;
+  background: #00e0ff;
   border-radius: 5px;
   font-family: Poppins;
   font-size: 11px;
@@ -544,7 +544,7 @@ async function handlePortfolioData() {
 }
 
 .activity_container::-webkit-scrollbar-thumb {
-  background-color: #2abdff9e;
+  background-color: #00e0ff9e;
   border-radius: 8px;
 }
 </style>
