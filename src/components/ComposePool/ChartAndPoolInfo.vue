@@ -169,7 +169,7 @@
             />
           </div>
           <div class="d-flex flex-column gap-1">
-            <div style="color: white">
+            <div class="text-black dark:!text-white">
               {{ parseFloat(token0.amount).toFixed(2) }} {{ token0.symbol }}
             </div>
             <div style="color: #a3a3a3">
@@ -193,7 +193,7 @@
 
         <div class="d-flex gap-2 align-items-center">
           <div class="d-flex flex-column gap-1">
-            <div style="color: white">
+            <div class="text-black dark:!text-white">
               {{ parseFloat(token1.amount).toFixed(2) }} {{ token1.symbol }}
             </div>
             <div style="color: #a3a3a3">
@@ -212,9 +212,9 @@
     </div>
 
     <hr class="compose_hr" />
-    <div class="pool_info" v-if="poolInfo">
+    <div class="pool_info text-black dark:!text-white" v-if="poolInfo">
       <div class="d-flex justify-content-between mb-3">
-        <span style="font-size: 16px">Pool Info</span>
+        <span style="font-size: 16px" >Pool Info</span>
         <a
           :href="`${
             configService.getNetworkConfig(networkId).explorer
@@ -306,7 +306,7 @@ function prettify(ts) {
   border-radius: 16px;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-weight: 400;
   line-height: 15px;
@@ -354,11 +354,11 @@ function prettify(ts) {
 .pool_info {
   margin-top: 20px;
   margin-bottom: 20px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
-  color: #c1c8ce;
+  // color: #c1c8ce;
   display: flex;
   flex-direction: column;
   gap: 10px;

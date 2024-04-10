@@ -255,7 +255,7 @@
     </div>
     <div style="display: flex; flex-direction: column" v-if="selectedTab == 'Pool Info'">
       <!--      <div class="mb-2" style="-->
-      <!--        font-family: Inter;-->
+      <!--        font-family: Poppins;-->
       <!--        color: white;-->
 
       <!--        font-size: clamp(10px, 0.9vw, 16px);-->
@@ -586,7 +586,7 @@
       </div>
 
       <div class="mb-2" style="
-          font-family: Inter;
+          font-family: Poppins;
           color: white;
           margin-top: 40px;
 
@@ -2263,7 +2263,7 @@ watch(visibleWithdrawModal, (newValue) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 600;
   line-height: 16px;
@@ -2342,7 +2342,7 @@ watch(visibleWithdrawModal, (newValue) => {
   box-shadow: 0px 4px 4px 0px #00000040;
   color: #2ABDFF;
   padding: 8px 16px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 600;
   line-height: 24px;

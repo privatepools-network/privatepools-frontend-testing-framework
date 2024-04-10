@@ -55,7 +55,7 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
   // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
   padding: 5px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
@@ -72,7 +72,7 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
   cursor: pointer;
   margin-top: 10px;
   border-radius: 2px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
@@ -93,7 +93,7 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 
   border-radius: 16px;
   padding: 8px 25px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 15px;
   font-weight: 600;
   line-height: 18px;

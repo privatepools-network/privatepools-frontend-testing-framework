@@ -1,7 +1,7 @@
 <template>
   <div style="margin-bottom: 150px">
     <div style="
-        font-family: Inter;
+        font-family: Poppins;
         font-size: clamp(12px, 0.8vw, 17px);
         font-weight: 700;
         line-height: 28px;

@@ -66,7 +66,7 @@
   cursor: pointer;
   margin-top: 5px;
   border-radius: 16px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;

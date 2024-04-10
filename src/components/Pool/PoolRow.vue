@@ -455,7 +455,7 @@ const visibleDetails = ref(false)
     }
 
     &__activity {
-      font-family: Inter;
+      font-family: Poppins;
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
@@ -526,7 +526,7 @@ const visibleDetails = ref(false)
   padding: 3px 5px;
 
   &_name {
-    font-family: Inter;
+    font-family: Poppins;
     font-size: 12px;
     font-weight: 400;
     line-height: 24px;
@@ -534,7 +534,7 @@ const visibleDetails = ref(false)
   }
 
   &_weight {
-    font-family: Inter;
+    font-family: Poppins;
     font-size: 12px;
     font-weight: 400;
     line-height: 16px;
@@ -546,7 +546,7 @@ const visibleDetails = ref(false)
   padding: 4px;
   border-radius: 4px;
   font-size: 10px;
-  font-family: Inter;
+  font-family: Poppins;
   font-weight: 600;
   line-height: 16px;
   letter-spacing: 0em;
@@ -570,7 +570,7 @@ const visibleDetails = ref(false)
 
 .liquidity_button {
   border-radius: 12px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-weight: 700;
   line-height: 21px;
@@ -601,7 +601,7 @@ const visibleDetails = ref(false)
 }
 
 .liquidity_button_text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-weight: 400;
   line-height: 21px;
@@ -647,7 +647,7 @@ const visibleDetails = ref(false)
 }
 
 .actions_button {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 10px;
   font-weight: 600;
   line-height: 21px;

@@ -491,8 +491,9 @@
                           style="
                             font-size: 21px;
                             margin-bottom: 0;
-                            color: white;
+                           
                           "
+                          class="dark:!text-white text-black"
                         >
                           {{ pairToken1.symbol }}
                         </h4>
@@ -580,8 +581,9 @@
                           style="
                             font-size: 21px;
                             margin-bottom: 0;
-                            color: white;
+                            
                           "
+                          class="dark:!text-white text-black"
                         >
                           {{ pairToken2.symbol }}
                         </h4>

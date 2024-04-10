@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center gap-3">
     <div v-click-away="onClickAway">
       <div
-        class="filter_button bg-white dark:!bg-[#090909] text-black dark:!text-white w-[140px]"
+        class="filter_button bg-white dark:!bg-[#090909] text-black dark:!text-white w-[150px]"
         :style="
           selectTokenDropdownOpen === true
             ? 'border-radius: 16px 16px 0px 0px;'
@@ -67,7 +67,7 @@
     </div>
     <div v-click-away="onClickAwayFilters">
       <div
-        class="filter_button bg-white dark:!bg-[#090909] text-black dark:!text-white w-[140px]"
+        class="filter_button bg-white dark:!bg-[#090909] text-black dark:!text-white w-[150px]"
         :style="
           moreFiltersDropdownOpen === true
             ? 'border-radius: 16px 16px 0px 0px;'
@@ -229,7 +229,7 @@ const onClickAwayFilters = (event) => {
   cursor: pointer;
   padding: 8px 12px;
   
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 400;
   display: flex;
@@ -245,7 +245,7 @@ const onClickAwayFilters = (event) => {
   position: absolute;
   // background: black;
   padding: 11.5px;
-  width: 140px;
+  width: 150px;
   height: 160px;
   overflow-y: auto;
   font-family: Segoe UI;

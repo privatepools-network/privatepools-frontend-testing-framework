@@ -803,7 +803,7 @@ const computedAddress = computed(() =>
 
 .vue-input {
   padding-left: 35px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 15px;
   font-weight: 500;
   line-height: 18px;
@@ -863,7 +863,7 @@ input[readonly] {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-weight: 500;
   line-height: 15px;
@@ -879,7 +879,7 @@ input[readonly] {
   border: 1px solid #2abdff9e;
   box-shadow: 0px 4px 4px 0px #2abdff40;
   color: #2abdff;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 15px;
   font-weight: 600;
   line-height: 18px;
@@ -902,7 +902,7 @@ input[readonly] {
 
   border-radius: 16px;
   padding: 8px 25px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 15px;
   font-weight: 600;
   line-height: 18px;

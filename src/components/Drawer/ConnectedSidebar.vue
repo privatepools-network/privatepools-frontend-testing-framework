@@ -384,7 +384,7 @@ async function handlePortfolioData() {
 
 <style lang="scss" scoped>
 .sidebar_header {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 600;
   line-height: 44px;
@@ -424,7 +424,7 @@ async function handlePortfolioData() {
 }
 
 .wallet_text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;
@@ -432,7 +432,7 @@ async function handlePortfolioData() {
 }
 
 .wallet_bottom_text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 13px;
   font-weight: 400;
   line-height: 24px;
@@ -447,7 +447,7 @@ async function handlePortfolioData() {
 }
 
 .address_text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 13px;
   font-weight: 500;
   line-height: 24px;
@@ -457,7 +457,7 @@ async function handlePortfolioData() {
 }
 
 .balance_text {
-  font-family: Inter;
+  font-family: "Roboto Mono", monospace;
   font-size: 34px;
   font-weight: 500;
   letter-spacing: 0em;
@@ -465,7 +465,7 @@ async function handlePortfolioData() {
 }
 
 .balance_change {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0em;
@@ -481,7 +481,7 @@ async function handlePortfolioData() {
   justify-content: center;
   background: #002c4499;
   border-radius: 20px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 19px;
   font-weight: 600;
   line-height: 24px;
@@ -502,7 +502,7 @@ async function handlePortfolioData() {
   justify-content: center;
   background: #2abdff;
   border-radius: 5px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 11px;
   font-weight: 700;
   box-shadow: 0px 4px 4px 0px #00000040;
@@ -518,7 +518,7 @@ async function handlePortfolioData() {
 }
 
 .tab {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 500;
   line-height: 16px;

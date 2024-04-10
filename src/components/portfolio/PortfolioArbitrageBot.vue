@@ -35,7 +35,7 @@
             </div>
             <div
               v-else
-              style="font-weight: 700; font-family: Inter; font-size: 17px"
+              style="font-weight: 700; font-family: Poppins; font-size: 17px"
               class="visible_head arbitrage_bot_sections_text dark:!text-white text-black"
             >
               $277,308.00
@@ -101,7 +101,7 @@
             <div
               style="
                 font-weight: 700;
-                font-family: Inter;
+                font-family: Poppins;
                 color: white;
                 width: 100%;
               "
@@ -110,7 +110,7 @@
                 class="d-flex align-items-baseline justify-content-between visible_head"
               >
                 <div
-                  style="font-family: Inter; font-weight: 400"
+                  style="font-family: Poppins; font-weight: 400"
                   class="arbitrage_bot_sections_text dark:!text-white text-black"
                 >
                   Average APR
@@ -191,7 +191,7 @@
             <div
               style="
                 font-weight: 700;
-                font-family: Inter;
+                font-family: Poppins;
                 color: white;
                 width: 100%;
               "
@@ -200,7 +200,7 @@
                 class="d-flex align-items-baseline justify-content-between visible_head"
               >
                 <div
-                  style="font-family: Inter; font-weight: 400"
+                  style="font-family: Poppins; font-weight: 400"
                   class="arbitrage_bot_sections_text dark:!text-white text-black"
                 >
                   Profits Earned
@@ -264,7 +264,7 @@
           <div
             style="
               font-weight: 700;
-              font-family: Inter;
+              font-family: Poppins;
               color: white;
               width: 100%;
             "
@@ -479,7 +479,7 @@ const visibleTotalGas = ref(true)
 .arbitrage_bot_header {
   font-size: clamp(10px, 0.7vw, 14px);
   font-weight: 700;
-  font-family: Inter;
+  font-family: Poppins;
   color: white;
 }
 
@@ -531,7 +531,7 @@ const visibleTotalGas = ref(true)
   margin-top: 25px;
   margin-bottom: 5px;
   border-radius: 4px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;

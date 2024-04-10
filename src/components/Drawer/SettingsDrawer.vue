@@ -113,7 +113,7 @@ const settingsState = ref('Main')
 </script>
 <style lang="scss" scoped>
 .sidebar_header {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 600;
   line-height: 44px;
@@ -145,7 +145,7 @@ const settingsState = ref('Main')
 }
 
 .wallet_text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;
@@ -153,7 +153,7 @@ const settingsState = ref('Main')
 }
 
 .wallet_bottom_text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 13px;
   font-weight: 400;
   line-height: 24px;
@@ -168,7 +168,7 @@ const settingsState = ref('Main')
 }
 
 .settings_text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 13px;
   font-weight: 400;
   line-height: 44px;

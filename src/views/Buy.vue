@@ -799,7 +799,7 @@ async function onToken1Blur() {
   margin-top: 45px;
   margin-bottom: 5px;
   border-radius: 4px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;

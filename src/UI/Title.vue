@@ -18,7 +18,7 @@ const { title } = toRefs(props)
 @import '@/styles/_variables.scss';
 
 .header_text {
-  font-family: Inter;
+  font-family: Poppins;
 
 font-weight: 400;
 line-height: 32px;

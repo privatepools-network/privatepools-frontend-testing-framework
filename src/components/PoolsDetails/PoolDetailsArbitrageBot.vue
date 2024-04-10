@@ -586,7 +586,7 @@ function GetTokenPrice(address) {
 .arbitrage_bot_header {
   font-size: clamp(10px, 0.7vw, 14px);
   font-weight: 700;
-  font-family: Inter;
+  font-family: Poppins;
   color: white;
 }
 
@@ -622,7 +622,7 @@ function GetTokenPrice(address) {
   box-shadow: 0px 4px 4px 0px #00000040;
   color: #2abdff;
   padding: 8px 12px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: clamp(8px, 0.7vw, 12px);
   font-weight: 600;
   line-height: 24px;

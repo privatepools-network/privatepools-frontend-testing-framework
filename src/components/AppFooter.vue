@@ -174,7 +174,7 @@ import twitterIcon from '@/assets/icons/Footer/twitter.svg'
 }
 
 .footer_text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;

@@ -58,7 +58,7 @@ import { Dropdown } from 'floating-vue'
 </script>
 <style lang="scss" scoped>
 .navigation_text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: clamp(10px, 0.8vw, 15px);
   font-weight: 600;
   line-height: 22px;

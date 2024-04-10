@@ -64,7 +64,7 @@ const toggleDark = useToggle(isDark)
 </script>
 <style lang="scss" scoped>
 .text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 13px;
   font-weight: 400;
   line-height: 44px;
