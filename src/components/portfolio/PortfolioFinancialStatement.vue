@@ -3,7 +3,7 @@
     <div class="chart-timeline">
       <Tabs :tabsOptions="timelines" :selectedTab="currentTimeline" @changeTab="changeTimeline"></Tabs>
     </div>
-    <div class="finance_above_buttons">
+    <!-- <div class="finance_above_buttons">
       <div>
         <CButton variant="outline" @click="downloadPdf" style="
             border-radius: 20px;
@@ -11,7 +11,7 @@
             padding: 4px 8px;
             border-color: #00C9FF;
           ">
-          <div class="d-flex align-items-center gap-2 text-white">
+          <div class="d-flex align-items-center gap-2 dark:!text-white text-black">
             <img :src="downloadIcon" width="15" /> Download PDF
           </div>
         </CButton>
@@ -23,12 +23,12 @@
             padding: 4px 8px;
             border-color: #00C9FF;
           " @click="downloadCsv">
-          <div class="d-flex align-items-center gap-2 text-white">
+          <div class="d-flex align-items-center gap-2 dark:!text-white text-black">
             <img :src="downloadIcon" width="15" /> Download CSV
           </div>
         </CButton>
       </div>
-    </div>
+    </div> -->
   </div>
   <div ref="content" style="position: absolute; z-index: -1; left: -9999999999px; top: -100%;">
     <div class="pdf" v-for="(financeDataChunk, index) in financeDataForPdf" :key="`pdf-el-${index}`">
@@ -176,9 +176,9 @@
     </div>
   </div>
 
-  <div class="mt-5 mb-0 finance_table" style="position: relative">
-    <div class="financial_header column_loading">
-      <div class="sticky_first_column">
+  <div class="mt-5 mb-0 finance_table dark:!bg-[#22222224] bg-white" style="position: relative">
+    <div class="financial_header dark:!bg-[#1C1C1C] bg-white column_loading">
+      <div class="sticky_first_column dark:!bg-[#22222224] bg-white">
         <div class="financial_header_text">Financial Statement</div>
         <div class="financial_header_text">Profit/Loss</div>
       </div>
@@ -229,14 +229,14 @@
       </div>
     </div>
     <div class="financial_block_with_bg column_loading">
-      <div class="sticky_column_with_bg">
+      <div class="sticky_column_with_bg dark:!bg-[#22222224] bg-white">
         <div class="financial_header_text" style="font-size: clamp(10px, 0.9vw, 16px)">
           Income Statement
         </div>
         <div class="d-flex flex-column gap-3 pt-3">
           <div>Fees</div>
           <div>Revenue</div>
-          <div style="padding-left: 15px">(Token Incentives)</div>
+          <div style="padding-left: 15px" class="dark:!text-white text-black">(Token Incentives)</div>
         </div>
       </div>
       <div style="margin-top: 56px; min-width: 300px; text-align: right" class="d-flex flex-column gap-3"
@@ -923,7 +923,8 @@ onBeforeMount(async () => {
   border-radius: 10px 10px 0px 0px;
   gap: 40px;
   display: flex;
-  width: fit-content;  background: #1C1C1C;
+  width: fit-content;  
+  // background: #1C1C1C;
 }
 
 .column_loading {
@@ -1008,7 +1009,7 @@ onBeforeMount(async () => {
   flex-direction: column;
   justify-content: space-between;
   padding-left: 10px;
-  background-color:#22222224;
+  // background-color:#22222224;
 
 }
 
@@ -1016,7 +1017,7 @@ onBeforeMount(async () => {
   /* margin-right: 200px; */
   min-width: 300px;
   padding: 20px 10px 20px 10px;
-  background: #22222224;
+  // background: #22222224;
 }
 
 .sticky_column_without_bg {
@@ -1029,7 +1030,7 @@ onBeforeMount(async () => {
 .finance_table {
   border-radius: 20px;
   overflow-x: scroll;
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 4px 0px #00000040;
 

@@ -74,7 +74,7 @@
         class="file-table-row text-black dark:!text-white" :class="table_bg && rowHeight ? rowHeight : 'file-table-row'"
         v-for="(dataRow, dataRowIndex) in data" :key="`data-row-key-${dataRowIndex}`"
         @click="$emit('table-row-click', dataRow, dataRowIndex)">
-        <CTableDataCell scope="row" class="align-middle file-table-cell-container" v-for="(dataCell, dataCellKey, dataCellIndex) in getDataRow(
+        <CTableDataCell scope="row" class="align-middle file-table-cell-container text-black dark:!text-white" v-for="(dataCell, dataCellKey, dataCellIndex) in getDataRow(
           dataRow,
           dataRowIndex,
         )" :key="`file-table-cell-key-${dataCellKey}`">
@@ -348,7 +348,7 @@ const getDataRow = (dataRow) => {
     text-align: center;
     font-weight: 400;
     letter-spacing: 0em;
-    color: #ffffff !important;
+    // color: #ffffff !important;
   }
 
   :deep(.token-name-container) {

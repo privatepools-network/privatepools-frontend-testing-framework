@@ -7,9 +7,9 @@
             assetsPerformanceData[assetsPerformanceRangeOption] &&
             assetsPerformanceTimestamps[assetsPerformanceRangeOption]
           "
-          class="d-flex flex-column gap-2 chart_card"
+          class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
         >
-          <div class="d-flex justify-content-between text-white">
+          <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">Historical Asset Values</div>
               <VTooltip :distance="0" :placement="'right'">
@@ -33,7 +33,7 @@
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
         12 20Z"
-                      fill="#F8F8F8"
+                      class="dark:!fill-white fill-black"
                     />
                   </svg>
                 </div>
@@ -74,9 +74,10 @@
             <div class="d-flex gap-2">
               <div
                 style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)"
+                class="text-black dark:!text-white"
                 :style="{
                   color:
-                    opt == assetsPerformanceRangeOption ? '#00C9FF' : 'white',
+                    opt == assetsPerformanceRangeOption ? '#00C9FF !important' : '',
                 }"
                 v-for="opt in advancedRangeOptions"
                 :key="`trade-${opt}-range-option`"
@@ -94,7 +95,7 @@
             />
           </div>
         </div>
-        <div v-else style="height: 350px" class="chart_card">
+        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
           <LoaderPulse />
         </div>
       </CCol>
@@ -109,9 +110,9 @@
           v-if="
             tradesData[tradeRangeOption] && tradesTimestamps[tradeRangeOption]
           "
-          class="d-flex flex-column gap-2 chart_card"
+          class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
         >
-          <div class="d-flex justify-content-between text-white">
+          <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">Pool Distribution</div>
               <VTooltip :distance="0" :placement="'right'">
@@ -135,7 +136,7 @@
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
         12 20Z"
-                      fill="#F8F8F8"
+        class="dark:!fill-white fill-black"
                     />
                   </svg>
                 </div>
@@ -207,7 +208,7 @@
             />
           </div>
         </div>
-        <div v-else style="height: 350px" class="chart_card">
+        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
           <LoaderPulse />
         </div>
       </CCol>
@@ -216,9 +217,9 @@
           v-if="
             tradesData[tradeRangeOption] && tradesTimestamps[tradeRangeOption]
           "
-          class="d-flex flex-column gap-2 chart_card"
+          class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
         >
-          <div class="d-flex justify-content-between text-white">
+          <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">Trades</div>
               <VTooltip :distance="0" :placement="'right'">
@@ -242,7 +243,7 @@
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
         12 20Z"
-                      fill="#F8F8F8"
+                      class="dark:!fill-white fill-black"
                     />
                   </svg>
                 </div>
@@ -284,8 +285,9 @@
               <div class="d-flex gap-2">
                 <div
                   style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)"
+                  class="text-black dark:!text-white"
                   :style="{
-                    color: opt == tradeRangeOption ? '#00C9FF' : 'white',
+                    color: opt == tradeRangeOption ? '#00C9FF !important' : '',
                   }"
                   v-for="opt in rangeOptions"
                   :key="`trade-${opt}-range-option`"
@@ -339,7 +341,7 @@
             />
           </div>
         </div>
-        <div v-else style="height: 350px" class="chart_card">
+        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
           <LoaderPulse />
         </div>
       </CCol>
@@ -350,9 +352,9 @@
             profitsData[profitRangeOption] &&
             profitsTimestamps[profitRangeOption]
           "
-          class="d-flex flex-column gap-2 chart_card"
+          class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
         >
-          <div class="d-flex justify-content-between text-white">
+          <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">Ranges Traded</div>
 
@@ -377,7 +379,7 @@
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
         12 20Z"
-                      fill="#F8F8F8"
+                      class="dark:!fill-white fill-black"
                     />
                   </svg>
                 </div>
@@ -418,8 +420,9 @@
             <div class="d-flex gap-3">
               <div
                 style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)"
+                class="text-black dark:!text-white"
                 :style="{
-                  color: opt == profitRangeOption ? '#00C9FF' : 'white',
+                  color: opt == profitRangeOption ? '#00C9FF !important' : '',
                 }"
                 v-for="opt in rangeOptions"
                 :key="`trade-${opt}-range-option`"
@@ -442,7 +445,7 @@
             />
           </div>
         </div>
-        <div v-else style="height: 350px" class="chart_card">
+        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
           <LoaderPulse />
         </div>
       </CCol>
@@ -452,9 +455,9 @@
             profitsData[profitRangeOption] &&
             profitsTimestamps[profitRangeOption]
           "
-          class="d-flex flex-column gap-2 chart_card"
+          class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
         >
-          <div class="d-flex justify-content-between text-white">
+          <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">Profit Generated</div>
 
@@ -479,7 +482,7 @@
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
         12 20Z"
-                      fill="#F8F8F8"
+                      class="dark:!fill-white fill-black"
                     />
                   </svg>
                 </div>
@@ -520,8 +523,9 @@
             <div class="d-flex gap-3">
               <div
                 style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)"
+                class="text-black dark:!text-white"
                 :style="{
-                  color: opt == profitRangeOption ? '#00C9FF' : 'white',
+                  color: opt == profitRangeOption ? '#00C9FF !important' : '',
                 }"
                 v-for="opt in rangeOptions"
                 :key="`trade-${opt}-range-option`"
@@ -544,7 +548,7 @@
             />
           </div>
         </div>
-        <div v-else style="height: 350px" class="chart_card">
+        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
           <LoaderPulse />
         </div>
       </CCol>
@@ -1149,7 +1153,7 @@ const chartOptionsCLPool2 = computed(() => {
 height: 100%;
   // border: 1px solid rgba(163, 164, 165, 0.1);
   border-radius: 20px;
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
   border: 1px solid #ffffff0d;
 }

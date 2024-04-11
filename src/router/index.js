@@ -83,12 +83,12 @@ const routes = [
         name: 'Buy',
         component: () => import('@/views/Buy.vue'),
       },
-      {
-        path: '/portfolio/investments/details/:id',
-        name: 'Investment Details',
-        component: () => import('@/views/portfolio/Details.vue'),
-        props: true,
-      },
+      // {
+      //   path: '/portfolio/investments/details/:id',
+      //   name: 'Investment Details',
+      //   component: () => import('@/views/portfolio/Details.vue'),
+      //   props: true,
+      // },
       {
         path: '/portfolio',
         name: 'Portfolio',
