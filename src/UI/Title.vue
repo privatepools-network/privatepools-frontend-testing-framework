@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-items-center gap-2 my-xxl-3 my-2">
-    <div class="header_text">{{ title }}</div>
+    <div class="header_text text-black dark:!text-white">{{ title }}</div>
     <slot></slot>
   </div>
 </template>
@@ -22,7 +22,7 @@ const { title } = toRefs(props)
 
 font-weight: 400;
 line-height: 32px;
-color: #FFFFFF;
+
 
   font-size: clamp(14px, 0.9vw, 28px);
 

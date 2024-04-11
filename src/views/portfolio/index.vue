@@ -46,6 +46,7 @@
             :user="account"
           >
           </PortfolioFinancialStatement>
+          
         </div>
         <div class="portfolio-table" v-else-if="activeTab == 'Investments'">
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">

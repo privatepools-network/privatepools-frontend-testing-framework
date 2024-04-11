@@ -16,7 +16,7 @@
       </div>
       <div class="table_above_sub">
         <div v-if="width > 768" class="d-flex align-items-center gap-2">
-          <div class="text-white table_above_toggler">
+          <div class="text-[black] dark:!text-white table_above_toggler">
             Hide {{ selectedTab.toLowerCase() }}
           </div>
           <div style="cursor: pointer">
@@ -62,7 +62,7 @@
               dataCellKey,
             )
               " class="text-truncate file-table-cell" :class="tableData[dataRowIndex].Blockchain === trackCurrentNetwork
-    ? 'text-white'
+    ? 'text-[black] dark:!text-white'
     : 'text-secondary'
     " data-coreui-toggle="tooltip" data-coreui-placement="left" :title="dataCell">
               <div class="d-flex align-items-center justify-content-center">
@@ -74,7 +74,7 @@
               </div>
             </div>
             <div v-else-if="['APR', '%Deviation'].includes(dataCellKey)" class="text-truncate file-table-cell" :class="tableData[dataRowIndex].Blockchain === trackCurrentNetwork
-              ? 'text-white'
+              ? 'text-[black] dark:!text-white'
               : 'text-secondary'
               " data-coreui-toggle="tooltip" data-coreui-placement="left" :title="dataCell">
               <div class="d-flex align-items-center justify-content-center">
@@ -84,7 +84,7 @@
             </div>
             <div v-else class="text-truncate file-table-cell text-center" data-coreui-toggle="tooltip"
               data-coreui-placement="left" :class="tableData[dataRowIndex].Blockchain === trackCurrentNetwork
-                ? 'text-white'
+                ? 'text-[black] dark:!text-white'
                 : 'text-secondary'
                 " :title="dataCell">
               {{ numberToAposthrophe(dataCell, currencyDecimals) }}

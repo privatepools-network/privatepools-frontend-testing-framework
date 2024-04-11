@@ -3,7 +3,7 @@
     <div class="chart-timeline">
       <Tabs :tabsOptions="timelines" :selectedTab="currentTimeline" @changeTab="changeTimeline"></Tabs>
     </div>
-    <div class="finance_above_buttons">
+    <!-- <div class="finance_above_buttons">
       <div>
         <CButton  variant="outline" style="
             border-radius: 20px;
@@ -11,7 +11,7 @@
             padding: 4px 8px;
             border-color: #00C9FF;
           ">
-          <div class="d-flex align-items-center gap-2 text-white">
+          <div class="d-flex align-items-center gap-2 dark:!text-white text-black">
             <img :src="downloadIcon" width="15" /> Download PDF
           </div>
         </CButton>
@@ -23,26 +23,26 @@
             padding: 4px 8px;
             border-color: #00C9FF;
           ">
-          <div class="d-flex align-items-center gap-2 text-white">
+          <div class="d-flex align-items-center gap-2 dark:!text-white text-black">
             <img :src="downloadIcon" width="15" /> Download CSV
           </div>
         </CButton>
       </div>
-    </div>
+    </div> -->
   </div>
 
-  <div class="mt-5 finance_table" style="position: relative">
-    <div class="financial_header column_loading">
-      <div class="sticky_first_column">
-        <div class="financial_header_text">Financial Statement</div>
-        <div class="collapsed_subheader financial_header_text" @click="visibleProfitLoss = !visibleProfitLoss">
+  <div class="mt-5 finance_table dark:!bg-[#22222224] bg-white" style="position: relative">
+    <div class="financial_header dark:!bg-[#1C1C1C] bg-white column_loading">
+      <div class="sticky_first_column dark:!bg-[#22222224] bg-white">
+        <div class="financial_header_text dark:!text-white text-black">Financial Statement</div>
+        <div class="collapsed_subheader financial_header_text dark:!text-white text-black" @click="visibleProfitLoss = !visibleProfitLoss">
           <div>Profit/Loss</div>
           <div>
             <img :src="arrow_up" :class="visibleProfitLoss ? 'toggle-down' : 'toggle-up'" />
           </div>
         </div>
         <CCollapse :visible="visibleProfitLoss">
-          <div class="financial_header_text">
+          <div class="financial_header_text dark:!text-white text-black">
             <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
               <div v-for="asset in financeData[0].AssetsProfitLossInfo" :key="asset.symbol">
                 {{ asset.symbol }}
@@ -53,10 +53,10 @@
       </div>
       <div style="min-width: 300px; text-align: right"
         v-for="(item, index) in financeData.sort((a, b) => b.start - a.start)" :key="`date-key-${index}`">
-        <div class="financial_header_text">{{ item.date }}</div>
-        <div class="financial_header_subtext">{{ item.dateDays }}</div>
+        <div class="financial_header_text dark:!text-white text-black">{{ item.date }}</div>
+        <div class="financial_header_subtext  dark:!text-white text-black">{{ item.dateDays }}</div>
 
-        <div class="financial_header_subtext d-flex gap-1 justify-content-end">
+        <div class="financial_header_subtext  dark:!text-white text-black d-flex gap-1 justify-content-end">
           (
           <div>
             <CurrencySymbol :symbol="symbol" />{{ formatBigNumber(item.profitLoss, decimals) }}
@@ -68,7 +68,7 @@
           )
         </div>
         <CCollapse :visible="visibleProfitLoss">
-          <div class="financial_header_text">
+          <div class="financial_header_text dark:!text-white text-black">
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsProfitLossInfo"
                 :key="asset.symbol">
@@ -84,19 +84,19 @@
         </CCollapse>
       </div>
     </div>
-    <div class="financial_block_without_bg column_loading">
+    <div class="financial_block_without_bg  dark:!text-white text-black column_loading">
       <div class="sticky_column_without_bg">
-        <div class="financial_header_text" style="font-size: clamp(10px, 0.9vw, 16px)">
+        <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Portfolio
         </div>
         <div class="d-flex flex-column gap-4 pt-3">
-          <div class="collapsed_subheader" @click="visibleLiquidity = !visibleLiquidity">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleLiquidity = !visibleLiquidity">
             <div>Liquidity Deposits/Withdraws</div>
             <div>
               <img :src="arrow_up" :class="visibleLiquidity ? 'toggle-down' : 'toggle-up'" />
             </div>
           </div>
-          <div v-if="visibleLiquidity" class="collapsed_subheader">
+          <div v-if="visibleLiquidity" class="collapsed_subheader dark:!text-white text-black">
             <div>Deposits:</div>
           </div>
           <CCollapse :visible="visibleLiquidity">
@@ -108,7 +108,7 @@
               </div>
             </div>
           </CCollapse>
-          <div v-if="visibleLiquidity" class="collapsed_subheader">
+          <div v-if="visibleLiquidity" class="collapsed_subheader dark:!text-white text-black">
             <div>Withdraws:</div>
           </div>
           <CCollapse :visible="visibleLiquidity">
@@ -120,7 +120,7 @@
               </div>
             </div>
           </CCollapse>
-          <div class="collapsed_subheader" @click="visibleVolume = !visibleVolume">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleVolume = !visibleVolume">
             <div>Trading Volume</div>
             <div>
               <img :src="arrow_up" :class="visibleVolume ? 'toggle-down' : 'toggle-up'" />
@@ -218,13 +218,13 @@
         <div style="height: 27px"></div>
       </div>
     </div>
-    <div class="financial_block_with_bg column_loading">
-      <div class="sticky_column_with_bg">
-        <div class="financial_header_text" style="font-size: clamp(10px, 0.9vw, 16px)">
+    <div class="financial_block_with_bg dark:!bg-[#1C1C1C] bg-white dark:!text-white text-black column_loading">
+      <div class="sticky_column_with_bg dark:!bg-[#22222224] bg-white">
+        <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Income Statement
         </div>
         <div class="d-flex flex-column gap-3 pt-3">
-          <div class="collapsed_subheader" @click="visibleRevenue = !visibleRevenue">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleRevenue = !visibleRevenue">
             <div>Revenue</div>
             <div>
               <img :src="arrow_up" :class="visibleRevenue ? 'toggle-down' : 'toggle-up'" />
@@ -239,7 +239,7 @@
               </div>
             </div>
           </CCollapse>
-          <div class="collapsed_subheader" @click="visibleGasFee = !visibleGasFee">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleGasFee = !visibleGasFee">
             <div>Fees</div>
             <div>
               <img :src="arrow_up" :class="visibleGasFee ? 'toggle-down' : 'toggle-up'" />
@@ -254,7 +254,7 @@
               </div>
             </div>
           </CCollapse>
-          <div class="collapsed_subheader" @click="visibleProfits = !visibleProfits">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleProfits = !visibleProfits">
             <div>Profits</div>
             <div>
               <img :src="arrow_up" :class="visibleProfits ? 'toggle-down' : 'toggle-up'" />
@@ -269,8 +269,8 @@
               </div>
             </div>
           </CCollapse>
-          <div style="padding-left: 15px">(Token Incentives)</div>
-          <div class="financial_header_text" style="font-size: clamp(10px, 0.9vw, 16px)">
+          <div style="padding-left: 15px" class="dark:!text-white text-black">(Token Incentives)</div>
+          <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
             Income Statement
           </div>
         </div>
@@ -348,13 +348,13 @@
       </div>
     </div>
 
-    <div class="financial_block_without_bg column_loading">
+    <div class="financial_block_without_bg  dark:!text-white text-black column_loading">
       <div class="sticky_column_without_bg">
-        <div class="financial_header_text" style="font-size: clamp(10px, 0.9vw, 16px)">
+        <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Holdings
         </div>
         <div class="d-flex flex-column gap-4 pt-3">
-          <div class="collapsed_subheader" @click="visibleInitialLiquidity = !visibleInitialLiquidity">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleInitialLiquidity = !visibleInitialLiquidity">
             <div>Initial Liquidity</div>
             <div>
               <img :src="arrow_up" :class="visibleInitialLiquidity ? 'toggle-down' : 'toggle-up'" />
@@ -369,7 +369,7 @@
               </div>
             </div>
           </CCollapse>
-          <div class="collapsed_subheader" @click="visibleFinalLiquidity = !visibleFinalLiquidity">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleFinalLiquidity = !visibleFinalLiquidity">
             <div>Final Liquidity</div>
             <div>
               <img :src="arrow_up" :class="visibleFinalLiquidity ? 'toggle-down' : 'toggle-up'" />
@@ -385,7 +385,7 @@
             </div>
           </CCollapse>
 
-          <div class="collapsed_subheader" @click="visibleAssets = !visibleAssets">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleAssets = !visibleAssets">
             <div>Assets</div>
             <div>
               <img :src="arrow_up" :class="visibleAssets ? 'toggle-down' : 'toggle-up'" />
@@ -482,14 +482,14 @@
       </div>
     </div>
 
-    <div class="financial_block_with_bg column_loading">
-      <div class="sticky_column_with_bg">
-        <div class="financial_header_text" style="font-size: clamp(10px, 0.9vw, 16px)">
+    <div class="financial_block_with_bg dark:!bg-[#1C1C1C] bg-white dark:!text-white text-black column_loading">
+      <div class="sticky_column_with_bg dark:!bg-[#22222224] bg-white">
+        <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Market Data
         </div>
 
         <div class="d-flex flex-column gap-4 pt-3">
-          <div class="collapsed_subheader" @click="visiblePrice = !visiblePrice">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visiblePrice = !visiblePrice">
             <div>Price</div>
             <div>
               <img :src="arrow_up" :class="visiblePrice ? 'toggle-down' : 'toggle-up'" />
@@ -505,7 +505,7 @@
             </div>
           </CCollapse>
 
-          <div class="collapsed_subheader" @click="visibleCirculatingSupply = !visibleCirculatingSupply">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleCirculatingSupply = !visibleCirculatingSupply">
             <div>Circulating Supply</div>
             <div>
               <img :src="arrow_up" :class="visibleCirculatingSupply ? 'toggle-down' : 'toggle-up'" />
@@ -521,7 +521,7 @@
             </div>
           </CCollapse>
 
-          <div class="collapsed_subheader" @click="visibleMarketCap = !visibleMarketCap">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleMarketCap = !visibleMarketCap">
             <div>Market Cap</div>
             <div>
               <img :src="arrow_up" :class="visibleMarketCap ? 'toggle-down' : 'toggle-up'" />
@@ -537,7 +537,7 @@
             </div>
           </CCollapse>
 
-          <div class="collapsed_subheader" @click="visibleTokenTurnover = !visibleTokenTurnover">
+          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleTokenTurnover = !visibleTokenTurnover">
             <div>Token Turnover</div>
             <div>
               <img :src="arrow_up" :class="visibleTokenTurnover ? 'toggle-down' : 'toggle-up'" />
@@ -837,7 +837,7 @@ onBeforeMount(async () => {
   gap: 40px;
   display: flex;
   width: fit-content;
-  background: #1C1C1C;
+  // background: #1C1C1C;
 }
 
 .column_loading {
@@ -846,14 +846,14 @@ onBeforeMount(async () => {
 
 .financial_header_text {
   font-size: clamp(10px, 0.9vw, 16px);
-  color: rgba(243, 244, 246, 1);
+  // color: rgba(243, 244, 246, 1);
   font-weight: 500;
   margin-bottom: 20px;
 }
 
 .financial_header_subtext {
   font-size: clamp(10px, 0.8vw, 14px);
-  color: rgba(178, 178, 178, 1);
+  // color: rgba(178, 178, 178, 1);
   font-weight: 300;
 }
 
@@ -862,7 +862,7 @@ onBeforeMount(async () => {
   width: fit-content;
 
   gap: 40px;
-  color: rgba(243, 244, 246, 1);
+  // color: rgba(243, 244, 246, 1);
   font-size: clamp(10px, 0.8vw, 14px);
 
   font-weight: 300;
@@ -873,12 +873,12 @@ onBeforeMount(async () => {
 
   border-bottom: 1px solid #2c2c2c;
 
-  background: #1C1C1C;
+  // background: #1C1C1C;
   width: fit-content;
 
   display: flex;
   gap: 40px;
-  color: rgba(243, 244, 246, 1);
+  // color: rgba(243, 244, 246, 1);
   font-size: clamp(10px, 0.8vw, 14px);
 
   font-weight: 300;
@@ -917,7 +917,7 @@ onBeforeMount(async () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color:#22222224;
+  // background-color:#22222224;
 
   padding-left: 10px;
 }
@@ -925,7 +925,7 @@ onBeforeMount(async () => {
 .sticky_column_with_bg {
   min-width: 300px;
   padding: 20px 10px 20px 10px;
-  background: #22222224;
+  // background: #22222224;
 }
 
 .sticky_column_without_bg {
@@ -938,7 +938,7 @@ onBeforeMount(async () => {
 .finance_table {
   border-radius: 20px;
   overflow-x: scroll;
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 4px 0px #00000040;
 
@@ -954,7 +954,7 @@ onBeforeMount(async () => {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 192, 135);
+    background-color: rgb(0, 131, 192);
     border: 6px solid #02120a;
     border-radius: 50px;
   }

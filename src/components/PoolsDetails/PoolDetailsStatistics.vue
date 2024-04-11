@@ -1,25 +1,20 @@
 <template>
-  <div
-    class="stats_container"
-    style="padding: 280px clamp(10px, 0.9vw, 15px)"
-    v-if="chartData && chartData.length === 0"
-  >
-    <LoaderPulse />
-  </div>
-  <div class="stats_container">
+
+  <div class="stats_container dark:!bg-[#22222224] !bg-[white]">
     <div class="stats_column_tables">
       <div class="stats_column_tables_inside">
         <div
-          class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px"
+          class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white] p-[8px]"
+    
         >
-          <div class="d-flex gap-2">
+          <div class="d-flex gap-2 ">
             <div
               style="
-                color: rgba(243, 244, 246, 1);
+         
                 font-weight: 500;
                 font-size: clamp(10px, 0.9vw, 15px);
               "
+              class="text-black dark:!text-white"
             >
               ROI
             </div>
@@ -127,18 +122,19 @@
           </template>
         </DataTable>
       </div>
-      <div class="stats_column_tables_inside">
+      <div class="stats_column_tables_inside ">
         <div
-          class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px"
+          class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white]"
+          style=" padding: 8px"
         >
           <div class="d-flex gap-2">
             <div
               style="
-                color: rgba(243, 244, 246, 1);
+              
                 font-weight: 500;
                 font-size: clamp(10px, 0.9vw, 15px);
               "
+              class="text-black dark:!text-white"
             >
               APR
             </div>
@@ -257,10 +253,10 @@
           <div class="d-flex gap-2">
             <div
               style="
-                color: rgba(243, 244, 246, 1);
                 font-weight: 500;
                 font-size: clamp(10px, 0.9vw, 15px);
               "
+              class="text-black dark:!text-white"
             >
               Profits
             </div>
@@ -335,8 +331,8 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
+            <div class="stats_text text-black dark:!text-white">{{ item.text }}</div>
+            <div class="stats_value text-black dark:!text-white">{{ item.value }}</div>
           </div>
         </div>
         <div
@@ -352,69 +348,14 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item }}</div>
-            <div class="stats_value">
+            <div class="stats_text text-black dark:!text-white">{{ item }}</div>
+            <div class="stats_value text-black dark:!text-white">
               <ThreeDots></ThreeDots>
             </div>
           </div>
         </div>
       </div>
 
-   
-      <!-- <div style="width: 500px; display: flex; flex-direction: column;">
-       <div
-         class="d-flex align-items-center justify-content-between"
-         style="background: #2222225d; padding: 8px"
-       >
-         <div class="d-flex align-items-center gap-2">
-           <div class="d-flex gap-2">
-             <div
-               style="
-                 color: rgba(243, 244, 246, 1);
-                 font-weight: 500;
-                 font-size: clamp(10px, 0.9vw, 15px);
-               "
-             >
-               Return on Investments
-             </div>
-             <img :src="info" />
-             <div class="vr"></div>
-           </div>
-
-           <div
-             class="d-flex gap-2 align-items-center"
-             style="cursor: pointer"
-           >
-             <img :src="InvestSettings" />
-             <div class="stats_text" style="color: #00C9FF">
-               USD
-             </div>
-           </div>
-         </div>
-         <img :src="calendar" />
-       </div>
-       <div
-         v-for="item in returnInvestMOCK"
-         :key="item"
-         style="padding: 0px 8px"
-       >
-         <div
-           class="d-flex align-items-center justify-content-between"
-           style="
-             border-bottom: 1px solid rgba(44, 44, 44, 0.2);
-             padding: 8px 0px;
-           "
-         >
-           <div class="stats_text">{{ item.text }}</div>
-           <div
-             class="stats_value"
-             :class="item.value < 0 ? 'text-danger' : 'text-success'"
-           >
-             {{ item.value }}
-           </div>
-         </div>
-       </div>
-     </div> -->
 
       <div class="stats_column_inside">
         <div
@@ -424,10 +365,11 @@
           <div class="d-flex gap-2">
             <div
               style="
-                color: rgba(243, 244, 246, 1);
+
                 font-weight: 500;
                 font-size: clamp(10px, 0.9vw, 15px);
               "
+              class="text-black dark:!text-white"
             >
               Risk Metrics
             </div>
@@ -544,8 +486,8 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
+            <div class="stats_text text-black dark:!text-white">{{ item.text }}</div>
+            <div class="stats_value text-black dark:!text-white">{{ item.value }}</div>
           </div>
         </div>
         <div
@@ -561,8 +503,8 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item }}</div>
-            <div class="stats_value">
+            <div class="stats_text text-black dark:!text-white">{{ item }}</div>
+            <div class="stats_value text-black dark:!text-white">
               <ThreeDots></ThreeDots>
             </div>
           </div>
@@ -577,10 +519,10 @@
           <div class="d-flex gap-2">
             <div
               style="
-                color: rgba(243, 244, 246, 1);
                 font-weight: 500;
                 font-size: clamp(10px, 0.9vw, 15px);
               "
+              class="text-black dark:!text-white"
             >
               Drawdowns
             </div>
@@ -663,8 +605,8 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
+            <div class="stats_text text-black dark:!text-white">{{ item.text }}</div>
+            <div class="stats_value text-black dark:!text-white">{{ item.value }}</div>
           </div>
         </div>
         <div
@@ -680,8 +622,8 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item }}</div>
-            <div class="stats_value">
+            <div class="stats_text text-black dark:!text-white ">{{ item }}</div>
+            <div class="stats_value text-black dark:!text-white">
               <ThreeDots></ThreeDots>
             </div>
           </div>
@@ -699,10 +641,10 @@
             <div class="d-flex gap-2 align-items-baseline">
               <div
                 style="
-                  color: rgba(243, 244, 246, 1);
                   font-weight: 500;
                   font-size: clamp(10px, 0.9vw, 15px);
                 "
+                class="text-black dark:!text-white"
               >
                 {{ AssetsChart }}
               </div>
@@ -809,10 +751,10 @@
             <div class="d-flex gap-2 align-items-baseline">
               <div
                 style="
-                  color: rgba(243, 244, 246, 1);
                   font-weight: 500;
                   font-size: clamp(10px, 0.9vw, 15px);
                 "
+                class="text-black dark:!text-white"
               >
                 {{ BreakdownChart }}
               </div>
@@ -1275,7 +1217,7 @@ watch(chartData, async () => {
 }
 
 .stats_text {
-  color: rgba(243, 244, 246, 1);
+  // color: rgba(243, 244, 246, 1);
   font-family: Poppins;
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 400;
@@ -1285,7 +1227,7 @@ watch(chartData, async () => {
 }
 
 .stats_value {
-  color: white;
+  // color: white;
   margin-right: 15px;
   font-family: Poppins;
   font-size: clamp(10px, 0.8vw, 13px);
@@ -1296,8 +1238,8 @@ watch(chartData, async () => {
 }
 
 .table_header_cell_bg {
-  background: #2c2c2c50 !important;
-  color: #9299aa !important;
+  // background: #2c2c2c50 !important;
+  // color: #9299aa !important;
   font-weight: 500 !important;
 }
 
@@ -1308,12 +1250,9 @@ watch(chartData, async () => {
 .diagram-container {
   border-width: 0px, 1px, 1px, 1px;
   padding: clamp(10px, 0.9vw, 15px);
-  background: linear-gradient(152.97deg, #1c1c1c 0%, rgba(0, 0, 0, 0) 100%);
   border-radius: 0px 0px 8px 8px;
   border-style: solid;
-  box-shadow: 0px 4px 4px 0px #00000040;
 
-  border-color: #a3a4a50e;
 
   .apexcharts-inner {
     filter: drop-shadow(0 0 0.55rem rgba(98, 104, 143, 1));
@@ -1340,7 +1279,7 @@ watch(chartData, async () => {
   justify-content: space-between;
   padding: 30px 18px;
   border-radius: 20px;
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;
 }

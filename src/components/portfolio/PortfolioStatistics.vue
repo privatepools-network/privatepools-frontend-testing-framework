@@ -1,19 +1,12 @@
 <template>
-  <div class="stats_container">
+  <div class="stats_container dark:!bg-[#22222224] !bg-[white]">
     <div class="stats_column_tables">
       <div class="stats_column_tables_inside">
         <div
-          class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px"
+          class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white] p-2"
         >
-          <div class="d-flex gap-2">
-            <div
-              style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              "
-            >
+          <div class="d-flex gap-2 items-center">
+            <div class="font-medium text-sm text-black dark:!text-white">
               ROI
             </div>
             <VTooltip
@@ -22,7 +15,28 @@
               :placement="'right'"
             >
               <div style="cursor: help">
-                <img :src="info" class="info_icon" />
+                  <svg
+                  class="info_icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+        12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
+        10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
+        9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
+        15.9C2.26333 14.6833 2.00067 13.3833 2 12C2 10.6167 2.26267 9.31667 2.788 8.1C3.31333 6.88333 4.02567 5.825
+        4.925 4.925C5.825 4.025 6.88333 3.31267 8.1 2.788C9.31667 2.26333 10.6167 2.00067 12 2C13.3833 2 14.6833 2.26267
+        15.9 2.788C17.1167 3.31333 18.175 4.02567 19.075 4.925C19.975 5.825 20.6877 6.88333 21.213 8.1C21.7383 9.31667
+        22.0007 10.6167 22 12C22 13.3833 21.7373 14.6833 21.212 15.9C20.6867 17.1167 19.9743 18.175 19.075 19.075C18.175
+        19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
+        17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
+        7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
+        12 20Z"
+                    class="dark:!fill-white fill-black"
+                  />
+                </svg>
               </div>
               <template #popper>
                 <div
@@ -122,17 +136,11 @@
       </div>
       <div class="stats_column_tables_inside">
         <div
-          class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px"
+          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
+      
         >
-          <div class="d-flex gap-2">
-            <div
-              style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              "
-            >
+          <div class="d-flex gap-2 items-center">
+            <div class="font-medium text-sm text-black dark:!text-white">
               APR
             </div>
             <VTooltip
@@ -141,7 +149,28 @@
               :placement="'right'"
             >
               <div style="cursor: help">
-                <img :src="info" class="info_icon" />
+                  <svg
+                  class="info_icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+        12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
+        10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
+        9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
+        15.9C2.26333 14.6833 2.00067 13.3833 2 12C2 10.6167 2.26267 9.31667 2.788 8.1C3.31333 6.88333 4.02567 5.825
+        4.925 4.925C5.825 4.025 6.88333 3.31267 8.1 2.788C9.31667 2.26333 10.6167 2.00067 12 2C13.3833 2 14.6833 2.26267
+        15.9 2.788C17.1167 3.31333 18.175 4.02567 19.075 4.925C19.975 5.825 20.6877 6.88333 21.213 8.1C21.7383 9.31667
+        22.0007 10.6167 22 12C22 13.3833 21.7373 14.6833 21.212 15.9C20.6867 17.1167 19.9743 18.175 19.075 19.075C18.175
+        19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
+        17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
+        7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
+        12 20Z"
+                    class="dark:!fill-white fill-black"
+                  />
+                </svg>
               </div>
               <template #popper>
                 <div
@@ -240,20 +269,13 @@
         </DataTable>
       </div>
     </div>
-    <div class="stats_column gap-xxl-5 gap-1">
+    <div class="stats_column gap-xxl-5 gap-3">
       <div class="stats_column_inside">
         <div
-          class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px"
+          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
         >
-          <div class="d-flex gap-2">
-            <div
-              style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              "
-            >
+          <div class="d-flex gap-2 items-center">
+            <div class="font-medium text-sm text-black dark:!text-white">
               Drawdowns
             </div>
             <VTooltip
@@ -262,7 +284,28 @@
               :placement="'right'"
             >
               <div style="cursor: help">
-                <img :src="info" class="info_icon" />
+                  <svg
+                  class="info_icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+        12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
+        10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
+        9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
+        15.9C2.26333 14.6833 2.00067 13.3833 2 12C2 10.6167 2.26267 9.31667 2.788 8.1C3.31333 6.88333 4.02567 5.825
+        4.925 4.925C5.825 4.025 6.88333 3.31267 8.1 2.788C9.31667 2.26333 10.6167 2.00067 12 2C13.3833 2 14.6833 2.26267
+        15.9 2.788C17.1167 3.31333 18.175 4.02567 19.075 4.925C19.975 5.825 20.6877 6.88333 21.213 8.1C21.7383 9.31667
+        22.0007 10.6167 22 12C22 13.3833 21.7373 14.6833 21.212 15.9C20.6867 17.1167 19.9743 18.175 19.075 19.075C18.175
+        19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
+        17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
+        7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
+        12 20Z"
+                    class="dark:!fill-white fill-black"
+                  />
+                </svg>
               </div>
               <template #popper>
                 <div
@@ -335,8 +378,8 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
+            <div class="stats_text dark:!text-white text-black">{{ item.text }}</div>
+            <div class="stats_value dark:!text-white text-black">{{ item.value }}</div>
           </div>
         </div>
         <div
@@ -352,81 +395,20 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item }}</div>
-            <div class="stats_value">
+            <div class="stats_text dark:!text-white text-black">{{ item }}</div>
+            <div class="stats_value dark:!text-white text-black">
               <ThreeDots></ThreeDots>
             </div>
           </div>
         </div>
       </div>
-      <!-- <div style="width: 500px; display: flex; flex-direction: column;">
-        <div
-          class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px"
-        >
-          <div class="d-flex align-items-center gap-2">
-            <div class="d-flex gap-2">
-              <div
-                style="
-                  color: rgba(243, 244, 246, 1);
-                  font-weight: 500;
-                  font-size: clamp(10px, 0.9vw, 15px);
-                "
-              >
-                Return on Investments
-              </div>
-              <img :src="info" />
-              <div class="vr"></div>
-            </div>
-
-            <div
-              class="d-flex gap-2 align-items-center"
-              style="cursor: pointer"
-            >
-              <img :src="InvestSettings" />
-              <div class="stats_text" style="color: #00C9FF">
-                USD
-              </div>
-            </div>
-          </div>
-          <img :src="calendar" />
-        </div>
-        <div
-          v-for="item in returnInvestMOCK"
-          :key="item"
-          style="padding: 0px 8px"
-        >
-          <div
-            class="d-flex align-items-center justify-content-between"
-            style="
-              border-bottom: 1px solid rgba(44, 44, 44, 0.2);
-              padding: 8px 0px;
-            "
-          >
-            <div class="stats_text">{{ item.text }}</div>
-            <div
-              class="stats_value"
-              :class="item.value < 0 ? 'text-danger' : 'text-success'"
-            >
-              {{ item.value }}
-            </div>
-          </div>
-        </div>
-      </div> -->
 
       <div class="stats_column_inside">
         <div
-          class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px"
+          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
         >
-          <div class="d-flex gap-2">
-            <div
-              style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              "
-            >
+          <div class="d-flex gap-2 items-center">
+            <div class="font-medium text-sm text-black dark:!text-white">
               Risk Metrics
             </div>
             <VTooltip
@@ -435,7 +417,28 @@
               :placement="'right'"
             >
               <div style="cursor: help">
-                <img :src="info" class="info_icon" />
+                  <svg
+                  class="info_icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+        12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
+        10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
+        9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
+        15.9C2.26333 14.6833 2.00067 13.3833 2 12C2 10.6167 2.26267 9.31667 2.788 8.1C3.31333 6.88333 4.02567 5.825
+        4.925 4.925C5.825 4.025 6.88333 3.31267 8.1 2.788C9.31667 2.26333 10.6167 2.00067 12 2C13.3833 2 14.6833 2.26267
+        15.9 2.788C17.1167 3.31333 18.175 4.02567 19.075 4.925C19.975 5.825 20.6877 6.88333 21.213 8.1C21.7383 9.31667
+        22.0007 10.6167 22 12C22 13.3833 21.7373 14.6833 21.212 15.9C20.6867 17.1167 19.9743 18.175 19.075 19.075C18.175
+        19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
+        17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
+        7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
+        12 20Z"
+                    class="dark:!fill-white fill-black"
+                  />
+                </svg>
               </div>
               <template #popper>
                 <div
@@ -542,8 +545,8 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
+            <div class="stats_text dark:!text-white text-black">{{ item.text }}</div>
+            <div class="stats_value dark:!text-white text-black">{{ item.value }}</div>
           </div>
         </div>
         <div
@@ -559,8 +562,8 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item }}</div>
-            <div class="stats_value">
+            <div class="stats_text dark:!text-white text-black">{{ item }}</div>
+            <div class="stats_value dark:!text-white text-black">
               <ThreeDots></ThreeDots>
             </div>
           </div>
@@ -569,17 +572,10 @@
 
       <div class="stats_column_inside">
         <div
-          class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px"
+          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
         >
-          <div class="d-flex gap-2">
-            <div
-              style="
-                color: rgba(243, 244, 246, 1);
-                font-weight: 500;
-                font-size: clamp(10px, 0.9vw, 15px);
-              "
-            >
+          <div class="d-flex gap-2 items-center">
+            <div class="font-medium text-sm text-black dark:!text-white">
               Profits
             </div>
             <VTooltip
@@ -588,7 +584,28 @@
               :placement="'right'"
             >
               <div style="cursor: help">
-                <img :src="info" class="info_icon" />
+                  <svg
+                  class="info_icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+        12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
+        10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
+        9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
+        15.9C2.26333 14.6833 2.00067 13.3833 2 12C2 10.6167 2.26267 9.31667 2.788 8.1C3.31333 6.88333 4.02567 5.825
+        4.925 4.925C5.825 4.025 6.88333 3.31267 8.1 2.788C9.31667 2.26333 10.6167 2.00067 12 2C13.3833 2 14.6833 2.26267
+        15.9 2.788C17.1167 3.31333 18.175 4.02567 19.075 4.925C19.975 5.825 20.6877 6.88333 21.213 8.1C21.7383 9.31667
+        22.0007 10.6167 22 12C22 13.3833 21.7373 14.6833 21.212 15.9C20.6867 17.1167 19.9743 18.175 19.075 19.075C18.175
+        19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
+        17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
+        7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
+        12 20Z"
+                    class="dark:!fill-white fill-black"
+                  />
+                </svg>
               </div>
               <template #popper>
                 <div
@@ -653,8 +670,8 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item.text }}</div>
-            <div class="stats_value">{{ item.value }}</div>
+            <div class="stats_text dark:!text-white text-black">{{ item.text }}</div>
+            <div class="stats_value dark:!text-white text-black">{{ item.value }}</div>
           </div>
         </div>
         <div
@@ -670,8 +687,8 @@
               padding: 8px 0px;
             "
           >
-            <div class="stats_text">{{ item }}</div>
-            <div class="stats_value">
+            <div class="stats_text dark:!text-white text-black">{{ item }}</div>
+            <div class="stats_value dark:!text-white text-black">
               <ThreeDots></ThreeDots>
             </div>
           </div>
@@ -681,17 +698,16 @@
     <div class="stats_column_charts" style="gap: 30px">
       <div class="stats_column_inside">
         <div
-          class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px"
+          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
         >
           <div class="d-flex align-items-center gap-2">
-            <div class="d-flex gap-2 align-items-baseline">
+            <div class="d-flex gap-2 items-center align-items-baseline">
               <div
                 style="
-                  color: rgba(243, 244, 246, 1);
                   font-weight: 500;
                   font-size: clamp(10px, 0.9vw, 15px);
                 "
+                class="dark:!text-white text-black"
               >
                 {{ AssetsChart }}
               </div>
@@ -699,7 +715,28 @@
           </div>
           <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
             <div style="cursor: help">
-              <img :src="info" class="info_icon" />
+                <svg
+                  class="info_icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+        12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
+        10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
+        9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
+        15.9C2.26333 14.6833 2.00067 13.3833 2 12C2 10.6167 2.26267 9.31667 2.788 8.1C3.31333 6.88333 4.02567 5.825
+        4.925 4.925C5.825 4.025 6.88333 3.31267 8.1 2.788C9.31667 2.26333 10.6167 2.00067 12 2C13.3833 2 14.6833 2.26267
+        15.9 2.788C17.1167 3.31333 18.175 4.02567 19.075 4.925C19.975 5.825 20.6877 6.88333 21.213 8.1C21.7383 9.31667
+        22.0007 10.6167 22 12C22 13.3833 21.7373 14.6833 21.212 15.9C20.6867 17.1167 19.9743 18.175 19.075 19.075C18.175
+        19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
+        17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
+        7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
+        12 20Z"
+                    class="dark:!fill-white fill-black"
+                  />
+                </svg>
             </div>
             <template #popper>
               <div
@@ -791,17 +828,16 @@
 
       <div class="stats_column_inside">
         <div
-          class="d-flex align-items-center justify-content-between"
-          style="background: #2222225d; padding: 8px"
+          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
         >
           <div class="d-flex align-items-center gap-2">
-            <div class="d-flex gap-2 align-items-baseline">
+            <div class="d-flex gap-2 items-center align-items-baseline">
               <div
                 style="
-                  color: rgba(243, 244, 246, 1);
                   font-weight: 500;
                   font-size: clamp(10px, 0.9vw, 15px);
                 "
+                 class="dark:!text-white text-black"
               >
                 {{ BreakdownChart }}
               </div>
@@ -809,7 +845,28 @@
           </div>
           <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
             <div style="cursor: help">
-              <img :src="info" class="info_icon" />
+                <svg
+                  class="info_icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+        12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
+        10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
+        9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
+        15.9C2.26333 14.6833 2.00067 13.3833 2 12C2 10.6167 2.26267 9.31667 2.788 8.1C3.31333 6.88333 4.02567 5.825
+        4.925 4.925C5.825 4.025 6.88333 3.31267 8.1 2.788C9.31667 2.26333 10.6167 2.00067 12 2C13.3833 2 14.6833 2.26267
+        15.9 2.788C17.1167 3.31333 18.175 4.02567 19.075 4.925C19.975 5.825 20.6877 6.88333 21.213 8.1C21.7383 9.31667
+        22.0007 10.6167 22 12C22 13.3833 21.7373 14.6833 21.212 15.9C20.6867 17.1167 19.9743 18.175 19.075 19.075C18.175
+        19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
+        17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
+        7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
+        12 20Z"
+                    class="dark:!fill-white fill-black"
+                  />
+                </svg>
             </div>
             <template #popper>
               <div
@@ -954,7 +1011,7 @@ function dynamicDonut(labels, arrayOfColors, data) {
       // fontFamily: 'Lato',
       fontWeight: 600,
       labels: {
-        colors: 'white',
+        colors: '#999',
         useSeriesColors: false,
       },
       markers: {
@@ -1291,8 +1348,8 @@ watch(chainSelected, async () => {
   color: rgba(248, 81, 73, 1) !important;
 }
 
-.stats_text {
-  color: rgba(243, 244, 246, 1);
+.stats_text  {
+  // color: rgba(243, 244, 246, 1);
   font-family: Poppins;
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 400;
@@ -1301,7 +1358,7 @@ watch(chainSelected, async () => {
   text-align: left;
 }
 
-.stats_value {
+.stats_value  {
   color: white;
   margin-right: 15px;
   font-family: Poppins;
@@ -1325,11 +1382,8 @@ watch(chainSelected, async () => {
 .diagram-container {
   border-width: 0px, 1px, 1px, 1px;
   padding: clamp(10px, 0.9vw, 15px);
-  background: linear-gradient(152.97deg, #1c1c1c 0%, rgba(0, 0, 0, 0) 100%);
 
   border-style: solid;
-
-  border-color: #a3a4a50e;
 
   .apexcharts-inner {
     filter: drop-shadow(0 0 0.55rem rgba(98, 104, 143, 1));
@@ -1356,7 +1410,7 @@ watch(chainSelected, async () => {
   justify-content: space-between;
   padding: 30px 18px;
   border-radius: 20px;
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;
 }
@@ -1400,7 +1454,7 @@ watch(chainSelected, async () => {
   }
 
   .stats_column_tables {
-    gap: 0px;
+    // gap: 0px;
     width: 35%;
   }
 
@@ -1420,7 +1474,7 @@ watch(chainSelected, async () => {
 
   .stats_column_tables {
     margin-top: 20px;
-    gap: 0px;
+    // gap: 0px;
     width: 100%;
   }
 
