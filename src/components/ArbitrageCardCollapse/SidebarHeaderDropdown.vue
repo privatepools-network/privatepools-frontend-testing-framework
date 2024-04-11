@@ -7,7 +7,7 @@
                 </div>
             </div>
             <div style="
-                font-family: Inter;
+                font-family: Poppins;
                 color: white;
                 width: 100%;
               ">

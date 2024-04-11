@@ -265,7 +265,7 @@
       }
   
       &__activity {
-        font-family: Inter;
+        font-family: Poppins;
         font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
@@ -314,7 +314,7 @@
     padding: 3px 5px;
   
     &_name {
-      font-family: Inter;
+      font-family: Poppins;
       font-size: 12px;
       font-weight: 400;
       line-height: 24px;
@@ -322,7 +322,7 @@
     }
   
     &_weight {
-      font-family: Inter;
+      font-family: Poppins;
       font-size: 12px;
       font-weight: 400;
       line-height: 16px;
@@ -334,13 +334,13 @@
     padding: 4px;
     border-radius: 4px;
     font-size: 10px;
-    font-family: Inter;
+    font-family: Poppins;
     font-weight: 600;
     line-height: 16px;
     letter-spacing: 0em;
   
     &_WP {
-      background: linear-gradient(45deg, #2abdff 0%, #0e3e9b 100%);
+      background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
     }
   
     &_CL {
@@ -352,7 +352,7 @@
   
   .liquidity_button {
     border-radius: 12px;
-    font-family: Inter;
+    font-family: Poppins;
     font-size: 12px;
     font-weight: 700;
     line-height: 21px;
@@ -372,18 +372,18 @@
     }
   
     &_WP {
-      background: linear-gradient(45deg, #2abdff 0%, #0e3e9b 100%);
+      background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
       box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
   
       &:hover {
         cursor: pointer;
-        filter: drop-shadow(0 0 0.4rem #2abdff);
+        filter: drop-shadow(0 0 0.4rem #00e0ff);
       }
     }
   }
   
   .liquidity_button_text {
-    font-family: Inter;
+    font-family: Poppins;
     font-size: 12px;
     font-weight: 400;
     line-height: 21px;
@@ -429,19 +429,19 @@
   }
   
   .actions_button {
-    font-family: Inter;
+    font-family: Poppins;
     font-size: 10px;
     font-weight: 600;
     line-height: 21px;
     color: #ffffff;
-    border: 1px solid #2abdff;
+    border: 1px solid #00e0ff;
     padding: 6px 10px;
     border-radius: 20px;
     box-shadow: 0px 4px 8.899999618530273px 0px #2775ca33;
     text-transform: uppercase;
   
     &:hover {
-      filter: drop-shadow(0 0 0.2rem #2abdff);
+      filter: drop-shadow(0 0 0.2rem #00e0ff);
       background: #2abcffa4;
       cursor: pointer;
     }

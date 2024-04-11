@@ -17,13 +17,13 @@
             <div class="popup bg-white dark:!bg-[#171717]" style="width: 100px;">
             <a href="/general" :class="router.currentRoute.value.path === '/general'
               ? 'navigation_text_selected navigation_text'
-              : 'navigation_text  !text-black dark:!text-[#7d7d7d] hover:!text-[#2abdff]'
+              : 'navigation_text  !text-black dark:!text-[#7d7d7d] hover:!text-[#00e0ff]'
               ">
               General
             </a>
             <a href="/user_analytics"  :class="router.currentRoute.value.path === '/user_analytics'
               ? 'navigation_text_selected navigation_text'
-              : 'navigation_text  !text-black dark:!text-[#7d7d7d] hover:!text-[#2abdff]'
+              : 'navigation_text  !text-black dark:!text-[#7d7d7d] hover:!text-[#00e0ff]'
               ">
               User
             </a>
@@ -58,7 +58,7 @@ import { Dropdown } from 'floating-vue'
 </script>
 <style lang="scss" scoped>
 .navigation_text {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: clamp(10px, 0.8vw, 15px);
   font-weight: 600;
   line-height: 22px;
@@ -68,12 +68,12 @@ import { Dropdown } from 'floating-vue'
   text-decoration: none;
 
   &:hover {
-    color: #2abdff;
+    color: #00e0ff;
     cursor: pointer;
   }
 
   &_selected {
-    background: -webkit-linear-gradient(#2775ca, #2abdff);
+    background: -webkit-linear-gradient(#2775ca, #00e0ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 0.7rem #00c9ff);

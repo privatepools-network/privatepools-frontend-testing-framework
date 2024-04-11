@@ -1,19 +1,17 @@
 // Here you can add other styles
 
-
-
-
 $form-switch-checked-color: red !important;
 
 $primary: #181c1f;
 
 * {
-  font-family: Poppins;
+  font-family: "Poppins", sans-serif;
+  font-optical-sizing: auto;
 }
 
-select {
-  font-family: Poppins;
-}
+// select {
+//   font-family: Poppins;
+// }
 
 input {
   --tw-ring-shadow: 0 0 #000 !important;
@@ -25,10 +23,8 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-
-
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -74,13 +70,16 @@ input[type=number] {
   position: relative;
   border-radius: 0px;
   border-width: 2px;
-  border-image: conic-gradient(rgba(22, 38, 37, 1),
+  border-image: conic-gradient(
+      rgba(22, 38, 37, 1),
       rgba(24, 28, 31, 1),
       rgba(7, 139, 100, 1),
       #133830,
       rgba(24, 28, 31, 1),
       rgba(7, 139, 100, 1),
-      #133830) 1;
+      #133830
+    )
+    1;
 }
 
 .table-header-font {
@@ -103,7 +102,7 @@ input[type=number] {
 }
 
 .price-group {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 15px;
   font-weight: 600;
   line-height: 18px;
@@ -138,7 +137,7 @@ input[type=number] {
 .search-input-group {
   // background: #0f1113;
   // opacity: 0.8;
-  border: 1px solid #FFFFFF38;
+  border: 1px solid #ffffff38;
 
   border-radius: 24px;
   width: 240px;
@@ -161,7 +160,7 @@ input[type=number] {
   background: #078c65;
   border-radius: 0px 4px 4px 0px;
   color: white;
-  font-family: Lato;
+  // font-family: Lato;
   font-size: 14px;
   font-weight: 700;
   line-height: 14px;
@@ -211,7 +210,7 @@ input[type=number] {
   float: none !important;
   align-items: center;
   background: #181c1f;
-  border: 1px solid #00C9FF;
+  border: 1px solid #00c9ff;
   border-radius: 4px;
   max-width: 150px;
   display: flex;
@@ -223,7 +222,7 @@ input[type=number] {
   position: relative;
   width: 5px;
   height: 25px;
-  background-color: #00C9FF;
+  background-color: #00c9ff;
   transform: rotate(15deg);
   transform-origin: top left;
   margin-left: 10px;
@@ -246,7 +245,7 @@ input[type=number] {
 
 .active-tab {
   color: black !important;
-  background: #00C9FF;
+  background: #00c9ff;
 }
 .modal-dialog {
   // position: fixed;
@@ -257,8 +256,7 @@ input[type=number] {
 .modal-content {
   background: #141414;
 
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
-
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
   border: transparent;
   border-radius: 20px;
@@ -271,7 +269,7 @@ input[type=number] {
 }
 
 .fade {
-  background: none
+  background: none;
 }
 
 .overlay {
@@ -327,7 +325,12 @@ input[type=number] {
   overflow: hidden;
   border: 1px solid;
   background: linear-gradient(152.97deg, #000000 0%, rgba(0, 0, 0, 0) 40%);
-  border-image-source: linear-gradient(90deg, rgba(11, 12, 13, 0) 0%, #E0E1E2 49.52%, rgba(224, 225, 226, 0.15625) 99.04%);
+  border-image-source: linear-gradient(
+    90deg,
+    rgba(11, 12, 13, 0) 0%,
+    #e0e1e2 49.52%,
+    rgba(224, 225, 226, 0.15625) 99.04%
+  );
   backdrop-filter: blur(60px);
 }
 
@@ -346,7 +349,7 @@ input[type=number] {
   background: rgba(177, 240, 134, 0.1);
 }
 
-.sidebar-nav .nav-link.active>.nav-symbol {
+.sidebar-nav .nav-link.active > .nav-symbol {
   // filter: drop-shadow(0 0 0.3rem #00C9FF);
 }
 
@@ -374,7 +377,7 @@ input[type=number] {
 
 .nav-symbol {
   border-radius: 12px;
-  background-color: #00C9FF;
+  background-color: #00c9ff;
   display: flex;
   margin-right: 10px; // Adjust this value for more/less spacing
   align-items: center;
@@ -385,7 +388,6 @@ input[type=number] {
   padding-bottom: 6px;
   margin-left: 0px;
 }
-
 
 .info_icon {
   width: 0.9vw !important;
@@ -487,8 +489,10 @@ input[type=number] {
 }
 
 .slider-tooltip-drag .slider-active .slider-tooltip,
-.slider-tooltip-drag.slider-state-drag .slider-tooltip:not(.slider-tooltip-hidden),
-.slider-tooltip-focus.slider-focused .slider-tooltip:not(.slider-tooltip-hidden) {
+.slider-tooltip-drag.slider-state-drag
+  .slider-tooltip:not(.slider-tooltip-hidden),
+.slider-tooltip-focus.slider-focused
+  .slider-tooltip:not(.slider-tooltip-hidden) {
   display: block !important;
 }
 
@@ -499,7 +503,10 @@ input[type=number] {
 .slider-horizontal .slider-handle {
   height: var(--slider-handle-height, 16px);
   right: calc(var(--slider-handle-width, 16px) / 2 * -1);
-  top: calc((var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 * -1 + -1px);
+  top: calc(
+    (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 * -1 +
+      -1px
+  );
   width: var(--slider-handle-width, 16px);
 }
 
@@ -511,7 +518,10 @@ input[type=number] {
 .slider-vertical .slider-handle {
   bottom: calc(var(--slider-handle-width, 16px) / 2 * -1);
   height: var(--slider-handle-width, 16px);
-  right: calc((var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 * -1 + -1px);
+  right: calc(
+    (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 * -1 +
+      -1px
+  );
   width: var(--slider-handle-height, 16px);
 }
 
@@ -530,7 +540,7 @@ input[type=number] {
 }
 
 .slider-connect {
-  background: var(--slider-connect-bg, #00C9FF);
+  background: var(--slider-connect-bg, #00c9ff);
   cursor: pointer;
 }
 
@@ -546,8 +556,10 @@ input[type=number] {
   background: var(--slider-handle-bg, #fff);
   border: var(--slider-handle-border, 0);
   border-radius: var(--slider-handle-radius, 9999px);
-  box-shadow: var(--slider-handle-shadow,
-      0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32));
+  box-shadow: var(
+    --slider-handle-shadow,
+    0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32)
+  );
   cursor: -webkit-grab;
   cursor: grab;
   height: var(--slider-handle-height, 16px);
@@ -555,14 +567,17 @@ input[type=number] {
 }
 
 .slider-handle:focus {
-  box-shadow: 0 0 0 var(--slider-handle-ring-width, 3px) var(--slider-handle-ring-color, rgba(16, 185, 129, 0.188)),
+  box-shadow: 0 0 0 var(--slider-handle-ring-width, 3px)
+      var(--slider-handle-ring-color, rgba(16, 185, 129, 0.188)),
     var(--slider-handle-shadow, 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32));
   outline: none;
 }
 
 .slider-active {
-  box-shadow: var(--slider-handle-shadow-active,
-      0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.42));
+  box-shadow: var(
+    --slider-handle-shadow-active,
+    0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.42)
+  );
   cursor: -webkit-grabbing;
   cursor: grabbing;
 }
@@ -599,7 +614,10 @@ input[type=number] {
 }
 
 .slider-horizontal .slider-tooltip-top {
-  bottom: calc(var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) + var(--slider-tooltip-distance, 3px));
+  bottom: calc(
+    var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) +
+      var(--slider-tooltip-distance, 3px)
+  );
   left: 50%;
   transform: translate(-50%);
 }
@@ -618,7 +636,10 @@ input[type=number] {
 
 .slider-horizontal .slider-tooltip-bottom {
   left: 50%;
-  top: calc(var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) + var(--slider-tooltip-distance, 3px));
+  top: calc(
+    var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) +
+      var(--slider-tooltip-distance, 3px)
+  );
   transform: translate(-50%);
 }
 
@@ -635,7 +656,10 @@ input[type=number] {
 }
 
 .slider-vertical .slider-tooltip-left {
-  right: calc(var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) + var(--slider-tooltip-distance, 3px));
+  right: calc(
+    var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) +
+      var(--slider-tooltip-distance, 3px)
+  );
   top: 50%;
   transform: translateY(-50%);
 }
@@ -653,7 +677,10 @@ input[type=number] {
 }
 
 .slider-vertical .slider-tooltip-right {
-  left: calc(var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) + var(--slider-tooltip-distance, 3px));
+  left: calc(
+    var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) +
+      var(--slider-tooltip-distance, 3px)
+  );
   top: 50%;
   transform: translateY(-50%);
 }
@@ -670,28 +697,51 @@ input[type=number] {
   width: 0;
 }
 
-.slider-horizontal .slider-origin>.slider-tooltip {
+.slider-horizontal .slider-origin > .slider-tooltip {
   left: auto;
   transform: translate(50%);
 }
 
-.slider-horizontal .slider-origin>.slider-tooltip-top {
-  bottom: calc(var(--slider-tooltip-arrow-size, 5px) + (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 + var(--slider-tooltip-distance, 3px) + 1px);
+.slider-horizontal .slider-origin > .slider-tooltip-top {
+  bottom: calc(
+    var(--slider-tooltip-arrow-size, 5px) +
+      (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 +
+      var(--slider-tooltip-distance, 3px) + 1px
+  );
 }
 
-.slider-horizontal .slider-origin>.slider-tooltip-bottom {
-  top: calc(var(--slider-tooltip-arrow-size, 5px) + (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 + var(--slider-tooltip-distance, 3px) + var(--slider-height, 6px) - 1px);
+.slider-horizontal .slider-origin > .slider-tooltip-bottom {
+  top: calc(
+    var(--slider-tooltip-arrow-size, 5px) +
+      (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 +
+      var(--slider-tooltip-distance, 3px) + var(--slider-height, 6px) - 1px
+  );
 }
 
-.slider-vertical .slider-origin>.slider-tooltip {
+.slider-vertical .slider-origin > .slider-tooltip {
   top: auto;
-  transform: translateY(calc((var(--slider-tooltip-line-height, 1.25rem) - var(--slider-tooltip-py, 2px)) * -1 + 1px));
+  transform: translateY(
+    calc(
+      (
+          var(--slider-tooltip-line-height, 1.25rem) -
+            var(--slider-tooltip-py, 2px)
+        ) * -1 + 1px
+    )
+  );
 }
 
-.slider-vertical .slider-origin>.slider-tooltip-left {
-  right: calc(var(--slider-tooltip-arrow-size, 5px) + var(--slider-height, 6px) + (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 + var(--slider-tooltip-distance, 3px) - 1px);
+.slider-vertical .slider-origin > .slider-tooltip-left {
+  right: calc(
+    var(--slider-tooltip-arrow-size, 5px) + var(--slider-height, 6px) +
+      (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 +
+      var(--slider-tooltip-distance, 3px) - 1px
+  );
 }
 
-.slider-vertical .slider-origin>.slider-tooltip-right {
-  left: calc(var(--slider-tooltip-arrow-size, 5px) + var(--slider-height, 6px) + (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 + var(--slider-tooltip-distance, 3px) - var(--slider-height, 6px) + 1px);
+.slider-vertical .slider-origin > .slider-tooltip-right {
+  left: calc(
+    var(--slider-tooltip-arrow-size, 5px) + var(--slider-height, 6px) +
+      (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 +
+      var(--slider-tooltip-distance, 3px) - var(--slider-height, 6px) + 1px
+  );
 }

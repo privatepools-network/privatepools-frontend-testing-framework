@@ -1293,7 +1293,7 @@ watch(chainSelected, async () => {
 
 .stats_text {
   color: rgba(243, 244, 246, 1);
-  font-family: Inter;
+  font-family: Poppins;
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 400;
   line-height: 21px;
@@ -1304,7 +1304,7 @@ watch(chainSelected, async () => {
 .stats_value {
   color: white;
   margin-right: 15px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: clamp(10px, 0.8vw, 13px);
   font-weight: 400;
   line-height: 21px;

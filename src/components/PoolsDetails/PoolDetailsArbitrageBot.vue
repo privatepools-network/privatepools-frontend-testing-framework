@@ -77,7 +77,7 @@
                     width="10"
                   />
                 </div>
-                <div  class="text-black dark:!text-white font-normal">
+                <div class="text-black dark:!text-white font-normal">
                   <CurrencySymbol :symbol="currencySelected.symbol" />{{
                     numberToAposthrophe(
                       token.balance * GetTokenPrice(token.address),
@@ -139,7 +139,7 @@
                 >
                   {{ poolApr['Total'].toFixed(2) }}%
                 </div>
-                <div v-else>
+                <div v-else style="margin-right: 15px">
                   <ThreeDots></ThreeDots>
                 </div>
               </div>
@@ -147,10 +147,7 @@
           </div>
         </div>
         <CCollapse :visible="visibleTotalRevenue">
-          <div
-          
-            class="text-black dark:!text-white mt-[10px] mb-[5px]"
-          >
+          <div class="text-black dark:!text-white mt-[10px] mb-[5px]">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
                 <div>Daily APR</div>
@@ -160,7 +157,7 @@
                 >
                   {{ poolApr['Daily'].toFixed(2) }}%
                 </div>
-                <div v-else>
+                <div v-else style="margin-right: 15px">
                   <ThreeDots></ThreeDots>
                 </div>
               </div>
@@ -172,7 +169,7 @@
                 >
                   {{ poolApr['Weekly'].toFixed(2) }}%
                 </div>
-                <div v-else>
+                <div v-else style="margin-right: 15px">
                   <ThreeDots></ThreeDots>
                 </div>
               </div>
@@ -184,7 +181,7 @@
                 >
                   {{ poolApr['Monthly'].toFixed(2) }}%
                 </div>
-                <div v-else>
+                <div v-else style="margin-right: 15px">
                   <ThreeDots></ThreeDots>
                 </div>
               </div>
@@ -220,7 +217,7 @@
                   Pool Volume
                 </div>
                 <div
-                  class="text-black dark:!text-white "
+                  class="text-black dark:!text-white"
                   v-if="swapsData.length > 0"
                 >
                   <CurrencySymbol :symbol="currencySelected.symbol" />{{
@@ -230,7 +227,7 @@
                     )
                   }}
                 </div>
-                <div v-else>
+                <div v-else style="margin-right: 15px;">
                   <ThreeDots></ThreeDots>
                 </div>
               </div>
@@ -241,10 +238,7 @@
           :visible="visibleTotalProfit"
           v-if="poolSwapStats['Volume All Time']"
         >
-          <div
-          class="text-black dark:!text-white mt-[10px] mb-[5px]"
-
-          >
+          <div class="text-black dark:!text-white mt-[10px] mb-[5px]">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
                 <div>24H Volume</div>
@@ -297,7 +291,7 @@
               class="d-flex align-items-center justify-content-between visible_head text-black dark:!text-white font-normal"
             >
               <div style="font-size: clamp(10px, 0.9vw, 16px)">My Rewards</div>
-              <div v-if="pool" class="text-black dark:!text-white ">
+              <div v-if="pool" class="text-black dark:!text-white">
                 <CurrencySymbol :symbol="currencySelected.symbol" />{{
                   numberToAposthrophe(pool.lpPrice, currencyDecimals || 2)
                 }}
@@ -310,7 +304,7 @@
               class="d-flex align-items-center justify-content-between font-normal text-black dark:!text-white visible_head mt-3"
             >
               <div style="font-size: clamp(10px, 0.9vw, 16px)">My Balance</div>
-              <div v-if="pool" class="text-black dark:!text-white ">
+              <div v-if="pool" class="text-black dark:!text-white">
                 <CurrencySymbol :symbol="currencySelected.symbol" />{{
                   numberToAposthrophe(userBalance)
                 }}
@@ -329,7 +323,7 @@
         class="rewards_button w-100"
         style="
           color: white;
-          background: linear-gradient(85.18deg, #2775ca 0%, #2abdff 100%);
+          background: linear-gradient(85.18deg, #2775ca 0%, #00e0ff 100%);
         "
         @click="$emit('changeToDepositView')"
       >
@@ -586,7 +580,7 @@ function GetTokenPrice(address) {
 .arbitrage_bot_header {
   font-size: clamp(10px, 0.7vw, 14px);
   font-weight: 700;
-  font-family: Inter;
+  font-family: Poppins;
   color: white;
 }
 
@@ -620,9 +614,9 @@ function GetTokenPrice(address) {
 .rewards_button {
   background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
-  color: #2abdff;
+  color: #00e0ff;
   padding: 8px 12px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: clamp(8px, 0.7vw, 12px);
   font-weight: 600;
   line-height: 24px;

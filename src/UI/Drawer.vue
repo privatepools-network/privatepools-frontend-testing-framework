@@ -15,7 +15,7 @@
           backgroundColor: backgroundColor,
         }"
       >
-        <div class="drawer_close" @click="closeDrawer">
+        <div class="drawer_close dark:hover:!bg-[#98a1c014] hover:bg-[#98a1c063]" @click="closeDrawer">
           <svg
             width="24"
             height="24"
@@ -195,7 +195,7 @@ export default {
   &:hover {
     z-index: -1;
     margin: 0px -8px 0px 0px;
-    background-color: rgba(152, 161, 192, 0.08);
+    // background-color: rgba(152, 161, 192, 0.08);
   }
 }
 </style>

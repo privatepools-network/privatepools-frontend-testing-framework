@@ -16,7 +16,7 @@
             <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader_header">
               <ThreeDots />
             </div>
-            <div v-else style="font-weight: 700; font-family: Inter; font-size: 18px;" class="visible_head arbitrage_bot_sections_text text-black dark:!text-white">
+            <div v-else style="font-weight: 700; font-family: Poppins; font-size: 18px;" class="visible_head arbitrage_bot_sections_text text-black dark:!text-white">
               <div class="d-flex align-items-center">
 
                 ${{ numberToAposthrophe(tvlAll, currencyDecimals) }}
@@ -37,11 +37,11 @@
             </div>
             <div style="
                 font-weight: 700;
-                font-family: Inter;
+                font-family: Poppins;
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
+                <div style="font-family: Poppins; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
                   Total Volume
                 </div>
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
@@ -113,12 +113,12 @@
             </div>
             <div style="
                 font-weight: 700;
-                font-family: Inter;
+                font-family: Poppins;
                 color: white;
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
+                <div style="font-family: Poppins; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
                   Total Profits
                 </div>
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
@@ -190,11 +190,11 @@
             </div>
             <div style="
                 font-weight: 700;
-                font-family: Inter;
+                font-family: Poppins;
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
+                <div style="font-family: Poppins; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
                   Total Trades
                 </div>
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
@@ -265,12 +265,12 @@
             </div>
             <div style="
                 font-weight: 700;
-                font-family: Inter;
+                font-family: Poppins;
          
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Inter; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
+                <div style="font-family: Poppins; font-weight: 400" class="arbitrage_bot_sections_text text-black dark:!text-white">
                   Average APR
                 </div>
                 <div v-if="Object.keys(tvlInfo).length === 0" class="totals_loader">
@@ -337,7 +337,7 @@
           <div
             style="
               font-weight: 700;
-              font-family: Inter;
+              font-family: Poppins;
            
               width: 100%;
             "
@@ -348,7 +348,7 @@
             >
               <div
                 style="
-                  font-family: Inter;
+                  font-family: Poppins;
                   font-weight: 400;
                  font-size: clamp(10px, 0.8vw, 14px);
                   font-size: clamp(10px, 0.9vw, 16px);
@@ -709,7 +709,7 @@ const feesInfo = computed(() => {
 .arbitrage_bot_header {
   font-size: clamp(10px, 0.7vw, 14px);
   font-weight: 700;
-  font-family: Inter;
+  font-family: Poppins;
   color: white;
 }
 

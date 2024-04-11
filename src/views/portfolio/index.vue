@@ -1362,9 +1362,9 @@ onMounted(async () => {
   padding: 8px;
   display: flex;
   justify-content: center;
-  background: #2abdff;
+  background: #00e0ff;
   border-radius: 5px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 11px;
   font-weight: 700;
   box-shadow: 0px 4px 4px 0px #00000040;

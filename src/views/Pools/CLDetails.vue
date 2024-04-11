@@ -29,7 +29,7 @@
                 <linearGradient id="paint0_linear_25_3105" x1="15.36" y1="-7.68" x2="1.74547" y2="10.1236"
                   gradientUnits="userSpaceOnUse">
                   <stop stop-color="#2775CA" />
-                  <stop offset="1" stop-color="#2ABDFF" />
+                  <stop offset="1" stop-color="#00e0ff" />
                 </linearGradient>
               </defs>
             </svg>
@@ -255,7 +255,7 @@
     </div>
     <div style="display: flex; flex-direction: column" v-if="selectedTab == 'Pool Info'">
       <!--      <div class="mb-2" style="-->
-      <!--        font-family: Inter;-->
+      <!--        font-family: Poppins;-->
       <!--        color: white;-->
 
       <!--        font-size: clamp(10px, 0.9vw, 16px);-->
@@ -586,7 +586,7 @@
       </div>
 
       <div class="mb-2" style="
-          font-family: Inter;
+          font-family: Poppins;
           color: white;
           margin-top: 40px;
 
@@ -2263,7 +2263,7 @@ watch(visibleWithdrawModal, (newValue) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 600;
   line-height: 16px;
@@ -2340,9 +2340,9 @@ watch(visibleWithdrawModal, (newValue) => {
 .rewards_button {
   background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
-  color: #2ABDFF;
+  color: #00e0ff;
   padding: 8px 16px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 600;
   line-height: 24px;

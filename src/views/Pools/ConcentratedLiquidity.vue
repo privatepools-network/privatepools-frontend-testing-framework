@@ -491,8 +491,9 @@
                           style="
                             font-size: 21px;
                             margin-bottom: 0;
-                            color: white;
+                           
                           "
+                          class="dark:!text-white text-black"
                         >
                           {{ pairToken1.symbol }}
                         </h4>
@@ -507,7 +508,7 @@
                       </div>
                     </div>
                     <div
-                      class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#2ABDFF]"
+                      class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                       @click="depositAmount1 = pairToken1.balance"
                     >
                       Max
@@ -580,8 +581,9 @@
                           style="
                             font-size: 21px;
                             margin-bottom: 0;
-                            color: white;
+                            
                           "
+                          class="dark:!text-white text-black"
                         >
                           {{ pairToken2.symbol }}
                         </h4>
@@ -596,7 +598,7 @@
                       </div>
                     </div>
                     <div
-                      class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#2ABDFF]"
+                      class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                       @click="depositAmount2 = pairToken2.balance"
                     >
                       Max

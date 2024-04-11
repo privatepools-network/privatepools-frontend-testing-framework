@@ -34,19 +34,19 @@
 <feBlend mode="normal" in2="shape" result="effect1_innerShadow_704_150"/>
 </filter>
 <linearGradient id="paint0_linear_704_150" x1="21.632" y1="26.2502" x2="53.4273" y2="30.6662" gradientUnits="userSpaceOnUse">
-<stop stop-color="#2ABDFF"/>
+<stop stop-color="#00e0ff"/>
 <stop offset="1" stop-color="#181818"/>
 </linearGradient>
 <linearGradient id="paint1_linear_704_150" x1="1.03296" y1="4.08295" x2="27.8166" y2="8.60035" gradientUnits="userSpaceOnUse">
-<stop stop-color="#2ABDFF"/>
+<stop stop-color="#00e0ff"/>
 <stop offset="1" stop-color="#181818"/>
 </linearGradient>
 <linearGradient id="paint2_linear_704_150" x1="46.2413" y1="53.6677" x2="73.025" y2="58.1851" gradientUnits="userSpaceOnUse">
-<stop stop-color="#2ABDFF"/>
+<stop stop-color="#00e0ff"/>
 <stop offset="1" stop-color="#181818"/>
 </linearGradient>
 <linearGradient id="paint3_linear_704_150" x1="10.9375" y1="19.25" x2="68.1669" y2="27.1985" gradientUnits="userSpaceOnUse">
-<stop stop-color="#2ABDFF"/>
+<stop stop-color="#00e0ff"/>
 <stop offset="1" stop-color="#181818"/>
 </linearGradient>
 <linearGradient id="paint4_linear_704_150" x1="10.3906" y1="11.1364" x2="61.25" y2="11.1364" gradientUnits="userSpaceOnUse">

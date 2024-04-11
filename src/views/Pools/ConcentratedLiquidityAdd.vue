@@ -11,7 +11,7 @@
     </template>
   </Modal>
   <MainCard>
-    <div class="center_container">
+    <div class="center_container bg-white dark:!bg-[#15151524]">
       <div class="d-flex justify-content-end w-100 mb-4">
         <div class="back_button" @click="router.push('/pools')">
           <svg
@@ -38,10 +38,15 @@
           </svg>
         </div>
       </div>
-      <div class="d-flex gap-5" v-if="selectedPosition">
+      {{ console.log('selectedPosition', selectedPosition) }}
+      <div v-if="selectedPosition === null" class="my-44">
+        <LoaderPulse />
+      
+      </div>
+      <div class="d-flex gap-5" v-else>
         <div class="w-50">
           <div
-            class="compose_text compose_add_position text-uppercase fw-bolder d-flex align-items-center justify-content-between"
+            class="compose_text dark:!text-white text-black dark:!bg-[#00000024] bg-white compose_add_position text-uppercase fw-bolder d-flex align-items-center justify-content-between"
           >
             <div class="d-flex align-items-center gap-1">
               <img
@@ -53,7 +58,7 @@
                 :title="tokenEntity"
                 :src="getTokenEntity(tokenEntity, 'short').icon"
               />
-              <span class="liquidity_title">{{
+              <span class="liquidity_title dark:!text-white text-black">{{
                 selectPositions[selectedPositionIndex].name
               }}</span>
             </div>
@@ -72,7 +77,7 @@
               >
                 <path
                   d="M1.61182 1.5L6.61182 6.5L11.6118 1.5"
-                  stroke="#FAFAFA"
+                  class="dark:!stroke-white stroke-black"
                   stroke-width="1.66667"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -81,8 +86,8 @@
             </div>
           </div>
 
-          <div class="concentrated_card">
-            <div class="compose_text mb-3">Manage Position</div>
+          <div class="concentrated_card dark:!bg-[#00000024] bg-white">
+            <div class="compose_text dark:!text-white text-black mb-3">Manage Position</div>
 
             <div class="mb-5">
               <apexchart
@@ -94,9 +99,9 @@
               <img :src="grid" style="width: 100%; margin-top: -30px" />
             </div>
 
-            <div class="tabs_container">
+            <div class="tabs_container dark:!bg-[#00000024] bg-white">
               <div
-                class="tabs_button"
+                class="tabs_button dark:!text-white text-black"
                 :class="
                   liquidityActionTab === 'Add' ? 'tabs_button_selected' : ''
                 "
@@ -105,7 +110,7 @@
                 Increase Liquidity
               </div>
               <div
-                class="tabs_button"
+                class="tabs_button dark:!text-white text-black"
                 :class="
                   liquidityActionTab === 'Withdraw'
                     ? 'tabs_button_selected'
@@ -117,21 +122,21 @@
               </div>
             </div>
             <div v-if="liquidityActionTab === 'Add'">
-              <div class="compose_text fw-light mt-3">Increase Liquidity</div>
-              <div class="price_range_container">
+              <div class="compose_text dark:!text-white text-black fw-light mt-3">Increase Liquidity</div>
+              <div class="price_range_container dark:!bg-[#00000024] bg-white">
                 <div class="d-flex flex-column gap-4 position-relative">
                   <!-- Add liquidity to singe comp on refactor week -->
 
                   <div
-                    class="d-flex"
+                    class="d-flex dark:!bg-[#00000024] bg-white"
                     style="
-                      background: #22222224;
+                      /* background: #22222224; */
                       box-shadow: 0px 4px 4px 0px #00000040;
 
                       border-radius: 16px;
                     "
                   >
-                    <div class="balance_container">
+                    <div class="balance_container dark:!bg-[#00000024] bg-white">
                       <div
                         class="d-flex flex-column justify-content-around h-100"
                       >
@@ -148,13 +153,14 @@
                             style="
                               font-size: 21px;
                               margin-bottom: 0;
-                              color: white;
+                          
                             "
+                            class="dark:!text-white text-black"
                           >
                             {{ pairToken1.symbol }}
                           </h4>
                         </div>
-                        <div class="balance_text">
+                        <div class="balance_text dark:!text-white text-black">
                           Balance:
                           {{
                             (
@@ -164,7 +170,7 @@
                         </div>
                       </div>
                       <div
-                        class="max_button"
+                        class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                         @click="depositAmount1 = pairToken1.balance"
                       >
                         Max
@@ -179,14 +185,15 @@
                             border: none;
                             outline: none;
                             width: 180px;
-                            color: #c1c8ce;
+                            /* color: #c1c8ce; */
                             font-weight: 600;
                             font-size: 20px;
                           "
+                          class="dark:!text-white text-black"
                           v-model="depositAmount1"
                           @blur="updateDepositAmount2"
                         />
-                        <div style="color: #858c90; font-size: 12px">
+                        <div style=" font-size: 12px" class="dark:!text-white text-[#858c90]">
                           ≈${{
                             (depositAmount1 * (pairToken1.price || 0)).toFixed(
                               2,
@@ -197,15 +204,15 @@
                     </div>
                   </div>
                   <div
-                    class="d-flex"
+                    class="d-flex dark:!bg-[#00000024] bg-white"
                     style="
-                      background: #22222224;
+                      /* background: #22222224; */
                       box-shadow: 0px 4px 4px 0px #00000040;
 
                       border-radius: 16px;
                     "
                   >
-                    <div class="balance_container">
+                    <div class="balance_container dark:!bg-[#00000024] bg-white">
                       <div
                         class="d-flex flex-column justify-content-around h-100"
                       >
@@ -222,13 +229,14 @@
                             style="
                               font-size: 21px;
                               margin-bottom: 0;
-                              color: white;
+                           
                             "
+                            class="dark:!text-white text-black"
                           >
                             {{ pairToken2.symbol }}
                           </h4>
                         </div>
-                        <div class="balance_text">
+                        <div class="balance_text dark:!text-white text-black">
                           Balance:
                           {{
                             (
@@ -238,7 +246,7 @@
                         </div>
                       </div>
                       <div
-                        class="max_button"
+                        class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                         @click="depositAmount2 = pairToken2.balance"
                       >
                         Max
@@ -253,14 +261,15 @@
                             border: none;
                             outline: none;
                             width: 180px;
-                            color: #c1c8ce;
+                            /* color: #c1c8ce; */
                             font-weight: 600;
                             font-size: 20px;
                           "
+                          class="dark:!text-white text-black"
                           v-model="depositAmount2"
                           @blur="updateDepositAmount1"
                         />
-                        <div style="color: #858c90; font-size: 12px">
+                        <div style="font-size: 12px" class="dark:!text-white text-[#858c90]">
                           ≈${{
                             (depositAmount2 * (pairToken2.price || 0)).toFixed(
                               2,
@@ -341,8 +350,8 @@
               </div>
             </div>
             <div v-else-if="liquidityActionTab === 'Withdraw'">
-              <div class="compose_text fw-light mt-3">Withdraw Liquidity</div>
-              <div class="liquidity_slider">
+              <div class="compose_text dark:!text-white text-black fw-light mt-3">Withdraw Liquidity</div>
+              <div class="liquidity_slider dark:!bg-[#00000024] bg-white">
                 <div class="fee_tier_container">
                   <div
                     :class="
@@ -354,7 +363,7 @@
                     :key="`tiers-${i}`"
                     @click="selectRange(type)"
                   >
-                    <div style="color: #858c90">{{ type.name }}%</div>
+                    <div class="dark:!text-white text-[#858c90]">{{ type.name }}%</div>
                   </div>
                 </div>
                 <div class="mt-3 p-2" style="pointer-events: none">
@@ -369,10 +378,10 @@
                   />
                 </div>
               </div>
-              <div class="compose_text fw-light mt-3">Withdraw Tokens</div>
+              <div class="compose_text dark:!text-white text-black fw-light mt-3">Withdraw Tokens</div>
               <div
                 style="
-                  background: #22222224;
+                  /* background: #22222224; */
                   border-radius: 16px;
                   box-shadow: 0px 4px 4px 0px #00000040;
                   padding: 8px;
@@ -380,6 +389,7 @@
                   justify-content: space-between;
                   align-items: center;
                 "
+                class="dark:!bg-[#00000024] bg-white"
               >
                 <div class="d-flex gap-2 align-items-center">
                   <div>
@@ -389,7 +399,7 @@
                     />
                   </div>
                   <div class="d-flex flex-column gap-1">
-                    <div style="color: white">{{ pairToken1.symbol }}</div>
+                    <div class="dark:!text-white text-black">{{ pairToken1.symbol }}</div>
                     <div style="color: #a3a3a3">
                       {{
                         (
@@ -410,13 +420,13 @@
                   >
                     <path
                       d="M19 12.998H13V18.998H11V12.998H5V10.998H11V4.99805H13V10.998H19V12.998Z"
-                      fill="#2ABDFF"
+                      fill="#00e0ff"
                     />
                   </svg>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
                   <div class="d-flex flex-column gap-1">
-                    <div style="color: white">{{ pairToken2.symbol }}</div>
+                    <div class="dark:!text-white text-black">{{ pairToken2.symbol }}</div>
                     <div style="color: #a3a3a3">
                       {{
                         (
@@ -491,6 +501,7 @@ import { CalculateAvgApr } from '@/composables/math/chartMath/trackingInfoMath'
 import { usePool30dProfit } from '@/composables/pools/usePoolSwapsStats'
 import router from '@/router'
 import { InitializeMetamask } from '@/lib/utils/metamask'
+import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 
 const liquidityActionTab = ref('Add')
 const lineNumberPercent = ref(100)
@@ -550,7 +561,7 @@ const chartOptions = computed(() => ({
       startAngle: -100,
       endAngle: 100,
       track: {
-        background: '#FFFFFF33',
+        background: '#777',
         strokeWidth: '27%',
         margin: 10,
       },
@@ -564,7 +575,7 @@ const chartOptions = computed(() => ({
           offsetY: -40,
         },
         value: {
-          color: '#FFFFFF',
+          color: '#999',
           fontSize: '60px',
           show: true,
           fontWeight: 600,
@@ -823,7 +834,7 @@ async function removeLiquidityHandler() {
 @import '@/styles/_variables.scss';
 
 .center_container {
-  background: #15151524;
+  // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   margin: 1% 10% 10% 10%;
@@ -833,11 +844,11 @@ async function removeLiquidityHandler() {
 
 .compose_text {
   font-size: clamp(11px, 0.8vw, 15px);
-  color: white;
+  // color: white;
 }
 
 .compose_add_position {
-  background: #00000024;
+  // background: #00000024;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   padding: 6px 12px;
@@ -846,7 +857,7 @@ async function removeLiquidityHandler() {
 
 .concentrated_card {
   margin-top: 15px;
-  background: #00000024;
+  // background: #00000024;
   border: 1px solid #ffffff0d;
   border-radius: 16px;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
@@ -854,71 +865,18 @@ async function removeLiquidityHandler() {
   padding: 15px;
 }
 
-.selector_button {
-  background: #00000024;
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
-  border-radius: 16px;
-  padding: 15px;
-  width: 50%;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-
-  &:hover {
-    background: #003e4f;
-    cursor: pointer;
-  }
-}
-
-.price_range_card {
-  background: #00000024;
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  border-radius: 16px;
-  // padding: 15px;
-  width: 45%;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
 
 .liquidity_slider {
   border-radius: 16px;
-  background: #00000024;
+  // background: #00000024;
   padding: 16px;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
 
-.fee_tier_container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-
-  &_card {
-    width: 15%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 15px 5px;
-    background: #2f303230;
-    font-family: Poppins;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 18px;
-    text-align: center;
-    border-radius: 10px;
-    cursor: pointer;
-    border: 1px solid #4f4f4f;
-
-    &__selected {
-      border: 1px solid #ffffff;
-    }
-  }
-}
 
 .price_range_container {
-  background: #00000024;
+  // background: #00000024;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
   border-radius: 16px;
@@ -927,10 +885,10 @@ async function removeLiquidityHandler() {
 
 .max_button {
   border-radius: 6px;
-  background: #07090c;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
   padding: 4px 8px;
   cursor: pointer;
-  font-size: clamp(9px, 0.8vw, 12px);
 }
 
 .add_liquidity_button {
@@ -961,7 +919,6 @@ async function removeLiquidityHandler() {
   background: linear-gradient(89.27deg, #00c9ff 1.58%, #0094ff 100.04%);
   box-shadow: 0px 2px 4px -1px #0000000d;
 
-  box-shadow: 0px 4px 6px -1px #0000000d;
 
   width: 100%;
   border-radius: 8px;
@@ -998,6 +955,48 @@ async function removeLiquidityHandler() {
   &_active {
     color: #00c9ff;
   }
+}
+
+.fee_tier_container {
+  padding: 16px;
+  border-radius: 16px;
+  // background: #00000024;
+
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  &_card {
+    width: 23%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px 5px;
+    // background: #2f303230;
+    font-family: Poppins;
+    font-size: clamp(8px, 0.7vw, 12px);
+    font-weight: 400;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid #7c7c7ca6;
+    cursor: pointer;
+
+    &__selected {
+      border: 1px solid #00c9ff;
+    }
+  }
+}
+
+.price_range_container {
+  // background: #00000024;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+
+  border-radius: 16px;
+  padding: 8px;
 }
 
 .back_button {
@@ -1041,7 +1040,7 @@ async function removeLiquidityHandler() {
 }
 
 .tabs_container {
-  background: #22222224;
+  // background: #22222224;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   padding: 3px;
@@ -1054,8 +1053,8 @@ async function removeLiquidityHandler() {
   padding: 8px 12px;
   width: 50%;
   text-align: center;
-  color: #ffffff;
-  font-family: Inter;
+  // color: #ffffff;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 500;
 
@@ -1066,11 +1065,12 @@ async function removeLiquidityHandler() {
 
   &_selected {
     background: linear-gradient(152.97deg, #002429 0%, #00c9ff 100%);
+    color: white !important
   }
 }
 
 :deep(.apexcharts-radial-series) {
-  filter: drop-shadow(0 0 0.35rem #2abdff);
+  filter: drop-shadow(0 0 0.35rem #00e0ff);
 }
 
 .liquidity_title {
@@ -1078,7 +1078,7 @@ async function removeLiquidityHandler() {
   font-size: 20px;
   font-weight: 700;
   line-height: 33px;
-  color: #ffffff;
+  // color: #ffffff;
 }
 
 .balance_text {
@@ -1087,12 +1087,12 @@ async function removeLiquidityHandler() {
 
 .balance_container {
   width: 30%;
-  background: #22222224;
+  // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
 
   border-radius: 16px;
   padding: 10px;
-  color: #c1c8ce;
+  // color: #c1c8ce;
   font-size: 12px;
   display: flex;
   align-items: flex-end;

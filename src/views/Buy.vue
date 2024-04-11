@@ -799,19 +799,19 @@ async function onToken1Blur() {
   margin-top: 45px;
   margin-bottom: 5px;
   border-radius: 4px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
   color: #ffffff;
   text-align: center;
   padding: 6px;
-  background: linear-gradient(45deg, #2abdff 0%, #0e3e9b 100%);
+  background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
   box-shadow: 0px 4px 8.899999618530273px 0px #00aae01a;
 
   &:hover {
     filter: drop-shadow(0 0 0.7rem #00c9ff);
-    background: #2abdff;
+    background: #00e0ff;
   }
 }
 

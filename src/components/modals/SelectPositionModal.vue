@@ -2,20 +2,20 @@
   <div class="modal_body_inside z-[10000]">
     <div>
       <div
-        class="modal_body_header d-flex justify-content-between align-items-start mb-3"
+        class="modal_body_header text-black dark:!text-white d-flex justify-content-between align-items-start mb-3"
       >
         <p style="font-size: 20px">Select Position</p>
        
       </div>
 
       <div class="mt-3">
-        <div style="color: white; font-size: 14px">Your CL Positions</div>
+        <div style="font-size: 14px" class="text-black dark:!text-white">Your CL Positions</div>
       </div>
       <div class="mt-3 tokens_container h-[400px] overflow-auto">
         <div
           v-for="(pos, PosIndex) in positions"
           :key="`tokens-key-${PosIndex}`"
-          class="p-3 gap-3 token_card"
+          class="p-3 gap-3 token_card dark:!bg-[#00000024] bg-white text-black dark:!text-white"
           @click="selectPositionHandler(PosIndex)"
         >
           <div class="d-flex align-items-center justify-content-between">
@@ -87,7 +87,7 @@ function selectPositionHandler(positionIndex) {
   font-weight: 500;
   line-height: 28px;
   letter-spacing: -0.5px;
-  color: white;
+  // color: white;
 }
 
 .modal_body_inside {
@@ -242,11 +242,11 @@ function selectPositionHandler(positionIndex) {
 }
 
 .token_card {
-  border-radius: 16px;
-  // box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  // border-radius: 16px;
+  box-shadow: 0px 4px 7.4px 0px #000000b5;
   padding: 10px;
-  background: #00000024;
-  color: white;
+  // background: #00000024;
+  // color: white;
   font-size: clamp(12px, 0.8vw, 14px);
 }
 

@@ -45,7 +45,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
   border-radius: 2px;
   box-shadow: 0px 4px 4px 0px #00000040;
   padding: 5px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
@@ -57,14 +57,14 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
   cursor: pointer;
   margin-top: 10px;
   border-radius: 2px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
   color: #FFFFFF;
   text-align: center;
   padding: 8px;
-  background: linear-gradient(45deg, #2ABDFF 0%, #0E3E9B 100%);
+  background: linear-gradient(45deg, #00e0ff 0%, #0E3E9B 100%);
 
   box-shadow: 0px 4px 8.899999618530273px 0px #00AAE01A;
 }
@@ -78,7 +78,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
 
   border-radius: 16px;
   padding: 8px 25px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 15px;
   font-weight: 600;
   line-height: 18px;

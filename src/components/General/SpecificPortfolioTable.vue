@@ -78,7 +78,7 @@
               @click="
                 $emit('table-header-click', headCaption, headCaptionIndex)
               "
-              style="font-family: Inter; font-weight: 700; width: 20px"
+              style="font-family: Poppins; font-weight: 700; width: 20px"
               v-if="
                 (sortedHeader && sortedHeader.caption == 'Time') ||
                 (headCaptionIndex != 0 && sortedHeader && sortedHeader.caption)

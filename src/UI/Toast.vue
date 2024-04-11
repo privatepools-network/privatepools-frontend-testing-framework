@@ -46,7 +46,7 @@ defineProps(['closeToast', 'toastProps'])
 .toast_container {}
 
 .toast_header {
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 14px;
   font-weight: 500;
   line-height: 15px;
@@ -54,7 +54,7 @@ defineProps(['closeToast', 'toastProps'])
 
 .toast_text {
   margin-top: 10px;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 10px;
   font-weight: 400;
   line-height: 20px;
