@@ -571,8 +571,20 @@ export async function MintPosition(
     theme: 'dark',
     closeOnClick: false,
   })
-  await ApproveToken(token1Contract, signer, amount1, token1.decimals)
-  await ApproveToken(token0Contract, signer, amount0, token0.decimals)
+  await ApproveToken(
+    token1Contract,
+    signer,
+    amount1,
+    token1.decimals,
+    ApproveTokensToastPending,
+  )
+  await ApproveToken(
+    token0Contract,
+    signer,
+    amount0,
+    token0.decimals,
+    ApproveTokensToastPending,
+  )
   toast.update(ApproveTokensToastPending, {
     render: Toast,
     data: {
@@ -672,14 +684,40 @@ export async function RemoveLiquidityFromPosition(signer, position, percent) {
   )
 }
 
-async function ApproveToken(contract, signer, amount) {
-  contract = contract.connect(signer)
-  let tx = await contract.approve(
-    NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
-    amount.toString(),
-  )
-  console.log('APPROVE - ', tx)
-  return await tx.wait()
+async function ApproveToken(
+  contract,
+  signer,
+  amount,
+  _,
+  ApproveTokensToastPending,
+) {
+  try {
+    contract = contract.connect(signer)
+    let tx = await contract.approve(
+      NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
+      amount.toString(),
+    )
+    console.log('APPROVE - ', tx)
+    return await tx.wait()
+  } catch {
+    toast.update(ApproveTokensToastPending, {
+      render: Toast,
+      data: {
+        header_text: 'All tokens rej',
+        toast_text: `All tokens from wallet successfully approved`,
+        tx_link: ``,
+        speedUp: '',
+      },
+
+      closeOnClick: false,
+      autoClose: 5000,
+      closeButton: false,
+      type: 'error',
+      isLoading: false,
+    })
+
+    throw new Error('App rej')
+  }
 }
 
 function checkTokensSwapped(
@@ -747,26 +785,31 @@ async function mintPosition(order, signer) {
     theme: 'dark',
     closeOnClick: false,
   })
-  let tx = await signer.sendTransaction(transaction)
 
-  // if (tx.error) {
-  //   toast.update(MintingToastPending, {
-  //     render: Toast,
-  //     data: {
-  //       header_text: 'Minting rejected',
-  //       toast_text: `You rejected minting`,
-  //       tx_link: '',
-  //       speedUp: '',
-  //     },
-  //     autoClose: 7000,
-  //     closeOnClick: false,
-  //     closeButton: false,
-  //     type: 'error',
-  //     isLoading: false,
-  //   })
-  // }
+  let tx
+
+  try {
+    tx = await signer.sendTransaction(transaction)
+  } catch {
+    toast.update(MintingToastPending, {
+      render: Toast,
+      data: {
+        header_text: 'Minting rejected',
+        toast_text: `You rejected minting`,
+        tx_link: '',
+        speedUp: '',
+      },
+      autoClose: 7000,
+      closeOnClick: false,
+      closeButton: false,
+      type: 'error',
+      isLoading: false,
+    })
+    return
+  }
 
   const receipt = await tx.wait()
+
   toast.update(MintingToastPending, {
     render: Toast,
     data: {
@@ -785,8 +828,6 @@ async function mintPosition(order, signer) {
   console.log('SUCCESS', receipt)
   return receipt
 }
-
-
 
 async function addLiquidity(order, signer, tokenId) {
   try {

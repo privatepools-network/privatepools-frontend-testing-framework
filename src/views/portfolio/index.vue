@@ -37,7 +37,18 @@
           class="portfolio-financial-statement"
           v-else-if="activeTab == 'Financial Statement'"
         >
-          <PortfolioFinancialStatement
+          <PoolDetailsFinancialStatement
+            :poolSwapsData="poolSwapsData"
+            :chainSelected="chainSelected"
+            :historical_tvl="historical_tvl"
+            :historicalPrices="historicalPrices"
+            :poolId="'0x631b9f9996c30ce37c2d57d1704fdc568429ef41'"
+            :symbol="'$'"
+            :decimals="2"
+          >
+          </PoolDetailsFinancialStatement>
+
+          <!-- <PortfolioFinancialStatement
             :poolSwapsData="poolSwapsData"
             :chainSelected="chainSelected"
             :historical_tvl="historical_tvl"
@@ -45,8 +56,7 @@
             :pools="pools.map((p) => p.id)"
             :user="account"
           >
-          </PortfolioFinancialStatement>
-          
+          </PortfolioFinancialStatement> -->
         </div>
         <div class="portfolio-table" v-else-if="activeTab == 'Investments'">
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
@@ -67,8 +77,10 @@
 
           {{ console.log('selectedInvestmentData', selectedInvestmentData) }}
 
-          <div class="portfolio-table__wrapper dark:!bg-[#22222224] bg-white py-20">
-            <div v-if="selectedInvestmentData === null" >
+          <div
+            class="portfolio-table__wrapper dark:!bg-[#22222224] bg-white py-20"
+          >
+            <div v-if="selectedInvestmentData === null">
               <LoaderPulse />
             </div>
             <div
@@ -79,13 +91,13 @@
                 class="text-black dark:!text-white"
                 style="font-size: 14px; text-align: center"
               >
-              No pools yet
+                No pools yet
               </div>
               <div
                 class="text-black dark:!text-white"
                 style="font-size: 12px; text-align: center"
               >
-              Choose a pool to invest or create a pool to get started.
+                Choose a pool to invest or create a pool to get started.
               </div>
               <div class="add_liq_btn_pools">
                 <div class="d-flex gap-1">+ Add liquidity</div>
@@ -147,7 +159,8 @@ import DataTableCellTokenNamePaired from '@/components/DataTable/Cell/TokenNameP
 import DataTable from '@/components/DataTable/index.vue'
 import PortfolioChart from '@/components/portfolio/PortfolioChart.vue'
 import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
-import PortfolioFinancialStatement from '@/components/portfolio/PortfolioFinancialStatement.vue'
+// import PortfolioFinancialStatement from '@/components/portfolio/PortfolioFinancialStatement.vue'
+import PoolDetailsFinancialStatement from '@/components/PoolsDetails/PoolDetailsFinancialStatement'
 import router from '@/router'
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import { GetPortfolioActions } from '@/composables/portfolio/usePortfolioActions'
@@ -1357,7 +1370,6 @@ onMounted(async () => {
     width: 100%;
   }
 }
-
 
 .add_liq_btn_pools {
   padding: 8px;

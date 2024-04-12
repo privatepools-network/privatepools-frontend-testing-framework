@@ -1,6 +1,9 @@
 <template>
   <MainCard v-if="poolsLoader === true">
-    <div class="d-flex justify-content-center align-items-center" style="height: 80vh">
+    <div
+      class="d-flex justify-content-center align-items-center"
+      style="height: 80vh"
+    >
       <LoaderPulse></LoaderPulse>
     </div>
   </MainCard>
@@ -10,38 +13,74 @@
       <div class="mb-3 text-black dark:!text-white text-[20px] font-bold">
         Weighted Pool
       </div>
-      <div class="d-flex align-items-center" style="justify-content: space-between">
+      <div
+        class="d-flex align-items-center"
+        style="justify-content: space-between"
+      >
         <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">
           {{ pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/') }}
         </div> -->
         {{ console.log('pool.tokens', pool.tokens) }}
         <div class="caption-row">
-          <div v-for="(poolToken, poolTokenIndex) in pool.tokens" :key="`pool-token-${poolTokenIndex}`"
-            class="big-chip dark:!bg-[#151515] bg-white">
-            <CAvatar :src="getTokenEntity(poolToken.symbol, 'short').icon" class="big-chip__image" />
-            <div class="big-chip__text text-black dark:!text-white">{{ poolToken.symbol }}</div>
-            <div class="big-chip__text text-[#626262] dark:!text-white">{{ poolToken.weight }}%</div>
+          <div
+            v-for="(poolToken, poolTokenIndex) in pool.tokens"
+            :key="`pool-token-${poolTokenIndex}`"
+            class="big-chip dark:!bg-[#151515] bg-white"
+          >
+            <CAvatar
+              :src="getTokenEntity(poolToken.symbol, 'short').icon"
+              class="big-chip__image"
+            />
+            <div class="big-chip__text text-black dark:!text-white">
+              {{ poolToken.symbol }}
+            </div>
+            <div class="big-chip__text text-[#626262] dark:!text-white">
+              {{ poolToken.weight }}%
+            </div>
           </div>
           <div class="d-flex align-items-center gap-1 ml-1">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd"
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
                 d="M13.9398 4.33428C13.197 4.60938 12.6132 5.23179 12.3552 6.02367L11.8737 7.50099C11.8668 7.52352 11.8471 7.53869 11.8249 7.53869C11.8027 7.53869 11.783 7.52352 11.7761 7.50099L11.2947 6.02367C11.0366 5.23175 10.4527 4.60932 9.70982 4.33428L8.32416 3.82111C8.30349 3.81345 8.2896 3.79268 8.2896 3.76935C8.2896 3.74602 8.30349 3.72525 8.32416 3.71759L9.70982 3.20442C10.4527 2.92938 11.0366 2.30695 11.2947 1.51503L11.7761 0.0376909C11.783 0.0152013 11.8027 0 11.8249 0C11.8471 0 11.8668 0.0152013 11.8737 0.0376909L12.3552 1.51503C12.6132 2.30691 13.197 2.92932 13.9398 3.20442L15.3255 3.71759C15.3461 3.72525 15.36 3.74602 15.36 3.76935C15.36 3.79268 15.3461 3.81345 15.3255 3.82111L13.9398 4.33428ZM7.84723 8.94374C6.81562 9.32589 6.00481 10.1903 5.64649 11.2902L4.97759 13.342C4.96777 13.3729 4.94057 13.3937 4.90997 13.3937C4.87937 13.3937 4.85217 13.3729 4.84235 13.342L4.17345 11.2902C3.81514 10.1903 3.00433 9.32589 1.97272 8.94374L0.0479334 8.23104C0.0192337 8.22035 0 8.19155 0 8.1591C0 8.12672 0.0192337 8.09792 0.0479334 8.08723L1.97272 7.37453C3.00434 6.99238 3.81514 6.12794 4.17345 5.02812L4.84235 2.97626C4.85217 2.94536 4.87937 2.92458 4.90997 2.92458C4.94057 2.92458 4.96777 2.94536 4.97759 2.97626L5.64649 5.02812C6.00481 6.12794 6.81562 6.99238 7.84723 7.37453L9.77203 8.08723C9.8007 8.09792 9.81997 8.12672 9.81997 8.1591C9.81997 8.19155 9.8007 8.22035 9.77203 8.23104L7.84723 8.94374ZM11.7776 14.1467C11.984 13.5132 12.4509 13.0153 13.0451 12.7951L14.1542 12.3846C14.1707 12.3785 14.1818 12.3619 14.1818 12.3432C14.1818 12.3245 14.1707 12.3079 14.1542 12.3018L13.0451 11.8913C12.4509 11.6711 11.984 11.1732 11.7776 10.5397L11.3923 9.35789C11.3872 9.3392 11.3711 9.3264 11.3529 9.3264C11.3347 9.3264 11.3186 9.3392 11.3135 9.35789L10.9292 10.5397C10.7226 11.1734 10.2552 11.6714 9.66067 11.8913L8.55258 12.3018C8.53606 12.3079 8.52493 12.3245 8.52493 12.3432C8.52493 12.3619 8.53606 12.3785 8.55258 12.3846L9.66067 12.7951C10.2552 13.015 10.7226 13.513 10.9292 14.1467L11.3135 15.3286C11.3186 15.3472 11.3347 15.36 11.3529 15.36C11.3711 15.36 11.3872 15.3472 11.3923 15.3286L11.7776 14.1467Z"
-                fill="url(#paint0_linear_25_3105)" />
+                fill="url(#paint0_linear_25_3105)"
+              />
               <defs>
-                <linearGradient id="paint0_linear_25_3105" x1="15.36" y1="-7.68" x2="1.74547" y2="10.1236"
-                  gradientUnits="userSpaceOnUse">
+                <linearGradient
+                  id="paint0_linear_25_3105"
+                  x1="15.36"
+                  y1="-7.68"
+                  x2="1.74547"
+                  y2="10.1236"
+                  gradientUnits="userSpaceOnUse"
+                >
                   <stop stop-color="#2775CA" />
                   <stop offset="1" stop-color="#00e0ff" />
                 </linearGradient>
               </defs>
             </svg>
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M10.026 7.54902C10.0861 7.5099 10.1535 7.48318 10.2241 7.47042C10.2946 7.45767 10.3671 7.45915 10.4371 7.47477L16.4743 8.78202C16.6157 8.81273 16.7391 8.89831 16.8175 9.01995C16.8958 9.14159 16.9227 9.28936 16.8921 9.43079L15.5849 15.468C15.5501 15.6051 15.4634 15.7234 15.3431 15.7979C15.2229 15.8724 15.0784 15.8973 14.9401 15.8673C14.8019 15.8374 14.6806 15.755 14.6019 15.6374C14.5232 15.5198 14.4933 15.3763 14.5183 15.2371L15.7101 9.73313L10.2061 8.54134C10.0648 8.51064 9.94133 8.42506 9.86299 8.30342C9.78465 8.18177 9.7578 8.03401 9.78833 7.89258C9.80307 7.82238 9.83169 7.75582 9.8725 7.69683C9.91331 7.63783 9.9655 7.58758 10.026 7.54902Z"
-                fill="#4E4E4E" />
+                fill="#4E4E4E"
+              />
               <path
                 d="M7.49468 14.3746L16.0632 8.85626C16.185 8.77786 16.3329 8.75103 16.4744 8.78167C16.6159 8.81232 16.7395 8.89793 16.8179 9.01967C16.8963 9.14141 16.9231 9.28931 16.8925 9.43084C16.8618 9.57236 16.7762 9.69592 16.6545 9.77432L8.08593 15.2926C7.96419 15.371 7.81629 15.3979 7.67476 15.3672C7.53324 15.3366 7.40968 15.251 7.33128 15.1292C7.25287 15.0075 7.22604 14.8596 7.25669 14.718C7.28733 14.5765 7.37294 14.453 7.49468 14.3746Z"
-                fill="#4E4E4E" />
+                fill="#4E4E4E"
+              />
             </svg>
           </div>
         </div>
@@ -49,34 +88,57 @@
       </div>
       <div class="d-flex justify-content-between align-items-center mt-3">
         <div>
-          <Tabs :filterEye="false" :selectedTab="selectedOverallTab" :tabsOptions="['Overall view', 'My view']"
-            @changeTab="changeSelectedOverallTab" />
+          <Tabs
+            :filterEye="false"
+            :selectedTab="selectedOverallTab"
+            :tabsOptions="['Overall view', 'My view']"
+            @changeTab="changeSelectedOverallTab"
+          />
         </div>
-        <div class="rewards_button dark:!bg-[#22222224] !bg-[white]">Rewards</div>
+        <div class="rewards_button dark:!bg-[#22222224] !bg-[white]">
+          Rewards
+        </div>
       </div>
     </CRow>
     <div style="height: 34px" class="mb-5" v-else>
       <ThreeDots style="margin-left: 20px; margin-top: 10px"></ThreeDots>
     </div>
 
-
     <CRow class="mb-5" v-if="render">
-      <PoolsDetailsChart :selectedOverallTab="selectedOverallTab" :changeToDepositView="changeToDepositView"
-        :changeToWithdrawView="changeToWithdrawView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices"
-        :pool="pool" :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="chartData"
-        :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected"
-        :userBalance="balance" />
+      <PoolsDetailsChart
+        :selectedOverallTab="selectedOverallTab"
+        :changeToDepositView="changeToDepositView"
+        :changeToWithdrawView="changeToWithdrawView"
+        :poolTokenPrices="tokenPrices"
+        :tokenPrices="historicalPrices"
+        :pool="pool"
+        :swapsData="poolSwapsData"
+        :chainSelected="chainSelected.chain"
+        :all_chart_data="chartData"
+        :historical_tvl="historical_tvl"
+        :symbol="currencySymbol"
+        :currencySelected="currencySelected"
+        :userBalance="balance"
+      />
     </CRow>
 
     <div style="display: inline-block; margin-bottom: 24px">
-      <Tabs :filterEye="true" :selectedTab="selectedTab" :tabsOptions="[
-    'Pool Info',
-    'Financial Statement',
-    'Statistics',
-    // 'Pairs & Tokens',
-  ]" @changeTab="changeSelectedTab" />
+      <Tabs
+        :filterEye="true"
+        :selectedTab="selectedTab"
+        :tabsOptions="[
+          'Pool Info',
+          'Financial Statement',
+          'Statistics',
+          // 'Pairs & Tokens',
+        ]"
+        @changeTab="changeSelectedTab"
+      />
     </div>
-    <div style="display: flex; flex-direction: column" v-if="selectedTab == 'Pool Info'">
+    <div
+      style="display: flex; flex-direction: column"
+      v-if="selectedTab == 'Pool Info'"
+    >
       <!--      <div class="mb-2" style="-->
       <!--        font-family: Poppins;-->
       <!--        color: white;-->
@@ -95,7 +157,8 @@
             <img :src="info" class="info_icon" />
           </div>
           <template #popper>
-            <div style="
+            <div
+              style="
                 background: linear-gradient(
                   rgba(89, 89, 89, 0.75),
                   rgba(73, 73, 73, 0.15)
@@ -104,13 +167,16 @@
                 padding: 10px;
                 border-radius: 4px;
                 width: 400px;
-              ">
+              "
+            >
               <div style="font-size: clamp(10px, 0.9vw, 16px)">Information</div>
-              <div style="
+              <div
+                style="
                   display: flex;
                   flex-direction: column;
                   font-size: clamp(10px, 0.8vw, 14px);
-                ">
+                "
+              >
                 <div>
                   <b>Creation Date:</b> Indicates when the pool was established.
                 </div>
@@ -138,15 +204,23 @@
       </div>
 
       <div class="d-flex">
-        <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-if="pool && poolActivity" style="width: 70%">
+        <div
+          class="pool-section dark:!bg-[#22222224] !bg-[white]"
+          v-if="pool && poolActivity"
+          style="width: 70%"
+        >
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
               <div class="subsection__item__caption">Pool Creation</div>
               <div class="subsection__item__content">
-                <div class="subsection__item__content__left text-[black] dark:!text-white">
+                <div
+                  class="subsection__item__content__left text-[black] dark:!text-white"
+                >
                   Created
                 </div>
-                <div class="subsection__item__content__right text-[black] dark:!text-white">
+                <div
+                  class="subsection__item__content__right text-[black] dark:!text-white"
+                >
                   <div class="subsection__item__content__right__top single">
                     {{ pool.createdAt }}
                   </div>
@@ -159,41 +233,57 @@
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
               <div class="subsection__item__caption">24h profit</div>
               <div class="subsection__item__content">
-                <div class="subsection__item__content__left text-[black] dark:!text-white">All-time high</div>
-                <div class="subsection__item__content__right text-[black] dark:!text-white">
+                <div
+                  class="subsection__item__content__left text-[black] dark:!text-white"
+                >
+                  All-time high
+                </div>
+                <div
+                  class="subsection__item__content__right text-[black] dark:!text-white"
+                >
                   <div class="subsection__item__content__right__top paired">
                     <div class="amount">
                       <CurrencySymbol :symbol="currencySymbol" />{{
-    formatBigNumber(profitInfo.highest)
-  }}
+                        formatBigNumber(profitInfo.highest)
+                      }}
                     </div>
                     <!-- <div :class="`percentage-chip ${profitInfo.highestPercent > 0 ? '--positive' : ''
                       }`">
                       {{ formatBigNumber(profitInfo.highestPercent) }}%
                     </div> -->
                   </div>
-                  <div class="subsection__item__content__right__bottom --bright">
+                  <div
+                    class="subsection__item__content__right__bottom --bright"
+                  >
                     {{ profitInfo.highestTime }} ({{
-    profitInfo.highestTimeAgo
-  }})
+                      profitInfo.highestTimeAgo
+                    }})
                   </div>
                 </div>
               </div>
               <div class="subsection__item__content">
-                <div class="subsection__item__content__left text-[black] dark:!text-white">All-time low</div>
-                <div class="subsection__item__content__right text-[black] dark:!text-white">
+                <div
+                  class="subsection__item__content__left text-[black] dark:!text-white"
+                >
+                  All-time low
+                </div>
+                <div
+                  class="subsection__item__content__right text-[black] dark:!text-white"
+                >
                   <div class="subsection__item__content__right__top paired">
                     <div class="amount">
                       <CurrencySymbol :symbol="currencySymbol" />{{
-    formatBigNumber(profitInfo.lowest)
-  }}
+                        formatBigNumber(profitInfo.lowest)
+                      }}
                     </div>
                     <!-- <div :class="`percentage-chip ${profitInfo.lowestPercent > 0 ? '--positive' : ''
                       }`">
                       {{ formatBigNumber(profitInfo.lowestPercent) }}%
                     </div> -->
                   </div>
-                  <div class="subsection__item__content__right__bottom --bright">
+                  <div
+                    class="subsection__item__content__right__bottom --bright"
+                  >
                     {{ profitInfo.lowestTime }} ({{ profitInfo.lowestTimeAgo }})
                   </div>
                 </div>
@@ -204,28 +294,46 @@
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
               <div class="subsection__item__caption">Lifetime stats</div>
               <div class="subsection__item__content">
-                <div class="subsection__item__content__left text-[black] dark:!text-white">Volume</div>
-                <div class="subsection__item__content__right text-[black] dark:!text-white">
+                <div
+                  class="subsection__item__content__left text-[black] dark:!text-white"
+                >
+                  Volume
+                </div>
+                <div
+                  class="subsection__item__content__right text-[black] dark:!text-white"
+                >
                   <div class="subsection__item__content__right__top single">
                     <CurrencySymbol :symbol="currencySymbol" />{{
-    formatBigNumber(poolVolume, currencyDecimals)
-  }}
+                      formatBigNumber(poolVolume, currencyDecimals)
+                    }}
                   </div>
                 </div>
               </div>
               <div class="subsection__item__content">
-                <div class="subsection__item__content__left text-[black] dark:!text-white">Fees</div>
-                <div class="subsection__item__content__right text-[black] dark:!text-white">
+                <div
+                  class="subsection__item__content__left text-[black] dark:!text-white"
+                >
+                  Fees
+                </div>
+                <div
+                  class="subsection__item__content__right text-[black] dark:!text-white"
+                >
                   <div class="subsection__item__content__right__top single">
                     <CurrencySymbol :symbol="currencySymbol" />{{
-    formatBigNumber(poolFees, currencyDecimals)
-  }}
+                      formatBigNumber(poolFees, currencyDecimals)
+                    }}
                   </div>
                 </div>
               </div>
               <div class="subsection__item__content">
-                <div class="subsection__item__content__left text-[black] dark:!text-white">Trades</div>
-                <div class="subsection__item__content__right text-[black] dark:!text-white">
+                <div
+                  class="subsection__item__content__left text-[black] dark:!text-white"
+                >
+                  Trades
+                </div>
+                <div
+                  class="subsection__item__content__right text-[black] dark:!text-white"
+                >
                   <div class="subsection__item__content__right__top single">
                     {{ poolTrades }}
                   </div>
@@ -233,22 +341,32 @@
               </div>
             </div>
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
-              <div class="investors-number__text text-[black] dark:!text-white" style="padding-right: 20%; white-space: nowrap">
+              <div
+                class="investors-number__text text-[black] dark:!text-white"
+                style="padding-right: 20%; white-space: nowrap"
+              >
                 LP Symbol
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
-                <div style="font-size: clamp(10px, 0.8vw, 14px); font-weight: 700">
+                <div
+                  style="font-size: clamp(10px, 0.8vw, 14px); font-weight: 700"
+                >
                   {{
-    pool?.tokens
-      ?.map((tokenEntity) => tokenEntity.symbol)
-      .join(' / ')
-  }}
+                    pool?.tokens
+                      ?.map((tokenEntity) => tokenEntity.symbol)
+                      .join(' / ')
+                  }}
                 </div>
               </div>
             </div>
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
-              <div class="investors-number__text text-[black] dark:!text-white">Number of investors</div>
-              <div class="investors-number__text text-[black] dark:!text-white" style="font-size: clamp(10px, 0.8vw, 14px)">
+              <div class="investors-number__text text-[black] dark:!text-white">
+                Number of investors
+              </div>
+              <div
+                class="investors-number__text text-[black] dark:!text-white"
+                style="font-size: clamp(10px, 0.8vw, 14px)"
+              >
                 {{ pool.holdersCount }}
               </div>
             </div>
@@ -256,18 +374,27 @@
 
           <div class="subsection">
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
-              <div class="investors-number__text text-[black] dark:!text-white">Factory Contract</div>
               <div class="investors-number__text text-[black] dark:!text-white">
-                <div class="d-flex align-items-center gap-1" style="color: #0082a5">
+                Factory Contract
+              </div>
+              <div class="investors-number__text text-[black] dark:!text-white">
+                <div
+                  class="d-flex align-items-center gap-1"
+                  style="color: #0082a5"
+                >
                   <div>
                     {{
-    pool?.factory?.substring(0, 6) +
-    '....' +
-    pool?.factory?.substring(pool?.factory?.length - 4)
-  }}
+                      pool?.factory?.substring(0, 6) +
+                      '....' +
+                      pool?.factory?.substring(pool?.factory?.length - 4)
+                    }}
                   </div>
-                  <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
-    }/address/${pool.factory}`">
+                  <a
+                    target="_blank"
+                    :href="`${
+                      configService.getNetworkConfig(networkId).explorer
+                    }/address/${pool.factory}`"
+                  >
                     <img :src="link" />
                   </a>
                 </div>
@@ -275,15 +402,20 @@
             </div>
 
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
-              <div class="investors-number__text text-[black] dark:!text-white">Pool Contract</div>
               <div class="investors-number__text text-[black] dark:!text-white">
-                <div class="d-flex align-items-center gap-1" style="color: #0082a5">
+                Pool Contract
+              </div>
+              <div class="investors-number__text text-[black] dark:!text-white">
+                <div
+                  class="d-flex align-items-center gap-1"
+                  style="color: #0082a5"
+                >
                   <div>
                     {{
-    pool?.id?.substring(0, 6) +
-    '....' +
-    pool?.id?.substring(pool?.id?.length - 4)
-  }}
+                      pool?.id?.substring(0, 6) +
+                      '....' +
+                      pool?.id?.substring(pool?.id?.length - 4)
+                    }}
                   </div>
                   <a target="_blank" :href="scannerLink">
                     <img :src="link" />
@@ -293,26 +425,36 @@
             </div>
 
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
-              <div class="investors-number__text text-[black] dark:!text-white">Vault</div>
               <div class="investors-number__text text-[black] dark:!text-white">
-                <div class="d-flex align-items-center gap-1" style="color: #0082a5">
+                Vault
+              </div>
+              <div class="investors-number__text text-[black] dark:!text-white">
+                <div
+                  class="d-flex align-items-center gap-1"
+                  style="color: #0082a5"
+                >
                   <div>
                     {{
-    configService
-      .getNetworkConfig(networkId)
-      .addresses.vault.substring(0, 6) +
-    '....' +
-    configService
-      .getNetworkConfig(networkId)
-      .addresses.vault.substring(
-        configService.getNetworkConfig(networkId).addresses
-          .vault.length - 4,
-      )
-  }}
+                      configService
+                        .getNetworkConfig(networkId)
+                        .addresses.vault.substring(0, 6) +
+                      '....' +
+                      configService
+                        .getNetworkConfig(networkId)
+                        .addresses.vault.substring(
+                          configService.getNetworkConfig(networkId).addresses
+                            .vault.length - 4,
+                        )
+                    }}
                   </div>
-                  <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
-    }/address/${configService.getNetworkConfig(networkId).addresses.vault
-    }`">
+                  <a
+                    target="_blank"
+                    :href="`${
+                      configService.getNetworkConfig(networkId).explorer
+                    }/address/${
+                      configService.getNetworkConfig(networkId).addresses.vault
+                    }`"
+                  >
                     <img :src="link" />
                   </a>
                 </div>
@@ -320,18 +462,27 @@
             </div>
 
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
-              <div class="investors-number__text text-[black] dark:!text-white">Pool Owner</div>
               <div class="investors-number__text text-[black] dark:!text-white">
-                <div class="d-flex align-items-center gap-1" style="color: #0082a5">
+                Pool Owner
+              </div>
+              <div class="investors-number__text text-[black] dark:!text-white">
+                <div
+                  class="d-flex align-items-center gap-1"
+                  style="color: #0082a5"
+                >
                   <div>
                     {{
-    pool?.owner?.substring(0, 6) +
-    '....' +
-    pool?.owner?.substring(pool?.owner?.length - 4)
-  }}
+                      pool?.owner?.substring(0, 6) +
+                      '....' +
+                      pool?.owner?.substring(pool?.owner?.length - 4)
+                    }}
                   </div>
-                  <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
-    }/address/${pool.owner}`">
+                  <a
+                    target="_blank"
+                    :href="`${
+                      configService.getNetworkConfig(networkId).explorer
+                    }/address/${pool.owner}`"
+                  >
                     <img :src="link" />
                   </a>
                 </div>
@@ -339,35 +490,48 @@
             </div>
           </div>
         </div>
-        <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-else style="height: 330px; width: 70%">
+        <div
+          class="pool-section dark:!bg-[#22222224] !bg-[white]"
+          v-else
+          style="height: 330px; width: 70%"
+        >
           <LoaderPulse></LoaderPulse>
         </div>
 
-        <div class="diagram-section dark:!bg-[#22222224] !bg-[white]" style="width: 28%" v-if="pool &&
-    pool.tokens &&
-    tokenPrices &&
-    tokenWeights.length > 0 &&
-    pool.id == router.currentRoute.value.params['id']
-    ">
-          <div class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white]" style="
-             
-              padding: 8px;
-              border-radius: 20px 20px 0px 0px;
-            ">
+        <div
+          class="diagram-section dark:!bg-[#22222224] !bg-[white]"
+          style="width: 28%"
+          v-if="
+            pool &&
+            pool.tokens &&
+            tokenPrices &&
+            tokenWeights.length > 0 &&
+            pool.id == router.currentRoute.value.params['id']
+          "
+        >
+          <div
+            class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white]"
+            style="padding: 8px; border-radius: 20px 20px 0px 0px"
+          >
             <div class="d-flex align-items-center gap-2">
               <div class="d-flex gap-2 text-[black] dark:!text-white">
-                <div style="
-                    font-weight: 500;
-                    font-size: clamp(10px, 0.8vw, 14px);
-                  ">
+                <div
+                  style="font-weight: 500; font-size: clamp(10px, 0.8vw, 14px)"
+                >
                   Assets Breakdown
                 </div>
               </div>
             </div>
             <VTooltip :distance="0" :placement="'right'">
               <div style="cursor: help">
-                <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                <svg
+                  class="info_icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -378,11 +542,14 @@
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z" class="dark:!fill-white fill-black"/>
+        12 20Z"
+                    class="dark:!fill-white fill-black"
+                  />
                 </svg>
               </div>
               <template #popper>
-                <div style="
+                <div
+                  style="
                     background: linear-gradient(
                       rgba(89, 89, 89, 0.75),
                       rgba(73, 73, 73, 0.15)
@@ -391,13 +558,16 @@
                     padding: 10px;
                     border-radius: 4px;
                     width: 400px;
-                  ">
+                  "
+                >
                   <h6>Information</h6>
-                  <div style="
+                  <div
+                    style="
                       display: flex;
                       flex-direction: column;
                       font-size: 13px;
-                    ">
+                    "
+                  >
                     <div>
                       This pie chart illustrates the percentage breakdown of
                       assets within this pool. It provides a visual
@@ -410,15 +580,26 @@
             </VTooltip>
           </div>
           <div class="diagram-container dark:!bg-[#22222224] !bg-[white]">
-            <apexchart :options="dynamicDonut" :series="dynamicDonut['series']" :height="270" :width="375" />
+            <apexchart
+              :options="dynamicDonut"
+              :series="dynamicDonut['series']"
+              :height="270"
+              :width="375"
+            />
           </div>
         </div>
-        <div class="diagram-section dark:!bg-[#22222224] !bg-[white]" v-else style="width: 28%; height: 330px">
+        <div
+          class="diagram-section dark:!bg-[#22222224] !bg-[white]"
+          v-else
+          style="width: 28%; height: 330px"
+        >
           <LoaderPulse></LoaderPulse>
         </div>
       </div>
 
-      <div class="mb-2" style="
+      <div
+        class="mb-2"
+        style="
           font-family: Poppins;
           color: white;
           margin-top: 40px;
@@ -427,46 +608,81 @@
           font-weight: 700;
           line-height: 28px;
           letter-spacing: 0em;
-        ">
+        "
+      >
         Pool Analytics
       </div>
       <CRow id="pool-stats-row">
-        <PoolsDetailsDiagrams v-if="assetsPerformance && poolTradesData && poolProfitsData"
-          :tradesData="poolTradesData.tradesData" :tradesTimestamps="poolTradesData.tradesTimestamps"
-          :profitsData="poolProfitsData.profitsData" :profitsTimestamps="poolProfitsData.profitsTimestamps"
-          :symbol="currencySymbol" :decimals="currencyDecimals"
-          :assetsPerformanceData="assetsPerformance.assetsPerformanceData" :assetsPerformanceTimestamps="assetsPerformance.assetsPerformanceTimestamps
-    " :tokens="pool.tokens" />
-        <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-else style="height: 330px; width: 70%">
+        <PoolsDetailsDiagrams
+          v-if="assetsPerformance && poolTradesData && poolProfitsData"
+          :tradesData="poolTradesData.tradesData"
+          :tradesTimestamps="poolTradesData.tradesTimestamps"
+          :profitsData="poolProfitsData.profitsData"
+          :profitsTimestamps="poolProfitsData.profitsTimestamps"
+          :symbol="currencySymbol"
+          :decimals="currencyDecimals"
+          :assetsPerformanceData="assetsPerformance.assetsPerformanceData"
+          :assetsPerformanceTimestamps="
+            assetsPerformance.assetsPerformanceTimestamps
+          "
+          :tokens="pool.tokens"
+        />
+        <div
+          class="pool-section dark:!bg-[#22222224] !bg-[white]"
+          v-else
+          style="height: 330px; width: 70%"
+        >
           <LoaderPulse></LoaderPulse>
         </div>
       </CRow>
       <Title :title="'Pool Activity'"></Title>
       <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" />
     </div>
-    <PoolDetailsFinancialStatement v-else-if="selectedTab == 'Financial Statement' && pool"
-      :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historical_tvl="historical_tvl"
-      :historicalPrices="historicalPrices" :poolId="poolId" :symbol="currencySymbol" :decimals="currencyDecimals">
+    
+    <PoolDetailsFinancialStatement
+      v-else-if="selectedTab == 'Financial Statement' && pool"
+      :poolSwapsData="poolSwapsData"
+      :chainSelected="chainSelected"
+      :historical_tvl="historical_tvl"
+      :historicalPrices="historicalPrices"
+      :poolId="poolId"
+      :symbol="currencySymbol"
+      :decimals="currencyDecimals"
+    >
     </PoolDetailsFinancialStatement>
-    <PoolDetailsStatistics v-else-if="selectedTab == 'Statistics' && pool" :historical_tvl="historical_tvl" :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
-    " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :chartData="chartData"
-      :historicalPrices="historicalPrices" :pool="pool" :tokenPairs="chainPairs" :symbol="currencySymbol"
-      :decimals="currencyDecimals">
-    </PoolDetailsStatistics>
-    <!-- <div v-else-if="selectedTab === 'Pairs & Tokens'">
-      <PoolDetailsTable :symbol="currencySymbol" :currencyDecimals="currencyDecimals" :currency="currency"
-        :allTokensTableData="allTokensTableData" :allPairsTableData="allPairsTableData"
-        :chainSelected="chainSelected" />
-    </div> -->
+
+  
+
+    <PortfolioStatistics
+      v-else-if="selectedTab == 'Statistics' && pool"
+      :historical_tvl="historical_tvl"
+      :tokensData="
+        pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
+      "
+      :poolSwapsData="poolSwapsData"
+      :chainSelected="chainSelected"
+      :chartData="chartData"
+      :historicalPrices="historicalPrices"
+      :userFirstTimestamp="0"
+      :tokenPairs="chainPairs"
+    >
+    </PortfolioStatistics>
 
 
-    {{ console.log('pool!!!', pool) }}
+    <!-- {{ console.log('pool!!!', pool) }} -->
+  
   </MainCard>
-
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, defineAsyncComponent, watchEffect } from 'vue'
+import {
+  ref,
+  computed,
+  onMounted,
+  watch,
+  defineAsyncComponent,
+  watchEffect,
+} from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import PoolsDetailsChart from '@/components/PoolsDetails/PoolsDetailsChart.vue'
 import {
@@ -522,7 +738,6 @@ import {
 } from '@/composables/pools/useTokenPairs'
 import { DisplayNetwork } from '@/composables/useNetwork'
 import { InitializeMetamask } from '@/lib/utils/metamask'
-import PoolDetailsTable from '@/components/PoolsDetails/PoolDetailsTable.vue'
 import { convertSwapsCurrency } from '@/composables/pools/usePoolSwapsStats'
 import { CalculateJoinExitPrice } from '@/lib/formatter/financialStatement/financialStatementFormatter'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
@@ -530,7 +745,8 @@ import info from '@/assets/images/info.svg'
 import { FormatAllTokensData } from '@/lib/formatter/trackTokensFormatter'
 import { FormatAllPairsData } from '@/lib/formatter/trackPairsFormatter'
 import { setPoolsTvls } from '@/composables/pools/usePools'
-import { GetPoolShares } from "@/composables/pools/usePoolShares"
+import { GetPoolShares } from '@/composables/pools/usePoolShares'
+import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
 const store = useStore()
 const trackCurrentNetwork = computed(() => {
   return store.getters.getCurrentNetwork
@@ -548,11 +764,9 @@ use([
   MarkPointComponent,
 ])
 
-
 const PoolsDetailsDiagrams = defineAsyncComponent(() =>
   import('@/components/PoolsDetailsDiagrams/index.vue'),
 )
-
 
 const clActivity = ref([
   {
@@ -865,17 +1079,17 @@ const historical_tvl = ref([])
 const poolFees = computed(() =>
   poolSwapsData.value
     ? poolSwapsData.value.reduce(
-      (sum, value) => sum + parseFloat(value.gasFeeUsd),
-      0,
-    )
+        (sum, value) => sum + parseFloat(value.gasFeeUsd),
+        0,
+      )
     : 0,
 )
 const poolVolume = computed(() =>
   poolSwapsData.value
     ? poolSwapsData.value.reduce(
-      (sum, value) => sum + parseFloat(value.volumeUsd),
-      0,
-    )
+        (sum, value) => sum + parseFloat(value.volumeUsd),
+        0,
+      )
     : 0,
 )
 const poolTrades = computed(() =>
@@ -884,15 +1098,18 @@ const poolTrades = computed(() =>
 
 const scannerLink = computed(() => {
   return trackCurrentNetwork.value.name === 'arbitrum'
-    ? `${process.env.VUE_APP_EXPLORER_ARBITRUM
-    }/address/${pool.value?.id?.substring(0, 42)}`
-    : trackCurrentNetwork.value.name === 'bnb'
-      ? `${process.env.VUE_APP_EXPLORER_BINANCE
+    ? `${
+        process.env.VUE_APP_EXPLORER_ARBITRUM
       }/address/${pool.value?.id?.substring(0, 42)}`
-      : trackCurrentNetwork.value.name === 'matic'
-        ? `${process.env.VUE_APP_EXPLORER_POLYGON
-        }/address/${pool.value?.id?.substring(0, 42)}`
-        : process.env.VUE_APP_EXPLORER_ARBITRUM
+    : trackCurrentNetwork.value.name === 'bnb'
+    ? `${
+        process.env.VUE_APP_EXPLORER_BINANCE
+      }/address/${pool.value?.id?.substring(0, 42)}`
+    : trackCurrentNetwork.value.name === 'matic'
+    ? `${
+        process.env.VUE_APP_EXPLORER_POLYGON
+      }/address/${pool.value?.id?.substring(0, 42)}`
+    : process.env.VUE_APP_EXPLORER_ARBITRUM
 })
 
 const current_pool_token_prices = ref({})
@@ -1044,7 +1261,7 @@ async function SetAdditionalData(_poolActivity) {
     const address = await provider.getSigner().getAddress()
     const share = await GetPoolShares(pool.value.id, { value: address })
     if (share.percentage) {
-      balance.value = pool.value.totalLiquidity / 100 * share.percentage
+      balance.value = (pool.value.totalLiquidity / 100) * share.percentage
     }
   }
   console.log('DONE 3')
@@ -1200,7 +1417,7 @@ const filteredActivities = computed(() => {
     let activities = poolActivityData.value.filter(function (item) {
       return (
         new Date() - actSelectedPeriodOfData.value.number <=
-        item.timestamp * 1000 && item.Actions == activitiesSelectedMode.value
+          item.timestamp * 1000 && item.Actions == activitiesSelectedMode.value
       )
     })
     return activities
@@ -1220,11 +1437,11 @@ const tokenWeights = computed(() =>
 const diagramsData = computed(() =>
   poolActivity.value && historicalPrices.value
     ? UseDiagramsData(
-      poolSwapsData.value,
-      historicalData.value.historicalBalances,
-      pool.value.tokens,
-      historicalPrices.value,
-    )
+        poolSwapsData.value,
+        historicalData.value.historicalBalances,
+        pool.value.tokens,
+        historicalPrices.value,
+      )
     : null,
 )
 const poolSwapsData = ref([])
@@ -1521,7 +1738,13 @@ const dynamicDonut = computed(() => {
 })
 
 function changeToWithdrawView() {
-  router.push({ name: "Pool Withdraw", params: { id: router.currentRoute.value.params['id'], chainSelected: router.currentRoute.value.params['chainSelected'] } })
+  router.push({
+    name: 'Pool Withdraw',
+    params: {
+      id: router.currentRoute.value.params['id'],
+      chainSelected: router.currentRoute.value.params['chainSelected'],
+    },
+  })
   poolsLoader.value = true
   setTimeout(() => {
     poolsLoader.value = false
@@ -1529,16 +1752,19 @@ function changeToWithdrawView() {
   visibleWithdrawComponent.value = !visibleWithdrawComponent.value
 }
 function changeToDepositView() {
-  router.push({ name: "Pool Deposit", params: { id: router.currentRoute.value.params['id'], chainSelected: router.currentRoute.value.params['chainSelected'] } })
+  router.push({
+    name: 'Pool Deposit',
+    params: {
+      id: router.currentRoute.value.params['id'],
+      chainSelected: router.currentRoute.value.params['chainSelected'],
+    },
+  })
   poolsLoader.value = true
   setTimeout(() => {
     poolsLoader.value = false
   }, 1200)
   visibleDepositComponent.value = !visibleDepositComponent.value
 }
-
-
-
 
 // let poolsData = ref()
 // let historicValues = ref()
@@ -1798,7 +2024,6 @@ function changeToDepositView() {
     flex-direction: column;
 
     &__item {
-   
       box-shadow: 0px 4px 4px 0px #00000040;
 
       border-radius: 8px;
@@ -1825,7 +2050,6 @@ function changeToDepositView() {
           font-weight: 400;
           line-height: 24px;
           letter-spacing: 0em;
-     
 
           &.grayed {
             color: #c1c1d1;
@@ -1843,7 +2067,6 @@ function changeToDepositView() {
               font-weight: 400;
               line-height: 24px;
               letter-spacing: 0em;
-      
             }
 
             &.paired {
@@ -1856,7 +2079,6 @@ function changeToDepositView() {
                 font-weight: 400;
                 line-height: 24px;
                 letter-spacing: 0em;
-            
               }
 
               .percentage-chip {
@@ -1975,7 +2197,6 @@ function changeToDepositView() {
     font-weight: 600;
     line-height: 24px;
     letter-spacing: 0em;
- 
   }
 }
 
@@ -1992,7 +2213,7 @@ function changeToDepositView() {
     font-weight: 300;
     line-height: 24px;
     letter-spacing: 0em;
- 
+
     margin-left: 12px;
 
     @media (max-width: $xxl) {
@@ -2243,7 +2464,6 @@ function changeToDepositView() {
 }
 
 @keyframes mulShdSpin {
-
   0%,
   100% {
     box-shadow: 0em -2.6em 0em 0em #ffffff,
