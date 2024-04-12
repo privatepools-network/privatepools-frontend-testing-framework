@@ -703,8 +703,8 @@ async function ApproveToken(
     toast.update(ApproveTokensToastPending, {
       render: Toast,
       data: {
-        header_text: 'All tokens rej',
-        toast_text: `All tokens from wallet successfully approved`,
+        header_text: 'Approval rejected',
+        toast_text: `You rejected tokens approval`,
         tx_link: ``,
         speedUp: '',
       },
@@ -716,7 +716,7 @@ async function ApproveToken(
       isLoading: false,
     })
 
-    throw new Error('App rej')
+    throw new Error('Approve rej')
   }
 }
 
