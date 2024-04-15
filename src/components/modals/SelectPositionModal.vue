@@ -18,6 +18,9 @@
           class="p-3 gap-3 token_card dark:!bg-[#00000024] bg-white text-black dark:!text-white"
           @click="selectPositionHandler(PosIndex)"
         >
+        <!-- {{ console.log('selectPositionHandler(PosIndex)', selectPositionHandler(PosIndex)) }}
+        {{ console.log('pos', pos) }}
+        {{ console.log('PosIndex', PosIndex) }} -->
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center gap-1">
               <img
@@ -47,11 +50,11 @@ import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 const props = defineProps(['selectPositionModalState', 'positions'])
 
-const emit = defineEmits(['updateToken', 'selectPosition'])
+const emit = defineEmits(['updateToken', 'selectPositionHandler'])
 
 function selectPositionHandler(positionIndex) {
-  emit('selectPosition', positionIndex)
-  props.selectPositionModalState = false
+  emit('selectPositionHandler', positionIndex)
+  // props.selectPositionModalState = false
 }
 </script>
 <style lang="scss" scoped>

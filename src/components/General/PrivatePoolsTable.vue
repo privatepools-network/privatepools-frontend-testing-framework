@@ -279,7 +279,7 @@ const periodsOfData = [
   },
 ]
 
-const activitiesModes = ['All', 'Deposit', 'Swap', 'Harvest', 'Withdraw']
+const activitiesModes = ['All', 'Deposit', 'Trades', 'Harvest', 'Withdraw']
 
 const activitiesSelectedMode = ref(activitiesModes[0])
 const actSelectedPeriodOfData = ref(periodsOfData[4])

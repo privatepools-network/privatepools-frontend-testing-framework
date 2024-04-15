@@ -1,12 +1,14 @@
 <template>
+  {{ console.log('positionSelectModal', positionSelectModal) }}
+  {{ console.log('selectedPosition', selectedPosition) }}
+  {{ console.log('selectPositions', selectPositions) }}
+  {{ console.log('positions', positions) }}
   <Modal v-if="positionSelectModal" @close="positionSelectModalClose">
     <template #body>
       <SelectPositionModal
         :selectPositionModalState="positionSelectModal"
         :positions="selectPositions"
-        @selectPositionHandler="
-          (index) => (selectedPosition = positions[index])
-        "
+        @selectPositionHandler="(index) => selectPositionFunc(index)"
       />
     </template>
   </Modal>
@@ -41,7 +43,6 @@
       {{ console.log('selectedPosition', selectedPosition) }}
       <div v-if="selectedPosition === null" class="my-44">
         <LoaderPulse />
-      
       </div>
       <div class="d-flex gap-5" v-else>
         <div class="w-50">
@@ -87,7 +88,9 @@
           </div>
 
           <div class="concentrated_card dark:!bg-[#00000024] bg-white">
-            <div class="compose_text dark:!text-white text-black mb-3">Manage Position</div>
+            <div class="compose_text dark:!text-white text-black mb-3">
+              Manage Position
+            </div>
 
             <div class="mb-5">
               <apexchart
@@ -122,7 +125,11 @@
               </div>
             </div>
             <div v-if="liquidityActionTab === 'Add'">
-              <div class="compose_text dark:!text-white text-black fw-light mt-3">Increase Liquidity</div>
+              <div
+                class="compose_text dark:!text-white text-black fw-light mt-3"
+              >
+                Increase Liquidity
+              </div>
               <div class="price_range_container dark:!bg-[#00000024] bg-white">
                 <div class="d-flex flex-column gap-4 position-relative">
                   <!-- Add liquidity to singe comp on refactor week -->
@@ -136,7 +143,9 @@
                       border-radius: 16px;
                     "
                   >
-                    <div class="balance_container dark:!bg-[#00000024] bg-white">
+                    <div
+                      class="balance_container dark:!bg-[#00000024] bg-white"
+                    >
                       <div
                         class="d-flex flex-column justify-content-around h-100"
                       >
@@ -150,11 +159,7 @@
                           />
 
                           <h4
-                            style="
-                              font-size: 21px;
-                              margin-bottom: 0;
-                          
-                            "
+                            style="font-size: 21px; margin-bottom: 0"
                             class="dark:!text-white text-black"
                           >
                             {{ pairToken1.symbol }}
@@ -193,7 +198,10 @@
                           v-model="depositAmount1"
                           @blur="updateDepositAmount2"
                         />
-                        <div style=" font-size: 12px" class="dark:!text-white text-[#858c90]">
+                        <div
+                          style="font-size: 12px"
+                          class="dark:!text-white text-[#858c90]"
+                        >
                           ≈${{
                             (depositAmount1 * (pairToken1.price || 0)).toFixed(
                               2,
@@ -212,7 +220,9 @@
                       border-radius: 16px;
                     "
                   >
-                    <div class="balance_container dark:!bg-[#00000024] bg-white">
+                    <div
+                      class="balance_container dark:!bg-[#00000024] bg-white"
+                    >
                       <div
                         class="d-flex flex-column justify-content-around h-100"
                       >
@@ -226,11 +236,7 @@
                           />
 
                           <h4
-                            style="
-                              font-size: 21px;
-                              margin-bottom: 0;
-                           
-                            "
+                            style="font-size: 21px; margin-bottom: 0"
                             class="dark:!text-white text-black"
                           >
                             {{ pairToken2.symbol }}
@@ -269,7 +275,10 @@
                           v-model="depositAmount2"
                           @blur="updateDepositAmount1"
                         />
-                        <div style="font-size: 12px" class="dark:!text-white text-[#858c90]">
+                        <div
+                          style="font-size: 12px"
+                          class="dark:!text-white text-[#858c90]"
+                        >
                           ≈${{
                             (depositAmount2 * (pairToken2.price || 0)).toFixed(
                               2,
@@ -350,7 +359,11 @@
               </div>
             </div>
             <div v-else-if="liquidityActionTab === 'Withdraw'">
-              <div class="compose_text dark:!text-white text-black fw-light mt-3">Withdraw Liquidity</div>
+              <div
+                class="compose_text dark:!text-white text-black fw-light mt-3"
+              >
+                Withdraw Liquidity
+              </div>
               <div class="liquidity_slider dark:!bg-[#00000024] bg-white">
                 <div class="fee_tier_container">
                   <div
@@ -363,7 +376,9 @@
                     :key="`tiers-${i}`"
                     @click="selectRange(type)"
                   >
-                    <div class="dark:!text-white text-[#858c90]">{{ type.name }}%</div>
+                    <div class="dark:!text-white text-[#858c90]">
+                      {{ type.name }}%
+                    </div>
                   </div>
                 </div>
                 <div class="mt-3 p-2" style="pointer-events: none">
@@ -378,7 +393,11 @@
                   />
                 </div>
               </div>
-              <div class="compose_text dark:!text-white text-black fw-light mt-3">Withdraw Tokens</div>
+              <div
+                class="compose_text dark:!text-white text-black fw-light mt-3"
+              >
+                Withdraw Tokens
+              </div>
               <div
                 style="
                   /* background: #22222224; */
@@ -399,7 +418,9 @@
                     />
                   </div>
                   <div class="d-flex flex-column gap-1">
-                    <div class="dark:!text-white text-black">{{ pairToken1.symbol }}</div>
+                    <div class="dark:!text-white text-black">
+                      {{ pairToken1.symbol }}
+                    </div>
                     <div style="color: #a3a3a3">
                       {{
                         (
@@ -426,7 +447,9 @@
                 </div>
                 <div class="d-flex gap-2 align-items-center">
                   <div class="d-flex flex-column gap-1">
-                    <div class="dark:!text-white text-black">{{ pairToken2.symbol }}</div>
+                    <div class="dark:!text-white text-black">
+                      {{ pairToken2.symbol }}
+                    </div>
                     <div style="color: #a3a3a3">
                       {{
                         (
@@ -619,7 +642,7 @@ const chartOptions = computed(() => ({
 
 const concentratedLiquidityStep = ref(1)
 
-const selectedPosition = ref(null)
+let selectedPosition = ref(null)
 const additionalInfo1 = ref({})
 const pairToken1 = computed(() => {
   if (!selectedPosition.value) {
@@ -656,6 +679,12 @@ const relativePrice = computed(() =>
     ? pairToken1.value.price / pairToken2.value.price
     : 0,
 )
+
+function selectPositionFunc(index) {
+  console.log('index', index)
+  selectedPosition.value = positions.value[index]
+  positionSelectModal.value = false
+}
 
 function selectRange(rng) {
   withdrawPercents.value.map((t) => (t.selected = false))
@@ -865,15 +894,12 @@ async function removeLiquidityHandler() {
   padding: 15px;
 }
 
-
-
 .liquidity_slider {
   border-radius: 16px;
   // background: #00000024;
   padding: 16px;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
-
 
 .price_range_container {
   // background: #00000024;
@@ -918,7 +944,6 @@ async function removeLiquidityHandler() {
   border: 0px;
   background: linear-gradient(89.27deg, #00c9ff 1.58%, #0094ff 100.04%);
   box-shadow: 0px 2px 4px -1px #0000000d;
-
 
   width: 100%;
   border-radius: 8px;
@@ -1065,7 +1090,7 @@ async function removeLiquidityHandler() {
 
   &_selected {
     background: linear-gradient(152.97deg, #002429 0%, #00c9ff 100%);
-    color: white !important
+    color: white !important;
   }
 }
 
