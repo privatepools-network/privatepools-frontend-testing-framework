@@ -3,7 +3,7 @@
     <div class="title text-black dark:!text-white my-3">
       Overview
     </div>
-    <GeneralOverview />
+    <GeneralOverview :overview="allData.overview" />
     <div class="title text-black dark:!text-white mt-5 mb-3">
       Analytics Chart
     </div>
@@ -15,15 +15,15 @@
         :tokensData="tokensData" :symbol="currencySymbol" />
     </div>
 
-    
+
     <div style="" class="mt-5 mb-3 title text-black dark:!text-white">
       Top Perfomance Pools
     </div>
-    <GeneralPerformanceTable />
-    <div  class="mt-5 mb-3 title text-black dark:!text-white">
+    <GeneralPerformanceTable :all_pools="allData.topPerformancePools" />
+    <div class="mt-5 mb-3 title text-black dark:!text-white">
       Top Trading Tokens
     </div>
-    <TopTradingTokensTable />
+    <TopTradingTokensTable :all_tokens="allData.topTradingTokens" />
 
 
     <div class="mt-5 mb-3 title text-black dark:!text-white">
@@ -31,8 +31,8 @@
     </div>
     {{ console.log('clActivity', clActivity) }}
     {{ console.log('joinExits', joinExits) }}
-    <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" />
-    
+    <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" :all_activities="allData.activities" />
+
   </MainCard>
 </template>
 
@@ -67,7 +67,7 @@ import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue';
 import GeneralPerformanceTable from '@/components/General/GeneralPerformanceTable.vue';
 import TopTradingTokensTable from '@/components/General/TopTradingTokensTable.vue';
 import { GetUniswapActivity } from "@/composables/concentrated-liquidity/useUniswapActivity"
-
+import { getGeneralData } from "@/composables/data/generalData";
 
 const allPoolsTableData = ref([])
 const allPairsTableData = ref([])
@@ -94,9 +94,17 @@ const currencySymbol = computed(() => currencySelected.value.symbol)
 const currency_prices = ref(null)
 const currencyDecimals = computed(() => currencySelected.value.code == "USD" ? 3 : 5)
 
+const allData = ref({});
+
 onBeforeMount(async () => {
-  InitTreasuryYields()
-  await Init()
+  if (!process.env.VUE_APP_LOCAL_API) {
+    InitTreasuryYields()
+    await Init()
+  }
+  else {
+    allData.value = await getGeneralData(56);
+    console.log(allData.value)
+  }
 })
 
 watch(currency, async () => {
@@ -278,6 +286,7 @@ async function InitPoolsData(network) {
 }
 
 .title {
-  font-size: 18px; font-weight: 700
+  font-size: 18px;
+  font-weight: 700
 }
 </style>

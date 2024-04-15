@@ -1,33 +1,19 @@
 <template>
   <div class="table__header">
-    <Tabs
-      style="margin-right: 15px"
-      :selectedTab="activitiesSelectedMode"
-      :tabsOptions="activitiesModes"
-      @changeTab="changeActivitiesMode"
-    ></Tabs>
+    <Tabs style="margin-right: 15px" :selectedTab="activitiesSelectedMode" :tabsOptions="activitiesModes"
+      @changeTab="changeActivitiesMode"></Tabs>
 
-    <Tabs
-      :selectedTab="actSelectedPeriodOfData"
-      :tabsOptions="periodsOfData"
-      @changeTab="changeActPeriodOfData"
-    >
+    <Tabs :selectedTab="actSelectedPeriodOfData" :tabsOptions="periodsOfData" @changeTab="changeActPeriodOfData">
     </Tabs>
   </div>
 
 
   <CRow id="pool-activity-row" class="table-wrapper">
     <Table :headers="['Actions', 'Details', 'Value', 'Time']">
-      <CTableBody
-        v-if="activities"
-        class="text-black dark:!text-white"
-        :class="isDark ? 'table-body' : 'table-body-light'"
-      >
+      <CTableBody v-if="activities" class="text-black dark:!text-white"
+        :class="isDark ? 'table-body' : 'table-body-light'">
         <CTableRow v-for="(item, i) in activities" :key="i" class="table-row">
-          <CTableDataCell
-            scope="row"
-            class="text-black dark:!text-white table-cell"
-          >
+          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
             <div class="actions-cell">
               <img v-if="item['Actions'] === 'Deposit'" :src="DepositIcon" />
               <img v-if="item['Actions'] === 'Withdraw'" :src="WithdrawIcon" />
@@ -37,44 +23,23 @@
               </div>
             </div>
           </CTableDataCell>
-          <CTableDataCell
-            scope="row"
-            class="text-black dark:!text-white table-cell"
-          >
+          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
             <div class="details-cell">
-              <div
-                v-for="(tokenEntry, tokenIndex) in item['Details']"
-                class="details-cell__token-entity"
-                :key="`activity-token-key-${tokenIndex}`"
-              >
-                <div
-                  v-for="(tokenInfo, tokenInfoIndex) in Object.entries(
-                    tokenEntry,
-                  )"
-                  :class="
-                    tokenInfo[0] !== 'action'
-                      ? 'details-cell__token-entity'
-                      : ''
-                  "
-                  :key="`activity-token-info-key-${tokenInfoIndex}`"
-                >
-                  <div
-                    v-if="tokenInfo[0] !== 'action'"
-                    class="d-flex align-items-center"
-                  >
-                    <img
-                      :src="getTokenEntity(tokenInfo[0], 'short').icon"
-                      class="details-cell__token-entity__icon"
-                    />
+              <div v-for="(tokenEntry, tokenIndex) in item['Details']" class="details-cell__token-entity"
+                :key="`activity-token-key-${tokenIndex}`">
+                <div v-for="(tokenInfo, tokenInfoIndex) in Object.entries(
+      tokenEntry,
+    )" :class="tokenInfo[0] !== 'action'
+        ? 'details-cell__token-entity'
+        : ''
+      " :key="`activity-token-info-key-${tokenInfoIndex}`">
+                  <div v-if="tokenInfo[0] !== 'action'" class="d-flex align-items-center">
+                    <img :src="getTokenEntity(tokenInfo[0], 'short').icon" class="details-cell__token-entity__icon" />
                     <div class="details-cell__token-entity__token-name">
                       {{ tokenInfo[1] }}
                     </div>
-                    <div
-                      v-if="
-                        tokenEntry.action === 'Swap' && tokenInfoIndex === 1
-                      "
-                      style="margin-left: 10px"
-                    >
+                    <div v-if="tokenEntry.action === 'Swap' && tokenInfoIndex === 1
+      " style="margin-left: 10px">
                       <img :src="swapArrowIcon" />
                     </div>
                   </div>
@@ -82,76 +47,37 @@
               </div>
             </div>
           </CTableDataCell>
-          <CTableDataCell
-            scope="row"
-            class="text-black dark:!text-white table-cell"
-          >
+          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
             <div>
               {{ item['Value'] }}
             </div>
           </CTableDataCell>
 
-          <CTableDataCell
-            scope="row"
-            class="text-black dark:!text-white table-cell"
-          >
+          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
             <div class="time-cell">
-              <a
-                target="_blank"
-                :href="`${
-                  configService.getNetworkConfig(item.chainId).explorer
-                }/tx/${item.Tx}`"
-                class="flex items-center gap-1 text-black dark:!text-white"
-              >
+              <a target="_blank" :href="`${configService.getNetworkConfig(item.chainId).explorer
+      }/tx/${item.Tx}`" class="flex items-center gap-1 text-black dark:!text-white">
                 {{ item['Time'] }}
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M10.5068 7.58333V11.0833C10.5068 11.3928 10.3839 11.6895 10.1651 11.9083C9.94633 12.1271 9.64959 12.25 9.34017 12.25H2.9235C2.61408 12.25 2.31734 12.1271 2.09854 11.9083C1.87975 11.6895 1.75684 11.3928 1.75684 11.0833V4.66667C1.75684 4.35725 1.87975 4.0605 2.09854 3.84171C2.31734 3.62292 2.61408 3.5 2.9235 3.5H6.4235"
-                    stroke="#00e0ff"
-                    stroke-width="1.16667"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M8.75684 1.75H12.2568V5.25"
-                    stroke="#00e0ff"
-                    stroke-width="1.16667"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M5.83984 8.16667L12.2565 1.75"
-                    stroke="#00e0ff"
-                    stroke-width="1.16667"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
+                    stroke="#00e0ff" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M8.75684 1.75H12.2568V5.25" stroke="#00e0ff" stroke-width="1.16667" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M5.83984 8.16667L12.2565 1.75" stroke="#00e0ff" stroke-width="1.16667" stroke-linecap="round"
+                    stroke-linejoin="round" />
                 </svg>
               </a>
             </div>
           </CTableDataCell>
         </CTableRow>
       </CTableBody>
-      <div
-        v-else-if="activities.length === 0"
-        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20"
-      >
-        <div
-          class="text-black dark:!text-white"
-          style="font-size: 14px; text-align: center"
-        >
-        No Activity yet
+      <div v-else-if="activities.length === 0"
+        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20">
+        <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
+          No Activity yet
         </div>
-        <div
-          class="text-black dark:!text-white"
-          style="font-size: 12px; text-align: center"
-        >
+        <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
           Choose a pool to invest or create a pool to get started.
         </div>
         <div class="add_liq_btn_pools">
@@ -180,17 +106,17 @@ import { useDark } from '@vueuse/core'
 
 const isDark = useDark()
 
-const props = defineProps(['clActivity', 'wpActivity'])
+const props = defineProps(['clActivity', 'wpActivity', 'all_activities'])
 const { clActivity, wpActivity } = toRefs(props)
 
 const activities = computed(() => {
-  let result = []
-  if (wpActivity.value) {
-    result.push(...getWpActivity())
-  }
-  if (clActivity.value) {
-    result.push(...clActivity.value)
-  }
+  let result = props.all_activities ?? []
+  // if (wpActivity.value) {
+  //   result.push(...getWpActivity())
+  // }
+  // if (clActivity.value) {
+  //   result.push(...clActivity.value)
+  // }
   let now = Date.now() / 1000
   let filtered_time_ago = now - actSelectedPeriodOfData.value.number
   return result
@@ -329,6 +255,7 @@ function changeActPeriodOfData(_new) {
     display: flex;
     margin-bottom: 18px;
   }
+
   &-body-light {
     display: block;
     max-height: 500px;
@@ -355,6 +282,7 @@ function changeActPeriodOfData(_new) {
       border-radius: 21px;
     }
   }
+
   &-body {
     display: block;
     max-height: 500px;
