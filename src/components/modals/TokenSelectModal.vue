@@ -93,6 +93,7 @@
       </div>
     </div>
   </div>
+  {{ console.log('possibleComposeTokens', possibleComposeTokens) }}
 </template>
 
 <script setup>

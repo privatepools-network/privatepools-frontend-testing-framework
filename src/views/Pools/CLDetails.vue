@@ -634,7 +634,9 @@
     >
     </PoolDetailsFinancialStatement>
 
-    <!-- <PoolDetailsStatistics
+
+
+    <PortfolioStatistics
       v-else-if="selectedTab == 'Statistics' && pool"
       :historical_tvl="historical_tvl"
       :tokensData="
@@ -644,36 +646,10 @@
       :chainSelected="chainSelected"
       :chartData="chartData"
       :historicalPrices="historicalPrices"
-      :pool="pool"
-      :tokenPairs="chainPairs"
-      :symbol="currencySymbol"
-      :decimals="currencyDecimals"
-    >
-    </PoolDetailsStatistics> -->
-
-    <PortfolioStatistics
-      v-else-if="selectedTab == 'Statistics' && pool"
-      :historical_tvl="historical_tvl"
-      :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))"
-      :poolSwapsData="poolSwapsData"
-      :chainSelected="chainSelected"
-      :chartData="chartData"
-      :historicalPrices="historicalPrices"
       :userFirstTimestamp="0"
       :tokenPairs="chainPairs"
     >
     </PortfolioStatistics>
-
-    <!-- <div v-else-if="selectedTab === 'Pairs & Tokens'">
-      <PoolDetailsTable
-        :symbol="currencySymbol"
-        :currencyDecimals="currencyDecimals"
-        :currency="currency"
-        :allTokensTableData="allTokensTableData"
-        :allPairsTableData="allPairsTableData"
-        :chainSelected="chainSelected"
-      />
-    </div> -->
 
 
   </MainCard>
@@ -740,7 +716,6 @@ import {
 import { DisplayNetwork } from '@/composables/useNetwork'
 import DepositComponent from './Deposit.vue'
 import WithdrawComponent from './Withdraw.vue'
-import PoolDetailsTable from '@/components/PoolsDetails/PoolDetailsTable.vue'
 import { convertSwapsCurrency } from '@/composables/pools/usePoolSwapsStats'
 import { CalculateJoinExitPrice } from '@/lib/formatter/financialStatement/financialStatementFormatter'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
