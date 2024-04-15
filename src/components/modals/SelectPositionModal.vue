@@ -18,9 +18,6 @@
           class="p-3 gap-3 token_card dark:!bg-[#00000024] bg-white text-black dark:!text-white"
           @click="selectPositionHandler(PosIndex)"
         >
-        <!-- {{ console.log('selectPositionHandler(PosIndex)', selectPositionHandler(PosIndex)) }}
-        {{ console.log('pos', pos) }}
-        {{ console.log('PosIndex', PosIndex) }} -->
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center gap-1">
               <img
@@ -54,7 +51,6 @@ const emit = defineEmits(['updateToken', 'selectPositionHandler'])
 
 function selectPositionHandler(positionIndex) {
   emit('selectPositionHandler', positionIndex)
-  // props.selectPositionModalState = false
 }
 </script>
 <style lang="scss" scoped>

@@ -1,8 +1,4 @@
 <template>
-  {{ console.log('positionSelectModal', positionSelectModal) }}
-  {{ console.log('selectedPosition', selectedPosition) }}
-  {{ console.log('selectPositions', selectPositions) }}
-  {{ console.log('positions', positions) }}
   <Modal v-if="positionSelectModal" @close="positionSelectModalClose">
     <template #body>
       <SelectPositionModal
@@ -40,7 +36,6 @@
           </svg>
         </div>
       </div>
-      {{ console.log('selectedPosition', selectedPosition) }}
       <div v-if="selectedPosition === null" class="my-44">
         <LoaderPulse />
       </div>
@@ -681,7 +676,6 @@ const relativePrice = computed(() =>
 )
 
 function selectPositionFunc(index) {
-  console.log('index', index)
   selectedPosition.value = positions.value[index]
   positionSelectModal.value = false
 }
