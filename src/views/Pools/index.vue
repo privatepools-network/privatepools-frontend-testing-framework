@@ -1,6 +1,9 @@
 <template>
   <MainCard>
-    <Title :title="'Private Pools'" />
+    <div class="flex items-center gap-2">
+      <img :src="walletPoolsImg" />
+      <Title :title="'Private Pools'" />
+    </div>
 
     <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
       <div class="flex gap-4">
@@ -65,14 +68,16 @@
         </div>
       </div>
 
-      <div v-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
+      <div
+        v-if="user_staked_pools.length === 0 && hidePools"
+        class="my-5 text-center text-black dark:!text-white"
+      >
         <div>No Results</div>
         <div>Chose a pool to invest or create a pool to get started.</div>
       </div>
       <div v-else-if="all_pools.length === 0" class="my-5">
         <LoaderPulse />
       </div>
-     
 
       {{ console.log('user_staked_pools', user_staked_pools.length) }}
 
@@ -136,7 +141,7 @@ import { CalculateCLAPR } from '@/composables/math/chartMath/trackingInfoMath'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import PoolFilters from '@/components/Pool/PoolFilters.vue'
 import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
-import Toggler from '@/UI/Toggler.vue'
+import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 

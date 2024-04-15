@@ -47,11 +47,10 @@ import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 const props = defineProps(['selectPositionModalState', 'positions'])
 
-const emit = defineEmits(['updateToken', 'selectPosition'])
+const emit = defineEmits(['updateToken', 'selectPositionHandler'])
 
 function selectPositionHandler(positionIndex) {
-  emit('selectPosition', positionIndex)
-  props.selectPositionModalState = false
+  emit('selectPositionHandler', positionIndex)
 }
 </script>
 <style lang="scss" scoped>

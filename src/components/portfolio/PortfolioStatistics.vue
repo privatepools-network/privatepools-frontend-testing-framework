@@ -1431,7 +1431,7 @@ watch(chainSelected, async () => {
   display: flex;
   flex-direction: column;
   width: 500px;
-  gap: 50px;
+  gap: 35px;
 }
 
 .stats_column_tables_inside {
