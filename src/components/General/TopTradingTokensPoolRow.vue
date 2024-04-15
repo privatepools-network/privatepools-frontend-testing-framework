@@ -11,7 +11,7 @@
         <div class="pools-row__col">
           <div class="pools-row__info">
             <div class="pools-row__value flex items-center gap-1">
-              <img :src="getTokenEntity(pool['Token'], 'short').icon" width="28" /> {{ pool['Token'] }} <span class="!text-[#00000077] dark:!text-[#FFFFFF4A]">({{ pool['Token'] }})</span>
+              <img :src="getTokenEntity(pool.symbol, 'short').icon" width="28" /> {{ pool.name }} <span class="!text-[#00000077] dark:!text-[#FFFFFF4A]">({{ pool.symbol }})</span>
             </div>
           </div>
         </div>
@@ -20,7 +20,7 @@
         <div class="pools-row__col">
           <div class="pools-row__info">
             <div class="pools-row__value">
-              ${{ numberToAposthrophe(Number(pool['TVL']).toFixed(0)) }}
+              ${{ numberToAposthrophe(Number(pool.tvl).toFixed(0)) }}
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="pools-row__col">
           <div class="pools-row__info">
             <div class="pools-row__value">
-              ${{ numberToAposthrophe(Number(pool['Volume']).toFixed(0)) }}
+              ${{ numberToAposthrophe(Number(pool.volume).toFixed(0)) }}
             </div>
           </div>
         </div>

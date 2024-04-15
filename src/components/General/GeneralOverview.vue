@@ -1,11 +1,8 @@
 <template>
   <div class="d-flex gap-1 flex-wrap justify-content-between">
     <div class="d-flex gap-4">
-      <div
-        class="overview_big_container bg-[#FFFFFF24] dark:!bg-[#22222224]"
-        v-for="(item, i) in bigContainerMock"
-        :key="`${i}-big-container`"
-      >
+      <div class="overview_big_container bg-[#FFFFFF24] dark:!bg-[#22222224]" v-for="(item, i) in bigContainerMock"
+        :key="`${i}-big-container`">
         <div class="icon_container bg-white dark:!bg-[#22222224]">
           <img :src="item.icon" />
         </div>
@@ -18,59 +15,51 @@
           <div class="text_value text-black dark:!text-white">{{ item.value_2 }}</div>
         </div>
         <div class="mt-5">
-          <CChart
-            type="line"
-            style="height: 70px; filter: drop-shadow(0 0 0.5rem #00c9ff)"
-            :data="{
-              labels: item.chartLabels,
-              datasets: [
-                {
-                  label: 'Profit',
-                  backgroundColor: '#03F5AE00',
-                  borderColor: '#03ACF599',
-                  data: item.chartData,
-                  fill: true,
-                  pointRadius: 1,
-                  pointHitRadius: 2,
-                },
-              ],
-            }"
-            :options="{
-              plugins: {
-                legend: {
-                  display: false,
-                },
-                tooltip: {
-                  enabled: true,
-                },
-              },
+          <CChart type="line" style="height: 70px; filter: drop-shadow(0 0 0.5rem #00c9ff)" :data="{
+        labels: item.chartLabels,
+        datasets: [
+          {
+            label: 'Profit',
+            backgroundColor: '#03F5AE00',
+            borderColor: '#03ACF599',
+            data: item.chartData,
+            fill: true,
+            pointRadius: 1,
+            pointHitRadius: 2,
+          },
+        ],
+      }" :options="{
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            enabled: true,
+          },
+        },
 
-              maintainAspectRatio: false,
-              scales: {
-                x: {
-                  display: false,
-                },
-                y: {
-                  display: false,
-                },
-              },
-              elements: {
-                line: {
-                  borderWidth: 2,
-                  tension: 0.4,
-                },     
-              },
-            }"
-          />
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            display: false,
+          },
+          y: {
+            display: false,
+          },
+        },
+        elements: {
+          line: {
+            borderWidth: 2,
+            tension: 0.4,
+          },
+        },
+      }" />
         </div>
       </div>
     </div>
     <div class="d-flex gap-4 flex-wrap justify-content-end" style="width: 35%">
-      <div
-        class="overview_small_container bg-[#FFFFFF24] dark:!bg-[#22222224]"
-        v-for="(item, i) in smallContainerMock"
-        :key="`${i}-small`"
-      >
+      <div class="overview_small_container bg-[#FFFFFF24] dark:!bg-[#22222224]" v-for="(item, i) in smallContainerMock"
+        :key="`${i}-small`">
         <div class="icon_container bg-white dark:!bg-[#22222224]">
           <img :src="item.icon" />
         </div>
@@ -81,7 +70,7 @@
       </div>
     </div>
   </div>
-  
+
 </template>
 <script setup>
 import { CChart } from '@coreui/vue-chartjs'
@@ -94,63 +83,63 @@ import TotalProfitsIcon from '@/assets/icons/generalIcons/TotalProfits.svg'
 import averageAPRIcon from '@/assets/icons/generalIcons/averageAPR.svg'
 import { useDark } from '@vueuse/core'
 import d3logo from '@/assets/images/d3v.png'
-
+import { defineProps, computed } from "vue"
 const isDark = useDark()
 
-
-const bigContainerMock = [
+const props = defineProps(["overview"])
+const bigContainerMock = computed(() => props.overview ? [
   {
     icon: TotalProfitsIcon,
     name: 'Total profits',
-    value: '$12.71M',
+    value: props.overview.totalProfits,
     description: '24H profits',
-    value_2: '$169.14K',
-    chartLabels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
-    chartData: [1, 3, 2, 1, 4, 3]
+    value_2: props.overview.profits24H,
+    chartLabels: props.overview.profitChart.timestamps,
+    chartData: props.overview.profitChart.data
   },
   {
     icon: averageAPRIcon,
     name: 'Average APR',
-    value: '3.14%',
+    value: props.overview.avgAPR,
     description: '24H APR',
-    value_2: '34%',
-    chartLabels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
-    chartData: [3, 5, 6, 5, 3, 1]
+    value_2: props.overview.APR24H,
+    chartLabels: props.overview.aprChart.timestamps,
+    chartData: props.overview.aprChart.data
   },
   {
     icon: d3logo,
     name: 'PPN TVL',
-    value: '$275.01K',
+    value: props.overview.PPNTVL,
     description: 'PPN price',
-    value_2: '$1.18',
-    chartLabels: ['1AM', '4AM', '8AM', '12AM', '6PM', '12PM'],
-    chartData: [3, 3, 3, 4, 3, 3]
+    value_2: props.overview.PPNPrice,
+    chartLabels: props.overview.ppnChart.timestamps,
+    chartData: props.overview.ppnChart.data
   },
-]
+] : [])
 
 
-const smallContainerMock = [
+const smallContainerMock = computed(() => props.overview ? [
   {
     icon: totalUsers,
     name: 'Total users',
-    value: '95',
+    value: props.overview.totalUsers,
   },
   {
     icon: DepositedLiquidity,
     name: 'TVL',
-    value: '$725.79K',
+    value: props.overview.TVL,
   },
   {
     icon: FeesIcon,
     name: '24H Trades',
-    value: '107',
+    value: props.overview.trades24H,
   },
   {
     icon: RealizedProfit,
     name: '24H Volume',
-    value: '$326.04',
+    value: props.overview.volume24H,
   },
-]
+] : [])
 
 </script>
 <style lang="scss" scoped>
@@ -162,6 +151,7 @@ const smallContainerMock = [
   padding: 20px 30px;
   width: 17vw;
 }
+
 .overview_small_container {
   // background: #22222224;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
@@ -193,6 +183,7 @@ const smallContainerMock = [
   line-height: 17px;
   // color: #ffffffb2;
 }
+
 .text_value {
   margin-top: 5px;
 
