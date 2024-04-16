@@ -10,7 +10,8 @@
 
     <div class="track_info_container">
       <GeneralBotCard :currencySelected="currencySelected" :chainSelected="chainSelected"
-        :allTableData="allPoolsTableData" :tokensData="tokensData" :poolSwapsData="poolSwapsData" />
+        :allTableData="allPoolsTableData" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
+        :chain_data="allData.analytics" />
       <TrackingInfoChart :historicalPrices="historicalPrices" :chartData="chartData" :chainSelected="chainSelected"
         :tokensData="tokensData" :symbol="currencySymbol" />
     </div>
