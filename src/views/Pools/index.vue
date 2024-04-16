@@ -7,30 +7,18 @@
 
     <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
       <div class="flex gap-4">
-        <PoolFilters
-          :hidePools="hidePools"
-          :optionsPoolType="optionsPoolType"
-          :optionsPoolAttribute="optionsPoolAttribute"
-          :optionsTokens="optionsTokens"
-        />
+        <PoolFilters :hidePools="hidePools" :optionsPoolType="optionsPoolType"
+          :optionsPoolAttribute="optionsPoolAttribute" :optionsTokens="optionsTokens" />
 
         <div class="flex items-center gap-2">
           <label class="inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              class="sr-only peer"
-              :value="hidePools"
-              @click="hidePools = !hidePools"
-              :checked="hidePools"
-            />
+            <input type="checkbox" class="sr-only peer" :value="hidePools" @click="hidePools = !hidePools"
+              :checked="hidePools" />
             <div
-              class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-            ></div>
+              class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+            </div>
           </label>
-          <div
-            class="dark:!text-white text-black"
-            style="font-size: clamp(12px, 0.8vw, 16px)"
-          >
+          <div class="dark:!text-white text-black" style="font-size: clamp(12px, 0.8vw, 16px)">
             Staked only
           </div>
         </div>
@@ -43,23 +31,15 @@
 
     <div class="pools-rows">
       <div class="pools-row pools-row_header">
-        <div
-          class="pools-row__col"
-          :class="
-            // Table headers positioning by header names
-            headCaption === 'Composition' || headCaption === 'Tokens'
-              ? 'justify-content-start'
-              : 'justify-content-center'
-          "
-          v-for="(headCaption, headCaptionIndex) in headers"
-          :key="headCaption"
-        >
+        <div class="pools-row__col" :class="
+        // Table headers positioning by header names
+        headCaption === 'Composition' || headCaption === 'Tokens'
+          ? 'justify-content-start'
+          : 'justify-content-center'
+        " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
           <div class="file-table-header-cell">
-            <div
-              class="d-flex align-items-center gap-1"
-              :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
-              style="cursor: pointer; height: 20px"
-            >
+            <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+              style="cursor: pointer; height: 20px">
               <div :class="'head_caption_text text-black dark:!text-white'">
                 {{ headCaption }}
               </div>
@@ -68,10 +48,7 @@
         </div>
       </div>
 
-      <div
-        v-if="user_staked_pools.length === 0 && hidePools"
-        class="my-5 text-center text-black dark:!text-white"
-      >
+      <div v-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
         <div>No Results</div>
         <div>Chose a pool to invest or create a pool to get started.</div>
       </div>
@@ -81,27 +58,13 @@
 
       {{ console.log('user_staked_pools', user_staked_pools.length) }}
 
-      <PoolRow
-        v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
-        :key="pool.name"
-        :pool="pool"
-        :userPools="user_staked_pools"
-        :inactive="isPoolInactive(pool)"
-        :index="index"
-        @goToPoolWithdraw="goToPoolWithdraw"
-        @goToCLPool="goToCLPool"
-        @goToPool="goToPool"
-        @goToPoolDeposit="goToPoolDeposit"
-        @goToPoolManage="goToPoolManage"
-        @goToCL="goToCL"
-        :isActions="true"
-      />
+      <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
+        :userPools="user_staked_pools" :inactive="isPoolInactive(pool)" :index="index"
+        @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
 
       {{ console.log('all_pools', all_pools) }}
-      <div
-        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
-        class="load_more text-black dark:!text-white"
-      >
+      <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
         Load More
         <img :src="arrow_bottom" />
       </div>
@@ -142,7 +105,7 @@ import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import PoolFilters from '@/components/Pool/PoolFilters.vue'
 import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
 import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
-
+import { getPoolsData } from "@/composables/data/poolsData"
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 
 const sliceNumber = ref(10)
@@ -329,81 +292,99 @@ async function InitPoolsData(network) {
 }
 
 onMounted(async () => {
-  const networks = [
-    process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined,
-    process.env.VUE_APP_KEY_BINANCE ? Network.BINANCE : undefined,
-    process.env.VUE_APP_KEY_POLYGON ? Network.POLYGON : undefined,
-  ].filter((n) => n != undefined)
+  if (!process.env.VUE_APP_LOCAL_API) {
 
-  const networksInfo = await Promise.all(
-    networks.map((network) => InitPoolsData(network)),
-  )
-  console.log(networksInfo)
-  poolsData.value = networks.map((n, index) => networksInfo[index][0]).flat()
-  poolSwapsData.value = networks
-    .map((n, index) => networksInfo[index][1])
-    .flat()
-  historicValues.value = networks
-    .map((n, index) => networksInfo[index][2])
-    .flat()
-  historicTvl.value = networks.map((n, index) => networksInfo[index][3]).flat()
-  console.log('HISTORICAL TVL - ', historicTvl.value)
-  let _defaultPools = networks
-    .map((n, index) =>
-      FormatAllPoolForTrackingPage(
-        networksInfo[index][0],
-        networksInfo[index][1],
-        networksInfo[index][2],
-        networksInfo[index][3],
-        n,
-      ),
+
+    const networks = [
+      process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined,
+      process.env.VUE_APP_KEY_BINANCE ? Network.BINANCE : undefined,
+      process.env.VUE_APP_KEY_POLYGON ? Network.POLYGON : undefined,
+    ].filter((n) => n != undefined)
+
+    const networksInfo = await Promise.all(
+      networks.map((network) => InitPoolsData(network)),
     )
-    .flat()
-  console.log(_defaultPools)
-  defaultPools.value = _defaultPools
-  let volume_7d_trades = poolSwapsData.value.filter((item) =>
-    isTimestampWithinLast7Days(item.timestamp),
-  )
-  cl_snapshots.value = await useUniswapTvlSnapshots(null)
-  cl_pools.value = (await useUniswapPools(56)).map((item) => ({
-    id: item.id,
-    address: item.id,
-    'Pool Name': [[item.token0.symbol, item.token1.symbol]],
-    'Pool Weight': [
-      [
-        { token: item.token0.symbol, weight: '50%' },
-        { token: item.token1.symbol, weight: '50%' },
+    console.log(networksInfo)
+    poolsData.value = networks.map((n, index) => networksInfo[index][0]).flat()
+    poolSwapsData.value = networks
+      .map((n, index) => networksInfo[index][1])
+      .flat()
+    historicValues.value = networks
+      .map((n, index) => networksInfo[index][2])
+      .flat()
+    historicTvl.value = networks.map((n, index) => networksInfo[index][3]).flat()
+    console.log('HISTORICAL TVL - ', historicTvl.value)
+    let _defaultPools = networks
+      .map((n, index) =>
+        FormatAllPoolForTrackingPage(
+          networksInfo[index][0],
+          networksInfo[index][1],
+          networksInfo[index][2],
+          networksInfo[index][3],
+          n,
+        ),
+      )
+      .flat()
+    console.log(_defaultPools)
+    defaultPools.value = _defaultPools
+    let volume_7d_trades = poolSwapsData.value.filter((item) =>
+      isTimestampWithinLast7Days(item.timestamp),
+    )
+    cl_snapshots.value = await useUniswapTvlSnapshots(null)
+    cl_pools.value = (await useUniswapPools(56)).map((item) => ({
+      id: item.id,
+      address: item.id,
+      'Pool Name': [[item.token0.symbol, item.token1.symbol]],
+      'Pool Weight': [
+        [
+          { token: item.token0.symbol, weight: '50%' },
+          { token: item.token1.symbol, weight: '50%' },
+        ],
       ],
-    ],
-    tokens: [item.token0.id, item.token1.id],
-    time_created: item.createdAtTimestamp,
-    LiquidityType: 'CL',
-    ROI: '-',
-    Liquidity: item.totalValueLockedUSD,
-    TVL: item.totalValueLockedUSD,
-    Volume: volume_7d_trades
-      .filter((trade) => trade.swaps[0].poolIdVault[0] == item.id)
-      .reduce((sum, trade) => sum + trade.volumeUsd, 0)
-      .toFixed(2),
-    APR: CalculateCLAPR(
-      cl_snapshots.value.filter((snapshot) => snapshot.pool.id == item.id),
-      poolSwapsData.value,
-      item.id,
-    ),
-    fee: item.feeTier,
-    Blockchain: 'Binance',
-  }))
-  console.log('CL POOLS - ', cl_pools.value)
-  let wp_symbols = _defaultPools
-    .map((item) => item.tokens.map((item) => item.symbol))
-    .flat()
-  let cl_symbols = cl_pools.value.map((item) => item['Pool Name'][0]).flat()
-  let all_token_symbols = Array.from(new Set(wp_symbols.concat(cl_symbols)))
-  optionsTokens.value = all_token_symbols.map((item) => ({
-    code: item,
-    name: item,
-    selected: item == route.query.token,
-  }))
+      tokens: [item.token0.id, item.token1.id],
+      time_created: item.createdAtTimestamp,
+      LiquidityType: 'CL',
+      ROI: '-',
+      Liquidity: item.totalValueLockedUSD,
+      TVL: item.totalValueLockedUSD,
+      Volume: volume_7d_trades
+        .filter((trade) => trade.swaps[0].poolIdVault[0] == item.id)
+        .reduce((sum, trade) => sum + trade.volumeUsd, 0)
+        .toFixed(2),
+      APR: CalculateCLAPR(
+        cl_snapshots.value.filter((snapshot) => snapshot.pool.id == item.id),
+        poolSwapsData.value,
+        item.id,
+      ),
+      fee: item.feeTier,
+      Blockchain: 'Binance',
+    }))
+    console.log('CL POOLS - ', cl_pools.value)
+    let wp_symbols = _defaultPools
+      .map((item) => item.tokens.map((item) => item.symbol))
+      .flat()
+    let cl_symbols = cl_pools.value.map((item) => item['Pool Name'][0]).flat()
+    let all_token_symbols = Array.from(new Set(wp_symbols.concat(cl_symbols)))
+    optionsTokens.value = all_token_symbols.map((item) => ({
+      code: item,
+      name: item,
+      selected: item == route.query.token,
+    }))
+
+
+  }
+  else {
+    const result = await getPoolsData(56)
+    pools.value = result.table.filter((item) => item.LiquidityType == "WP")
+    cl_pools.value = result.table.filter(item => item.LiquidityType == "CL")
+    const symbols = result.table.map((item) => item['Pool Name'][0]).flat()
+    let all_token_symbols = Array.from(new Set(symbols))
+    optionsTokens.value = all_token_symbols.map((item) => ({
+      code: item,
+      name: item,
+      selected: item == route.query.token,
+    }))
+  }
   await InitUserStakedPools()
   if (window.ethereum !== undefined && networkId.value > 0) {
     let provider = new ethers.providers.Web3Provider(window.ethereum)

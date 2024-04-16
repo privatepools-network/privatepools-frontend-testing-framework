@@ -1,10 +1,12 @@
 <template>
-  <CHeader position="static" :class="isHeaderBg ? `header_main ${isDark ? 'header_main_bg' : 'header_main_bg-white'} ` : 'header_main'" ref="headRef">
+  <CHeader position="static"
+    :class="isHeaderBg ? `header_main ${isDark ? 'header_main_bg' : 'header_main_bg-white'} ` : 'header_main'"
+    ref="headRef">
     <CContainer fluid class="header_container">
 
       <HeaderNavigation />
 
-      <HeaderSearchbar :selectOptions="selectOptions" :handleInput="handleInput"/>
+      <HeaderSearchbar :selectOptions="selectOptions" :handleInput="handleInput" />
 
       <div v-if="!address">
         <div class="connect_wallet " @click="$emit('toggleSidebar')">
@@ -15,7 +17,7 @@
         <RewardsDropdown />
         <TokenDropdown />
 
-      
+
 
 
         <div class="wallet_address text-black dark:!text-white" @click="$emit('toggleSidebar')">
@@ -28,7 +30,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch, defineEmits, defineProps } from 'vue'
+import { computed, onMounted, ref, watch, defineEmits, defineProps, toRefs } from 'vue'
 import HeaderNavigation from '@/components/Header/HeaderNavigation.vue'
 import HeaderSearchbar from '@/components/Header/HeaderSearchbar.vue'
 import RewardsDropdown from '@/components/Header/RewardsDropdown.vue'
@@ -47,41 +49,15 @@ import { setMetamaskProvider } from '@/composables/useMetamaskProvider'
 import { useStore } from 'vuex'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
-import { GetTokens } from '@/composables/tokens/useTokenSymbols'
-import { fetchDataAndMerge } from '@/composables/pools/trades/fetch/useFetchTrades'
-import { GetPools } from '@/composables/pools/usePools'
-import { useUniswapPools } from '@/composables/concentrated-liquidity/useUniswapPools'
 import 'vue3-toastify/dist/index.css'
 import { useDark } from '@vueuse/core'
-
+import { getHeaderData } from "@/composables/data/headerData"
 const isDark = useDark()
 
 const emit = defineEmits(['toggleSidebar', 'setAddress'])
 const props = defineProps(['address'])
-
-const tokens = ref([])
-const swaps = ref([])
-const pools = ref([])
-const cl_pools = ref([])
-const topTradedTokens = computed(() => {
-  let formattedTokens = []
-  for (let i = 0; i < tokens.value.length; i++) {
-    let total_profit = swaps.value
-      .filter((item) => item.token.toLowerCase() == tokens.value[i].address)
-      .reduce((sum, item) => sum + item.profitUsd, 0)
-
-    formattedTokens.push({ ...tokens.value[i], profit: total_profit })
-  }
-  return formattedTokens
-    .filter((item) => item.profit > 0)
-    .toSorted((a, b) => b.profit - a.profit)
-})
-
-const topPools = computed(() => {
-  return pools.value
-    .concat(cl_pools.value)
-    .toSorted((a, b) => b.totalLiquidity - a.totalLiquidity)
-})
+const topTradedTokens = ref([])
+const topPools = ref([])
 const visibleOptions = ref(null)
 const tokensOptions = computed(() => {
   let result = []
@@ -149,24 +125,9 @@ onMounted(async () => {
       isHeaderBg.value = false
     }
   })
-  tokens.value = (
-    await Promise.all(networks.map((network) => GetTokens(network)))
-  ).flat()
-  swaps.value = await fetchDataAndMerge()
-  pools.value = (
-    await Promise.all(
-      networks.map((network) => GetPools(network, null, true, true)),
-    )
-  )
-    .flat()
-    .map((item) => ({ ...item, type: 'Weighted Pool' }))
-  cl_pools.value = (await useUniswapPools(56)).map((item) => ({
-    ...item,
-    type: 'Concentrated Liquidity',
-    totalLiquidity: item.totalValueLockedUSD,
-    tokens: [item.token0, item.token1],
-  }))
-  console.log('CL POOLS - ', cl_pools.value)
+  const data = await getHeaderData(56)
+  topTradedTokens.value = data.search.tokens
+  topPools.value = data.search.pools
 })
 
 const searchInput = ref('')
@@ -373,6 +334,7 @@ const computedAddress = computed(() =>
     // -webkit-backdrop-filter: blur(60px);
     // backdrop-filter: blur(60px);
   }
+
   &_bg-white {
     background: linear-gradient(356.2deg,
         rgba(221, 221, 221, 0.955) 0%,
@@ -820,11 +782,11 @@ const computedAddress = computed(() =>
 .vue-dropdown {
   // background: #171717;
   background: #00000000;
-  
+
   border: 1px solid #222222c9;
   // color: white;
-     -webkit-backdrop-filter: blur(50px);
-    backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
 }
 
 /* Scrollbar */
@@ -926,6 +888,4 @@ input[readonly] {
   width: 38px;
   margin-right: -18px;
 }
-
-
 </style>
