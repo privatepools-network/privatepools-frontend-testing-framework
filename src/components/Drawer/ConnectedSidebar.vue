@@ -26,7 +26,7 @@
     </div>
     <div class="d-flex flex-column h-100 gap-3 mt-3">
       <div class="d-flex flex-column">
-        <div class="balance_text text-black dark:!text-white">$510.98</div>
+        <div class="balance_text text-black dark:!text-white">{{Number(SidebarBalance).toFixed(6)}} BNB</div>
         <div class="balance_change">
           <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_67_2314)">
@@ -40,7 +40,7 @@
               </clipPath>
             </defs>
           </svg>
-          $12.37 (2.48%)
+          $0.00 (0.0%)
         </div>
       </div>
       <div @click="router.push('/pools')" class="add_liq_btn">
@@ -286,6 +286,7 @@ import { useWalletActivity } from "@/composables/wallet/useWalletActivity"
 import { configService } from '@/services/config/config.service'
 import { useWalletPools } from "@/composables/wallet/useWalletPools"
 import { InitializeMetamask } from '@/lib/utils/metamask'
+import { ethers } from 'ethers'
 
 
 const props = defineProps(['isConnectedToWeb3', 'address'])
@@ -368,9 +369,25 @@ watch(props.address, async () => {
   await handlePortfolioData()
 })
 
+
+const SidebarBalance = ref(0)
+
+
+const getBalance = async (address) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const balance = await provider.getBalance(address);
+
+
+    const balanceInEth = ethers.utils.formatEther(balance);
+    SidebarBalance.value = balanceInEth
+    console.log('balanceInEth',balanceInEth);
+}
+
 onMounted(async () => {
   await handlePortfolioData()
+  await getBalance(props.address)
 })
+
 
 
 async function handlePortfolioData() {

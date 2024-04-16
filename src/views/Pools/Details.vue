@@ -211,7 +211,7 @@
         >
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div class="subsection__item__caption">Pool Creation</div>
+              <div class="subsection__item__caption text-[black] dark:!text-white">Pool Creation</div>
               <div class="subsection__item__content">
                 <div
                   class="subsection__item__content__left text-[black] dark:!text-white"
@@ -231,7 +231,7 @@
               </div>
             </div>
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div class="subsection__item__caption">24h profit</div>
+              <div class="subsection__item__caption text-[black] dark:!text-white">24h profit</div>
               <div class="subsection__item__content">
                 <div
                   class="subsection__item__content__left text-[black] dark:!text-white"
@@ -292,7 +292,7 @@
           </div>
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div class="subsection__item__caption">Lifetime stats</div>
+              <div class="subsection__item__caption text-[black] dark:!text-white">Lifetime stats</div>
               <div class="subsection__item__content">
                 <div
                   class="subsection__item__content__left text-[black] dark:!text-white"
@@ -598,10 +598,9 @@
       </div>
 
       <div
-        class="mb-2"
+        class="mb-2 text-[black] dark:!text-white"
         style="
           font-family: Poppins;
-          color: white;
           margin-top: 40px;
 
           font-size: clamp(10px, 0.9vw, 16px);
@@ -2033,7 +2032,6 @@ function changeToDepositView() {
         font-weight: 600;
         line-height: 24px;
         letter-spacing: 0em;
-        color: #ffffff;
 
         margin-bottom: 8px;
       }
