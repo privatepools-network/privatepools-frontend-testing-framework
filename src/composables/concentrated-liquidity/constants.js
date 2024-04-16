@@ -3,11 +3,11 @@
 // Addresses
 
 export const POOL_FACTORY_CONTRACT_ADDRESS =
-  '0xFfDb6e87aA9B7425E542602C7Ea689D76182A9Ad'
+  '0x0365D79F82bE170e073721ccc0FBeD3133E62072'
 export const NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS =
-  '0x03cA04Df0EEBd7AD7cad03F47b6dD04D475AA887'
+  '0x2E55b2612f0ad8a0E22eAd343C3634BD78ac7c18'
 export const V3_SWAP_ROUTER_ADDRESS =
-  '0x53fBD87e8d5E478100C01e2be1b6060db8e55365'
+  '0xc8F414Ee908b0AcF8A017fF41f6E96F6D92D962f'
 
 // Transactions
 
@@ -49,6 +49,6 @@ export const WETH_ABI = [
 
 export const UNISWAP_SUBGRAPHS = {
   1: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-ethereum',
-  56: 'https://api.thegraph.com/subgraphs/name/ruslanzhezh/clp', // 56: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-bsc',
+  56: 'https://api.thegraph.com/subgraphs/name/chimpytuts/d3-concentradedpools', // 56: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-bsc',
   137: 'https://api.thegraph.com/subgraphs/name/messari/uniswap-v3-polygon',
 }
