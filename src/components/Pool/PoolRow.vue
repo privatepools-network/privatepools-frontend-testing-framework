@@ -1,6 +1,6 @@
 <template>
   <div :class="`pools-row__wrapper${inactive ? '__inactive' : ''}`">
-    <div class="pools-row hover:!bg-[#66c5ff3d] dark:hover:!bg-[#2b2b2b1d]"
+    <div class="pools-row hover:!bg-[#66c5ff3d] dark:hover:!bg-[#4242421d]"
       @click="isActions ? (visibleDetails = !visibleDetails) : false">
       <div class="pools-row__col text-black dark:!text-white justify-content-start">
         <DataTableCellTokenNamePaired :value="pool['Pool Name']" />

@@ -20,11 +20,11 @@
           'Gas Fees',
         ]"
       >
-        <CTableBody v-if="filteredActivities" class="dark:!dark:!text-white text-black text-black table-body" style="margin-left: 12px; margin-right: 12px;">
+        <CTableBody v-if="filteredActivities" class="dark:!dark:!text-white text-black table-body" style="margin-left: 12px; margin-right: 12px;">
           <CTableRow
             v-for="(item, i) in filteredActivities"
             :key="i"
-            class="table-row bg-white dark:!bg-[#22222224]"
+            class="table-row bg-white dark:!bg-[#22222224] hover:!bg-[#66c5ff3d] dark:hover:!bg-[#4242421d]"
             @click="$emit('changeToSpecificPortfolio')"
             style="cursor: pointer"
           >
@@ -168,7 +168,7 @@
           <!-- Your rating -->
           <hr style="border: 1px solid #ffffff1f" class="my-3" />
           <CTableRow
-            class="table-row bg-white dark:!bg-[#22222224] mb-4"
+            class="table-row bg-white dark:!bg-[#22222224] hover:!bg-[#66c5ff3d] dark:hover:!bg-[#4242421d] mb-4"
             @click="$emit('changeToSpecificPortfolio')"
             style="cursor: pointer"
           >

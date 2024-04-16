@@ -582,10 +582,10 @@
       </div>
 
       <div
-        class="mb-2"
+        class="mb-2 text-[black] dark:!text-white"
         style="
           font-family: Poppins;
-          color: white;
+   
           margin-top: 40px;
 
           font-size: clamp(10px, 0.9vw, 16px);
