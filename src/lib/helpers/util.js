@@ -119,6 +119,8 @@ import CAKE from '@/assets/images/tokens/cake.png'
 import DOT from '@/assets/images/tokens/DOT.webp'
 import INJ from '@/assets/images/tokens/inj.png'
 import DOGE from '@/assets/images/tokens/DOGE.png'
+import PPN from '@/assets/images/tokens/PPN.png'
+import GMRX from '@/assets/images/tokens/GMRX.png'
 
 const tokenHT = [
   {
@@ -413,6 +415,18 @@ const tokenHT = [
     name: 'DOGE',
     short: 'DOGE',
     icon: DOGE,
+  },
+  {
+    key: 'PPN',
+    name: 'PPN',
+    short: 'PPN',
+    icon: PPN,
+  },
+  {
+    key: 'GMRX',
+    name: 'GMRX',
+    short: 'GMRX',
+    icon: GMRX,
   },
 ]
 
