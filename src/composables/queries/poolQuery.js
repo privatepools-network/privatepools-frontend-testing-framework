@@ -73,5 +73,5 @@ export const FILTERED_POOL_SUBGRAPH_QUERY = (ids) =>
 
 export const SINGLE_POOL_QUERY = (id) => `
 
-query { pool (id: "${id}") { id name address poolType swapFee tokensList totalLiquidity totalSwapVolume totalSwapFee totalShares owner factory amp createTime swapEnabled volume24h fees24h apr { total } tokens { name symbol decimals address balance weight } mainIndex tokenRates holdersCount swapsCount linearPools { id address priceRate totalSupply unwrappedTokenAddress mainToken { index address balance name symbol decimals } } }} 
+query { pool (id: "${id}") { id name address poolType swapFee tokensList totalLiquidity totalSwapVolume totalSwapFee totalShares owner factory createTime swapEnabled tokens { name symbol decimals address balance weight }  holdersCount swapsCount }} 
 `

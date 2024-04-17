@@ -908,10 +908,15 @@ export function isRightChain(item, chainSelected) {
  * @returns {boolean} is chain name equals to selected chain.
  */
 export function isRightChainName(chain, chainSelected) {
-  return (
-    chain.toLowerCase() == chainSelected.toLowerCase() ||
-    chainSelected.toLowerCase() == 'all chains'
-  )
+  try {
+    return (
+      chain.toLowerCase() == chainSelected.toLowerCase() ||
+      chainSelected.toLowerCase() == 'all chains'
+    )
+  } catch (e) {
+    console.error(chain, chainSelected)
+    return false
+  }
 }
 
 /**

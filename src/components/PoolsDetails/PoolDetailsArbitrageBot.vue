@@ -325,14 +325,14 @@
           color: white;
           background: linear-gradient(85.18deg, #2775ca 0%, #00e0ff 100%);
         "
-        @click="$emit('changeToDepositView')"
+        @click="$emit('changeToDepositView', pool.id)"
       >
         Add Liquidity
       </div>
       <div
         style="color: white"
         class="rewards_button w-100"
-        @click="$emit('changeToWithdrawView')"
+        @click="$emit('changeToWithdrawView', pool.id)"
       >
         Withdraw
       </div>
