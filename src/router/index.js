@@ -38,7 +38,7 @@ const routes = [
         component: () => import('@/views/Pools/ConcentratedLiquidity.vue'),
       },
       {
-        path: '/pools/concentrated_pool/add/:onMountedActivity',
+        path: '/pools/concentrated_pool/:poolId/add/:onMountedActivity',
         name: 'Concentrated liquidity Add',
         component: () => import('@/views/Pools/ConcentratedLiquidityAdd.vue'),
       },

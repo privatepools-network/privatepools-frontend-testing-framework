@@ -10,7 +10,7 @@ import { orderBy } from 'lodash'
 async function querySinglePool(network, id) {
   network = network ? network : networkId.value
   let config = configService.getNetworkConfig(network)
-  let url = config.poolsUrlV2
+  let url = config.subgraph
   let query = SINGLE_POOL_QUERY(id)
   if (!url) return null
   let data = await useGraphQLQuery(url, query)
@@ -28,13 +28,13 @@ export async function GetSinglePool(network, id, toToken = 'USD') {
   if (!pool) return pool
   pool.tokens = pool.tokens.map((t) => ({ ...t, id: t.address }))
   pool.tokens = sortTokens(pool.tokens)
-  let onchain = await balancerContractsService.vault.getPoolData(
-    pool.id,
-    pool.poolType,
-    pool.tokens,
-    network,
-  )
-  if (onchain) return { ...pool, onchain }
+  // let onchain = await balancerContractsService.vault.getPoolData(
+  //   pool.id,
+  //   pool.poolType,
+  //   pool.tokens,
+  //   network,
+  // )
+  // if (onchain) return { ...pool, onchain }
   return pool
 }
 

@@ -11,9 +11,9 @@
     <div class="track_info_container">
       <GeneralBotCard :currencySelected="currencySelected" :chainSelected="chainSelected"
         :allTableData="allPoolsTableData" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
-        :chain_data="allData.analytics" />
-      <TrackingInfoChart :historicalPrices="historicalPrices" :chartData="chartData" :chainSelected="chainSelected"
-        :tokensData="tokensData" :symbol="currencySymbol" />
+        :chains_data="allData.analytics" />
+      <TrackingInfoChart :historicalPrices="historicalPrices" :chartData="allData.chart" :chainSelected="chainSelected"
+        :tokensData="allData.topTradingTokens" :symbol="currencySymbol" />
     </div>
 
 
@@ -104,6 +104,7 @@ onBeforeMount(async () => {
   }
   else {
     allData.value = await getGeneralData(56);
+    historicalPrices.value = await GetHistoricalTokenPrices(allData.value.topTradingTokens.map((item) => item.symbol), true, 500, currency.value)
     console.log(allData.value)
   }
 })

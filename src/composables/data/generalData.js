@@ -7,6 +7,7 @@ export async function getGeneralData(network) {
     'analytics',
     'topPerformancePools',
     'topTradingTokens',
+    'chart',
   ]
   const promises = []
   for (let i = 0; i < subUrls.length; i++) {
@@ -20,5 +21,6 @@ export async function getGeneralData(network) {
     analytics: data[2].data,
     topPerformancePools: data[3].data,
     topTradingTokens: data[4].data,
+    chart: data[5].data
   }
 }

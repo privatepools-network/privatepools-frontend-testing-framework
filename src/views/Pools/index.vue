@@ -32,11 +32,11 @@
     <div class="pools-rows">
       <div class="pools-row pools-row_header">
         <div class="pools-row__col" :class="
-        // Table headers positioning by header names
-        headCaption === 'Composition' || headCaption === 'Tokens'
-          ? 'justify-content-start'
-          : 'justify-content-center'
-        " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
+          // Table headers positioning by header names
+          headCaption === 'Composition' || headCaption === 'Tokens'
+            ? 'justify-content-start'
+            : 'justify-content-center'
+          " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
           <div class="file-table-header-cell">
             <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
               style="cursor: pointer; height: 20px">
@@ -56,7 +56,6 @@
         <LoaderPulse />
       </div>
 
-      {{ console.log('user_staked_pools', user_staked_pools.length) }}
 
       <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
         :userPools="user_staked_pools" :inactive="isPoolInactive(pool)" :index="index"
@@ -142,12 +141,13 @@ watch(networkId, async () => {
 async function InitUserStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
-    let address = await mmProvider.getSigner().getAddress() //'0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //
+    let address = await mmProvider.getSigner().getAddress()//'0x3ee6d8b87d195f2a8804b787e7cae4d4bf44d676' //'0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //
     user_staked_pools.value = await useWalletPools(
       address,
       networkId.value,
       false,
     )
+    console.log("USER STAKED - ", user_staked_pools.value)
   }
 }
 
@@ -220,6 +220,7 @@ function goToPoolManage(args) {
       name: 'Concentrated liquidity Add',
       params: {
         onMountedActivity: 'deposit',
+        poolId: all_pools.value[args.index].id
       },
     })
   }
