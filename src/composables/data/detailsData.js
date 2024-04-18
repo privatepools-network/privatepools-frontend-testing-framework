@@ -1,14 +1,14 @@
 import axios from 'axios'
 import { BACKEND_URL } from '../pools/mappings'
-export async function getPoolData(network, poolId) {
+export async function getDetailsData(network, poolId) {
   const urls = [
-    `${BACKEND_URL[network]}/data/details/general/${poolId}`,
-    `${BACKEND_URL[network]}/data/details/financialStatement/${poolId}`,
-    `${BACKEND_URL[network]}/data/details/statistics/${poolId}`,
-    `${BACKEND_URL[network]}/data/details/pairsTokens/${poolId}`,
+    `${BACKEND_URL[network]}/data/details/${poolId}/general/`,
+    `${BACKEND_URL[network]}/data/details/${poolId}/financialStatement/`,
+    `${BACKEND_URL[network]}/data/details/${poolId}/statistics/`,
+    `${BACKEND_URL[network]}/data/details/${poolId}/pairsTokens/`,
   ]
 
-  const promises = [urls.map((url) => axios.get(url))]
+  const promises = urls.map((url) => axios.get(url))
   const data = await Promise.all(promises)
   return {
     general: data[0].data,

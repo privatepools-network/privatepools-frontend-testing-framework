@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import JSBI from 'jsbi'
-
+import IMulticall from '@uniswap/v3-periphery/artifacts/contracts/interfaces/IMulticall.sol/IMulticall.json'
 import {
   computePoolAddress,
   nearestUsableTick,
@@ -13,7 +13,10 @@ import {
   TickMath,
   TICK_SPACINGS,
   FACTORY_ADDRESS,
+  toHex,
 } from '@uniswap/v3-sdk'
+import { Interface } from '@ethersproject/abi'
+
 import {
   CurrencyAmount,
   Fraction,
@@ -67,13 +70,16 @@ export async function getPoolInfo(provider, tokenA, tokenB, feeAmount, price) {
     throw new Error('No provider')
   }
 
-  const currentPoolAddress = computePoolAddress({
-    factoryAddress: POOL_FACTORY_CONTRACT_ADDRESS,
-    tokenA,
-    tokenB,
-    fee: feeAmount,
-  })
-
+  const factoryContract = new ethers.Contract(
+    POOL_FACTORY_CONTRACT_ADDRESS,
+    UniswapFactoryAbi.abi,
+    provider,
+  )
+  const currentPoolAddress = await factoryContract.getPool(
+    tokenA.address,
+    tokenB.address,
+    0,
+  )
   const poolContract = new ethers.Contract(
     currentPoolAddress,
     IUniswapV3PoolABI.abi,
@@ -191,26 +197,32 @@ async function constructRangeOrderPosition(
   if (tickLower >= tickUpper) {
     tickLower = tickUpper -= pool.tickSpacing
   }
+  pool = {
+    ...pool,
+    token0Price: pool.token0Price,
+    token1Price: pool.token1Price,
+    tickSpacing: 10,
+  }
   if (!token0Amount) {
     return Position.fromAmount1({
       pool: pool,
-      tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
-      tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
+      tickLower: nearestUsableTick(tickLower, 10),
+      tickUpper: nearestUsableTick(tickUpper, 10),
       amount1: token1Amount.quotient,
     })
   }
   if (!token1Amount) {
     return Position.fromAmount0({
       pool: pool,
-      tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
-      tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
+      tickLower: nearestUsableTick(tickLower, 10),
+      tickUpper: nearestUsableTick(tickUpper, 10),
       amount0: token0Amount.quotient,
     })
   }
   return Position.fromAmounts({
     pool: pool,
-    tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
-    tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
+    tickLower: nearestUsableTick(tickLower, 10),
+    tickUpper: nearestUsableTick(tickUpper, 10),
     amount0: token0Amount.quotient,
     amount1: token1Amount.quotient,
   })
@@ -262,7 +274,7 @@ export function tryParseTick(baseToken, quoteToken, feeAmount, value) {
     tick = priceToClosestTick(price)
   }
 
-  return nearestUsableTick(tick, TICK_SPACINGS[feeAmount])
+  return nearestUsableTick(tick, 100)
 }
 
 export function tryParsePrice(baseToken, quoteToken, value) {
@@ -512,7 +524,7 @@ export async function MintPosition(
     token1,
     lowPrice,
     highPrice,
-    feeAmount,
+    100,
   )
   let result = checkTokensSwapped(
     null,
@@ -603,7 +615,7 @@ export async function MintPosition(
 
   step.value = 4
 
-  await mintPosition(order, signer)
+  await mintPosition(order, signer, poolInfo)
 
   // step.value = 0
 }
@@ -643,7 +655,7 @@ export async function AddLiquidityToPosition(
   await ApproveToken(token1Contract, signer, amount1, position.token1.decimals)
   await ApproveToken(token0Contract, signer, amount0, position.token0.decimals)
   step.value = 4
-  await addLiquidity(order, signer, position.id)
+  await addLiquidity(order, signer, position.id, position.pool)
   step.value = 0
 }
 export async function RemoveLiquidityFromPosition(signer, position, percent) {
@@ -681,6 +693,7 @@ export async function RemoveLiquidityFromPosition(signer, position, percent) {
     percent,
     position.token0,
     position.token1,
+    configuredPool,
   )
 }
 
@@ -754,26 +767,7 @@ function parseDisplayTicks(token0, token1, lowPrice, highPrice, feeAmount) {
   return { tickUpper, tickLower }
 }
 
-async function mintPosition(order, signer) {
-  let address = await signer.getAddress()
-  const mintOptions = {
-    recipient: address,
-    deadline: Math.floor(Date.now() / 1000) + 60 * 20,
-    slippageTolerance: new Percent(50, 10_000),
-  }
-  const { calldata, value } = NonfungiblePositionManager.addCallParameters(
-    order.position,
-    mintOptions,
-  )
-
-  const transaction = {
-    data: calldata,
-    to: NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
-    value: ethers.BigNumber.from(value),
-    from: address,
-    gasLimit: '1000000',
-  }
-
+async function mintPosition(order, signer, pool) {
   const MintingToastPending = toast.loading(Toast, {
     data: {
       header_text: 'Minting liquidity',
@@ -785,12 +779,79 @@ async function mintPosition(order, signer) {
     theme: 'dark',
     closeOnClick: false,
   })
-
   let tx
-
+  const configuredPool = new Pool(
+    order.position.pool.token0,
+    order.position.pool.token1,
+    pool.fee,
+    pool.sqrtPriceX96.toString(),
+    pool.liquidity.toString(),
+    pool.tick,
+  )
+  pool = {
+    ...configuredPool,
+    tickSpacing: 10,
+    token0Price: configuredPool.token0Price,
+    token1Price: configuredPool.token1Price,
+  }
+  let position = {
+    ...order.position,
+    pool,
+    amount0: order.position.amount0,
+    amount1: order.position.amount1,
+    mintAmounts: order.position.mintAmounts,
+    token0PriceLower: order.position.token0PriceLower,
+    token0PriceUpper: order.position.token0PriceUpper,
+    mintAmountsWithSlippage: order.position.mintAmountsWithSlippage,
+  }
   try {
+    let address = await signer.getAddress()
+    const mintOptions = {
+      recipient: address,
+      deadline: Math.floor(Date.now() / 1000) + 60 * 20,
+      slippageTolerance: new Percent(50, 10_000),
+    }
+    const { amount0: amount0Desired, amount1: amount1Desired } =
+      position.mintAmounts
+    const minimumAmounts = mintAmountsWithSlippage(
+      mintOptions.slippageTolerance,
+      pool,
+      order.position.tickLower,
+      order.position.tickUpper,
+      position.mintAmounts,
+    )
+    const amount0Min = toHex(minimumAmounts.amount0)
+    const amount1Min = toHex(minimumAmounts.amount1)
+    const calldata = NonfungiblePositionManager.INTERFACE.encodeFunctionData(
+      'mint',
+      [
+        {
+          token0: position.pool.token0.address,
+          token1: position.pool.token1.address,
+          fee: position.pool.fee,
+          tickLower: position.tickLower,
+          tickUpper: position.tickUpper,
+          amount0Desired: toHex(amount0Desired),
+          amount1Desired: toHex(amount1Desired),
+          amount0Min,
+          amount1Min,
+          recipient: mintOptions.recipient,
+          deadline: mintOptions.deadline,
+        },
+      ],
+    )
+
+    const transaction = {
+      data: calldata,
+      to: NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
+      value: ethers.BigNumber.from(0),
+      from: address,
+      gasLimit: '1000000',
+    }
+
     tx = await signer.sendTransaction(transaction)
-  } catch {
+  } catch (e) {
+    console.error(e)
     toast.update(MintingToastPending, {
       render: Toast,
       data: {
@@ -829,7 +890,7 @@ async function mintPosition(order, signer) {
   return receipt
 }
 
-async function addLiquidity(order, signer, tokenId) {
+async function addLiquidity(order, signer, tokenId, pool) {
   try {
     let address = await signer.getAddress()
     const addLiquidityOptions = {
@@ -837,15 +898,49 @@ async function addLiquidity(order, signer, tokenId) {
       slippageTolerance: new Percent(50, 10_000),
       tokenId,
     }
-    const { calldata, value } = NonfungiblePositionManager.addCallParameters(
-      order.position,
-      addLiquidityOptions,
+    const configuredPool = new Pool(
+      order.position.pool.token0,
+      order.position.pool.token1,
+      pool.fee,
+      pool.sqrtPriceX96.toString(),
+      pool.liquidity.toString(),
+      pool.tick,
+    )
+    pool = {
+      ...configuredPool,
+      tickSpacing: 10,
+      token0Price: configuredPool.token0Price,
+      token1Price: configuredPool.token1Price,
+    }
+    const { amount0: amount0Desired, amount1: amount1Desired } =
+      order.position.mintAmounts
+    const minimumAmounts = mintAmountsWithSlippage(
+      addLiquidityOptions.slippageTolerance,
+      pool,
+      order.position.tickLower,
+      order.position.tickUpper,
+      order.position.mintAmounts,
+    )
+    const amount0Min = toHex(minimumAmounts.amount0)
+    const amount1Min = toHex(minimumAmounts.amount1)
+    const calldata = NonfungiblePositionManager.INTERFACE.encodeFunctionData(
+      'increaseLiquidity',
+      [
+        {
+          tokenId: toHex(tokenId),
+          amount0Desired: toHex(amount0Desired),
+          amount1Desired: toHex(amount1Desired),
+          amount0Min,
+          amount1Min,
+          deadline: addLiquidityOptions.deadline,
+        },
+      ],
     )
 
     const transaction = {
       data: calldata,
       to: NONFUNGIBLE_POSITION_MANAGER_CONTRACT_ADDRESS,
-      value: ethers.BigNumber.from(value),
+      value: ethers.BigNumber.from(0),
       from: address,
       gasLimit: '1000000',
     }
@@ -865,6 +960,7 @@ async function removeLiquidity(
   percent,
   token0,
   token1,
+  pool,
 ) {
   try {
     let address = await signer.getAddress()
@@ -882,9 +978,10 @@ async function removeLiquidity(
       collectOptions,
     }
 
-    const { calldata, value } = NonfungiblePositionManager.removeCallParameters(
+    const { calldata, value } = removeCallParameters(
       order.position,
       removeLiquidityOptions,
+      pool,
     )
 
     const transaction = {
@@ -931,7 +1028,7 @@ export function GetSecondAmount(
 
   let parsed0 = tryParseCurrencyAmount(amount0, token0)
   let parsed1 = tryParseCurrencyAmount(amount1, token1)
-  const configuredPool = new Pool(
+  const _configuredPool = new Pool(
     token0,
     token1,
     poolInfo.fee,
@@ -939,17 +1036,23 @@ export function GetSecondAmount(
     poolInfo.liquidity.toString(),
     poolInfo.tick,
   )
+  const configuredPool = {
+    ..._configuredPool,
+    tickSpacing: 10,
+    token0Price: _configuredPool.token0Price,
+    token1Price: _configuredPool.token1Price,
+  }
   let position = token0Changed
     ? Position.fromAmount0({
         pool: configuredPool,
-        tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
-        tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
+        tickLower: nearestUsableTick(tickLower, 10),
+        tickUpper: nearestUsableTick(tickUpper, 10),
         amount0: parsed0.quotient,
       })
     : Position.fromAmount1({
         pool: configuredPool,
-        tickLower: nearestUsableTick(tickLower, TICK_SPACINGS[feeAmount]),
-        tickUpper: nearestUsableTick(tickUpper, TICK_SPACINGS[feeAmount]),
+        tickLower: nearestUsableTick(tickLower, 10),
+        tickUpper: nearestUsableTick(tickUpper, 10),
         amount1: parsed1.quotient,
       })
   const { amount0: mint_amount0, amount1: mint_amount1 } = position.mintAmounts
@@ -1198,3 +1301,251 @@ export async function fetchPositions(
 //   liquidityPercentage: new Percent(0.5),
 //   collectOptions,
 // }
+
+function mintAmountsWithSlippage(
+  slippageTolerance,
+  pool,
+  tickLower,
+  tickUpper,
+  mintAmounts,
+) {
+  // get lower/upper prices
+  const { sqrtRatioX96Upper, sqrtRatioX96Lower } = ratiosAfterSlippage(
+    slippageTolerance,
+    pool,
+  )
+
+  // construct counterfactual pools
+  let poolLower = new Pool(
+    pool.token0,
+    pool.token1,
+    pool.fee,
+    sqrtRatioX96Lower,
+    0 /* liquidity doesn't matter */,
+    TickMath.getTickAtSqrtRatio(sqrtRatioX96Lower),
+  )
+  poolLower = {
+    ...poolLower,
+    tickSpacing: 10,
+    token0Price: pool.token0Price,
+    token1Price: pool.token1Price,
+  }
+  let poolUpper = new Pool(
+    pool.token0,
+    pool.token1,
+    pool.fee,
+    sqrtRatioX96Upper,
+    0 /* liquidity doesn't matter */,
+    TickMath.getTickAtSqrtRatio(sqrtRatioX96Upper),
+  )
+
+  poolUpper = {
+    ...poolUpper,
+    tickSpacing: 10,
+    token0Price: pool.token0Price,
+    token1Price: pool.token1Price,
+  }
+  // because the router is imprecise, we need to calculate the position that will be created (assuming no slippage)
+  const positionThatWillBeCreated = Position.fromAmounts({
+    pool: pool,
+    tickLower: tickLower,
+    tickUpper: tickUpper,
+    ...mintAmounts, // the mint amounts are what will be passed as calldata
+    useFullPrecision: false,
+  })
+
+  // we want the smaller amounts...
+  // ...which occurs at the upper price for amount0...
+  const { amount0 } = new Position({
+    pool: poolUpper,
+    liquidity: positionThatWillBeCreated.liquidity,
+    tickLower: tickLower,
+    tickUpper: tickUpper,
+  }).mintAmounts
+  // ...and the lower for amount1
+  const { amount1 } = new Position({
+    pool: poolLower,
+    liquidity: positionThatWillBeCreated.liquidity,
+    tickLower: tickLower,
+    tickUpper: tickUpper,
+  }).mintAmounts
+
+  return { amount0, amount1 }
+}
+function ratiosAfterSlippage(slippageTolerance, pool) {
+  const priceLower = pool.token0Price.asFraction.multiply(
+    new Percent(1).subtract(slippageTolerance),
+  )
+  const priceUpper = pool.token0Price.asFraction.multiply(
+    slippageTolerance.add(1),
+  )
+  let sqrtRatioX96Lower = encodeSqrtRatioX96(
+    priceLower.numerator,
+    priceLower.denominator,
+  )
+  if (JSBI.lessThanOrEqual(sqrtRatioX96Lower, TickMath.MIN_SQRT_RATIO)) {
+    sqrtRatioX96Lower = JSBI.add(TickMath.MIN_SQRT_RATIO, JSBI.BigInt(1))
+  }
+  let sqrtRatioX96Upper = encodeSqrtRatioX96(
+    priceUpper.numerator,
+    priceUpper.denominator,
+  )
+  if (JSBI.greaterThanOrEqual(sqrtRatioX96Upper, TickMath.MAX_SQRT_RATIO)) {
+    sqrtRatioX96Upper = JSBI.subtract(TickMath.MAX_SQRT_RATIO, JSBI.BigInt(1))
+  }
+  return {
+    sqrtRatioX96Lower,
+    sqrtRatioX96Upper,
+  }
+}
+const ZERO = JSBI.BigInt(0)
+const ONE = JSBI.BigInt(1)
+function removeCallParameters(position, options, pool) {
+  pool = {
+    ...pool,
+    tickSpacing: 10,
+    token0Price: pool.token0Price,
+    token1Price: pool.token1Price,
+  }
+  const calldatas = []
+
+  const deadline = toHex(options.deadline)
+  const tokenId = toHex(options.tokenId)
+
+  // construct a partial position with a percentage of liquidity
+  const partialPosition = new Position({
+    pool: pool,
+    liquidity: options.liquidityPercentage.multiply(position.liquidity)
+      .quotient,
+    tickLower: position.tickLower,
+    tickUpper: position.tickUpper,
+  })
+  if (!JSBI.greaterThan(partialPosition.liquidity, ZERO)) {
+    throw new Error('invariant : ZERO_LIQUIDITY')
+  }
+
+  const { amount0: amount0Min, amount1: amount1Min } = burnAmountsWithSlippage(
+    options.slippageTolerance,
+    pool,
+    partialPosition.liquidity,
+    position.tickLower,
+    position.tickUpper,
+  )
+
+  // remove liquidity
+  calldatas.push(
+    NonfungiblePositionManager.INTERFACE.encodeFunctionData(
+      'decreaseLiquidity',
+      [
+        {
+          tokenId,
+          liquidity: toHex(partialPosition.liquidity),
+          amount0Min: toHex(amount0Min),
+          amount1Min: toHex(amount1Min),
+          deadline,
+        },
+      ],
+    ),
+  )
+
+  const { expectedCurrencyOwed0, expectedCurrencyOwed1, ...rest } =
+    options.collectOptions
+  calldatas.push(
+    ...NonfungiblePositionManager.encodeCollect({
+      tokenId: toHex(options.tokenId),
+      // add the underlying value to the expected currency already owed
+      expectedCurrencyOwed0: expectedCurrencyOwed0.add(
+        CurrencyAmount.fromRawAmount(
+          expectedCurrencyOwed0.currency,
+          amount0Min,
+        ),
+      ),
+      expectedCurrencyOwed1: expectedCurrencyOwed1.add(
+        CurrencyAmount.fromRawAmount(
+          expectedCurrencyOwed1.currency,
+          amount1Min,
+        ),
+      ),
+      ...rest,
+    }),
+  )
+
+  if (options.liquidityPercentage.equalTo(ONE)) {
+    if (options.burnToken) {
+      calldatas.push(
+        NonfungiblePositionManager.INTERFACE.encodeFunctionData('burn', [
+          tokenId,
+        ]),
+      )
+    }
+  }
+
+  return {
+    calldata:  new Interface(IMulticall.abi).encodeFunctionData('multicall', [
+      calldatas,
+    ]),
+    value: toHex(0),
+  }
+}
+
+function burnAmountsWithSlippage(
+  slippageTolerance,
+  pool,
+  liquidity,
+  tickLower,
+  tickUpper,
+) {
+  // get lower/upper prices
+  const { sqrtRatioX96Upper, sqrtRatioX96Lower } = ratiosAfterSlippage(
+    slippageTolerance,
+    pool,
+  )
+
+  // construct counterfactual pools
+  let poolLower = new Pool(
+    pool.token0,
+    pool.token1,
+    pool.fee,
+    sqrtRatioX96Lower,
+    0 /* liquidity doesn't matter */,
+    TickMath.getTickAtSqrtRatio(sqrtRatioX96Lower),
+  )
+  poolLower = {
+    ...poolLower,
+    tickSpacing: 10,
+    token0Price: pool.token0Price,
+    token1Price: pool.token1Price,
+  }
+  let poolUpper = new Pool(
+    pool.token0,
+    pool.token1,
+    pool.fee,
+    sqrtRatioX96Upper,
+    0 /* liquidity doesn't matter */,
+    TickMath.getTickAtSqrtRatio(sqrtRatioX96Upper),
+  )
+  poolUpper = {
+    ...poolUpper,
+    tickSpacing: 10,
+    token0Price: pool.token0Price,
+    token1Price: pool.token1Price,
+  }
+
+  // we want the smaller amounts...
+  // ...which occurs at the upper price for amount0...
+  const amount0 = new Position({
+    pool: poolUpper,
+    liquidity: liquidity,
+    tickLower: tickLower,
+    tickUpper: tickUpper,
+  }).amount0
+  // ...and the lower for amount1
+  const amount1 = new Position({
+    pool: poolLower,
+    liquidity: liquidity,
+    tickLower: tickLower,
+    tickUpper: tickUpper,
+  }).amount1
+
+  return { amount0: amount0.quotient, amount1: amount1.quotient }
+}
