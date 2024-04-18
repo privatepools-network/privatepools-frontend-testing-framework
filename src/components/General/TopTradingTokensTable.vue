@@ -92,10 +92,35 @@
       :isActions="true"
     />
   </div>
+  <Pagination
+      :perPage="perPage"
+      :pools="all_tokens"
+      :currentPage="currentPage"
+      @changePage="changePage"
+      @changePerPage="changePerPage"
+      :perPageOptions="[25, 50, 100]"
+    ></Pagination>
 </template>
 <script setup>
+import Pagination from '../Pool/Pagination.vue';
 import TopTradingTokensPoolRow from './TopTradingTokensPoolRow.vue';
-import {defineProps} from "vue"
+import {defineProps, ref} from "vue"
+
+const perPage = ref(25)
+const currentPage = ref(1)
+
+function changePage(args) {
+  if (args.isEquating == false) {
+    currentPage.value = currentPage.value + args.num
+  } else {
+    currentPage.value = args.num
+  }
+}
+
+function changePerPage(v1) {
+  perPage.value = Number(v1)
+  currentPage.value = 1
+}
 
 const props = defineProps(["all_tokens"])
 // const all_pools = [
