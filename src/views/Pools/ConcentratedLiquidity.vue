@@ -497,7 +497,13 @@
             <div v-else-if="concentratedLiquidityStep === 4" :class="'concentrated_button'">
               Minting liquidity <span class="button_loader pl-2"></span>
             </div>
-            <div v-else-if="concentratedLiquidityStep === 5" :class="'concentrated_button'">
+            <div v-else-if="concentratedLiquidityStep === 5" :class="'concentrated_button'" @click="  router.push({
+      name: 'Concentrated liquidity Add',
+      params: {
+        onMountedActivity: 'deposit',
+        poolId: poolInfo.address
+      },
+    })">
               Manage position
             </div>
           </div>
@@ -870,10 +876,10 @@ async function mintPosition() {
       relativePrice.value,
       concentratedLiquidityStep,
     )
+    concentratedLiquidityStep.value = 5
   } catch (e) {
     console.error('[MINT ERROR] Error happened during position minting')
   }
-  concentratedLiquidityStep.value = 5
 }
 
 function updateDepositAmount2() {

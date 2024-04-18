@@ -111,6 +111,7 @@ const { clActivity, wpActivity } = toRefs(props)
 
 const activities = computed(() => {
   let result = props.all_activities ?? []
+  console.log("HERE" - props.all_activities)
   // if (wpActivity.value) {
   //   result.push(...getWpActivity())
   // }
