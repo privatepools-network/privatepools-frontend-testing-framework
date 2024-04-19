@@ -180,7 +180,7 @@
 import { getTokenEntity } from '@/lib/helpers/util'
 import { ref, defineProps, computed } from 'vue'
 
-defineProps(['performers'])
+const props = defineProps(['performers', 'balance'])
 
 const isBalanceHidden = ref(false)
 
@@ -188,7 +188,7 @@ const balance = ref(0.00)
 const balanceVariation = ref(0.00)
 
 const formattedBalance = computed(() => {
-  let parts = balance.value.toFixed(2).toString().split('.')
+  let parts = props.balance.toFixed(2).toString().split('.')
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   return parts.join('.')
 })
