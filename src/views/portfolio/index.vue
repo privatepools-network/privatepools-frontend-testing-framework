@@ -2,50 +2,25 @@
   <MainCard>
     <CRow class="d-flex align-items-center">
       <div class="portfolio mt-4">
-        <PortfolioBalance :performers="performers" />
+        <PortfolioBalance :performers="performers" :balance="balanceData.total ?? 0" />
 
         <div class="portfolio-chart">
-          <PortfolioChart
-            :chart_data="all_chart_data"
-            :networks_data="networks_data"
-            :tokensData="tokensData"
-            :chainSelected="chainSelected.name"
-            @updateChart="(chart_data) => (all_chart_data = chart_data)"
-          />
+          <PortfolioChart :chart_data="all_chart_data" :networks_data="networks_data" :tokensData="tokensData"
+            :chainSelected="chainSelected.name" @updateChart="(chart_data) => (all_chart_data = chart_data)" />
         </div>
-        <Tabs
-          :filterEye="true"
-          style="margin-bottom: 44px"
-          :tabsOptions="['Investments', 'Statistics', 'Financial Statement']"
-          :selectedTab="activeTab"
-          @changeTab="changeActiveTab"
-        ></Tabs>
+        <Tabs :filterEye="true" style="margin-bottom: 44px"
+          :tabsOptions="['Investments', 'Statistics', 'Financial Statement']" :selectedTab="activeTab"
+          @changeTab="changeActiveTab"></Tabs>
         <div class="portfolio-statistics" v-if="activeTab == 'Statistics'">
-          <PortfolioStatistics
-            :historical_tvl="historical_tvl"
-            :tokensData="tokensData"
-            :poolSwapsData="poolSwapsData"
-            :chainSelected="chainSelected"
-            :chartData="all_chart_data"
-            :historicalPrices="historicalPrices"
-            :userFirstTimestamp="firstUserTimestamp"
-            :tokenPairs="chainPairs"
-          >
+          <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
+            :chainSelected="chainSelected" :chartData="all_chart_data" :historicalPrices="historicalPrices"
+            :userFirstTimestamp="firstUserTimestamp" :tokenPairs="chainPairs">
           </PortfolioStatistics>
         </div>
-        <div
-          class="portfolio-financial-statement"
-          v-else-if="activeTab == 'Financial Statement'"
-        >
-          <PoolDetailsFinancialStatement
-            :poolSwapsData="poolSwapsData"
-            :chainSelected="chainSelected"
-            :historical_tvl="historical_tvl"
-            :historicalPrices="historicalPrices"
-            :poolId="'0x631b9f9996c30ce37c2d57d1704fdc568429ef41'"
-            :symbol="'$'"
-            :decimals="2"
-          >
+        <div class="portfolio-financial-statement" v-else-if="activeTab == 'Financial Statement'">
+          <PoolDetailsFinancialStatement :poolSwapsData="poolSwapsData" :chainSelected="chainSelected"
+            :historical_tvl="historical_tvl" :historicalPrices="historicalPrices"
+            :poolId="'0x631b9f9996c30ce37c2d57d1704fdc568429ef41'" :symbol="'$'" :decimals="2">
           </PoolDetailsFinancialStatement>
 
           <!-- <PortfolioFinancialStatement
@@ -63,77 +38,44 @@
             My Investments
           </div>
           <div class="portfolio-table__header">
-            <div
-              class="portfolio-table__header__left"
-              style="justify-content: space-between; width: 100%"
-            >
-              <Tabs
-                :selectedTab="selectedInvestmentsMode"
-                :tabsOptions="investementModes"
-                @changeTab="changeInvestmentMode"
-              ></Tabs>
+            <div class="portfolio-table__header__left" style="justify-content: space-between; width: 100%">
+              <Tabs :selectedTab="selectedInvestmentsMode" :tabsOptions="investementModes"
+                @changeTab="changeInvestmentMode"></Tabs>
             </div>
           </div>
 
           {{ console.log('selectedInvestmentData', selectedInvestmentData) }}
 
-          <div
-            class="portfolio-table__wrapper dark:!bg-[#22222224] bg-white py-20"
-          >
-            <div v-if="selectedInvestmentData === null">
+          <div class="portfolio-table__wrapper dark:!bg-[#22222224] bg-white py-20">
+            <div v-if="!selectedInvestmentData">
               <LoaderPulse />
             </div>
-            <div
-              v-else-if="selectedInvestmentData.length === 0"
-              class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20"
-            >
-              <div
-                class="text-black dark:!text-white"
-                style="font-size: 14px; text-align: center"
-              >
+            <div v-else-if="selectedInvestmentData && selectedInvestmentData.length === 0"
+              class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20">
+              <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
                 No pools yet
               </div>
-              <div
-                class="text-black dark:!text-white"
-                style="font-size: 12px; text-align: center"
-              >
+              <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
                 Choose a pool to invest or create a pool to get started.
               </div>
               <div class="add_liq_btn_pools">
                 <div class="d-flex gap-1">+ Add liquidity</div>
               </div>
             </div>
-            <DataTable
-              v-else
-              :data="selectedInvestmentData"
-              :default_head_captions="investmentHeadCaptions"
-              @table-row-click="onDatatableRowClick"
-              :table_bg="'bg-primary'"
-              @table-header-click="onDatatableHeaderClick"
-              :sortedHeader="sortedHeader"
-              :isFullTable="true"
-              :displayTable="selectedInvestmentData"
-              :sortIcons="true"
-            >
+            <DataTable v-else :data="selectedInvestmentData" :default_head_captions="investmentHeadCaptions"
+              @table-row-click="onDatatableRowClick" :table_bg="'bg-primary'"
+              @table-header-click="onDatatableHeaderClick" :sortedHeader="sortedHeader" :isFullTable="true"
+              :displayTable="selectedInvestmentData" :sortIcons="true">
               <template v-slot:default="{ dataCell, dataCellKey }">
                 <div>
-                  <DataTableCellTokenNamePaired
-                    v-if="dataCellKey === 'Name'"
-                    :value="dataCell"
-                  />
-                  <StandardCell
-                    v-else-if="
-                      ['% of Pool', 'Avg APR', 'Avg Profit Per Trade'].includes(
-                        dataCellKey,
-                      )
-                    "
-                    :value="`${dataCell.amount}%`"
-                  />
-                  <StandardCell
-                    v-else-if="['Fees'].includes(dataCellKey)"
-                    :value="`$${dataCell.amount}`"
-                  />
-                  <StandardCell v-else :value="`${dataCell.amount}`" />
+                  <DataTableCellTokenNamePaired v-if="dataCellKey === 'Name'" :value="dataCell" />
+                  <StandardCell v-else-if="
+                    ['% of Pool', 'Avg APR', 'Avg Profit Per Trade'].includes(
+                      dataCellKey,
+                    )
+                  " :value="`${dataCell}%`" />
+                  <StandardCell v-else-if="['Fees'].includes(dataCellKey)" :value="`$${dataCell}`" />
+                  <StandardCell v-else :value="`${dataCell}`" />
                 </div>
               </template>
             </DataTable>
@@ -145,7 +87,8 @@
           </div>
 
           <!-- <PortfolioActivityTable :displayActivities="displayActivities" :account="account" :filteredActivities="filteredActivities" /> -->
-          <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" />
+          <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits"
+            :all_activities="portfolioData.activity" />
         </div>
       </div>
     </CRow>
@@ -195,6 +138,7 @@ import { GetUserUniswapPools } from '@/composables/wallet/useWalletPools'
 import PortfolioBalance from '@/components/portfolio/PortfolioBalance.vue'
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
+import { getPortfolioData, getPortfolioBalance } from '@/composables/data/portfolioData'
 
 const clActivity = ref([
   {
@@ -459,7 +403,7 @@ const onDatatableRowClick = (_, index) => {
 const pools = ref(null)
 const pairs = ref(null)
 const activities = ref(null)
-const hideSmallerThan10Pools = ref(true)
+const hideSmallerThan10Pools = ref(false)
 
 const displayActivities = computed(() =>
   filteredActivities.value.map((item) =>
@@ -496,13 +440,23 @@ const investmentDataMap = {
 }
 
 const selectedInvestmentData = computed(() => {
-  let data = investmentDataMap[selectedInvestmentsMode.value].value
-  if (!data) return null
-  if (hideSmallerThan10Pools.value) {
-    data = data.filter((el) => el.TVL.fullAmount > 10)
+  if (!process.env.VUE_APP_LOCAL_API) {
+    let data = investmentDataMap[selectedInvestmentsMode.value].value
+    if (!data) return null
+    if (hideSmallerThan10Pools.value) {
+      data = data.filter((el) => el.TVL.fullAmount > 10)
+    }
+    let formatted = data.map((item) => excludeKeysFromObject(item, ['id']))
+    return formatted
   }
-  let formatted = data.map((item) => excludeKeysFromObject(item, ['id']))
-  return formatted
+  else {
+    let data = selectedInvestmentsMode.value == "Pools" ? portfolioData.value.pools : portfolioData.value.pairs
+    if (!data) return null
+    if (hideSmallerThan10Pools.value) {
+      data = data.filter((el) => el.TVL.fullAmount > 10)
+    }
+    return data
+  }
 })
 
 const chain_swaps_data = computed(() => {
@@ -619,7 +573,7 @@ const investmentHeadCaptions = computed(() => {
       return [
         'Name',
         'Liquidity Deposited',
-        '% Of Pool',
+        '% Of Pair',
         'TVL',
         'Volume',
         'Fees',
@@ -652,8 +606,8 @@ const portfolioActions = ref([])
 const firstUserTimestamp = computed(() =>
   portfolioActions.value.joinExits
     ? [...portfolioActions.value.joinExits].sort(
-        (a, b) => a.timestamp - b.timestamp,
-      )[0].timestamp * 1000
+      (a, b) => a.timestamp - b.timestamp,
+    )[0].timestamp * 1000
     : 0,
 )
 const account = ref('')
@@ -916,6 +870,8 @@ async function InitNetworksData() {
   networks_data.value = result
 }
 
+const portfolioData = ref({})
+const balanceData = ref({})
 onMounted(async () => {
   InitTreasuryYields()
   if (window.ethereum !== undefined) {
@@ -942,8 +898,11 @@ onMounted(async () => {
   const mmProvider = await InitializeMetamask()
   if (mmProvider) {
     account.value = await mmProvider.getSigner().getAddress()
+    portfolioData.value = await getPortfolioData(56, "0x759ee62a73a8a0690a0e20fc489d3f462b4385c0")
+    balanceData.value = await getPortfolioBalance(56, "0x759ee62a73a8a0690a0e20fc489d3f462b4385c0")
+    console.log("PORTFOLIO DATA - ", portfolioData.value)
   }
-  await InitInvestments()
+  //await InitInvestments()
 })
 </script>
 <style lang="scss">
@@ -952,14 +911,17 @@ onMounted(async () => {
 .table-above {
   display: flex;
   align-items: center;
+
   &_toggler {
     margin-left: 5px;
     font-size: 12px;
+
     @media (max-width: $xxl) {
       font-size: 10px;
     }
   }
 }
+
 .portfolio-table__wrapper_activities {
   overflow-x: auto;
 
@@ -971,10 +933,12 @@ onMounted(async () => {
       min-width: 300px !important;
     }
   }
+
   .table {
     min-width: 100% !important;
     width: auto;
   }
+
   .actions-cell {
     display: flex;
     align-items: center;
@@ -988,6 +952,7 @@ onMounted(async () => {
       margin-left: 12px;
     }
   }
+
   .details-cell {
     display: flex;
     flex-wrap: wrap;
@@ -998,6 +963,7 @@ onMounted(async () => {
       &:not(:last-child) {
         margin-right: 12px;
       }
+
       &__icon {
         height: 24px;
         width: 24px;
@@ -1006,6 +972,7 @@ onMounted(async () => {
     }
   }
 }
+
 .portfolio-table__wrapper {
   // background: #22222224;
   border: 1px solid #ffffff0d;
@@ -1015,19 +982,23 @@ onMounted(async () => {
     max-width: none !important;
     min-width: 200px !important;
   }
+
   .table {
     min-width: 100% !important;
     width: auto;
   }
 }
+
 @mixin cells-widths {
   width: 150px;
+
   @media (max-width: $xxl) {
     width: 100px;
   }
 
   &:nth-child(1) {
     width: 200px;
+
     @media (max-width: $xxl) {
       width: 130px;
     }
@@ -1035,11 +1006,13 @@ onMounted(async () => {
 
   &:nth-child(2) {
     width: 600px;
+
     @media (max-width: $xxl) {
       width: 300px;
     }
   }
 }
+
 .table-header-font-folder {
   text-align: left !important;
   @include cells-widths;
@@ -1051,24 +1024,28 @@ onMounted(async () => {
     max-height: 500px;
     overflow-x: hidden;
     overflow-y: auto;
+
     &::-webkit-scrollbar-track {
       -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
       background-color: #02120a;
       border-radius: 50px;
       margin-bottom: 10px;
     }
+
     &::-webkit-scrollbar {
       width: 8px !important;
       height: 8px !important;
       background: #02120a;
       border-radius: 50px;
     }
+
     &::-webkit-scrollbar-thumb {
       border: 2px solid #02120a;
       background: #00c9ff;
       border-radius: 21px;
     }
   }
+
   &-wrapper {
     padding: 0;
     outline: 0.5px solid rgba(163, 164, 165, 0.2196078431);
@@ -1080,12 +1057,14 @@ onMounted(async () => {
     border: 1px solid #ffffff0d;
     box-shadow: 0px 4px 4px 0px #00000040;
   }
+
   &-row {
     border-color: transparent;
     width: 100%;
     display: table;
     table-layout: fixed;
   }
+
   &-cell {
     padding: 24px 0 24px 10px !important;
     width: fit-content;
@@ -1094,6 +1073,7 @@ onMounted(async () => {
     font-size: 14px;
     overflow: visible;
     @include cells-widths;
+
     @media (max-width: $xxl) {
       font-size: clamp(10px, 1vw, 14px);
       padding: 12px 0 12px 10px !important;
@@ -1102,21 +1082,26 @@ onMounted(async () => {
     &:first-child {
       padding: 24px 0 24px 45px !important;
       text-align: left;
+
       @media (max-width: $xxl) {
         padding: 12px 0 12px 15px !important;
       }
     }
+
     &:last-child {
       padding: 24px 10px 24px 10px !important;
+
       @media (max-width: $xxl) {
         padding: 12px 10px 12px 10px !important;
       }
     }
   }
 }
+
 .actions-cell {
   display: flex;
   align-items: center;
+
   &__text {
     font-size: 16px;
     font-weight: 300;
@@ -1124,30 +1109,37 @@ onMounted(async () => {
     letter-spacing: 0em;
     color: #ffffff;
     margin-left: 12px;
+
     @media (max-width: $xxl) {
       font-size: 12px;
     }
   }
 }
+
 .details-cell {
   display: flex;
   flex-wrap: wrap;
+
   &__token-entity {
     display: flex;
     background: none;
+
     &:not(:last-child) {
       margin-right: 12px;
     }
+
     &__icon {
       height: 24px;
       width: 24px;
       margin-right: 8px;
+
       @media (max-width: $xxl) {
         margin-right: 4px;
       }
     }
   }
 }
+
 .portfolio {
   display: flex;
   flex-direction: column;
@@ -1157,9 +1149,11 @@ onMounted(async () => {
   &-header {
     color: #fff;
     margin-bottom: 29px;
+
     &__amount-percents {
       font-size: clamp(10px, 0.8vw, 14px);
     }
+
     &__title {
       font-size: clamp(10px, 0.8vw, 14px);
       margin-bottom: 8px;
@@ -1167,15 +1161,18 @@ onMounted(async () => {
       span {
         margin-right: 8px;
       }
+
       svg {
         cursor: pointer;
       }
     }
+
     &__balance {
       font-size: clamp(14px, 0.9vw, 32px);
       font-weight: 600;
       margin-bottom: 8px;
     }
+
     &__variation {
       display: flex;
       align-items: center;
@@ -1184,6 +1181,7 @@ onMounted(async () => {
         font-size: clamp(10px, 0.8vw, 14px);
         margin-right: 8px;
       }
+
       &-period {
         font-size: clamp(9px, 0.7vw, 12px);
         padding: 2px 6px;
@@ -1192,6 +1190,7 @@ onMounted(async () => {
       }
     }
   }
+
   &-stats {
     display: flex;
     margin-bottom: 28px;
@@ -1203,19 +1202,23 @@ onMounted(async () => {
       margin-right: 48px;
       margin-bottom: 10px;
     }
+
     &__icon {
       margin-right: 4px;
       height: 20px;
     }
+
     &__title {
       // color: #e1e1e1;
       font-size: clamp(10px, 0.8vw, 14px);
       margin-bottom: 4px;
     }
+
     &__amount {
       svg {
         margin-right: 4px;
       }
+
       &_danger {
         color: #e55353;
 
@@ -1227,6 +1230,7 @@ onMounted(async () => {
           }
         }
       }
+
       &_success {
         color: #2dc24e;
 
@@ -1240,6 +1244,7 @@ onMounted(async () => {
       }
     }
   }
+
   &-tabs {
     padding: 4px;
     margin-bottom: 50px;
@@ -1259,10 +1264,12 @@ onMounted(async () => {
       }
     }
   }
+
   &-chart {
     margin-bottom: 50px;
     width: 100%;
   }
+
   &-table {
     width: 100%;
 
@@ -1273,14 +1280,17 @@ onMounted(async () => {
       &::-webkit-scrollbar {
         height: 6px;
       }
+
       &::-webkit-scrollbar-track {
         background: transparent;
       }
+
       &::-webkit-scrollbar-thumb {
         background-color: rgba(63, 67, 80, 0.24);
         border-radius: 3px;
       }
     }
+
     &__header {
       display: flex;
       justify-content: space-between;
@@ -1293,6 +1303,7 @@ onMounted(async () => {
         flex-wrap: wrap;
       }
     }
+
     &__filter {
       display: flex;
       padding: 4px;
@@ -1303,6 +1314,7 @@ onMounted(async () => {
       &:first-child {
         margin-right: 8px;
       }
+
       &__el {
         font-size: 14px;
         padding: 6px 8px;
@@ -1315,6 +1327,7 @@ onMounted(async () => {
         }
       }
     }
+
     &__dropdown {
       position: relative;
       font-size: 14px;
@@ -1338,6 +1351,7 @@ onMounted(async () => {
           }
         }
       }
+
       &__wrapper {
         padding: 7px;
         position: absolute;
@@ -1346,6 +1360,7 @@ onMounted(async () => {
         border-top: none;
         background: #000;
       }
+
       &__option {
         color: rgba(#fff, 0.6);
         margin-bottom: 10px;
@@ -1357,15 +1372,18 @@ onMounted(async () => {
         svg {
           min-width: 9px;
         }
+
         &_active {
           color: #fff;
         }
       }
     }
   }
+
   &-financial-statement {
     width: 100%;
   }
+
   &-statistics {
     width: 100%;
   }

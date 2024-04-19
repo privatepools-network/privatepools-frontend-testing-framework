@@ -15,7 +15,6 @@ import {
   V3_SWAP_ROUTER_ADDRESS,
 } from '@/composables/concentrated-liquidity/constants'
 import { CurrencyAmount, Token } from '@uniswap/sdk-core'
-import { fromReadableAmount } from '@/composables/concentrated-liquidity/cl'
 import { useUniswapTicks } from '@/composables/concentrated-liquidity/useUniswapTicks'
 
 export async function GetCLPoolInfo(tokenIn, tokenOut, poolFee, signer) {
