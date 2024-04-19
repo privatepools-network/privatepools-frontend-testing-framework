@@ -41,18 +41,43 @@
         </div>
       </div>
     </div>
-    {{ console.log('filterByStatus', filterByStatus) }}
+    {{ console.log('all_pools', all_pools) }}
 
     <PoolRow v-if="all_pools && all_pools.length > 0" v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
       :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
       @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"
       :isActions="true" />
   </div>
+  
+  <Pagination
+      :perPage="perPage"
+      :pools="all_pools"
+      :currentPage="currentPage"
+      @changePage="changePage"
+      @changePerPage="changePerPage"
+      :perPageOptions="[25, 50, 100]"
+    ></Pagination>
 </template>
 <script setup>
+import Pagination from '../Pool/Pagination.vue';
 import PoolRow from '../Pool/PoolRow.vue';
-import { defineProps } from "vue";
+import { defineProps, ref } from "vue";
 
+const perPage = ref(25)
+const currentPage = ref(1)
+
+function changePage(args) {
+  if (args.isEquating == false) {
+    currentPage.value = currentPage.value + args.num
+  } else {
+    currentPage.value = args.num
+  }
+}
+
+function changePerPage(v1) {
+  perPage.value = Number(v1)
+  currentPage.value = 1
+}
 const props = defineProps(['all_pools'])
 const user_staked_pools = [
   {

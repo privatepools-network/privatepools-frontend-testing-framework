@@ -278,6 +278,7 @@ import firstPlace from '@/assets/icons/generalIcons/firstPlace.svg'
 import secondPlace from '@/assets/icons/generalIcons/secondPlace.svg'
 import thirdPlace from '@/assets/icons/generalIcons/thirdPlace.svg'
 import router from '@/router'
+import Pagination from '../Pool/Pagination.vue'
 
 defineEmits('changeToSpecificPortfolio')
 
