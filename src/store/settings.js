@@ -1,3 +1,4 @@
+import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 
 export const useSettings = defineStore('settings', {
@@ -5,11 +6,16 @@ export const useSettings = defineStore('settings', {
     /** @type {{ text: string, id: number, isFinished: boolean }[]} */
     todos: [],
     /** @type {'USD' | 'BTC' | 'ETH'} */
-    currency: 'USD',
+    currentCurrency: useLocalStorage('currency', 'USD'),
+
+    currentLanguage: useLocalStorage('language', 'English'),
   }),
   actions: {
     updateCurrency(newCurrency) {
-      this.currency = newCurrency
+      this.currentCurrency = newCurrency
+    },
+    updateLanguage(newLang) {
+      this.currentLanguage = newLang
     },
   },
   getters: {},

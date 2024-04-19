@@ -233,8 +233,8 @@
                   class="subsection__item__content__right text-[black] dark:!text-white"
                 >
                   <div class="subsection__item__content__right__top paired">
-                    <div class="amount">
-                      <CurrencySymbol :symbol="currencySymbol" />{{
+                    <div class="amount flex items-center">
+                      <CurrencySymbol  />{{
                         formatBigNumber(profitInfo.highest)
                       }}
                     </div>
@@ -262,8 +262,8 @@
                   class="subsection__item__content__right text-[black] dark:!text-white"
                 >
                   <div class="subsection__item__content__right__top paired">
-                    <div class="amount">
-                      <CurrencySymbol :symbol="currencySymbol" />{{
+                    <div class="amount  flex items-center">
+                      <CurrencySymbol  />{{
                         formatBigNumber(profitInfo.lowest)
                       }}
                     </div>
@@ -297,8 +297,8 @@
                 <div
                   class="subsection__item__content__right text-[black] dark:!text-white"
                 >
-                  <div class="subsection__item__content__right__top single">
-                    <CurrencySymbol :symbol="currencySymbol" />{{
+                  <div class="subsection__item__content__right__top single  flex items-center">
+                    <CurrencySymbol  />{{
                       formatBigNumber(poolVolume, currencyDecimals)
                     }}
                   </div>
@@ -313,8 +313,8 @@
                 <div
                   class="subsection__item__content__right text-[black] dark:!text-white"
                 >
-                  <div class="subsection__item__content__right__top single">
-                    <CurrencySymbol :symbol="currencySymbol" />{{
+                  <div class="subsection__item__content__right__top single  flex items-center">
+                    <CurrencySymbol  />{{
                       formatBigNumber(poolFees, currencyDecimals)
                     }}
                   </div>

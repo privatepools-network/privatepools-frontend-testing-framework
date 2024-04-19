@@ -30,10 +30,10 @@
       </div>
     </div>
     <div
-      class="portfolio-header__balance text-black dark:!text-white"
+      class="portfolio-header__balance flex items-center text-black dark:!text-white"
       v-if="isBalanceHidden == false"
     >
-    <CurrencySymbol :symbol="'$'" />{{ formattedBalance }}
+    {{ formattedBalance }} <CurrencySymbol  /> 
     </div>
     <div class="portfolio-header__balance text-black dark:!text-white" v-else>
       ${{ hiddenBalance }}
