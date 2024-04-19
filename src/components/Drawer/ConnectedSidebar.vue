@@ -76,7 +76,10 @@
           $0.00 (0.0%)
         </div>
       </div>
-      <div @click="router.push('/pools')" class="add_liq_btn">
+
+
+      <Dropdown :distance="4" :placement="'bottom-center'">
+        <div  class="add_liq_btn">
         <div class="d-flex gap-1">
           <svg
             width="19"
@@ -90,9 +93,19 @@
               fill="#00e0ff"
             />
           </svg>
-          Add liquidity
+          Create a Pool
         </div>
       </div>
+          <template #popper>
+            <div class="header__popup w-full bg-white dark:!bg-[#171717]">
+              <a href="/pools/concentrated_pool" class="text-black dark:!text-white no-underline hover:!text-[#1ab6ff] mb-2"><div>Create CL Pool</div></a>
+              <a href="/pools/compose" class="text-black dark:!text-white no-underline hover:!text-[#1ab6ff]"><div>Create WP Pool</div></a>
+            </div>
+          </template>
+        </Dropdown>
+
+
+    
       <div class="d-flex gap-3">
         <div
           @click="sidebarTab = 'Tokens'"
@@ -326,6 +339,7 @@
         class="d-flex flex-column gap-2 overflow-auto activity_container"
       >
         <div>
+        {{ console.log('addressActivity', addressActivity) }}
           <div class="tab my-2" style="font-size: 12px">Today</div>
           <div class="d-flex flex-column gap-2">
             <a
@@ -459,6 +473,7 @@ import { ethers } from 'ethers'
 import {getSidebarData} from '@/composables/data/sidebarData'
 import ThreeDots from '../loaders/ThreeDots.vue'
 import LoaderPulse from '../loaders/LoaderPulse.vue'
+import { Dropdown } from 'floating-vue'
 
 const props = defineProps(['isConnectedToWeb3', 'address'])
 const emit = defineEmits(['toggleSettings', 'toggleToWallets', 'setAddress'])
