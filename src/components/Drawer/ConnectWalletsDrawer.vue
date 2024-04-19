@@ -27,13 +27,11 @@ import metamask from '@/assets/images/metamask.png'
 import { defineEmits, ref, onMounted } from 'vue'
 import { setMetamaskProvider } from '@/composables/useMetamaskProvider'
 import { ethers } from "ethers";
-import { useStore } from 'vuex'
 import { setNetworkId } from '@/composables/useNetwork';
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 
 import 'vue3-toastify/dist/index.css'
-const store = useStore()
 const emit = defineEmits(['toggleSettings', "toggleSidebar", 'setAddress'])
 
 
@@ -66,7 +64,6 @@ async function connectWallet(called_by_user = false) {
       localStorage.setItem('address', res[0])
       // isConnectedToWeb3LocalStorage = true
 
-      store.dispatch('setCurrentNetwork', network)
       localStorage.setItem('ethereumNetwork', JSON.stringify(network))
       console.log(res[0])
       console.log(

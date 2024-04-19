@@ -95,6 +95,7 @@
       <div class="wallet_bottom_text">Version: v1.0.0</div>
     </div>
   </div>
+  {{console.log('settings', settings)}}
 </template>
 <script setup>
 import { ref } from 'vue'
@@ -106,10 +107,24 @@ import check_icon from '@/assets/icons/sidebarIcons/check_icon.svg'
 import usa from '@/assets/icons/sidebarIcons/flags/usa.svg'
 import Toggler from '@/UI/Toggler.vue'
 import ThemeToggler from '@/UI/ThemeToggler.vue'
+import { storeToRefs } from 'pinia'
+import {useSettings} from '@/store/settings'
+
+const settingsStore = useSettings()
+const { settings } = storeToRefs(settingsStore)
+
+
 
 defineEmits(['toggleToWallets'])
 const HideSmallBalances = ref(true)
 const settingsState = ref('Main')
+
+
+
+const handleChangeCurrency = () => {
+  settingsStore.updateCurrency()
+}
+
 </script>
 <style lang="scss" scoped>
 .sidebar_header {
