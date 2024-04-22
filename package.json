@@ -60,6 +60,7 @@
     "moment": "^2.29.4",
     "numeral": "^2.0.6",
     "papaparse": "^5.4.1",
+    "pinia": "^2.1.7",
     "socket.io-client": "^4.7.2",
     "tiny-emitter": "^2.1.0",
     "vue": "^3.2.45",
@@ -70,8 +71,7 @@
     "vue3-apexcharts": "^1.4.4",
     "vue3-click-away": "^1.2.4",
     "vue3-histogram-slider": "^0.4.16",
-    "vue3-toastify": "^0.2.1",
-    "vuex": "^4.1.0"
+    "vue3-toastify": "^0.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
@@ -84,7 +84,6 @@
     "@vue/cli-plugin-eslint": "~5.0.8",
     "@vue/cli-plugin-router": "~5.0.8",
     "@vue/cli-plugin-unit-jest": "~5.0.8",
-    "@vue/cli-plugin-vuex": "~5.0.8",
     "@vue/cli-service": "~5.0.8",
     "@vue/test-utils": "^2.2.4",
     "@vue/vue3-jest": "^27.0.0",

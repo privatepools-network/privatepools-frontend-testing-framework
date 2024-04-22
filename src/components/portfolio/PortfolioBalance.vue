@@ -30,10 +30,10 @@
       </div>
     </div>
     <div
-      class="portfolio-header__balance text-black dark:!text-white"
+      class="portfolio-header__balance flex items-center text-black dark:!text-white"
       v-if="isBalanceHidden == false"
     >
-      ${{ formattedBalance }}
+    {{ formattedBalance }} <CurrencySymbol  /> 
     </div>
     <div class="portfolio-header__balance text-black dark:!text-white" v-else>
       ${{ hiddenBalance }}
@@ -179,8 +179,9 @@
 <script setup>
 import { getTokenEntity } from '@/lib/helpers/util'
 import { ref, defineProps, computed } from 'vue'
+import CurrencySymbol from '../TrackInfo/CurrencySymbol.vue';
 
-defineProps(['performers'])
+const props = defineProps(['performers', 'balance'])
 
 const isBalanceHidden = ref(false)
 
@@ -188,7 +189,7 @@ const balance = ref(0.00)
 const balanceVariation = ref(0.00)
 
 const formattedBalance = computed(() => {
-  let parts = balance.value.toFixed(2).toString().split('.')
+  let parts = props.balance.toFixed(2).toString().split('.')
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   return parts.join('.')
 })

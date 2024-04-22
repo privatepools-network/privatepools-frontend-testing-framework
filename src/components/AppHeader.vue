@@ -46,7 +46,6 @@ import {
 } from '@/composables/useNetwork'
 import { ethers } from 'ethers'
 import { setMetamaskProvider } from '@/composables/useMetamaskProvider'
-import { useStore } from 'vuex'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
@@ -173,7 +172,6 @@ const isMetamaskSupported = ref(false)
 const isConnectedToWeb3 = ref(localStorage.getItem('isConnectedToWeb3'))
 const accountData = ref()
 const ethereumNetwork = ref('')
-const store = useStore()
 
 
 watch(
@@ -271,8 +269,7 @@ async function connectWallet() {
       emit('setAddress', res[0])
       console.log('APP HEADER')
       ethereumNetwork.value = network
-      store.dispatch('setWalletData', walletData)
-      store.dispatch('setCurrentNetwork', network)
+
       localStorage.setItem('ethereumNetwork', JSON.stringify(network))
 
       console.log(

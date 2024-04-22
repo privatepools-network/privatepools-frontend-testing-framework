@@ -20,7 +20,7 @@
               class="visible_head arbitrage_bot_sections_text text-black dark:!text-white">
               <div class="d-flex align-items-center">
 
-                ${{ numberToAposthrophe(chains_data.tvl, currencyDecimals) }}
+                <CurrencySymbol />{{ numberToAposthrophe(chains_data.tvl, currencyDecimals) }}
               </div>
             </div>
           </div>
@@ -49,14 +49,8 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[800]" style="font-size: clamp(10px, 0.8vw, 14px)">
-                  <span v-if="currencySelected.symbol === '₿'">
-                    <img :src="btcSymbol" width="9" />
-                  </span>
-                  <span v-else-if="currencySelected.symbol === 'Ξ'">
-                    <img :src="ethSymbol" width="9" />
-                  </span>
-                  <span v-else>{{ currencySelected.symbol }} </span> {{
+                <div v-else class="text-black flex items-center dark:!text-white font-[800]" style="font-size: clamp(10px, 0.8vw, 14px)">
+                  <CurrencySymbol  /> {{
           numberToAposthrophe(chains_data.totalVolume, currencyDecimals)
         }}
                 </div>
@@ -364,6 +358,7 @@ import ThreeDots from '@/components/loaders/ThreeDots.vue'
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import router from '@/router'
 import { formatBigNumber } from '@/lib/utils/index'
+import CurrencySymbol from '../TrackInfo/CurrencySymbol.vue'
 
 const props = defineProps([
   'chains_data',

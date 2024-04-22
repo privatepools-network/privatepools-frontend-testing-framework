@@ -14,7 +14,7 @@
   </div>
   <div :class="filterEye === false ? 'tabs_filter' : 'tabs'" v-else>
     <div
-      class="tabs__el bg-[white] dark:!bg-[#22222224] text-black dark:!text-white"
+      class="tabs__el bg-[white] dark:!bg-[#22222224] text-black dark:!text-white hover:!bg-[#00c8ff23]"
       v-for="option in tabsOptions"
       :key="option"
       :class="{

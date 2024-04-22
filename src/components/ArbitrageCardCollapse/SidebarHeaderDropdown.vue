@@ -18,7 +18,7 @@
                     <div v-if="!headerValue" class="totals_loader">
                         <ThreeDots />
                     </div>
-                    <div v-else style="color: white; font-weight: 800; clamp(10px, 0.8vw, 14px)">
+                    <div v-else style="color: white; font-weight: 800;">
                         <span v-if="symbol === '₿'">
                           <img :src="btcSymbol" width="9" />
                         </span>

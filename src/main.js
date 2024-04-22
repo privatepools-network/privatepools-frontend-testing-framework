@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
 import vueQuery from '@/plugins/vueQuery.js'
 import CoreuiVue from '@coreui/vue'
 import CIcon from '@coreui/icons-vue'
@@ -10,9 +9,12 @@ import FloatingVue from 'floating-vue'
 import 'floating-vue/dist/style.css'
 import { inject } from '@vercel/analytics'
 import VueClickAway from 'vue3-click-away'
+import { createPinia } from 'pinia'
 
+const pinia = createPinia()
 const app = createApp(App)
-app.use(store)
+
+app.use(pinia)
 app.use(router)
 app.use(vueQuery)
 app.use(CoreuiVue)
