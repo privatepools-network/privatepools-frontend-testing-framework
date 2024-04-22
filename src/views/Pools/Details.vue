@@ -169,8 +169,8 @@
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
-                    <div class="amount">
-                      <CurrencySymbol :symbol="currencySymbol" />{{
+                    <div class="amount  flex items-center">
+                      <CurrencySymbol  />{{
                         formatBigNumber(profitInfo.highest)
                       }}
                     </div>
@@ -192,8 +192,8 @@
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
-                    <div class="amount">
-                      <CurrencySymbol :symbol="currencySymbol" />{{
+                    <div class="amount  flex items-center">
+                      <CurrencySymbol  />{{
                         formatBigNumber(profitInfo.lowest)
                       }}
                     </div>
@@ -217,8 +217,8 @@
                   Volume
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
-                  <div class="subsection__item__content__right__top single">
-                    <CurrencySymbol :symbol="currencySymbol" />{{
+                  <div class="subsection__item__content__right__top single  flex items-center">
+                    <CurrencySymbol  />{{
                       formatBigNumber(poolVolume, currencyDecimals)
                     }}
                   </div>
@@ -229,8 +229,8 @@
                   Fees
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
-                  <div class="subsection__item__content__right__top single">
-                    <CurrencySymbol :symbol="currencySymbol" />{{
+                  <div class="subsection__item__content__right__top single  flex items-center">
+                    <CurrencySymbol  />{{
                       formatBigNumber(poolFees, currencyDecimals)
                     }}
                   </div>
@@ -521,7 +521,6 @@ import { configService } from '@/services/config/config.service'
 import { Network, networkId } from '@/composables/useNetwork'
 import MainCard from '@/UI/MainCard.vue'
 import Title from '@/UI/Title.vue'
-import { useStore } from 'vuex'
 import link from '@/assets/icons/link.svg'
 import Table from '@/UI/Table'
 import Tabs from '@/UI/Tabs'
@@ -560,10 +559,7 @@ import { GetPoolShares } from '@/composables/pools/usePoolShares'
 import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
 import { getDetailsData } from "@/composables/data/detailsData"
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'  
-const store = useStore()
-const trackCurrentNetwork = computed(() => {
-  return store.getters.getCurrentNetwork
-})
+
 use([
   CanvasRenderer,
   CandlestickChart,
@@ -910,16 +906,9 @@ const poolTrades = computed(() =>
 )
 
 const scannerLink = computed(() => {
-  return trackCurrentNetwork.value.name === 'arbitrum'
-    ? `${process.env.VUE_APP_EXPLORER_ARBITRUM
-    }/address/${pool.value?.id?.substring(0, 42)}`
-    : trackCurrentNetwork.value.name === 'bnb'
-      ? `${process.env.VUE_APP_EXPLORER_BINANCE
-      }/address/${pool.value?.id?.substring(0, 42)}`
-      : trackCurrentNetwork.value.name === 'matic'
-        ? `${process.env.VUE_APP_EXPLORER_POLYGON
-        }/address/${pool.value?.id?.substring(0, 42)}`
-        : process.env.VUE_APP_EXPLORER_ARBITRUM
+  return `${
+    process.env.VUE_APP_EXPLORER_BINANCE
+  }/address/${pool.value?.id?.substring(0, 42)}`
 })
 
 const current_pool_token_prices = ref({})

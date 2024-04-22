@@ -45,9 +45,9 @@
             <div
               v-if="pool"
               style="font-size: clamp(16px, 1vw, 30px)"
-              class="visible_head text-black dark:!text-white font-semibold"
+              class="visible_head flex items-center text-black dark:!text-white font-semibold"
             >
-              <CurrencySymbol :symbol="currencySelected.symbol" />{{
+              <CurrencySymbol  /> {{
                 numberToAposthrophe(pool.totalLiquidity, currencyDecimals)
               }}
             </div>
@@ -77,8 +77,8 @@
                     width="10"
                   />
                 </div>
-                <div class="text-black dark:!text-white font-normal">
-                  <CurrencySymbol :symbol="currencySelected.symbol" />{{
+                <div class="text-black dark:!text-white flex items-center font-normal">
+                  <CurrencySymbol  />{{
                     numberToAposthrophe(
                       token.balance * GetTokenPrice(token.address),
                       currencyDecimals,
@@ -217,10 +217,10 @@
                   Pool Volume
                 </div>
                 <div
-                  class="text-black dark:!text-white"
+                  class="text-black dark:!text-white flex items-center"
                   v-if="swapsData.length > 0"
                 >
-                  <CurrencySymbol :symbol="currencySelected.symbol" />{{
+                  <CurrencySymbol  />{{
                     numberToAposthrophe(
                       poolSwapStats['Volume All Time'],
                       currencyDecimals,
@@ -291,8 +291,8 @@
               class="d-flex align-items-center justify-content-between visible_head text-black dark:!text-white font-normal"
             >
               <div style="font-size: clamp(10px, 0.9vw, 16px)">My Rewards</div>
-              <div v-if="pool" class="text-black dark:!text-white">
-                <CurrencySymbol :symbol="currencySelected.symbol" />{{
+              <div v-if="pool" class="text-black dark:!text-white flex items-center">
+                <CurrencySymbol  />{{
                   numberToAposthrophe(pool.lpPrice, currencyDecimals || 2)
                 }}
               </div>
@@ -304,8 +304,8 @@
               class="d-flex align-items-center justify-content-between font-normal text-black dark:!text-white visible_head mt-3"
             >
               <div style="font-size: clamp(10px, 0.9vw, 16px)">My Balance</div>
-              <div v-if="pool" class="text-black dark:!text-white">
-                <CurrencySymbol :symbol="currencySelected.symbol" />{{
+              <div v-if="pool" class="text-black dark:!text-white flex items-center">
+                <CurrencySymbol  />{{
                   numberToAposthrophe(userBalance)
                 }}
               </div>

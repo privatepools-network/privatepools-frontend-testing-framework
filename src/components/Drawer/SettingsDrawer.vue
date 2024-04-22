@@ -38,7 +38,9 @@
     </div>
     <div class="d-flex flex-column justify-content-between h-100 gap-3 mt-3">
       <div v-if="settingsState === 'Main'">
-        <div class="settings_text text-black dark:!text-white flex items-center justify-between">
+        <div
+          class="settings_text text-black dark:!text-white flex items-center justify-between"
+        >
           <div>Hide small balances</div>
 
           <Toggler :toggle="HideSmallBalances" :label="''" />
@@ -50,7 +52,7 @@
         >
           <div>Language</div>
           <div class="cursor-pointer flex items-center gap-1">
-            English
+            {{ currentLanguage }}
             <img :src="arrow_right" />
           </div>
         </div>
@@ -60,34 +62,39 @@
         >
           <div>Currency</div>
           <div class="cursor-pointer flex items-center gap-1">
-            USD
+            {{currentCurrency}}
             <img :src="arrow_right" />
           </div>
         </div>
       </div>
-      <div v-if="settingsState === 'Language'">
+      <div v-if="settingsState === 'Language'" class="overflow-auto languages_container">
         <div
-          class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
+          class="flex justify-between items-center mb-2 settings_text px-2 rounded-lg hover:bg-[#00c8ff15] text-black dark:!text-white"
           style="cursor: pointer"
           v-for="language in languages"
           :key="language"
+          @click="handleChangeLanguage(language.name)"
+
         >
           <div>{{ language.nativeName }}</div>
-          <div>
+          <div v-if="currentLanguage === language.name">
             <img :src="check_icon" />
           </div>
         </div>
       </div>
       <div v-if="settingsState === 'Currency'">
         <div
-          class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
+          class="flex justify-between items-center mb-2 settings_text px-2 rounded-lg hover:bg-[#00c8ff15] text-black dark:!text-white"
           style="cursor: pointer"
+          v-for="currency in currencyList"
+          :key="currency"
+          @click="handleChangeCurrency(currency.symbol)"
         >
-          <div class="d-flex align-items-center gap-1">
-            <img :src="usa" />
-            USD
+          <div class="flex items-center gap-1">
+            <img :src="currency.img" class="w-4"/>
+            {{ currency.symbol }}
           </div>
-          <div>
+          <div v-if="currentCurrency === currency.symbol">
             <img :src="check_icon" />
           </div>
         </div>
@@ -95,6 +102,7 @@
       <div class="wallet_bottom_text">Version: v1.0.0</div>
     </div>
   </div>
+  {{ console.log('currentLanguage', currentLanguage) }}
 </template>
 <script setup>
 import { ref } from 'vue'
@@ -106,10 +114,40 @@ import check_icon from '@/assets/icons/sidebarIcons/check_icon.svg'
 import usa from '@/assets/icons/sidebarIcons/flags/usa.svg'
 import Toggler from '@/UI/Toggler.vue'
 import ThemeToggler from '@/UI/ThemeToggler.vue'
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
+import btcSymbol from '@/assets/images/tokens/btcSymbol.png'
+import ethSymbol from '@/assets/images/tokens/ethSymbol.png'
+
+const settingsStore = useSettings()
+
+const { currentCurrency, currentLanguage } = storeToRefs(settingsStore)
+
+const currencyList = [
+  {
+    symbol: 'USD',
+    img: usa,
+  },
+  {
+    symbol: 'BTC',
+    img: btcSymbol,
+  },
+  {
+    symbol: 'ETH',
+    img: ethSymbol,
+  },
+]
 
 defineEmits(['toggleToWallets'])
 const HideSmallBalances = ref(true)
 const settingsState = ref('Main')
+
+const handleChangeCurrency = (cur) => {
+  settingsStore.updateCurrency(cur)
+}
+const handleChangeLanguage = (lang) => {
+  settingsStore.updateLanguage(lang)
+}
 </script>
 <style lang="scss" scoped>
 .sidebar_header {
@@ -173,6 +211,21 @@ const settingsState = ref('Main')
   font-weight: 400;
   line-height: 44px;
   letter-spacing: 0px;
-  // color: #ffffff;
+  cursor: pointer;
+}
+
+/* Scrollbar */
+.languages_container::-webkit-scrollbar {
+  height: 0px;
+  width: 4px;
+}
+
+.languages_container::-webkit-scrollbar {
+  background: transparent;
+}
+
+.languages_container::-webkit-scrollbar-thumb {
+  background-color: #00e0ff9e;
+  border-radius: 8px;
 }
 </style>
