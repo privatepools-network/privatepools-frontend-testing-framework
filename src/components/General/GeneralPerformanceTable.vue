@@ -49,14 +49,14 @@
       :isActions="true" />
   </div>
   
-  <Pagination
+  <!-- <Pagination
       :perPage="perPage"
       :pools="all_pools"
       :currentPage="currentPage"
       @changePage="changePage"
       @changePerPage="changePerPage"
       :perPageOptions="[25, 50, 100]"
-    ></Pagination>
+    ></Pagination> -->
 </template>
 <script setup>
 import Pagination from '../Pool/Pagination.vue';

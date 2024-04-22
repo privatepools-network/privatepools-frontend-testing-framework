@@ -1,26 +1,37 @@
 <template>
-  <CHeader position="static"
-    :class="isHeaderBg ? `header_main ${isDark ? 'header_main_bg' : 'header_main_bg-white'} ` : 'header_main'"
-    ref="headRef">
+  <CHeader
+    position="static"
+    :class="
+      isHeaderBg
+        ? `header_main ${isDark ? 'header_main_bg' : 'header_main_bg-white'} `
+        : 'header_main'
+    "
+    ref="headRef"
+  >
     <CContainer fluid class="header_container">
-
       <HeaderNavigation />
 
-      <HeaderSearchbar :selectOptions="selectOptions" :handleInput="handleInput" />
+      <HeaderSearchbar
+        :selectOptions="selectOptions"
+        :handleInput="handleInput"
+      />
 
       <div v-if="!address">
-        <div class="connect_wallet " @click="$emit('toggleSidebar')">
+        <div class="connect_wallet" @click="$emit('toggleSidebar')">
           Connect
         </div>
       </div>
-      <div v-else-if="address && address !== ''" class="d-flex align-items-center gap-2">
+      <div
+        v-else-if="address && address !== ''"
+        class="d-flex align-items-center gap-2"
+      >
         <RewardsDropdown />
         <TokenDropdown />
 
-
-
-
-        <div class="wallet_address text-black dark:!text-white" @click="$emit('toggleSidebar')">
+        <div
+          class="wallet_address text-black dark:!text-white"
+          @click="$emit('toggleSidebar')"
+        >
           <img :src="connectWalletIcon" />
           {{ computedAddress }}
         </div>
@@ -30,7 +41,15 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch, defineEmits, defineProps, toRefs } from 'vue'
+import {
+  computed,
+  onMounted,
+  ref,
+  watch,
+  defineEmits,
+  defineProps,
+  toRefs,
+} from 'vue'
 import HeaderNavigation from '@/components/Header/HeaderNavigation.vue'
 import HeaderSearchbar from '@/components/Header/HeaderSearchbar.vue'
 import RewardsDropdown from '@/components/Header/RewardsDropdown.vue'
@@ -39,18 +58,14 @@ import binance_network from '@/assets/icons/networks/binance.svg'
 import arbitrum_network from '@/assets/icons/networks/arbitrum.svg'
 import polygon_network from '@/assets/icons/networks/polygon.svg'
 import connectWalletIcon from '@/assets/icons/sidebarIcons/connectWalletIcon.svg'
-import {
-  Network,
-
-  setNetworkId,
-} from '@/composables/useNetwork'
+import { Network, setNetworkId } from '@/composables/useNetwork'
 import { ethers } from 'ethers'
 import { setMetamaskProvider } from '@/composables/useMetamaskProvider'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
 import { useDark } from '@vueuse/core'
-import { getHeaderData } from "@/composables/data/headerData"
+import { getHeaderData } from '@/composables/data/headerData'
 const isDark = useDark()
 
 const emit = defineEmits(['toggleSidebar', 'setAddress'])
@@ -60,28 +75,38 @@ const topPools = ref([])
 const visibleOptions = ref(null)
 const tokensOptions = computed(() => {
   let result = []
-  result.push({ firstToken: true, id: "a b c d e f g h i j k l m n o p q r s t u v w x y z" })
-  result.push(...topTradedTokens.value.map((item) => ({
-    id: `${item.name} ${item.symbol}`,
-    label: item.name,
-    img: item.symbol,
-    price: `${item.profit.toFixed(2)}$`,
-    percentChange: '0%',
-    tokens: true
-  })))
-  result.push({ firstPool: true, id: "a b c d e f g h i j k l m n o p q r s t u v w x y z" })
-  result.push(...topPools.value.map((item) => ({
-    id: `${item.tokens.map((token) => token.symbol).join("/")} ${item.type}`,
-    poolId: item.id,
-    chainId: item.chainId,
-    type: item.type,
-    label: item.type,
-    img: item.tokens.map((token) => token.symbol),
-    desc: item.tokens.map((token) => token.symbol).join("/"),
-    percentChange: "0%",
-    price: `${parseFloat(item.totalLiquidity).toFixed(2)}$`,
-    pools: true
-  })))
+  result.push({
+    firstToken: true,
+    id: 'a b c d e f g h i j k l m n o p q r s t u v w x y z',
+  })
+  result.push(
+    ...topTradedTokens.value.map((item) => ({
+      id: `${item.name} ${item.symbol}`,
+      label: item.name,
+      img: item.symbol,
+      price: `${item.profit.toFixed(2)}$`,
+      percentChange: '0%',
+      tokens: true,
+    })),
+  )
+  result.push({
+    firstPool: true,
+    id: 'a b c d e f g h i j k l m n o p q r s t u v w x y z',
+  })
+  result.push(
+    ...topPools.value.map((item) => ({
+      id: `${item.tokens.map((token) => token.symbol).join('/')} ${item.type}`,
+      poolId: item.id,
+      chainId: item.chainId,
+      type: item.type,
+      label: item.type,
+      img: item.tokens.map((token) => token.symbol),
+      desc: item.tokens.map((token) => token.symbol).join('/'),
+      percentChange: '0%',
+      price: `${parseFloat(item.totalLiquidity).toFixed(2)}$`,
+      pools: true,
+    })),
+  )
   return result
 })
 
@@ -135,10 +160,10 @@ function handleInput(event) {
   let _search = searchInput.value.toLowerCase()
   visibleOptions.value = searchInput.value
     ? [
-      ...tokensOptions.value.filter((item) =>
-        checkInputSearchItem(_search, item),
-      ),
-    ]
+        ...tokensOptions.value.filter((item) =>
+          checkInputSearchItem(_search, item),
+        ),
+      ]
     : [...visibleOptionsComputed.value]
 }
 
@@ -162,17 +187,16 @@ const notify = (popupType, popupText, popupSubText) => {
     data: {
       header_text: popupText,
       toast_text: popupSubText,
+      tx_link: '',
+      speedUp: '',
     },
   })
 }
-
-
 
 const isMetamaskSupported = ref(false)
 const isConnectedToWeb3 = ref(localStorage.getItem('isConnectedToWeb3'))
 const accountData = ref()
 const ethereumNetwork = ref('')
-
 
 watch(
   () => ethereumNetwork.value,
@@ -199,35 +223,34 @@ watch(
   },
 )
 
-
 const networksList = ref(
   [
     process.env.VUE_APP_KEY_ARBITRUM
       ? {
-        name: 'Arbitrum',
-        chainId: '0xa4b1',
-        decimalChainId: 42161,
-        image: arbitrum_network,
-        current: false,
-      }
+          name: 'Arbitrum',
+          chainId: '0xa4b1',
+          decimalChainId: 42161,
+          image: arbitrum_network,
+          current: false,
+        }
       : undefined,
     process.env.VUE_APP_KEY_BINANCE
       ? {
-        name: 'Binance',
-        chainId: '0x38',
-        decimalChainId: 56,
-        image: binance_network,
-        current: false,
-      }
+          name: 'Binance',
+          chainId: '0x38',
+          decimalChainId: 56,
+          image: binance_network,
+          current: false,
+        }
       : undefined,
     process.env.VUE_APP_KEY_POLYGON
       ? {
-        name: 'Polygon',
-        chainId: '0x89',
-        decimalChainId: 137,
-        image: polygon_network,
-        current: false,
-      }
+          name: 'Polygon',
+          chainId: '0x89',
+          decimalChainId: 137,
+          image: polygon_network,
+          current: false,
+        }
       : undefined,
   ].filter((item) => item != undefined),
 )
@@ -245,7 +268,6 @@ onMounted(async () => {
     )
   }
 })
-
 
 async function connectWallet() {
   window.ethereum
@@ -299,16 +321,13 @@ async function handleChainChanged() {
   setNetworkId(newNetwork.chainId)
 }
 
-
 const computedAddress = computed(() =>
   props.address
     ? props.address.substring(0, 6) +
-    '....' +
-    props.address.substring(props.address.length - 4)
+      '....' +
+      props.address.substring(props.address.length - 4)
     : '',
 )
-
-
 </script>
 <style lang="scss">
 @import '@/styles/_variables.scss';
@@ -325,17 +344,21 @@ const computedAddress = computed(() =>
   margin-bottom: 10px;
 
   &_bg {
-    background: linear-gradient(356.2deg,
-        rgba(0, 29, 37, 0.955) 0%,
-        #000000 105.42%) !important;
+    background: linear-gradient(
+      356.2deg,
+      rgba(0, 29, 37, 0.955) 0%,
+      #000000 105.42%
+    ) !important;
     // -webkit-backdrop-filter: blur(60px);
     // backdrop-filter: blur(60px);
   }
 
   &_bg-white {
-    background: linear-gradient(356.2deg,
-        rgba(221, 221, 221, 0.955) 0%,
-        #ffffff 105.42%) !important;
+    background: linear-gradient(
+      356.2deg,
+      rgba(221, 221, 221, 0.955) 0%,
+      #ffffff 105.42%
+    ) !important;
     // -webkit-backdrop-filter: blur(60px);
     // backdrop-filter: blur(60px);
   }
@@ -374,9 +397,11 @@ const computedAddress = computed(() =>
     box-shadow: 0px 8px 10px 0px #00000033;
     box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(50% 50% at 26.04% 40.42%,
-        rgba(0, 201, 255, 0.13) 0%,
-        rgba(0, 201, 255, 0) 100%);
+    background: radial-gradient(
+      50% 50% at 26.04% 40.42%,
+      rgba(0, 201, 255, 0.13) 0%,
+      rgba(0, 201, 255, 0) 100%
+    );
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
@@ -393,9 +418,11 @@ const computedAddress = computed(() =>
     box-shadow: 0px 8px 10px 0px #00000033;
     box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(50% 50% at 26.04% 40.42%,
-        rgba(0, 201, 255, 0.13) 0%,
-        rgba(0, 201, 255, 0) 100%);
+    background: radial-gradient(
+      50% 50% at 26.04% 40.42%,
+      rgba(0, 201, 255, 0.13) 0%,
+      rgba(0, 201, 255, 0) 100%
+    );
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
@@ -457,14 +484,16 @@ const computedAddress = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(from 180deg at 51.95% 49.81%,
-            rgba(0, 255, 178, 0) -2.11deg,
-            rgba(1, 180, 126, 0) 131.45deg,
-            #7ef6b2 175.58deg,
-            rgba(51, 255, 96, 0) 252.32deg,
-            rgba(8, 182, 129, 0) 310.85deg,
-            rgba(0, 255, 178, 0) 357.89deg,
-            rgba(1, 180, 126, 0) 491.45deg);
+        background: conic-gradient(
+          from 180deg at 51.95% 49.81%,
+          rgba(0, 255, 178, 0) -2.11deg,
+          rgba(1, 180, 126, 0) 131.45deg,
+          #7ef6b2 175.58deg,
+          rgba(51, 255, 96, 0) 252.32deg,
+          rgba(8, 182, 129, 0) 310.85deg,
+          rgba(0, 255, 178, 0) 357.89deg,
+          rgba(1, 180, 126, 0) 491.45deg
+        );
       }
 
       &:after {
@@ -513,13 +542,15 @@ const computedAddress = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(from 180deg at 51.95% 49.81%,
-            rgba(1, 180, 126, 0) 0deg,
-            #7ef6b2 148.33deg,
-            rgba(8, 182, 129, 0) 225.21deg,
-            rgba(51, 255, 96, 0) 268.33deg,
-            rgba(0, 255, 178, 0) 357.89deg,
-            rgba(1, 180, 126, 0) 360deg);
+        background: conic-gradient(
+          from 180deg at 51.95% 49.81%,
+          rgba(1, 180, 126, 0) 0deg,
+          #7ef6b2 148.33deg,
+          rgba(8, 182, 129, 0) 225.21deg,
+          rgba(51, 255, 96, 0) 268.33deg,
+          rgba(0, 255, 178, 0) 357.89deg,
+          rgba(1, 180, 126, 0) 360deg
+        );
       }
 
       &:after {
@@ -535,13 +566,15 @@ const computedAddress = computed(() =>
 
       &:hover {
         &:before {
-          background: conic-gradient(from 180deg at 51.95% 49.81%,
-              rgba(1, 180, 126, 0) 0deg,
-              #c6ffdf 148.33deg,
-              rgba(8, 182, 129, 0) 225.21deg,
-              rgba(51, 255, 96, 0) 268.33deg,
-              rgba(0, 255, 178, 0) 357.89deg,
-              rgba(1, 180, 126, 0) 360deg);
+          background: conic-gradient(
+            from 180deg at 51.95% 49.81%,
+            rgba(1, 180, 126, 0) 0deg,
+            #c6ffdf 148.33deg,
+            rgba(8, 182, 129, 0) 225.21deg,
+            rgba(51, 255, 96, 0) 268.33deg,
+            rgba(0, 255, 178, 0) 357.89deg,
+            rgba(1, 180, 126, 0) 360deg
+          );
         }
       }
     }
@@ -578,14 +611,16 @@ const computedAddress = computed(() =>
     top: -1px;
     bottom: -1px;
     border-radius: 20px;
-    background: conic-gradient(from 180deg at 51.95% 49.81%,
-        rgba(0, 255, 178, 0) -2.11deg,
-        rgba(1, 180, 126, 0) 131.45deg,
-        #7ef6b2 175.58deg,
-        rgba(51, 255, 96, 0) 252.32deg,
-        rgba(8, 182, 129, 0) 310.85deg,
-        rgba(0, 255, 178, 0) 357.89deg,
-        rgba(1, 180, 126, 0) 491.45deg);
+    background: conic-gradient(
+      from 180deg at 51.95% 49.81%,
+      rgba(0, 255, 178, 0) -2.11deg,
+      rgba(1, 180, 126, 0) 131.45deg,
+      #7ef6b2 175.58deg,
+      rgba(51, 255, 96, 0) 252.32deg,
+      rgba(8, 182, 129, 0) 310.85deg,
+      rgba(0, 255, 178, 0) 357.89deg,
+      rgba(1, 180, 126, 0) 491.45deg
+    );
   }
 
   &:after {
@@ -601,14 +636,16 @@ const computedAddress = computed(() =>
 
   &:hover {
     &:before {
-      background: conic-gradient(from 180deg at 51.95% 49.81%,
-          rgba(0, 255, 178, 0) -2.11deg,
-          rgba(1, 180, 126, 0) 131.45deg,
-          #c7e7d4 175.58deg,
-          rgba(51, 255, 96, 0) 252.32deg,
-          rgba(8, 182, 129, 0) 310.85deg,
-          rgba(0, 255, 178, 0) 357.89deg,
-          rgba(1, 180, 126, 0) 491.45deg);
+      background: conic-gradient(
+        from 180deg at 51.95% 49.81%,
+        rgba(0, 255, 178, 0) -2.11deg,
+        rgba(1, 180, 126, 0) 131.45deg,
+        #c7e7d4 175.58deg,
+        rgba(51, 255, 96, 0) 252.32deg,
+        rgba(8, 182, 129, 0) 310.85deg,
+        rgba(0, 255, 178, 0) 357.89deg,
+        rgba(1, 180, 126, 0) 491.45deg
+      );
     }
   }
 }
@@ -637,13 +674,15 @@ const computedAddress = computed(() =>
     top: 1px;
     bottom: -1px;
     border-radius: 5px;
-    background: conic-gradient(from 180deg at 51.95% 49.81%,
-        rgba(1, 180, 126, 0) 0deg,
-        #7ef6b2 118.33deg,
-        rgba(51, 255, 96, 0) 270.21deg,
-        rgba(8, 182, 129, 0) 311.46deg,
-        rgba(0, 255, 178, 0) 357.89deg,
-        rgba(1, 180, 126, 0) 360deg);
+    background: conic-gradient(
+      from 180deg at 51.95% 49.81%,
+      rgba(1, 180, 126, 0) 0deg,
+      #7ef6b2 118.33deg,
+      rgba(51, 255, 96, 0) 270.21deg,
+      rgba(8, 182, 129, 0) 311.46deg,
+      rgba(0, 255, 178, 0) 357.89deg,
+      rgba(1, 180, 126, 0) 360deg
+    );
   }
 
   &:after {
@@ -673,10 +712,7 @@ const computedAddress = computed(() =>
   border-radius: 20px;
 }
 
-
 @media (max-width: $md) {
-
-
   .header_main {
     padding-bottom: 5px;
   }
@@ -730,12 +766,6 @@ const computedAddress = computed(() =>
   }
 }
 
-
-
-
-
-
-
 .arrow-downward {
   display: none !important;
 }
@@ -748,10 +778,8 @@ const computedAddress = computed(() =>
   border-radius: 16px;
   width: 500px;
 
-
-  @media (max-width:1300px) {
+  @media (max-width: 1300px) {
     width: 370px;
-
   }
 
   &:hover {
@@ -868,7 +896,6 @@ input[readonly] {
   letter-spacing: 0em;
   text-align: center;
   // color: white;
-
 
   display: flex;
   align-items: center;

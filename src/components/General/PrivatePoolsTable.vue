@@ -89,6 +89,14 @@
       </div>
     </Table>
   </CRow>
+    <Pagination
+      :perPage="perPage"
+      :pools="activities"
+      :currentPage="currentPage"
+      @changePage="changePage"
+      @changePerPage="changePerPage"
+      :perPageOptions="[25, 50, 100]"
+    ></Pagination>
 </template>
 <script setup>
 import Tabs from '@/UI/Tabs'
@@ -103,6 +111,7 @@ import WithdrawIcon from '@/assets/icons/TableAction/WithdrawIcon.svg'
 import SwapIcon from '@/assets/icons/TableAction/SwapIcon.svg'
 import swapArrowIcon from '@/assets/icons/TableAction/swapArrowIcon.svg'
 import { useDark } from '@vueuse/core'
+import Pagination from '../Pool/Pagination.vue'
 
 const isDark = useDark()
 
@@ -129,6 +138,23 @@ const activities = computed(() => {
     .filter((item) => item.timestamp >= filtered_time_ago)
     .sort((a, b) => b.timestamp - a.timestamp)
 })
+
+
+const perPage = ref(25)
+const currentPage = ref(1)
+
+function changePage(args) {
+  if (args.isEquating == false) {
+    currentPage.value = currentPage.value + args.num
+  } else {
+    currentPage.value = args.num
+  }
+}
+
+function changePerPage(v1) {
+  perPage.value = Number(v1)
+  currentPage.value = 1
+}
 
 function getWpActivity() {
   let result = []
