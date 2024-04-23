@@ -724,7 +724,8 @@ const props = defineProps([
   'historicalPrices',
   'poolId',
   'symbol',
-  'decimals'
+  'decimals',
+  'all_data'
 ])
 
 const {
@@ -792,7 +793,16 @@ function changeTimeline(tl) {
 }
 
 const financeData = computed(() =>
-  data.value ? data.value[currentTimeline.value] : [],
+{
+  if(props.all_data){
+    return props.all_data[currentTimeline.value]
+  }
+  else if(data.value){
+    return data.value[currentTimeline.value]
+  }
+
+  return []
+}
 )
 
 async function InitData(network) {
@@ -803,29 +813,29 @@ async function InitData(network) {
 }
 
 onBeforeMount(async () => {
-  let networks = [ReversedDisplayNetwork[chainSelected.value.name]]
-  let networks_data = await Promise.all(networks.map((n) => InitData(n)))
+  // let networks = [ReversedDisplayNetwork[chainSelected.value.name]]
+  // let networks_data = await Promise.all(networks.map((n) => InitData(n)))
 
-  joinExits.value = networks
-    .map((n, i) =>
-      networks_data[i][0].joinExtis.map((join) => ({
-        ...join,
-        chain: DisplayNetwork[n],
-      })),
-    )
-    .flat()
-  activeUsers.value = networks
-    .map((n, i) =>
-      networks_data[i][0].activeUsers.map((user_info) => ({
-        ...user_info,
-        chain: DisplayNetwork[n],
-      })),
-    )
-    .flat()
-  historicalTokens.value = FormatHistoricalTokens(
-    networks.map((n, i) => networks_data[i][1]).flat(),
-  )
-  marketCaps.value = await useTokenPricesChange(Array.from(new Set(historicalTokens.value.map(item => item.symbol))))
+  // joinExits.value = networks
+  //   .map((n, i) =>
+  //     networks_data[i][0].joinExtis.map((join) => ({
+  //       ...join,
+  //       chain: DisplayNetwork[n],
+  //     })),
+  //   )
+  //   .flat()
+  // activeUsers.value = networks
+  //   .map((n, i) =>
+  //     networks_data[i][0].activeUsers.map((user_info) => ({
+  //       ...user_info,
+  //       chain: DisplayNetwork[n],
+  //     })),
+  //   )
+  //   .flat()
+  // historicalTokens.value = FormatHistoricalTokens(
+  //   networks.map((n, i) => networks_data[i][1]).flat(),
+  // )
+  // marketCaps.value = await useTokenPricesChange(Array.from(new Set(historicalTokens.value.map(item => item.symbol))))
 })
 </script>
 <style lang="scss">

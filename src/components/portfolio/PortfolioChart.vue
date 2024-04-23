@@ -1,66 +1,36 @@
 <template>
   <div class="pools_chart_container">
-    <PortfolioArbitrageBot
-      :networks_data="networks_data"
-      :chainSelected="chainSelected"
-    />
+    <PortfolioArbitrageBot :networks_data="networks_data" :chainSelected="chainSelected" />
 
     <div class="track_chart_card bg-[white] dark:!bg-[#22222224]">
 
-      <div v-if="allChartData === null" class="chart_inside">
+      <div v-if="filteredData === null" class="chart_inside">
         <LoaderPulse />
       </div>
-      <div
-        v-if="allChartData.length === 0"
-        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100"
-      >
-        <svg
-          width="42"
-          height="44"
-          viewBox="0 0 42 44"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+      <div v-if="filteredData.length === 0"
+        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100">
+        <svg width="42" height="44" viewBox="0 0 42 44" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M31.2356 42.9592L36.0985 38.0985M36.0985 38.0985L40.9591 33.2356M36.0985 38.0985L31.2333 33.2333M36.0962 38.0963L40.9568 42.9569M1.16663 7.75V21.5C1.16663 21.5 1.16663 28.375 17.2083 28.375C33.25 28.375 33.25 21.5 33.25 21.5V7.75"
-            stroke="#F8F8F8"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+            stroke="#F8F8F8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           <path
             d="M17.2083 42.125C1.16663 42.125 1.16663 35.25 1.16663 35.25V21.5M17.2083 0.875C33.25 0.875 33.25 7.75 33.25 7.75C33.25 7.75 33.25 14.625 17.2083 14.625C1.16663 14.625 1.16663 7.75 1.16663 7.75C1.16663 7.75 1.16663 0.875 17.2083 0.875Z"
-            stroke="#F8F8F8"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+            stroke="#F8F8F8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
 
-        <div
-          class="text-black dark:!text-white"
-          style="font-size: 14px; text-align: center"
-        >
-        No data available
+        <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
+          No data available
         </div>
-        <div
-          class="text-black dark:!text-white"
-          style="font-size: 12px; text-align: center"
-        >
-        Choose a pool to invest or create a pool to get started.
+        <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
+          Choose a pool to invest or create a pool to get started.
         </div>
         <div class="add_liq_btn_pools">
           <div class="d-flex gap-1">+ Add liquidity</div>
         </div>
       </div>
       <div v-else class="chart_inside">
-        <ChartTimeline
-          :isCumulativeMode="isCumulativeMode"
-          :currentTimeline="currentTimeline"
-          :timelines="timelines"
-          @changeCumulativeMode="changeCumulativeMode"
-          @changeTimeline="changeTimeline"
-        />
+        <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
+          @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
         <img :src="logo" alt="D3" class="chart-logo" height="40px" />
         <VChart class="chart" :option="optionObj" :autoresize="true" />
       </div>
@@ -114,7 +84,7 @@ import { networkId } from '@/composables/useNetwork'
 import ChartTimeline from '@/UI/ChartTimeline.vue'
 const emit = defineEmits(['updateChart'])
 
-const props = defineProps(['networks_data', 'chainSelected'])
+const props = defineProps(['networks_data', 'chainSelected', 'all_chart_data'])
 const { networks_data, chainSelected } = toRefs(props)
 
 const allChartData = ref([])
@@ -225,57 +195,61 @@ const convertFromNumber = (str) => {
 }
 
 function InitChartData() {
-  const networks = [
-    process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined,
-    process.env.VUE_APP_KEY_BINANCE ? Network.BINANCE : undefined,
-    process.env.VUE_APP_KEY_POLYGON ? Network.POLYGON : undefined,
-  ].filter((n) => n != undefined)
+  if (!process.env.VUE_APP_LOCAL_API) {
+    const networks = [
+      process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined,
+      process.env.VUE_APP_KEY_BINANCE ? Network.BINANCE : undefined,
+      process.env.VUE_APP_KEY_POLYGON ? Network.POLYGON : undefined,
+    ].filter((n) => n != undefined)
 
-  let chart_data = networks
-    .map((n, i) =>
-      isRightChainName(DisplayNetwork[n], chainSelected.value) &&
-      networks_data.value[i]
-        ? FormatTrackingInfoChart(networks_data.value[i][1], n)
-        : [],
+    let chart_data = networks
+      .map((n, i) =>
+        isRightChainName(DisplayNetwork[n], chainSelected.value) &&
+          networks_data.value[i]
+          ? FormatTrackingInfoChart(networks_data.value[i][1], n)
+          : [],
+      )
+      .flat()
+    if (chart_data.length == 0) {
+      allChartData.value = []
+      return []
+    }
+    let historical_tvl = networks
+      .map((n, i) =>
+        isRightChainName(DisplayNetwork[n], chainSelected.value) &&
+          networks_data.value[i][3]
+          ? networks_data.value[i][3]
+          : [],
+      )
+      .flat()
+    let tokenSnapshots = networks
+      .map((n, i) =>
+        isRightChainName(DisplayNetwork[n], chainSelected.value) &&
+          networks_data.value[i][4]
+          ? networks_data.value[i][4].tokenSnapshots
+          : [],
+      )
+      .flat()
+    let tokensData = networks
+      .map((n, i) =>
+        isRightChainName(DisplayNetwork[n], chainSelected.value) &&
+          networks_data.value[i][4]
+          ? networks_data.value[i][4].tokens
+          : [],
+      )
+      .flat()
+    historical_tvl = historical_tvl.filter((v) => v != null)
+    let formatted_tvl = FormatHistoricalTvl(historical_tvl)
+    let formatted_token_snapshots = FormatTokenSnapshots(
+      tokenSnapshots,
+      tokensData,
     )
-    .flat()
-  if (chart_data.length == 0) {
-    allChartData.value = []
-    return []
+
+
+    chart_data.sort((a, b) => a.timestamp - b.timestamp)
+    formatChartData(formatted_tvl, formatted_token_snapshots, chart_data)
+    allChartData.value = addEmptyDays(chart_data)
   }
-  let historical_tvl = networks
-    .map((n, i) =>
-      isRightChainName(DisplayNetwork[n], chainSelected.value) &&
-      networks_data.value[i][3]
-        ? networks_data.value[i][3]
-        : [],
-    )
-    .flat()
-  let tokenSnapshots = networks
-    .map((n, i) =>
-      isRightChainName(DisplayNetwork[n], chainSelected.value) &&
-      networks_data.value[i][4]
-        ? networks_data.value[i][4].tokenSnapshots
-        : [],
-    )
-    .flat()
-  let tokensData = networks
-    .map((n, i) =>
-      isRightChainName(DisplayNetwork[n], chainSelected.value) &&
-      networks_data.value[i][4]
-        ? networks_data.value[i][4].tokens
-        : [],
-    )
-    .flat()
-  historical_tvl = historical_tvl.filter((v) => v != null)
-  let formatted_tvl = FormatHistoricalTvl(historical_tvl)
-  let formatted_token_snapshots = FormatTokenSnapshots(
-    tokenSnapshots,
-    tokensData,
-  )
-  chart_data.sort((a, b) => a.timestamp - b.timestamp)
-  formatChartData(formatted_tvl, formatted_token_snapshots, chart_data)
-  allChartData.value = addEmptyDays(chart_data)
 }
 
 function formatChartData(formatted_tvl, formatted_token_snapshots, chart_data) {
@@ -877,7 +851,11 @@ const preFiltersList = ref([
 
 function getFilteredData() {
   let result = []
-  let chart_data = [...allChartData.value]
+  let chart_data = []
+  if (!process.env.VUE_APP_LOCAL_API)
+    chart_data = [...allChartData.value]
+  else if (props.all_chart_data)
+    chart_data = [...props.all_chart_data]
   if (chart_data.length == 0) return []
   let timestamps = chart_data.map((v) => v.timestamp)
   let indexes = TimelineFilters[currentTimeline.value.name](timestamps)
@@ -1225,7 +1203,4 @@ function getFilteredData() {
     }
   }
 }
-
-
-
 </style>

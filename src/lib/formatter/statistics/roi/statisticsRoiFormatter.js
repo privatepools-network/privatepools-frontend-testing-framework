@@ -39,8 +39,7 @@ export async function FormatRoiStatistics(
   let tvl_info = FormatTvlRoi(chart_data, chainSelected)
   for (let i = 0; i < PERIODS.length; i++) {
     let period = PERIODS[i]
-  if(period == "total")
-  continue
+    if (period == 'total') continue
     let roi = tvl_info[period]
     result.push({
       Period: period,

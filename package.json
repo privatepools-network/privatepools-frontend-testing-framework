@@ -15,8 +15,8 @@
   "dependencies": {
     "@balancer-labs/balancer-js": "^2.0.0",
     "@balancer-labs/sdk": "github:chimpytuts/balancer-sdk-main#client1",
-    "@balancer-labs/sor": "^1.1.0",
     "@balancer-labs/sor2": "github:chimpytuts/balancer-sor#client1",
+    "@balancer-labs/sor": "^1.1.0",
     "@balancer-labs/typechain": "^1.0.0",
     "@coreui/chartjs": "^3.0.0",
     "@coreui/coreui": "^4.2.3",
