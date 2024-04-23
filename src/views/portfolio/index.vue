@@ -5,21 +5,22 @@
         <PortfolioBalance :performers="performers" :balance="balanceData.total ?? 0" />
 
         <div class="portfolio-chart">
-          <PortfolioChart :chart_data="all_chart_data" :networks_data="networks_data" :tokensData="tokensData"
-            :chainSelected="chainSelected.name" @updateChart="(chart_data) => (all_chart_data = chart_data)" />
+          <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
+            :tokensData="tokensData" :chainSelected="chainSelected.name"
+            @updateChart="(chart_data) => (all_chart_data = chart_data)" />
         </div>
         <Tabs :filterEye="true" style="margin-bottom: 44px"
           :tabsOptions="['Investments', 'Statistics', 'Financial Statement']" :selectedTab="activeTab"
           @changeTab="changeActiveTab"></Tabs>
         <div class="portfolio-statistics" v-if="activeTab == 'Statistics'">
           <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
-            :chainSelected="chainSelected" :chartData="all_chart_data" :historicalPrices="historicalPrices"
-            :userFirstTimestamp="firstUserTimestamp" :tokenPairs="chainPairs">
+            :chainSelected="chainSelected" :chartData="portfolioData.chart" :historicalPrices="historicalPrices"
+            :userFirstTimestamp="firstUserTimestamp" :tokenPairs="chainPairs" :statistics="portfolioData.statistics">
           </PortfolioStatistics>
         </div>
         <div class="portfolio-financial-statement" v-else-if="activeTab == 'Financial Statement'">
-          <PoolDetailsFinancialStatement :poolSwapsData="poolSwapsData" :chainSelected="chainSelected"
-            :historical_tvl="historical_tvl" :historicalPrices="historicalPrices"
+          <PoolDetailsFinancialStatement :all_data="portfolioData.financialStatement" :poolSwapsData="poolSwapsData"
+            :chainSelected="chainSelected" :historical_tvl="historical_tvl" :historicalPrices="historicalPrices"
             :poolId="'0x631b9f9996c30ce37c2d57d1704fdc568429ef41'" :symbol="'$'" :decimals="2">
           </PoolDetailsFinancialStatement>
 
@@ -474,45 +475,73 @@ const chain_swaps_data = computed(() => {
 })
 
 const performers = computed(() => {
-  let pools_info = []
-  if (chain_swaps_data.value.length == 0) return {}
-  for (let i = 0; i < chain_swaps_data.value.length; i++) {
-    let swap = chain_swaps_data.value[i]
-    if (!swap) continue
-    let poolId = swap['swaps'][0]['poolIdVault'][0]
-    let poolInfo = pools_info.find((p) => p.id == poolId)
-    if (!poolInfo) {
-      poolInfo = { id: poolId, profit: 0 }
-      pools_info.push(poolInfo)
+  if (!process.env.VUE_APP_LOCAL_API) {
+    let pools_info = []
+    if (chain_swaps_data.value.length == 0) return {}
+    for (let i = 0; i < chain_swaps_data.value.length; i++) {
+      let swap = chain_swaps_data.value[i]
+      if (!swap) continue
+      let poolId = swap['swaps'][0]['poolIdVault'][0]
+      let poolInfo = pools_info.find((p) => p.id == poolId)
+      if (!poolInfo) {
+        poolInfo = { id: poolId, profit: 0 }
+        pools_info.push(poolInfo)
+      }
+      let profit = parseFloat(swap.profitUsd)
+      poolInfo.profit += profit
     }
-    let profit = parseFloat(swap.profitUsd)
-    poolInfo.profit += profit
+    if (pools_info.length == 0) return {}
+    let pools_median = median(pools_info.map((p) => p.profit))
+    pools_info = pools_info.map((p) => ({
+      ...p,
+      diff: p.profit - pools_median,
+      percent_diff: calculatePercentageDifference(pools_median, p.profit),
+    }))
+    pools_info.sort((a, b) => a.diff - b.diff)
+    let lastIndex = pools_info.length - 1
+    let best = {
+      diff: pools_info[lastIndex].diff,
+      percent_diff: pools_info[lastIndex].percent_diff,
+      id: pools_info[lastIndex].id,
+      tokens: FindPoolSymbols(pools_info[lastIndex].id),
+    }
+    let worst = {
+      diff: pools_info[0].diff,
+      percent_diff: pools_info[0].percent_diff,
+      id: pools_info[0].id,
+      tokens: FindPoolSymbols(pools_info[0].id),
+    }
+    return {
+      best,
+      worst,
+    }
   }
-  console.log('HERE - ', pools_info)
-  if (pools_info.length == 0) return {}
-  let pools_median = median(pools_info.map((p) => p.profit))
-  pools_info = pools_info.map((p) => ({
-    ...p,
-    diff: p.profit - pools_median,
-    percent_diff: calculatePercentageDifference(pools_median, p.profit),
-  }))
-  pools_info.sort((a, b) => a.diff - b.diff)
-  let lastIndex = pools_info.length - 1
-  let best = {
-    diff: pools_info[lastIndex].diff,
-    percent_diff: pools_info[lastIndex].percent_diff,
-    id: pools_info[lastIndex].id,
-    tokens: FindPoolSymbols(pools_info[lastIndex].id),
-  }
-  let worst = {
-    diff: pools_info[0].diff,
-    percent_diff: pools_info[0].percent_diff,
-    id: pools_info[0].id,
-    tokens: FindPoolSymbols(pools_info[0].id),
-  }
-  return {
-    best,
-    worst,
+  else {
+    const pools = portfolioData.value.all_pools;
+    console.log("POOLS ", pools)
+    if (!pools || pools.length == 0) {
+      return {}
+    }
+    const median_profit = median(pools.map((item) => item.Profit))
+    pools.sort((a, b) => b.Profit - a.Profit)
+    const last_index = pools.length - 1
+    let best = {
+      diff: pools[0].Profit - median_profit,
+      percent_diff: calculatePercentageDifference(median_profit, pools[0].Profit),
+      id: pools[0].id,
+      tokens: pools[0]['Pool Name'][0],
+    }
+    let worst = {
+      diff: pools[last_index].Profit - median_profit,
+      percent_diff: calculatePercentageDifference(median_profit, pools[last_index].Profit),
+      id: pools[last_index].id,
+      tokens: pools[last_index]['Pool Name'][0],
+    }
+    console.log("BEST - ", best)
+    return {
+      best,
+      worst,
+    }
   }
 })
 
@@ -739,6 +768,7 @@ const networks = [
 const historical_tvl = ref([])
 const poolSwapsData = ref([])
 async function InitInvestments() {
+  if (process.env.VUE_APP_LOCAL_API) return
   console.log('INIT INVESTMENTS')
   pairs.value = null
   pools.value = null
@@ -898,9 +928,11 @@ onMounted(async () => {
   const mmProvider = await InitializeMetamask()
   if (mmProvider) {
     account.value = await mmProvider.getSigner().getAddress()
-    portfolioData.value = await getPortfolioData(56, "0x759ee62a73a8a0690a0e20fc489d3f462b4385c0")
-    balanceData.value = await getPortfolioBalance(56, "0x759ee62a73a8a0690a0e20fc489d3f462b4385c0")
-    console.log("PORTFOLIO DATA - ", portfolioData.value)
+    if (process.env.VUE_APP_LOCAL_API) {
+      portfolioData.value = await getPortfolioData(56, "0x759ee62a73a8a0690a0e20fc489d3f462b4385c0")
+      balanceData.value = await getPortfolioBalance(56, "0x759ee62a73a8a0690a0e20fc489d3f462b4385c0")
+      console.log("PORTFOLIO DATA - ", portfolioData.value)
+    }
   }
   //await InitInvestments()
 })

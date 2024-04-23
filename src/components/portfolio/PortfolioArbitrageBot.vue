@@ -1,8 +1,6 @@
 <template>
   <div class="arbitrage_bot_card bg-[white] dark:!bg-[#22222224] py-3 px-4">
-    <div
-      class="dark:!text-white text-black d-flex align-items-center justify-content-between gap-2 flex-wrap"
-    >
+    <div class="dark:!text-white text-black d-flex align-items-center justify-content-between gap-2 flex-wrap">
       <div class="d-flex align-items-center">
         <!-- <img :src="darkpool_logo" /> -->
         <div class="arbitrage_bot_header dark:!text-white text-black">
@@ -13,66 +11,34 @@
 
     <div class="px-2">
       <div class="mb-xxl-4 mb-2">
-        <div
-          @click="visibleTVL = !visibleTVL"
-          class="visible_head"
-          style="cursor: pointer"
-        >
-          <div
-            class="d-flex align-items-center gap-2"
-            style="margin-left: -20px; width: 15px"
-          >
+        <div @click="visibleTVL = !visibleTVL" class="visible_head" style="cursor: pointer">
+          <div class="d-flex align-items-center gap-2" style="margin-left: -20px; width: 15px">
             <div>
               <div>
-                <img
-                  :src="arrow_up"
-                  :class="!visibleTVL ? 'toggle-down' : 'toggle-up'"
-                />
+                <img :src="arrow_up" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
               </div>
             </div>
-            <div v-if="!chains_data" class="totals_loader_header">
+            <div v-if="!networks_data" class="totals_loader_header">
               <ThreeDots />
             </div>
-            <div
-              v-else
-              style="font-weight: 700; font-family: Poppins; font-size: 17px"
-              class="visible_head arbitrage_bot_sections_text dark:!text-white text-black"
-            >
-              $277,308.00
+            <div v-else style="font-weight: 700; font-family: Poppins; font-size: 17px"
+              class="visible_head arbitrage_bot_sections_text dark:!text-white text-black">
+              ${{ networks_data.portfolioBalance }}
             </div>
           </div>
         </div>
         <CCollapse :visible="visibleTVL">
           <div>
-            <div
-              class="arbitrage_bot_sections_text dark:!text-white text-black"
-              style="margin-top: 10px; margin-bottom: 5px"
-            >
+            <div class="arbitrage_bot_sections_text dark:!text-white text-black"
+              style="margin-top: 10px; margin-bottom: 5px">
               Investments Breakdown
             </div>
-            <div class="d-flex flex-column gap-1">
-              <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>WP-BTC-ETH</div>
-                <div v-if="!chains_data" class="totals_loader">
-                  <ThreeDots />
-                </div>
-                <div
-                  v-else
-                  class="dark:!text-white text-black font-extrabold text-[12px]"
-                >
-                  ${{ formatBigNumber(tvl_data['TVL Binance']) }}
-                </div>
-              </div>
-              <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>CL-AVAX-LIDO</div>
-                <div v-if="!chains_data" class="totals_loader">
-                  <ThreeDots />
-                </div>
-                <div
-                  v-else
-                  class="dark:!text-white text-black font-extrabold text-[12px]"
-                >
-                  ${{ formatBigNumber(tvl_data['TVL Polygon']) }}
+            <div class="d-flex flex-column gap-1" v-if="networks_data">
+              <div class="dark:!text-white text-black d-flex align-items-center justify-content-between"
+                v-for="pool in networks_data.breakdown" :key="pool.id">
+                <div>{{ pool.id }}</div>
+                <div class="dark:!text-white text-black font-extrabold text-[12px]">
+                  ${{ formatBigNumber(pool.tvl) }}
                 </div>
               </div>
             </div>
@@ -81,87 +47,66 @@
       </div>
 
       <div class="mb-xxl-4 mb-2">
-        <div
-          @click="visibleTotalGas = !visibleTotalGas"
-          style="cursor: pointer"
-        >
-          <div
-            class="d-flex align-items-center gap-2"
-            style="margin-left: -20px"
-          >
+        <div @click="visibleTotalGas = !visibleTotalGas" style="cursor: pointer">
+          <div class="d-flex align-items-center gap-2" style="margin-left: -20px">
             <div>
               <div>
-                <img
-                  :src="arrow_up"
-                  :width="10"
-                  :class="!visibleTotalGas ? 'toggle-down' : 'toggle-up'"
-                />
+                <img :src="arrow_up" :width="10" :class="!visibleTotalGas ? 'toggle-down' : 'toggle-up'" />
               </div>
             </div>
-            <div
-              style="
+            <div style="
                 font-weight: 700;
                 font-family: Poppins;
                 color: white;
                 width: 100%;
-              "
-            >
-              <div
-                class="d-flex align-items-baseline justify-content-between visible_head"
-              >
-                <div
-                  style="font-family: Poppins; font-weight: 400"
-                  class="arbitrage_bot_sections_text dark:!text-white text-black"
-                >
+              ">
+              <div class="d-flex align-items-baseline justify-content-between visible_head">
+                <div style="font-family: Poppins; font-weight: 400"
+                  class="arbitrage_bot_sections_text dark:!text-white text-black">
                   Average APR
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div
-                  v-else
-                  class="dark:!text-white text-black font-extrabold text-[12px]"
-                >
-                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee']) }}
+                <div v-else class="dark:!text-white text-black font-extrabold text-[12px]">
+                  ${{ formatBigNumber(networks_data.APR) }}
                 </div>
               </div>
             </div>
           </div>
         </div>
         <CCollapse :visible="visibleTotalGas">
-          <div
-            style="
+          <div style="
               color: rgba(204, 204, 204, 1);
               margin-top: 10px;
               margin-bottom: 5px;
-            "
-          >
+            ">
             <div class="d-flex flex-column gap-1">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
                 <div>APR 24 Hours</div>
-                <div v-if="!chains_data" class="totals_loader">
+                <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
                 <div v-else class="dark:!text-white text-black font-normal">
-                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 24H']) }}
+                  ${{ formatBigNumber(networks_data['APR 24H']) }}
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
                 <div>APR 7 Days</div>
-                <div v-if="!chains_data" class="totals_loader">
+                <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
                 <div v-else class="dark:!text-white text-black font-normal">
-                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 7D']) }}
+                  ${{ formatBigNumber(networks_data['APR 7D']) }}
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
                 <div>APR 30 Days</div>
-                <div v-if="!chains_data" class="totals_loader">
+                <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
                 <div v-else class="dark:!text-white text-black font-normal">
-                  ${{ formatBigNumber(chains_data['Sum']['Gas Fee 30D']) }}
+                  ${{ formatBigNumber(networks_data['APR 30D']) }}
                 </div>
               </div>
             </div>
@@ -170,88 +115,66 @@
       </div>
 
       <div class="mb-xxl-4 mb-2">
-        <div
-          @click="visibleTotalProfit = !visibleTotalProfit"
-          style="cursor: pointer"
-          class="visible_head"
-        >
-          <div
-            class="d-flex align-items-center gap-2"
-            style="margin-left: -20px"
-          >
+        <div @click="visibleTotalProfit = !visibleTotalProfit" style="cursor: pointer" class="visible_head">
+          <div class="d-flex align-items-center gap-2" style="margin-left: -20px">
             <div>
               <div>
-                <img
-                  :src="arrow_up"
-                  :width="10"
-                  :class="!visibleTotalProfit ? 'toggle-down' : 'toggle-up'"
-                />
+                <img :src="arrow_up" :width="10" :class="!visibleTotalProfit ? 'toggle-down' : 'toggle-up'" />
               </div>
             </div>
-            <div
-              style="
+            <div style="
                 font-weight: 700;
                 font-family: Poppins;
                 color: white;
                 width: 100%;
-              "
-            >
-              <div
-                class="d-flex align-items-baseline justify-content-between visible_head"
-              >
-                <div
-                  style="font-family: Poppins; font-weight: 400"
-                  class="arbitrage_bot_sections_text dark:!text-white text-black"
-                >
+              ">
+              <div class="d-flex align-items-baseline justify-content-between visible_head">
+                <div style="font-family: Poppins; font-weight: 400"
+                  class="arbitrage_bot_sections_text dark:!text-white text-black">
                   Profits Earned
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div
-                  v-else
-                  class="dark:!text-white text-black font-extrabold text-[12px]"
-                >
-                  ${{ formatBigNumber(chains_data['Sum']['Profit']) }}
+                <div v-else class="dark:!text-white text-black font-extrabold text-[12px]">
+                  ${{ formatBigNumber(networks_data['Profit']) }}
                 </div>
               </div>
             </div>
           </div>
         </div>
         <CCollapse :visible="visibleTotalProfit">
-          <div
-            style="
+          <div style="
               color: rgba(204, 204, 204, 1);
               margin-top: 10px;
               margin-bottom: 5px;
-            "
-          >
+            ">
             <div class="d-flex flex-column gap-1">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
                 <div>Volume 24 Hours</div>
-                <div v-if="!chains_data" class="totals_loader">
+                <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
                 <div v-else class="dark:!text-white text-black font-normal">
-                  ${{ formatBigNumber(chains_data['Sum']['Profit 24H']) }}
+                  ${{ formatBigNumber(networks_data['Profit 24H']) }}
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
                 <div>Volume 7 Days</div>
-                <div v-if="!chains_data" class="totals_loader">
+                <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
                 <div v-else class="dark:!text-white text-black font-normal">
-                  ${{ formatBigNumber(chains_data['Sum']['Profit 7D']) }}
+                  ${{ formatBigNumber(networks_data['Profit 7D']) }}
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
                 <div>Volume 30 Days</div>
-                <div v-if="!chains_data" class="totals_loader">
+                <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
                 <div v-else class="dark:!text-white text-black font-normal">
-                  ${{ formatBigNumber(chains_data['Sum']['Profit 30D']) }}
+                  ${{ formatBigNumber(networks_data['Profit 30D']) }}
                 </div>
               </div>
             </div>
@@ -261,25 +184,19 @@
       <div style="cursor: pointer" class="visible_head">
         <div class="d-flex align-items-center gap-2" style="margin-left: -10px">
           <div></div>
-          <div
-            style="
+          <div style="
               font-weight: 700;
               font-family: Poppins;
               color: white;
               width: 100%;
-            "
-          >
+            ">
             <div
-              class="dark:!text-white text-black d-flex align-items-center justify-content-between visible_head mt-3"
-            >
+              class="dark:!text-white text-black d-flex align-items-center justify-content-between visible_head mt-3">
               <div class="dark:!text-white text-black font-normal text-[12px]">
                 My Rewards
               </div>
-              <div
-                v-if="pool"
-                class="dark:!text-white text-black font-extrabold text-[12px]"
-              >
-                $524.72m
+              <div v-if="networks_data" class="dark:!text-white text-black font-extrabold text-[12px]">
+                ${{ networks_data.rewards }}
               </div>
               <div v-else style="margin-right: 15px">
                 <ThreeDots></ThreeDots>
@@ -318,7 +235,7 @@ const { networks_data, chainSelected } = toRefs(props)
 
 const isNetworkDataReady = computed(
   () =>
-    networks_data.value.length > 0 &&
+    networks_data.value.length &&   networks_data.value.length > 0 &&
     networks_data.value.filter((item) => item[0] != null && item[0].sharesOwned)
       .length > 0,
 )

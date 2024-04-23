@@ -2,27 +2,15 @@
   <div class="stats_container dark:!bg-[#22222224] !bg-[white]">
     <div class="stats_column_tables">
       <div class="stats_column_tables_inside">
-        <div
-          class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white] p-2"
-        >
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
               ROI
             </div>
-            <VTooltip
-              style="margin-top: -3px"
-              :distance="0"
-              :placement="'right'"
-            >
+            <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
               <div style="cursor: help">
-                  <svg
-                  class="info_icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -33,14 +21,11 @@
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                    class="dark:!fill-white fill-black"
-                  />
+        12 20Z" class="dark:!fill-white fill-black" />
                 </svg>
               </div>
               <template #popper>
-                <div
-                  style="
+                <div style="
                     background: linear-gradient(
                       rgba(89, 89, 89, 0.75),
                       rgba(73, 73, 73, 0.15)
@@ -49,16 +34,13 @@
                     padding: 10px;
                     border-radius: 4px;
                     width: 400px;
-                  "
-                >
+                  ">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">ROI</div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       flex-direction: column;
                       font-size: clamp(10px, 0.8vw, 14px);
-                    "
-                  >
+                    ">
                     <div><b>Average ROI:</b> Mean Return on Investment.</div>
                     <div><b>VS USD</b> ROI compared to US Dollar.</div>
                     <div>
@@ -77,55 +59,33 @@
           </div>
         </div>
 
-        <DataTable
-          :default_head_captions="[
-            'Period',
-            'ROI',
-            'VS USD',
-            'VS LIDO',
-            'VS BTC',
-            'VS DeFi YIELD',
-          ]"
-          :data="roiData"
-          :table_bg="'rgba(7, 14, 15, 0.5)'"
-          :rowHeight="'h-25'"
-          fontSizeTable="small"
-          :header_cells_bg="'table_header_cell_bg'"
-          :displayTable="roiData"
-          :header_cells_inside="'table_header_cell_inside'"
-        >
+        <DataTable :default_head_captions="[
+          'Period',
+          'ROI',
+          'VS USD',
+          'VS LIDO',
+          'VS BTC',
+          'VS DeFi YIELD',
+        ]" :data="roiData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
+          :header_cells_bg="'table_header_cell_bg'" :displayTable="roiData"
+          :header_cells_inside="'table_header_cell_inside'">
           <template v-slot:default="{ dataCell, dataCellKey }">
-            <div
-              v-if="dataCellKey === 'Period'"
-              class="text-truncate file-table-cell"
-              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left"
-              data-coreui-toggle="tooltip"
-              data-coreui-placement="left"
-              :title="dataCell"
-            >
+            <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
+              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
+              data-coreui-placement="left" :title="dataCell">
               {{ dataCell }}
             </div>
-            <div
-              v-else
-              :class="`text-truncate file-table-cell ${
-                parseFloat(dataCell) > 0
-                  ? 'positive'
-                  : parseFloat(dataCell) < 0
-                  ? 'negative'
-                  : ''
-              }`"
-              style="font-size: clamp(10px, 0.8vw, 13px)"
-              data-coreui-toggle="tooltip"
-              data-coreui-placement="left"
-              :title="dataCell"
-            >
-              <div
-                class="d-flex align-items-center justify-content-end"
-                :class="{
-                  'text-danger': parseFloat(dataCell) < 0,
-                  'text-success': parseFloat(dataCell) > 0,
-                }"
-              >
+            <div v-else :class="`text-truncate file-table-cell ${parseFloat(dataCell) > 0
+              ? 'positive'
+              : parseFloat(dataCell) < 0
+                ? 'negative'
+                : ''
+              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
+              :title="dataCell">
+              <div class="d-flex align-items-center justify-content-end" :class="{
+                'text-danger': parseFloat(dataCell) < 0,
+                'text-success': parseFloat(dataCell) > 0,
+              }">
                 <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
                 <div>{{ formatBigNumber(dataCell) }}</div>
                 <div>%</div>
@@ -135,28 +95,15 @@
         </DataTable>
       </div>
       <div class="stats_column_tables_inside">
-        <div
-          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
-      
-        >
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
               APR
             </div>
-            <VTooltip
-              style="margin-top: -3px"
-              :distance="0"
-              :placement="'right'"
-            >
+            <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
               <div style="cursor: help">
-                  <svg
-                  class="info_icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -167,14 +114,11 @@
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                    class="dark:!fill-white fill-black"
-                  />
+        12 20Z" class="dark:!fill-white fill-black" />
                 </svg>
               </div>
               <template #popper>
-                <div
-                  style="
+                <div style="
                     background: linear-gradient(
                       rgba(89, 89, 89, 0.75),
                       rgba(73, 73, 73, 0.15)
@@ -183,16 +127,13 @@
                     padding: 10px;
                     border-radius: 4px;
                     width: 400px;
-                  "
-                >
+                  ">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">APR</div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       flex-direction: column;
                       font-size: clamp(10px, 0.8vw, 14px);
-                    "
-                  >
+                    ">
                     <div><b>Average APR:</b> Mean annualized return.</div>
                     <div><b>VS USD</b> APR comparison against US Dollar.</div>
                     <div>
@@ -211,55 +152,33 @@
           </div>
         </div>
 
-        <DataTable
-          :default_head_captions="[
-            'Period',
-            'APR',
-            'VS USD',
-            'VS LIDO',
-            'VS BTC',
-            'VS DeFi YIELD',
-          ]"
-          :data="aprData"
-          :table_bg="'rgba(7, 14, 15, 0.5)'"
-          :rowHeight="'h-25'"
-          fontSizeTable="small"
-          :header_cells_bg="'table_header_cell_bg'"
-          :displayTable="aprData"
-          :header_cells_inside="'table_header_cell_inside'"
-        >
+        <DataTable :default_head_captions="[
+          'Period',
+          'APR',
+          'VS USD',
+          'VS LIDO',
+          'VS BTC',
+          'VS DeFi YIELD',
+        ]" :data="aprData" :table_bg="'rgba(7, 14, 15, 0.5)'" :rowHeight="'h-25'" fontSizeTable="small"
+          :header_cells_bg="'table_header_cell_bg'" :displayTable="aprData"
+          :header_cells_inside="'table_header_cell_inside'">
           <template v-slot:default="{ dataCell, dataCellKey }">
-            <div
-              v-if="dataCellKey === 'Period'"
-              class="text-truncate file-table-cell"
-              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left"
-              data-coreui-toggle="tooltip"
-              data-coreui-placement="left"
-              :title="dataCell"
-            >
+            <div v-if="dataCellKey === 'Period'" class="text-truncate file-table-cell"
+              style="font-size: clamp(10px, 0.8vw, 13px); text-align: left" data-coreui-toggle="tooltip"
+              data-coreui-placement="left" :title="dataCell">
               {{ dataCell }}
             </div>
-            <div
-              v-else
-              :class="`text-truncate file-table-cell  ${
-                parseFloat(dataCell) > 0
-                  ? 'positive'
-                  : parseFloat(dataCell) < 0
-                  ? 'negative'
-                  : ''
-              }`"
-              style="font-size: clamp(10px, 0.8vw, 13px)"
-              data-coreui-toggle="tooltip"
-              data-coreui-placement="left"
-              :title="dataCell"
-            >
-              <div
-                class="d-flex align-items-center justify-content-end"
-                :class="{
-                  'text-danger': parseFloat(dataCell) < 0,
-                  'text-success': parseFloat(dataCell) > 0,
-                }"
-              >
+            <div v-else :class="`text-truncate file-table-cell  ${parseFloat(dataCell) > 0
+              ? 'positive'
+              : parseFloat(dataCell) < 0
+                ? 'negative'
+                : ''
+              }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
+              :title="dataCell">
+              <div class="d-flex align-items-center justify-content-end" :class="{
+                'text-danger': parseFloat(dataCell) < 0,
+                'text-success': parseFloat(dataCell) > 0,
+              }">
                 <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
                 <div>{{ formatBigNumber(dataCell) }}</div>
                 <div>%</div>
@@ -271,27 +190,15 @@
     </div>
     <div class="stats_column gap-xxl-5 gap-3">
       <div class="stats_column_inside">
-        <div
-          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
-        >
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
               Drawdowns
             </div>
-            <VTooltip
-              style="margin-top: -3px"
-              :distance="0"
-              :placement="'right'"
-            >
+            <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
               <div style="cursor: help">
-                  <svg
-                  class="info_icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -302,14 +209,11 @@
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                    class="dark:!fill-white fill-black"
-                  />
+        12 20Z" class="dark:!fill-white fill-black" />
                 </svg>
               </div>
               <template #popper>
-                <div
-                  style="
+                <div style="
                     background: linear-gradient(
                       rgba(89, 89, 89, 0.75),
                       rgba(73, 73, 73, 0.15)
@@ -318,18 +222,15 @@
                     padding: 10px;
                     border-radius: 4px;
                     width: 400px;
-                  "
-                >
+                  ">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">
                     Dradowns
                   </div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       flex-direction: column;
                       font-size: clamp(10px, 0.8vw, 14px);
-                    "
-                  >
+                    ">
                     <div>
                       <b>Maximum Drawdown:</b> Peak-to-trough loss magnitude.
                     </div>
@@ -351,50 +252,28 @@
             </VTooltip>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <VueDatePicker
-              class="dp__theme_dark"
-              v-model="datePickerDrawdown"
-              placeholder="Filter by Date"
-              utc
-              dark="true"
-              range
-            >
+            <VueDatePicker class="dp__theme_dark" v-model="datePickerDrawdown" placeholder="Filter by Date" utc
+              dark="true" range>
               <template #trigger>
                 <div style="cursor: pointer"><img :src="calendar" /></div>
               </template>
             </VueDatePicker>
           </div>
         </div>
-        <div
-          v-if="drawDownData.length > 0"
-          v-for="item in drawDownData"
-          :key="item"
-          style="padding: 0px 8px"
-        >
-          <div
-            class="d-flex align-items-center justify-content-between"
-            style="
+        <div v-if="drawDownData.length > 0" v-for="item in drawDownData" :key="item" style="padding: 0px 8px">
+          <div class="d-flex align-items-center justify-content-between" style="
               border-bottom: 1px solid rgba(44, 44, 44, 0.2);
               padding: 8px 0px;
-            "
-          >
+            ">
             <div class="stats_text dark:!text-white text-black">{{ item.text }}</div>
             <div class="stats_value dark:!text-white text-black">{{ item.value }}</div>
           </div>
         </div>
-        <div
-          v-else
-          v-for="item in drawDownTitles"
-          :key="`draw-down-title-${item}`"
-          style="padding: 0px 8px"
-        >
-          <div
-            class="d-flex align-items-center justify-content-between"
-            style="
+        <div v-else v-for="item in drawDownTitles" :key="`draw-down-title-${item}`" style="padding: 0px 8px">
+          <div class="d-flex align-items-center justify-content-between" style="
               border-bottom: 1px solid rgba(44, 44, 44, 0.2);
               padding: 8px 0px;
-            "
-          >
+            ">
             <div class="stats_text dark:!text-white text-black">{{ item }}</div>
             <div class="stats_value dark:!text-white text-black">
               <ThreeDots></ThreeDots>
@@ -404,27 +283,15 @@
       </div>
 
       <div class="stats_column_inside">
-        <div
-          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
-        >
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
               Risk Metrics
             </div>
-            <VTooltip
-              style="margin-top: -3px"
-              :distance="0"
-              :placement="'right'"
-            >
+            <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
               <div style="cursor: help">
-                  <svg
-                  class="info_icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -435,14 +302,11 @@
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                    class="dark:!fill-white fill-black"
-                  />
+        12 20Z" class="dark:!fill-white fill-black" />
                 </svg>
               </div>
               <template #popper>
-                <div
-                  style="
+                <div style="
                     background: linear-gradient(
                       rgba(89, 89, 89, 0.75),
                       rgba(73, 73, 73, 0.15)
@@ -451,18 +315,15 @@
                     padding: 10px;
                     border-radius: 4px;
                     width: 400px;
-                  "
-                >
+                  ">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">
                     Risk Metrics
                   </div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       flex-direction: column;
                       font-size: clamp(10px, 0.8vw, 14px);
-                    "
-                  >
+                    ">
                     <div>
                       <b>Sharpe Ratio:</b> Assesses excess return per unit of
                       risk.
@@ -481,14 +342,8 @@
             </VTooltip>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <VueDatePicker
-              class="dp__theme_dark"
-              v-model="datePickerRisks"
-              placeholder="Filter by Date"
-              utc
-              dark="true"
-              range
-            >
+            <VueDatePicker class="dp__theme_dark" v-model="datePickerRisks" placeholder="Filter by Date" utc dark="true"
+              range>
               <template #trigger>
                 <div style="cursor: pointer"><img :src="calendar" /></div>
               </template>
@@ -498,33 +353,21 @@
                 <img :src="riskMetricsIcon" />
               </div>
               <template #popper>
-                <div
-                  style="
+                <div style="
                     width: 250px;
                     background-color: rgba(7, 14, 15, 0.9);
                     color: rgba(255, 255, 255, 1);
                     border-radius: 5px 5px 0px 0px;
                     padding: 10px;
-                  "
-                >
-                  <p
-                    @click="riskFreeOption = 'bonds'"
-                    v-close-popper
-                    :class="{
-                      chart_dropdown_items_active: riskFreeOption == 'bonds',
-                    }"
-                    class="chart_dropdown_items"
-                  >
+                  ">
+                  <p @click="riskFreeOption = 'bonds'" v-close-popper :class="{
+                    chart_dropdown_items_active: riskFreeOption == 'bonds',
+                  }" class="chart_dropdown_items">
                     Risk-Free American Bonds
                   </p>
-                  <p
-                    @click="riskFreeOption = 'dai'"
-                    v-close-popper
-                    :class="{
-                      chart_dropdown_items_active: riskFreeOption == 'dai',
-                    }"
-                    class="chart_dropdown_items"
-                  >
+                  <p @click="riskFreeOption = 'dai'" v-close-popper :class="{
+                    chart_dropdown_items_active: riskFreeOption == 'dai',
+                  }" class="chart_dropdown_items">
                     Risk-Free Staked DAI
                   </p>
                 </div>
@@ -532,36 +375,20 @@
             </Dropdown>
           </div>
         </div>
-        <div
-          v-if="riskMetrics.length > 0"
-          v-for="item in riskMetrics"
-          :key="item"
-          style="padding: 0px 8px"
-        >
-          <div
-            class="d-flex align-items-center justify-content-between"
-            style="
+        <div v-if="riskMetrics.length > 0" v-for="item in riskMetrics" :key="item" style="padding: 0px 8px">
+          <div class="d-flex align-items-center justify-content-between" style="
               border-bottom: 1px solid rgba(44, 44, 44, 0.2);
               padding: 8px 0px;
-            "
-          >
+            ">
             <div class="stats_text dark:!text-white text-black">{{ item.text }}</div>
             <div class="stats_value dark:!text-white text-black">{{ item.value }}</div>
           </div>
         </div>
-        <div
-          v-else
-          v-for="item in riskMetricsTitles"
-          :key="`risk-metrics-title-${item}`"
-          style="padding: 0px 8px"
-        >
-          <div
-            class="d-flex align-items-center justify-content-between"
-            style="
+        <div v-else v-for="item in riskMetricsTitles" :key="`risk-metrics-title-${item}`" style="padding: 0px 8px">
+          <div class="d-flex align-items-center justify-content-between" style="
               border-bottom: 1px solid rgba(44, 44, 44, 0.2);
               padding: 8px 0px;
-            "
-          >
+            ">
             <div class="stats_text dark:!text-white text-black">{{ item }}</div>
             <div class="stats_value dark:!text-white text-black">
               <ThreeDots></ThreeDots>
@@ -571,27 +398,15 @@
       </div>
 
       <div class="stats_column_inside">
-        <div
-          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
-        >
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
               Profits
             </div>
-            <VTooltip
-              style="margin-top: -3px"
-              :distance="0"
-              :placement="'right'"
-            >
+            <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
               <div style="cursor: help">
-                  <svg
-                  class="info_icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -602,14 +417,11 @@
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                    class="dark:!fill-white fill-black"
-                  />
+        12 20Z" class="dark:!fill-white fill-black" />
                 </svg>
               </div>
               <template #popper>
-                <div
-                  style="
+                <div style="
                     background: linear-gradient(
                       rgba(89, 89, 89, 0.75),
                       rgba(73, 73, 73, 0.15)
@@ -618,16 +430,13 @@
                     padding: 10px;
                     border-radius: 4px;
                     width: 400px;
-                  "
-                >
+                  ">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">Profits</div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       flex-direction: column;
                       font-size: clamp(10px, 0.8vw, 14px);
-                    "
-                  >
+                    ">
                     <div>
                       <b>Average Profit per Trade:</b> The mean earnings across
                       individual trades.
@@ -643,50 +452,28 @@
             </VTooltip>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <VueDatePicker
-              class="dp__theme_dark"
-              v-model="datePickerProfit"
-              placeholder="Filter by Date"
-              utc
-              dark="true"
-              range
-            >
+            <VueDatePicker class="dp__theme_dark" v-model="datePickerProfit" placeholder="Filter by Date" utc
+              dark="true" range>
               <template #trigger>
                 <div style="cursor: pointer"><img :src="calendar" /></div>
               </template>
             </VueDatePicker>
           </div>
         </div>
-        <div
-          v-if="profitsData.length > 0"
-          v-for="item in profitsData"
-          :key="item"
-          style="padding: 0px 8px"
-        >
-          <div
-            class="d-flex align-items-center justify-content-between"
-            style="
+        <div v-if="profitsData.length > 0" v-for="item in profitsData" :key="item" style="padding: 0px 8px">
+          <div class="d-flex align-items-center justify-content-between" style="
               border-bottom: 1px solid rgba(44, 44, 44, 0.2);
               padding: 8px 0px;
-            "
-          >
+            ">
             <div class="stats_text dark:!text-white text-black">{{ item.text }}</div>
             <div class="stats_value dark:!text-white text-black">{{ item.value }}</div>
           </div>
         </div>
-        <div
-          v-else
-          v-for="item in profitsTitles"
-          :key="`profits-${item}`"
-          style="padding: 0px 8px"
-        >
-          <div
-            class="d-flex align-items-center justify-content-between"
-            style="
+        <div v-else v-for="item in profitsTitles" :key="`profits-${item}`" style="padding: 0px 8px">
+          <div class="d-flex align-items-center justify-content-between" style="
               border-bottom: 1px solid rgba(44, 44, 44, 0.2);
               padding: 8px 0px;
-            "
-          >
+            ">
             <div class="stats_text dark:!text-white text-black">{{ item }}</div>
             <div class="stats_value dark:!text-white text-black">
               <ThreeDots></ThreeDots>
@@ -697,32 +484,21 @@
     </div>
     <div class="stats_column_charts" style="gap: 30px">
       <div class="stats_column_inside">
-        <div
-          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
-        >
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
           <div class="d-flex align-items-center gap-2">
             <div class="d-flex gap-2 items-center align-items-baseline">
-              <div
-                style="
+              <div style="
                   font-weight: 500;
                   font-size: clamp(10px, 0.9vw, 15px);
-                "
-                class="dark:!text-white text-black"
-              >
+                " class="dark:!text-white text-black">
                 {{ AssetsChart }}
               </div>
             </div>
           </div>
           <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
             <div style="cursor: help">
-                <svg
-                  class="info_icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+              <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -733,14 +509,11 @@
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                    class="dark:!fill-white fill-black"
-                  />
-                </svg>
+        12 20Z" class="dark:!fill-white fill-black" />
+              </svg>
             </div>
             <template #popper>
-              <div
-                style="
+              <div style="
                   background: linear-gradient(
                     rgba(89, 89, 89, 0.75),
                     rgba(73, 73, 73, 0.15)
@@ -749,18 +522,15 @@
                   padding: 10px;
                   border-radius: 4px;
                   width: 400px;
-                "
-              >
+                ">
                 <div style="font-size: clamp(10px, 0.9vw, 16px)">
                   Assets Breakdown By Type
                 </div>
-                <div
-                  style="
+                <div style="
                     display: flex;
                     flex-direction: column;
                     font-size: clamp(10px, 0.8vw, 14px);
-                  "
-                >
+                  ">
                   <div>
                     This pie chart illustrates the distribution of assets,
                     categorized by type. Each segment represents a different
@@ -773,52 +543,37 @@
           </VTooltip>
         </div>
         <div class="diagram-container">
-          <div v-if="assets.length > 0">
-            <apexchart
-              v-if="AssetsChart === 'Assets Breakdown'"
-              :options="
-                dynamicDonut(
-                  assets.map((a) => a.symbol),
-                  assets.map((a) => stringToColor(a.symbol)),
-                  assets,
-                )
-              "
-              :series="assets.map((a) => a.percent)"
-              :height="410"
-              :width="370"
-            />
-            <apexchart
-              v-else
-              :options="
-                dynamicDonut(
-                  [
-                    'Bitcoin (BTC)',
-                    'Ethereum (ETH)',
-                    'RWAs',
-                    'LSDs',
-                    'Stablecoins',
-                    'Infrastructure',
-                    'L1s',
-                    'L2s',
-                    'DeFi',
-                  ],
-                  [
-                    'rgba(230, 177, 12, 1)',
-                    '#00C9FF',
-                    'rgba(248, 71, 71, 1)',
-                    'rgba(194, 119, 237, 1)',
-                    'rgba(0, 199, 242, 1)',
-                    'rgba(0, 252, 2, 1)',
-                    'rgba(0, 252, 2, 1)',
-                    'rgba(0, 252, 2, 1)',
-                    'rgba(0, 252, 2, 1)',
-                  ],
-                )
-              "
-              :series="[44, 55, 41, 17, 15, 22, 11, 8, 6]"
-              :height="410"
-              :width="415"
-            />
+          <div v-if="props.statistics">
+            <apexchart v-if="AssetsChart === 'Assets Breakdown'" :options="dynamicDonut(props.statistics.tokensBreakdown.map((a) => a.name.join('')),
+              props.statistics.tokensBreakdown.map((a) => stringToColor(a.name.join(''))),
+              props.statistics.tokensBreakdown.map((a) => parseFloat(a.tvl)),
+            )
+              " :series="props.statistics.tokensBreakdown.map((a) => parseFloat(a.tvl))" :height="410" :width="370" />
+            <apexchart v-else :options="dynamicDonut(
+              [
+                'Bitcoin (BTC)',
+                'Ethereum (ETH)',
+                'RWAs',
+                'LSDs',
+                'Stablecoins',
+                'Infrastructure',
+                'L1s',
+                'L2s',
+                'DeFi',
+              ],
+              [
+                'rgba(230, 177, 12, 1)',
+                '#00C9FF',
+                'rgba(248, 71, 71, 1)',
+                'rgba(194, 119, 237, 1)',
+                'rgba(0, 199, 242, 1)',
+                'rgba(0, 252, 2, 1)',
+                'rgba(0, 252, 2, 1)',
+                'rgba(0, 252, 2, 1)',
+                'rgba(0, 252, 2, 1)',
+              ],
+            )
+              " :series="[44, 55, 41, 17, 15, 22, 11, 8, 6]" :height="410" :width="415" />
           </div>
           <div v-else style="height: 228px">
             <LoaderPulse></LoaderPulse>
@@ -827,32 +582,21 @@
       </div>
 
       <div class="stats_column_inside">
-        <div
-          class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2"
-        >
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
           <div class="d-flex align-items-center gap-2">
             <div class="d-flex gap-2 items-center align-items-baseline">
-              <div
-                style="
+              <div style="
                   font-weight: 500;
                   font-size: clamp(10px, 0.9vw, 15px);
-                "
-                 class="dark:!text-white text-black"
-              >
+                " class="dark:!text-white text-black">
                 {{ BreakdownChart }}
               </div>
             </div>
           </div>
           <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
             <div style="cursor: help">
-                <svg
-                  class="info_icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+              <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -863,14 +607,11 @@
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                    class="dark:!fill-white fill-black"
-                  />
-                </svg>
+        12 20Z" class="dark:!fill-white fill-black" />
+              </svg>
             </div>
             <template #popper>
-              <div
-                style="
+              <div style="
                   background: linear-gradient(
                     rgba(89, 89, 89, 0.75),
                     rgba(73, 73, 73, 0.15)
@@ -879,18 +620,15 @@
                   padding: 10px;
                   border-radius: 4px;
                   width: 400px;
-                "
-              >
+                ">
                 <div style="font-size: clamp(10px, 0.9vw, 16px)">
                   Assets Breakdown By Type
                 </div>
-                <div
-                  style="
+                <div style="
                     display: flex;
                     flex-direction: column;
                     font-size: clamp(10px, 0.8vw, 14px);
-                  "
-                >
+                  ">
                   <div>
                     This pie chart illustrates the distribution of assets,
                     categorized by type. Each segment represents a different
@@ -903,36 +641,19 @@
           </VTooltip>
         </div>
         <div class="diagram-container">
-          <div v-if="pairs.length > 0">
-            <apexchart
-              v-if="BreakdownChart === 'Pairs Breakdown'"
-              :options="
-                dynamicDonut(
-                  pairs.map((a) => a.symbol),
-                  pairs.map((a) => stringToColor(a.symbol)),
-                  pairs,
-                )
-              "
-              :series="pairs.map((a) => a.percent)"
-              :height="410"
-              :width="415"
-            />
-            <apexchart
-              v-else
-              :options="
-                dynamicDonut(
-                  ['USDT/BTC/ETH', 'SUSHI/DAI/FRAX', 'USDT/USDC'],
-                  [
-                    'rgba(0, 199, 242, 1)',
-                    'rgba(194, 119, 237, 1)',
-                    'rgba(251, 198, 47, 1)',
-                  ],
-                )
-              "
-              :series="[44, 55, 41]"
-              :height="410"
-              :width="415"
-            />
+          <div v-if="props.statistics">
+            <apexchart v-if="BreakdownChart === 'Pairs Breakdown'" :options="dynamicDonut(props.statistics.pairsBreakdown.map((a) => a.name.join('-')),
+              props.statistics.pairsBreakdown.map((a) => stringToColor(a.name.join('-'))),
+              props.statistics.pairsBreakdown.map((a) => parseFloat(a.tvl)),
+            )" :series="props.statistics.pairsBreakdown.map((a) => parseFloat(a.tvl))" :height="410" :width="415" />
+            <apexchart v-else :options="dynamicDonut(['USDT/BTC/ETH', 'SUSHI/DAI/FRAX', 'USDT/USDC'],
+              [
+                'rgba(0, 199, 242, 1)',
+                'rgba(194, 119, 237, 1)',
+                'rgba(251, 198, 47, 1)',
+              ],
+            )
+              " :series="[44, 55, 41]" :height="410" :width="415" />
           </div>
           <div v-else style="height: 228px">
             <LoaderPulse></LoaderPulse>
@@ -984,6 +705,7 @@ const props = defineProps([
   'historicalPrices',
   'userFirstTimestamp',
   'tokenPairs',
+  'statistics'
 ])
 const {
   chainSelected,
@@ -1198,13 +920,13 @@ const riskMetrics = computed(() => {
 const riskMetricsTitles = ['Sharpe Ratio', 'Sortino Ratio', 'Volatility Ratio']
 
 const profitsData = computed(() => {
-  if (poolSwapsData.value && poolSwapsData.value.length > 0) {
+  if (props.statistics && props.statistics.swaps.length > 0) {
     return [
       {
         text: 'Average Profit per Trade',
         value: `$${formatBigNumber(
           getAverageProfitPerTimeRange(
-            poolSwapsData.value,
+          props.statistics.swaps,
             chainSelected.value.name,
             ...datePickerProfit.value,
           ),
@@ -1214,9 +936,9 @@ const profitsData = computed(() => {
         text: 'Average Profit per Pool',
         value: `$${formatBigNumber(
           getAveragePoolProfitPerTimeRange(
-            poolSwapsData.value,
+            props.statistics.swaps,
             chainSelected.value.name,
-            historical_tvl.value,
+             props.statistics.tvls,
             ...datePickerProfit.value,
           ),
         )}`,
@@ -1232,10 +954,11 @@ const profitsTitles = ['Average Profit per Trade', 'Average Profit per Pool']
 const drawDownData = computed(() =>
   chartData.value.length > 0
     ? AnalyzeDrawdowns(
-        chartData.value,
-        chainSelected.value.name,
-        ...datePickerDrawdown.value,
-      )
+      chartData.value,
+      chainSelected.value.name,
+      ...datePickerDrawdown.value,
+      "$"
+    )
     : [],
 )
 const drawDownTitles = [
@@ -1246,20 +969,8 @@ const drawDownTitles = [
   'Percentual Impact',
 ]
 
-const roiData = ref([
-  { Period: '24H' },
-  { Period: '7D' },
-  { Period: '1M' },
-  { Period: '3M' },
-  { Period: '1Y' },
-])
-const aprData = ref([
-  { Period: '24H' },
-  { Period: '7D' },
-  { Period: '1M' },
-  { Period: '3M' },
-  { Period: '1Y' },
-])
+const roiData = computed(() => props.statistics ? Object.values(props.statistics.roiTable) : [])
+const aprData = computed(() => props.statistics ? Object.values(props.statistics.aprTable) : [])
 
 const top10Tokens = ref([])
 const allTokensInfo = ref([])
@@ -1348,7 +1059,7 @@ watch(chainSelected, async () => {
   color: rgba(248, 81, 73, 1) !important;
 }
 
-.stats_text  {
+.stats_text {
   // color: rgba(243, 244, 246, 1);
   font-family: Poppins;
   font-size: clamp(10px, 0.8vw, 14px);
@@ -1358,7 +1069,7 @@ watch(chainSelected, async () => {
   text-align: left;
 }
 
-.stats_value  {
+.stats_value {
   color: white;
   margin-right: 15px;
   font-family: Poppins;
