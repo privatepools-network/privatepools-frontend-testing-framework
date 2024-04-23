@@ -73,7 +73,7 @@
           style="cursor: pointer"
           v-for="language in languages"
           :key="language"
-          @click="handleChangeLanguage(language.name)"
+          @click="handleChangeLanguage(language)"
 
         >
           <div>{{ language.nativeName }}</div>
@@ -118,6 +118,7 @@ import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import btcSymbol from '@/assets/images/tokens/btcSymbol.png'
 import ethSymbol from '@/assets/images/tokens/ethSymbol.png'
+import i18next from 'i18next'
 
 const settingsStore = useSettings()
 
@@ -146,7 +147,8 @@ const handleChangeCurrency = (cur) => {
   settingsStore.updateCurrency(cur)
 }
 const handleChangeLanguage = (lang) => {
-  settingsStore.updateLanguage(lang)
+  i18next.changeLanguage(lang.symbol)
+  settingsStore.updateLanguage(lang.name)
 }
 </script>
 <style lang="scss" scoped>

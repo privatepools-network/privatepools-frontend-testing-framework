@@ -613,10 +613,8 @@ export async function MintPosition(
     isLoading: false,
   })
 
-  step.value = 4
-
   await mintPosition(order, signer, poolInfo)
-
+  step.value = 4
   // step.value = 0
 }
 
@@ -768,17 +766,6 @@ function parseDisplayTicks(token0, token1, lowPrice, highPrice, feeAmount) {
 }
 
 async function mintPosition(order, signer, pool) {
-  const MintingToastPending = toast.loading(Toast, {
-    data: {
-      header_text: 'Minting liquidity',
-      toast_text: 'Minting CL position',
-      tx_link: '',
-      speedUp: '',
-    },
-    position: toast.POSITION.TOP_RIGHT,
-    theme: 'dark',
-    closeOnClick: false,
-  })
   let tx
   const configuredPool = new Pool(
     order.position.pool.token0,
@@ -804,6 +791,22 @@ async function mintPosition(order, signer, pool) {
     token0PriceUpper: order.position.token0PriceUpper,
     mintAmountsWithSlippage: order.position.mintAmountsWithSlippage,
   }
+
+  let MintingToastPending
+  setTimeout(() => {
+    MintingToastPending = toast.loading(Toast, {
+      data: {
+        header_text: 'Minting liquidity',
+        toast_text: 'Minting CL position',
+        tx_link: '',
+        speedUp: '',
+      },
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'dark',
+      closeOnClick: false,
+    })
+  }, 500)
+
   try {
     let address = await signer.getAddress()
     const mintOptions = {

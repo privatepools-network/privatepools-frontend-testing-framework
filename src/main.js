@@ -10,10 +10,12 @@ import 'floating-vue/dist/style.css'
 import { inject } from '@vercel/analytics'
 import VueClickAway from 'vue3-click-away'
 import { createPinia } from 'pinia'
+import i18n from '../i18n'
 
 const pinia = createPinia()
 const app = createApp(App)
 
+i18n(app)
 app.use(pinia)
 app.use(router)
 app.use(vueQuery)

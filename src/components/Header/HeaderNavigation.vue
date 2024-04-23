@@ -11,7 +11,7 @@
             ? 'navigation_text_selected navigation_text'
             : 'navigation_text'
             ">
-            Analytics
+            {{ $t('analytics') }}
           </div>
           <template #popper>
             <div class="popup bg-white dark:!bg-[#171717]" style="width: 100px;">
