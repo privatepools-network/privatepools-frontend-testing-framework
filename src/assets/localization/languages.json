@@ -1,106 +1,47 @@
 {
     "ar": {
         "name": "Arabic",
-        "nativeName": "العربية"
-    },
-    "bn": {
-        "name": "Bengali",
-        "nativeName": "বাংলা"
+        "nativeName": "العربية",
+        "symbol": "ar"
     },
     "en": {
         "name": "English",
-        "nativeName": "English"
+        "nativeName": "English",
+        "symbol": "en"
     },
     "de": {
         "name": "German",
-        "nativeName": "Deutsch"
-    },
-    "el": {
-        "name": "Greek, Modern",
-        "nativeName": "Ελληνικά"
+        "nativeName": "Deutsch",
+        "symbol": "de"
     },
     "es": {
         "name": "Spanish; Castilian",
-        "nativeName": "Español"
-    },
-    "fi": {
-        "name": "Finnish",
-        "nativeName": "Suomalainen"
-    },
-    "tl": {
-        "name": "Filipino",
-        "nativeName": "Filipino"
+        "nativeName": "Español",
+        "symbol": "es"
     },
     "fr": {
         "name": "French",
-        "nativeName": "Français"
-    },
-    "hi": {
-        "name": "Hindi",
-        "nativeName": "हिन्दी"
-    },
-    "hu": {
-        "name": "Hungarian",
-        "nativeName": "Magyar"
-    },
-    "id": {
-        "name": "Indonesian",
-        "nativeName": "Bahasa Indonesia"
+        "nativeName": "Français",
+        "symbol": "fr"
     },
     "it": {
         "name": "Italian",
-        "nativeName": "Italiano"
-    },
-    "ja": {
-        "name": "Japanese",
-        "nativeName": "日本語"
-    },
-    "ko": {
-        "name": "Korean",
-        "nativeName": "한국어"
-    },
-    "nl": {
-        "name": "Dutch",
-        "nativeName": "Nederlands, Vlaams"
-    },
-    "pl": {
-        "name": "Polish",
-        "nativeName": "Polski"
+        "nativeName": "Italiano",
+        "symbol": "it"
     },
     "pt": {
         "name": "Portuguese",
-        "nativeName": "Português"
-    },
-    "ro": {
-        "name": "Romanian",
-        "nativeName": "Română"
+        "nativeName": "Português",
+        "symbol": "pt"
     },
     "ru": {
         "name": "Russian",
-        "nativeName": "Русский"
-    },
-    "sv": {
-        "name": "Swedish",
-        "nativeName": "svenska"
-    },
-    "ta": {
-        "name": "Tamil",
-        "nativeName": "தமிழ்"
-    },
-    "tr": {
-        "name": "Turkish",
-        "nativeName": "Türkçe"
-    },
-    "uk": {
-        "name": "Ukrainian",
-        "nativeName": "Українська"
-    },
-    "vi": {
-        "name": "Vietnamese",
-        "nativeName": "Tiếng Việt"
+        "nativeName": "Русский",
+        "symbol": "ru"
     },
     "zh": {
         "name": "Chinese",
-        "nativeName": "中文"
+        "nativeName": "中文",
+        "symbol": "zh"
     }
 }
