@@ -100,7 +100,7 @@
                 />
               </svg>
 
-              CL Pool
+              CL {{$t('pool')}}
             </div>
           </div>
         </a>
@@ -123,7 +123,7 @@
                 />
               </svg>
 
-              WP Pool
+              WP {{$t('pool')}}
             </div>
           </div>
         </a>
@@ -134,19 +134,19 @@
           @click="sidebarTab = 'Tokens'"
           :class="sidebarTab === 'Tokens' ? 'tab selected_tab' : 'tab'"
         >
-          Tokens
+          {{ $t('tokens') }}
         </div>
         <div
           @click="sidebarTab = 'Pools'"
           :class="sidebarTab === 'Pools' ? 'tab selected_tab' : 'tab'"
         >
-          Pools
+          {{ $t('pools') }}
         </div>
         <div
           @click="sidebarTab = 'Activity'"
           :class="sidebarTab === 'Activity' ? 'tab selected_tab' : 'tab'"
         >
-          Activity
+          {{ $t('activity') }}
         </div>
       </div>
       <div v-if="sidebarTab === 'Tokens'" class="d-flex flex-column gap-2">
@@ -346,12 +346,12 @@
               fill="#7D7D7D"
             />
           </svg>
-          <div class="text-black dark:!text-white">No pools yet</div>
+          <div class="text-black dark:!text-white">{{ $t('no_pools_yet') }}</div>
           <div class="text-black dark:!text-white text-[12px] text-center">
-            Open a new position or create a pool to get started.
+            {{ $t('open_position_to_get_started') }}
           </div>
           <div @click="router.push('/pools')" class="add_liq_btn_pools">
-            <div class="d-flex gap-1">+ Add liquidity</div>
+            <div class="d-flex gap-1">+ {{ $t('add_liquidity') }}</div>
           </div>
         </div>
       </div>
@@ -361,7 +361,7 @@
       >
         <div>
           {{ console.log('addressActivity', addressActivity) }}
-          <div class="tab my-2" style="font-size: 12px">Today</div>
+          <div class="tab my-2" style="font-size: 12px">{{ $t('today') }}</div>
           <div class="d-flex flex-column gap-2">
             <a
               :href="`${configService.getNetworkConfig(56).explorer}/tx/${
@@ -399,7 +399,7 @@
           </div>
         </div>
         <div>
-          <div class="tab my-2" style="font-size: 12px">This week</div>
+          <div class="tab my-2" style="font-size: 12px">{{ $t('this_week') }}</div>
           <div class="d-flex flex-column gap-2">
             <a
               :href="`${configService.getNetworkConfig(56).explorer}/tx/${
@@ -437,7 +437,7 @@
           </div>
         </div>
         <div>
-          <div class="tab my-2" style="font-size: 12px">This month</div>
+          <div class="tab my-2" style="font-size: 12px">{{ $t('this_month') }}</div>
           <div class="d-flex flex-column gap-2">
             <a
               v-for="(item, i) in addressActivity.filter(

@@ -26,7 +26,7 @@
             "
             class="my-4"
           >
-            Trade PPN Tokens
+            {{ $t('trade_ppn_tokens') }}
           </div>
           <div class="buy_token_container bg-white dark:!bg-[#171717]">
             <div class="d-flex">

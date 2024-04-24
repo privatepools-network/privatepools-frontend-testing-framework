@@ -5,8 +5,8 @@
       label-by="id"
       searchable
       @search:input="handleInput"
-      search-placeholder="Search tokens and liquidity pools"
-      placeholder="Search tokens and liquidity pools"
+      :search-placeholder="$t('search_tokens')"
+      :placeholder="$t('search_tokens')"
     >
       <template #dropdown-item="{ option }">
         <div
@@ -28,7 +28,7 @@
               stroke-linejoin="round"
             />
           </svg>
-          Popular tokens
+          {{ $t('popular_tokens') }}
         </div>
         <template v-if="option.tokens">
           <div
@@ -106,7 +106,7 @@
               stroke-linejoin="round"
             />
           </svg>
-          Top picks for you
+          {{ $t('top_picks') }}
         </div>
         <template v-if="option.pools">
           <div

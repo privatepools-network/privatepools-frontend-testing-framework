@@ -8,11 +8,11 @@
           <template #popper>
             <div class="header__popup bg-white dark:!bg-[#171717]">
               <h4 class="text-[14px] text-black dark:!text-[#626262] mb-[10px]">
-                Rewards
+                {{ $t('rewards') }}
               </h4>
               <div class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white">
                 <div class="text-[12px] text-black dark:!text-[#626262]">
-                  Pending pool rewards
+                  {{ $t('pending_rewards') }}
                 </div>
                 <div class="flex items-center gap-1">
                   $1.23
@@ -21,16 +21,16 @@
               </div>
               <div class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white">
                 <div class="text-[12px] text-black dark:!text-[#626262]">
-                  Total staked
+                   {{ $t('total_staked') }}
                 </div>
                 <div>
                   $234.34
                 </div>
                 <div class="text-[12px] text-black dark:!text-[#626262]">
-                  in 2 farm(s)
+                  {{ $t('farms') }}
                 </div>
               </div>
-              <div class="rewards_button_dropdown">Claim all pool rewards</div>
+              <div class="rewards_button_dropdown">{{ $t('claim_all_rewards') }}</div>
             </div>
           </template>
         </Dropdown>

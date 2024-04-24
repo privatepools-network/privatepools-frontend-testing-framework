@@ -15,7 +15,7 @@
   {{ console.log('isDark', isDark) }}
   <div class="flex justify-between items-center">
     <span class="text text-black dark:!text-white">
-      Theme
+      {{ $t('theme') }}
     </span>
   <div :class="isDark ? 'theme_container' : 'theme_container_light'">
     <div

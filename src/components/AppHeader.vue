@@ -18,7 +18,7 @@
 
       <div v-if="!address">
         <div class="connect_wallet" @click="$emit('toggleSidebar')">
-          Connect
+           {{ $t('connect') }}
         </div>
       </div>
       <div

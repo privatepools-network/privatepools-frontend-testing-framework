@@ -10,11 +10,11 @@
               <h4 
                 class="text-[14px] text-black dark:!text-[#626262] mb-[10px]"
                 >
-                PPN Token
+                PPN {{ $t('token') }}
               </h4>
               <div class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white">
                 <div  class="text-[12px] text-black dark:!text-[#626262]">
-                  PPN Price
+                  PPN {{ $t('price') }}
                 </div>
                 <div>
                   $1.2345
@@ -23,7 +23,7 @@
               </div>
               <div class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white">
                 <div class="text-[12px] text-black dark:!text-[#626262]">
-                  Market Cap
+                  {{ $t('market_cap') }}
                 </div>
                 <div>
                   $1,827,643
@@ -32,14 +32,14 @@
               </div>
               <div class="rewards_inside bg-[white] dark:!bg-[#22222224]  text-black dark:!text-white">
                 <div class="text-[12px] text-black dark:!text-[#626262]">
-                  Circulating Supply
+                  {{ $t('circulating_supply') }}
                 </div>
                 <div>
                   6,001,859 PPN
                 </div>
                 
               </div>
-              <div class="rewards_button_dropdown"> <img :src="walletPoolsImg" /> Add PPN to wallet</div>
+              <div class="rewards_button_dropdown"> <img :src="walletPoolsImg" /> {{ $t('add_ppn_to_wallet') }}</div>
             </div>
           </template>
       </Dropdown>
