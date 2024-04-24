@@ -1117,7 +1117,7 @@ const optionObj = ref({
     textStyle: {
       color: '#ccc',
       fontSize: '10px',
-      fontFamily: 'Poppins',
+      fontFamily: 'Montserrat',
       fontWeight: 700,
     },
   },
@@ -1823,7 +1823,7 @@ onMounted(() => {
   justify-content: center;
   background: #00e0ff;
   border-radius: 5px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 11px;
   font-weight: 700;
   box-shadow: 0px 4px 4px 0px #00000040;

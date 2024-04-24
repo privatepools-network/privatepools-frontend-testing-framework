@@ -306,7 +306,7 @@ function prettify(ts) {
   border-radius: 16px;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 12px;
   font-weight: 400;
   line-height: 15px;
@@ -354,7 +354,7 @@ function prettify(ts) {
 .pool_info {
   margin-top: 20px;
   margin-bottom: 20px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
