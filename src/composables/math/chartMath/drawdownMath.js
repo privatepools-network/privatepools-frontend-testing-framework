@@ -48,7 +48,7 @@ export function AnalyzeDrawdowns(chart_data, chainSelected, date0, date1, symbol
     (item) => item.timestamp > peak.timestamp,
   )
   let troughIndex = tvlProfitSums.findIndex(
-    (item) => item.timestamp == afterPeakValues[0].timestamp,
+    (item) => item.timestamp == (afterPeakValues.length > 0 ? afterPeakValues[0].timestamp : 0),
   )
 
   let trough = tvlProfitSums[troughIndex]

@@ -6,6 +6,7 @@ export async function getDetailsData(network, poolId) {
     `${BACKEND_URL[network]}/data/details/${poolId}/financialStatement/`,
     `${BACKEND_URL[network]}/data/details/${poolId}/statistics/`,
     `${BACKEND_URL[network]}/data/details/${poolId}/pairsTokens/`,
+    `${BACKEND_URL[network]}/data/details/${poolId}/diagrams/`,
   ]
 
   const promises = urls.map((url) => axios.get(url))
@@ -15,5 +16,6 @@ export async function getDetailsData(network, poolId) {
     financialStatement: data[1].data,
     statistics: data[2].data,
     pairsTokens: data[3].data,
+    diagrams: data[4].data,
   }
 }
