@@ -68,7 +68,7 @@
     <CRow class="mb-5" v-if="render">
       <PoolsDetailsChart :selectedOverallTab="selectedOverallTab" :changeToDepositView="changeToDepositView"
         :changeToWithdrawView="changeToWithdrawView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices"
-        :pool="pool" :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="chartData"
+        :pool="pool" :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="poolChartData"
         :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected"
         :userBalance="balance" />
     </CRow>
@@ -153,10 +153,10 @@
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single">
-                    {{ pool.createdAt }}
+                    {{ pool.createdTimeDate }}
                   </div>
                   <div class="subsection__item__content__right__bottom">
-                    {{ pool.timeAgo }}
+                    {{ pool.createdTimeAgo }}
                   </div>
                 </div>
               </div>
@@ -170,8 +170,8 @@
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
                     <div class="amount  flex items-center">
-                      <CurrencySymbol  />{{
-                        formatBigNumber(profitInfo.highest)
+                      <CurrencySymbol />{{
+                      formatBigNumber(pool.profit24h.highest)
                       }}
                     </div>
                     <!-- <div :class="`percentage-chip ${profitInfo.highestPercent > 0 ? '--positive' : ''
@@ -180,8 +180,8 @@
                     </div> -->
                   </div>
                   <div class="subsection__item__content__right__bottom --bright">
-                    {{ profitInfo.highestTime }} ({{
-                      profitInfo.highestTimeAgo
+                    {{ pool.profit24h.highestTime }} ({{
+                    pool.profit24h.highestTimeAgo
                     }})
                   </div>
                 </div>
@@ -193,8 +193,8 @@
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
                     <div class="amount  flex items-center">
-                      <CurrencySymbol  />{{
-                        formatBigNumber(profitInfo.lowest)
+                      <CurrencySymbol />{{
+                      formatBigNumber(pool.profit24h.lowest)
                       }}
                     </div>
                     <!-- <div :class="`percentage-chip ${profitInfo.lowestPercent > 0 ? '--positive' : ''
@@ -203,7 +203,7 @@
                     </div> -->
                   </div>
                   <div class="subsection__item__content__right__bottom --bright">
-                    {{ profitInfo.lowestTime }} ({{ profitInfo.lowestTimeAgo }})
+                    {{ pool.profit24h.lowestTime }} ({{ pool.profit24h.lowestTimeAgo }})
                   </div>
                 </div>
               </div>
@@ -218,8 +218,8 @@
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single  flex items-center">
-                    <CurrencySymbol  />{{
-                      formatBigNumber(poolVolume, currencyDecimals)
+                    <CurrencySymbol />{{
+                    formatBigNumber(pool.TotalVolumeUsd, currencyDecimals)
                     }}
                   </div>
                 </div>
@@ -230,8 +230,8 @@
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single  flex items-center">
-                    <CurrencySymbol  />{{
-                      formatBigNumber(poolFees, currencyDecimals)
+                    <CurrencySymbol />{{
+                    formatBigNumber(pool.TotalFeeUsd, currencyDecimals)
                     }}
                   </div>
                 </div>
@@ -242,7 +242,7 @@
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single">
-                    {{ poolTrades }}
+                    {{ pool.TotalTrades }}
                   </div>
                 </div>
               </div>
@@ -255,9 +255,9 @@
               <div class="investors-number__text text-[black] dark:!text-white">
                 <div style="font-size: clamp(10px, 0.8vw, 14px); font-weight: 700">
                   {{
-                    pool?.tokens
-                      ?.map((tokenEntity) => tokenEntity.symbol)
-                      .join(' / ')
+                  pool?.tokens
+                  ?.map((tokenEntity) => tokenEntity.symbol)
+                  .join(' / ')
                   }}
                 </div>
               </div>
@@ -282,9 +282,9 @@
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
-                      pool?.factory?.substring(0, 6) +
-                      '....' +
-                      pool?.factory?.substring(pool?.factory?.length - 4)
+                    pool?.factory?.substring(0, 6) +
+                    '....' +
+                    pool?.factory?.substring(pool?.factory?.length - 4)
                     }}
                   </div>
                   <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
@@ -303,9 +303,9 @@
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
-                      pool?.id?.substring(0, 6) +
-                      '....' +
-                      pool?.id?.substring(pool?.id?.length - 4)
+                    pool?.id?.substring(0, 6) +
+                    '....' +
+                    pool?.id?.substring(pool?.id?.length - 4)
                     }}
                   </div>
                   <a target="_blank" :href="scannerLink">
@@ -325,16 +325,16 @@
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
-                      configService
-                        .getNetworkConfig(networkId)
-                        .addresses.vault.substring(0, 6) +
-                      '....' +
-                      configService
-                        .getNetworkConfig(networkId)
-                        .addresses.vault.substring(
-                          configService.getNetworkConfig(networkId).addresses
-                            .vault.length - 4,
-                        )
+                    configService
+                    .getNetworkConfig(networkId)
+                    .addresses.vault.substring(0, 6) +
+                    '....' +
+                    configService
+                    .getNetworkConfig(networkId)
+                    .addresses.vault.substring(
+                    configService.getNetworkConfig(networkId).addresses
+                    .vault.length - 4,
+                    )
                     }}
                   </div>
                   <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
@@ -354,9 +354,9 @@
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
-                      pool?.owner?.substring(0, 6) +
-                      '....' +
-                      pool?.owner?.substring(pool?.owner?.length - 4)
+                    pool?.owner?.substring(0, 6) +
+                    '....' +
+                    pool?.owner?.substring(pool?.owner?.length - 4)
                     }}
                   </div>
                   <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
@@ -375,8 +375,6 @@
         <div class="diagram-section dark:!bg-[#22222224] !bg-[white]" style="width: 28%" v-if="
           pool &&
           pool.tokens &&
-          tokenPrices &&
-          tokenWeights.length > 0 &&
           pool.id == router.currentRoute.value.params['id']
         ">
           <div class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white]"
@@ -454,12 +452,15 @@
         Pool Analytics
       </div>
       <CRow id="pool-stats-row">
-        <PoolsDetailsDiagrams v-if="assetsPerformance && poolTradesData && poolProfitsData"
-          :tradesData="poolTradesData.tradesData" :tradesTimestamps="poolTradesData.tradesTimestamps"
-          :profitsData="poolProfitsData.profitsData" :profitsTimestamps="poolProfitsData.profitsTimestamps"
+        <PoolsDetailsDiagrams v-if="diagrams_data || (assetsPerformance && poolTradesData && poolProfitsData)"
+          :tradesData="diagrams_data.trades.tradesData ?? poolTradesData.tradesData"
+          :tradesTimestamps="diagrams_data.trades.tradesTimestamps ?? poolTradesData.tradesTimestamps"
+          :profitsData="diagrams_data.profits.profitsData ?? poolProfitsData.profitsData"
+          :profitsTimestamps="diagrams_data.profits.profitsTimestamps ?? poolProfitsData.profitsTimestamps"
           :symbol="currencySymbol" :decimals="currencyDecimals"
-          :assetsPerformanceData="assetsPerformance.assetsPerformanceData" :assetsPerformanceTimestamps="assetsPerformance.assetsPerformanceTimestamps
-            " :tokens="pool.tokens" />
+          :assetsPerformanceData="diagrams_data.assetsPerformance.assetsPerformanceData ?? assetsPerformance.assetsPerformanceData"
+          :assetsPerformanceTimestamps="diagrams_data.assetsPerformance.assetsPerformanceTimestamps ?? assetsPerformance.assetsPerformanceTimestamps"
+          :tokens="pool.tokens" />
         <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-else style="height: 330px; width: 70%">
           <LoaderPulse></LoaderPulse>
         </div>
@@ -468,16 +469,17 @@
       <PrivatePoolsTable :all_activities="poolActivity" />
     </div>
 
-    <PoolDetailsFinancialStatement v-else-if="selectedTab == 'Financial Statement' && pool"
-      :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historical_tvl="historical_tvl"
-      :historicalPrices="historicalPrices" :poolId="poolId" :symbol="currencySymbol" :decimals="currencyDecimals">
+    <PoolDetailsFinancialStatement v-else-if="selectedTab == 'Financial Statement' && financialStatementData"
+      :all_data="financialStatementData" :poolSwapsData="poolSwapsData" :chainSelected="chainSelected"
+      :historical_tvl="historical_tvl" :historicalPrices="historicalPrices" :poolId="poolId" :symbol="currencySymbol"
+      :decimals="currencyDecimals">
     </PoolDetailsFinancialStatement>
 
 
 
     <PortfolioStatistics v-else-if="selectedTab == 'Statistics' && pool" :historical_tvl="historical_tvl" :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
-      " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :chartData="chartData"
-      :historicalPrices="historicalPrices" :userFirstTimestamp="0" :tokenPairs="chainPairs">
+      " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historicalPrices="historicalPrices"
+      :userFirstTimestamp="0" :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
     </PortfolioStatistics>
 
 
@@ -558,7 +560,7 @@ import { setPoolsTvls } from '@/composables/pools/usePools'
 import { GetPoolShares } from '@/composables/pools/usePoolShares'
 import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
 import { getDetailsData } from "@/composables/data/detailsData"
-import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'  
+import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
 
 use([
   CanvasRenderer,
@@ -906,13 +908,15 @@ const poolTrades = computed(() =>
 )
 
 const scannerLink = computed(() => {
-  return `${
-    process.env.VUE_APP_EXPLORER_BINANCE
-  }/address/${pool.value?.id?.substring(0, 42)}`
+  return `${process.env.VUE_APP_EXPLORER_BINANCE
+    }/address/${pool.value?.id?.substring(0, 42)}`
 })
 
 const current_pool_token_prices = ref({})
-
+const diagrams_data = ref(null)
+const financialStatementData = ref(null)
+const poolStatistics = ref(null)
+const poolChartData = ref(null)
 onMounted(async () => {
   if (!process.env.VUE_APP_LOCAL_API) {
     pool.value = await GetSinglePool(
@@ -926,6 +930,10 @@ onMounted(async () => {
   }
   else {
     const data = await getDetailsData(56, poolId)
+    diagrams_data.value = data.diagrams
+    financialStatementData.value = data.financialStatement
+    poolStatistics.value = data.statistics
+    poolChartData.value = data.general.chart
     pool.value = data.general
     console.log("ACTIVITY - ", data.general.activities)
     poolActivity.value = data.general.activities
@@ -1350,16 +1358,15 @@ const dynamicDonut = computed(() => {
   )
 
   let balances = pool.value.tokens.map((t) =>
-    historicalPrices.value
+    t.balanceUsd ?? (historicalPrices.value
       ? t.balance * current_pool_token_prices.value[t.symbol]
-      : 0,
+      : 0),
   )
   console.log(balances)
   let total_balance = balances.reduce((sum, item) => sum + item, 0)
   let data = balances
     .map((b) => parseFloat((b / (total_balance / 100)).toFixed(2)))
     .filter((item) => !isNaN(item))
-  console.log('DATA - ', data)
   return {
     series: data,
     chart: {

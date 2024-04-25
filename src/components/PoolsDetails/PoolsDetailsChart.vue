@@ -6,14 +6,14 @@
       :historical_tvl="FormatHistoricalTvl(historical_tvl)" :chainSelected="chainSelectedName"
       :userBalance="userBalance" />
 
-  <div class="track_chart_card bg-white dark:!bg-[#22222224]">
+    <div class="track_chart_card bg-white dark:!bg-[#22222224]">
       <div v-if="dataRevenues.length == 0" class="chart_inside">
         <LoaderPulse />
       </div>
       <div v-else-if="dataRevenues.length > 0 && selectedOverallTab === 'Overall view'" class="chart_inside">
         <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
           @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
-        <img :src="logo" alt="D3" class="chart-logo" height="40px"/>
+        <img :src="logo" alt="D3" class="chart-logo" height="40px" />
         <VChart ref="chart" class="chart" :option="optionObj" @legendselectchanged="legendSelectedChange"
           :autoresize="true" :notMerge="true" :lazyUpdate="true" :silent="true" />
       </div>
@@ -178,7 +178,7 @@ const preFiltersList = computed(() =>
 
       {
         title: 'Profit',
-        code: 'Profit',
+        code: 'Profits',
         isSolo: true,
         selected: true,
         cumulable: false,
@@ -444,7 +444,18 @@ const dataVolatilityIndexes = computed(() => {
   return []
 })
 
+const dataTvl = computed(() => {
+  if (filteredData.value.length > 0 && filteredData.value[0].TVL)
+    return filteredData.value.map((v) => v.TVL[chainSelectedName.value])
+  return []
+})
 
+
+const dataProfits = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Profits').selected)
+    return filteredData.value.map((v) => v['Profits'])
+  return []
+})
 
 const convertFromNumber = (str) => {
   let number = parseFloat(str)
@@ -617,7 +628,7 @@ const series = computed(() =>
       {
         type: 'line',
         name: 'TVL',
-        data: dataVolatilityIndexes.value,
+        data: dataTvl.value,
         color: '#F07E07',
         sampling: 'lttb',
         areaStyle: {
@@ -646,7 +657,7 @@ const series = computed(() =>
       {
         type: 'bar',
         name: 'Profit',
-        data: dataVolatilityIndexes.value,
+        data: dataProfits.value,
         color: '#05FF00',
         sampling: 'lttb',
         areaStyle: {
