@@ -28,10 +28,10 @@
               <div v-for="(tokenEntry, tokenIndex) in item['Details']" class="details-cell__token-entity"
                 :key="`activity-token-key-${tokenIndex}`">
                 <div v-for="(tokenInfo, tokenInfoIndex) in Object.entries(
-      tokenEntry,
-    )" :class="tokenInfo[0] !== 'action'
-        ? 'details-cell__token-entity'
-        : ''
+                  tokenEntry,
+                )" :class="tokenInfo[0] !== 'action'
+      ? 'details-cell__token-entity'
+      : ''
       " :key="`activity-token-info-key-${tokenInfoIndex}`">
                   <div v-if="tokenInfo[0] !== 'action'" class="d-flex align-items-center">
                     <img :src="getTokenEntity(tokenInfo[0], 'short').icon" class="details-cell__token-entity__icon" />
@@ -39,7 +39,7 @@
                       {{ tokenInfo[1] }}
                     </div>
                     <div v-if="tokenEntry.action === 'Swap' && tokenInfoIndex === 1
-      " style="margin-left: 10px">
+                    " style="margin-left: 10px">
                       <img :src="swapArrowIcon" />
                     </div>
                   </div>
@@ -56,7 +56,7 @@
           <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
             <div class="time-cell">
               <a target="_blank" :href="`${configService.getNetworkConfig(item.chainId).explorer
-      }/tx/${item.Tx}`" class="flex items-center gap-1 text-black dark:!text-white">
+                }/tx/${item.Tx}`" class="flex items-center gap-1 text-black dark:!text-white">
                 {{ item['Time'] }}
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -89,14 +89,8 @@
       </div>
     </Table>
   </CRow>
-    <Pagination
-      :perPage="perPage"
-      :pools="activities"
-      :currentPage="currentPage"
-      @changePage="changePage"
-      @changePerPage="changePerPage"
-      :perPageOptions="[25, 50, 100]"
-    ></Pagination>
+  <Pagination :perPage="perPage" :pools="activities" :currentPage="currentPage" @changePage="changePage"
+    @changePerPage="changePerPage" :perPageOptions="[25, 50, 100]"></Pagination>
 </template>
 <script setup>
 import Tabs from '@/UI/Tabs'
@@ -120,7 +114,7 @@ const { clActivity, wpActivity } = toRefs(props)
 
 const activities = computed(() => {
   let result = props.all_activities ?? []
-  console.log("HERE" - props.all_activities)
+  console.log("HERE", props.all_activities)
   // if (wpActivity.value) {
   //   result.push(...getWpActivity())
   // }
