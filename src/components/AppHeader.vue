@@ -18,7 +18,7 @@
 
       <div v-if="!address">
         <div class="connect_wallet" @click="$emit('toggleSidebar')">
-          Connect
+           {{ $t('connect') }}
         </div>
       </div>
       <div
@@ -405,7 +405,7 @@ const computedAddress = computed(() =>
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
-    font-family: 'Poppins';
+    font-family: 'Montserrat';
 
     &:hover {
       color: #fff;
@@ -426,7 +426,7 @@ const computedAddress = computed(() =>
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
-    font-family: 'Poppins';
+    font-family: 'Montserrat';
 
     &:hover {
       color: #fff;
@@ -790,7 +790,7 @@ const computedAddress = computed(() =>
 
 .vue-input {
   padding-left: 35px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 15px;
   font-weight: 500;
   line-height: 18px;
@@ -850,7 +850,7 @@ input[readonly] {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 12px;
   font-weight: 500;
   line-height: 15px;
@@ -866,7 +866,7 @@ input[readonly] {
   border: 1px solid #00e0ff9e;
   box-shadow: 0px 4px 4px 0px #00e0ff40;
   color: #00e0ff;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 15px;
   font-weight: 600;
   line-height: 18px;
@@ -889,7 +889,7 @@ input[readonly] {
 
   border-radius: 16px;
   padding: 8px 25px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 15px;
   font-weight: 600;
   line-height: 18px;

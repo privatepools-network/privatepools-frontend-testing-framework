@@ -65,7 +65,7 @@ function selectPositionHandler(positionIndex) {
   background: #191919;
   padding: 2px;
   border-radius: 16px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 10px;
   font-weight: 600;
   line-height: 16px;
@@ -81,7 +81,7 @@ function selectPositionHandler(positionIndex) {
 }
 
 .modal_body_header {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;
@@ -298,7 +298,7 @@ function selectPositionHandler(positionIndex) {
 .common_token {
   border-radius: 10px;
   background: #2f303230;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;

@@ -368,7 +368,7 @@ const optionObj = ref({
     textStyle: {
       color: '#777',
       fontSize: '10px',
-      fontFamily: 'Poppins',
+      fontFamily: 'Montserrat',
       fontWeight: 700,
     },
   },

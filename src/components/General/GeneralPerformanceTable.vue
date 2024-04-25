@@ -332,7 +332,7 @@ const headers = [
 
   &_header {
     font-size: clamp(10px, 1vw, 14px);
-    font-family: Poppins;
+    font-family: Montserrat;
     font-weight: 600;
 
     @media (max-width: $xxl) {

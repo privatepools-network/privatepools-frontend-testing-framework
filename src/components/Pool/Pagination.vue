@@ -115,7 +115,7 @@ const isPerPageSelectOpened = ref(false)
     font-size: 15px;
     // color: #ffffff;
     font-weight: 400;
-    font-family: Poppins;
+    font-family: Montserrat;
     @media (max-width: 1400px) {
       font-size: 12px;
     }

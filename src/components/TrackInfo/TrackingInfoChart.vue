@@ -673,7 +673,7 @@ const optionObj = ref({
     textStyle: {
       color: '#ccc',
       fontSize: '10px',
-      fontFamily: 'Poppins',
+      fontFamily: 'Montserrat',
       fontWeight: 700,
     },
   },
@@ -763,7 +763,7 @@ const optionObj = ref({
       axisLabel: {
         textStyle: {
           fontSize: '12px',
-          fontFamily: 'Poppins',
+          fontFamily: 'Montserrat',
         },
         formatter: function (value) {
           return convertFromNumber(value)
@@ -788,7 +788,7 @@ const optionObj = ref({
       axisLabel: {
         textStyle: {
           fontSize: '12px',
-          fontFamily: 'Poppins',
+          fontFamily: 'Montserrat',
         },
         formatter: function (value) {
           return convertFromNumber(value)

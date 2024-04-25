@@ -1,6 +1,6 @@
 <template>
   <div class="my-5 text-black dark:!text-white font-bold text-3xl">
-    How to buy PPN Tokens
+    {{ $t('how_to_buy') }}
   </div>
   <div class="d-flex gap-3 justify-content-center">
     <div

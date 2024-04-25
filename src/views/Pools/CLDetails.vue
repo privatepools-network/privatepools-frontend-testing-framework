@@ -584,7 +584,7 @@
       <div
         class="mb-2 text-[black] dark:!text-white"
         style="
-          font-family: Poppins;
+          font-family: Montserrat;
 
           margin-top: 40px;
 
@@ -1577,7 +1577,7 @@ const dynamicDonut = computed(() => {
             value: {
               show: true,
               fontSize: '35px',
-              fontFamily: 'Poppins',
+              fontFamily: 'Montserrat',
               color: '#999',
               offsetY: 13,
               formatter: function (val) {
@@ -1588,7 +1588,7 @@ const dynamicDonut = computed(() => {
               show: true,
               label: 'Total',
               fontSize: '18px',
-              fontFamily: 'Poppins',
+              fontFamily: 'Montserrat',
               fontWeight: 400,
               color: '#999',
               formatter: function () {
@@ -1674,7 +1674,7 @@ const dynamicDonut = computed(() => {
                   value: {
                     show: true,
                     fontSize: '20px',
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Montserrat',
                     color: '#999',
                     offsetY: 13,
                     formatter: function (val) {
@@ -1685,7 +1685,7 @@ const dynamicDonut = computed(() => {
                     show: true,
                     label: 'Total',
                     fontSize: '12px',
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Montserrat',
                     fontWeight: 400,
                     color: '#999',
                     // formatter: function (w) {
@@ -2399,7 +2399,7 @@ watch(visibleWithdrawModal, (newValue) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 600;
   line-height: 16px;
@@ -2524,7 +2524,7 @@ watch(visibleWithdrawModal, (newValue) => {
   box-shadow: 0px 4px 4px 0px #00000040;
   color: #00e0ff;
   padding: 8px 16px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 14px;
   font-weight: 600;
   line-height: 24px;

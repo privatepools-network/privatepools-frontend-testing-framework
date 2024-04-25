@@ -30,7 +30,7 @@
     <div class="d-flex justify-content-between mt-5 w-100">
       <div class="flex gap-2 footer_text text-black dark:!text-white">
         <div class="flex gap-1 items-center">
-          About
+          {{ $t('about') }}
           <svg
             width="17"
             height="16"
@@ -55,7 +55,7 @@
           </svg>
         </div>
         <div class="flex gap-1 items-center">
-          Docs
+          {{ $t('docs') }}
           <svg
             width="17"
             height="16"
@@ -80,7 +80,7 @@
           </svg>
         </div>
         <div class="flex gap-1 items-center">
-          Bug bounty
+          {{ $t('bug_bounty') }}
           <svg
             width="17"
             height="16"
@@ -105,7 +105,7 @@
           </svg>
         </div>
         <div class="flex gap-1 items-center">
-          Analytics
+          {{ $t('analytics') }}
           <svg
             width="17"
             height="16"
@@ -131,10 +131,10 @@
         </div>
       </div>
       <div class="d-flex gap-3 footer_text text-black dark:!text-white">
-        <div>Terms of Use</div>
-        <div>Privacy Policy</div>
-        <div>Cookies Policy</div>
-        <div>Risks</div>
+        <div>{{ $t('terms_of_use') }}</div>
+        <div>{{ $t('privacy_policy') }}</div>
+        <div>{{ $t('cookies_policy') }}</div>
+        <div>{{ $t('risks') }}</div>
       </div>
     </div>
   </CFooter>
@@ -174,7 +174,7 @@ import twitterIcon from '@/assets/icons/Footer/twitter.svg'
 }
 
 .footer_text {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;

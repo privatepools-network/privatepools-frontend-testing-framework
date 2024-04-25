@@ -229,7 +229,7 @@ const onClickAwayFilters = (event) => {
   cursor: pointer;
   padding: 8px 12px;
   
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 14px;
   font-weight: 400;
   display: flex;

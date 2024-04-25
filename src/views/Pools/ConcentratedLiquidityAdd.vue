@@ -812,7 +812,7 @@ async function removeLiquidityHandler() {
     flex-direction: column;
     padding: 15px 5px;
     // background: #2f303230;
-    font-family: Poppins;
+    font-family: Montserrat;
     font-size: clamp(8px, 0.7vw, 12px);
     font-weight: 400;
     line-height: 18px;
@@ -890,7 +890,7 @@ async function removeLiquidityHandler() {
   width: 50%;
   text-align: center;
   // color: #ffffff;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 14px;
   font-weight: 500;
 
@@ -910,7 +910,7 @@ async function removeLiquidityHandler() {
 }
 
 .liquidity_title {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 20px;
   font-weight: 700;
   line-height: 33px;

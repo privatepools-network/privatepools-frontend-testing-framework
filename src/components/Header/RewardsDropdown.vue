@@ -8,11 +8,11 @@
           <template #popper>
             <div class="header__popup bg-white dark:!bg-[#171717]">
               <h4 class="text-[14px] text-black dark:!text-[#626262] mb-[10px]">
-                Rewards
+                {{ $t('rewards') }}
               </h4>
               <div class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white">
                 <div class="text-[12px] text-black dark:!text-[#626262]">
-                  Pending pool rewards
+                  {{ $t('pending_rewards') }}
                 </div>
                 <div class="flex items-center gap-1">
                   $1.23
@@ -21,16 +21,16 @@
               </div>
               <div class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white">
                 <div class="text-[12px] text-black dark:!text-[#626262]">
-                  Total staked
+                   {{ $t('total_staked') }}
                 </div>
                 <div>
                   $234.34
                 </div>
                 <div class="text-[12px] text-black dark:!text-[#626262]">
-                  in 2 farm(s)
+                  {{ $t('farms') }}
                 </div>
               </div>
-              <div class="rewards_button_dropdown">Claim all pool rewards</div>
+              <div class="rewards_button_dropdown">{{ $t('claim_all_rewards') }}</div>
             </div>
           </template>
         </Dropdown>
@@ -45,7 +45,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
   border-radius: 2px;
   box-shadow: 0px 4px 4px 0px #00000040;
   padding: 5px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
@@ -57,7 +57,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
   cursor: pointer;
   margin-top: 10px;
   border-radius: 2px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
@@ -78,7 +78,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
 
   border-radius: 16px;
   padding: 8px 25px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 15px;
   font-weight: 600;
   line-height: 18px;

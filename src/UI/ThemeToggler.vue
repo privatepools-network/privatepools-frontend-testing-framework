@@ -15,7 +15,7 @@
   {{ console.log('isDark', isDark) }}
   <div class="flex justify-between items-center">
     <span class="text text-black dark:!text-white">
-      Theme
+      {{ $t('theme') }}
     </span>
   <div :class="isDark ? 'theme_container' : 'theme_container_light'">
     <div
@@ -64,7 +64,7 @@ const toggleDark = useToggle(isDark)
 </script>
 <style lang="scss" scoped>
 .text {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 13px;
   font-weight: 400;
   line-height: 44px;

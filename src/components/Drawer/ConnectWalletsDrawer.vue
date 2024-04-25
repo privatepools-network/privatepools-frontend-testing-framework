@@ -1,7 +1,7 @@
 <template>
   <div style="height: 92%;">
     <div class="d-flex align-items-center justify-content-between">
-      <div class="sidebar_header text-black dark:!text-white">Connect wallet</div>
+      <div class="sidebar_header text-black dark:!text-white">{{ $t('connect_wallet') }}</div>
       <div class="sidebar_settings_icon" @click="$emit('toggleSettings')">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -16,8 +16,8 @@
         <div class="wallet_text">MetaMask</div>
       </div>
       <div class="wallet_bottom_text">
-        By connecting a wallet, you agree to Private Pools <a class="wallet_link">Terms of Service</a> and consent to its
-        <a class="wallet_link">Privacy Policy.</a>
+        {{ $t('by_connecting_wallet') }} <a class="wallet_link">{{ $t('and_consent_to_its') }}</a> 
+        <a class="wallet_link">{{ $t('privacy_policy') }}</a>
       </div>
     </div>
   </div>
@@ -103,7 +103,7 @@ async function handleChainChanged() {
 </script>
 <style lang="scss" scoped>
 .sidebar_header {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 14px;
   font-weight: 600;
   line-height: 44px;
@@ -136,7 +136,7 @@ async function handleChainChanged() {
 }
 
 .wallet_text {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;
@@ -144,7 +144,7 @@ async function handleChainChanged() {
 }
 
 .wallet_bottom_text {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 13px;
   font-weight: 400;
   line-height: 24px;

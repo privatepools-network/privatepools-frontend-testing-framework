@@ -29,10 +29,10 @@
       <div class="sidebar_header text-black dark:!text-white">
         {{
           settingsState === 'Language'
-            ? 'Language'
+            ? $t('language')
             : settingsState === 'Currency'
-            ? 'Currency'
-            : 'Settings'
+            ? $t('currency')
+            : $t('settings')
         }}
       </div>
     </div>
@@ -41,7 +41,7 @@
         <div
           class="settings_text text-black dark:!text-white flex items-center justify-between"
         >
-          <div>Hide small balances</div>
+          <div>{{ $t('hide_small_balances') }}</div>
 
           <Toggler :toggle="HideSmallBalances" :label="''" />
         </div>
@@ -50,7 +50,7 @@
           class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
           @click="settingsState = 'Language'"
         >
-          <div>Language</div>
+          <div>{{ $t('language') }}</div>
           <div class="cursor-pointer flex items-center gap-1">
             {{ currentLanguage }}
             <img :src="arrow_right" />
@@ -60,7 +60,7 @@
           class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
           @click="settingsState = 'Currency'"
         >
-          <div>Currency</div>
+          <div>{{ $t('currency') }}</div>
           <div class="cursor-pointer flex items-center gap-1">
             {{currentCurrency}}
             <img :src="arrow_right" />
@@ -99,7 +99,7 @@
           </div>
         </div>
       </div>
-      <div class="wallet_bottom_text">Version: v1.0.0</div>
+      <div class="wallet_bottom_text">{{ $t('version') }}: v1.0.0</div>
     </div>
   </div>
   {{ console.log('currentLanguage', currentLanguage) }}
@@ -153,7 +153,7 @@ const handleChangeLanguage = (lang) => {
 </script>
 <style lang="scss" scoped>
 .sidebar_header {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 14px;
   font-weight: 600;
   line-height: 44px;
@@ -185,7 +185,7 @@ const handleChangeLanguage = (lang) => {
 }
 
 .wallet_text {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;
@@ -193,7 +193,7 @@ const handleChangeLanguage = (lang) => {
 }
 
 .wallet_bottom_text {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 13px;
   font-weight: 400;
   line-height: 24px;
@@ -208,7 +208,7 @@ const handleChangeLanguage = (lang) => {
 }
 
 .settings_text {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 13px;
   font-weight: 400;
   line-height: 44px;

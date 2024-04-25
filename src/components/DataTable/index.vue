@@ -30,7 +30,7 @@
               </div>
               <div @click="
                 $emit('table-header-click', headCaption, headCaptionIndex)
-                " style="font-family: Poppins; font-weight: 700;width: 20px"
+                " style="font-family: Montserrat; font-weight: 700;width: 20px"
                 v-else-if="sortedHeader && sortedHeader.caption == 'Time' || headCaptionIndex != 0 && sortedHeader && sortedHeader.caption">
                 {{
                   sortedHeader &&

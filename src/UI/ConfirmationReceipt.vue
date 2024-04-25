@@ -49,7 +49,7 @@ defineProps(['header_text', 'header_subtext', "link"])
 </script>
 <style lang="scss" scoped>
 .header_text {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;
@@ -58,7 +58,7 @@ defineProps(['header_text', 'header_subtext', "link"])
 }
 
 .header_subtext {
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 14px;
   font-weight: 500;
   line-height: 28px;

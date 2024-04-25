@@ -21,7 +21,7 @@
             <div v-if="!networks_data" class="totals_loader_header">
               <ThreeDots />
             </div>
-            <div v-else style="font-weight: 700; font-family: Poppins; font-size: 17px"
+            <div v-else style="font-weight: 700; font-family: Montserrat; font-size: 17px"
               class="visible_head arbitrage_bot_sections_text dark:!text-white text-black">
               ${{ networks_data.portfolioBalance }}
             </div>
@@ -56,12 +56,12 @@
             </div>
             <div style="
                 font-weight: 700;
-                font-family: Poppins;
+                font-family: Montserrat;
                 color: white;
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Poppins; font-weight: 400"
+                <div style="font-family: Montserrat; font-weight: 400"
                   class="arbitrage_bot_sections_text dark:!text-white text-black">
                   Average APR
                 </div>
@@ -124,12 +124,12 @@
             </div>
             <div style="
                 font-weight: 700;
-                font-family: Poppins;
+                font-family: Montserrat;
                 color: white;
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Poppins; font-weight: 400"
+                <div style="font-family: Montserrat; font-weight: 400"
                   class="arbitrage_bot_sections_text dark:!text-white text-black">
                   Profits Earned
                 </div>
@@ -186,7 +186,7 @@
           <div></div>
           <div style="
               font-weight: 700;
-              font-family: Poppins;
+              font-family: Montserrat;
               color: white;
               width: 100%;
             ">
@@ -396,7 +396,7 @@ const visibleTotalGas = ref(true)
 .arbitrage_bot_header {
   font-size: clamp(10px, 0.7vw, 14px);
   font-weight: 700;
-  font-family: Poppins;
+  font-family: Montserrat;
   color: white;
 }
 
@@ -448,7 +448,7 @@ const visibleTotalGas = ref(true)
   margin-top: 25px;
   margin-bottom: 5px;
   border-radius: 4px;
-  font-family: Poppins;
+  font-family: Montserrat;
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
