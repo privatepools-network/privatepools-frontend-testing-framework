@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center">
         <!-- <img :src="darkpool_logo" /> -->
         <div class="arbitrage_bot_header dark:!text-white text-black">
-          My Portfolio
+           {{ $t('my_portfolio') }}
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
           <div>
             <div class="arbitrage_bot_sections_text dark:!text-white text-black"
               style="margin-top: 10px; margin-bottom: 5px">
-              Investments Breakdown
+              {{ $t('investments_breakdown') }}
             </div>
             <div class="d-flex flex-column gap-1" v-if="networks_data">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between"
@@ -63,7 +63,7 @@
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style="font-family: Montserrat; font-weight: 400"
                   class="arbitrage_bot_sections_text dark:!text-white text-black">
-                  Average APR
+                  {{ $t('average') }} APR
                 </div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
@@ -83,7 +83,7 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>APR 24 Hours</div>
+                <div>APR 24 {{ $t('hours') }}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -92,7 +92,7 @@
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>APR 7 Days</div>
+                <div>APR 7 {{ $t('days') }}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -101,7 +101,7 @@
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>APR 30 Days</div>
+                <div>APR 30 {{ $t('days') }}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -131,7 +131,7 @@
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style="font-family: Montserrat; font-weight: 400"
                   class="arbitrage_bot_sections_text dark:!text-white text-black">
-                  Profits Earned
+                  {{ $t('profits_earned') }}
                 </div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
@@ -151,7 +151,7 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>Volume 24 Hours</div>
+                <div>{{$t('volume')}} 24 {{$t('hours')}}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -160,7 +160,7 @@
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>Volume 7 Days</div>
+                <div>{{$t('volume')}} 7 {{$t('days')}}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -169,7 +169,7 @@
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>Volume 30 Days</div>
+                <div>{{$t('volume')}} 30 {{$t('days')}}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -193,7 +193,7 @@
             <div
               class="dark:!text-white text-black d-flex align-items-center justify-content-between visible_head mt-3">
               <div class="dark:!text-white text-black font-normal text-[12px]">
-                My Rewards
+                {{$t('my_rewards')}}
               </div>
               <div v-if="networks_data" class="dark:!text-white text-black font-extrabold text-[12px]">
                 ${{ networks_data.rewards }}
@@ -205,7 +205,7 @@
           </div>
         </div>
       </div>
-      <div class="referrals_button">Claim Rewards</div>
+      <div class="referrals_button">{{$t('claim_rewards')}}</div>
     </div>
   </div>
 </template>

@@ -19,7 +19,7 @@
             </div>
           </label>
           <div class="dark:!text-white text-black" style="font-size: clamp(12px, 0.8vw, 16px)">
-            Staked only
+            {{ $t('staked_only') }}
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
       <div class="pools-row pools-row_header">
         <div class="pools-row__col" :class="
           // Table headers positioning by header names
-          headCaption === 'Composition' || headCaption === 'Tokens'
+          headCaptionIndex === 0 || headCaptionIndex === 1
             ? 'justify-content-start'
             : 'justify-content-center'
           " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
@@ -49,8 +49,8 @@
       </div>
 
       <div v-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
-        <div>No Results</div>
-        <div>Chose a pool to invest or create a pool to get started.</div>
+        <div>{{ $t('no_results') }}</div>
+        <div>{{ $t('choose_a_pool') }}</div>
       </div>
       <div v-else-if="all_pools.length === 0" class="my-5">
         <LoaderPulse />
@@ -64,7 +64,7 @@
 
       {{ console.log('all_pools', all_pools) }}
       <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
-        Load More
+         {{ $t('load_more') }}
         <img :src="arrow_bottom" />
       </div>
     </div>
@@ -105,28 +105,29 @@ import PoolFilters from '@/components/Pool/PoolFilters.vue'
 import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
 import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 import { getPoolsData } from "@/composables/data/poolsData"
+import { t } from 'i18next'
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 
 const sliceNumber = ref(10)
 
 const headers = [
-  'Tokens',
-  'Composition',
+   t('tokens'),
+  t('composition'),
   'ROI',
   'TVL',
-  'Volume (24h)',
+  `${t('volume')} (24h)`,
   'APR',
-  'Actions',
+  t('actions'),
 ]
 
 const route = useRoute()
 
 const optionsTokens = ref([])
 const optionsPoolType = ref([
-  { name: 'Weighted', selected: false },
+  { name:  'WP', selected: false },
   { name: 'CLP', selected: false },
 ])
-const optionsPoolAttribute = ref([{ name: 'New', selected: false }])
+const optionsPoolAttribute = ref([{ name: t('new'), selected: false }])
 
 const hidePools = ref(false)
 
