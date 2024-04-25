@@ -10,33 +10,24 @@
             @updateChart="(chart_data) => (all_chart_data = chart_data)" />
         </div>
         <Tabs :filterEye="true" style="margin-bottom: 44px"
-          :tabsOptions="['Investments', 'Statistics', 'Financial Statement']" :selectedTab="activeTab"
+          :tabsOptions="[t('investments'), t('statistics'), t('financial_statement')]" :selectedTab="activeTab"
           @changeTab="changeActiveTab"></Tabs>
-        <div class="portfolio-statistics" v-if="activeTab == 'Statistics'">
+        <div class="portfolio-statistics" v-if="activeTab == t('statistics')">
           <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
             :chainSelected="chainSelected" :chartData="portfolioData.chart" :historicalPrices="historicalPrices"
             :userFirstTimestamp="firstUserTimestamp" :tokenPairs="chainPairs" :statistics="portfolioData.statistics">
           </PortfolioStatistics>
         </div>
-        <div class="portfolio-financial-statement" v-else-if="activeTab == 'Financial Statement'">
+        <div class="portfolio-financial-statement" v-else-if="activeTab == t('financial_statement')">
           <PoolDetailsFinancialStatement :all_data="portfolioData.financialStatement" :poolSwapsData="poolSwapsData"
             :chainSelected="chainSelected" :historical_tvl="historical_tvl" :historicalPrices="historicalPrices"
             :poolId="'0x631b9f9996c30ce37c2d57d1704fdc568429ef41'" :symbol="'$'" :decimals="2">
           </PoolDetailsFinancialStatement>
 
-          <!-- <PortfolioFinancialStatement
-            :poolSwapsData="poolSwapsData"
-            :chainSelected="chainSelected"
-            :historical_tvl="historical_tvl"
-            :historicalPrices="historicalPrices"
-            :pools="pools.map((p) => p.id)"
-            :user="account"
-          >
-          </PortfolioFinancialStatement> -->
         </div>
-        <div class="portfolio-table" v-else-if="activeTab == 'Investments'">
+        <div class="portfolio-table" v-else-if="activeTab == t('investments')">
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
-            My Investments
+             {{ $t('investments') }}
           </div>
           <div class="portfolio-table__header">
             <div class="portfolio-table__header__left" style="justify-content: space-between; width: 100%">
@@ -54,13 +45,13 @@
             <div v-else-if="selectedInvestmentData && selectedInvestmentData.length === 0"
               class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20">
               <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
-                No pools yet
+                {{ $t('no_pools_yet') }}
               </div>
               <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
-                Choose a pool to invest or create a pool to get started.
+                {{ $t('invest_to_start_pool') }}
               </div>
               <div class="add_liq_btn_pools">
-                <div class="d-flex gap-1">+ Add liquidity</div>
+                <div class="d-flex gap-1">+ {{ $t('add_liquidity') }}</div>
               </div>
             </div>
             <DataTable v-else :data="selectedInvestmentData" :default_head_captions="investmentHeadCaptions"
@@ -82,9 +73,9 @@
             </DataTable>
           </div>
         </div>
-        <div class="portfolio-table mt-5" v-if="activeTab == 'Investments'">
+        <div class="portfolio-table mt-5" v-if="activeTab == t('investments')">
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
-            Portfolio Activity
+            {{ $t('portfolio_activity') }}
           </div>
 
           <!-- <PortfolioActivityTable :displayActivities="displayActivities" :account="account" :filteredActivities="filteredActivities" /> -->
@@ -140,6 +131,7 @@ import PortfolioBalance from '@/components/portfolio/PortfolioBalance.vue'
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import { getPortfolioData, getPortfolioBalance } from '@/composables/data/portfolioData'
+import { t } from 'i18next'
 
 const clActivity = ref([
   {
@@ -433,7 +425,7 @@ const filteredActivities = computed(() => {
   )
 })
 
-const investementModes = ['Pools', 'Pairs']
+const investementModes = ['Pools', t('Pairs')]
 
 const investmentDataMap = {
   Pools: pools,
@@ -613,13 +605,13 @@ const investmentHeadCaptions = computed(() => {
   }
 })
 
-function changeActivitiesMode(_new) {
-  activitiesSelectedMode.value = _new
-}
+// function changeActivitiesMode(_new) {
+//   activitiesSelectedMode.value = _new
+// }
 
-function changeActPeriodOfData(_new) {
-  actSelectedPeriodOfData.value = _new
-}
+// function changeActPeriodOfData(_new) {
+//   actSelectedPeriodOfData.value = _new
+// }
 
 function changeInvestmentMode(_new) {
   selectedInvestmentsMode.value = _new
@@ -724,7 +716,7 @@ function onDatatableHeaderClick(caption) {
   }
 }
 
-const activeTab = ref('Investments')
+const activeTab = ref(t('investments'))
 
 function changeActiveTab(_new) {
   activeTab.value = _new
