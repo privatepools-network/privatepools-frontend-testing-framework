@@ -61,7 +61,7 @@
 
       <div class="pools-row__col !justify-center text-black dark:!text-white" v-if="isActions">
         <div class="pools-row__dropdown" v-if="visibleDetails == false">
-          Details
+          {{ $t('details') }}
 
           <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -70,7 +70,7 @@
           </svg>
         </div>
         <div class="pools-row__dropdown" :class="{ 'pools-row__dropdown_active': visibleDetails }" v-else>
-          Hide
+          {{ $t('hide') }}
           <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="rotate-180">
             <path
@@ -86,14 +86,14 @@
           <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]" @click="
     addTokenToMetamask(pool.address, lp_name)
     ">
-            Add {{ lp_name }} LP
+            {{ $t('add') }} {{ lp_name }} LP
           </div>
           <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]" @click="
     pool['LiquidityType'] === 'CL'
       ? $emit('goToCLPool', { index, onMountedActivity: 'info' })
       : $emit('goToPool', { index, onMountedActivity: 'info' })
     ">
-            SEE Pool info
+            {{ $t('see_pool_info') }}
             <svg style="margin-left: 5px" width="15" height="15" viewBox="0 0 15 15" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path
@@ -104,19 +104,19 @@
           <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]">
             <a :href="`${etherscan_link}/token/${pool.address}`" target="_blank"
               class="flex items-center gap-1 !text-black dark:!text-white hover:!text-[#03a6e9]">
-              VIEW CONTRACT <img :src="isDark ? etherscan : binanceScanLight" style="margin-left: 5px" /></a>
+              {{ $t('view_contract') }} <img :src="isDark ? etherscan : binanceScanLight" style="margin-left: 5px" /></a>
           </div>
         </div>
         <div v-if="!isUserStaked"
           class="liquidity_button_container text-black dark:!text-white !bg-white dark:!bg-[#171717]">
-          <div class="liquidity_button_text !text-black dark:!text-white">no liquidity deposited</div>
+          <div class="liquidity_button_text !text-black dark:!text-white">{{ $t('no_liquidity_deposited') }}</div>
           <div
             @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { index }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })"
-            class="liquidity_button !text-white" :class="pool['LiquidityType'] === 'CL'
+            class="liquidity_button !text-white uppercase" :class="pool['LiquidityType'] === 'CL'
     ? 'liquidity_button_LP'
     : 'liquidity_button_WP'
     ">
-            ADD LIQUIDITY
+            {{ $t('add_liquidity') }}
           </div>
         </div>
 
@@ -124,11 +124,11 @@
           class="d-flex gap-5 align-items-center liquidity_button_container text-black dark:!text-white !bg-white dark:!bg-[#171717]">
           <div class="details-el__col">
             <div v-if="pool['LiquidityType'] === 'CL'" class="details-el__title d-flex gap-1 align-items-center orange">
-              Concentrated liquidity Pool
+              {{ $t('concentrated_liquidity_pool') }}
               <div class="details-el__circle"></div>
             </div>
             <div v-else class="details-el__title d-flex gap-1 align-items-center purple">
-              Weighted Pool
+              {{ $t('weighted_pool') }}
               <div class="details-el__circle"></div>
             </div>
 
@@ -181,7 +181,7 @@
           </div>
           <div class="details-el__col">
             <div class="details-el__title d-flex gap-1 align-items-center blue">
-              Liquidity Added
+              {{ $t('liquidity_added') }}
               <div class="details-el__circle"></div>
             </div>
             <div style="font-size: 18px; font-weight: 700">$-</div>
@@ -198,7 +198,7 @@
               <div class="actions_button"
                 @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { index, onMountedActivity: 'withdraw' }) : $emit('goToPoolWithdraw', { index, onMountedActivity: 'withdraw' })">
 
-                {{ pool['LiquidityType'] === 'CL' ? 'Add New Position' : 'WITHDRAW' }}
+                {{ pool['LiquidityType'] === 'CL' ? t('add_new_position') : t('withdraw') }}
               </div>
             </div>
           </div>
@@ -207,7 +207,7 @@
           </div>
           <div class="details-el__col">
             <div class="details-el__title d-flex gap-1 align-items-center green">
-              Rewards
+              {{ $t('rewards') }}
               <div class="details-el__circle"></div>
             </div>
             <div style="font-size: 18px; font-weight: 700">
@@ -235,7 +235,7 @@
                   - AAVE - wstETH
                 </div>
               </div>
-              <div class="actions_button text-black dark:!text-white">HARVEST</div>
+              <div class="actions_button text-black dark:!text-white">{{ $t('harvest') }} </div>
             </div>
           </div>
         </div>
@@ -256,6 +256,7 @@ import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import { addTokenToMetamask } from "@/lib/utils/metamask"
 import { useDark } from '@vueuse/core'
 import binanceScanLight from '@/assets/icons/binanceScanLight.svg'
+import { t } from 'i18next'
 
 const isDark = useDark()
 

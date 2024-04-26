@@ -10,7 +10,7 @@
       <div v-if="dataRevenues.length == 0" class="chart_inside">
         <LoaderPulse />
       </div>
-      <div v-else-if="dataRevenues.length > 0 && selectedOverallTab === 'Overall view'" class="chart_inside">
+      <div v-else-if="dataRevenues.length > 0 && selectedOverallTab === t('overall_view')" class="chart_inside">
         <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
           @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
         <img :src="logo" alt="D3" class="chart-logo" height="40px" />
@@ -28,10 +28,10 @@
         </svg>
 
         <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
-          Please add Liquidity to be able to see your own statistics.
+          {{ $t('please_add_liq_to_see') }}
         </div>
         <div class="add_liq_btn_pools">
-          <div class="d-flex gap-1">+ Add liquidity</div>
+          <div class="d-flex gap-1">+ {{ $t('add_liquidity') }}</div>
         </div>
       </div>
     </div>
@@ -82,6 +82,7 @@ import {
 import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { addEmptyDays } from '@/lib/formatter/chart/chartFormatter'
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
+import { t } from 'i18next'
 use([
   CanvasRenderer,
   CandlestickChart,
@@ -130,7 +131,7 @@ const filteredData = computed(() =>
 )
 
 const preFiltersList = computed(() =>
-  props.selectedOverallTab === 'Overall view'
+  props.selectedOverallTab === t('overall_view')
     ? [
       {
         title: 'Revenue',
@@ -477,7 +478,7 @@ const convertFromNumber = (str) => {
 }
 
 const series = computed(() =>
-  props.selectedOverallTab === 'Overall view'
+  props.selectedOverallTab === t('overall_view')
     ? [
       {
         type: 'bar',

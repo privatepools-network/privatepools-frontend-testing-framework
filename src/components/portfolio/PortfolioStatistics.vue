@@ -60,7 +60,7 @@
         </div>
 
         <DataTable :default_head_captions="[
-          'Period',
+          t('period'),
           'ROI',
           'VS USD',
           'VS LIDO',
@@ -153,7 +153,7 @@
         </div>
 
         <DataTable :default_head_captions="[
-          'Period',
+          t('period'),
           'APR',
           'VS USD',
           'VS LIDO',
@@ -193,7 +193,7 @@
         <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
-              Drawdowns
+              {{ $t('drawdowns') }}
             </div>
             <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
               <div style="cursor: help">
@@ -224,7 +224,7 @@
                     width: 400px;
                   ">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">
-                    Dradowns
+                    {{ $t('drawdowns') }}
                   </div>
                   <div style="
                       display: flex;
@@ -286,7 +286,7 @@
         <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
-              Risk Metrics
+              {{ $t('risk_metrics') }}
             </div>
             <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
               <div style="cursor: help">
@@ -317,7 +317,7 @@
                     width: 400px;
                   ">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">
-                    Risk Metrics
+                    {{ $t('risk_metrics') }}
                   </div>
                   <div style="
                       display: flex;
@@ -401,7 +401,7 @@
         <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
-              Profits
+              {{ $t('profits') }}
             </div>
             <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
               <div style="cursor: help">
@@ -431,7 +431,7 @@
                     border-radius: 4px;
                     width: 400px;
                   ">
-                  <div style="font-size: clamp(10px, 0.9vw, 16px)">Profits</div>
+                  <div style="font-size: clamp(10px, 0.9vw, 16px)">{{ $t('profits') }}</div>
                   <div style="
                       display: flex;
                       flex-direction: column;
@@ -524,7 +524,7 @@
                   width: 400px;
                 ">
                 <div style="font-size: clamp(10px, 0.9vw, 16px)">
-                  Assets Breakdown By Type
+                  {{ $t('assets_breakdown') }}
                 </div>
                 <div style="
                     display: flex;
@@ -544,7 +544,7 @@
         </div>
         <div class="diagram-container">
           <div v-if="props.statistics">
-            <apexchart v-if="AssetsChart === 'Assets Breakdown'" :options="dynamicDonut(props.statistics.tokensBreakdown.map((a) => a.name.join('')),
+            <apexchart v-if="AssetsChart === t('assets_breakdown')" :options="dynamicDonut(props.statistics.tokensBreakdown.map((a) => a.name.join('')),
               props.statistics.tokensBreakdown.map((a) => stringToColor(a.name.join(''))),
               props.statistics.tokensBreakdown.map((a) => parseFloat(a.tvl)),
             )
@@ -622,7 +622,7 @@
                   width: 400px;
                 ">
                 <div style="font-size: clamp(10px, 0.9vw, 16px)">
-                  Assets Breakdown By Type
+                 {{ $t('assets_breakdown') }}
                 </div>
                 <div style="
                     display: flex;
@@ -642,7 +642,7 @@
         </div>
         <div class="diagram-container">
           <div v-if="props.statistics">
-            <apexchart v-if="BreakdownChart === 'Pairs Breakdown'" :options="dynamicDonut(props.statistics.pairsBreakdown.map((a) => a.name.join('-')),
+            <apexchart v-if="BreakdownChart === t('pairs_breakdown')" :options="dynamicDonut(props.statistics.pairsBreakdown.map((a) => a.name.join('-')),
               props.statistics.pairsBreakdown.map((a) => stringToColor(a.name.join('-'))),
               props.statistics.pairsBreakdown.map((a) => parseFloat(a.tvl)),
             )" :series="props.statistics.pairsBreakdown.map((a) => parseFloat(a.tvl))" :height="410" :width="415" />
@@ -695,6 +695,7 @@ import { FormatRoiStatistics } from '@/lib/formatter/statistics/roi/statisticsRo
 import { FormatAprStatistics } from '@/lib/formatter/statistics/apr/statisticsAprFormatter'
 import { AnalyzeDrawdowns } from '@/composables/math/chartMath/drawdownMath'
 import ThreeDots from '@/components/loaders/ThreeDots.vue'
+import { t } from 'i18next'
 
 const props = defineProps([
   'chainSelected',
@@ -832,8 +833,8 @@ function dynamicDonut(labels, arrayOfColors, data) {
   }
 }
 
-const AssetsChart = ref('Assets Breakdown')
-const BreakdownChart = ref('Pairs Breakdown')
+const AssetsChart = ref(t('assets_breakdown'))
+const BreakdownChart = ref(t('pairs_breakdown'))
 const datePickerDrawdown = ref([new Date(userFirstTimestamp.value), new Date()])
 const datePickerProfit = ref([new Date(userFirstTimestamp.value), new Date()])
 const datePickerRisks = ref([new Date(userFirstTimestamp.value), new Date()])

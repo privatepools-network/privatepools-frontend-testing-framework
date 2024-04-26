@@ -8,7 +8,7 @@
   <MainCard v-else-if="!visibleDepositComponent && !visibleWithdrawComponent">
     <CRow class="mb-3 mt-4" v-if="pool && pool.tokens">
       <div class="mb-3 text-black dark:!text-white text-[20px] font-bold">
-        Weighted Pool
+        {{ $t('weighted_pool') }}
       </div>
       <div class="d-flex align-items-center" style="justify-content: space-between">
         <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">
@@ -53,11 +53,11 @@
       </div>
       <div class="d-flex justify-content-between align-items-center mt-3">
         <div>
-          <Tabs :filterEye="false" :selectedTab="selectedOverallTab" :tabsOptions="['Overall view', 'My view']"
+          <Tabs :filterEye="false" :selectedTab="selectedOverallTab" :tabsOptions="[t('overall_view'), t('my_view')]"
             @changeTab="changeSelectedOverallTab" />
         </div>
         <div class="rewards_button dark:!bg-[#22222224] !bg-[white]">
-          Rewards
+          {{ $t('rewards') }}
         </div>
       </div>
     </CRow>
@@ -75,13 +75,13 @@
 
     <div style="display: inline-block; margin-bottom: 24px">
       <Tabs :filterEye="true" :selectedTab="selectedTab" :tabsOptions="[
-        'Pool Info',
-        'Financial Statement',
-        'Statistics',
+        t('pool_info'),
+        t('financial_statement'),
+        t('statistics'),
         // 'Pairs & Tokens',
       ]" @changeTab="changeSelectedTab" />
     </div>
-    <div style="display: flex; flex-direction: column" v-if="selectedTab == 'Pool Info'">
+    <div style="display: flex; flex-direction: column" v-if="selectedTab == t('pool_info')">
       <!--      <div class="mb-2" style="-->
       <!--        font-family: Montserrat;-->
       <!--        color: white;-->
@@ -94,7 +94,7 @@
       <!--        Pool Statistics-->
       <!--      </div>-->
       <div class="d-flex align-items-center gap-1">
-        <Title :title="'Pool Statistics'"> </Title>
+        <Title :title="t('pool_statistics')"> </Title>
         <VTooltip :distance="0" :placement="'right'">
           <div style="cursor: help">
             <img :src="info" class="info_icon" />
@@ -110,7 +110,7 @@
                 border-radius: 4px;
                 width: 400px;
               ">
-              <div style="font-size: clamp(10px, 0.9vw, 16px)">Information</div>
+              <div style="font-size: clamp(10px, 0.9vw, 16px)">{{ $t('Information') }}</div>
               <div style="
                   display: flex;
                   flex-direction: column;
@@ -146,10 +146,10 @@
         <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-if="pool && poolActivity" style="width: 70%">
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div class="subsection__item__caption text-[black] dark:!text-white">Pool Creation</div>
+              <div class="subsection__item__caption text-[black] dark:!text-white">{{ $t('pool_creation') }}</div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Created
+                  {{ $t('created') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single">
@@ -162,10 +162,10 @@
               </div>
             </div>
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div class="subsection__item__caption text-[black] dark:!text-white">24h profit</div>
+              <div class="subsection__item__caption text-[black] dark:!text-white">24h {{ $t('profit') }}</div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  All-time high
+                  {{ $t('ATH') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
@@ -188,7 +188,7 @@
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  All-time low
+                  {{ $t('ATL') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
@@ -211,10 +211,10 @@
           </div>
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div class="subsection__item__caption text-[black] dark:!text-white">Lifetime stats</div>
+              <div class="subsection__item__caption text-[black] dark:!text-white">{{ $t('lifetime_stats') }}</div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Volume
+                  {{ $t('volume') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single  flex items-center">
@@ -226,7 +226,7 @@
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Fees
+                  {{ $t('fees') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single  flex items-center">
@@ -238,7 +238,7 @@
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Trades
+                  {{ $t('trades') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single">
@@ -250,7 +250,7 @@
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
               <div class="investors-number__text text-[black] dark:!text-white"
                 style="padding-right: 20%; white-space: nowrap">
-                LP Symbol
+                LP {{ $t('symbol') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
                 <div style="font-size: clamp(10px, 0.8vw, 14px); font-weight: 700">
@@ -264,7 +264,7 @@
             </div>
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
               <div class="investors-number__text text-[black] dark:!text-white">
-                Number of investors
+                {{ $t('number_of_investors') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white"
                 style="font-size: clamp(10px, 0.8vw, 14px)">
@@ -348,7 +348,7 @@
 
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
               <div class="investors-number__text text-[black] dark:!text-white">
-                Pool Owner
+                Pool {{ $t('owner') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
@@ -382,7 +382,7 @@
             <div class="d-flex align-items-center gap-2">
               <div class="d-flex gap-2 text-[black] dark:!text-white">
                 <div style="font-weight: 500; font-size: clamp(10px, 0.8vw, 14px)">
-                  Assets Breakdown
+                  {{ $t('assets_breakdown') }}
                 </div>
               </div>
             </div>
@@ -414,17 +414,15 @@
                     border-radius: 4px;
                     width: 400px;
                   ">
-                  <h6>Information</h6>
+                  <h6>{{ $t('information') }}</h6>
                   <div style="
                       display: flex;
                       flex-direction: column;
                       font-size: 13px;
                     ">
                     <div>
-                      This pie chart illustrates the percentage breakdown of
-                      assets within this pool. It provides a visual
-                      representation of how different assets contribute to the
-                      pool's overall composition.
+                      {{ $t('this_pie_chart_illustrates') }}
+                      
                     </div>
                   </div>
                 </div>
@@ -449,7 +447,7 @@
           line-height: 28px;
           letter-spacing: 0em;
         ">
-        Pool Analytics
+        {{ $t('pool_analytics') }}
       </div>
       <CRow id="pool-stats-row">
         <PoolsDetailsDiagrams v-if="diagrams_data || (assetsPerformance && poolTradesData && poolProfitsData)"
@@ -465,11 +463,11 @@
           <LoaderPulse></LoaderPulse>
         </div>
       </CRow>
-      <Title :title="'Pool Activity'"></Title>
+      <Title :title="t('pool_activity')"></Title>
       <PrivatePoolsTable :all_activities="poolActivity" />
     </div>
 
-    <PoolDetailsFinancialStatement v-else-if="selectedTab == 'Financial Statement' && financialStatementData"
+    <PoolDetailsFinancialStatement v-else-if="selectedTab == t('financial_statement') && financialStatementData"
       :all_data="financialStatementData" :poolSwapsData="poolSwapsData" :chainSelected="chainSelected"
       :historical_tvl="historical_tvl" :historicalPrices="historicalPrices" :poolId="poolId" :symbol="currencySymbol"
       :decimals="currencyDecimals">
@@ -477,7 +475,7 @@
 
 
 
-    <PortfolioStatistics v-else-if="selectedTab == 'Statistics' && pool" :historical_tvl="historical_tvl" :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
+    <PortfolioStatistics v-else-if="selectedTab == t('statistics') && pool" :historical_tvl="historical_tvl" :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
       " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historicalPrices="historicalPrices"
       :userFirstTimestamp="0" :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
     </PortfolioStatistics>
@@ -561,6 +559,7 @@ import { GetPoolShares } from '@/composables/pools/usePoolShares'
 import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
 import { getDetailsData } from "@/composables/data/detailsData"
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
+import { t } from 'i18next'
 
 use([
   CanvasRenderer,
@@ -579,7 +578,7 @@ const PoolsDetailsDiagrams = defineAsyncComponent(() =>
   import('@/components/PoolsDetailsDiagrams/index.vue'),
 )
 
-const selectedOverallTab = ref('My view')
+const selectedOverallTab = ref(t('overall_view'))
 
 function changeSelectedOverallTab(_new) {
   selectedOverallTab.value = _new
@@ -930,7 +929,7 @@ function formatChartData(formatted_tvl, formatted_token_snapshots, chart_data) {
   }
 }
 
-const selectedTab = ref('Pool Info')
+const selectedTab = ref(t('pool_info'))
 
 function changeSelectedTab(_new) {
   selectedTab.value = _new

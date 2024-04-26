@@ -32,7 +32,7 @@
     </div>
     {{ console.log('clActivity', clActivity) }}
     {{ console.log('joinExits', joinExits) }}
-    <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" :all_activities="allData.activities ? allData.activities.slice(0,25) : []" />
+    <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" :all_activities="allData.activities ? allData.activities : []" />
 
   </MainCard>
 </template>
