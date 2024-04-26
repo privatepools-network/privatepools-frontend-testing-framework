@@ -65,7 +65,7 @@
     </div>
 
     <CRow class="mb-5">
-      <PoolsDetailsChart :selectedOverallTab="selectedOverallTab" :changeToDepositView="changeToDepositView"
+      <PoolsDetailsChart :selectedOverallTab="'Overall view'" :changeToDepositView="changeToDepositView"
         :changeToWithdrawView="changeToWithdrawView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices"
         :pool="pool" :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="poolChartData"
         :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected"
@@ -211,7 +211,7 @@
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single  flex items-center">
                     <CurrencySymbol />{{
-                    formatBigNumber(poolVolume, currencyDecimals)
+                      formatBigNumber(poolVolume, currencyDecimals)
                     }}
                   </div>
                 </div>
@@ -223,7 +223,7 @@
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single  flex items-center">
                     <CurrencySymbol />{{
-                    formatBigNumber(poolFees, currencyDecimals)
+                      formatBigNumber(poolFees, currencyDecimals)
                     }}
                   </div>
                 </div>
@@ -247,9 +247,9 @@
               <div class="investors-number__text text-[black] dark:!text-white">
                 <div style="font-size: clamp(10px, 0.8vw, 14px); font-weight: 700">
                   {{
-                  pool?.tokens
-                  ?.map((tokenEntity) => tokenEntity.symbol)
-                  .join(' / ')
+                    pool?.tokens
+                      ?.map((tokenEntity) => tokenEntity.symbol)
+                      .join(' / ')
                   }}
                 </div>
               </div>
@@ -274,11 +274,11 @@
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
-                    POOL_FACTORY_CONTRACT_ADDRESS.substring(0, 6) +
-                    '....' +
-                    POOL_FACTORY_CONTRACT_ADDRESS.substring(
-                    POOL_FACTORY_CONTRACT_ADDRESS.length - 4,
-                    )
+                      POOL_FACTORY_CONTRACT_ADDRESS.substring(0, 6) +
+                      '....' +
+                      POOL_FACTORY_CONTRACT_ADDRESS.substring(
+                        POOL_FACTORY_CONTRACT_ADDRESS.length - 4,
+                      )
                     }}
                   </div>
                   <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
@@ -297,9 +297,9 @@
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
-                    pool?.id?.substring(0, 6) +
-                    '....' +
-                    pool?.id?.substring(pool?.id?.length - 4)
+                      pool?.id?.substring(0, 6) +
+                      '....' +
+                      pool?.id?.substring(pool?.id?.length - 4)
                     }}
                   </div>
                   <a target="_blank" :href="scannerLink">
@@ -317,11 +317,11 @@
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
-                    V3_SWAP_ROUTER_ADDRESS.substring(0, 6) +
-                    '....' +
-                    V3_SWAP_ROUTER_ADDRESS.substring(
-                    V3_SWAP_ROUTER_ADDRESS.length - 4,
-                    )
+                      V3_SWAP_ROUTER_ADDRESS.substring(0, 6) +
+                      '....' +
+                      V3_SWAP_ROUTER_ADDRESS.substring(
+                        V3_SWAP_ROUTER_ADDRESS.length - 4,
+                      )
                     }}
                   </div>
                   <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
@@ -340,9 +340,9 @@
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
-                    pool?.owner?.substring(0, 6) +
-                    '....' +
-                    pool?.owner?.substring(pool?.owner?.length - 4)
+                      pool?.owner?.substring(0, 6) +
+                      '....' +
+                      pool?.owner?.substring(pool?.owner?.length - 4)
                     }}
                   </div>
                   <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
@@ -563,252 +563,6 @@ use([
 const PoolsDetailsDiagrams = defineAsyncComponent(() =>
   import('@/components/PoolsDetailsDiagrams/index.vue'),
 )
-
-const clActivity = ref([
-  {
-    Actions: 'Swap',
-    Details: [
-      {
-        action: 'Swap',
-        ETH: '-0.00',
-        USDT: '0.00',
-      },
-    ],
-    Value: '0',
-    Time: '1 month ago',
-    Tx: '0x049538159d5f10f741626caaf6cef43a0c58f396286d96fa727116da20bdad5d',
-    timestamp: '1708532754',
-    chainId: 56,
-    chain: 'Binance',
-  },
-  {
-    Actions: 'Swap',
-    Details: [
-      {
-        action: 'Swap',
-        BTCB: '0.00',
-        WBNB: '-0.02',
-      },
-    ],
-    Value: '0',
-    Time: '9 days ago',
-    Tx: '0x085edbdad9c6d433d4cd3d006c088ada94f2994dd6a07cb0131827168833cd4e',
-    timestamp: '1711363947',
-    chainId: 56,
-    chain: 'Binance',
-  },
-])
-const joinExits = ref([
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: [
-      '13.465999999999999304',
-      '0.001',
-      '0.001',
-      '0',
-      '0.001',
-      '0',
-      '0.001',
-      '0.001',
-    ],
-    pool: {
-      tokens: [
-        {
-          symbol: 'Cake',
-        },
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'XRP',
-        },
-        {
-          symbol: 'ETH',
-        },
-        {
-          symbol: 'ADA',
-        },
-        {
-          symbol: 'DOT',
-        },
-        {
-          symbol: 'INJ',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '0',
-    type: 'Join',
-    timestamp: 1702503184,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: [
-      '7.554760289442242907',
-      '3.770726094964460187',
-      '0.006792699854304051',
-      '1.176872358543111302',
-    ],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '1137.184818600137953607662435191093',
-    type: 'Exit',
-    timestamp: 1702639931,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['0.307402', '0.158687', '0.000289', '0.04967'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '47.93505265238665018797586063640085',
-    type: 'Exit',
-    timestamp: 1702646626,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['3.096000000000000085', '0', '0', '0'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '41.84800387934665651679103821900545',
-    type: 'Join',
-    timestamp: 1702638092,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['0.19', '1.8', '0.0003', '0.5'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'DOT',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'INJ',
-        },
-      ],
-    },
-    valueUSD: '0',
-    type: 'Join',
-    timestamp: 1702469234,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0xdd2ee0c16f58dc53ebec021dae05cecf8051373f',
-    },
-    amounts: ['0.2', '3', '0.3', '0.005'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'USDT',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '3',
-    type: 'Join',
-    timestamp: 1702602127,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['0.239010698854900089', '0.000005451740851665'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'USDT',
-        },
-        {
-          symbol: 'BTCB',
-        },
-      ],
-    },
-    valueUSD: '0.4730702492177080825503071512930907',
-    type: 'Exit',
-    timestamp: 1702647027,
-    chain: 'Binance',
-    chainId: 56,
-  },
-])
 
 const currencySelected = ref({ symbol: '$', code: 'USD' })
 const currency = computed(() => currencySelected.value.code)
@@ -1577,63 +1331,9 @@ function changeToDepositView(id) {
   visibleDepositComponent.value = !visibleDepositComponent.value
 }
 
-function changeVisibleDeposit() {
-  visibleDepositModal.value = !visibleDepositModal.value
-}
-
-function changeVisibleWithdraw() {
-  visibleWithdrawModal.value = !visibleWithdrawModal.value
-}
-
 watch(visibleWithdrawModal, (newValue) => {
   console.log('visibleWithdrawModal changed:', newValue)
 })
-
-// let poolsData = ref()
-// let historicValues = ref()
-// let historicTvl = ref()
-// let defaultPools = ref()
-
-// async function InitPoolsData(network) {
-//   return await Promise.all([
-//     GetPools(network, null, true, true),
-//     GetPoolSwapsData(null, network),
-//     GetPoolHistoricValues(null, network),
-//     GetHistoricalTvl(network),
-//   ])
-// }
-
-// onMounted(async () => {
-//   const networks = [
-//     process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined,
-//     process.env.VUE_APP_KEY_BINANCE ? Network.BINANCE : undefined,
-//     process.env.VUE_APP_KEY_POLYGON ? Network.POLYGON : undefined,
-//   ].filter((n) => n != undefined)
-
-//   const networksInfo = await Promise.all(
-//     networks.map((network) => InitPoolsData(network)),
-//   )
-//   poolsData.value = networks.map((n, index) => networksInfo[index][0]).flat()
-//   poolSwapsData.value = networks
-//     .map((n, index) => networksInfo[index][1])
-//     .flat()
-//   historicValues.value = networks
-//     .map((n, index) => networksInfo[index][2])
-//     .flat()
-//   historicTvl.value = networks.map((n, index) => networksInfo[index][3]).flat()
-//   let _defaultPools = FormatPoolsData(
-//     poolsData.value,
-//     poolSwapsData.value,
-//     historicValues.value,
-//     false,
-//   )
-//   console.log(_defaultPools)
-//   FormatPoolsApr(_defaultPools, historicTvl.value, poolSwapsData.value)
-//   defaultPools.value = _defaultPools
-//   poolSwapsData.value = poolSwapsData.value.filter(
-//     (t) => t.swaps[0].poolIdVault[0] == poolId,
-//   )
-// })
 </script>
 
 <style lang="scss" scoped>

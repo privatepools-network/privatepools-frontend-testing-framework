@@ -32,7 +32,7 @@
     </div>
     {{ console.log('clActivity', clActivity) }}
     {{ console.log('joinExits', joinExits) }}
-    <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" :all_activities="allData.activities" />
+    <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" :all_activities="allData.activities ? allData.activities.slice(0,25) : []" />
 
   </MainCard>
 </template>
@@ -104,7 +104,7 @@ onBeforeMount(async () => {
   }
   else {
     allData.value = await getGeneralData(56);
-    historicalPrices.value = await GetHistoricalTokenPrices(allData.value.topTradingTokens.map((item) => item.symbol), true, 500, currency.value)
+   // historicalPrices.value = await GetHistoricalTokenPrices(allData.value.topTradingTokens.map((item) => item.symbol), true, 500, currency.value)
     console.log(allData.value)
   }
 })

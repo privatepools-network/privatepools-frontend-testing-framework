@@ -1497,25 +1497,12 @@ function getFilteredData() {
             : 0
         }
       }
-
-      // else {
-      //   result_item['Blockchain'] = ''
-      //   if (isCumulativeMode.value && selectedFilters[k].cumulable) {
-      //     result_item[filter_code] =
-      //       result.length == 0 ? 0 : result[result.length - 1][filter_code]
-      //   } else result_item[filter_code] = 0
-      // }
     }
     result.push(result_item)
   }
   console.log('result', result)
   return result
 }
-
-onMounted(() => {
-  InitTreasuryYields()
-
-})
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';

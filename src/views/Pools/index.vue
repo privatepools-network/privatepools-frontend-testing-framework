@@ -58,13 +58,14 @@
 
 
       <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
-        :userPools="user_staked_pools" :inactive="isPoolInactive(pool)" :index="index"
-        @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
-        @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
+        :userPools="all_pools.filter((item) => user_staked_pools.map((p) => p.id).includes(item.id))"
+        :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
+        @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"
+        :isActions="true" />
 
       {{ console.log('all_pools', all_pools) }}
       <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
-         {{ $t('load_more') }}
+        {{ $t('load_more') }}
         <img :src="arrow_bottom" />
       </div>
     </div>
@@ -111,7 +112,7 @@ const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 const sliceNumber = ref(10)
 
 const headers = [
-   t('tokens'),
+  t('tokens'),
   t('composition'),
   'ROI',
   'TVL',
@@ -124,7 +125,7 @@ const route = useRoute()
 
 const optionsTokens = ref([])
 const optionsPoolType = ref([
-  { name:  'WP', selected: false },
+  { name: 'WP', selected: false },
   { name: 'CLP', selected: false },
 ])
 const optionsPoolAttribute = ref([{ name: t('new'), selected: false }])

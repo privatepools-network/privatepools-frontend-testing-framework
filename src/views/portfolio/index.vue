@@ -27,7 +27,7 @@
         </div>
         <div class="portfolio-table" v-else-if="activeTab == t('investments')">
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
-             {{ $t('investments') }}
+            {{ $t('investments') }}
           </div>
           <div class="portfolio-table__header">
             <div class="portfolio-table__header__left" style="justify-content: space-between; width: 100%">
@@ -80,7 +80,7 @@
 
           <!-- <PortfolioActivityTable :displayActivities="displayActivities" :account="account" :filteredActivities="filteredActivities" /> -->
           <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits"
-            :all_activities="portfolioData.activity" />
+            :all_activities="portfolioData.activity ? portfolioData.activity.slice(0, 25) : []" />
         </div>
       </div>
     </CRow>
@@ -895,7 +895,7 @@ async function InitNetworksData() {
 const portfolioData = ref({})
 const balanceData = ref({})
 onMounted(async () => {
-  InitTreasuryYields()
+  //InitTreasuryYields()
   if (window.ethereum !== undefined) {
     let provider = new ethers.providers.Web3Provider(window.ethereum)
     networksSupported.value = await provider.getNetwork()
@@ -921,8 +921,8 @@ onMounted(async () => {
   if (mmProvider) {
     account.value = await mmProvider.getSigner().getAddress()
     if (process.env.VUE_APP_LOCAL_API) {
-      portfolioData.value = await getPortfolioData(56, "0x759ee62a73a8a0690a0e20fc489d3f462b4385c0")
-      balanceData.value = await getPortfolioBalance(56, "0x759ee62a73a8a0690a0e20fc489d3f462b4385c0")
+      portfolioData.value = await getPortfolioData(56, account.value)
+      balanceData.value = await getPortfolioBalance(56, account.value)
       console.log("PORTFOLIO DATA - ", portfolioData.value)
     }
   }

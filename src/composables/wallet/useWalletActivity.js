@@ -6,7 +6,7 @@ import {
   POOL_FACTORY_CONTRACT_ADDRESS,
   V3_SWAP_ROUTER_ADDRESS,
 } from '../concentrated-liquidity/constants'
-const ETHERSCAN_KEY = `Y8I1PHGDYXFZ9UMUWMWUR2HZVBS4RYJDE8`
+import { BACKEND_URL } from '../pools/mappings'
 
 const PPContracts = [
   POOL_FACTORY_CONTRACT_ADDRESS,
@@ -18,11 +18,10 @@ const PPContracts = [
   process.env.VUE_APP_WEIGHTED_POOL_FACTORY_POLYGON,
 ]
 
-console.log('PPContracts', PPContracts)
-
-export async function useWalletActivity(account, provider) {
-  const url = `https://api.bscscan.com/api?module=account&action=txlist&address=${account}&startblock=0&endblock=99999999999&page=1&offset=500&sort=desc&apikey=${ETHERSCAN_KEY}`
-  let response = await axios.get(url)
+export async function useWalletActivity(account, network) {
+  let response = await axios.get(
+    `${BACKEND_URL[network]}/portfolio/activity/${account}`,
+  )
   let txs = response.data.result
   // console.log('txs', txs)
   let formattedTxs = []
