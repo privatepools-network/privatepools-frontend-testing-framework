@@ -9,7 +9,7 @@
 
 
   <CRow id="pool-activity-row" class="table-wrapper">
-    <Table :headers="['Actions', 'Details', 'Value', 'Time']">
+    <Table :headers="[t('actions'), t('details'), t('value'), t('time')]">
       <CTableBody v-if="activities" class="text-black dark:!text-white"
         :class="isDark ? 'table-body' : 'table-body-light'">
         <CTableRow v-for="(item, i) in activities" :key="i" class="table-row">
@@ -106,6 +106,7 @@ import SwapIcon from '@/assets/icons/TableAction/SwapIcon.svg'
 import swapArrowIcon from '@/assets/icons/TableAction/swapArrowIcon.svg'
 import { useDark } from '@vueuse/core'
 import Pagination from '../Pool/Pagination.vue'
+import { t } from 'i18next'
 
 const isDark = useDark()
 
@@ -126,7 +127,7 @@ const activities = computed(() => {
   return result
     .filter(
       (item) =>
-        activitiesSelectedMode.value == 'All' ||
+        activitiesSelectedMode.value == t('all') ||
         activitiesSelectedMode.value == item.Actions,
     )
     .filter((item) => item.timestamp >= filtered_time_ago)
@@ -222,11 +223,11 @@ const periodsOfData = [
   },
   {
     number: 3153600000,
-    title: 'All Time',
+    title: t('all_time'),
   },
 ]
 
-const activitiesModes = ['All', 'Deposit', 'Trades', 'Harvest', 'Withdraw']
+const activitiesModes = [t('all'), t('deposit'), t('trades'), t('harvest'), t('withdraw')]
 
 const activitiesSelectedMode = ref(activitiesModes[0])
 const actSelectedPeriodOfData = ref(periodsOfData[4])

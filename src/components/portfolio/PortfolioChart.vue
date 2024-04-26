@@ -19,13 +19,13 @@
         </svg>
 
         <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
-          No data available
+           {{ $t('no_data_available') }}
         </div>
         <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
-          Choose a pool to invest or create a pool to get started.
+          {{ $t('invest_to_start_pool') }}
         </div>
         <div class="add_liq_btn_pools">
-          <div class="d-flex gap-1">+ Add liquidity</div>
+          <div class="d-flex gap-1">+ {{ $t('add_liquidity') }}</div>
         </div>
       </div>
       <div v-else class="chart_inside">

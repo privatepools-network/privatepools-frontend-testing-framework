@@ -34,19 +34,19 @@
                 @click="selectedTab = 'Buy'"
                 :class="selectedTab === 'Sell' ? 'buy_tab dark:!text-[#5e6673] text-black dark:!bg-[#2b3139] bg-[#CBCBCB]' : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#171717]'"
               >
-                Buy
+                {{ $t('buy') }}
               </div>
               <div
                 @click="selectedTab = 'Sell'"
                 :class="selectedTab === 'Buy' ? 'buy_tab dark:!text-[#eaecef] text-black dark:!bg-[#2b3139] bg-[#CBCBCB]' : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#171717]'"
               >
-                Sell
+                {{ $t('sell') }}
               </div>
             </div>
             <div class="d-flex flex-column gap-3 p-4">
               <div class="selector_button dark:!bg-[#22222224] bg-white dark:!text-[#eaecef] text-black">
                 <div class="d-flex flex-column gap-2">
-                  <div>Spend</div>
+                  <div>{{ $t('spend') }}</div>
                   <input
                     v-if="selectedTab === 'Buy'"
                     type="number"
@@ -87,7 +87,7 @@
                   class="d-flex flex-column gap-2"
                 >
                   <div style="color: #7d7d7d; font-size: 12px">
-                    Balance:
+                    {{ $t('balance') }}:
                     {{
                       selectedTab === 'Buy'
                         ? `${tokenCurrency.balance.toFixed(4)} ${
@@ -132,7 +132,7 @@
               </div>
               <div class="selector_button dark:!bg-[#22222224] bg-white dark:!text-[#eaecef] text-black">
                 <div class="d-flex flex-column gap-2">
-                  <div>Receive</div>
+                  <div>{{ $t('receive') }}</div>
                   <input
                     v-if="selectedTab == 'Buy'"
                     type="number"
@@ -173,7 +173,7 @@
                   class="d-flex flex-column gap-2"
                 >
                   <div style="color: #7d7d7d; font-size: 12px">
-                    Balance:
+                    {{ $t('balance') }}:
                     {{
                       selectedTab === 'Sell'
                         ? `${tokenCurrency.balance.toFixed(4)} ${
@@ -217,7 +217,7 @@
                 </div>
               </div>
               <div class="referrals_button" @click="buyClick()">
-                {{ selectedTab === 'Sell' ? 'Sell' : 'Buy' }}
+                {{ selectedTab === 'Sell' ? $t('sell') : $t('buy')  }}
               </div>
             </div>
           </div>
@@ -255,16 +255,16 @@
       <div
         class=" mt-[160px] mb-5 dark:!text-white text-black text-3xl font-bold"
       >
-        Private Pool Network Token
+        {{ $t('private_pool_network_token') }}
       </div>
       <div class="d-flex gap-5">
-        <div class="buy_balance_container dark:!bg-[#22222224] bg-white dark:!text-white text-black">
-          <div class="text-lg font-bold">$PPN Token</div>
+        <div class="buy_balance_container w-full dark:!bg-[#22222224] bg-white dark:!text-white text-black">
+          <div class="text-lg font-bold">$PPN {{ $t('token') }}</div>
           <div class="d-flex justify-content-between mt-3">
             <div class="d-flex justify-content-between w-100 gap-3">
               <div>
                 <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
-                  PPN Price
+                  PPN {{ $t('price') }}
                   <svg
                     width="12"
                     height="12"
@@ -285,7 +285,7 @@
 
               <div>
                 <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
-                  Market Cap
+                  {{ $t('market_cap') }}
                   <svg
                     width="12"
                     height="12"
@@ -308,7 +308,7 @@
 
               <div>
                 <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
-                  Volume
+                  {{ $t('volume') }}
                   <svg
                     width="12"
                     height="12"
@@ -329,7 +329,7 @@
 
               <div>
                 <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
-                  Circulation Supply
+                  {{ $t('circulating_supply') }}
                   <svg
                     width="12"
                     height="12"
@@ -350,14 +350,8 @@
             </div>
           </div>
           <div class="ppn_token_desc   dark:!text-[#b7bdc6] text-black">
-            PPN is a blockchain gaming ecosystem. Gamers can explore different
-            type of games and have their experiences interact across each other
-            on the Gala platform. The PPN token is the utility token and primary
-            medium of exchange of the ecosystem. PPN is a blockchain gaming
-            ecosystem. Gamers can explore different type of games and have their
-            experiences interact across each other on the Gala platform. The PPN
-            token is the utility token and primary medium of exchange of the
-            ecosystem.
+            {{ $t('ppn_is_desription_buy_page') }}
+            
           </div>
         </div>
       </div>

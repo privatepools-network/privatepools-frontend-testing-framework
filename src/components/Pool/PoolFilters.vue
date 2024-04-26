@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center gap-3">
     <div v-click-away="onClickAway">
       <div
-        class="filter_button bg-white dark:!bg-[#090909] text-black dark:!text-white w-[150px]"
+        class="filter_button bg-white dark:!bg-[#090909] text-black dark:!text-white w-[190px]"
         :style="
           selectTokenDropdownOpen === true
             ? 'border-radius: 16px 16px 0px 0px;'
@@ -22,7 +22,7 @@
             class="fill-black dark:!fill-[#F8F8F8]"
           />
         </svg>
-        Select token
+        {{ $t('select_token') }}
       </div>
       <div
         v-if="selectTokenDropdownOpen === true"
@@ -67,7 +67,7 @@
     </div>
     <div v-click-away="onClickAwayFilters">
       <div
-        class="filter_button bg-white dark:!bg-[#090909] text-black dark:!text-white w-[150px]"
+        class="filter_button bg-white dark:!bg-[#090909] text-black dark:!text-white w-[190px]"
         :style="
           moreFiltersDropdownOpen === true
             ? 'border-radius: 16px 16px 0px 0px;'
@@ -92,14 +92,14 @@
           />
         </svg>
 
-        More filters
+        {{ $t('more_filters') }}
       </div>
       <div
         v-if="moreFiltersDropdownOpen === true"
         class="select_token_dropdown bg-white dark:!bg-[#090909] text-black dark:!text-white"
       >
         <div class="text-[13px] font-bold">
-          Pool Type
+          {{ $t('pool_type') }}
         </div>
         <div v-for="(item, i) in optionsPoolType" :key="`${i}-pooltype-search`">
           <div
@@ -136,7 +136,7 @@
           </div>
         </div>
         <div class="text-[13px] font-bold">
-          Pool attributes
+          {{ $t('pool_attr') }}
         </div>
         <div
           v-for="(item, i) in optionsPoolAttribute"
@@ -168,7 +168,6 @@
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  style="margin-top: -11px"
                 >
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
@@ -234,6 +233,7 @@ const onClickAwayFilters = (event) => {
   font-weight: 400;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
@@ -245,7 +245,7 @@ const onClickAwayFilters = (event) => {
   position: absolute;
   // background: black;
   padding: 11.5px;
-  width: 150px;
+  width: 190px;
   height: 160px;
   overflow-y: auto;
   font-family: Segoe UI;

@@ -2,10 +2,10 @@
   <div class="portfolio-header">
     <div class="portfolio-header__title">
       <div class="mb-4 text-[22px] font-bold text-black dark:!text-white">
-        My Portfolio
+         {{ $t('my_portfolio') }}
       </div>
       <div class="flex items-center text-black dark:!text-white">
-        <span>Current balance</span>
+        <span>{{ $t('current_balance') }}</span>
         <svg
           @click="isBalanceHidden = !isBalanceHidden"
           xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@
     <div class="portfolio-stats__el">
       <div class="portfolio-stats__info">
         <div class="portfolio-stats__title dark:!text-[#e1e1e1] text-black">
-          My rewards
+          {{ $t('my_rewards') }}
           <span class="portfolio-header__variation-period !text-white">
             24H
           </span>
@@ -79,7 +79,7 @@
           > -->
           <span
             class="portfolio-header__amount-percents"
-            >Unavailable
+            >{{ $t('unavailable') }}
           </span>
         </div>
       </div>
@@ -98,7 +98,7 @@
 
       <div class="portfolio-stats__info">
         <div class="portfolio-stats__title dark:!text-[#e1e1e1] text-black">
-          Best performer
+          {{ $t('best_performer') }}
         </div>
         <div
           class="portfolio-stats__amount portfolio-stats__amount_success flex items-center"
@@ -122,7 +122,7 @@
           <span
             v-else-if="performers.best === undefined"
             class="portfolio-header__amount-percents"
-            >Unavailable
+            >{{ $t('unavailable') }}
           </span>
           <div v-else class="mt-3">
             <ThreeDots></ThreeDots>
@@ -142,7 +142,7 @@
       </div>
       <div class="portfolio-stats__info">
         <div class="portfolio-stats__title dark:!text-[#e1e1e1] text-black">
-          Worst performer
+          {{ $t('worst_performer') }}
         </div>
         <div
           class="portfolio-stats__amount portfolio-stats__amount_danger flex items-center"
@@ -166,7 +166,7 @@
           <span
             v-else-if="performers.worst === undefined"
             class="portfolio-header__amount-percents"
-            >Unavailable
+            >{{ $t('unavailable') }}
           </span>
           <div v-else class="mt-3">
             <ThreeDots></ThreeDots>

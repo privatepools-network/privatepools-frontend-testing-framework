@@ -10,7 +10,7 @@
         "
         @click="composePoolDropdownOpen = !composePoolDropdownOpen"
       >
-        Compose Pool
+        {{ $t('compose') }} Pool
         <svg
           :style="composePoolDropdownOpen ? 'transform: rotate(180deg)' : ''"
           width="10"
@@ -28,7 +28,7 @@
       </div>
       <div
         v-if="composePoolDropdownOpen === true"
-        class="compose_pool_dropdown bg-white dark:!bg-black  text-black dark:!text-white"
+        class="compose_pool_dropdown w-[143px] bg-white dark:!bg-black  text-black dark:!text-white"
       >
         <div
           @click="onClickConcentratedPool"
@@ -57,7 +57,7 @@
           </svg>
         </div>
         <div @click="onClick" class="compose_pool_dropdown_text">
-          Weighted Pools
+          WP Pools
           <svg
             width="12"
             height="12"

@@ -22,22 +22,23 @@
 import firstIcon from '@/assets/icons/howToCards/1.svg'
 import secondIcon from '@/assets/icons/howToCards/2.svg'
 import thirdIcon from '@/assets/icons/howToCards/3.svg'
+import { t } from 'i18next';
 import { ref } from 'vue'
 
 const howToBuyCards = ref([
   {
-    name: '1. Enter Amount & Select Currency',
-    desc: 'Enter the amount and select the desired currency to trade for PPN tokens.',
+    name: t('how_to_buy_cards_1_name'),
+    desc: t('how_to_buy_cards_1_desc'),
     icon: firstIcon,
   },
   {
-    name: '2. Confirm Swap',
-    desc: 'Confirmation of transaction detail information, including trading pair quotes, fees, and other explanatory tips.',
+    name: t('how_to_buy_cards_2_name'),
+    desc: t('how_to_buy_cards_2_desc'),
     icon: secondIcon,
   },
   {
-    name: '3. Receive PPN Tokens',
-    desc: 'After successful swapping, the PPN Tokens will reach your wallet.',
+    name: t('how_to_buy_cards_3_name'),
+    desc: t('how_to_buy_cards_3_desc'),
     icon: thirdIcon,
   },
 ])
