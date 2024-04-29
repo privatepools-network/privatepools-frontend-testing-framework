@@ -1153,7 +1153,7 @@ watch(networkId, async () => {
 })
 
 async function InitTokens() {
-  possibleComposeTokens.value = await GetPossibleComposeTokens(true)
+  possibleComposeTokens.value = await GetPossibleComposeTokens(56)
   tokensData.value = [{ weight: 0, ...possibleComposeTokens.value[0] }]
 }
 

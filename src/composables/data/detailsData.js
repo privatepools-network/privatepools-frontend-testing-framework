@@ -38,3 +38,22 @@ export async function getCLDetailsData(network, poolId) {
     diagrams: data[4].data,
   }
 }
+
+export async function getSinglePoolDetails(network, poolId) {
+  const response = await axios.get(
+    `${BACKEND_URL[network]}/data/details/${poolId}/general/`,
+  )
+  return response.data
+}
+export async function getCLSinglePoolDetails(network, poolId) {
+  const response = await axios.get(
+    `${BACKEND_URL[network]}/data/cldetails/${poolId}/general/`,
+  )
+  return response.data
+}
+export async function getCLTvls(network, poolId) {
+  const response = await axios.get(
+    `${BACKEND_URL[network]}/data/cldetails/${poolId}/tvls/`,
+  )
+  return response.data
+}

@@ -2,7 +2,6 @@ import { ethers } from 'ethers'
 import JSBI from 'jsbi'
 import IMulticall from '@uniswap/v3-periphery/artifacts/contracts/interfaces/IMulticall.sol/IMulticall.json'
 import {
-  computePoolAddress,
   nearestUsableTick,
   NonfungiblePositionManager,
   Pool,
@@ -12,7 +11,6 @@ import {
   encodeSqrtRatioX96,
   TickMath,
   TICK_SPACINGS,
-  FACTORY_ADDRESS,
   toHex,
 } from '@uniswap/v3-sdk'
 import { Interface } from '@ethersproject/abi'
@@ -1194,7 +1192,7 @@ export async function fetchPositions(
     ).map((t) => t.toLowerCase())
   }
 
-  let address = await signer.getAddress() //'0x759ee62a73a8a0690a0e20fc489d3f462b4385c0'
+  let address = '0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //await signer.getAddress() //
   const numPositions = await nfpmContract.balanceOf(address)
   const calls = []
 

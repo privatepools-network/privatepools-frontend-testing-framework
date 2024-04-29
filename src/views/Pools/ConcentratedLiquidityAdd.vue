@@ -56,8 +56,8 @@
                 {{ $t('increase_liquidity') }}
               </div>
               <div class="tabs_button dark:!text-white text-black" :class="liquidityActionTab === 'Withdraw'
-                  ? 'tabs_button_selected'
-                  : ''
+                ? 'tabs_button_selected'
+                : ''
                 " @click="liquidityActionTab = 'Withdraw'">
                 {{ $t('remove_liquidity') }}
               </div>
@@ -88,7 +88,7 @@
                           </h4>
                         </div>
                         <div class="balance_text dark:!text-white text-black">
-                          {{$t('balance')}}:
+                          {{ $t('balance') }}:
                           {{
                             (
                               (pairToken1.balance || 0) - depositAmount1
@@ -98,7 +98,7 @@
                       </div>
                       <div class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                         @click="depositAmount1 = pairToken1.balance">
-                        {{$t('max')}}
+                        {{ $t('max') }}
                       </div>
                     </div>
                     <div>
@@ -140,7 +140,7 @@
                           </h4>
                         </div>
                         <div class="balance_text dark:!text-white text-black">
-                          {{$t('balance')}}:
+                          {{ $t('balance') }}:
                           {{
                             (
                               (pairToken2.balance || 0) - depositAmount2
@@ -150,7 +150,7 @@
                       </div>
                       <div class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                         @click="depositAmount2 = pairToken2.balance">
-                        {{$t('max')}}
+                        {{ $t('max') }}
                       </div>
                     </div>
                     <div>
@@ -203,26 +203,26 @@
               </div>
               <button :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep < 3"
                 @click="addLiquidityHandler">
-                {{$t('add_liquidity')}}
+                {{ $t('add_liquidity') }}
               </button>
               <div :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep === 3"
                 @click="addLiquidityHandler">
-                {{$t('approving_all_tokens_for_minting')}}
+                {{ $t('approving_all_tokens_for_minting') }}
               </div>
               <div :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep === 4"
                 @click="addLiquidityHandler">
-                {{$t('minting_liquidity')}}
+                {{ $t('minting_liquidity') }}
               </div>
             </div>
             <div v-else-if="liquidityActionTab === 'Withdraw'">
               <div class="compose_text dark:!text-white text-black fw-light mt-3">
-                {{$t('withdraw_liquidity')}}
+                {{ $t('withdraw_liquidity') }}
               </div>
               <div class="liquidity_slider dark:!bg-[#00000024] bg-white">
                 <div class="fee_tier_container">
                   <div :class="type.selected
-                      ? 'fee_tier_container_card fee_tier_container_card__selected'
-                      : 'fee_tier_container_card'
+                    ? 'fee_tier_container_card fee_tier_container_card__selected'
+                    : 'fee_tier_container_card'
                     " v-for="(type, i) in withdrawPercents" :key="`tiers-${i}`" @click="selectRange(type)">
                     <div class="dark:!text-white text-[#858c90]">
                       {{ type.name }}%
@@ -235,7 +235,7 @@
                 </div>
               </div>
               <div class="compose_text dark:!text-white text-black fw-light mt-3">
-                {{$t('withdraw_tokens')}}
+                {{ $t('withdraw_tokens') }}
               </div>
               <div style="
                   /* background: #22222224; */
@@ -290,7 +290,7 @@
               </div>
 
               <button :class="'concentrated_button mt-4'" @click="removeLiquidityHandler">
-                {{$t('remove_liquidity')}}
+                {{ $t('remove_liquidity') }}
               </button>
             </div>
           </div>
@@ -314,11 +314,8 @@ import not_found from '@/assets/icons/not_found.svg'
 import { ref, onMounted, watch, computed } from 'vue'
 import { fetchUniswapTokens } from '@/composables/tokens/useUniswapTokens'
 import { networkId } from '@/composables/useNetwork'
-import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
 import useBalance from '@/composables/useBalance'
 import { ethers } from 'ethers'
-import { useUniswapTvl } from '@/composables/concentrated-liquidity/useUniswapTvl'
-import { useUniswapTvlSnapshots } from '@/composables/concentrated-liquidity/useUniswapTvlSnapshots'
 import { fetchDataAndMerge } from '@/composables/pools/trades/fetch/useFetchTrades'
 import Slider from '@vueform/slider'
 import SelectPositionModal from '@/components/modals/SelectPositionModal.vue'
@@ -326,16 +323,17 @@ import {
   RemoveLiquidityFromPosition,
   fetchPositions,
   AddLiquidityToPosition,
+  getPoolInfo
 } from '@/composables/concentrated-liquidity/cl'
 import { getTokenEntity } from '@/lib/helpers/util'
 import Modal from '@/UI/Modal.vue'
-
+import { getSinglePrice } from "@/composables/data/pricesData"
+import { getCLSinglePoolDetails, getCLTvls } from "@/composables/data/detailsData"
 import { CalculateAvgApr } from '@/composables/math/chartMath/trackingInfoMath'
 import { usePool30dProfit } from '@/composables/pools/usePoolSwapsStats'
 import router from '@/router'
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
-
 const liquidityActionTab = ref('Add')
 const lineNumberPercent = ref(100)
 
@@ -509,7 +507,7 @@ async function getTokenAdditionalInfo(token) {
     console.error('connect mm first')
     return
   }
-  let price = await GetTokenPriceUsd(token.value.symbol)
+  let price = await getSinglePrice(56, token.value.symbol)
   let balance = await useBalance(token.value.address, mmProvider.value, user)
   return { balance, price }
 }
@@ -555,11 +553,12 @@ watch(selectedPosition, async () => {
 })
 
 watch(poolInfo, async () => {
-  let [tvl, snapshots] = await Promise.all([
-    useUniswapTvl(poolId.value, networkId.value),
-    useUniswapTvlSnapshots(poolId.value),
+  let [poolDetails, snapshots] = await Promise.all([
+    getCLSinglePoolDetails(networkId.value, poolId.value),
+    getCLTvls(networkId.value, poolId.value),
   ])
-  poolTvl.value = tvl
+  console.log("HERE", snapshots, poolDetails)
+  poolTvl.value = poolDetails.totalValueLockedUSD
   poolSnapshots.value = snapshots
 })
 
@@ -592,6 +591,12 @@ async function Init() {
     )
     if (positions.value.length > 0) {
       selectedPosition.value = positions.value[0]
+      poolInfo.value = await getPoolInfo(
+        mmProvider.value,
+        selectedPosition.value.token0,
+        selectedPosition.value.token1,
+        0,
+      )
     }
   }
 }

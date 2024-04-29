@@ -6,7 +6,7 @@ import usePoolParameters from '@/composables/pools/usePoolParameters'
 
 export default function useInvestFormMath(
   pool,
-  tokens,
+  _tokens,
   balances,
   amounts,
   useNativeAsset,
@@ -14,19 +14,20 @@ export default function useInvestFormMath(
   /**
    * STATE
    */
+  const tokens = computed(() => _tokens.length > 0 ? _tokens : pool.value.tokens)
   const batchSwap = ref({})
   const { minusSlippageScaled } = useSlippage()
   /**
    * COMPOSABLES
    */
-  let tokenAddresses = tokens.map((t) => t.address)
+  let tokenAddresses = tokens.value.map((t) => t.address)
   const { isStablePhantomPool } = usePoolParameters(pool)
   /**
    * Services
    */
   const poolCalculator = new PoolCalculator(
     pool,
-    tokens,
+    tokens.value,
     balances,
     'join',
     useNativeAsset,

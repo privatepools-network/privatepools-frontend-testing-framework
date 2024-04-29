@@ -3,12 +3,12 @@ import { configService } from '@/services/config/config.service'
 import { BalancerSDK } from '@wavelength/sdk'
 
 export function InitBalancer() {
-  const config = configService.getNetworkConfig(networkId.value)
- 
-  console.log("PEDRO: ",networkId.value.toString(), config.rpc, config.poolsUrlV2); // Add this line to console log the arguments
+  let network_id = networkId.value || 56
+  const config = configService.getNetworkConfig(network_id)
+  console.log('PEDRO: ', network_id.toString(), config.rpc, config.poolsUrlV2) // Add this line to console log the arguments
 
   return new BalancerSDK({
-    network: networkId.value.toString(),
+    network: network_id.toString(),
     rpcUrl: config.rpc,
     subgraphUrl: config.poolsUrlV2,
   })

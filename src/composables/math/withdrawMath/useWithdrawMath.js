@@ -37,7 +37,6 @@ export default function useWithdrawMath(
    * STATE
    */
   const balancer = InitBalancer()
-
   console.log("balancer",balancer)
   
   const batchSwap = ref(null)
@@ -58,7 +57,7 @@ export default function useWithdrawMath(
 
   const { minusSlippage, addSlippageScaled, minusSlippageScaled } =
     useSlippage()
-  let isStablePhantom = pool.value.poolType == 'StablePhantom'
+  let isStablePhantom = pool.value?.poolType == 'StablePhantom'
   const slippageScaled = { value: false }
   const {
     promises: swapPromises,
@@ -76,28 +75,28 @@ export default function useWithdrawMath(
    */
   const tokenAddresses = computed(() => {
     if (isStablePhantom) {
-      return pool.value.mainTokens || []
+      return pool.value?.mainTokens || []
     }
-    return pool.value.tokens.map((t) => t.address)
+    return pool.value?.tokens.map((t) => t.address) ?? []
   })
 
   const tokenCount = computed(() => tokenAddresses.value.length)
 
   // The tokens of the pool
-  const poolTokens = computed(() => pool.value.tokens)
+  const poolTokens = computed(() => pool.value?.tokens ?? [])
 
   const tokenOutDecimals = computed(
-    () => pool.value.tokens.find((t) => t.address == tokenOut.value).decimals,
+    () => pool.value?.tokens.find((t) => t.address == tokenOut.value).decimals,
   )
 
-  const poolDecimals = computed(() => pool.value.onchain.decimals)
+  const poolDecimals = computed(() => pool.value?.onchain.decimals)
 
   /**
    * The tokens being withdrawn
    * In most cases these are the same as the pool tokens
    * except for Stable Phantom pools
    */
-  const withdrawalTokens = computed(() => pool.value.tokens)
+  const withdrawalTokens = computed(() => pool.value?.tokens ?? [])
 
   const bptBalanceScaled = computed(() =>
     parseUnits(bptBalance.value, poolDecimals.value).toString(),
@@ -106,7 +105,7 @@ export default function useWithdrawMath(
   const hasBpt = computed(() => bnum(bptBalance.value).gt(0))
 
   const tokenOutPoolBalance = computed(() => {
-    const balances = Object.values(pool.value.onchain.tokens).map(
+    const balances = Object.values(pool.value?.onchain.tokens).map(
       (token) => token.balance,
     )
     return balances[tokenOutIndex.value]
@@ -266,6 +265,7 @@ export default function useWithdrawMath(
   )
 
   const priceImpact = computed(() => {
+    console.log("IMPACT!!!!!")
     if (amountExceedsPoolBalance.value) return 1
     if (!hasAmounts.value || isProportional.value) return 0
 
@@ -302,7 +302,7 @@ export default function useWithdrawMath(
   )
 
   const shouldUseBatchRelayer = computed(() => {
-    if (!isStablePhantom || !pool.value.onchain.linearPools) return false
+    if (!isStablePhantom || !pool.value?.onchain.linearPools) return false
 
     // If batchSwap has any 0 return amounts, we should use batch relayer
     if (batchSwap.value) {
@@ -395,11 +395,11 @@ export default function useWithdrawMath(
    * @param wrappedToken the wrapped linear pool token address.
    */
   function scaledWrappedTokenRateFor(wrappedToken) {
-    if (!pool.value.onchain.linearPools) return '0'
+    if (!pool.value?.onchain.linearPools) return '0'
 
     const normalPriceRate =
-      Object.values(pool.value.onchain.linearPools).find(
-        (linearPool) => linearPool.value.wrappedToken.address === wrappedToken,
+      Object.values(pool.value?.onchain.linearPools).find(
+        (linearPool) => linearPool.value?.wrappedToken.address === wrappedToken,
       )?.wrappedToken?.priceRate || '0'
 
     return parseUnits(normalPriceRate, 18).toString()
@@ -420,7 +420,7 @@ export default function useWithdrawMath(
     batchSwapLoading.value = true
 
     amounts = amounts || batchSwapBPTIn.value
-    const tokensIn = amounts.map(() => pool.value.address)
+    const tokensIn = amounts.map(() => pool.value?.address)
     const fetchPools = !batchSwap.value // Only needs to be fetched on first call
     const result = await balancer.swaps.queryBatchSwapWithSor({
       tokensIn: tokensIn,
@@ -454,7 +454,7 @@ export default function useWithdrawMath(
     batchRelayerSwapLoading.value = true
 
     amounts = amounts || batchSwapBPTIn.value.map((amount) => amount.toString())
-    tokensOut = tokensOut || pool.value.wrappedTokens || []
+    tokensOut = tokensOut || pool.value?.wrappedTokens || []
     const fetchPools = !batchRelayerSwap.value // Only needs to be fetched on first call
 
     const rates = []
@@ -464,7 +464,7 @@ export default function useWithdrawMath(
 
     const result = await balancerContractsService.batchRelayer.stableExitStatic(
       account.value,
-      pool.value.address,
+      pool.value?.address,
       amounts,
       tokensOut,
       rates,
