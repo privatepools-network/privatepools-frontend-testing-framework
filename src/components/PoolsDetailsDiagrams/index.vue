@@ -11,7 +11,7 @@
         >
           <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
-              <div class="diagrams_title">Historical Asset Values</div>
+              <div class="diagrams_title">{{ $t('historical_asset_values') }}</div>
               <VTooltip :distance="0" :placement="'right'">
                 <div style="cursor: help">
                   <svg
@@ -51,7 +51,7 @@
                     "
                   >
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
-                      Information
+                      {{ $t('information') }}
                     </h6>
                     <div
                       style="
@@ -114,7 +114,7 @@
         >
           <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
-              <div class="diagrams_title">Pool Distribution</div>
+              <div class="diagrams_title">Pool {{ $t('distribution') }}</div>
               <VTooltip :distance="0" :placement="'right'">
                 <div style="cursor: help">
                   <svg
@@ -154,7 +154,7 @@
                     "
                   >
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
-                      Information
+                      {{ $t('information') }}
                     </h6>
                     <div
                       style="
@@ -221,7 +221,7 @@
         >
           <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
-              <div class="diagrams_title">Trades</div>
+              <div class="diagrams_title">{{ $t('trades') }}</div>
               <VTooltip :distance="0" :placement="'right'">
                 <div style="cursor: help">
                   <svg
@@ -261,7 +261,7 @@
                     "
                   >
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
-                      Information
+                      {{ $t('information') }}
                     </h6>
                     <div
                       style="
@@ -356,7 +356,7 @@
         >
           <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
-              <div class="diagrams_title">Ranges Traded</div>
+              <div class="diagrams_title">{{ $t('ranges_traded') }}</div>
 
               <VTooltip :distance="0" :placement="'right'">
                 <div style="cursor: help">
@@ -397,7 +397,7 @@
                     "
                   >
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
-                      Information
+                      {{ $t('information') }}
                     </h6>
                     <div
                       style="
@@ -459,7 +459,7 @@
         >
           <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
-              <div class="diagrams_title">Profit Generated</div>
+              <div class="diagrams_title">{{ $t('profit_generated ') }}</div>
 
               <VTooltip :distance="0" :placement="'right'">
                 <div style="cursor: help">
@@ -500,7 +500,7 @@
                     "
                   >
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
-                      Information
+                      {{ $t('information ') }}
                     </h6>
                     <div
                       style="

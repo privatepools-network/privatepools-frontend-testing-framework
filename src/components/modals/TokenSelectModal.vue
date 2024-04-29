@@ -4,14 +4,14 @@
       <div
         class="modal_body_header d-flex justify-content-between align-items-start mb-1"
       >
-        <p style="font-size: 20px" class="dark:!text-white text-black">Token search</p>
+        <p style="font-size: 20px" class="dark:!text-white text-black">{{ $t('token_search') }}</p>
       </div>
 
 
       <label
         for="search"
         class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-        >Search</label
+        >{{ $t('search') }}</label
       >
       <div class="relative">
         <div
@@ -37,7 +37,7 @@
           type="search"
           id="search"
           class="block w-full ps-10 text-sm text-gray-900  border-gray-300 rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-[#141414] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search by name, symbol or address"
+          :placeholder="t('search_by_name_symbol_address')"
           aria-label="Search by name, symbol or address"
           v-model="filterName"
           v-on:keyup.enter="emit('addToken', filterName)"
@@ -45,7 +45,7 @@
       </div>
 
       <div class="mt-3">
-        <div class="dark:!text-white text-black text-base">Common Tokens</div>
+        <div class="dark:!text-white text-black text-base">{{ $t('common_tokens') }}</div>
         <div class="d-flex flex-wrap gap-3 justify-content-between">
           <div
             class="common_token text-black dark:!text-white d-flex gap-2"
@@ -93,7 +93,7 @@
       </div>
     </div>
   </div>
-  {{ console.log('possibleComposeTokens', possibleComposeTokens) }}
+  <!-- {{ console.log('possibleComposeTokens', possibleComposeTokens) }} -->
 </template>
 
 <script setup>
@@ -101,6 +101,7 @@ import Search from '@/assets/images/search.png'
 import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import { COMMON_TOKENS } from "@/composables/poolActions/compose/usePossibleComposeTokens"
+import { t } from 'i18next';
 const props = defineProps([
   'tokenSelectModal',
   'possibleComposeTokens',

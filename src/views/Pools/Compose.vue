@@ -32,10 +32,10 @@
               "
               class="dark:!text-white text-black"
             >
-              Weighted pools Add Liquidity
+              {{ $t('wp_and_add_liq') }}
             </div>
             <div style="font-size: 15px; color: #858c90; font-weight: 400">
-              Add Liquidity to Private Pools Weighted Pools
+              {{ $t('add_liq_to_pp') }}
             </div>
           </div>
           <div class="back_button" @click="router.push('/pools')">
@@ -80,7 +80,7 @@
             class="compose_text dark:!text-white text-black my-1"
             v-if="activeStep === 1"
           >
-            Choose tokens & weights
+            {{ $t('choose_tokens_and_weights') }}
           </div>
 
           <div
@@ -105,7 +105,7 @@
               />
             </svg>
 
-            Preview new weighted pool
+            {{ $t('preview_new_weighted_pool') }}
           </div>
           <div
             class="compose_text dark:!text-white text-black my-1"
@@ -129,7 +129,7 @@
               />
             </svg>
 
-            Add initial liquidity
+            {{ $t('add_initial_liquidity') }}
           </div>
 
           <div
@@ -154,7 +154,7 @@
               />
             </svg>
 
-            Swap
+            {{ $t('swap') }}
           </div>
 
           <div
@@ -162,8 +162,8 @@
             class="compose_choose_inner_container dark:!bg-[#00000024] bg-white"
           >
             <div class="d-flex justify-content-between">
-              <div class="compose_text dark:!text-white text-black">Token</div>
-              <div class="compose_text dark:!text-white text-black">Weight</div>
+              <div class="compose_text dark:!text-white text-black">{{ $t('token') }}</div>
+              <div class="compose_text dark:!text-white text-black">{{ $t('weight') }}</div>
             </div>
 
             <div
@@ -324,12 +324,12 @@
                   })
                 "
               >
-                Add token
+                {{ $t('add_token') }}
               </button>
             </div>
             <div class="d-flex justify-content-between mt-5 mb-1">
               <div class="compose_text dark:!text-white text-black">
-                Total allocated
+                {{ $t('total_allocated') }}
               </div>
               <div
                 class="compose_text dark:!text-white text-black"
@@ -363,7 +363,7 @@
           >
             <div class="d-flex justify-content-between">
               <div class="compose_text dark:!text-white text-black">
-                Preview Trade
+                {{ $t('preview_trade') }}
               </div>
             </div>
             <div
@@ -462,7 +462,7 @@
                 <div>
                   <div class="modal_balance_slider">
                     <div class="value-label" ref="inputRefLabel">
-                      Balance:
+                      {{ $t('balance') }}:
                       <span class="fw-bold" v-if="lineNumbers.length > 0">{{
                         RemainingBalance(token, tokenIndex)
                       }}</span
@@ -471,7 +471,7 @@
                         class="fw-bold bg-transparent"
                         style="cursor: pointer"
                       >
-                        Max</span
+                      {{ $t('max') }}</span
                       >
                     </div>
                     <div>
@@ -503,7 +503,7 @@
             <div
               class="compose_text dark:!text-white text-black d-flex align-items-center gap-2 mt-1"
             >
-              Auto optimize liquidity
+              {{ $t('auto_optimize_liquidity') }}
               <div style="cursor: pointer">
                 <CFormSwitch
                   size="lg"
@@ -537,7 +537,7 @@
                         padding: 8px;
                       "
                     >
-                      Total
+                      {{ $t('total') }}
                     </td>
                     <td
                       style="
@@ -560,7 +560,7 @@
                           "
                           @click="OnAllMaxClick"
                         >
-                          Max
+                          {{ $t('max') }}
                         </div>
                       </div>
                     </td>
@@ -573,7 +573,7 @@
           <div v-else-if="activeStep === 2">
             <div class="compose_third_step dark:!bg-[#00000024] bg-white">
               <div class="compose_text dark:!text-white text-black">
-                Tokens and initial seed liquidity
+                {{ $t('tokens_and_seed_liquidity') }}
               </div>
               <hr class="compose_hr" />
               <div>
@@ -591,7 +591,7 @@
                       />
                       <div class="d-flex flex-column">
                         <div>{{ token.weight }}% {{ token.symbol }}</div>
-                        <div>Initial weight: {{ token.weight }}</div>
+                        <div>{{ $t('initial_weight') }}: {{ token.weight }}</div>
                       </div>
                     </div>
                     <div class="d-flex flex-column align-items-end dark:!text-white text-black">
@@ -620,7 +620,7 @@
                   class="fw-bold p-2 dark:!text-white text-black"
                   style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
                 >
-                  Summary
+                  {{ $t('summary') }}
                 </div>
                 <div
                   class="d-flex flex-column p-2"
@@ -632,7 +632,7 @@
                   <div
                     class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
-                    <div>Pool name:</div>
+                    <div>{{ $t('pool_name') }}:</div>
                     <div class="d-flex gap-1">
                       {{
                         tokensData
@@ -644,7 +644,7 @@
                   <div
                     class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
-                    <div>Pool symbol:</div>
+                    <div>{{ $t('pool_symbol') }}:</div>
                     <div class="d-flex gap-1">
                       {{
                         tokensData
@@ -656,20 +656,20 @@
                   <div
                     class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
-                    <div>Pool type:</div>
-                    <div class="d-flex gap-1">Weighted</div>
+                    <div>{{ $t('pool_type') }}:</div>
+                    <div class="d-flex gap-1">{{ $t('weighted') }}</div>
                   </div>
                   <div
                     class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
-                    <div>Swap fee:</div>
+                    <div>{{ $t('swap_fee') }}:</div>
                     <div class="d-flex gap-1">1.00%</div>
                   </div>
                   <div
                     class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
-                    <div>Swap fee manager:</div>
-                    <div class="d-flex gap-1">Darkpool</div>
+                    <div>{{ $t('swap_fee_manager') }}:</div>
+                    <div class="d-flex gap-1">Private Pools</div>
                   </div>
                 </div>
               </div>
@@ -734,9 +734,8 @@
                         font-size: clamp(10px, 0.8vw, 14px);
                       "
                     >
-                      You must approve tokens to add liquidity for this token on
-                      Dark Pool. Approvals are required once per token , per
-                      wallet.
+                     
+                      {{ $t('you_must_approve_to_add_tokens') }}
                     </div>
                   </div>
                 </template>
@@ -813,34 +812,34 @@
             v-if="activeStep === 1"
             @click="onStep1Click"
           >
-            {{ account == '' ? 'Connect wallet' : 'Next step' }}
+            {{ account == '' ? t('connect_wallet') : t('next_step') }}
           </button>
           <div
             class="compose_pool_connect_wallet"
             v-else-if="activeStep === 2"
             @click="CreateNewPool"
           >
-            Preview
+            {{ $t('preview') }}
           </div>
           <div
             class="compose_pool_connect_wallet"
             v-else-if="activeStep === 3"
             @click="JoinNewPool"
           >
-            Approve tokens for adding liquidity
+            {{ $t('approve_tokens_for_adding') }}
           </div>
           <div
             class="compose_pool_connect_wallet"
             v-if="activeStep === 4"
             @click="SwapNewPoolTokens"
           >
-            Swap Tokens
+            {{ $t('swap_tokens') }}
           </div>
         </div>
 
         <div class="compose_chart dark:!bg-[#00000024] bg-white">
           <div class="compose_text dark:!text-white text-black">
-            Pool summary
+            {{ $t('pool_summary') }}
           </div>
           <hr class="compose_hr" />
           <div class="chart_container">
@@ -883,7 +882,7 @@
                   />
                 </g>
               </svg>
-              Add some weight
+              {{ $t('add_some_weight') }}
             </div>
           </div>
           <div
@@ -892,7 +891,7 @@
             <div
               class="compose_text dark:!text-white text-black flex items-center gap-1"
             >
-              In your wallet <img :src="info" class="info_icon" />
+              {{ $t('in_your_wallet') }} <img :src="info" class="info_icon" />
             </div>
             <div
               v-if="tokensData.length > 0 && tokensData[0].symbol"
@@ -954,6 +953,7 @@ import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
 import Modal from '@/UI/Modal.vue'
+import { t } from 'i18next'
 
 var emitter = require('tiny-emitter/instance')
 //import { InitBalancer } from '@/composables/math/withdrawMath/balancer.sdk';

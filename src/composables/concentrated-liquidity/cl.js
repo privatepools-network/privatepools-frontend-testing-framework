@@ -967,6 +967,7 @@ async function removeLiquidity(
 ) {
   try {
     let address = await signer.getAddress()
+    // TODO set owed tokens in order to withdraw tokens properly
     const collectOptions = {
       expectedCurrencyOwed0: CurrencyAmount.fromRawAmount(token0, 0),
       expectedCurrencyOwed1: CurrencyAmount.fromRawAmount(token1, 0),

@@ -3,13 +3,13 @@
     class="total_epoch text-black dark:!text-[#c1c8ce] bg-white dark:!bg-[#00000024]"
     v-if="router.currentRoute.value.path === '/pools/concentrated_pool'"
   >
-    <div>Average Rewards:</div>
+    <div>{{ $t('average_rewards') }}:</div>
     <div>0%</div>
   </div>
   <div v-else class="total_epoch text-black dark:!text-[#c1c8ce] bg-white dark:!bg-[#00000024]">
     <div class="d-flex gap-4">
       <div class="d-flex flex-column">
-        <div>LP Rewards</div>
+        <div>LP {{ $t('rewards') }}</div>
         <div class="flex items-center gap-1">
           $-
           <img
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="d-flex flex-column">
-        <div>Earned Fees</div>
+        <div>{{ $t('earned_fees') }}</div>
         <div class="flex items-center gap-1">
           $-
           <img
@@ -43,7 +43,7 @@
     </div>
     <div>
       <div class="claim_button flex items-center gap-1">
-        Claim Rewards
+        {{ $t('claim_rewards') }}
         <svg
           width="16"
           height="11"
@@ -77,7 +77,7 @@
 
   <div class="concentrated_card bg-white dark:!bg-[#00000024]">
     <div v-if="router.currentRoute.value.path === '/pools/concentrated_pool'">
-      <div class="compose_text text-black dark:!text-white mb-3">Price Range Overview</div>
+      <div class="compose_text text-black dark:!text-white mb-3">{{ $t('price_range_overview') }}</div>
     </div>
     <!-- <div v-else>
       <div class="d-flex justify-content-between align-items-center mb-3">
@@ -106,7 +106,7 @@
       <div class="d-flex justify-content-center flex-column align-items-center">
         <!-- v-if="!tokensInitialized" -->
         <img :src="range_chart_icon" width="100" />
-        <div class="compose_text text-black dark:!text-white mt-3">Your position will appear here.</div>
+        <div class="compose_text text-black dark:!text-white mt-3">{{ $t('your_position_will_appear') }}</div>
       </div>
       <!-- <div v-else class="w-[350px]">
         <HistogramSlider style="padding: 0px 60px" :width="'100%'" :bar-height="180" :bar-gap="0" :bar-width="41"
@@ -118,7 +118,7 @@
       style="text-align: center; color: #7db0bc; margin-top: 10px"
       v-if="tokensInitialized"
     >
-      Current Price: {{ token0.symbol }} per {{ token1.symbol }}
+      {{ $t('current_price') }}: {{ token0.symbol }} {{ $t('per') }} {{ token1.symbol }}
     </div>
 
     <div
@@ -126,13 +126,13 @@
       class="d-flex justify-content-between align-items-center my-3"
     >
       <div class="compose_text text-black dark:!text-white">
-        <span >Min Price:</span> 18.503 ({{
+        <span >{{ $t('min_price') }}:</span> 18.503 ({{
           token0.symbol
         }}
         = $34,652)
       </div>
       <div class="compose_text text-black dark:!text-white">
-        <span >Max Price:</span> 18.503 ({{
+        <span >{{ $t('max_price') }}:</span> 18.503 ({{
           token1.symbol
         }}
         = $1,503)
@@ -148,7 +148,7 @@
       "
       class="mt-3"
     >
-      <div class="compose_text text-black dark:!text-white mb-3">Position Range</div>
+      <div class="compose_text text-black dark:!text-white mb-3">{{ $t('max_price') }}</div>
       <div class="position_range_container bg-white dark:!bg-[#00000024] relative">
         <div class="overflow-hidden">
         <div class="absolute top-[-10px] left-[-20px]">
@@ -214,7 +214,7 @@
     <hr class="compose_hr" />
     <div class="pool_info text-black dark:!text-white" v-if="poolInfo">
       <div class="d-flex justify-content-between mb-3">
-        <span style="font-size: 16px" >Pool Info</span>
+        <span style="font-size: 16px" >{{ $t('pool_info') }}</span>
         <a
           :href="`${
             configService.getNetworkConfig(networkId).explorer
@@ -224,15 +224,15 @@
         >
       </div>
       <div class="d-flex justify-content-between">
-        <span>Current Swap Fee:</span>
+        <span>{{ $t('current_swap_fee') }}:</span>
         <span>{{ (poolInfo.fee / 1000).toFixed(2) }}%</span>
       </div>
       <div class="d-flex justify-content-between">
-        <span>Tickspacing:</span>
+        <span>{{ $t('tickspacing') }}:</span>
         <span>{{ poolInfo.tickSpacing }}</span>
       </div>
       <div class="d-flex justify-content-between">
-        <span>Average APR of this Pool:</span>
+        <span>{{ $t('average') }} APR:</span>
         <span>{{ poolApr.toFixed(2) }}%</span>
       </div>
       <div class="d-flex justify-content-between">

@@ -4,7 +4,7 @@
       <div
         class="modal_body_header text-black dark:!text-white d-flex justify-content-between align-items-start mb-3"
       >
-        <p style="font-size: 20px">Select Position</p>
+        <p style="font-size: 20px">{{ $t('select_position') }}</p>
        
       </div>
 
@@ -28,12 +28,12 @@
                 :src="getTokenEntity(tokenEntity, 'short').icon"
               />
               <span class="liquidity_title">{{ pos.name }}</span>
-              <span class="fee_container">{{ pos.fee }} Fee</span>
+              <span class="fee_container">{{ pos.fee }} {{ $t('fee') }}</span>
             </div>
             <div>{{ pos.CLP }}</div>
           </div>
           <div class="d-flex align-items-center justify-content-between">
-            <div>Position Size</div>
+            <div>{{ $t('position_size') }}</div>
             <div>{{ pos.positionSize }}</div>
           </div>
         </div>

@@ -42,7 +42,7 @@
 
           <div class="concentrated_card dark:!bg-[#00000024] bg-white">
             <div class="compose_text dark:!text-white text-black mb-3">
-              Manage Position
+              {{ $t('manage_position') }}
             </div>
 
             <div class="mb-5">
@@ -53,18 +53,18 @@
             <div class="tabs_container dark:!bg-[#00000024] bg-white">
               <div class="tabs_button dark:!text-white text-black" :class="liquidityActionTab === 'Add' ? 'tabs_button_selected' : ''
                 " @click="liquidityActionTab = 'Add'">
-                Increase Liquidity
+                {{ $t('increase_liquidity') }}
               </div>
               <div class="tabs_button dark:!text-white text-black" :class="liquidityActionTab === 'Withdraw'
                   ? 'tabs_button_selected'
                   : ''
                 " @click="liquidityActionTab = 'Withdraw'">
-                Remove Liquidity
+                {{ $t('remove_liquidity') }}
               </div>
             </div>
             <div v-if="liquidityActionTab === 'Add'">
               <div class="compose_text dark:!text-white text-black fw-light mt-3">
-                Increase Liquidity
+                {{ $t('increase_liquidity') }}
               </div>
               <div class="price_range_container dark:!bg-[#00000024] bg-white">
                 <div class="d-flex flex-column gap-4 position-relative">
@@ -88,7 +88,7 @@
                           </h4>
                         </div>
                         <div class="balance_text dark:!text-white text-black">
-                          Balance:
+                          {{$t('balance')}}:
                           {{
                             (
                               (pairToken1.balance || 0) - depositAmount1
@@ -98,7 +98,7 @@
                       </div>
                       <div class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                         @click="depositAmount1 = pairToken1.balance">
-                        Max
+                        {{$t('max')}}
                       </div>
                     </div>
                     <div>
@@ -126,7 +126,6 @@
                   <div class="d-flex dark:!bg-[#00000024] bg-white" style="
                       /* background: #22222224; */
                       box-shadow: 0px 4px 4px 0px #00000040;
-
                       border-radius: 16px;
                     ">
                     <div class="balance_container dark:!bg-[#00000024] bg-white">
@@ -141,7 +140,7 @@
                           </h4>
                         </div>
                         <div class="balance_text dark:!text-white text-black">
-                          Balance:
+                          {{$t('balance')}}:
                           {{
                             (
                               (pairToken2.balance || 0) - depositAmount2
@@ -151,7 +150,7 @@
                       </div>
                       <div class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                         @click="depositAmount2 = pairToken2.balance">
-                        Max
+                        {{$t('max')}}
                       </div>
                     </div>
                     <div>
@@ -204,20 +203,20 @@
               </div>
               <button :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep < 3"
                 @click="addLiquidityHandler">
-                Add liquidity
+                {{$t('add_liquidity')}}
               </button>
               <div :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep === 3"
                 @click="addLiquidityHandler">
-                Approving all tokens for minting liquidity
+                {{$t('approving_all_tokens_for_minting')}}
               </div>
               <div :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep === 4"
                 @click="addLiquidityHandler">
-                Minting liquidity
+                {{$t('minting_liquidity')}}
               </div>
             </div>
             <div v-else-if="liquidityActionTab === 'Withdraw'">
               <div class="compose_text dark:!text-white text-black fw-light mt-3">
-                Withdraw Liquidity
+                {{$t('withdraw_liquidity')}}
               </div>
               <div class="liquidity_slider dark:!bg-[#00000024] bg-white">
                 <div class="fee_tier_container">
@@ -236,7 +235,7 @@
                 </div>
               </div>
               <div class="compose_text dark:!text-white text-black fw-light mt-3">
-                Withdraw Tokens
+                {{$t('withdraw_tokens')}}
               </div>
               <div style="
                   /* background: #22222224; */
@@ -291,7 +290,7 @@
               </div>
 
               <button :class="'concentrated_button mt-4'" @click="removeLiquidityHandler">
-                Remove Liquidity
+                {{$t('remove_liquidity')}}
               </button>
             </div>
           </div>

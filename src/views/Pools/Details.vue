@@ -8,7 +8,7 @@
   <MainCard v-else-if="!visibleDepositComponent && !visibleWithdrawComponent">
     <CRow class="mb-3 mt-4" v-if="pool && pool.tokens">
       <div class="mb-3 text-black dark:!text-white text-[20px] font-bold">
-        Weighted Pool
+        {{ $t('weighted_pool') }}
       </div>
       <div class="d-flex align-items-center" style="justify-content: space-between">
         <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">
@@ -53,11 +53,11 @@
       </div>
       <div class="d-flex justify-content-between align-items-center mt-3">
         <div>
-          <Tabs :filterEye="false" :selectedTab="selectedOverallTab" :tabsOptions="['Overall view', 'My view']"
+          <Tabs :filterEye="false" :selectedTab="selectedOverallTab" :tabsOptions="[t('overall_view'), t('my_view')]"
             @changeTab="changeSelectedOverallTab" />
         </div>
         <div class="rewards_button dark:!bg-[#22222224] !bg-[white]">
-          Rewards
+          {{ $t('rewards') }}
         </div>
       </div>
     </CRow>
@@ -75,13 +75,13 @@
 
     <div style="display: inline-block; margin-bottom: 24px">
       <Tabs :filterEye="true" :selectedTab="selectedTab" :tabsOptions="[
-        'Pool Info',
-        'Financial Statement',
-        'Statistics',
+        t('pool_info'),
+        t('financial_statement'),
+        t('statistics'),
         // 'Pairs & Tokens',
       ]" @changeTab="changeSelectedTab" />
     </div>
-    <div style="display: flex; flex-direction: column" v-if="selectedTab == 'Pool Info'">
+    <div style="display: flex; flex-direction: column" v-if="selectedTab == t('pool_info')">
       <!--      <div class="mb-2" style="-->
       <!--        font-family: Montserrat;-->
       <!--        color: white;-->
@@ -94,7 +94,7 @@
       <!--        Pool Statistics-->
       <!--      </div>-->
       <div class="d-flex align-items-center gap-1">
-        <Title :title="'Pool Statistics'"> </Title>
+        <Title :title="t('pool_statistics')"> </Title>
         <VTooltip :distance="0" :placement="'right'">
           <div style="cursor: help">
             <img :src="info" class="info_icon" />
@@ -110,7 +110,7 @@
                 border-radius: 4px;
                 width: 400px;
               ">
-              <div style="font-size: clamp(10px, 0.9vw, 16px)">Information</div>
+              <div style="font-size: clamp(10px, 0.9vw, 16px)">{{ $t('Information') }}</div>
               <div style="
                   display: flex;
                   flex-direction: column;
@@ -146,10 +146,10 @@
         <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-if="pool && poolActivity" style="width: 70%">
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div class="subsection__item__caption text-[black] dark:!text-white">Pool Creation</div>
+              <div class="subsection__item__caption text-[black] dark:!text-white">{{ $t('pool_creation') }}</div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Created
+                  {{ $t('created') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single">
@@ -162,10 +162,10 @@
               </div>
             </div>
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div class="subsection__item__caption text-[black] dark:!text-white">24h profit</div>
+              <div class="subsection__item__caption text-[black] dark:!text-white">24h {{ $t('profit') }}</div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  All-time high
+                  {{ $t('ATH') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
@@ -188,7 +188,7 @@
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  All-time low
+                  {{ $t('ATL') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
@@ -211,10 +211,10 @@
           </div>
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div class="subsection__item__caption text-[black] dark:!text-white">Lifetime stats</div>
+              <div class="subsection__item__caption text-[black] dark:!text-white">{{ $t('lifetime_stats') }}</div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Volume
+                  {{ $t('volume') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single  flex items-center">
@@ -226,7 +226,7 @@
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Fees
+                  {{ $t('fees') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single  flex items-center">
@@ -238,7 +238,7 @@
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Trades
+                  {{ $t('trades') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single">
@@ -250,7 +250,7 @@
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
               <div class="investors-number__text text-[black] dark:!text-white"
                 style="padding-right: 20%; white-space: nowrap">
-                LP Symbol
+                LP {{ $t('symbol') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
                 <div style="font-size: clamp(10px, 0.8vw, 14px); font-weight: 700">
@@ -264,7 +264,7 @@
             </div>
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
               <div class="investors-number__text text-[black] dark:!text-white">
-                Number of investors
+                {{ $t('number_of_investors') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white"
                 style="font-size: clamp(10px, 0.8vw, 14px)">
@@ -348,7 +348,7 @@
 
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
               <div class="investors-number__text text-[black] dark:!text-white">
-                Pool Owner
+                Pool {{ $t('owner') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
@@ -382,7 +382,7 @@
             <div class="d-flex align-items-center gap-2">
               <div class="d-flex gap-2 text-[black] dark:!text-white">
                 <div style="font-weight: 500; font-size: clamp(10px, 0.8vw, 14px)">
-                  Assets Breakdown
+                  {{ $t('assets_breakdown') }}
                 </div>
               </div>
             </div>
@@ -414,17 +414,15 @@
                     border-radius: 4px;
                     width: 400px;
                   ">
-                  <h6>Information</h6>
+                  <h6>{{ $t('information') }}</h6>
                   <div style="
                       display: flex;
                       flex-direction: column;
                       font-size: 13px;
                     ">
                     <div>
-                      This pie chart illustrates the percentage breakdown of
-                      assets within this pool. It provides a visual
-                      representation of how different assets contribute to the
-                      pool's overall composition.
+                      {{ $t('this_pie_chart_illustrates') }}
+                      
                     </div>
                   </div>
                 </div>
@@ -449,7 +447,7 @@
           line-height: 28px;
           letter-spacing: 0em;
         ">
-        Pool Analytics
+        {{ $t('pool_analytics') }}
       </div>
       <CRow id="pool-stats-row">
         <PoolsDetailsDiagrams v-if="diagrams_data || (assetsPerformance && poolTradesData && poolProfitsData)"
@@ -465,11 +463,11 @@
           <LoaderPulse></LoaderPulse>
         </div>
       </CRow>
-      <Title :title="'Pool Activity'"></Title>
+      <Title :title="t('pool_activity')"></Title>
       <PrivatePoolsTable :all_activities="poolActivity" />
     </div>
 
-    <PoolDetailsFinancialStatement v-else-if="selectedTab == 'Financial Statement' && financialStatementData"
+    <PoolDetailsFinancialStatement v-else-if="selectedTab == t('financial_statement') && financialStatementData"
       :all_data="financialStatementData" :poolSwapsData="poolSwapsData" :chainSelected="chainSelected"
       :historical_tvl="historical_tvl" :historicalPrices="historicalPrices" :poolId="poolId" :symbol="currencySymbol"
       :decimals="currencyDecimals">
@@ -477,7 +475,7 @@
 
 
 
-    <PortfolioStatistics v-else-if="selectedTab == 'Statistics' && pool" :historical_tvl="historical_tvl" :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
+    <PortfolioStatistics v-else-if="selectedTab == t('statistics') && pool" :historical_tvl="historical_tvl" :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
       " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historicalPrices="historicalPrices"
       :userFirstTimestamp="0" :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
     </PortfolioStatistics>
@@ -561,6 +559,7 @@ import { GetPoolShares } from '@/composables/pools/usePoolShares'
 import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
 import { getDetailsData } from "@/composables/data/detailsData"
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
+import { t } from 'i18next'
 
 use([
   CanvasRenderer,
@@ -579,253 +578,7 @@ const PoolsDetailsDiagrams = defineAsyncComponent(() =>
   import('@/components/PoolsDetailsDiagrams/index.vue'),
 )
 
-const clActivity = ref([
-  {
-    Actions: 'Swap',
-    Details: [
-      {
-        action: 'Swap',
-        ETH: '-0.00',
-        USDT: '0.00',
-      },
-    ],
-    Value: '0',
-    Time: '1 month ago',
-    Tx: '0x049538159d5f10f741626caaf6cef43a0c58f396286d96fa727116da20bdad5d',
-    timestamp: '1708532754',
-    chainId: 56,
-    chain: 'Binance',
-  },
-  {
-    Actions: 'Swap',
-    Details: [
-      {
-        action: 'Swap',
-        BTCB: '0.00',
-        WBNB: '-0.02',
-      },
-    ],
-    Value: '0',
-    Time: '9 days ago',
-    Tx: '0x085edbdad9c6d433d4cd3d006c088ada94f2994dd6a07cb0131827168833cd4e',
-    timestamp: '1711363947',
-    chainId: 56,
-    chain: 'Binance',
-  },
-])
-const joinExits = ref([
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: [
-      '13.465999999999999304',
-      '0.001',
-      '0.001',
-      '0',
-      '0.001',
-      '0',
-      '0.001',
-      '0.001',
-    ],
-    pool: {
-      tokens: [
-        {
-          symbol: 'Cake',
-        },
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'XRP',
-        },
-        {
-          symbol: 'ETH',
-        },
-        {
-          symbol: 'ADA',
-        },
-        {
-          symbol: 'DOT',
-        },
-        {
-          symbol: 'INJ',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '0',
-    type: 'Join',
-    timestamp: 1702503184,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: [
-      '7.554760289442242907',
-      '3.770726094964460187',
-      '0.006792699854304051',
-      '1.176872358543111302',
-    ],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '1137.184818600137953607662435191093',
-    type: 'Exit',
-    timestamp: 1702639931,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['0.307402', '0.158687', '0.000289', '0.04967'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '47.93505265238665018797586063640085',
-    type: 'Exit',
-    timestamp: 1702646626,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['3.096000000000000085', '0', '0', '0'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '41.84800387934665651679103821900545',
-    type: 'Join',
-    timestamp: 1702638092,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['0.19', '1.8', '0.0003', '0.5'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'DOT',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'INJ',
-        },
-      ],
-    },
-    valueUSD: '0',
-    type: 'Join',
-    timestamp: 1702469234,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0xdd2ee0c16f58dc53ebec021dae05cecf8051373f',
-    },
-    amounts: ['0.2', '3', '0.3', '0.005'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'USDT',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '3',
-    type: 'Join',
-    timestamp: 1702602127,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['0.239010698854900089', '0.000005451740851665'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'USDT',
-        },
-        {
-          symbol: 'BTCB',
-        },
-      ],
-    },
-    valueUSD: '0.4730702492177080825503071512930907',
-    type: 'Exit',
-    timestamp: 1702647027,
-    chain: 'Binance',
-    chainId: 56,
-  },
-])
-
-const selectedOverallTab = ref('My view')
+const selectedOverallTab = ref(t('overall_view'))
 
 function changeSelectedOverallTab(_new) {
   selectedOverallTab.value = _new
@@ -1176,7 +929,7 @@ function formatChartData(formatted_tvl, formatted_token_snapshots, chart_data) {
   }
 }
 
-const selectedTab = ref('Pool Info')
+const selectedTab = ref(t('pool_info'))
 
 function changeSelectedTab(_new) {
   selectedTab.value = _new

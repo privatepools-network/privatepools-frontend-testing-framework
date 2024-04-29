@@ -1,6 +1,6 @@
 <template>
   <div class="compose_steps dark:!bg-[#00000024] bg-white">
-    <div class="compose_text dark:!text-white text-black">Create a weighted pool steps</div>
+    <div class="compose_text dark:!text-white text-black">{{ $t('create_wp_steps') }}</div>
     <!-- Comment -->
     <hr class="compose_hr" />
     <div>
@@ -10,7 +10,7 @@
           <img :src="step1Img" v-else />
 
           <div :class="activeStep === 1 ? 'step_text active' : 'step_text'">
-            Choose tokens & weights
+            {{ $t('choose_tokens_&_weights') }}
           </div>
         </div>
         <div class="d-flex align-items-start gap-2">
@@ -18,7 +18,7 @@
           <img :src="step2Img" v-else />
 
           <div :class="activeStep === 2 ? 'step_text active' : 'step_text'">
-            Confirm pool creation
+            {{ $t('confirm_pool_creation') }}
           </div>
         </div>
         <div class="d-flex align-items-start gap-2">
@@ -26,7 +26,7 @@
           <img :src="step3Img" v-else />
 
           <div :class="activeStep === 3 ? 'step_text active' : 'step_text'">
-            Add initial liquidity
+            {{ $t('add_initial_liquidity') }}
           </div>
         </div>
         <div class="d-flex align-items-end gap-2">
@@ -34,7 +34,7 @@
           <img :src="step4Img" v-else />
 
           <div class="mb-1" :class="activeStep === 4 ? 'step_text active' : 'step_text'">
-            Swap Tokens
+            {{ $t('swap_tokens') }}
           </div>
         </div>
 

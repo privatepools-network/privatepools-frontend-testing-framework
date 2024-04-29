@@ -7,12 +7,11 @@
     </Tabs>
   </div>
 
-
   <CRow id="pool-activity-row" class="table-wrapper">
     <Table :headers="[t('actions'), t('details'), t('value'), t('time')]">
       <CTableBody v-if="activities" class="text-black dark:!text-white"
         :class="isDark ? 'table-body' : 'table-body-light'">
-        <CTableRow v-for="(item, i) in activities" :key="i" class="table-row">
+        <CTableRow v-for="(item, i) in activities.slice((currentPage - 1) * perPage, currentPage * perPage)" :key="i" class="table-row">
           <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
             <div class="actions-cell">
               <img v-if="item['Actions'] === 'Deposit'" :src="DepositIcon" />
@@ -151,58 +150,58 @@ function changePerPage(v1) {
   currentPage.value = 1
 }
 
-function getWpActivity() {
-  let result = []
-  let wp_joins = wpActivity.value.filter((item) => item.type == 'Join')
-  let wp_exits = wpActivity.value.filter((item) => item.type == 'Exit')
-  let wp_swaps = wpActivity.value.filter((item) => item.type == 'Swap')
-  console.log('HERE - ', wp_joins)
-  result.push(
-    ...wp_swaps.map((item) => {
-      let out = {
-        Actions: 'Swap',
-        Details: [
-          {
-            action: 'Swap',
-          },
-        ],
-        Value: 0,
-        Time: generateTimeAgoString(item.timestamp),
-        Tx: item.tx,
-        timestamp: item.timestamp,
-        chainId: item.chainId,
-      }
-      out['Details'][0][item.tokenInSym] = parseFloat(
-        item.tokenAmountIn,
-      ).toFixed(2)
-      out['Details'][0][item.tokenOutSym] = parseFloat(
-        item.tokenAmountOut,
-      ).toFixed(2)
-      return out
-    }),
-  )
-  let wp_joinExits = wp_joins.concat(wp_exits)
-  result.push(
-    ...wp_joinExits.map((item) => {
-      let out = {
-        Actions: item.type == 'Join' ? 'Deposit' : 'Withdraw',
-        Details: [{}],
-        Value: parseFloat(item.valueUSD).toFixed(2),
-        Time: generateTimeAgoString(item.timestamp),
-        Tx: item.tx,
-        timestamp: item.timestamp,
-        chainId: item.chainId,
-      }
-      for (let i = 0; i < item.pool.tokens.length; i++) {
-        out['Details'][0][item.pool.tokens[i].symbol] = parseFloat(
-          item.amounts[i],
-        ).toFixed(2)
-      }
-      return out
-    }),
-  )
-  return result
-}
+// function getWpActivity() {
+//   let result = []
+//   let wp_joins = wpActivity.value.filter((item) => item.type == 'Join')
+//   let wp_exits = wpActivity.value.filter((item) => item.type == 'Exit')
+//   let wp_swaps = wpActivity.value.filter((item) => item.type == 'Swap')
+//   console.log('HERE - ', wp_joins)
+//   result.push(
+//     ...wp_swaps.map((item) => {
+//       let out = {
+//         Actions: 'Swap',
+//         Details: [
+//           {
+//             action: 'Swap',
+//           },
+//         ],
+//         Value: 0,
+//         Time: generateTimeAgoString(item.timestamp),
+//         Tx: item.tx,
+//         timestamp: item.timestamp,
+//         chainId: item.chainId,
+//       }
+//       out['Details'][0][item.tokenInSym] = parseFloat(
+//         item.tokenAmountIn,
+//       ).toFixed(2)
+//       out['Details'][0][item.tokenOutSym] = parseFloat(
+//         item.tokenAmountOut,
+//       ).toFixed(2)
+//       return out
+//     }),
+//   )
+//   let wp_joinExits = wp_joins.concat(wp_exits)
+//   result.push(
+//     ...wp_joinExits.map((item) => {
+//       let out = {
+//         Actions: item.type == 'Join' ? 'Deposit' : 'Withdraw',
+//         Details: [{}],
+//         Value: parseFloat(item.valueUSD).toFixed(2),
+//         Time: generateTimeAgoString(item.timestamp),
+//         Tx: item.tx,
+//         timestamp: item.timestamp,
+//         chainId: item.chainId,
+//       }
+//       for (let i = 0; i < item.pool.tokens.length; i++) {
+//         out['Details'][0][item.pool.tokens[i].symbol] = parseFloat(
+//           item.amounts[i],
+//         ).toFixed(2)
+//       }
+//       return out
+//     }),
+//   )
+//   return result
+// }
 
 const periodsOfData = [
   {

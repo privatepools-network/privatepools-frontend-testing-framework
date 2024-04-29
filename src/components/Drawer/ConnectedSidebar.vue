@@ -604,7 +604,7 @@ onMounted(async () => {
 async function handlePortfolioData() {
   if (props.address) {
     let mmProvider = await InitializeMetamask()
-    addressActivity.value = await useWalletActivity(props.address, mmProvider)
+    addressActivity.value = await useWalletActivity(props.address, networkId.value)
     addressPools.value = await useWalletPools(props.address, networkId.value)
   }
 }

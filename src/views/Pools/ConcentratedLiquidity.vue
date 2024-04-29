@@ -19,15 +19,15 @@
       <div class="d-flex gap-5">
         <div class="w-50">
           <div class="compose_text text-uppercase fw-bolder uppercase font-bold text-black dark:!text-white text-2xl">
-            CREATE A CL pool
+            {{ $t('create_cl_pool') }}
           </div>
           <div class="compose_text text-black dark:!text-white" style="font-size: 12px">
-            Create a Private Pools CL Pool
+            {{ $t('create_cl_pool_desc') }}
           </div>
 
           <div class="concentrated_card dark:!bg-[#00000024] bg-white">
-            <div class="compose_text dark:!text-white text-black mb-3">New CL Position</div>
-            <div class="compose_text dark:!text-white text-black fw-light">Pair</div>
+            <div class="compose_text dark:!text-white text-black mb-3">{{ $t('new_cl_position') }}</div>
+            <div class="compose_text dark:!text-white text-black fw-light">{{ $t('pair') }}</div>
             <div class="d-flex gap-3">
               <!-- Tokens selector 1 separate comp-->
               <div @click="() => tokenSelectModalOpen(1)" class="selector_button dark:!bg-[#00000024] bg-white">
@@ -59,7 +59,7 @@
               </div>
             </div>
             <div v-if="concentratedLiquidityStep === 1">
-              <div class="compose_text dark:!text-white text-black fw-light mt-3">Fee Tier</div>
+              <div class="compose_text dark:!text-white text-black fw-light mt-3">{{ $t('fee_tier') }}</div>
               <div class="fee_tier_container dark:!bg-[#00000024] bg-white">
                 <div :class="tier.selected
                   ? 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]  fee_tier_container_card__selected'
@@ -70,14 +70,14 @@
                 </div>
               </div>
             </div>
-            <div class="compose_text dark:!text-white text-black fw-light mt-3 mb-2">Price Range</div>
+            <div class="compose_text dark:!text-white text-black fw-light mt-3 mb-2">{{ $t('price_range') }}</div>
             <div class="price_range_container dark:!bg-[#22222224] bg-white">
               <div class="d-flex gap-3 justify-content-between">
                 <!-- Min per separate comp -->
                 <div class="price_range_card dark:!bg-[#22222224] bg-white">
                   <div class="d-flex justify-content-center w-100 position-relative">
                     <div class="d-flex flex-column justify-content-center align-items-center gap-3 p-4">
-                      <div class="dark:!text-[#c1c8ce] text-black">Min per</div>
+                      <div class="dark:!text-[#c1c8ce] text-black">{{ $t('min_per') }}</div>
                       <div style="
                           font-size: 20px;
                           font-weight: 600;
@@ -161,7 +161,7 @@
                 <div class="price_range_card dark:!bg-[#22222224] bg-white">
                   <div class="d-flex justify-content-center w-100 position-relative">
                     <div class="d-flex flex-column justify-content-center align-items-center gap-3 p-4">
-                      <div class="dark:!text-[#c1c8ce] text-black">Max per</div>
+                      <div class="dark:!text-[#c1c8ce] text-black">{{ $t('max_per') }}</div>
                       <div style="
                           font-size: 20px;
                           font-weight: 600;
@@ -241,7 +241,7 @@
                   </div>
                 </div>
               </div>
-              <div class="compose_text dark:!text-white text-black fw-light mt-3 mb-3">Range Type:</div>
+              <div class="compose_text dark:!text-white text-black fw-light mt-3 mb-3">{{ $t('range_type') }}:</div>
               <div v-if="concentratedLiquidityStep === 2" class="fee_tier_container dark:!bg-[#00000024] bg-white">
                 <div :class="type.selected
                   ? 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]  fee_tier_container_card__selected'
@@ -261,7 +261,7 @@
                 </div>
               </div>
             </div>
-            <div class="compose_text dark:!text-white text-black fw-light mt-3">Add Liquidity</div>
+            <div class="compose_text dark:!text-white text-black fw-light mt-3">{{ $t('add_liquidity') }}</div>
             <div class="price_range_container dark:!bg-[#22222224] bg-white">
               <div class="d-flex flex-column gap-4 position-relative">
                 <!-- Add liquidity to singe comp on refactor week -->
@@ -300,7 +300,7 @@
                         </h4>
                       </div>
                       <div>
-                        Balance:
+                        {{ $t('balance') }}:
                         {{
                           parseFloat(
                             (pairToken1.balance || 0) - depositAmount1,
@@ -310,7 +310,7 @@
                     </div>
                     <div class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                       @click="depositAmount1 = pairToken1.balance">
-                      Max
+                      {{$t('max')}}
                     </div>
                   </div>
                   <div>
@@ -365,7 +365,7 @@
                         </h4>
                       </div>
                       <div>
-                        Balance:
+                        {{ $t('balance') }}:
                         {{
                           parseFloat(
                             (pairToken2.balance || 0) - depositAmount2,
@@ -375,7 +375,7 @@
                     </div>
                     <div class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                       @click="depositAmount2 = pairToken2.balance">
-                      Max
+                      {{ $t('max') }}
                     </div>
                   </div>
                   <div>
@@ -425,7 +425,7 @@
               </div>
             </div>
             <div class="compose_text dark:!text-white text-black fw-light mt-5 d-flex justify-content-between">
-              <div>Slippage:</div>
+              <div>{{ $t('slippage') }}:</div>
               <div>0.5%</div>
             </div>
 
@@ -485,17 +485,17 @@
               ? 'concentrated_button concentrated_button_disabled'
               : 'concentrated_button'
               ">
-              No Tokens Selected
+              {{ $t('no_tokens_selected') }}
             </button>
             <button v-else-if="tokensInitialized && concentratedLiquidityStep < 3" :class="'concentrated_button'"
               @click="mintPosition">
-              Add liquidity
+              {{ $t('add_liquidity') }}
             </button>
             <button v-else-if="concentratedLiquidityStep === 3" :class="'concentrated_button'">
-              Approving all tokens for minting liquidity
+              {{ $t('approving_all_tokens_for_minting') }}
             </button>
             <div v-else-if="concentratedLiquidityStep === 4" :class="'concentrated_button'">
-              Minting liquidity <span class="button_loader pl-2"></span>
+              {{ $t('minting_liquidity') }} <span class="button_loader pl-2"></span>
             </div>
             <div v-else-if="concentratedLiquidityStep === 5" :class="'concentrated_button'" @click="  router.push({
       name: 'Concentrated liquidity Add',
@@ -504,7 +504,7 @@
         poolId: poolInfo.address
       },
     })">
-              Manage position
+              {{ $t('manage_position') }}
             </div>
           </div>
         </div>

@@ -1,45 +1,90 @@
 <template>
   <div class="pools-pagination">
     <div class="pools-pagination__page-num !text-black dark:!text-white">
-      <div
-        style="display: flex; align-items: center; gap: 7px;"
-      >
-        <div class="pools-pagination__text !text-black dark:!text-white">Show:</div>
+      <div style="display: flex; align-items: center; gap: 7px">
+        <div class="pools-pagination__text !text-black dark:!text-white">
+          {{ $t('show') }}:
+        </div>
         <div>
           <div class="pagination-select">
-            <div class="pagination-select__title" :class="{'pagination-select__title_active':isPerPageSelectOpened==true}" @click="isPerPageSelectOpened=!isPerPageSelectOpened">
-              {{perPage}}
-              <svg style="margin-left: 10px;" xmlns="http://www.w3.org/2000/svg" width="11" height="7" viewBox="0 0 11 7" fill="none">
-                <path d="M0.929932 1.16992L5.42993 5.66992L9.92993 1.16992" stroke="#00C9FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <div
+              class="pagination-select__title"
+              :class="{
+                'pagination-select__title_active':
+                  isPerPageSelectOpened == true,
+              }"
+              @click="isPerPageSelectOpened = !isPerPageSelectOpened"
+            >
+              {{ perPage }}
+              <svg
+                style="margin-left: 10px"
+                xmlns="http://www.w3.org/2000/svg"
+                width="11"
+                height="7"
+                viewBox="0 0 11 7"
+                fill="none"
+              >
+                <path
+                  d="M0.929932 1.16992L5.42993 5.66992L9.92993 1.16992"
+                  stroke="#00C9FF"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
-            <div class="pagination-select__wrapper bg-white dark:!bg-[#02120a]" :class="{'pagination-select__wrapper_active':isPerPageSelectOpened==true}">
-              <div class="pagination-select__option" v-for="item in perPageOptions" :key="item" @click="$emit('changePerPage', item), isPerPageSelectOpened=false">
-                {{item}}
+            <div
+              class="pagination-select__wrapper bg-white dark:!bg-[#02120a]"
+              :class="{
+                'pagination-select__wrapper_active':
+                  isPerPageSelectOpened == true,
+              }"
+            >
+              <div
+                class="pagination-select__option"
+                v-for="item in perPageOptions"
+                :key="item"
+                @click="
+                  $emit('changePerPage', item), (isPerPageSelectOpened = false)
+                "
+              >
+                {{ item }}
               </div>
             </div>
           </div>
         </div>
-        <div class="pools-pagination__text !text-black dark:!text-white">Records</div>
+        <div class="pools-pagination__text !text-black dark:!text-white">
+          {{ $t('records') }}
+        </div>
       </div>
     </div>
     <div
       v-if="totalPage !== 0"
-      style="display: flex; gap: 5px; justify-content: end;"
+      style="display: flex; gap: 5px; justify-content: end"
     >
       <CButton
-     
         :disabled="currentPage === 1"
-        @click="$emit('changePage', {isEquating: true, num: 1})"
-        style="border-radius: 20px;color: #00C9FF !important;border: 1px solid #00C9FF;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 8px;"
-      >First</CButton
+        @click="$emit('changePage', { isEquating: true, num: 1 })"
+        style="
+          border-radius: 20px;
+          color: #00c9ff !important;
+          border: 1px solid #00c9ff;
+          font-size: clamp(10px, 0.8vw, 12px);
+          padding: 4px 8px;
+        "
+        >{{ $t('first') }}</CButton
       >
       <CButton
         :disabled="currentPage === 1"
-        @click="$emit('changePage', {isEquating: false, num: -1})"
-        style="border-radius: 15px;color: #00C9FF !important;border: 1px solid #00C9FF;background: linear-gradient(152.97deg, #001A29 0%, #00C9FF 100%);
-;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;"
-
+        @click="$emit('changePage', { isEquating: false, num: -1 })"
+        style="
+          border-radius: 15px;
+          color: #00c9ff !important;
+          border: 1px solid #00c9ff;
+          background: linear-gradient(152.97deg, #001a29 0%, #00c9ff 100%);
+          font-size: clamp(10px, 0.8vw, 12px);
+          padding: 4px 10px;
+        "
       >
         <svg
           width="7"
@@ -54,14 +99,27 @@
           />
         </svg>
       </CButton>
-      <CButton class="border-success !text-black dark:!text-white" style="border-radius: 20px;
-      border: 1px solid #00C9FF !important; font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;">{{ currentPage }}</CButton>
-     {{ console.log('totalPage', pools) }}
-     <CButton
-        :disabled="currentPage >= totalPage / perPage"
-        @click="$emit('changePage', {isEquating: false, num: 1})"
-        style="border-radius: 15px;color: #00C9FF !important;border: 1px solid #00C9FF;background: linear-gradient(152.97deg, #001A29 0%, #00C9FF 100%);
-;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 10px;"
+      <CButton
+        class="border-success !text-black dark:!text-white"
+        style="
+          border-radius: 20px;
+          border: 1px solid #00c9ff !important;
+          font-size: clamp(10px, 0.8vw, 12px);
+          padding: 4px 10px;
+        "
+        >{{ currentPage }}</CButton
+      >
+      <CButton
+        :disabled="currentPage >= pools.length / perPage"
+        @click="$emit('changePage', { isEquating: false, num: 1 })"
+        style="
+          border-radius: 15px;
+          color: #00c9ff !important;
+          border: 1px solid #00c9ff;
+          background: linear-gradient(152.97deg, #001a29 0%, #00c9ff 100%);
+          font-size: clamp(10px, 0.8vw, 12px);
+          padding: 4px 10px;
+        "
       >
         <svg
           width="7"
@@ -78,28 +136,40 @@
       </CButton>
 
       <CButton
-       
-        style="border-radius: 20px;color: #00C9FF !important;border: 1px solid #00C9FF;font-size: clamp(10px, 0.8vw, 12px);padding: 4px 8px;"
-        :disabled="currentPage === Math.ceil(totalPage / perPage)"
-        @click="$emit('changePage', {isEquating: true, num: Math.ceil(totalPage / perPage)})"
-      >Last
+        style="
+          border-radius: 20px;
+          color: #00c9ff !important;
+          border: 1px solid #00c9ff;
+          font-size: clamp(10px, 0.8vw, 12px);
+          padding: 4px 8px;
+        "
+        :disabled="currentPage === Math.ceil(pools.length / perPage)"
+        @click="
+          $emit('changePage', {
+            isEquating: true,
+            num: Math.ceil(pools.length / perPage),
+          })
+        "
+        >{{ $t('last') }}
       </CButton>
     </div>
   </div>
 </template>
 
 <script setup>
-import {defineProps, toRefs, ref} from 'vue'
+import { defineProps, defineEmits, toRefs, ref } from 'vue'
 
 const props = defineProps({
   perPage: Number,
   pools: Array,
-  totalPage: Number,
   currentPage: Number,
   perPageOptions: Array,
 })
-const {perPage, pools, currentPage, perPageOptions} = toRefs(props)
-console.log("pools are ", pools);
+
+defineEmits('changePage', 'changePerPage')
+
+const { perPage, pools, currentPage, perPageOptions } = toRefs(props)
+console.log('pools are ', pools.value)
 const isPerPageSelectOpened = ref(false)
 </script>
 
@@ -126,7 +196,7 @@ const isPerPageSelectOpened = ref(false)
   cursor: pointer;
   &__wrapper {
     position: absolute;
-    border: 1px solid #00C9FF;
+    border: 1px solid #00c9ff;
     width: 100%;
     border-radius: 10px 10px 0 0;
     top: -79px;
@@ -143,7 +213,7 @@ const isPerPageSelectOpened = ref(false)
     padding: 4px 8px;
     border-radius: 20px;
     font-size: 12px;
-    border: 1px solid #00C9FF;
+    border: 1px solid #00c9ff;
     display: flex;
     align-items: center;
     gap: 4px;
