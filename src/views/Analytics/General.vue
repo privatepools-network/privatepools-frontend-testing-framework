@@ -1,11 +1,11 @@
 <template>
   <MainCard>
     <div class="title text-black dark:!text-white my-3">
-      Overview
+      {{ $t('overview') }}
     </div>
     <GeneralOverview :overview="allData.overview" />
     <div class="title text-black dark:!text-white mt-5 mb-3">
-      Analytics Chart
+      {{ $t('analytics_chart') }}
     </div>
 
     <div class="track_info_container">
@@ -16,22 +16,26 @@
         :tokensData="allData.topTradingTokens" :symbol="currencySymbol" />
     </div>
 
-
-    <div style="" class="mt-5 mb-3 title text-black dark:!text-white">
-      Top Perfomance Pools
+    <div class="mt-5 mb-3 flex justify-between items-center">
+    <div class=" title text-black dark:!text-white">
+      {{ $t('top_perfomance_pools') }}
     </div>
+    <div>
+      <Tabs :selectedTab="selectedTopPerformanceFilter" :tabsOptions="topPerformanceFilters"
+      @changeTab="changeTopPerformanceFilter"></Tabs>
+    </div>
+  </div>
     <GeneralPerformanceTable :all_pools="allData.topPerformancePools" />
     <div class="mt-5 mb-3 title text-black dark:!text-white">
-      Top Trading Tokens
+      {{ $t('top_trading_tokens') }}
     </div>
     <TopTradingTokensTable :all_tokens="allData.topTradingTokens" />
 
 
     <div class="mt-5 mb-3 title text-black dark:!text-white">
-      Private Pools Activity
+      {{ $t('private_pools_activity') }}
     </div>
-    {{ console.log('clActivity', clActivity) }}
-    {{ console.log('joinExits', joinExits) }}
+ 
     <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" :all_activities="allData.activities ? allData.activities : []" />
 
   </MainCard>
@@ -69,6 +73,8 @@ import GeneralPerformanceTable from '@/components/General/GeneralPerformanceTabl
 import TopTradingTokensTable from '@/components/General/TopTradingTokensTable.vue';
 import { GetUniswapActivity } from "@/composables/concentrated-liquidity/useUniswapActivity"
 import { getGeneralData } from "@/composables/data/generalData";
+import Tabs from '@/UI/Tabs.vue';
+import { t } from 'i18next';
 
 const allPoolsTableData = ref([])
 const allPairsTableData = ref([])
@@ -83,6 +89,13 @@ const joinExits = ref([])
 const clActivity = ref([])
 const activeUsers = ref([])
 
+const topPerformanceFilters = [t('all'), 'WP', 'CL']
+
+const selectedTopPerformanceFilter = ref(topPerformanceFilters[0])
+
+function changeTopPerformanceFilter(_new) {
+  selectedTopPerformanceFilter.value = _new
+}
 
 const chainSelected = ref({
   "name": "All Chains",

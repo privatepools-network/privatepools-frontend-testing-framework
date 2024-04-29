@@ -102,6 +102,7 @@
     ></Pagination> -->
 </template>
 <script setup>
+import { t } from 'i18next';
 import Pagination from '../Pool/Pagination.vue';
 import TopTradingTokensPoolRow from './TopTradingTokensPoolRow.vue';
 import {defineProps, ref} from "vue"
@@ -123,216 +124,14 @@ function changePerPage(v1) {
 }
 
 const props = defineProps(["all_tokens"])
-// const all_pools = [
-//     {
-//         "id": "0x88e6378567c912e346e22e5de18ab417e5c8d9a3000100000000000000000007",
-//         "Pool Name": [
-//             [
-//                 "WMATIC",
-//                 "WBTC",
-//                 "AVAX",
-//                 "SOL"
-//             ]
-//         ],
-//         "Revenue": "103.639",
-//         "Fees": "3.565",
-//         "Trades": "25",
-//         "Volume": "5787.216",
-//         "TVL": "62337.19772",
-//         "Liquidity": "62337.19772",
-//         "APR": "5.093",
-//         "Profit": "100.074",
-//         "Blockchain": "Polygon",
-//         "Token": "WMATIC",
-//         "Pool Weight": [
-//             [
-//                 {
-//                     "token": "WMATIC",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "WBTC",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "AVAX",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "SOL",
-//                     "weight": "0.25%"
-//                 }
-//             ]
-//         ],
-//         "LiquidityType": "WP",
-//         "ROI": "-",
-//         "address": "0x88e6378567c912e346e22e5de18ab417e5c8d9a3"
-//     },
-//     {
-//         "id": "0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24000100000000000000000014",
-//         "Pool Name": [
-//             [
-//                 "AVAX",
-//                 "SOL",
-//                 "BTCB",
-//                 "MATIC"
-//             ]
-//         ],
-//         "Revenue": "0.000",
-//         "Fees": "0.000",
-//         "Trades": "0",
-//         "Volume": "0.000",
-//         "TVL": "1409.60396",
-//         "Liquidity": "1409.60396",
-//         "APR": "0.000",
-//         "Profit": "0.000",
-//         "Blockchain": "Binance",
-//         "Token": "AVAX",
-//         "Pool Weight": [
-//             [
-//                 {
-//                     "token": "AVAX",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "SOL",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "BTCB",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "MATIC",
-//                     "weight": "0.25%"
-//                 }
-//             ]
-//         ],
-//         "LiquidityType": "WP",
-//         "ROI": "-",
-//         "address": "0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24"
-//     },
-//     {
-//         "id": "0x68aba87382af2ec495c5b0694f0a7984988b5fc7000100000000000000000004",
-//         "Pool Name": [
-//             [
-//                 "WMATIC",
-//                 "LINK",
-//                 "WETH",
-//                 "LDO"
-//             ]
-//         ],
-//         "Revenue": "0.000",
-//         "Fees": "0.000",
-//         "Trades": "0",
-//         "Volume": "0.000",
-//         "TVL": "1206.57402",
-//         "Liquidity": "1206.57402",
-//         "APR": "0.000",
-//         "Profit": "0.000",
-//         "Blockchain": "Polygon",
-//         "Token": "LINK",
-//         "Pool Weight": [
-//             [
-//                 {
-//                     "token": "WMATIC",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "LINK",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "WETH",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "LDO",
-//                     "weight": "0.25%"
-//                 }
-//             ]
-//         ],
-//         "LiquidityType": "WP",
-//         "ROI": "-",
-//         "address": "0x68aba87382af2ec495c5b0694f0a7984988b5fc7"
-//     },
-//     {
-//         "id": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e000200000000000000000012",
-//         "Pool Name": [
-//             [
-//                 "WETH",
-//                 "USDC"
-//             ]
-//         ],
-//         "Revenue": "0.000",
-//         "Fees": "0.000",
-//         "Trades": "0",
-//         "Volume": "0.000",
-//         "TVL": "547.23200",
-//         "Liquidity": "547.23200",
-//         "APR": "0.000",
-//         "Profit": "0.000",
-//         "Blockchain": "Binance",
-//         "Token": "WETH",
-//         "Pool Weight": [
-//             [
-//                 {
-//                     "token": "WETH",
-//                     "weight": "0.5%"
-//                 },
-//                 {
-//                     "token": "USDC",
-//                     "weight": "0.5%"
-//                 }
-//             ]
-//         ],
-//         "LiquidityType": "WP",
-//         "ROI": "-",
-//         "address": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e"
-//     },
-//     {
-//         "id": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e000200000000000000000012",
-//         "Pool Name": [
-//             [
-//                 "WETH",
-//                 "USDC"
-//             ]
-//         ],
-//         "Revenue": "0.000",
-//         "Fees": "0.000",
-//         "Trades": "0",
-//         "Volume": "0.000",
-//         "TVL": "547.23200",
-//         "Liquidity": "547.23200",
-//         "APR": "0.000",
-//         "Profit": "0.000",
-//         "Blockchain": "Binance",
-//         "Token": "WETH",
-//         "Pool Weight": [
-//             [
-//                 {
-//                     "token": "WETH",
-//                     "weight": "0.5%"
-//                 },
-//                 {
-//                     "token": "USDC",
-//                     "weight": "0.5%"
-//                 }
-//             ]
-//         ],
-//         "LiquidityType": "WP",
-//         "ROI": "-",
-//         "address": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e"
-//     },
 
-// ]
 
 const headers = [
   '#',
-  'Tokens name',
+  t('tokens_name'),
   'TVL',
-  'Volume',
-  'Balance',
+  t('volume'),
+  t('profit'),
 
 ]
 

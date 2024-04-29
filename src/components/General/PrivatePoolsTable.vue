@@ -8,10 +8,10 @@
   </div>
 
   <CRow id="pool-activity-row" class="table-wrapper">
-    <Table :headers="[t('actions'), t('details'), t('value'), t('time')]">
+    <Table :headers="activitiesSelectedMode === t('trades') ?  [t('actions'), t('details'), t('value'), t('profits'), t('time')] : [t('actions'), t('details'), t('value'), t('time')] ">
       <CTableBody v-if="activities" class="text-black dark:!text-white"
         :class="isDark ? 'table-body' : 'table-body-light'">
-        <CTableRow v-for="(item, i) in activities.slice((currentPage - 1) * perPage, currentPage * perPage)" :key="i" class="table-row">
+        <CTableRow v-for="(item, i) in activities.slice(0, sliceNumber)" :key="i" class="table-row">
           <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
             <div class="actions-cell">
               <img v-if="item['Actions'] === 'Deposit'" :src="DepositIcon" />
@@ -56,7 +56,8 @@
             <div class="time-cell">
               <a target="_blank" :href="`${configService.getNetworkConfig(item.chainId).explorer
                 }/tx/${item.Tx}`" class="flex items-center gap-1 text-black dark:!text-white">
-                {{ item['Time'] }}
+                {{ moment.unix(item['timestamp']).format("L, LTS") }}
+                <div class="w-[14px] h-[14px]">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M10.5068 7.58333V11.0833C10.5068 11.3928 10.3839 11.6895 10.1651 11.9083C9.94633 12.1271 9.64959 12.25 9.34017 12.25H2.9235C2.61408 12.25 2.31734 12.1271 2.09854 11.9083C1.87975 11.6895 1.75684 11.3928 1.75684 11.0833V4.66667C1.75684 4.35725 1.87975 4.0605 2.09854 3.84171C2.31734 3.62292 2.61408 3.5 2.9235 3.5H6.4235"
@@ -66,10 +67,15 @@
                   <path d="M5.83984 8.16667L12.2565 1.75" stroke="#00e0ff" stroke-width="1.16667" stroke-linecap="round"
                     stroke-linejoin="round" />
                 </svg>
+              </div>
               </a>
             </div>
           </CTableDataCell>
         </CTableRow>
+        <div @click="activities.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
+        {{ $t('load_more') }}
+        <img :src="arrow_bottom" class="!border-b-0 !p-0"/>
+      </div>
       </CTableBody>
       <div v-else-if="activities.length === 0"
         class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20">
@@ -88,8 +94,9 @@
       </div>
     </Table>
   </CRow>
-  <Pagination :perPage="perPage" :pools="activities" :currentPage="currentPage" @changePage="changePage"
-    @changePerPage="changePerPage" :perPageOptions="[25, 50, 100]"></Pagination>
+  
+  <!-- <Pagination :perPage="perPage" :pools="activities" :currentPage="currentPage" @changePage="changePage"
+    @changePerPage="changePerPage" :perPageOptions="[25, 50, 100]"></Pagination> -->
 </template>
 <script setup>
 import Tabs from '@/UI/Tabs'
@@ -106,12 +113,14 @@ import swapArrowIcon from '@/assets/icons/TableAction/swapArrowIcon.svg'
 import { useDark } from '@vueuse/core'
 import Pagination from '../Pool/Pagination.vue'
 import { t } from 'i18next'
+import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
+import moment from 'moment'
 
 const isDark = useDark()
 
 const props = defineProps(['clActivity', 'wpActivity', 'all_activities'])
 const { clActivity, wpActivity } = toRefs(props)
-
+const sliceNumber = ref(10)
 const activities = computed(() => {
   let result = props.all_activities ?? []
   console.log("HERE", props.all_activities)
@@ -225,7 +234,6 @@ const periodsOfData = [
     title: t('all_time'),
   },
 ]
-
 const activitiesModes = [t('all'), t('deposit'), t('trades'), t('harvest'), t('withdraw')]
 
 const activitiesSelectedMode = ref(activitiesModes[0])
@@ -279,7 +287,7 @@ function changeActPeriodOfData(_new) {
 
   &-body-light {
     display: block;
-    max-height: 500px;
+    // max-height: 500px;
     overflow-x: hidden;
     overflow-y: auto;
 
@@ -306,7 +314,7 @@ function changeActPeriodOfData(_new) {
 
   &-body {
     display: block;
-    max-height: 500px;
+    // max-height: 500px;
     overflow-x: hidden;
     overflow-y: auto;
 

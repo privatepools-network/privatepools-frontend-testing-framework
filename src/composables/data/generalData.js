@@ -15,6 +15,8 @@ export async function getGeneralData(network) {
     promises.push(axios.get(url))
   }
   const data = await Promise.all(promises)
+
+  console.log('data', data)
   return {
     overview: data[0].data,
     activities: data[1].data,
