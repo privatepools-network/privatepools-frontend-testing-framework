@@ -458,23 +458,5 @@ const all_pools = computed(() => {
   }
 }
 
-.load_more {
-  display: flex;
-  justify-content: center;
-  font-family: Montserrat;
-  font-size: clamp(12px, 0.8vw, 14px);
-  font-weight: 600;
-  line-height: 24px;
-  letter-spacing: 0em;
-  text-align: center;
-  // color: #7d7d7d;
-  padding: 15px;
-  border-top: 1px solid #7d7d7d2d;
 
-  &:hover {
-    color: #00affe;
-    cursor: pointer;
-    background: #ffffff0e;
-  }
-}
 </style>

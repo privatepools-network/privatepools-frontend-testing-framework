@@ -16,7 +16,7 @@
           <div class="pools-row__value" v-for="(item, i) in pool['Pool Weight'][0]" :key="`${i}-tokens`">
             <div class="d-flex gap-2 chip_token align-items-center  !bg-[#EAF0F6] dark:!bg-[#22222224]">
               <span class="chip_token_name text-black dark:!text-white">{{ item.token }}</span>
-              <span class="chip_token_weight text-[#475569] dark:!text-[#8f8f8f]">{{ item.weight }}</span>
+              <span class="chip_token_weight text-[#475569] dark:!text-[#8f8f8f]" v-if="pool['LiquidityType'] === 'WP'">{{ parseFloat(item.weight).toFixed(0) }}%</span>
             </div>
           </div>
           <div class="pool_type text-white" :class="pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'

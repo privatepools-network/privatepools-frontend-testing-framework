@@ -59,6 +59,7 @@
     ></Pagination> -->
 </template>
 <script setup>
+import { t } from 'i18next';
 import Pagination from '../Pool/Pagination.vue';
 import PoolRow from '../Pool/PoolRow.vue';
 import { defineProps, ref } from "vue";
@@ -303,13 +304,13 @@ const user_staked_pools = [
 // ]
 
 const headers = [
-  'Tokens',
-  'Composition',
+  t('tokens'),
+  t('composition'),
   'ROI',
   'TVL',
-  'Volume (24h)',
+  `${t('volume')} (24h)`,
   'APR',
-  'Actions',
+  t('actions'),
 ]
 </script>
 <style lang="scss" scoped>

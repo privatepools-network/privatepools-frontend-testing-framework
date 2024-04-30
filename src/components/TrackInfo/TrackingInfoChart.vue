@@ -1,20 +1,24 @@
 <template>
-  <div class="track_chart_card  bg-white dark:!bg-[#22222224]">
-
+  <div class="track_chart_card bg-white dark:!bg-[#22222224]">
     <div class="d-flex justify-content-end"></div>
     <div v-if="filteredData.length === 0" class="chart_inside">
       <LoaderPulse />
     </div>
     <div v-else class="chart_inside">
       <ChartTimeline
-          :isCumulativeMode="isCumulativeMode"
-          :currentTimeline="currentTimeline"
-          :timelines="timelines"
-          @changeCumulativeMode="changeCumulativeMode"
-          @changeTimeline="changeTimeline"
-        />
-      <img :src="logo" alt="D3" class="chart-logo" height="40px"/>
-      <VChart class="chart" :option="optionObj" @legendselectchanged="legendSelectedChange" :autoresize="true" />
+        :isCumulativeMode="isCumulativeMode"
+        :currentTimeline="currentTimeline"
+        :timelines="timelines"
+        @changeCumulativeMode="changeCumulativeMode"
+        @changeTimeline="changeTimeline"
+      />
+      <img :src="logo" alt="D3" class="chart-logo" height="40px" />
+      <VChart
+        class="chart"
+        :option="optionObj"
+        @legendselectchanged="legendSelectedChange"
+        :autoresize="true"
+      />
     </div>
   </div>
 </template>
@@ -54,9 +58,9 @@ import {
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import ChartTimeline from '@/UI/ChartTimeline.vue'
 import { useDark } from '@vueuse/core'
+import { t } from 'i18next'
 
 const isDark = useDark()
-
 
 use([
   CanvasRenderer,
@@ -75,7 +79,7 @@ const props = defineProps([
   'chainSelected',
   'tokensData',
   'historicalPrices',
-  'symbol'
+  'symbol',
 ])
 const {
   chartData: allChartData,
@@ -105,115 +109,111 @@ const chainsMap = ref(getDefaultChainsMapValue())
 const assets = computed(() =>
   tokensData.value.length > 0
     ? Array.from(
-      new Set(
-        tokensData.value
-          .filter((t) =>
-            isRightChainName(t.Blockchain, chainSelected.value.name),
-          )
-          .map((t) => t.symbol),
-      ),
-    )
+        new Set(
+          tokensData.value
+            .filter((t) =>
+              isRightChainName(t.Blockchain, chainSelected.value.name),
+            )
+            .map((t) => t.symbol),
+        ),
+      )
     : [],
 )
-const preFiltersList = ref(
-  [
-        {
-          title: 'Revenue',
-          code: 'Revenue',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Gas Fees',
-          code: 'Gas Fees',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Trades',
-          code: 'Trades',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Volume',
-          code: 'Volume',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'TVL',
-          code: 'TVL',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-       
-        {
-          title: 'Average APR',
-          code: 'Average APR',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        
-        {
-          title: 'Profit',
-          code: 'Profit',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'Capital Gains',
-          code: 'Capital Gains',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'PNL',
-          code: 'PNL',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'ROI',
-          code: 'ROI',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Token Incentives',
-          code: 'Token Incentives',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Impermanent Loss',
-          code: 'Impermanent Loss',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Volatility Index',
-          code: 'Volatility Index',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-      ]
-)
+const preFiltersList = ref([
+  {
+    title: 'Revenue',
+    code: 'Revenue',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Gas Fees',
+    code: 'Gas Fees',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Trades',
+    code: 'Trades',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Volume',
+    code: 'Volume',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'TVL',
+    code: 'TVL',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
 
+  {
+    title: 'Average APR',
+    code: 'Average APR',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
 
+  {
+    title: 'Profit',
+    code: 'Profit',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+  {
+    title: 'Capital Gains',
+    code: 'Capital Gains',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+  {
+    title: 'PNL',
+    code: 'PNL',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+  {
+    title: 'ROI',
+    code: 'ROI',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Token Incentives',
+    code: 'Token Incentives',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Impermanent Loss',
+    code: 'Impermanent Loss',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Volatility Index',
+    code: 'Volatility Index',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+])
 
 const dates = computed(() => {
   return filteredData.value.map((v) => v.Date)
@@ -257,17 +257,17 @@ const dataVolatilityIndexes = computed(() => {
 })
 
 const timelines = [
-// {
-//     name: 'All-time',
-//   },
+  // {
+  //     name: 'All-time',
+  //   },
   {
-    name: 'Daily',
+    name: t('daily'),
   },
   {
-    name: 'Weekly',
+    name: t('weekly'),
   },
   {
-    name: 'Monthly',
+    name: t('monthly'),
   },
 ]
 const currentTimeline = ref(timelines[0])
@@ -277,391 +277,389 @@ function changeTimeline(tl) {
 }
 
 const filters = ref({
-        Revenue: true,
-        ['Gas Fees']: false,
-        ['Trades']: true,
-        Volume: true,
-        TVL: false,
-        ['Average APR']: true,
-        ['Profit']: false,
-        ['Capital Gains']: false,
-        ['PNL']: false,
-        ['ROI']: false,
-        ['Token Incentives']: false,
-        ['Impermanent Loss']: false,
-        ['Volatility Index']: false,
-      })
-
-
-
+  Revenue: true,
+  ['Gas Fees']: false,
+  ['Trades']: true,
+  Volume: true,
+  TVL: false,
+  ['Average APR']: true,
+  ['Profit']: false,
+  ['Capital Gains']: false,
+  ['PNL']: false,
+  ['ROI']: false,
+  ['Token Incentives']: false,
+  ['Impermanent Loss']: false,
+  ['Volatility Index']: false,
+})
 
 function legendSelectedChange(e) {
-    for (const [key, value] of Object.entries(e.selected)) {
+  for (const [key, value] of Object.entries(e.selected)) {
     filters.value[key] = value
   }
 }
 
 const filterKeys = computed(() => Object.keys(filters.value))
 
-const series = computed(() => 
-[
+const series = computed(() => [
+  {
+    type: 'bar',
+    name: 'Revenue',
+    data: dataRevenues.value,
+    color: '#01B47E',
+    sampling: 'lttb',
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
         {
-          type: 'bar',
-          name: 'Revenue',
-          data: dataRevenues.value,
+          offset: 0,
           color: '#01B47E',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#01B47E',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: '#01B47E',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-
-        {
-          name: 'Gas Fees',
-          type: 'bar',
-          data: dataGasFees.value,
-          color: '#87F1FF',
-
-          sampling: 'lttb',
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: '#87F1FF',
-          },
-          smooth: true,
-          showSymbol: false,
-
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
         {
-          name: 'Average APR',
-          type: 'line',
-          data: dataAvgApr.value,
+          offset: 1,
+          color: 'transparent',
+        },
+      ]),
+    },
+    xAxisIndex: 0,
+    yAxisIndex: 1,
+    smooth: true,
+    showSymbol: false,
+    itemStyle: {
+      borderRadius: [5, 5, 0, 0],
+      color: '#01B47E',
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+
+  {
+    name: 'Gas Fees',
+    type: 'bar',
+    data: dataGasFees.value,
+    color: '#87F1FF',
+    xAxisIndex: 0,
+    yAxisIndex: 2,
+    sampling: 'lttb',
+    itemStyle: {
+      borderRadius: [5, 5, 0, 0],
+      color: '#87F1FF',
+    },
+    smooth: true,
+    showSymbol: false,
+
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  {
+    name: 'Average APR',
+    type: 'line',
+    data: dataAvgApr.value,
+    color: '#ffc925',
+    sampling: 'lttb',
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        {
+          offset: 0,
           color: '#ffc925',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#ffc925',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#ffc925',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
         {
-          name: 'Volume',
-          type: 'bar',
-          data: dataVolumes.value,
-          color: '#FF4242',
-          sampling: 'lttb',
-          areaStyle: {},
-          xAxisIndex: 0,
-          yAxisIndex: 1,
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: '#FF4242',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+          offset: 1,
+          color: 'transparent',
         },
-        {
-          name: 'Trades',
-          type: 'bar',
-          data: dataTrades.value,
-          color: '#6e27b2',
-          sampling: 'lttb',
-          areaStyle: {},
+      ]),
+    },
+    smooth: true,
+    showSymbol: false,
+    lineStyle: {
+      width: 1,
+      color: '#ffc925',
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  {
+    name: 'Volume',
+    type: 'bar',
+    data: dataVolumes.value,
+    color: '#FF4242',
+    sampling: 'lttb',
+    areaStyle: {},
+    // xAxisIndex: 0,
+    // yAxisIndex: 1,
+    smooth: true,
+    showSymbol: false,
+    itemStyle: {
+      color: '#FF4242',
+      borderRadius: [5, 5, 0, 0],
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  {
+    name: 'Trades',
+    type: 'bar',
+    data: dataTrades.value,
+    color: '#6e27b2',
+    sampling: 'lttb',
+    areaStyle: {},
 
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: '#6e27b2',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
+    smooth: true,
+    showSymbol: false,
+    itemStyle: {
+      color: '#6e27b2',
+      borderRadius: [5, 5, 0, 0],
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  {
+    type: 'line',
+    name: 'Volatility Index',
+    data: dataVolatilityIndexes.value,
+    color: '#FF8FD6',
+    sampling: 'lttb',
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
         {
-          type: 'line',
-          name: 'Volatility Index',
-          data: dataVolatilityIndexes.value,
+          offset: 0,
           color: '#FF8FD6',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#FF8FD6',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#FF8FD6',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
         {
-          type: 'bar',
-          name: 'Profit',
-          data: dataVolatilityIndexes.value,
+          offset: 1,
+          color: 'transparent',
+        },
+      ]),
+    },
+    smooth: true,
+    showSymbol: false,
+    lineStyle: {
+      width: 1,
+      color: '#FF8FD6',
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  {
+    type: 'bar',
+    name: 'Profit',
+    data: dataVolatilityIndexes.value,
+    color: '#00FF75',
+    sampling: 'lttb',
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        {
+          offset: 0,
           color: '#00FF75',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#00FF75',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: '#00FF75',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
         {
-          type: 'bar',
-          name: 'Capital Gains',
-          data: dataVolatilityIndexes.value,
+          offset: 1,
+          color: 'transparent',
+        },
+      ]),
+    },
+    smooth: true,
+    xAxisIndex: 0,
+    yAxisIndex: 3,
+    showSymbol: false,
+    itemStyle: {
+      color: '#00FF75',
+      borderRadius: [5, 5, 0, 0],
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  {
+    type: 'bar',
+    name: 'Capital Gains',
+    data: dataVolatilityIndexes.value,
+    color: '#FAFF00',
+    sampling: 'lttb',
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        {
+          offset: 0,
           color: '#FAFF00',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#FAFF00',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: '#FAFF00',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
         {
-          type: 'bar',
-          name: 'PNL',
-          data: dataVolatilityIndexes.value,
+          offset: 1,
+          color: 'transparent',
+        },
+      ]),
+    },
+    smooth: true,
+    showSymbol: false,
+    itemStyle: {
+      color: '#FAFF00',
+      borderRadius: [5, 5, 0, 0],
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  {
+    type: 'bar',
+    name: 'PNL',
+    data: dataVolatilityIndexes.value,
+    color: '#FF00B8',
+    sampling: 'lttb',
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        {
+          offset: 0,
           color: '#FF00B8',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#FF00B8',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: '#FF00B8',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
         {
-          type: 'line',
-          name: 'ROI',
-          data: dataVolatilityIndexes.value,
+          offset: 1,
+          color: 'transparent',
+        },
+      ]),
+    },
+    smooth: true,
+    showSymbol: false,
+    itemStyle: {
+      color: '#FF00B8',
+      borderRadius: [5, 5, 0, 0],
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  {
+    type: 'line',
+    name: 'ROI',
+    data: dataVolatilityIndexes.value,
+    color: '#8FBCFF',
+    sampling: 'lttb',
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        {
+          offset: 0,
           color: '#8FBCFF',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#8FBCFF',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#8FBCFF',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
         {
-          type: 'bar',
-          name: 'Token Incentives',
-          data: dataVolatilityIndexes.value,
+          offset: 1,
+          color: 'transparent',
+        },
+      ]),
+    },
+    smooth: true,
+    showSymbol: false,
+    lineStyle: {
+      width: 1,
+      color: '#8FBCFF',
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  {
+    type: 'bar',
+    name: 'Token Incentives',
+    data: dataVolatilityIndexes.value,
+    color: '#05FF00',
+    sampling: 'lttb',
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        {
+          offset: 0,
           color: '#05FF00',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#05FF00',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: '#05FF00',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
         {
-          type: 'line',
-          name: 'TVL',
-          data: dataTVL.value,
-          color: '#F07E07',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#F07E07',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#F07E07',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+          offset: 1,
+          color: 'transparent',
         },
-        // {
-        //   type: 'line',
-        //   name: 'Impermanent Loss',
-        //   data: dataVolatilityIndexes.value,
-        //   color: '#ff8fd6',
-        //   sampling: 'lttb',
-        //   areaStyle: {
-        //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-        //       {
-        //         offset: 0,
-        //         color: '#ff8fd6',
-        //       },
-        //       {
-        //         offset: 1,
-        //         color: 'transparent',
-        //       },
-        //     ]),
-        //   },
-        //   smooth: true,
-        //   showSymbol: false,
-        //   lineStyle: {
-        //     width: 1,
-        //     color: '#ff8fd6',
-        //   },
-        //   emphasis: {
-        //     focus: 'series',
-        //     blurScope: 'coordinateSystem',
-        //   },
-        // },
-   
-      ])
+      ]),
+    },
+    smooth: true,
+    showSymbol: false,
+    itemStyle: {
+      color: '#05FF00',
+      borderRadius: [5, 5, 0, 0],
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  {
+    type: 'line',
+    name: 'TVL',
+    data: dataTVL.value,
+    color: '#F07E07',
+    sampling: 'lttb',
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        {
+          offset: 0,
+          color: '#F07E07',
+        },
+        {
+          offset: 1,
+          color: 'transparent',
+        },
+      ]),
+    },
+    smooth: true,
+    showSymbol: false,
+    lineStyle: {
+      width: 1,
+      color: '#F07E07',
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  },
+  // {
+  //   type: 'line',
+  //   name: 'Impermanent Loss',
+  //   data: dataVolatilityIndexes.value,
+  //   color: '#ff8fd6',
+  //   sampling: 'lttb',
+  //   areaStyle: {
+  //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+  //       {
+  //         offset: 0,
+  //         color: '#ff8fd6',
+  //       },
+  //       {
+  //         offset: 1,
+  //         color: 'transparent',
+  //       },
+  //     ]),
+  //   },
+  //   smooth: true,
+  //   showSymbol: false,
+  //   lineStyle: {
+  //     width: 1,
+  //     color: '#ff8fd6',
+  //   },
+  //   emphasis: {
+  //     focus: 'series',
+  //     blurScope: 'coordinateSystem',
+  //   },
+  // },
+])
 
-
-      console.log('isDark', isDark)
+console.log('isDark', isDark)
 
 const optionObj = ref({
-
   legend: {
     data: filterKeys,
     selected: filters,
@@ -679,8 +677,8 @@ const optionObj = ref({
   },
   axisPointer: {
     label: {
-      fontSize: 8
-    }
+      fontSize: 8,
+    },
   },
   tooltip: {
     backgroundColor: 'rgba(73, 73, 73, 0.65)',
@@ -702,25 +700,29 @@ const optionObj = ref({
       return `
                 ${params[0].name} <br />
                 ${params
-          .map((el) =>
-            el.seriesName === 'Revenue' ||
-              el.seriesName === 'Profits' ||
-              el.seriesName === 'TVL' ||
-              el.seriesName === 'Gas Fees' ||
-              el.seriesName === 'Volume'
-              ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
-              }${props.symbol} <br />`
-              : el.seriesName === 'Average APR' ||
-                el.seriesName === 'Volatility Index'
-                ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
-                }% <br />`
-                : el.seriesName === 'Trades'
-                  ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
-                  } Trades  <br />`
-                  : `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
-                  } <br />`,
-          )
-          .join('')}
+                  .map((el) =>
+                    el.seriesName === 'Revenue' ||
+                    el.seriesName === 'Profits' ||
+                    el.seriesName === 'TVL' ||
+                    el.seriesName === 'Gas Fees' ||
+                    el.seriesName === 'Volume'
+                      ? `${el.marker} ${el.seriesName}: ${
+                          el.value ? el.value.toFixed(3) : 0
+                        }${props.symbol} <br />`
+                      : el.seriesName === 'Average APR' ||
+                        el.seriesName === 'Volatility Index'
+                      ? `${el.marker} ${el.seriesName}: ${
+                          el.value ? el.value.toFixed(3) : 0
+                        }% <br />`
+                      : el.seriesName === 'Trades'
+                      ? `${el.marker} ${el.seriesName}: ${
+                          el.value ? el.value.toFixed(3) : 0
+                        } Trades  <br />`
+                      : `${el.marker} ${el.seriesName}: ${
+                          el.value ? el.value.toFixed(3) : 0
+                        } <br />`,
+                  )
+                  .join('')}
                 `
     },
   },
@@ -746,7 +748,7 @@ const optionObj = ref({
     },
     {
       type: 'value',
-      name: 'Volume',
+      name: 'Revenue',
       min: 0,
       nameTextStyle: {
         fontSize: 12,
@@ -758,7 +760,7 @@ const optionObj = ref({
       splitLine: { show: false },
       axisLine: {
         show: true,
-        lineStyle: { color: '#FF4242' },
+        lineStyle: { color: '#01B47E' },
       },
       axisLabel: {
         textStyle: {
@@ -772,7 +774,7 @@ const optionObj = ref({
     },
     {
       type: 'value',
-      name: 'TVL',
+      name: 'Gas Fees',
       position: 'right',
       min: 0,
 
@@ -782,7 +784,36 @@ const optionObj = ref({
       splitLine: { show: false },
       axisLine: {
         show: true,
-        lineStyle: { color: '#f07e07' },
+        lineStyle: { color: '#87F1FF' },
+      },
+
+      axisLabel: {
+        textStyle: {
+          fontSize: '12px',
+          fontFamily: 'Montserrat',
+        },
+        formatter: function (value) {
+          return convertFromNumber(value)
+        },
+      },
+      emphasis: {
+        focus: 'series',
+        blurScope: 'coordinateSystem',
+      },
+    },
+    {
+      type: 'value',
+      name: 'Profit',
+      position: 'right',
+      min: 0,
+
+      offset: 120,
+      alignTicks: true,
+      axisTick: { show: false },
+      splitLine: { show: false },
+      axisLine: {
+        show: true,
+        lineStyle: { color: '#00FF75' },
       },
 
       axisLabel: {
@@ -803,7 +834,7 @@ const optionObj = ref({
   grid: [
     {
       left: '5%',
-      right: '10%',
+      right: '17%',
       top: 120,
       bottom: 155,
     },
@@ -839,117 +870,7 @@ const optionObj = ref({
     },
   ],
   series: series,
-  media: [
-    {
-      option: {
-        tooltip: {
-          textStyle: {
-            fontSize: 14,
-          },
-        },
-        legend: {
-          itemWidth: 25,
-          itemHeight: 14,
-          textStyle: {
-            fontSize: 14,
-          },
-        },
-        xAxis: {
-          axisLabel: {
-            fontSize: 12,
-          },
-        },
-        yAxis: {
-          axisLabel: {
-            fontSize: 12,
-          },
-        },
-      },
-    },
-    {
-      query: {
-        maxWidth: 1400,
-      },
-      option: {
-        tooltip: {
-          textStyle: {
-            fontSize: 9,
-          },
-        },
-        legend: {
-          itemWidth: 19,
-          itemHeight: 10,
-          textStyle: {
-            fontSize: 10,
-          },
-        },
-        xAxis: {
-          axisLabel: {
-            fontSize: 8,
-          },
-        },
-        yAxis: [
-          {
-            nameTextStyle: {
-              fontSize: 10,
-            },
-            axisLabel: {
-              fontSize: 8,
-            },
-          },
-          {
-            nameTextStyle: {
-              fontSize: 10,
-            },
-            axisLabel: {
-              fontSize: 8,
-            },
-          },
-          {
-            nameTextStyle: {
-              fontSize: 10,
-            },
-            axisLabel: {
-              fontSize: 8,
-            },
-          },
-        ],
-      },
-    },
-    {
-      query: {
-        maxWidth: 768,
-      },
-      option: {
-        legend: {
-          width: '100%',
-          itemWidth: 19,
-          itemHeight: 10,
-          textStyle: {
-            fontSize: 11,
-          },
-        },
-        grid: [
-          {
-            left: '10%',
-            right: '10%',
-            top: 90,
-            bottom: 160,
-          },
-        ],
-        xAxis: {
-          axisLabel: {
-            fontSize: 11,
-          },
-        },
-        yAxis: {
-          axisLabel: {
-            fontSize: 11,
-          },
-        },
-      },
-    },
-  ],
+
 })
 
 const TimelineFilters = {
@@ -1204,7 +1125,7 @@ function getDefaultChainsMapValue() {
       }
 
       &:hover {
-        background-color: #00C9FFcb;
+        background-color: #00c9ffcb;
         cursor: pointer;
         color: rgb(255, 255, 255);
         border-radius: 20px;
@@ -1226,11 +1147,11 @@ function getDefaultChainsMapValue() {
         margin-right: 2px;
 
         .chart-filters__title {
-          background: #00C9FF;
+          background: #00c9ff;
           color: #fff;
 
           &:hover {
-            background-color: rgba(#00C9FF, 0.5);
+            background-color: rgba(#00c9ff, 0.5);
             cursor: pointer;
             color: #fff;
           }
@@ -1258,7 +1179,7 @@ function getDefaultChainsMapValue() {
     }
 
     &__toggler {
-      color: #00C9FF;
+      color: #00c9ff;
       font-size: 11px;
       font-weight: 300;
       text-decoration-line: underline;
@@ -1275,7 +1196,7 @@ function getDefaultChainsMapValue() {
       color: rgba(126, 246, 178, 1);
 
       &:hover {
-        background-color: rgba(#00C9FF, 0.3);
+        background-color: rgba(#00c9ff, 0.3);
       }
     }
 
@@ -1295,7 +1216,7 @@ function getDefaultChainsMapValue() {
       }
 
       &:hover {
-        background-color: rgba(#00C9FF, 0.3);
+        background-color: rgba(#00c9ff, 0.3);
       }
 
       &_selected {
@@ -1304,7 +1225,7 @@ function getDefaultChainsMapValue() {
         }
 
         &:hover {
-          background-color: rgba(#00C9FF, 0.3);
+          background-color: rgba(#00c9ff, 0.3);
         }
       }
     }
@@ -1315,7 +1236,7 @@ function getDefaultChainsMapValue() {
       position: absolute;
       background: #000;
       z-index: 11;
-      border: 1px solid #00C9FF;
+      border: 1px solid #00c9ff;
       border-top: none;
       border-radius: 0 0 12px 12px;
     }
@@ -1333,18 +1254,17 @@ function getDefaultChainsMapValue() {
     box-shadow: 0px 4px 4px 0px #00000040;
     color: white;
 
-
     &__el {
       padding: 8px 15px;
       cursor: pointer;
       border-radius: 20px;
 
       &:hover {
-        background: rgba(#00C9FF, 0.3);
+        background: rgba(#00c9ff, 0.3);
       }
 
       &_active {
-        background: linear-gradient(152.97deg, #002429 0%, #00C9FF 100%);
+        background: linear-gradient(152.97deg, #002429 0%, #00c9ff 100%);
 
         color: #fff;
 
@@ -1409,7 +1329,7 @@ function getDefaultChainsMapValue() {
   width: 100%;
   padding: 20px;
   // background: #22222224;
-  border: 1px solid #FFFFFF0D;
+  border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;
 }
 
@@ -1459,7 +1379,7 @@ function getDefaultChainsMapValue() {
       display: flex;
       justify-self: flex-start;
       border-radius: 20px;
-      border: 1px solid #00C9FF;
+      border: 1px solid #00c9ff;
     }
   }
 }
@@ -1504,7 +1424,7 @@ function getDefaultChainsMapValue() {
       display: flex;
       flex-direction: row;
       border-radius: 20px;
-      border: 1px solid #00C9FF;
+      border: 1px solid #00c9ff;
     }
   }
 }

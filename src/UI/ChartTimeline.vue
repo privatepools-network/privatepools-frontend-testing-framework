@@ -22,7 +22,7 @@
           }"
           @click="$emit('changeCumulativeMode')"
         >
-          Cumulative
+          {{ $t('cumulative') }}
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@
 
     <div class="px-2">
       <div class="arbitrage_bot_sections_text mt-[5%] text-black dark:!text-white">
-        Total Value Locked
+        {{ $t('TVL') }}
       </div>
       <div class="mb-xxl-4 mb-2">
         <div @click="clickOnVisibleTVL()" class="visible_head" style="cursor: pointer">
@@ -20,7 +20,7 @@
               class="visible_head arbitrage_bot_sections_text text-black dark:!text-white">
               <div class="d-flex align-items-center">
 
-                <CurrencySymbol />{{ numberToAposthrophe(chains_data.tvl, currencyDecimals) }}
+                <CurrencySymbol />{{ parseFloat(numberToAposthrophe(chains_data.tvl, currencyDecimals)).toFixed(3) }}
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style="font-family: Montserrat; font-weight: 400"
                   class="arbitrage_bot_sections_text text-black dark:!text-white">
-                  Total Volume
+                  {{ $t('total_volume') }}
                 </div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
@@ -66,7 +66,7 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>Volume 24 Hours</div>
+                <div>{{ $t('volume') }} 24 {{$t('hours')}}</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -75,7 +75,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>Volume 7 Days</div>
+                <div>{{ $t('volume') }} 7 {{ $t('days') }}</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -84,7 +84,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>Volume 30 Days</div>
+                <div>{{ $t('volume') }} 30 {{ $t('days') }}</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -116,7 +116,7 @@
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style="font-family: Montserrat; font-weight: 400"
                   class="arbitrage_bot_sections_text text-black dark:!text-white">
-                  Total Profits
+                  {{ $t('total_profits') }}
                 </div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
@@ -144,7 +144,7 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>Profit 24 Hours</div>
+                <div>{{$t('profit')}} 24 {{$t('hours')}}</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -153,7 +153,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>Profit 7 Days</div>
+                <div>{{$t('profit')}} 7 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -162,7 +162,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>Profit 30 Days</div>
+                <div>{{$t('profit')}} 30 Days</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -193,7 +193,7 @@
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style="font-family: Montserrat; font-weight: 400"
                   class="arbitrage_bot_sections_text text-black dark:!text-white">
-                  Total Trades
+                  {{$t('total_trades')}}
                 </div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
@@ -215,7 +215,7 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>Trades 24 Hours</div>
+                <div>{{$t('trades')}} 24 {{$t('hours')}}</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -224,7 +224,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>Trades 7 Days</div>
+                <div>{{$t('trades')}} 7 {{$t('days')}}</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -233,7 +233,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>Trades 30 Days</div>
+                <div>{{$t('trades')}} 30 {{$t('days')}}</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -264,7 +264,7 @@
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style="font-family: Montserrat; font-weight: 400"
                   class="arbitrage_bot_sections_text text-black dark:!text-white">
-                  Average APR
+                  {{$t('average')}} APR
                 </div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
@@ -286,7 +286,7 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>APR 24 Hours</div>
+                <div>APR 24 {{$t('hours')}}</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -295,7 +295,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>APR 7 Days</div>
+                <div>APR 7 {{$t('days')}}</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -304,7 +304,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
-                <div>APR 30 Days</div>
+                <div>APR 30 {{$t('days')}}</div>
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
@@ -336,7 +336,7 @@
                  font-size: clamp(10px, 0.8vw, 14px);
                   font-size: clamp(10px, 0.9vw, 16px);
                 ">
-                {{ router.currentRoute.value.path === '/user_analytics' ? 'Number of Users' : 'Number of Index Pools' }}
+                {{ router.currentRoute.value.path === '/user_analytics' ? 'Number of Users' : t('number_of_index_pools') }}
               </div>
               <div class="text-black dark:!text-white font-[800]" style=" font-size: clamp(10px, 0.8vw, 14px)">
                 {{ chains_data ? chains_data.poolsNumber: 0 }}
@@ -359,6 +359,7 @@ import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import router from '@/router'
 import { formatBigNumber } from '@/lib/utils/index'
 import CurrencySymbol from '../TrackInfo/CurrencySymbol.vue'
+import { t } from 'i18next'
 
 const props = defineProps([
   'chains_data',

@@ -8,7 +8,7 @@
         </div>
         <div>
           <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">{{ item.name }}</div>
-          <div class="text_value text-black dark:!text-white">{{ item.value }}</div>
+          <div class="text_value text-black dark:!text-white">{{ parseFloat(item.value).toFixed(3) }}</div>
         </div>
         <div>
           <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">{{ item.description }}</div>
@@ -65,7 +65,7 @@
         </div>
         <div>
           <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">{{ item.name }}</div>
-          <div class="text_value text-black dark:!text-white">{{ item.value }}</div>
+          <div class="text_value text-black dark:!text-white">{{ parseFloat(item.value).toFixed(3).replace(/(\.0+|0+)$/, '') }}</div>
         </div>
       </div>
     </div>
@@ -84,22 +84,23 @@ import averageAPRIcon from '@/assets/icons/generalIcons/averageAPR.svg'
 import { useDark } from '@vueuse/core'
 import d3logo from '@/assets/images/d3v.png'
 import { defineProps, computed } from "vue"
+import { t } from 'i18next'
 const isDark = useDark()
 
 const props = defineProps(["overview"])
 const bigContainerMock = computed(() => props.overview ? [
   {
     icon: TotalProfitsIcon,
-    name: 'Total profits',
+    name: t('total_profits'),
     value: props.overview.totalProfits,
-    description: '24H profits',
+    description: `24H ${t('profits')}`,
     value_2: props.overview.profits24H,
     chartLabels: props.overview.profitChart.timestamps,
     chartData: props.overview.profitChart.data
   },
   {
     icon: averageAPRIcon,
-    name: 'Average APR',
+    name: `${t('average')} APR`,
     value: props.overview.avgAPR,
     description: '24H APR',
     value_2: props.overview.APR24H,
@@ -110,7 +111,7 @@ const bigContainerMock = computed(() => props.overview ? [
     icon: d3logo,
     name: 'PPN TVL',
     value: props.overview.PPNTVL,
-    description: 'PPN price',
+    description: `PPN ${t('price')}`,
     value_2: props.overview.PPNPrice,
     chartLabels: props.overview.ppnChart.timestamps,
     chartData: props.overview.ppnChart.data
@@ -121,7 +122,7 @@ const bigContainerMock = computed(() => props.overview ? [
 const smallContainerMock = computed(() => props.overview ? [
   {
     icon: totalUsers,
-    name: 'Total users',
+    name: t('total_users'),
     value: props.overview.totalUsers,
   },
   {
@@ -131,12 +132,12 @@ const smallContainerMock = computed(() => props.overview ? [
   },
   {
     icon: FeesIcon,
-    name: '24H Trades',
+    name: `24H ${t('total_trades')}`,
     value: props.overview.trades24H,
   },
   {
     icon: RealizedProfit,
-    name: '24H Volume',
+    name: `24H ${t('volume')}`,
     value: props.overview.volume24H,
   },
 ] : [])

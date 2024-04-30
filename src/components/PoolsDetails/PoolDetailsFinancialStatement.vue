@@ -33,7 +33,7 @@
 
   <div class="mt-5 finance_table dark:!bg-[#22222224] bg-white" style="position: relative">
     <div class="financial_header dark:!bg-[#1C1C1C] bg-white column_loading">
-      <div class="sticky_first_column dark:!bg-[#22222224] bg-white">
+      <div class="sticky_first_column dark:!bg-[#1c1c1c] bg-white">
         <div class="financial_header_text dark:!text-white text-black">Financial Statement</div>
         <div class="collapsed_subheader financial_header_text dark:!text-white text-black" @click="visibleProfitLoss = !visibleProfitLoss">
           <div>Profit/Loss</div>
@@ -85,7 +85,7 @@
       </div>
     </div>
     <div class="financial_block_without_bg  dark:!text-white text-black column_loading">
-      <div class="sticky_column_without_bg">
+      <div class="sticky_column_without_bg dark:!bg-[#191919] bg-white">
         <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Portfolio
         </div>
@@ -137,7 +137,7 @@
           </CCollapse>
         </div>
       </div>
-      <div style="margin-top: 56px; min-width: 300px; text-align: right" class="d-flex flex-column gap-4"
+      <div style="margin-top: 80px; min-width: 300px; text-align: right; gap: 1.2rem" class="d-flex flex-column gap-4"
         v-for="(item, index) in financeData" :key="`Portfolio-key-${index}`">
         <div class="flex gap-2 justify-end items-center">
           <CurrencySymbol  />{{ formatBigNumber(item.LiquidityDeposited, decimals) }}
@@ -219,7 +219,7 @@
       </div>
     </div>
     <div class="financial_block_with_bg dark:!bg-[#1C1C1C] bg-white dark:!text-white text-black column_loading">
-      <div class="sticky_column_with_bg dark:!bg-[#22222224] bg-white">
+      <div class="sticky_column_with_bg dark:!bg-[#1C1C1C] bg-white">
         <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Income Statement
         </div>
@@ -275,9 +275,9 @@
           </div>
         </div>
       </div>
-      <div style="margin-top: 56px; min-width: 300px; text-align: right" class="d-flex flex-column gap-3"
+      <div style="margin-top: 80px; min-width: 300px; text-align: right; gap: 1.2rem" class="d-flex flex-column gap-3"
         v-for="(item, index) in financeData" :key="`Portfolio-key-${index}`">
-        <div class="flex justity-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center">
           <CurrencySymbol  />{{ formatBigNumber(item.Revenue, 2) }}
           <div :class="item.RevenuePercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.RevenuePercent) }}
@@ -297,7 +297,7 @@
             </div>
           </div>
         </CCollapse>
-        <div class="flex justity-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center">
           <CurrencySymbol  />{{ formatBigNumber(item.Fees, 2) }}
           <div :class="item.FeesPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.FeesPercent) }}
@@ -318,7 +318,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justity-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center">
           <CurrencySymbol  />{{ formatBigNumber(item.Profit, 2) }}
           <div :class="item.ProfitPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.ProfitPercent) }}
@@ -349,7 +349,7 @@
     </div>
 
     <div class="financial_block_without_bg  dark:!text-white text-black column_loading">
-      <div class="sticky_column_without_bg">
+      <div class="sticky_column_without_bg dark:!bg-[#191919] bg-white">
         <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Holdings
         </div>
@@ -404,9 +404,9 @@
           <div>Capital Gains</div>
         </div>
       </div>
-      <div style="margin-top: 56px; min-width: 300px; text-align: right" class="d-flex flex-column gap-4"
+      <div style="margin-top: 80px; min-width: 300px; text-align: right; gap: 1.2rem" class="d-flex flex-column gap-4"
         v-for="(item, index) in financeData" :key="`Portfolio-key-${index}`">
-        <div class="flex justity-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center">
           <CurrencySymbol  />{{ formatBigNumber(item.InitialLiquidity, decimals) }}
           <div :class="item.InitialLiquidityPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.InitialLiquidityPercent) }}
@@ -428,7 +428,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justity-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center">
           <CurrencySymbol  />{{ formatBigNumber(item.FinalLiquidity, decimals) }}
           <div :class="item.FinalLiquidityPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.FinalLiquidityPercent) }}
@@ -451,7 +451,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justity-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center">
           <CurrencySymbol  />{{ formatBigNumber(item.Assets, decimals) }}
           <div :class="item.AssetsPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.AssetsPercent) }}
@@ -472,7 +472,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justity-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center">
           <CurrencySymbol  />{{ formatBigNumber(item.CapitalGains, decimals) }}
           <div :class="item.CapitalGainsPercent < 0 ? 'text-danger' : 'text-success'
             ">
@@ -483,7 +483,7 @@
     </div>
 
     <div class="financial_block_with_bg dark:!bg-[#1C1C1C] bg-white dark:!text-white text-black column_loading">
-      <div class="sticky_column_with_bg dark:!bg-[#22222224] bg-white">
+      <div class="sticky_column_with_bg dark:!bg-[#1C1C1C] bg-white">
         <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Market Data
         </div>
@@ -582,9 +582,9 @@
         </div>
       </div>
 
-      <div style="margin-top: 56px; min-width: 300px; text-align: right" class="d-flex flex-column gap-4"
+      <div style="margin-top: 80px; min-width: 300px; text-align: right; " class="d-flex flex-column gap-4"
         v-for="(item, index) in financeData" :key="`Portfolio-key-${index}`">
-        <div class="flex justity-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
+        <div class="flex justify-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
           <!-- {{ formatBigNumber(item.Assets, 2) }} -->
           <div :class="item.AssetsPercent < 0 ? 'text-danger' : 'text-success'">
             <!-- {{ computedPercent(item.AssetsPercent) }} -->
@@ -605,7 +605,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justity-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
+        <div class="flex justify-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
           <!-- {{ formatBigNumber(item.Pools, 1) }} -->
           <div :class="item.PoolsPercent < 0 ? 'text-danger' : 'text-success'">
             <!-- {{ computedPercent(item.PoolsPercent) }} -->
@@ -625,7 +625,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justity-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
+        <div class="flex justify-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
           <!-- {{ formatBigNumber(item.Pools, 1) }} -->
           <div :class="item.PoolsPercent < 0 ? 'text-danger' : 'text-success'">
             <!-- {{ computedPercent(item.PoolsPercent) }} -->
@@ -644,7 +644,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justity-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
+        <div class="flex justify-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
           <!-- {{ formatBigNumber(item.Pools, 1) }} -->
           <div :class="item.PoolsPercent < 0 ? 'text-danger' : 'text-success'">
             <!-- {{ computedPercent(item.PoolsPercent) }} -->
@@ -665,7 +665,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justity-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
+        <div class="flex justify-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
           <!-- {{ formatBigNumber(item.Pools, 1) }} -->
           <div :class="item.PoolsPercent < 0 ? 'text-danger' : 'text-success'">
             <!-- {{ computedPercent(item.PoolsPercent) }} -->
@@ -688,7 +688,7 @@
           </div>
         </CCollapse> -->
 
-        <div class="flex justity-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
+        <div class="flex justify-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
           <!-- {{ formatBigNumber(item.Pools, 1) }} -->
           <div :class="item.PoolsPercent < 0 ? 'text-danger' : 'text-success'">
             <!-- {{ computedPercent(item.PoolsPercent) }} -->
@@ -697,9 +697,9 @@
       </div>
     </div>
 
-    <div style="position: absolute; left: 50%; top: 50%">
+    <!-- <div style="position: absolute; left: 50%; top: 50%">
       <LoaderPulse v-if="!isDataReady"></LoaderPulse>
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup>
@@ -717,6 +717,7 @@ import { DisplayNetwork, ReversedDisplayNetwork } from '@/composables/useNetwork
 import { useTokenPricesChange } from '@/composables/useTokenPriceChange'
 import { GetHistoricalTokens } from '@/composables/balances/useHistoricalTokens'
 import CurrencySymbol from "@/components/TrackInfo/CurrencySymbol.vue"
+import { t } from 'i18next'
 const props = defineProps([
   'chainSelected',
   'poolSwapsData',
@@ -764,7 +765,7 @@ const data = computed(() =>
     : null,
 )
 
-const timelines = ['Weekly', 'Monthly', 'Quarterly', 'Yearly']
+const timelines = [t('weekly'), t('monthly'), t('quarterly'), t('yearly')]
 
 function computedPercent(number) {
   let formatted_number = formatBigNumber(number, 3)
