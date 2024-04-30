@@ -54,7 +54,7 @@
             {{ chainSelected }}
           </div>
           <div class="deposit_text dark:!text-white text-black my-1">
-            Add liquidity
+            {{ $t('add_liquidity') }}
           </div>
 
           <div class="d-flex justify-content-between dark:!bg-[#00000024] bg-white currency_container">
@@ -91,12 +91,12 @@
                 <div>
                   <div class="modal_balance_slider dark:!text-white text-black">
                     <div class="value-label" ref="inputRefLabel">
-                      Balance:
+                      {{ $t('balance') }}:
                       <span class="fw-bold">{{
                         RemainingBalance(token, tokenIndex)
                         }}</span><span @click="() => OnMaxClick(tokenIndex, token.address)"
                         class="fw-bold bg-transparent" style="cursor: pointer">
-                        Max</span>
+                        {{ $t('max') }}</span>
                     </div>
                     <div>
                       ${{
@@ -133,7 +133,7 @@
                         border-bottom: 1px solid rgba(163, 164, 165, 0.2);
                         padding: 8px;
                       ">
-                      Total
+                      {{ $t('total') }}
                     </td>
                     <td style="
                         padding: 8px;
@@ -151,7 +151,7 @@
                             )
                           }}
                         </div>
-                        <div class="optimize dark:!bg-[#00000024] bg-white" @click="OnAllMaxClick">Max</div>
+                        <div class="optimize dark:!bg-[#00000024] bg-white" @click="OnAllMaxClick">{{ $t('max') }}</div>
                       </div>
                     </td>
                   </tr>
@@ -160,7 +160,7 @@
                         border-right: 1px solid rgba(163, 164, 165, 0.2);
                         padding: 8px;
                       " class="w-25">
-                      Value loss
+                      {{ $t('value_loss') }}
                     </td>
                     <td style="padding: 8px">
                       <div class="d-flex justify-content-between align-items-center">
@@ -185,7 +185,7 @@
                           </svg>
                         </div>
                         <div class="optimize dark:!bg-[#00000024] bg-white" @click="OnOptimizeClick">
-                          Optimize
+                          {{ $t('optimize') }}
                         </div>
                       </div>
                     </td>
@@ -195,7 +195,7 @@
             </div>
           </div>
           <div class="compose_pool_connect_wallet" @click="changeVisibleDepositOpen">
-            Preview
+            {{ $t('preview') }}
           </div>
         </div>
 
@@ -209,7 +209,7 @@
             border: 1px solid #ffffff0d;
           " class="dark:!text-white text-black dark:!bg-[#00000024] bg-white">
           <div class="fw-bold p-3" style="border-bottom: 1px solid #4f4f4f57">
-            My wallet
+            {{ $t('my_wallet') }}
           </div>
           <div class="d-flex flex-column p-2 dark:!text-[#dddddd] text-black" style="
               font-size: clamp(10px, 0.8vw, 14px);

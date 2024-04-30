@@ -23,7 +23,7 @@
               {{ poolToken.symbol }}
             </div>
             <div class="big-chip__text text-[#626262] dark:!text-white">
-              {{ poolToken.weight }}%
+              {{ Math.round(poolToken.weight * 100)  }}%
             </div>
           </div>
           <div class="d-flex align-items-center gap-1 ml-1">
@@ -39,6 +39,7 @@
                 </linearGradient>
               </defs>
             </svg>
+            <a target="_blank" :href="scannerLink">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M10.026 7.54902C10.0861 7.5099 10.1535 7.48318 10.2241 7.47042C10.2946 7.45767 10.3671 7.45915 10.4371 7.47477L16.4743 8.78202C16.6157 8.81273 16.7391 8.89831 16.8175 9.01995C16.8958 9.14159 16.9227 9.28936 16.8921 9.43079L15.5849 15.468C15.5501 15.6051 15.4634 15.7234 15.3431 15.7979C15.2229 15.8724 15.0784 15.8973 14.9401 15.8673C14.8019 15.8374 14.6806 15.755 14.6019 15.6374C14.5232 15.5198 14.4933 15.3763 14.5183 15.2371L15.7101 9.73313L10.2061 8.54134C10.0648 8.51064 9.94133 8.42506 9.86299 8.30342C9.78465 8.18177 9.7578 8.03401 9.78833 7.89258C9.80307 7.82238 9.83169 7.75582 9.8725 7.69683C9.91331 7.63783 9.9655 7.58758 10.026 7.54902Z"
@@ -47,6 +48,7 @@
                 d="M7.49468 14.3746L16.0632 8.85626C16.185 8.77786 16.3329 8.75103 16.4744 8.78167C16.6159 8.81232 16.7395 8.89793 16.8179 9.01967C16.8963 9.14141 16.9231 9.28931 16.8925 9.43084C16.8618 9.57236 16.7762 9.69592 16.6545 9.77432L8.08593 15.2926C7.96419 15.371 7.81629 15.3979 7.67476 15.3672C7.53324 15.3366 7.40968 15.251 7.33128 15.1292C7.25287 15.0075 7.22604 14.8596 7.25669 14.718C7.28733 14.5765 7.37294 14.453 7.49468 14.3746Z"
                 fill="#4E4E4E" />
             </svg>
+          </a>
           </div>
         </div>
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
@@ -110,7 +112,7 @@
                 border-radius: 4px;
                 width: 400px;
               ">
-              <div style="font-size: clamp(10px, 0.9vw, 16px)">{{ $t('Information') }}</div>
+              <div style="font-size: clamp(10px, 0.9vw, 16px)">{{ $t('information') }}</div>
               <div style="
                   display: flex;
                   flex-direction: column;
@@ -449,6 +451,7 @@
         ">
         {{ $t('pool_analytics') }}
       </div>
+
       <CRow id="pool-stats-row">
         <PoolsDetailsDiagrams v-if="diagrams_data || (assetsPerformance && poolTradesData && poolProfitsData)"
           :tradesData="diagrams_data.trades.tradesData ?? poolTradesData.tradesData"
@@ -466,7 +469,7 @@
       <Title :title="t('pool_activity')"></Title>
       <PrivatePoolsTable :all_activities="poolActivity" />
     </div>
-
+    
     <PoolDetailsFinancialStatement v-else-if="selectedTab == t('financial_statement') && financialStatementData"
       :all_data="financialStatementData" :poolSwapsData="poolSwapsData" :chainSelected="chainSelected"
       :historical_tvl="historical_tvl" :historicalPrices="historicalPrices" :poolId="poolId" :symbol="currencySymbol"
@@ -479,7 +482,6 @@
       " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historicalPrices="historicalPrices"
       :userFirstTimestamp="0" :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
     </PortfolioStatistics>
-
 
     <!-- {{ console.log('pool!!!', pool) }} -->
 

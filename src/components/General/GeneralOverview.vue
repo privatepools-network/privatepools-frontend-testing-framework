@@ -12,7 +12,7 @@
         </div>
         <div>
           <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">{{ item.description }}</div>
-          <div class="text_value text-black dark:!text-white">{{ item.value_2 }}</div>
+          <div class="text_value text-black dark:!text-white">{{ parseFloat(item.value_2).toFixed(3) }}</div>
         </div>
         <div class="mt-5">
           <CChart type="line" style="height: 70px; filter: drop-shadow(0 0 0.5rem #00c9ff)" :data="{

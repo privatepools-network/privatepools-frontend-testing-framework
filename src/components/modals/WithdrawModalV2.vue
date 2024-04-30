@@ -1,6 +1,5 @@
 <template>
-  <CModal size="lg" backdrop="static" alignment="center" :visible="visibleDepositModal">
-    <CModalHeader :close-button="false">
+
       <div class="d-flex justify-content-between w-100">
         <div style="cursor: pointer" @click="
           depositStep == 1 ? $emit('changeVisibleDeposit') : depositStep--
@@ -11,11 +10,10 @@
           <img :src="close_modal_icon" />
         </div>
       </div>
-    </CModalHeader>
-    <CModalBody>
+
       <div class="px-5" v-if="!depositFinished">
         <div class="modal_body_header">
-          <h3>Withdrawal preview</h3>
+          <h3>{{ $t('withdrawal_preview') }}</h3>
         </div>
         <div style="
             border: 1px solid rgba(163, 164, 165, 0.2);
@@ -23,7 +21,7 @@
             color: white;
           " class="my-2">
           <div class="fs-6 fw-bold p-2" style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)">
-            You’re providing
+            {{ $t('you_providing') }}
           </div>
 
           <div class="my-3">
@@ -67,7 +65,7 @@
             color: white;
           " class="my-4">
           <div class="fs-6 fw-bold p-2" style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)">
-            You’re expected to receive
+            {{ $t('you_expected_to_receive') }}
           </div>
 
           <div class="my-3">
@@ -94,25 +92,25 @@
             color: white;
           " class="my-4">
           <div class="fs-6 fw-bold p-2" style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)">
-            Summary
+            {{ $t('summary') }}
           </div>
           <div class="d-flex flex-column p-2" style="font-size: 14px; color: rgba(221, 221, 221, 1)">
             <div class="d-flex justify-content-between align-items-center">
-              <div>Total</div>
+              <div>{{ $t('total') }}</div>
               <div class="d-flex gap-1">${{ usdSummary }}</div>
             </div>
             <div class="d-flex justify-content-between align-items-center">
-              <div>Value Loss</div>
+              <div>{{ $t('value_loss') }}</div>
               <div class="d-flex gap-1">{{ priceImpact }}%</div>
             </div>
           </div>
         </div>
 
         <div v-if="!confirmingState" class="compose_pool_connect_wallet" @click="OnWithdrawClick">
-          Withdraw
+          {{ $t('withdraw') }}
         </div>
         <div v-else-if="confirmingState" class="compose_pool_connect_wallet" @click="OnWithdrawClick">
-          Confirming <span class="button_loader pl-2"></span>
+          {{ $t('confirming') }} <span class="button_loader pl-2"></span>
         </div>
       </div>
       <!-- <div v-else-if="depositFinished">
@@ -121,8 +119,7 @@
           :header_subtext="'Successfully withdraw your tokens'"
         />
       </div> -->
-    </CModalBody>
-  </CModal>
+
   <!-- <Fireworks
     ref="fw"
     v-if="mounted"

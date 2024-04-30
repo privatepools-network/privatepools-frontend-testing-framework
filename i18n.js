@@ -3,6 +3,7 @@ import I18NextVue from 'i18next-vue'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import en from '@/assets/localization/languages/en.json'
 import ru from '@/assets/localization/languages/ru.json'
+import pt from '@/assets/localization/languages/pt.json'
 
 i18next
   // detect user language
@@ -19,6 +20,9 @@ i18next
       },
       ru: {
         translation: ru,
+      },
+      pt: {
+        translation: pt,
       },
     },
   })
