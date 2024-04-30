@@ -18,7 +18,7 @@
               <img v-if="item['Actions'] === 'Withdraw'" :src="WithdrawIcon" />
               <img v-if="item['Actions'] === 'Swap'" :src="SwapIcon" />
               <div class="actions-cell__text text-black dark:!text-white">
-                {{ item['Actions'] }}
+                {{ item['Actions'] === 'Swap' ? 'Trades' : item['Actions'] }}
               </div>
             </div>
           </CTableDataCell>

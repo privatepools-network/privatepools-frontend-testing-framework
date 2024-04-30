@@ -459,7 +459,7 @@
         >
           <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
-              <div class="diagrams_title">{{ $t('profit_generated ') }}</div>
+              <div class="diagrams_title">{{ $t('profit_generated') }}</div>
 
               <VTooltip :distance="0" :placement="'right'">
                 <div style="cursor: help">

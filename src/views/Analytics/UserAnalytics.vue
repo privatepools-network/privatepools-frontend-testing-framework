@@ -9,7 +9,7 @@
         Users Analytics
       </div>
 
-      <div class="track_info_container">
+      <!-- <div class="track_info_container">
         <GeneralBotCard
           :currencySelected="currencySelected"
           :chainSelected="chainSelected"
@@ -24,7 +24,7 @@
           :tokensData="tokensData"
           :symbol="currencySymbol"
         />
-      </div>
+      </div> -->
 
       <div
      

@@ -8,7 +8,7 @@
   <MainCard v-else-if="!visibleDepositComponent && !visibleWithdrawComponent">
     <CRow class="mb-5" v-if="pool && pool.tokens">
       <div class="mb-3 text-[black] dark:!text-white font-bold text-xl">
-        Concentrated Liquidity Pool
+        {{ $t('concentrated_liquidity_pool') }}
       </div>
       <div class="d-flex align-items-center" style="justify-content: space-between">
         <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">
@@ -23,7 +23,7 @@
               {{ poolToken.symbol }}
             </div>
             <div class="big-chip__text text-[#626262] dark:!text-white">
-              {{ poolToken.weight }}%
+              {{ Math.round(poolToken.weight * 100) }}%
             </div>
           </div>
           <div class="d-flex align-items-center gap-1 ml-1">
@@ -52,11 +52,11 @@
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
       </div>
       <div class="d-flex justify-content-between align-items-center mt-3">
-        <div style="color: #6f6f6f; font-size: 12px">
+        <!-- <div style="color: #6f6f6f; font-size: 12px">
           Delegated swap fees; currently fixed: 0.3%
-        </div>
+        </div> -->
         <div class="rewards_button dark:!bg-[#22222224] !bg-[white]">
-          Rewards
+          {{ $t('rewards') }}
         </div>
       </div>
     </CRow>
@@ -74,13 +74,13 @@
 
     <div style="display: inline-block; margin-bottom: 24px">
       <Tabs :filterEye="true" :selectedTab="selectedTab" :tabsOptions="[
-        'Pool Info',
-        'Financial Statement',
-        'Statistics',
+        t('pool_info'),
+        t('financial_statement'),
+        t('statistics'),
         // 'Pairs & Tokens',
       ]" @changeTab="changeSelectedTab" />
     </div>
-    <div style="display: flex; flex-direction: column" v-if="selectedTab == 'Pool Info'">
+    <div style="display: flex; flex-direction: column" v-if="selectedTab == t('pool_info')">
       <div class="d-flex align-items-center gap-1">
         <Title :title="'Pool Statistics'"> </Title>
         <VTooltip :distance="0" :placement="'right'">
@@ -98,7 +98,7 @@
                 border-radius: 4px;
                 width: 400px;
               ">
-              <div style="font-size: clamp(10px, 0.9vw, 16px)">Information</div>
+              <div style="font-size: clamp(10px, 0.9vw, 16px)">{{ $t('information') }}</div>
               <div style="
                   display: flex;
                   flex-direction: column;
@@ -135,11 +135,11 @@
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
               <div class="subsection__item__caption text-[black] dark:!text-white">
-                Pool Creation
+                {{ $t('pool_creation') }}
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white grayed">
-                  Created
+                  {{ $t('created') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single">
@@ -152,10 +152,10 @@
               </div>
             </div>
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div class="subsection__item__caption text-[black] dark:!text-white">24h profit</div>
+              <div class="subsection__item__caption text-[black] dark:!text-white">24h {{ $t('profit') }}</div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  All-time high
+                  {{ $t('ATH') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
@@ -178,7 +178,7 @@
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  All-time low
+                  {{ $t('ATL') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
@@ -202,11 +202,11 @@
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
               <div class="subsection__item__caption text-[black] dark:!text-white">
-                Lifetime stats
+                {{ $t('lifetime_stats') }}
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Volume
+                  {{ $t('volume') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single  flex items-center">
@@ -218,7 +218,7 @@
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Fees
+                   {{ $t('fees') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single  flex items-center">
@@ -230,7 +230,7 @@
               </div>
               <div class="subsection__item__content">
                 <div class="subsection__item__content__left text-[black] dark:!text-white">
-                  Trades
+                   {{ $t('trades') }}
                 </div>
                 <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single">
@@ -242,7 +242,7 @@
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
               <div class="investors-number__text text-[black] dark:!text-white"
                 style="padding-right: 20%; white-space: nowrap">
-                LP Symbol
+                LP {{ $t('symbol') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
                 <div style="font-size: clamp(10px, 0.8vw, 14px); font-weight: 700">
@@ -256,7 +256,7 @@
             </div>
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
               <div class="investors-number__text text-[black] dark:!text-white">
-                Number of investors
+                {{ $t('number_of_investors') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white"
                 style="font-size: clamp(10px, 0.8vw, 14px)">
@@ -334,7 +334,7 @@
 
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
               <div class="investors-number__text text-[black] dark:!text-white">
-                Pool Owner
+                Pool {{ $t('owner') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
                 <div class="d-flex align-items-center gap-1" style="color: #0082a5">
@@ -365,7 +365,7 @@
             <div class="d-flex align-items-center gap-2">
               <div class="d-flex gap-2 text-[black] dark:!text-white">
                 <div style="font-weight: 500; font-size: clamp(10px, 0.8vw, 14px)">
-                  Assets Breakdown
+                  {{ $t('assets_breakdown') }}
                 </div>
               </div>
             </div>
@@ -397,7 +397,7 @@
                     border-radius: 4px;
                     width: 400px;
                   ">
-                  <h6>Information</h6>
+                  <h6>{{$t('information')}}</h6>
                   <div style="
                       display: flex;
                       flex-direction: column;
@@ -433,7 +433,7 @@
           line-height: 28px;
           letter-spacing: 0em;
         ">
-        Pool Analytics
+        {{ $t('pool_analytics') }}
       </div>
       <CRow id="pool-stats-row">
         <PoolsDetailsDiagrams v-if="diagrams_data || (assetsPerformance && poolTradesData && poolProfitsData)"
@@ -449,10 +449,10 @@
           <LoaderPulse></LoaderPulse>
         </div>
       </CRow>
-      <Title :title="'Pool Activity'"></Title>
+      <Title :title="t('pool_activity')"></Title>
       <PrivatePoolsTable :all_activities="poolActivity" />
     </div>
-    <PoolDetailsFinancialStatement v-else-if="selectedTab == 'Financial Statement' && financialStatementData"
+    <PoolDetailsFinancialStatement v-else-if="selectedTab == t('financial_statement') && financialStatementData"
       :all_data="financialStatementData" :poolSwapsData="poolSwapsData" :chainSelected="chainSelected"
       :historical_tvl="historical_tvl" :historicalPrices="historicalPrices" :poolId="poolId" :symbol="currencySymbol"
       :decimals="currencyDecimals">
@@ -460,7 +460,7 @@
 
 
 
-    <PortfolioStatistics v-else-if="selectedTab == 'Statistics' && pool" :historical_tvl="historical_tvl" :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
+    <PortfolioStatistics v-else-if="selectedTab == t('statistics') && pool" :historical_tvl="historical_tvl" :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
       " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historicalPrices="historicalPrices"
       :userFirstTimestamp="0" :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
     </PortfolioStatistics>
@@ -547,6 +547,7 @@ import { useUniswapHistoricalTokens } from '@/composables/concentrated-liquidity
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
 import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
 import { getCLDetailsData } from "@/composables/data/detailsData"
+import { t } from 'i18next'
 use([
   CanvasRenderer,
   CandlestickChart,
@@ -921,7 +922,7 @@ function formatChartData(formatted_tvl, formatted_token_snapshots, chart_data) {
   }
 }
 
-const selectedTab = ref('Pool Info')
+const selectedTab = ref(t('pool_info'))
 
 function changeSelectedTab(_new) {
   selectedTab.value = _new
