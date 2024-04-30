@@ -143,7 +143,7 @@ watch(networkId, async () => {
 async function InitUserStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
-    let address = '0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //await mmProvider.getSigner().getAddress()
+    let address = await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
     user_staked_pools.value = await useWalletPools(
       address,
       networkId.value,
