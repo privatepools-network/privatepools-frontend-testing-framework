@@ -143,7 +143,7 @@ watch(networkId, async () => {
 async function InitUserStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
-    let address = await mmProvider.getSigner().getAddress()//'0x3ee6d8b87d195f2a8804b787e7cae4d4bf44d676' //'0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //
+    let address = await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
     user_staked_pools.value = await useWalletPools(
       address,
       networkId.value,
@@ -188,7 +188,7 @@ function isPoolInactive(pool) {
 }
 
 function goToPoolDeposit(args) {
-  if (all_pools.value[args.index].type != 'CL') {
+  if (all_pools.value[args.index].LiquidityType != 'CL') {
     router.push({
       name: 'Pool Deposit',
       params: {
@@ -201,14 +201,14 @@ function goToPoolDeposit(args) {
     router.push({
       name: 'Concentrated liquidity',
       query: {
-        tokens: all_pools.value[args.index].tokens,
+        tokens: all_pools.value[args.index].tokens.map((t) => t.id),
         fee: all_pools.value[args.index].fee,
       },
     })
   }
 }
 function goToPoolManage(args) {
-  if (all_pools.value[args.index].type == 'WP') {
+  if (all_pools.value[args.index].LiquidityType == 'WP') {
     router.push({
       name: 'Pool Deposit',
       params: {
@@ -262,7 +262,7 @@ function goToCL(args) {
   router.push({
     name: 'Concentrated liquidity',
     query: {
-      tokens: all_pools.value[args.index].tokens,
+      tokens: all_pools.value[args.index].tokens.map((t) => t.id),
       fee: all_pools.value[args.index].fee,
     },
   })
@@ -457,6 +457,4 @@ const all_pools = computed(() => {
     }
   }
 }
-
-
 </style>
