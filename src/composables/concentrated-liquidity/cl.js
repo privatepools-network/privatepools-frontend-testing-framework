@@ -1192,7 +1192,7 @@ export async function fetchPositions(
     ).map((t) => t.toLowerCase())
   }
 
-  let address = '0x759ee62a73a8a0690a0e20fc489d3f462b4385c0' //await signer.getAddress() //
+  let address = await signer.getAddress() //
   const numPositions = await nfpmContract.balanceOf(address)
   const calls = []
 

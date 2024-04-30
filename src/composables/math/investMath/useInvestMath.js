@@ -14,7 +14,7 @@ export default function useInvestFormMath(
   /**
    * STATE
    */
-  const tokens = computed(() => _tokens.length > 0 ? _tokens : pool.value.tokens)
+  const tokens = computed(() => _tokens.length > 0 ? _tokens : (pool.value ? pool.value.tokens : []))
   const batchSwap = ref({})
   const { minusSlippageScaled } = useSlippage()
   /**

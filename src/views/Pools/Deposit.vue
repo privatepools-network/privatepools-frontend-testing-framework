@@ -35,7 +35,7 @@
                 {{ poolToken.symbol }}
               </div>
               <div class="big-chip__text dark:!text-white text-black">
-                {{ poolToken.weight }}%
+                {{ poolToken.weight * 100 }}%
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="modal_stake_token_inner_name dark:!text-white text-black dark:!bg-[#4c4c4c24] bg-white">
                     <img :src="getTokenEntity(token.symbol, 'short').icon" width="20" />
-                    {{ token.symbol }} {{ token.weight }}%
+                    {{ token.symbol }} {{ token.weight * 100 }}%
                   </div>
                   <input class="token-input dark:!text-[#A8A8A8] text-black" style="
                       font-size: clamp(10px, 0.8vw, 14px);

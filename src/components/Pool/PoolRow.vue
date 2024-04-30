@@ -16,11 +16,12 @@
           <div class="pools-row__value" v-for="(item, i) in pool['Pool Weight'][0]" :key="`${i}-tokens`">
             <div class="d-flex gap-2 chip_token align-items-center  !bg-[#EAF0F6] dark:!bg-[#22222224]">
               <span class="chip_token_name text-black dark:!text-white">{{ item.token }}</span>
-              <span class="chip_token_weight text-[#475569] dark:!text-[#8f8f8f]" v-if="pool['LiquidityType'] === 'WP'">{{ parseFloat(item.weight).toFixed(0) }}%</span>
+              <span class="chip_token_weight text-[#475569] dark:!text-[#8f8f8f]"
+                v-if="pool['LiquidityType'] === 'WP'">{{ parseFloat(item.weight).toFixed(0) }}%</span>
             </div>
           </div>
           <div class="pool_type text-white" :class="pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
-    ">
+            ">
             {{ pool['LiquidityType'] === 'CL' ? 'CLP' : 'WLP' }}
           </div>
         </div>
@@ -84,15 +85,15 @@
       <div class="details-el">
         <div class="details-el__col flex-column gap-3">
           <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]" @click="
-    addTokenToMetamask(pool.address, lp_name)
-    ">
+            addTokenToMetamask(pool.address, lp_name)
+            ">
             {{ $t('add') }} {{ lp_name }} LP
           </div>
           <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]" @click="
-    pool['LiquidityType'] === 'CL'
-      ? $emit('goToCLPool', { index, onMountedActivity: 'info' })
-      : $emit('goToPool', { index, onMountedActivity: 'info' })
-    ">
+            pool['LiquidityType'] === 'CL'
+              ? $emit('goToCLPool', { index, onMountedActivity: 'info' })
+              : $emit('goToPool', { index, onMountedActivity: 'info' })
+            ">
             {{ $t('see_pool_info') }}
             <svg style="margin-left: 5px" width="15" height="15" viewBox="0 0 15 15" fill="none"
               xmlns="http://www.w3.org/2000/svg">
@@ -104,7 +105,8 @@
           <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]">
             <a :href="`${etherscan_link}/token/${pool.address}`" target="_blank"
               class="flex items-center gap-1 !text-black dark:!text-white hover:!text-[#03a6e9]">
-              {{ $t('view_contract') }} <img :src="isDark ? etherscan : binanceScanLight" style="margin-left: 5px" /></a>
+              {{ $t('view_contract') }} <img :src="isDark ? etherscan : binanceScanLight"
+                style="margin-left: 5px" /></a>
           </div>
         </div>
         <div v-if="!isUserStaked"
@@ -113,9 +115,9 @@
           <div
             @click="pool['LiquidityType'] === 'CL' ? $emit('goToCL', { index }) : $emit('goToPoolDeposit', { index, onMountedActivity: 'deposit' })"
             class="liquidity_button !text-white uppercase" :class="pool['LiquidityType'] === 'CL'
-    ? 'liquidity_button_LP'
-    : 'liquidity_button_WP'
-    ">
+              ? 'liquidity_button_LP'
+              : 'liquidity_button_WP'
+              ">
             {{ $t('add_liquidity') }}
           </div>
         </div>
@@ -137,10 +139,10 @@
             </div>
             <div style="font-size: 9px; font-weight: 700">
               {{
-    pool['LiquidityType'] === 'CL'
-      ? 'Number of positions: 2'
-      : '50% AAVE and 50% wstETH'
-  }}
+                pool['LiquidityType'] === 'CL'
+                  ? 'Number of positions: 2' :
+                  pool.tokens.map((t) => `${t.weight * 100}% ${t.symbol} `).join("and ")
+              }}
             </div>
             <div class="d-flex align-items-end justify-content-between mt-3">
               <div v-if="pool['LiquidityType'] === 'WP'" style="font-size: 9px; font-weight: 700"
@@ -162,17 +164,17 @@
               <div v-else class="d-flex flex-column gap-2">
                 <div style="font-size: 9px; font-weight: 700">~- USD</div>
                 <div style="font-size: 9px; font-weight: 700">
-                  - AAVE - wstETH
+                  {{ pool.tokens.map((t) => `- ${t.symbol} `).join("") }}
                 </div>
               </div>
               <div class="actions_button text-black dark:!text-white" @click="
-    $emit('goToPoolManage', { index, onMountedActivity: 'deposit' })
-    ">
+                $emit('goToPoolManage', { index, onMountedActivity: 'deposit' })
+                ">
                 {{
-    pool['LiquidityType'] === 'CL'
-      ? 'Manage Position'
-      : 'Add liquidity'
-  }}
+                  pool['LiquidityType'] === 'CL'
+                    ? 'Manage Position'
+                    : 'Add liquidity'
+                }}
               </div>
             </div>
           </div>
@@ -192,7 +194,7 @@
               <div class="d-flex flex-column gap-2">
                 <div style="font-size: 9px; font-weight: 700">~- USD</div>
                 <div style="font-size: 9px; font-weight: 700">
-                  - AAVE - wstETH
+                  {{ pool.tokens.map((t) => `- ${t.symbol} `).join("") }}
                 </div>
               </div>
               <div class="actions_button"
@@ -232,7 +234,7 @@
               <div class="d-flex flex-column gap-2">
                 <div style="font-size: 9px; font-weight: 700">~- USD</div>
                 <div style="font-size: 9px; font-weight: 700">
-                  - AAVE - wstETH
+                  {{ pool.tokens.map((t) => `- ${t.symbol} `).join("") }}
                 </div>
               </div>
               <div class="actions_button text-black dark:!text-white">{{ $t('harvest') }} </div>

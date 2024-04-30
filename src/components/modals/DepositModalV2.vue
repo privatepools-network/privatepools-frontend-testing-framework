@@ -55,7 +55,7 @@
             <div class="d-flex align-items-center justify-content-between px-3 gap-3">
               <div class="d-flex flex-column align-items-start text-white">
                 <div>{{ (total / pool.lpPrice).toFixed(2) }} {{ pool.tokens.map((t) =>
-                  `${t.weight}%${t.symbol}`).join('/') }}</div>
+                  `${t.weight * 100}%${t.symbol}`).join('/') }}</div>
                 <div>${{ total.toFixed(2) }} ({{ (total / ((pool.lpPrice * pool.totalShares) / 100)).toFixed(2) }}%)</div>
               </div>
               <div>
