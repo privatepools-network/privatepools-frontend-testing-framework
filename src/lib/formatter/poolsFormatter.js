@@ -265,7 +265,7 @@ export function FormatPoolStats(pool) {
     timeAgo: generateTimeAgoString(pool?.createTime),
     lpPrice: pool?.totalLiquidity / pool?.totalShares,
     tokens: pool?.tokens.map((t) => {
-      return { ...t, weight: parseFloat((t.weight * 100).toFixed(0)) }
+      return { ...t, weight: parseFloat((t.weight).toFixed(0)) }
     }),
     totalSwapVolume: formatBigNumber(
       parseFloat(pool?.totalSwapVolume).toFixed(2),
@@ -437,7 +437,7 @@ export function FormatAllToDisplay(allData, network) {
       'Pool Weight': [
         p.tokens.map((token) => ({
           token: token.symbol,
-          weight: `${token.weight * 100}%`,
+          weight: `${token.weight}%`,
         })),
       ],
       LiquidityType: 'WP',

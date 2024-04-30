@@ -556,6 +556,7 @@ import { usePool30dProfit } from '@/composables/pools/usePoolSwapsStats'
 import router from '@/router'
 import Modal from '@/UI/Modal.vue'
 import checked_step_img from '@/assets/icons/CLIcons/checked_step.svg'
+import { getSinglePrice } from '@/composables/data/pricesData'
 
 
 const route = useRoute()
@@ -750,7 +751,7 @@ async function updateTokenInfo(token) {
     console.error('connect mm first')
     return
   }
-  let price = await GetTokenPriceUsd(token.value.symbol)
+  let price = await getSinglePrice(56,token.value.symbol)
   token.value.price = price
   let user = await mmProvider.value.getSigner().getAddress()
   let balance = await useBalance(token.value.address, mmProvider.value, user)
