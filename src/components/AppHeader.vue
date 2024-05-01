@@ -1,37 +1,23 @@
 <template>
-  <CHeader
-    position="static"
-    :class="
-      isHeaderBg
-        ? `header_main ${isDark ? 'header_main_bg' : 'header_main_bg-white'} `
-        : 'header_main'
-    "
-    ref="headRef"
-  >
+  <CHeader position="static" :class="isHeaderBg
+      ? `header_main ${isDark ? 'header_main_bg' : 'header_main_bg-white'} `
+      : 'header_main'
+    " ref="headRef">
     <CContainer fluid class="header_container">
       <HeaderNavigation />
 
-      <HeaderSearchbar
-        :selectOptions="selectOptions"
-        :handleInput="handleInput"
-      />
+      <HeaderSearchbar :selectOptions="selectOptions" :handleInput="handleInput" />
 
       <div v-if="!address">
         <div class="connect_wallet" @click="$emit('toggleSidebar')">
-           {{ $t('connect') }}
+          {{ $t('connect') }}
         </div>
       </div>
-      <div
-        v-else-if="address && address !== ''"
-        class="d-flex align-items-center gap-2"
-      >
+      <div v-else-if="address && address !== ''" class="d-flex align-items-center gap-2">
         <RewardsDropdown />
         <TokenDropdown />
 
-        <div
-          class="wallet_address text-black dark:!text-white"
-          @click="$emit('toggleSidebar')"
-        >
+        <div class="wallet_address text-black dark:!text-white" @click="$emit('toggleSidebar')">
           <img :src="connectWalletIcon" />
           {{ computedAddress }}
         </div>
@@ -84,8 +70,8 @@ const tokensOptions = computed(() => {
       id: `${item.name} ${item.symbol}`,
       label: item.name,
       img: item.symbol,
-      price: `${item.profit.toFixed(2)}$`,
-      percentChange: '0%',
+      price: `${item.price.toFixed(2)}$`,
+      percentChange: `${item.priceChange.toFixed(2)}%`,
       tokens: true,
     })),
   )
@@ -160,10 +146,10 @@ function handleInput(event) {
   let _search = searchInput.value.toLowerCase()
   visibleOptions.value = searchInput.value
     ? [
-        ...tokensOptions.value.filter((item) =>
-          checkInputSearchItem(_search, item),
-        ),
-      ]
+      ...tokensOptions.value.filter((item) =>
+        checkInputSearchItem(_search, item),
+      ),
+    ]
     : [...visibleOptionsComputed.value]
 }
 
@@ -227,30 +213,30 @@ const networksList = ref(
   [
     process.env.VUE_APP_KEY_ARBITRUM
       ? {
-          name: 'Arbitrum',
-          chainId: '0xa4b1',
-          decimalChainId: 42161,
-          image: arbitrum_network,
-          current: false,
-        }
+        name: 'Arbitrum',
+        chainId: '0xa4b1',
+        decimalChainId: 42161,
+        image: arbitrum_network,
+        current: false,
+      }
       : undefined,
     process.env.VUE_APP_KEY_BINANCE
       ? {
-          name: 'Binance',
-          chainId: '0x38',
-          decimalChainId: 56,
-          image: binance_network,
-          current: false,
-        }
+        name: 'Binance',
+        chainId: '0x38',
+        decimalChainId: 56,
+        image: binance_network,
+        current: false,
+      }
       : undefined,
     process.env.VUE_APP_KEY_POLYGON
       ? {
-          name: 'Polygon',
-          chainId: '0x89',
-          decimalChainId: 137,
-          image: polygon_network,
-          current: false,
-        }
+        name: 'Polygon',
+        chainId: '0x89',
+        decimalChainId: 137,
+        image: polygon_network,
+        current: false,
+      }
       : undefined,
   ].filter((item) => item != undefined),
 )
@@ -324,8 +310,8 @@ async function handleChainChanged() {
 const computedAddress = computed(() =>
   props.address
     ? props.address.substring(0, 6) +
-      '....' +
-      props.address.substring(props.address.length - 4)
+    '....' +
+    props.address.substring(props.address.length - 4)
     : '',
 )
 </script>
@@ -344,21 +330,17 @@ const computedAddress = computed(() =>
   margin-bottom: 10px;
 
   &_bg {
-    background: linear-gradient(
-      356.2deg,
-      rgba(0, 29, 37, 0.955) 0%,
-      #000000 105.42%
-    ) !important;
+    background: linear-gradient(356.2deg,
+        rgba(0, 29, 37, 0.955) 0%,
+        #000000 105.42%) !important;
     // -webkit-backdrop-filter: blur(60px);
     // backdrop-filter: blur(60px);
   }
 
   &_bg-white {
-    background: linear-gradient(
-      356.2deg,
-      rgba(221, 221, 221, 0.955) 0%,
-      #ffffff 105.42%
-    ) !important;
+    background: linear-gradient(356.2deg,
+        rgba(221, 221, 221, 0.955) 0%,
+        #ffffff 105.42%) !important;
     // -webkit-backdrop-filter: blur(60px);
     // backdrop-filter: blur(60px);
   }
@@ -397,11 +379,9 @@ const computedAddress = computed(() =>
     box-shadow: 0px 8px 10px 0px #00000033;
     box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(
-      50% 50% at 26.04% 40.42%,
-      rgba(0, 201, 255, 0.13) 0%,
-      rgba(0, 201, 255, 0) 100%
-    );
+    background: radial-gradient(50% 50% at 26.04% 40.42%,
+        rgba(0, 201, 255, 0.13) 0%,
+        rgba(0, 201, 255, 0) 100%);
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
@@ -418,11 +398,9 @@ const computedAddress = computed(() =>
     box-shadow: 0px 8px 10px 0px #00000033;
     box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(
-      50% 50% at 26.04% 40.42%,
-      rgba(0, 201, 255, 0.13) 0%,
-      rgba(0, 201, 255, 0) 100%
-    );
+    background: radial-gradient(50% 50% at 26.04% 40.42%,
+        rgba(0, 201, 255, 0.13) 0%,
+        rgba(0, 201, 255, 0) 100%);
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
@@ -484,16 +462,14 @@ const computedAddress = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(
-          from 180deg at 51.95% 49.81%,
-          rgba(0, 255, 178, 0) -2.11deg,
-          rgba(1, 180, 126, 0) 131.45deg,
-          #7ef6b2 175.58deg,
-          rgba(51, 255, 96, 0) 252.32deg,
-          rgba(8, 182, 129, 0) 310.85deg,
-          rgba(0, 255, 178, 0) 357.89deg,
-          rgba(1, 180, 126, 0) 491.45deg
-        );
+        background: conic-gradient(from 180deg at 51.95% 49.81%,
+            rgba(0, 255, 178, 0) -2.11deg,
+            rgba(1, 180, 126, 0) 131.45deg,
+            #7ef6b2 175.58deg,
+            rgba(51, 255, 96, 0) 252.32deg,
+            rgba(8, 182, 129, 0) 310.85deg,
+            rgba(0, 255, 178, 0) 357.89deg,
+            rgba(1, 180, 126, 0) 491.45deg);
       }
 
       &:after {
@@ -542,15 +518,13 @@ const computedAddress = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(
-          from 180deg at 51.95% 49.81%,
-          rgba(1, 180, 126, 0) 0deg,
-          #7ef6b2 148.33deg,
-          rgba(8, 182, 129, 0) 225.21deg,
-          rgba(51, 255, 96, 0) 268.33deg,
-          rgba(0, 255, 178, 0) 357.89deg,
-          rgba(1, 180, 126, 0) 360deg
-        );
+        background: conic-gradient(from 180deg at 51.95% 49.81%,
+            rgba(1, 180, 126, 0) 0deg,
+            #7ef6b2 148.33deg,
+            rgba(8, 182, 129, 0) 225.21deg,
+            rgba(51, 255, 96, 0) 268.33deg,
+            rgba(0, 255, 178, 0) 357.89deg,
+            rgba(1, 180, 126, 0) 360deg);
       }
 
       &:after {
@@ -566,15 +540,13 @@ const computedAddress = computed(() =>
 
       &:hover {
         &:before {
-          background: conic-gradient(
-            from 180deg at 51.95% 49.81%,
-            rgba(1, 180, 126, 0) 0deg,
-            #c6ffdf 148.33deg,
-            rgba(8, 182, 129, 0) 225.21deg,
-            rgba(51, 255, 96, 0) 268.33deg,
-            rgba(0, 255, 178, 0) 357.89deg,
-            rgba(1, 180, 126, 0) 360deg
-          );
+          background: conic-gradient(from 180deg at 51.95% 49.81%,
+              rgba(1, 180, 126, 0) 0deg,
+              #c6ffdf 148.33deg,
+              rgba(8, 182, 129, 0) 225.21deg,
+              rgba(51, 255, 96, 0) 268.33deg,
+              rgba(0, 255, 178, 0) 357.89deg,
+              rgba(1, 180, 126, 0) 360deg);
         }
       }
     }
@@ -611,16 +583,14 @@ const computedAddress = computed(() =>
     top: -1px;
     bottom: -1px;
     border-radius: 20px;
-    background: conic-gradient(
-      from 180deg at 51.95% 49.81%,
-      rgba(0, 255, 178, 0) -2.11deg,
-      rgba(1, 180, 126, 0) 131.45deg,
-      #7ef6b2 175.58deg,
-      rgba(51, 255, 96, 0) 252.32deg,
-      rgba(8, 182, 129, 0) 310.85deg,
-      rgba(0, 255, 178, 0) 357.89deg,
-      rgba(1, 180, 126, 0) 491.45deg
-    );
+    background: conic-gradient(from 180deg at 51.95% 49.81%,
+        rgba(0, 255, 178, 0) -2.11deg,
+        rgba(1, 180, 126, 0) 131.45deg,
+        #7ef6b2 175.58deg,
+        rgba(51, 255, 96, 0) 252.32deg,
+        rgba(8, 182, 129, 0) 310.85deg,
+        rgba(0, 255, 178, 0) 357.89deg,
+        rgba(1, 180, 126, 0) 491.45deg);
   }
 
   &:after {
@@ -636,16 +606,14 @@ const computedAddress = computed(() =>
 
   &:hover {
     &:before {
-      background: conic-gradient(
-        from 180deg at 51.95% 49.81%,
-        rgba(0, 255, 178, 0) -2.11deg,
-        rgba(1, 180, 126, 0) 131.45deg,
-        #c7e7d4 175.58deg,
-        rgba(51, 255, 96, 0) 252.32deg,
-        rgba(8, 182, 129, 0) 310.85deg,
-        rgba(0, 255, 178, 0) 357.89deg,
-        rgba(1, 180, 126, 0) 491.45deg
-      );
+      background: conic-gradient(from 180deg at 51.95% 49.81%,
+          rgba(0, 255, 178, 0) -2.11deg,
+          rgba(1, 180, 126, 0) 131.45deg,
+          #c7e7d4 175.58deg,
+          rgba(51, 255, 96, 0) 252.32deg,
+          rgba(8, 182, 129, 0) 310.85deg,
+          rgba(0, 255, 178, 0) 357.89deg,
+          rgba(1, 180, 126, 0) 491.45deg);
     }
   }
 }
@@ -674,15 +642,13 @@ const computedAddress = computed(() =>
     top: 1px;
     bottom: -1px;
     border-radius: 5px;
-    background: conic-gradient(
-      from 180deg at 51.95% 49.81%,
-      rgba(1, 180, 126, 0) 0deg,
-      #7ef6b2 118.33deg,
-      rgba(51, 255, 96, 0) 270.21deg,
-      rgba(8, 182, 129, 0) 311.46deg,
-      rgba(0, 255, 178, 0) 357.89deg,
-      rgba(1, 180, 126, 0) 360deg
-    );
+    background: conic-gradient(from 180deg at 51.95% 49.81%,
+        rgba(1, 180, 126, 0) 0deg,
+        #7ef6b2 118.33deg,
+        rgba(51, 255, 96, 0) 270.21deg,
+        rgba(8, 182, 129, 0) 311.46deg,
+        rgba(0, 255, 178, 0) 357.89deg,
+        rgba(1, 180, 126, 0) 360deg);
   }
 
   &:after {

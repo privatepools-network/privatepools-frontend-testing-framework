@@ -23,7 +23,7 @@ export async function useWalletActivity(account, network) {
     `${BACKEND_URL[network]}/portfolio/activity/${account}`,
   )
   let txs = response.data.result
-  // console.log('txs', txs)
+  if (!txs) return []
   let formattedTxs = []
   for (let i = 0; i < txs.length; i++) {
     let formatted = formatEtherscanTx(txs[i])
