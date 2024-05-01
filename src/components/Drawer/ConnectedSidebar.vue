@@ -44,7 +44,7 @@
       <div class="d-flex flex-column">
         <div
           class="balance_text text-black dark:!text-white"
-          v-if="sidebarData?.userBalance?.total"
+          v-if="sidebarData?.userBalance?.total != null"
         >
           ${{ Number(sidebarData?.userBalance?.total).toFixed(2) }}
         </div>
@@ -151,7 +151,7 @@
       </div>
       <div v-if="sidebarTab === 'Tokens'" class="d-flex flex-column gap-2">
         <div
-          v-if="sidebarData?.userBalance?.tokens"
+          v-if="sidebarData?.userBalance?.tokens != null"
           v-for="(item, i) in sidebarData?.userBalance?.tokens.filter(
             (item) => item.usdAmount !== 0 || item.symbol === 'PPN',
           )"
@@ -503,63 +503,10 @@ const sidebarTab = ref('Tokens')
 const sidebarData = ref({})
 
 const tokensOptions = ref([
-  // {
-  //     amount: 9999.995259171961,
-  //     price: 0,
-  //     symbol: "PPN",
-  //     address: "0x0cfa47331af179f9b932ae87f447f675a2b500d1",
-  //     usdAmount: 0
-  // }
-  // {
-  //   label: 'Bitcoin',
-  //   img: 'BTC',
-  //   price: '$51000',
-  //   percentChange: '5.1%',
-  // },
-  // {
-  //   label: 'Ethereum',
-  //   img: 'ETH',
-  //   price: '$2700',
-  //   percentChange: '2.1%',
-  // },
-  // {
-  //   label: 'Arbitrum',
-  //   img: 'ARB',
-  //   price: '$1.89',
-  //   percentChange: '1.1%',
-  // },
-  // {
-  //   label: 'Solana',
-  //   img: 'SOL',
-  //   price: '$115.54',
-  //   percentChange: '11.1%',
-  // },
+
 ])
 const mockPools = ref([
-  {
-    label: 'MATIC / LDO',
-    img: '0.01%',
-    price: '$51000',
-    percentChange: 'Out of range',
-  },
-  {
-    label: 'MATIC / LDO',
-    img: '0.01%',
-    price: '$2700',
-    percentChange: 'On range',
-  },
-  {
-    label: 'WP-MATIC / BTC / USDC',
-    img: '12.3% APR',
-    price: '$1.89',
-    percentChange: '1.1%',
-  },
-  {
-    label: 'WP-MATIC / BTC / AVAX',
-    img: '20.3% APR',
-    price: '$115.54',
-    percentChange: '11.1%',
-  },
+
 ])
 const addressActivity = ref([])
 const addressPools = ref([])

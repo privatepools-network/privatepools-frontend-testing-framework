@@ -24,7 +24,7 @@
             <div class="caption dark:!text-white text-black"
               style="font-size: clamp(10px, 0.9vw, 16px); font-weight: 700">
               {{
-                pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/')
+              pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/')
               }}
             </div>
 
@@ -58,13 +58,13 @@
           </div>
 
           <div class="d-flex justify-content-between dark:!bg-[#00000024] bg-white currency_container">
-            <CurrencySelector />
+            <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" />
             <div>
               <input class="token-input dark:!text-[#A8A8A8] text-black" style="
                   font-size: clamp(10px, 0.8vw, 14px);
                   font-weight: 500;
                   text-align: right;
-                " type="number" placeholder="0" />
+                " type="number" placeholder="0" @input="(e) => onCurrencyInput(e)" />
             </div>
           </div>
 
@@ -99,11 +99,11 @@
                         {{ $t('max') }}</span>
                     </div>
                     <div>
-                      ${{
-                        (
-                          (lineNumbers[tokenIndex] / 1000) *
-                          lastTokenPrices[token.address]
-                        ).toFixed(3)
+                      {{currencySelected.symbol}}{{
+                      (
+                      (lineNumbers[tokenIndex] / 1000) *
+                      lastTokenPrices[token.address]
+                      ).toFixed(3)
                       }}
                     </div>
                   </div>
@@ -141,14 +141,14 @@
                       ">
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="w-25 fw-bold">
-                          ${{
-                            lineNumbers.reduce(
-                              (sum, current, index) =>
-                                sum +
-                                (current / 1000) *
-                                lastTokenPrices[tokens[index]],
-                              0,
-                            )
+                          {{ currencySelected.symbol }}{{
+                          lineNumbers.reduce(
+                          (sum, current, index) =>
+                          sum +
+                          (current / 1000) *
+                          lastTokenPrices[tokens[index]],
+                          0,
+                          )
                           }}
                         </div>
                         <div class="optimize dark:!bg-[#00000024] bg-white" @click="OnAllMaxClick">{{ $t('max') }}</div>
@@ -224,9 +224,9 @@
               </div>
               <div>
                 {{ parseFloat(balances[token.address]).toFixed(2) }} ({{
-                  (
-                    balances[token.address] * lastTokenPrices[token.address]
-                  ).toFixed(2)
+                (
+                balances[token.address] * lastTokenPrices[token.address]
+                ).toFixed(2)
                 }}$)
               </div>
             </div>
@@ -261,12 +261,12 @@ const pool = ref(null)
 
 
 const tokens = ref([])
-
-console.log('here')
+const currencySelected = ref({ name: 'USD', code: 'USD', symbol:"$" })
 const lineNumbers = ref([])
 const balances = ref({})
 
-const lastTokenPrices = ref({})
+const allLastTokenPrices = ref({})
+const lastTokenPrices = computed(() => allLastTokenPrices.value[currencySelected.value.code])
 const formattedLineNumbers = computed(() =>
   lineNumbers.value.map((ln) => ln / 1000),
 )
@@ -324,7 +324,7 @@ onMounted(async () => {
   balances.value = _balances
   account.value = _account
   lineNumbers.value = _lineNumbers
-  lastTokenPrices.value = _lastTokenPrices
+  allLastTokenPrices.value = _lastTokenPrices
 })
 
 // function weeklyYieldForAPR(apr) {
@@ -419,6 +419,13 @@ function RemainingBalance(token, index) {
   let value2 = parseFloat(lineNumbers.value[index])
   let diff = (value1 - value2) / 1000
   return diff < 0 && diff > -1 ? 0 : diff.toFixed(4)
+}
+
+
+function onCurrencyInput(e) {
+  lineNumbers.value[0] = (e.target.value / lastTokenPrices.value[tokens.value[0]]) * 1000
+  lastDepositChanged.value = 0
+  OnOptimizeClick()
 }
 </script>
 <style lang="scss" scoped>

@@ -468,14 +468,6 @@ onBeforeMount(async () => {
   await init()
 })
 
-// watch(visibleWithdrawModal, async () => {
-//   await init()
-//   console.log(lastTokenPrices.value)
-// })
-watch(allSelectedTokens, async () => {
-  await init()
-})
-
 async function init() {
   pool.value = await getSinglePoolDetails(56, poolId)
   tokens.value = pool.value?.tokens.map((t) => t.address)
@@ -499,7 +491,7 @@ async function init() {
   }
   account.value = _account
   lineNumbers.value = _lineNumbers
-  lastTokenPrices.value = _lastTokenPrices
+  lastTokenPrices.value = _lastTokenPrices["USD"]
   poolShare.value = await GetPoolShares(pool.value.id, account)
   usdPoolShareValue.value = poolShare.value.balance * pool.value.lpPrice
 
