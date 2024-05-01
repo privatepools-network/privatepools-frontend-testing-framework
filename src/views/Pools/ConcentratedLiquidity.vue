@@ -492,7 +492,7 @@
               {{ $t('add_liquidity') }}
             </button>
             <button v-else-if="concentratedLiquidityStep === 3" :class="'concentrated_button'">
-              {{ $t('approving_all_tokens_for_minting') }}
+              {{ $t('approving_all_tokens_for_minting') }} <span class="button_loader pl-2"></span>
             </button>
             <div v-else-if="concentratedLiquidityStep === 4" :class="'concentrated_button'">
               {{ $t('minting_liquidity') }} <span class="button_loader pl-2"></span>

@@ -10,17 +10,19 @@ import rdnt from '../assets/images/tokens/rdnt.png'
 import usdt from '../assets/images/tokens/usdt.png'
 import usdc from '../assets/images/tokens/usdc.png'
 import matic from '../assets/images/tokens/matic.png'
-import xrp from '../assets/images/tokens//XRP.png'
-import ada from '../assets/images/tokens//ADA.png'
+import xrp from '../assets/images/tokens/XRP.png'
+import ada from '../assets/images/tokens/ADA.png'
 import cake from '../assets/images/tokens/cake.png'
-import avax from '../assets/images/tokens//AVAX.png'
-import sol from '../assets/images/tokens//SOL.png'
+import avax from '../assets/images/tokens/AVAX.png'
+import sol from '../assets/images/tokens/SOL.png'
 import inj from '../assets/images/tokens/inj.png'
 import DOGE from '../assets/images/tokens/DOGE.png'
 import DAI from '../assets/images/tokens/DAI.png'
 import dot from '../assets/images/tokens/DOT.webp'
-import link from '../assets/images/tokens//LINK.png'
-import ldo from '../assets/images/tokens//LDO.png'
+import link from '../assets/images/tokens/LINK.png'
+import ldo from '../assets/images/tokens/LDO.png'
+import boom from '../assets/images/tokens/BOOM.png'
+import uni from '../assets/images/tokens/UNI.png'
 
 export default function computedTokenImage(token) {
   if (token.symbol === 'WBTC' || token === 'WBTC') {
@@ -116,5 +118,11 @@ export default function computedTokenImage(token) {
   }
   if (token.symbol === 'DAI' || token === 'DAI') {
     return DAI
+  }
+  if (token.symbol === 'BOOM' || token === 'BOOM') {
+    return boom
+  }
+  if (token.symbol === 'UNI' || token === 'UNI') {
+    return uni
   }
 }
