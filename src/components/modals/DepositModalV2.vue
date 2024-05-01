@@ -193,7 +193,7 @@
             </div>
             <div class="position-relative" v-else-if="approveStep === 2">
               <div class="metamask_loader"></div>
-              <div class="step_number step_number_active">
+              <div class="step_number step_number_active flex items-center justify-center pt-1">
                 <img :src="metamask" width="20" />
               </div>
             </div>
@@ -218,8 +218,8 @@
               <div
                 :class="
                   approveStep === 3
-                    ? 'step_number step_number_active'
-                    : 'step_number'
+                    ? 'step_number step_number_active flex items-center justify-center h-full'
+                    : 'step_number flex items-center justify-center h-full'
                 "
               >
                 <svg
@@ -313,7 +313,7 @@
         >
           <div class="position-relative">
             <div class="metamask_loader"></div>
-            <div class="step_number step_number_active">
+            <div class="step_number step_number_active  flex items-center justify-center pt-1">
               <img :src="metamask" width="20" />
             </div>
           </div>

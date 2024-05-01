@@ -163,9 +163,11 @@
                       {{ $t('value_loss') }}
                     </td>
                     <td style="padding: 8px">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
+                      <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-1">
+                          <div>
                           {{ priceImpactFormatted }}%
+                        </div>
                           <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_1904_24663)">

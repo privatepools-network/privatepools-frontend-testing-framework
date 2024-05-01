@@ -41,12 +41,15 @@
         </div>
       </div>
     </div>
-    {{ console.log('all_pools', all_pools) }}
+    {{ console.log('all_pools!!!', all_pools) }}
 
     <PoolRow v-if="all_pools && all_pools.length > 0" v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
       :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
       @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"
       :isActions="true" />
+      <div v-else class="p-10 flex justify-center items-center dark:!text-white text-black">
+        No pools of this type
+      </div>
   </div>
   
   <!-- <Pagination
