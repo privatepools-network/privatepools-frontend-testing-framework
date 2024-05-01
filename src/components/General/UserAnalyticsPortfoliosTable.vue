@@ -287,14 +287,14 @@
         </div>
       </Table>
     </CRow>
-    <Pagination
+    <!-- <Pagination
       :perPage="perPage"
       :pools="poolActivity"
       :currentPage="currentPage"
       @changePage="changePage"
       @changePerPage="changePerPage"
       :perPageOptions="[25, 50, 100]"
-    ></Pagination>
+    ></Pagination> -->
   </div>
 </template>
 <script setup>

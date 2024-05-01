@@ -207,11 +207,11 @@
               </button>
               <div :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep === 3"
                 @click="addLiquidityHandler">
-                {{ $t('approving_all_tokens_for_minting') }}
+                {{ $t('approving_all_tokens_for_minting') }} <span class="button_loader pl-2"></span>
               </div>
               <div :class="'concentrated_button mt-4'" v-if="concentratedLiquidityStep === 4"
                 @click="addLiquidityHandler">
-                {{ $t('minting_liquidity') }}
+                {{ $t('minting_liquidity') }} <span class="button_loader pl-2"></span>
               </div>
             </div>
             <div v-else-if="liquidityActionTab === 'Withdraw'">

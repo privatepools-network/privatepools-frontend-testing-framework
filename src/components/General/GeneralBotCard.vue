@@ -272,7 +272,7 @@
                 <div v-else class="text-black dark:!text-white font-[800]" style=" font-size: clamp(10px, 0.8vw, 14px)">
                   {{
           numberToAposthrophe(chains_data.avgAPR, currencyDecimals)
-        }}
+        }}%
                 </div>
               </div>
             </div>
@@ -291,7 +291,7 @@
                   <ThreeDots />
                 </div>
                 <div v-else class="text-black dark:!text-white font-[400]">
-                  {{ formatBigNumber(chains_data.APR24H) }}
+                  {{ formatBigNumber(chains_data.APR24H) }}%
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -300,7 +300,7 @@
                   <ThreeDots />
                 </div>
                 <div v-else class="text-black dark:!text-white font-[400]">
-                  {{ formatBigNumber(chains_data.APR7D) }}
+                  {{ formatBigNumber(chains_data.APR7D) }}%
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -309,7 +309,7 @@
                   <ThreeDots />
                 </div>
                 <div v-else class="text-black dark:!text-white font-[400]">
-                  {{ formatBigNumber(chains_data.APR30D) }}
+                  {{ formatBigNumber(chains_data.APR30D) }}%
                 </div>
               </div>
 

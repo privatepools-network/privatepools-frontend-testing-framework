@@ -25,7 +25,7 @@
           @changeTab="changeTopPerformanceFilter"></Tabs>
       </div>
     </div>
-    <GeneralPerformanceTable :user_staked_pools="user_staked_pools" :all_pools="allData.topPerformancePools" />
+    <GeneralPerformanceTable :user_staked_pools="user_staked_pools" :all_pools="selectedTopPerformanceFilter === t('all') ? allData?.topPerformancePools : allData?.topPerformancePools?.filter(el => el.LiquidityType === selectedTopPerformanceFilter)" />
     <div class="mt-5 mb-3 title text-black dark:!text-white">
       {{ $t('top_trading_tokens') }}
     </div>

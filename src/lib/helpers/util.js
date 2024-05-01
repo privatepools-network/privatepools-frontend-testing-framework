@@ -121,6 +121,8 @@ import INJ from '@/assets/images/tokens/inj.png'
 import DOGE from '@/assets/images/tokens/DOGE.png'
 import PPN from '@/assets/images/tokens/PPN.png'
 import GMRX from '@/assets/images/tokens/GMRX.png'
+import UNI from '@/assets/images/tokens/UNI.png'
+import BOOM from '@/assets/images/tokens/BOOM.png'
 
 const tokenHT = [
   {
@@ -427,6 +429,18 @@ const tokenHT = [
     name: 'GMRX',
     short: 'GMRX',
     icon: GMRX,
+  },
+  {
+    key: 'UNI',
+    name: 'UNI',
+    short: 'UNI',
+    icon: UNI,
+  },
+  {
+    key: 'BOOM',
+    name: 'BOOM',
+    short: 'BOOM',
+    icon: BOOM,
   },
 ]
 

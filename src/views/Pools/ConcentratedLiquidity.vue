@@ -58,7 +58,7 @@
                 </h4>
               </div>
             </div>
-            <div v-if="concentratedLiquidityStep === 1">
+            <!-- <div v-if="concentratedLiquidityStep === 1">
               <div class="compose_text dark:!text-white text-black fw-light mt-3">{{ $t('fee_tier') }}</div>
               <div class="fee_tier_container dark:!bg-[#00000024] bg-white">
                 <div :class="tier.selected
@@ -69,7 +69,7 @@
                   <div style="color: #858c90">{{ tier.name }}</div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="compose_text dark:!text-white text-black fw-light mt-3 mb-2">{{ $t('price_range') }}</div>
             <div class="price_range_container dark:!bg-[#22222224] bg-white">
               <div class="d-flex gap-3 justify-content-between">
@@ -242,7 +242,7 @@
                 </div>
               </div>
               <div class="compose_text dark:!text-white text-black fw-light mt-3 mb-3">{{ $t('range_type') }}:</div>
-              <div v-if="concentratedLiquidityStep === 2" class="fee_tier_container dark:!bg-[#00000024] bg-white">
+              <div v-if="concentratedLiquidityStep > 0" class="fee_tier_container dark:!bg-[#00000024] bg-white">
                 <div :class="type.selected
                   ? 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]  fee_tier_container_card__selected'
                   : 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]'
@@ -492,7 +492,7 @@
               {{ $t('add_liquidity') }}
             </button>
             <button v-else-if="concentratedLiquidityStep === 3" :class="'concentrated_button'">
-              {{ $t('approving_all_tokens_for_minting') }}
+              {{ $t('approving_all_tokens_for_minting') }} <span class="button_loader pl-2"></span>
             </button>
             <div v-else-if="concentratedLiquidityStep === 4" :class="'concentrated_button'">
               {{ $t('minting_liquidity') }} <span class="button_loader pl-2"></span>
