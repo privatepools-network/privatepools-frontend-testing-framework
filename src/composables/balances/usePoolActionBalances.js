@@ -4,7 +4,7 @@ import { getPrices } from '../data/pricesData'
 export async function usePoolActionBalances(tokens, tokensInfo, network) {
   let account = ''
   let balances = {}
-  let lastTokenPrices = {}
+  let lastTokenPrices = { USD: {}, ETH: {}, BTC: {} }
   let lineNumbers = []
   const mmProvider = await InitializeMetamask()
   if (!mmProvider) return
@@ -16,9 +16,19 @@ export async function usePoolActionBalances(tokens, tokensInfo, network) {
     }
   })
   let balancesMapping = await Promise.all(balancesPromises)
-  const prices = await getPrices(
+  const pricesUSD = await getPrices(
     network,
     tokensInfo.map((t) => t.symbol),
+  )
+  const pricesETH = await getPrices(
+    network,
+    tokensInfo.map((t) => t.symbol),
+    'ETH',
+  )
+  const pricesBTC = await getPrices(
+    network,
+    tokensInfo.map((t) => t.symbol),
+    'BTC',
   )
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i]
@@ -27,7 +37,9 @@ export async function usePoolActionBalances(tokens, tokensInfo, network) {
     balances[token] = parseFloat(balance).toFixed(6)
     let found_token = tokensInfo.find((t) => t.address == token)
     if (found_token) {
-      lastTokenPrices[token] = prices[found_token.symbol]
+      lastTokenPrices['USD'][token] = pricesUSD[found_token.symbol]
+      lastTokenPrices['ETH'][token] = pricesETH[found_token.symbol]
+      lastTokenPrices['BTC'][token] = pricesBTC[found_token.symbol]
       found_token.userBalance = balance
     }
     lineNumbers.push(balance > 0.001 ? 1 : balance)

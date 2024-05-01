@@ -17,15 +17,15 @@
     </div>
 
     <div class="mt-5 mb-3 flex justify-between items-center">
-    <div class=" title text-black dark:!text-white">
-      {{ $t('top_perfomance_pools') }}
+      <div class=" title text-black dark:!text-white">
+        {{ $t('top_perfomance_pools') }}
+      </div>
+      <div>
+        <Tabs :selectedTab="selectedTopPerformanceFilter" :tabsOptions="topPerformanceFilters"
+          @changeTab="changeTopPerformanceFilter"></Tabs>
+      </div>
     </div>
-    <div>
-      <Tabs :selectedTab="selectedTopPerformanceFilter" :tabsOptions="topPerformanceFilters"
-      @changeTab="changeTopPerformanceFilter"></Tabs>
-    </div>
-  </div>
-    <GeneralPerformanceTable :all_pools="allData.topPerformancePools" />
+    <GeneralPerformanceTable :user_staked_pools="user_staked_pools" :all_pools="allData.topPerformancePools" />
     <div class="mt-5 mb-3 title text-black dark:!text-white">
       {{ $t('top_trading_tokens') }}
     </div>
@@ -35,8 +35,9 @@
     <div class="mt-5 mb-3 title text-black dark:!text-white">
       {{ $t('private_pools_activity') }}
     </div>
- 
-    <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits" :all_activities="allData.activities ? allData.activities : []" />
+
+    <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits"
+      :all_activities="allData.activities ? allData.activities : []" />
 
   </MainCard>
 </template>
@@ -45,8 +46,8 @@
 import MainCard from '@/UI/MainCard.vue'
 import GeneralBotCard from '@/components/General/GeneralBotCard.vue';
 import TrackingInfoChart from '@/components/TrackInfo/TrackingInfoChart.vue';
-import { ref, onBeforeMount, watch, computed, onMounted } from 'vue'
-import { Network, DisplayNetwork } from '@/composables/useNetwork'
+import { ref, onBeforeMount, watch, computed } from 'vue'
+import { Network, DisplayNetwork, networkId } from '@/composables/useNetwork'
 import { FormatAllPoolForTrackingPage } from '@/lib/formatter/poolsFormatter'
 import { FormatAllPairsData } from '@/lib/formatter/trackPairsFormatter'
 import { GetPools } from "@/composables/pools/usePools"
@@ -75,7 +76,8 @@ import { GetUniswapActivity } from "@/composables/concentrated-liquidity/useUnis
 import { getGeneralData } from "@/composables/data/generalData";
 import Tabs from '@/UI/Tabs.vue';
 import { t } from 'i18next';
-
+import { useWalletPools } from '@/composables/wallet/useWalletPools'
+import { InitializeMetamask } from '@/lib/utils/metamask'
 const allPoolsTableData = ref([])
 const allPairsTableData = ref([])
 const chartData = ref([])
@@ -107,7 +109,7 @@ const currency = computed(() => currencySelected.value.code)
 const currencySymbol = computed(() => currencySelected.value.symbol)
 const currency_prices = ref(null)
 const currencyDecimals = computed(() => currencySelected.value.code == "USD" ? 3 : 5)
-
+const user_staked_pools = ref([])
 const allData = ref({});
 
 onBeforeMount(async () => {
@@ -117,7 +119,14 @@ onBeforeMount(async () => {
   }
   else {
     allData.value = await getGeneralData(56);
-   // historicalPrices.value = await GetHistoricalTokenPrices(allData.value.topTradingTokens.map((item) => item.symbol), true, 500, currency.value)
+    let mmProvider = await InitializeMetamask()
+    let address = await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
+    user_staked_pools.value = await useWalletPools(
+      address,
+      networkId.value,
+      false,
+    )
+    // historicalPrices.value = await GetHistoricalTokenPrices(allData.value.topTradingTokens.map((item) => item.symbol), true, 500, currency.value)
     console.log(allData.value)
   }
 })
