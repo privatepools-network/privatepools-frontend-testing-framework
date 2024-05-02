@@ -30,7 +30,8 @@
             <div class="compose_text dark:!text-white text-black fw-light">{{ $t('pair') }}</div>
             <div class="d-flex gap-3">
               <!-- Tokens selector 1 separate comp-->
-              <div @click="() => tokenSelectModalOpen(1)" class="selector_button dark:!bg-[#00000024] bg-white">
+              <div @click="() => !disableTokenSelection ? tokenSelectModalOpen(1) : null"
+                class="selector_button dark:!bg-[#00000024] bg-white">
                 <img class="!bg-gray-200 dark:!bg-transparent rounded-full" :src="getTokenEntity(pairToken1.symbol, 'short').icon ||
                   pairToken1.logoURI
                   " width="24" />
@@ -44,7 +45,8 @@
                 </h4>
                 <!-- Tokens selector 2 separate comp -->
               </div>
-              <div @click="() => tokenSelectModalOpen(2)" class="selector_button dark:!bg-[#00000024] bg-white">
+              <div @click="() => !disableTokenSelection ? tokenSelectModalOpen(2) : null"
+                class="selector_button dark:!bg-[#00000024] bg-white">
                 <img class="!bg-gray-200 dark:!bg-transparent rounded-full" :src="getTokenEntity(pairToken2.symbol, 'short').icon ||
                   pairToken2.logoURI
                   " width="24" />
@@ -310,7 +312,7 @@
                     </div>
                     <div class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
                       @click="depositAmount1 = pairToken1.balance">
-                      {{$t('max')}}
+                      {{ $t('max') }}
                     </div>
                   </div>
                   <div>
@@ -498,12 +500,12 @@
               {{ $t('minting_liquidity') }} <span class="button_loader pl-2"></span>
             </div>
             <div v-else-if="concentratedLiquidityStep === 5" :class="'concentrated_button'" @click="  router.push({
-      name: 'Concentrated liquidity Add',
-      params: {
-        onMountedActivity: 'deposit',
-        poolId: poolInfo.address
-      },
-    })">
+              name: 'Concentrated liquidity Add',
+              params: {
+                onMountedActivity: 'deposit',
+                poolId: poolInfo.address
+              },
+            })">
               {{ $t('manage_position') }}
             </div>
           </div>
@@ -751,7 +753,7 @@ async function updateTokenInfo(token) {
     console.error('connect mm first')
     return
   }
-  let price = await getSinglePrice(56,token.value.symbol)
+  let price = await getSinglePrice(56, token.value.symbol)
   token.value.price = price
   let user = await mmProvider.value.getSigner().getAddress()
   let balance = await useBalance(token.value.address, mmProvider.value, user)
@@ -955,12 +957,14 @@ watch(networkId, async () => {
   await initPossibleComposeTokens()
 })
 
+const disableTokenSelection = computed(() => route.query.tokens && route.query.tokens.length == 2)
+
 async function initPossibleComposeTokens() {
   if (networkId.value) {
     notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(
       networkId.value,
     )
-    if (route.query.tokens && route.query.tokens.length == 2) {
+    if (disableTokenSelection.value) {
       console.log('TOKENS - ', notSelectedPossibleComposeTokens)
       updateToken(
         notSelectedPossibleComposeTokens.value.find(
