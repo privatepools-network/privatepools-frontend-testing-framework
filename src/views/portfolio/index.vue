@@ -919,7 +919,7 @@ onMounted(async () => {
   }
   const mmProvider = await InitializeMetamask()
   if (mmProvider) {
-    account.value = await mmProvider.getSigner().getAddress()
+    account.value = '0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'//await mmProvider.getSigner().getAddress()
     if (process.env.VUE_APP_LOCAL_API) {
       portfolioData.value = await getPortfolioData(56, account.value)
       balanceData.value = await getPortfolioBalance(56, account.value)

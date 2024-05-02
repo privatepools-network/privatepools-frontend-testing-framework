@@ -611,8 +611,8 @@ export async function MintPosition(
     isLoading: false,
   })
 
-  await mintPosition(order, signer, poolInfo)
   step.value = 4
+  await mintPosition(order, signer, poolInfo)
   // step.value = 0
 }
 
