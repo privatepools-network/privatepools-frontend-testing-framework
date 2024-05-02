@@ -45,6 +45,12 @@
 
           <Toggler :toggle="HideSmallBalances" :label="''" />
         </div>
+        <div
+          class="settings_text text-black dark:!text-white flex items-center justify-between"
+        >
+          <div>Particles</div>
+          <div @click="$emit('handleHideParticles')"><span v-if="!HideParticles">On</span><span v-else>Off</span></div>
+        </div>
         <ThemeToggler />
         <div
           class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
@@ -106,7 +112,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { defineEmits } from 'vue'
+import { defineEmits, defineProps } from 'vue'
 import languages from '@/assets/localization/languages'
 import arrow_back_sidebar from '@/assets/icons/arrow/arrow_back_sidebar.svg'
 import arrow_right from '@/assets/icons/arrow/arrow_right.svg'
@@ -139,8 +145,10 @@ const currencyList = [
   },
 ]
 
-defineEmits(['toggleToWallets'])
+defineProps(['HideParticles'])
+defineEmits(['toggleToWallets', 'handleHideParticles'])
 const HideSmallBalances = ref(true)
+
 const settingsState = ref('Main')
 
 const handleChangeCurrency = (cur) => {
