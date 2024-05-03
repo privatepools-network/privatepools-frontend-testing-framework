@@ -19,7 +19,7 @@
         </svg>
 
         <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
-           {{ $t('no_data_available') }}
+          {{ $t('no_data_available') }}
         </div>
         <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
           {{ $t('invest_to_start_pool') }}
@@ -82,6 +82,7 @@ import { Network, DisplayNetwork } from '@/composables/useNetwork'
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import { networkId } from '@/composables/useNetwork'
 import ChartTimeline from '@/UI/ChartTimeline.vue'
+import { t } from 'i18next'
 const emit = defineEmits(['updateChart'])
 
 const props = defineProps(['networks_data', 'chainSelected', 'all_chart_data'])
@@ -105,19 +106,18 @@ const filterKeys = computed(() => Object.keys(filters.value))
 
 const timelines = [
   {
-    name: 'All-time',
+    name: t('all_time'),
   },
   {
-    name: 'Daily',
+    name: t('daily'),
   },
   {
-    name: 'Weekly',
+    name: t('weekly'),
   },
   {
-    name: 'Monthly',
+    name: t('monthly'),
   },
 ]
-
 const isCumulativeMode = ref(false)
 const currentTimeline = ref(timelines[0])
 
@@ -784,10 +784,10 @@ const optionObj = ref({
 })
 
 const TimelineFilters = {
-  ['All-time']: groupTimestampsByDayWithIndexes,
-  Daily: groupTimestampsByDayWithIndexes,
-  Weekly: groupTimestampsByWeekWithIndexes,
-  Monthly: groupTimestampsByMonthWithIndexes,
+  [t('all_time')]: groupTimestampsByDayWithIndexes,
+  [t('daily')]: groupTimestampsByDayWithIndexes,
+  [t('weekly')]: groupTimestampsByWeekWithIndexes,
+  [t('monthly')]: groupTimestampsByMonthWithIndexes,
 }
 
 const preFiltersList = ref([

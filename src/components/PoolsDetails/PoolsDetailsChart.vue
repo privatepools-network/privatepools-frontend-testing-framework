@@ -390,13 +390,13 @@ const timelines = [
   //   name: 'All-time',
   // },
   {
-    name: 'Daily',
+    name: t('daily'),
   },
   {
-    name: 'Weekly',
+    name: t('weekly'),
   },
   {
-    name: 'Monthly',
+    name: t('monthly'),
   },
 ]
 
@@ -1374,9 +1374,9 @@ watch(props, () => {
 
 const TimelineFilters = {
   // 'All-time': groupTimestampsByDayWithIndexes,
-  Daily: groupTimestampsByDayWithIndexes,
-  Weekly: groupTimestampsByWeekWithIndexes,
-  Monthly: groupTimestampsByMonthWithIndexes,
+  [t('daily')]: groupTimestampsByDayWithIndexes,
+  [t('weekly')]: groupTimestampsByWeekWithIndexes,
+  [t('monthly')]: groupTimestampsByMonthWithIndexes,
 }
 
 function sumAssetsProfits(previous_items) {
