@@ -1,12 +1,12 @@
 <template>
   <Dropdown :distance="4" :placement="'bottom-center'">
-        <div class="button_drop text-black dark:!text-white" style="padding: 10px">
+        <div class="button_drop dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white" style="padding: 10px">
           <img :src="walletPoolsImg" />
 
           $1.23
         </div>
         <template #popper>
-            <div class="header__popup bg-white dark:!bg-[#171717]">
+            <div class="header__popup bg-white dark:!bg-[#02031C]">
               <h4 
                 class="text-[14px] text-black dark:!text-[#626262] mb-[10px]"
                 >
@@ -16,7 +16,7 @@
                 <div  class="text-[12px] text-black dark:!text-[#626262]">
                   PPN {{ $t('price') }}
                 </div>
-                <div>
+                <div class="rewards_numbers">
                   $1.2345
              
                 </div>
@@ -25,7 +25,7 @@
                 <div class="text-[12px] text-black dark:!text-[#626262]">
                   {{ $t('market_cap') }}
                 </div>
-                <div>
+                <div class="rewards_numbers">
                   $1,827,643
                 </div>
                 
@@ -34,12 +34,12 @@
                 <div class="text-[12px] text-black dark:!text-[#626262]">
                   {{ $t('circulating_supply') }}
                 </div>
-                <div>
+                <div class="rewards_numbers">
                   6,001,859 PPN
                 </div>
                 
               </div>
-              <div class="rewards_button_dropdown"> <img :src="walletPoolsImg" /> {{ $t('add_ppn_to_wallet') }}</div>
+              <div class="rewards_button_dropdown">{{ $t('add_ppn_to_wallet') }}</div>
             </div>
           </template>
       </Dropdown>
@@ -55,46 +55,49 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
   // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
   padding: 5px;
-  font-family: Montserrat;
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
   // color: white;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 
 }
 
 .rewards_button_dropdown {
   display: flex;
   align-items: center;
-  gap: 4px;
+  
   justify-content: center;
   cursor: pointer;
-  margin-top: 10px;
-  border-radius: 2px;
-  font-family: Montserrat;
+  margin-top: 16px;
+  border-radius: 100px;
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
-  color: #FFFFFF;
+  color: #000000;
   text-align: center;
   padding: 8px;
-  background: linear-gradient(45deg, #00e0ff 0%, #0E3E9B 100%);
+  background: #00E0FF;
 
-  box-shadow: 0px 4px 8.899999618530273px 0px #00AAE01A;
+  &:hover {
+        filter: drop-shadow(0 0 0.3rem #00E0FF);
+
+  }
+
 }
 
 
 .button_drop {
   height: 40px;
-  // background: #15151580;
-  border: 1px solid #2222220d;
-  box-shadow: 0px 4px 4px 0px #00000040;
+ 
+  font-family: 'Roboto Mono', monospace;
 
-  border-radius: 16px;
+  border: 1px solid #2ABDFF;
+  // box-shadow: 0px 4px 4px 0px #00000040;
+
+  border-radius: 100px;
   padding: 8px 25px;
-  font-family: Montserrat;
-  font-size: 15px;
+  font-size: clamp(10px, 0.8vw, 15px);
   font-weight: 600;
   line-height: 18px;
   letter-spacing: 0em;
@@ -111,5 +114,8 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
     cursor: pointer;
   }
 }
+.rewards_numbers {
+  font-family: 'Roboto Mono', monospace;
 
+}
 </style>

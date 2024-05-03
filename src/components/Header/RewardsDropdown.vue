@@ -79,7 +79,7 @@ import rewards_icon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
   border-radius: 16px;
   padding: 8px 25px;
   font-family: Montserrat;
-  font-size: 15px;
+  font-size: clamp(10px, 0.8vw, 15px);
   font-weight: 600;
   line-height: 18px;
   letter-spacing: 0em;

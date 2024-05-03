@@ -1,8 +1,8 @@
 {
     "analytics": "Analytics",
-    "pools": "Indexes",
-    "general": "General",
-    "user": "User",
+    "pools": "Pools",
+    "general": "General Analytics",
+    "user": "User Analytics",
     "portfolio": "Portfolio",
     "referrals": "Referrals",
     "buy": "Buy",
@@ -252,5 +252,6 @@
     "you_rejected_tokens_approval": "You rejected tokens approval",
     "all_tokens_approved": "All tokens approved",
     "all_tokens_successfully_approved": "All tokens from wallet successfully approved",
-    "withdraw_from_pool": "Withdraw from pool"
+    "withdraw_from_pool": "Withdraw from pool",
+    "trade": "Trade"
 }

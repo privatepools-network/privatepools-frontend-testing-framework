@@ -182,7 +182,7 @@ const isPerPageSelectOpened = ref(false)
     background-color: #000;
   }
   &__text {
-    font-size: 15px;
+    font-size: clamp(10px, 0.8vw, 15px);
     // color: #ffffff;
     font-weight: 400;
     font-family: Montserrat;

@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="d-flex flex-column justify-content-between h-100 gap-3 mt-3">
-      <div class="wallet_container_sidebar bg-white dark:!bg-[#10101099] hover:!bg-[#1313134d]" @click="connectWallet(true)">
+      <div class="wallet_container_sidebar " @click="connectWallet(true)">
         <div><img :src="metamask" width="40" /></div>
         <div class="wallet_text">MetaMask</div>
       </div>
@@ -121,16 +121,16 @@ async function handleChainChanged() {
 
 .wallet_container_sidebar {
   // background: #10101099;
-  border-radius: 20px;
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  border-radius: 100px;
+  border: 0.5px solid #FFFFFF;
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 15px 22px;
+  padding: 10px;
 
   &:hover {
     cursor: pointer;
-    background: #1313134d;
+    background: #00c8ff31;
 
   }
 }
@@ -140,7 +140,7 @@ async function handleChainChanged() {
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;
-  color: #717A8C;
+  color: #CDCDCD;
 }
 
 .wallet_bottom_text {
