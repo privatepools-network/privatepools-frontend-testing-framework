@@ -35,7 +35,7 @@
             />
           </svg>
         </div>
-        <div class="drawer_inside bg-white dark:!bg-[#090909]">
+        <div class="drawer_inside bg-white dark:!bg-[#02031C]">
           <!--  v-click-away="closeDrawer" -->
           <slot></slot>
         </div>
@@ -180,7 +180,7 @@ export default {
 
   // background: linear-gradient(0deg, #090909, #090909),
   //   linear-gradient(0deg, rgba(115, 115, 115, 0.16), rgba(115, 115, 115, 0.16));
-  border: 1px solid #73737350;
+  border: 1px solid #73737329;
   border-radius: 10px;
   padding: 10px 22px;
 }

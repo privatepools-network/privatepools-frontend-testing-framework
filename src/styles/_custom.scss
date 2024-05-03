@@ -123,8 +123,8 @@ input[type='number'] {
 }
 
 .price-group {
-  font-family: Montserrat;
-  font-size: 15px;
+
+  font-size: clamp(10px, 0.8vw, 15px);
   font-weight: 600;
   line-height: 18px;
   letter-spacing: -0.01em;
@@ -765,4 +765,105 @@ input[type='number'] {
       (var(--slider-handle-height, 16px) - var(--slider-height, 6px)) / 2 +
       var(--slider-tooltip-distance, 3px) - var(--slider-height, 6px) + 1px
   );
+}
+
+
+
+// .blink-1 {
+//   animation-name: blink;
+//   animation-timing-function: linear;
+//   animation-duration: 2s;
+//   animation-iteration-count: infinite;
+// }
+
+
+
+
+.pulse_orange {
+  display: flex;
+  position: relative;
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #FF9B40;
+  cursor: pointer;
+  box-shadow: 0 0 0 #FF9B40;
+  animation: pulse_orange 1.4s infinite;
+}
+.pulse_orange:hover {
+  animation: none;
+}
+
+@-webkit-keyframes pulse_orange {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 #FF9B40;
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+@keyframes pulse_orange {
+  0% {
+    -moz-box-shadow: 0 0 0 0 #FF9B40;
+    box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+
+
+.pulse_green {
+  display: flex;
+  position: relative;
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00DC3E;
+  cursor: pointer;
+  box-shadow: 0 0 0 #00DC3E;
+  animation: pulse_green 1.4s infinite;
+}
+.pulse_green:hover {
+  animation: none;
+}
+
+@-webkit-keyframes pulse_green {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 #00DC3E;
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+@keyframes pulse_green {
+  0% {
+    -moz-box-shadow: 0 0 0 0 #00DC3E;
+    box-shadow: 0 0 0 0 #00dc3e69;
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
 }

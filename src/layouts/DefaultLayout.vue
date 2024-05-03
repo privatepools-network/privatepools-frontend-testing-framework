@@ -23,7 +23,7 @@
       />
     </div>
   </Drawer>
-  <main class="main_containter bg-white dark:!bg-[#171717]">
+  <main class="main_containter bg-[#DCEEF6] dark:!bg-[#02031C]">
     <div class="app_container">
       
       <particles-bg v-if="HideParticles" color="#00E0FF" type="cobweb" :num="160" :bg="true" class=" !pointer-events-none"/>
@@ -65,6 +65,8 @@ import Drawer from '@/UI/Drawer.vue'
 import { watch, ref } from 'vue'
 import AppFooter from '@/components/AppFooter.vue'
 import { ParticlesBg } from "particles-bg-vue";
+
+
 
 const HideParticles = ref(false)
 

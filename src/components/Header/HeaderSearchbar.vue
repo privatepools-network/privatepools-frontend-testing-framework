@@ -50,12 +50,12 @@
             </div>
             <div>
               <div class="d-flex flex-column align-items-end">
-                <div class="drop-shadow-lg text-[12px] !text-black dark:!text-white">
+                <div class="drop-shadow-lg text-[12px] font-['Roboto_Mono',_monospace] !text-black dark:!text-white">
                   {{ option.price }}
                 </div>
                 <div
                   style="font-size: 10px"
-                  class="d-flex align-items-center gap-1 text-[12px] !text-black dark:!text-[#8e8e8e]"
+                  class="d-flex align-items-center font-['Roboto_Mono',_monospace] gap-1 text-[12px] !text-black dark:!text-[#8e8e8e]"
                 >
                   <svg
                     width="7"
@@ -138,12 +138,12 @@
             <div>
               <div class="d-flex flex-column align-items-end">
                 <div
-                  class="drop-shadow-lg text-[12px] !text-black dark:!text-white ml-[18px]"
+                  class="drop-shadow-lg text-[12px] font-['Roboto_Mono',_monospace] !text-black dark:!text-white ml-[18px]"
                 >
                   {{ option.price }}
                 </div>
                 <div
-                  class="d-flex align-items-center gap-1 drop-shadow-lg text-[12px] !text-black dark:!text-[#7d7d7d] ml-[18px]"
+                  class="d-flex align-items-center gap-1 drop-shadow-lg font-['Roboto_Mono',_monospace] text-[12px] !text-black dark:!text-[#7d7d7d] ml-[18px]"
                 >
                   <svg
                     width="7"
@@ -191,7 +191,8 @@
         />
       </svg>
     </div>
-    <!-- <div style="position: absolute; right: 12px; top: 7px; color: #7d7d7d">
+
+    <div class="bg-[#22222212] rounded py-1 px-2" style="position: absolute; right: 12px; top: 11px; color: #7d7d7d">
       <svg
         width="5"
         height="12"
@@ -204,7 +205,7 @@
           fill="#7D7D7D"
         />
       </svg>
-    </div> -->
+    </div>
   </div>
 </template>
 <script setup>

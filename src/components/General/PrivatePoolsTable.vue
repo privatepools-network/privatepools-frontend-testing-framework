@@ -8,7 +8,7 @@
   </div>
 
   <CRow id="pool-activity-row" class="table-wrapper">
-    <Table :headers="activitiesSelectedMode === t('trades') ?  [t('actions'), t('details'), t('value'), t('profits'), t('time')] : [t('actions'), t('details'), t('value'), t('time')] ">
+    <Table :headers="activitiesSelectedMode === t('trade') ?  [t('actions'), t('details'), t('value'), t('profits'), t('time')] : [t('actions'), t('details'), t('value'), t('time')] ">
       <CTableBody v-if="activities" class="text-black dark:!text-white"
         :class="isDark ? 'table-body' : 'table-body-light'">
         <CTableRow v-for="(item, i) in activities.slice(0, sliceNumber)" :key="i" class="table-row">
@@ -16,9 +16,9 @@
             <div class="actions-cell">
               <img v-if="item['Actions'] === 'Deposit'" :src="DepositIcon" />
               <img v-if="item['Actions'] === 'Withdraw'" :src="WithdrawIcon" />
-              <img v-if="item['Actions'] === 'Swap'" :src="SwapIcon" />
+              <img v-if="item['Actions'] === 'Trade'" :src="SwapIcon" />
               <div class="actions-cell__text text-black dark:!text-white">
-                {{ item['Actions'] === 'Swap' ? 'Trades' : item['Actions'] }}
+                {{ item['Actions'] }}
               </div>
             </div>
           </CTableDataCell>
@@ -234,7 +234,7 @@ const periodsOfData = [
     title: t('all_time'),
   },
 ]
-const activitiesModes = [t('all'), t('deposit'), t('trades'), t('harvest'), t('withdraw')]
+const activitiesModes = [t('all'), t('deposit'), t('trade'), t('harvest'), t('withdraw')]
 
 const activitiesSelectedMode = ref(activitiesModes[0])
 const actSelectedPeriodOfData = ref(periodsOfData[4])

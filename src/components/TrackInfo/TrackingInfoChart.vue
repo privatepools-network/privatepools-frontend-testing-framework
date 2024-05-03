@@ -1303,25 +1303,10 @@ function getDefaultChainsMapValue() {
     justify-content: center;
     align-items: center;
 
-    &__img {
-      animation: pulse 1.5s linear infinite;
-    }
+
   }
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(0.5);
-  }
-
-  50% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(0.5);
-  }
-}
 
 .track_chart_card {
   // border: 1px solid rgba(163, 164, 165, 0.26);

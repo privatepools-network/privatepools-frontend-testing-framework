@@ -1725,25 +1725,10 @@ function getFilteredData() {
     justify-content: center;
     align-items: center;
 
-    &__img {
-      animation: pulse 1.5s linear infinite;
-    }
   }
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(0.5);
-  }
 
-  50% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(0.5);
-  }
-}
 
 .track_chart_card {
   border-radius: 0px 20px 20px 0px;
