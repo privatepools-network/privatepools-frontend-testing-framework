@@ -875,9 +875,9 @@ const optionObj = ref({
 
 const TimelineFilters = {
   // 'All-time': groupTimestampsByDayWithIndexes,
-  Daily: groupTimestampsByDayWithIndexes,
-  Weekly: groupTimestampsByWeekWithIndexes,
-  Monthly: groupTimestampsByMonthWithIndexes,
+  [t('daily')]: groupTimestampsByDayWithIndexes,
+  [t('weekly')]: groupTimestampsByWeekWithIndexes,
+  [t('monthly')]: groupTimestampsByMonthWithIndexes,
 }
 
 function getFilteredData() {

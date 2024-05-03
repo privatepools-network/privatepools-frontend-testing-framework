@@ -38,7 +38,7 @@
                 v-for="pool in networks_data.breakdown" :key="pool.id">
                 <div>{{ pool.id }}</div>
                 <div class="dark:!text-white text-black font-extrabold text-[12px]">
-                  ${{ formatBigNumber(pool.tvl) }}
+                  ${{ formatBigNumber(pool.shareBalanceUsd) }}
                 </div>
               </div>
             </div>

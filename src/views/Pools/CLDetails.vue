@@ -14,7 +14,6 @@
         <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">
           {{ pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/') }}
         </div> -->
-        {{ console.log('pool.tokens', pool.tokens) }}
         <div class="caption-row">
           <div v-for="(poolToken, poolTokenIndex) in pool.tokens" :key="`pool-token-${poolTokenIndex}`"
             class="big-chip dark:!bg-[#151515] bg-white">
@@ -359,7 +358,7 @@
         </div>
 
         <div class="diagram-section dark:!bg-[#22222224] !bg-[white]" style="width: 28%"
-          v-if="pool && pool.tokens && tokenWeights.length > 0">
+          v-if="pool && pool?.tokens && tokenWeights.length > 0">
           <div class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white]"
             style="padding: 8px; border-radius: 20px 20px 0px 0px">
             <div class="d-flex align-items-center gap-2">
@@ -444,7 +443,7 @@
           :symbol="currencySymbol" :decimals="currencyDecimals"
           :assetsPerformanceData="diagrams_data.assetsPerformance.assetsPerformanceData ?? assetsPerformance.assetsPerformanceData"
           :assetsPerformanceTimestamps="diagrams_data.assetsPerformance.assetsPerformanceTimestamps ?? assetsPerformance.assetsPerformanceTimestamps"
-          :tokens="pool.tokens" />
+          :tokens="pool?.tokens ?? []" />
         <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-else style="height: 330px; width: 70%">
           <LoaderPulse></LoaderPulse>
         </div>
@@ -460,7 +459,7 @@
 
 
 
-    <PortfolioStatistics v-else-if="selectedTab == t('statistics') && pool" :historical_tvl="historical_tvl" :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
+    <PortfolioStatistics v-else-if="selectedTab == t('statistics') && pool" :historical_tvl="historical_tvl" :tokensData="pool?.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
       " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historicalPrices="historicalPrices"
       :userFirstTimestamp="0" :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
     </PortfolioStatistics>
