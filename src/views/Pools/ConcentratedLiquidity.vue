@@ -25,13 +25,13 @@
             {{ $t('create_cl_pool_desc') }}
           </div>
 
-          <div class="concentrated_card dark:!bg-[#00000024] bg-white">
+          <div class="concentrated_card dark:!bg-[#DCEEF605] bg-white">
             <div class="compose_text dark:!text-white text-black mb-3">{{ $t('new_cl_position') }}</div>
             <div class="compose_text dark:!text-white text-black fw-light">{{ $t('pair') }}</div>
             <div class="d-flex gap-3">
               <!-- Tokens selector 1 separate comp-->
               <div @click="() => !disableTokenSelection ? tokenSelectModalOpen(1) : null"
-                class="selector_button dark:!bg-[#00000024] bg-white">
+                class="selector_button dark:!bg-[#DCEEF605] bg-white">
                 <img class="!bg-gray-200 dark:!bg-transparent rounded-full" :src="getTokenEntity(pairToken1.symbol, 'short').icon ||
                   pairToken1.logoURI
                   " width="24" />
@@ -46,7 +46,7 @@
                 <!-- Tokens selector 2 separate comp -->
               </div>
               <div @click="() => !disableTokenSelection ? tokenSelectModalOpen(2) : null"
-                class="selector_button dark:!bg-[#00000024] bg-white">
+                class="selector_button dark:!bg-[#DCEEF605] bg-white">
                 <img class="!bg-gray-200 dark:!bg-transparent rounded-full" :src="getTokenEntity(pairToken2.symbol, 'short').icon ||
                   pairToken2.logoURI
                   " width="24" />
@@ -62,7 +62,7 @@
             </div>
             <!-- <div v-if="concentratedLiquidityStep === 1">
               <div class="compose_text dark:!text-white text-black fw-light mt-3">{{ $t('fee_tier') }}</div>
-              <div class="fee_tier_container dark:!bg-[#00000024] bg-white">
+              <div class="fee_tier_container dark:!bg-[#DCEEF605] bg-white">
                 <div :class="tier.selected
                   ? 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]  fee_tier_container_card__selected'
                   : 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]'
@@ -73,10 +73,10 @@
               </div>
             </div> -->
             <div class="compose_text dark:!text-white text-black fw-light mt-3 mb-2">{{ $t('price_range') }}</div>
-            <div class="price_range_container dark:!bg-[#22222224] bg-white">
+            <div class="price_range_container dark:!bg-[#07091C] bg-white">
               <div class="d-flex gap-3 justify-content-between">
                 <!-- Min per separate comp -->
-                <div class="price_range_card dark:!bg-[#22222224] bg-white">
+                <div class="price_range_card dark:!bg-[#07091C] bg-white">
                   <div class="d-flex justify-content-center w-100 position-relative">
                     <div class="d-flex flex-column justify-content-center align-items-center gap-3 p-4">
                       <div class="dark:!text-[#c1c8ce] text-black">{{ $t('min_per') }}</div>
@@ -84,7 +84,7 @@
                           font-size: 20px;
                           font-weight: 600;
                     
-                        " class="dark:!text-[#c1c8ce] text-black">
+                        " class="dark:!text-[#c1c8ce] text-black font-['Roboto_Mono',_monospace]">
                         <input v-if="!fullRangeSelected" type="number" style="
                             background: none;
                             border: none;
@@ -104,7 +104,7 @@
                             font-size: 20px;
                           " class="dark:!text-[#c1c8ce] text-black" value="0" />
                       </div>
-                      <div style="
+                      <div class="font-['Roboto_Mono',_monospace]" style="
                           font-size: 12px;
                           font-weight: 400;
                           color: #858c90;
@@ -116,7 +116,7 @@
                         }}
                       </div>
                     </div>
-                    <div style="
+                    <div class="font-['Roboto_Mono',_monospace]" style="
                         position: absolute;
                         left: 15px;
                         top: 5px;
@@ -144,7 +144,7 @@
                         align-items: center;
                         justify-content: space-between;
                         border-radius: 0px 16px 16px 0px;
-                      " class="p-3 py-6">
+                      " class="p-3 py-6 ">
                       <div @click="incrementPriceRange(true)" style="cursor: pointer; z-index: 10;">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z"
@@ -160,7 +160,7 @@
                   </div>
                 </div>
                 <!-- Max per separate comp -->
-                <div class="price_range_card dark:!bg-[#22222224] bg-white">
+                <div class="price_range_card dark:!bg-[#07091C] bg-white">
                   <div class="d-flex justify-content-center w-100 position-relative">
                     <div class="d-flex flex-column justify-content-center align-items-center gap-3 p-4">
                       <div class="dark:!text-[#c1c8ce] text-black">{{ $t('max_per') }}</div>
@@ -168,7 +168,7 @@
                           font-size: 20px;
                           font-weight: 600;
                        
-                        " class="dark:!text-[#c1c8ce] text-black">
+                        " class="dark:!text-[#c1c8ce] text-black font-['Roboto_Mono',_monospace]">
                         <input type="number" v-if="!fullRangeSelected" style="
                             background: none;
                             border: none;
@@ -192,7 +192,7 @@
                           font-size: 12px;
                           font-weight: 400;
                           color: #858c90;
-                        ">
+                        " class="font-['Roboto_Mono',_monospace]">
                         ≈ = ${{
                           !fullRangeSelected
                             ? ((pairToken1.price || 0) * priceRange2).toFixed(2)
@@ -205,7 +205,7 @@
                         left: 15px;
                         top: 5px;
                         color: #858c90;
-                      ">
+                      " class="font-['Roboto_Mono',_monospace]">
                       {{
                         !fullRangeSelected
                           ? calculatePercentageDifference(
@@ -244,13 +244,13 @@
                 </div>
               </div>
               <div class="compose_text dark:!text-white text-black fw-light mt-3 mb-3">{{ $t('range_type') }}:</div>
-              <div v-if="concentratedLiquidityStep > 0" class="fee_tier_container dark:!bg-[#00000024] bg-white">
+              <div v-if="concentratedLiquidityStep > 0" class="fee_tier_container dark:!bg-[#DCEEF605] bg-white">
                 <div :class="type.selected
                   ? 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]  fee_tier_container_card__selected'
                   : 'fee_tier_container_card dark:!bg-[#2f303230] bg-[#F1F1F1]'
                   " v-for="(type, i) in range_types" :key="`tiers-${i}`" @click="selectRange(type)">
                   <div style="color: #858c90">{{ type.name }}</div>
-                  <div style=" font-size: clamp(6px, 0.6vw, 10px)" class="dark:!text-[#c1c8ce] text-black">
+                  <div style=" font-size: clamp(6px, 0.6vw, 10px)" class="dark:!text-[#c1c8ce] text-black font-['Roboto_Mono',_monospace]">
                     {{ type.percent }}
                   </div>
 
@@ -264,11 +264,11 @@
               </div>
             </div>
             <div class="compose_text dark:!text-white text-black fw-light mt-3">{{ $t('add_liquidity') }}</div>
-            <div class="price_range_container dark:!bg-[#22222224] bg-white">
+            <div class="price_range_container dark:!bg-[#07091C] bg-white">
               <div class="d-flex flex-column gap-4 position-relative">
                 <!-- Add liquidity to singe comp on refactor week -->
 
-                <div class="flex dark:!bg-[#22222224] bg-white" style="
+                <div class="flex dark:!bg-[#07091C] bg-white" style="
             
                     box-shadow: 0px 4px 4px 0px #00000040;
 
@@ -286,7 +286,7 @@
                       display: flex;
                       align-items: flex-end;
                       justify-content: space-between;
-                    " class="dark:!text-[#c1c8ce] text-black dark:!bg-[#22222224] bg-white">
+                    " class="dark:!text-[#c1c8ce] text-black dark:!bg-[#07091C] bg-white">
                     <div class="d-flex flex-column justify-content-around h-100">
                       <div class="d-flex align-items-center gap-2">
                         <img class="!bg-gray-200 dark:!bg-transparent rounded-full" :src="getTokenEntity(pairToken1.symbol, 'short').icon ||
@@ -303,20 +303,22 @@
                       </div>
                       <div>
                         {{ $t('balance') }}:
+                        <span class="font-['Roboto_Mono',_monospace]">
                         {{
                           parseFloat(
                             (pairToken1.balance || 0) - depositAmount1,
                           ).toFixed(4)
                         }}
+                        </span>
                       </div>
                     </div>
-                    <div class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
+                    <div class="max_button dark:!bg-[#22222224] bg-white dark:!text-[#2ABDFF] text-[#2ABDFF]"
                       @click="depositAmount1 = pairToken1.balance">
                       {{ $t('max') }}
                     </div>
                   </div>
                   <div>
-                    <div class="d-flex flex-column gap-2 p-3">
+                    <div class="d-flex flex-column gap-2 p-3 font-['Roboto_Mono',_monospace]">
                       <input type="number" style="
                           background: none;
                           border: none;
@@ -335,7 +337,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="flex dark:!bg-[#22222224] bg-white" style="
+                <div class="flex dark:!bg-[#07091C] bg-white" style="
                     box-shadow: 0px 4px 4px 0px #00000040;
 
                     border-radius: 16px;
@@ -351,7 +353,7 @@
                       display: flex;
                       align-items: flex-end;
                       justify-content: space-between;
-                    " class="dark:!text-[#c1c8ce] text-black dark:!bg-[#22222224] bg-white">
+                    " class="dark:!text-[#c1c8ce] text-black dark:!bg-[#07091C] bg-white">
                     <div class="d-flex flex-column justify-content-around h-100">
                       <div class="d-flex align-items-center gap-2">
                         <img class="!bg-gray-200 dark:!bg-transparent rounded-full" :src="getTokenEntity(pairToken2.symbol, 'short').icon ||
@@ -368,20 +370,22 @@
                       </div>
                       <div>
                         {{ $t('balance') }}:
+                        <span class="font-['Roboto_Mono',_monospace]">
                         {{
                           parseFloat(
                             (pairToken2.balance || 0) - depositAmount2,
                           ).toFixed(4)
                         }}
+                        </span>
                       </div>
                     </div>
-                    <div class="max_button dark:!bg-[#07090c] bg-white dark:!text-[#c1c8ce] text-[#00e0ff]"
+                    <div class="max_button dark:!bg-[#22222224] bg-white dark:!text-[#2ABDFF] text-[#2ABDFF]"
                       @click="depositAmount2 = pairToken2.balance">
                       {{ $t('max') }}
                     </div>
                   </div>
                   <div>
-                    <div class="d-flex flex-column gap-2 p-3">
+                    <div class="d-flex flex-column gap-2 p-3 font-['Roboto_Mono',_monospace]">
                       <input type="number" style="
                           background: none;
                           border: none;
@@ -400,26 +404,26 @@
                     </div>
                   </div>
                 </div>
-                <div class="add_liquidity_button bg-[#02607a]">
+                <div class="add_liquidity_button bg-[#00E0FF] rounded-full">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_1807_18018)">
                       <g clip-path="url(#clip1_1807_18018)">
                         <g clip-path="url(#clip2_1807_18018)">
                           <path
                             d="M6.58 0.000427246C6.42536 0.000427246 6.3 0.125787 6.3 0.280427V6.30043H0.28C0.12536 6.30043 0 6.42579 0 6.58043V7.42043C0 7.57506 0.12536 7.70043 0.28 7.70043H6.3V13.7204C6.3 13.8751 6.42536 14.0004 6.58 14.0004H7.42C7.57463 14.0004 7.7 13.8751 7.7 13.7204V7.70043H13.72C13.8746 7.70043 14 7.57506 14 7.42043V6.58043C14 6.42579 13.8746 6.30043 13.72 6.30043H7.7V0.280427C7.7 0.125787 7.57463 0.000427246 7.42 0.000427246H6.58Z"
-                            class="fill-[#EBEBEC]" />
+                            class="fill-[black]" />
                         </g>
                       </g>
                     </g>
                     <defs>
                       <clipPath id="clip0_1807_18018">
-                        <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
+                        <rect width="14" height="14" fill="black" transform="translate(0 0.000427246)" />
                       </clipPath>
                       <clipPath id="clip1_1807_18018">
-                        <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
+                        <rect width="14" height="14" fill="black" transform="translate(0 0.000427246)" />
                       </clipPath>
                       <clipPath id="clip2_1807_18018">
-                        <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
+                        <rect width="14" height="14" fill="black" transform="translate(0 0.000427246)" />
                       </clipPath>
                     </defs>
                   </svg>
@@ -986,11 +990,13 @@ async function initPossibleComposeTokens() {
 <style lang="scss" scoped>
 .center_container {
   // background: #15151524;
-  border: 1px solid #ffffff0d;
+  border: 1px solid #00E0FF24;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   margin: 1% 5% 5% 5%;
   padding: 2.5%;
   border-radius: 16px;
+  backdrop-filter: blur(10px);
+
 }
 
 .compose_text {
@@ -1000,8 +1006,8 @@ async function initPossibleComposeTokens() {
 
 .concentrated_card {
   margin-top: 50px;
-  // background: #00000024;
-  border: 1px solid #ffffff0d;
+  // background: #DCEEF605;
+  border: 1px solid #00E0FF24;
   border-radius: 16px;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
@@ -1009,7 +1015,7 @@ async function initPossibleComposeTokens() {
 }
 
 .selector_button {
-  // background: #00000024;
+  // background: #DCEEF605;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
   border-radius: 16px;
@@ -1026,7 +1032,7 @@ async function initPossibleComposeTokens() {
 }
 
 .price_range_card {
-  // background: #00000024;
+  // background: #DCEEF605;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   border-radius: 16px;
   font-size: clamp(8px, 0.7vw, 14px);
@@ -1039,7 +1045,7 @@ async function initPossibleComposeTokens() {
 .fee_tier_container {
   padding: 16px;
   border-radius: 16px;
-  // background: #00000024;
+  // background: #DCEEF605;
 
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
@@ -1054,14 +1060,14 @@ async function initPossibleComposeTokens() {
     align-items: center;
     flex-direction: column;
     padding: 15px 5px;
-    // background: #2f303230;
-    font-family: Montserrat;
+    background: #07091C;
     font-size: clamp(8px, 0.7vw, 12px);
     font-weight: 400;
     line-height: 18px;
     text-align: center;
     border-radius: 10px;
-    border: 1px solid #7c7c7ca6;
+    border: 1px solid #121212;
+    font-family: 'Syne', sans-serif;
     cursor: pointer;
 
     &__selected {
@@ -1071,7 +1077,7 @@ async function initPossibleComposeTokens() {
 }
 
 .price_range_container {
-  // background: #00000024;
+  // background: #DCEEF605;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 
   border-radius: 16px;
@@ -1081,62 +1087,14 @@ async function initPossibleComposeTokens() {
 .max_button {
   border-radius: 6px;
   box-shadow: 0px 4px 4px 0px #00000040;
-
+  font-family: 'Syne', sans-serif;
   padding: 4px 8px;
   cursor: pointer;
 }
 
-.add_liquidity_button {
-  position: absolute;
-  top: 70px;
-  right: 20px;
-  border-radius: 8px;
-  // background: linear-gradient(95.22deg, #02607a 0.03%, #000000 133.56%),
-  //   linear-gradient(0deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.16));
-  box-shadow: 0px 4px 4px 0px #00000052;
 
-  height: 52px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 15px;
 
-  &:hover {
-    background: #02607a;
-    cursor: pointer;
-  }
-}
 
-.concentrated_button {
-  margin-top: 8px;
-  padding: 8px;
-  font-size: 12px;
-  color: white;
-  border: 0px;
-  background: linear-gradient(89.27deg, #00c9ff 1.58%, #0094ff 100.04%);
-  box-shadow: 0px 2px 4px -1px #0000000d;
-
-  box-shadow: 0px 4px 6px -1px #0000000d;
-
-  width: 100%;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  // transition-duration: 0.3s;
-  text-shadow: 1px 1px 2px black;
-
-  // &_disabled {
-  //   background: gray;
-
-  // }
-  &:hover {
-    color: #fff;
-    background: #0094ff;
-    box-shadow: 0px 12px 24px 0px rgba(#00c9ff, 0.2),
-      0px 4px 8px 0px rgba(#00c9ff, 0.3);
-  }
-}
 
 .step_number {
   position: absolute;
@@ -1164,7 +1122,7 @@ async function initPossibleComposeTokens() {
   width: 32px;
   height: 32px;
   border-radius: 100%;
-  background: #00000024;
+  background: #DCEEF605;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   border: 1px solid #ffffff0d;
   display: flex;
@@ -1173,25 +1131,7 @@ async function initPossibleComposeTokens() {
   cursor: pointer;
 }
 
-.button_loader {
-  width: 17px;
-  height: 17px;
-  border: 2px solid #fff;
-  border-bottom-color: #00c9ff;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-  margin-left: 10px;
-}
 
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
 
-  100% {
-    transform: rotate(360deg);
-  }
-}
+
 </style>

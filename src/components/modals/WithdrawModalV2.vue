@@ -462,25 +462,5 @@ watch(
 }
 
 
-.button_loader {
-  width: 17px;
-  height: 17px;
-  border: 2px solid #FFF;
-  border-bottom-color: #00C9FF;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-  margin-left: 10px;
-}
 
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
 </style>

@@ -19,14 +19,27 @@
         v-else-if="sidebarWalletState === 'Settings'"
         @toggleToWallets="toggleToWallets"
         :HideParticles="HideParticles"
-     @handleHideParticles="handleHideParticles"
+        @handleHideParticles="handleHideParticles"
       />
     </div>
   </Drawer>
   <main class="main_containter bg-[#DCEEF6] dark:!bg-[#02031C]">
     <div class="app_container">
-      
-      <particles-bg v-if="HideParticles" color="#00E0FF" type="cobweb" :num="160" :bg="true" class=" !pointer-events-none"/>
+
+     
+
+    <div class="background">
+    <div class="particles">
+      <particles-bg
+          v-if="HideParticles"
+          color="#00E0FF"
+          type="cobweb"
+          :num="100"
+          :bg="false"
+          class="!pointer-events-none"
+        />
+    </div>
+    </div>
 
       <div class="wrapper d-flex flex-column min-vh-100">
         <AppHeader
@@ -44,17 +57,14 @@
           <router-view />
         </div>
         <AppFooter />
-
       </div>
-
     </div>
     <!-- <div class="background">
     <div class="particles"> -->
 
     <!-- </div> -->
-  <!-- </div> -->
+    <!-- </div> -->
   </main>
- 
 </template>
 <script setup>
 import AppHeader from '@/components/AppHeader.vue'
@@ -64,11 +74,9 @@ import ConnectedSidebar from '@/components/Drawer/ConnectedSidebar.vue'
 import Drawer from '@/UI/Drawer.vue'
 import { watch, ref } from 'vue'
 import AppFooter from '@/components/AppFooter.vue'
-import { ParticlesBg } from "particles-bg-vue";
+import { ParticlesBg } from 'particles-bg-vue'
 
-
-
-const HideParticles = ref(false)
+const HideParticles = ref(true)
 
 function handleHideParticles() {
   HideParticles.value = !HideParticles.value
@@ -92,8 +100,6 @@ function toggleSettings() {
 function toggleToWallets() {
   sidebarWalletState.value = 'Connect wallet'
 }
-
-
 
 watch(address, () => {
   if (address.value) {
@@ -119,7 +125,7 @@ watch(address, () => {
   pointer-events: none;
   width: 100%;
   height: 100svh;
-  position: fixed;
+  position: sticky;
   top: 0%;
   bottom: 0%;
   left: 0%;

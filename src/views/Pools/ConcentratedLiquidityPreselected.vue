@@ -368,7 +368,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="add_liquidity_button">
+                <div class="add_liquidity_button bg-[#00E0FF] rounded-full">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_1807_18018)">
                       <g clip-path="url(#clip1_1807_18018)">
@@ -1033,55 +1033,7 @@ watch((networkId), async () => {
   cursor: pointer;
 }
 
-.add_liquidity_button {
-  position: absolute;
-  top: 70px;
-  right: 20px;
-  border-radius: 8px;
-  background: linear-gradient(95.22deg, #02607a 0.03%, #000000 133.56%),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.16));
-  height: 52px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 15px;
 
-  &:hover {
-    background: #02607a;
-    cursor: pointer;
-  }
-}
-
-.concentrated_button {
-  margin-top: 8px;
-  padding: 8px;
-  font-size: 12px;
-  color: white;
-  border: 0px;
-  background: linear-gradient(89.27deg, #00c9ff 1.58%, #0094ff 100.04%);
-  box-shadow: 0px 2px 4px -1px #0000000d;
-
-  box-shadow: 0px 4px 6px -1px #0000000d;
-
-  width: 100%;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  // transition-duration: 0.3s;
-  text-shadow: 1px 1px 2px black;
-
-  // &_disabled {
-  //   background: gray;
-
-  // }
-  &:hover {
-    color: #fff;
-    background: #0094ff;
-    box-shadow: 0px 12px 24px 0px rgba(#00c9ff, 0.2),
-      0px 4px 8px 0px rgba(#00c9ff, 0.3);
-  }
-}
 
 .step_number {
   position: absolute;
@@ -1113,25 +1065,6 @@ watch((networkId), async () => {
   cursor: pointer;
 }
 
-.button_loader {
-  width: 17px;
-  height: 17px;
-  border: 2px solid #fff;
-  border-bottom-color: #00c9ff;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-  margin-left: 10px;
-}
 
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
 
-  100% {
-    transform: rotate(360deg);
-  }
-}
 </style>

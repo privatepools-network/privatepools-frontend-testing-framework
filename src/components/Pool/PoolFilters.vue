@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center gap-3">
     <div v-click-away="onClickAway">
       <div
-        class="filter_button bg-white dark:!bg-[#090909] text-black dark:!text-white w-[190px]"
+        class="filter_button bg-white dark:!bg-[#02031C] text-black dark:!text-white w-[190px]"
         :style="
           selectTokenDropdownOpen === true
             ? 'border-radius: 16px 16px 0px 0px;'
@@ -26,7 +26,7 @@
       </div>
       <div
         v-if="selectTokenDropdownOpen === true"
-        class="select_token_dropdown bg-white dark:!bg-[#090909] text-black dark:!text-white"
+        class="select_token_dropdown bg-white dark:!bg-[#02031C] text-black dark:!text-white"
       >
         <div v-for="(item, i) in optionsTokens" :key="`${i}-tokens-search`">
           <div
@@ -67,7 +67,7 @@
     </div>
     <div v-click-away="onClickAwayFilters">
       <div
-        class="filter_button bg-white dark:!bg-[#090909] text-black dark:!text-white w-[190px]"
+        class="filter_button bg-white dark:!bg-[#02031C] text-black dark:!text-white w-[190px]"
         :style="
           moreFiltersDropdownOpen === true
             ? 'border-radius: 16px 16px 0px 0px;'
@@ -96,7 +96,7 @@
       </div>
       <div
         v-if="moreFiltersDropdownOpen === true"
-        class="select_token_dropdown bg-white dark:!bg-[#090909] text-black dark:!text-white"
+        class="select_token_dropdown bg-white dark:!bg-[#02031C] text-black dark:!text-white"
       >
         <div class="text-[13px] font-bold">
           {{ $t('pool_type') }}
@@ -222,13 +222,12 @@ const onClickAwayFilters = (event) => {
 
 .filter_button {
 
-  border-radius: 16px;
-  border: 1px solid #3737374a;
-  box-shadow: 0px 4px 4px 0px #15151540;
+  border-radius: 100px;
+  border: 1px solid  #DCEEF6;
+  // background:#02031C;
   cursor: pointer;
   padding: 8px 12px;
   
-  font-family: Montserrat;
   font-size: 14px;
   font-weight: 400;
   display: flex;
@@ -255,7 +254,8 @@ const onClickAwayFilters = (event) => {
   letter-spacing: 0em;
   // color: #ffffff;
   border-radius: 0px 0px 16px 16px;
-  border: 1px solid #3737374a;
+  // border: 1px solid #3737374a;
+  border: 1px solid  #dceef63a;
   box-shadow: 0px 4px 4px 0px #15151540;
 
   &_text {

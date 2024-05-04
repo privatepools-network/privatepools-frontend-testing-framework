@@ -36,7 +36,7 @@
         <input
           type="search"
           id="search"
-          class="block w-full ps-10 text-sm text-gray-900  border-gray-300 rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-[#141414] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class="block w-full ps-10 text-sm text-gray-900  border-gray-300 rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-[#02031CC4] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           :placeholder="t('search_by_name_symbol_address')"
           aria-label="Search by name, symbol or address"
           v-model="filterName"
@@ -46,7 +46,7 @@
 
       <div class="mt-3">
         <div class="dark:!text-white text-black text-base">{{ $t('common_tokens') }}</div>
-        <div class="d-flex flex-wrap gap-3 justify-content-between">
+        <div class="d-flex flex-wrap gap-3">
           <div
             class="common_token text-black dark:!text-white d-flex gap-2"
             v-for="token in commonTokens"
@@ -342,9 +342,9 @@ const commonTokens = computed(() => {
 
 .common_token {
   border-radius: 10px;
-  background: #2f303230;
+  background: #2F303230;
   font-family: Montserrat;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 28px;
   // color: white;
