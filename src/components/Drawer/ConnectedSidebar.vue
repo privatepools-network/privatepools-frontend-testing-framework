@@ -1,8 +1,9 @@
 <template>
   <div style="height: 92%; padding-top: 7px">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="d-flex align-items-center gap-1">
-        <img :src="accountIcon" />
+      <div class="d-flex align-items-center gap-2">
+        <!-- <img :src="accountIcon" /> -->
+        <span class="pulse_green !w-[12px] !h-[12px]"></span>
         <div class="address_text text-black dark:!text-white">
           {{ computedAddress }}
         </div>
@@ -149,7 +150,7 @@
           {{ $t('activity') }}
         </div>
       </div>
-      <div v-if="sidebarTab === 'Tokens'" class="d-flex flex-column gap-2">
+      <div v-if="sidebarTab === 'Tokens'" class="flex flex-col gap-2 overflow-auto h-full activity_container">
         <div
           v-if="sidebarData?.userBalance?.tokens != null"
           v-for="(item, i) in sidebarData?.userBalance?.tokens.filter(
@@ -709,7 +710,7 @@ async function handlePortfolioData() {
 /* Scrollbar */
 .activity_container::-webkit-scrollbar {
   height: 0px;
-  width: 4px;
+  width: 5px;
 }
 
 .activity_container::-webkit-scrollbar {
@@ -717,7 +718,7 @@ async function handlePortfolioData() {
 }
 
 .activity_container::-webkit-scrollbar-thumb {
-  background-color: #00e0ff9e;
-  border-radius: 8px;
+  background-color: #00E0FF;
+  border-radius: 100px;
 }
 </style>

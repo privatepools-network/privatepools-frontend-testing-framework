@@ -18,7 +18,7 @@
        
       >
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:!bg-[#141414] z-50">
+        <div class="relative bg-white rounded-lg shadow dark:!bg-[#02031CC4] z-50">
           <!-- Modal header -->
           <div
             :class="

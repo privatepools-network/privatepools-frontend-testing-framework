@@ -352,9 +352,13 @@ const computedAddress = computed(() =>
   position: sticky;
   top: 0;
   z-index: 12;
-  margin-top: 10px;
   margin-bottom: 10px;
-
+  background: linear-gradient(
+      356.2deg,
+      #02031C,
+      #000000 105.42%
+    );
+  // backdrop-filter: blur(10px);
   &_bg {
     background: linear-gradient(
       356.2deg,

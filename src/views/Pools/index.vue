@@ -1,24 +1,36 @@
 <template>
   <MainCard>
-    <div class="flex items-center gap-2">
+    <!-- <div class="flex items-center gap-2">
       <img :src="walletPoolsImg" />
       <Title :title="'Private Pools'" />
-    </div>
+    </div> -->
 
     <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
       <div class="flex gap-4">
-        <PoolFilters :hidePools="hidePools" :optionsPoolType="optionsPoolType"
-          :optionsPoolAttribute="optionsPoolAttribute" :optionsTokens="optionsTokens" />
+        <PoolFilters
+          :hidePools="hidePools"
+          :optionsPoolType="optionsPoolType"
+          :optionsPoolAttribute="optionsPoolAttribute"
+          :optionsTokens="optionsTokens"
+        />
 
         <div class="flex items-center gap-2">
           <label class="inline-flex items-center cursor-pointer">
-            <input type="checkbox" class="sr-only peer" :value="hidePools" @click="hidePools = !hidePools"
-              :checked="hidePools" />
+            <input
+              type="checkbox"
+              class="sr-only peer"
+              :value="hidePools"
+              @click="hidePools = !hidePools"
+              :checked="hidePools"
+            />
             <div
-              class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-            </div>
+              class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+            ></div>
           </label>
-          <div class="dark:!text-white text-black" style="font-size: clamp(12px, 0.8vw, 16px)">
+          <div
+            class="dark:!text-white text-black"
+            style="font-size: clamp(12px, 0.8vw, 16px)"
+          >
             {{ $t('staked_only') }}
           </div>
         </div>
@@ -31,16 +43,55 @@
 
     <div class="pools-rows">
       <div class="pools-row pools-row_header">
-        <div class="pools-row__col" :class="
-          // Table headers positioning by header names
-          headCaptionIndex === 0 || headCaptionIndex === 1
-            ? 'justify-content-start'
-            : 'justify-content-center'
-          " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
+        <div
+          class="pools-row__col"
+          :class="
+            // Table headers positioning by header names
+            headCaptionIndex === 0 || headCaptionIndex === 1
+              ? 'justify-content-start'
+              : 'justify-content-center'
+          "
+          v-for="(headCaption, headCaptionIndex) in headers"
+          :key="headCaption"
+        >
           <div class="file-table-header-cell">
-            <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
-              style="cursor: pointer; height: 20px">
-              <div :class="'head_caption_text text-black dark:!text-white'">
+            <div
+              class="d-flex align-items-center gap-1"
+              :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+              style="cursor: pointer; height: 20px"
+            >
+              <div
+                v-if="headCaption === t('tokens')"
+                :class="'head_caption_text text-black dark:!text-white'"
+              >
+                <svg
+                  width="24"
+                  height="15"
+                  viewBox="0 0 24 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_1_2449)">
+                    <path
+                      d="M7.5 14.5C11.366 14.5 14.5 11.366 14.5 7.5C14.5 3.63401 11.366 0.5 7.5 0.5C3.63401 0.5 0.5 3.63401 0.5 7.5C0.5 11.366 3.63401 14.5 7.5 14.5Z"
+                      stroke="white"
+                    />
+                    <path
+                      d="M16.5 14.5C20.366 14.5 23.5 11.366 23.5 7.5C23.5 3.63401 20.366 0.5 16.5 0.5C12.634 0.5 9.5 3.63401 9.5 7.5C9.5 11.366 12.634 14.5 16.5 14.5Z"
+                      stroke="white"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1_2449">
+                      <rect width="24" height="15" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+              <div
+                v-else
+                :class="'head_caption_text text-black dark:!text-white'"
+              >
                 {{ headCaption }}
               </div>
             </div>
@@ -48,7 +99,10 @@
         </div>
       </div>
 
-      <div v-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
+      <div
+        v-if="user_staked_pools.length === 0 && hidePools"
+        class="my-5 text-center text-black dark:!text-white"
+      >
         <div>{{ $t('no_results') }}</div>
         <div>{{ $t('choose_a_pool') }}</div>
       </div>
@@ -56,15 +110,31 @@
         <LoaderPulse />
       </div>
 
-
-      <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
-        :userPools="all_pools.filter((item) => user_staked_pools.map((p) => p.id).includes(item.id))"
-        :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
-        @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"
-        :isActions="true" />
+      <PoolRow
+        v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
+        :key="pool.name"
+        :pool="pool"
+        :userPools="
+          all_pools.filter((item) =>
+            user_staked_pools.map((p) => p.id).includes(item.id),
+          )
+        "
+        :inactive="isPoolInactive(pool)"
+        :index="index"
+        @goToPoolWithdraw="goToPoolWithdraw"
+        @goToCLPool="goToCLPool"
+        @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit"
+        @goToPoolManage="goToPoolManage"
+        @goToCL="goToCL"
+        :isActions="true"
+      />
 
       {{ console.log('all_pools', all_pools) }}
-      <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
+      <div
+        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more text-black dark:!text-white"
+      >
         {{ $t('load_more') }}
         <img :src="arrow_bottom" />
       </div>
@@ -105,7 +175,7 @@ import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import PoolFilters from '@/components/Pool/PoolFilters.vue'
 import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
 import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
-import { getPoolsData } from "@/composables/data/poolsData"
+import { getPoolsData } from '@/composables/data/poolsData'
 import { t } from 'i18next'
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 
@@ -143,13 +213,13 @@ watch(networkId, async () => {
 async function InitUserStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
-    let address = await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
+    let address = await mmProvider.getSigner().getAddress() //'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
     user_staked_pools.value = await useWalletPools(
       address,
       networkId.value,
       false,
     )
-    console.log("USER STAKED - ", user_staked_pools.value)
+    console.log('USER STAKED - ', user_staked_pools.value)
   }
 }
 
@@ -222,7 +292,7 @@ function goToPoolManage(args) {
       name: 'Concentrated liquidity Add',
       params: {
         onMountedActivity: 'deposit',
-        poolId: all_pools.value[args.index].id
+        poolId: all_pools.value[args.index].id,
       },
     })
   }
@@ -296,8 +366,6 @@ async function InitPoolsData(network) {
 
 onMounted(async () => {
   if (!process.env.VUE_APP_LOCAL_API) {
-
-
     const networks = [
       process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined,
       process.env.VUE_APP_KEY_BINANCE ? Network.BINANCE : undefined,
@@ -315,7 +383,9 @@ onMounted(async () => {
     historicValues.value = networks
       .map((n, index) => networksInfo[index][2])
       .flat()
-    historicTvl.value = networks.map((n, index) => networksInfo[index][3]).flat()
+    historicTvl.value = networks
+      .map((n, index) => networksInfo[index][3])
+      .flat()
     console.log('HISTORICAL TVL - ', historicTvl.value)
     let _defaultPools = networks
       .map((n, index) =>
@@ -373,13 +443,10 @@ onMounted(async () => {
       name: item,
       selected: item == route.query.token,
     }))
-
-
-  }
-  else {
+  } else {
     const result = await getPoolsData(56)
-    pools.value = result.table.filter((item) => item.LiquidityType == "WP")
-    cl_pools.value = result.table.filter(item => item.LiquidityType == "CL")
+    pools.value = result.table.filter((item) => item.LiquidityType == 'WP')
+    cl_pools.value = result.table.filter((item) => item.LiquidityType == 'CL')
     const symbols = result.table.map((item) => item['Pool Name'][0]).flat()
     let all_token_symbols = Array.from(new Set(symbols))
     optionsTokens.value = all_token_symbols.map((item) => ({
@@ -446,12 +513,10 @@ const all_pools = computed(() => {
     padding: 0;
     border-radius: 16px;
     border: 1px solid #ffffff0d;
-    // background: linear-gradient(0deg,
-    //     rgba(255, 255, 255, 2%),
-    //     rgba(255, 255, 255, 0%));
+    background: #dceef605;
+    backdrop-filter: blur(10px);
     box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
     margin-bottom: 30px;
-
     @media all and (max-width: $lg) {
       overflow-x: auto;
     }
