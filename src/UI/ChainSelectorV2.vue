@@ -77,7 +77,7 @@ updateChain(chainSelected.value)
 }
 
 .chain_text {
-  font-family: Montserrat;
+  
   font-size: clamp(10px, 0.6vw, 12px);
   font-weight: 500;
   line-height: 17px;

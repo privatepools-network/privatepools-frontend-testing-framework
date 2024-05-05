@@ -265,7 +265,7 @@ const visibleAdmin = ref(false)
       }
       a {
         text-decoration: none;
-        font-family: Montserrat;
+        
         font-size: 14px;
         font-weight: 500;
         line-height: 14px;

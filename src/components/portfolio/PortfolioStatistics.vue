@@ -87,7 +87,7 @@
                 'text-success': parseFloat(dataCell) > 0,
               }">
                 <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
-                <div>{{ formatBigNumber(dataCell) }}</div>
+                <div class="font-['Roboto_Mono',_monospace]">{{ formatBigNumber(dataCell) }}</div>
                 <div>%</div>
               </div>
             </div>
@@ -180,7 +180,7 @@
                 'text-success': parseFloat(dataCell) > 0,
               }">
                 <div>{{ parseFloat(dataCell) > 0 ? '+' : '' }}</div>
-                <div>{{ formatBigNumber(dataCell) }}</div>
+                <div class="font-['Roboto_Mono',_monospace]">{{ formatBigNumber(dataCell) }}</div>
                 <div>%</div>
               </div>
             </div>
@@ -1062,7 +1062,7 @@ watch(chainSelected, async () => {
 
 .stats_text {
   // color: rgba(243, 244, 246, 1);
-  font-family: Montserrat;
+  
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 400;
   line-height: 21px;

@@ -7,7 +7,7 @@
                 </div>
             </div>
             <div style="
-                font-family: Montserrat;
+                
                 color: white;
                 width: 100%;
               ">

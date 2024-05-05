@@ -135,7 +135,7 @@ const commonTokens = computed(() => {
 }
 
 .modal_body_header {
-  font-family: Montserrat;
+  
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;
@@ -343,7 +343,7 @@ const commonTokens = computed(() => {
 .common_token {
   border-radius: 10px;
   background: #2F303230;
-  font-family: Montserrat;
+  
   font-size: 14px;
   font-weight: 500;
   line-height: 28px;

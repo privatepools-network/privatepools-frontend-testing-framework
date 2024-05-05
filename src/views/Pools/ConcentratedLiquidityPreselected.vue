@@ -1006,7 +1006,7 @@ watch((networkId), async () => {
     flex-direction: column;
     padding: 15px 5px;
     background: #2f303230;
-    font-family: Montserrat;
+    
     font-size: clamp(8px, 0.7vw, 12px);
     font-weight: 400;
     line-height: 18px;

@@ -597,7 +597,7 @@ watch(
 
 
 .modal_body_header {
-  font-family: Montserrat;
+  
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;

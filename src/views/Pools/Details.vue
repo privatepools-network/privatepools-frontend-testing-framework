@@ -116,7 +116,7 @@
       v-if="selectedTab == t('pool_info')"
     >
       <!--      <div class="mb-2" style="-->
-      <!--        font-family: Montserrat;-->
+      <!--        -->
       <!--        color: white;-->
 
       <!--        font-size: clamp(10px, 0.9vw, 16px);-->
@@ -597,7 +597,7 @@
       <div
         class="mb-2 text-[black] dark:!text-white"
         style="
-          font-family: Montserrat;
+          
           margin-top: 40px;
 
           font-size: clamp(10px, 0.9vw, 16px);
@@ -2150,7 +2150,7 @@ function changeToDepositView() {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Montserrat;
+  
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 600;
   line-height: 16px;

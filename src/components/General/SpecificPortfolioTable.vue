@@ -78,7 +78,7 @@
               @click="
                 $emit('table-header-click', headCaption, headCaptionIndex)
               "
-              style="font-family: Montserrat; font-weight: 700; width: 20px"
+              style=" font-weight: 700; width: 20px"
               v-if="
                 (sortedHeader && sortedHeader.caption == 'Time') ||
                 (headCaptionIndex != 0 && sortedHeader && sortedHeader.caption)
@@ -357,7 +357,7 @@ const headers = [
 .pools-row {
   &_header {
     font-size: clamp(10px, 1vw, 14px);
-    font-family: Montserrat;
+    
     font-weight: 600;
 
     @media (max-width: $xxl) {

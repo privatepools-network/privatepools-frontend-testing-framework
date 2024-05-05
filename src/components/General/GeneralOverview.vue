@@ -178,7 +178,7 @@ const smallContainerMock = computed(() => props.overview ? [
 
 .text_header {
   margin-top: 22px;
-  font-family: Montserrat;
+  
   font-size: clamp(10px, 0.7vw, 13px);
   font-weight: 400;
   line-height: 17px;
@@ -188,7 +188,7 @@ const smallContainerMock = computed(() => props.overview ? [
 .text_value {
   margin-top: 5px;
 
-  font-family: Montserrat;
+  
   font-size: clamp(14px, 0.8vw, 19px);
   font-weight: 700;
   line-height: 34px;

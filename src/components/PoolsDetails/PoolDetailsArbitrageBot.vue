@@ -586,7 +586,7 @@ function GetTokenPrice(address) {
 .arbitrage_bot_header {
   font-size: clamp(10px, 0.7vw, 14px);
   font-weight: 700;
-  font-family: Montserrat;
+  
   color: white;
 }
 
@@ -618,15 +618,14 @@ function GetTokenPrice(address) {
 }
 
 .rewards_button {
-  padding: 8px 12px;
-  font-size: clamp(12px, 0.7vw, 14px);
+  padding: 8px;
+  font-size: clamp(10px, 0.7vw, 12px);
   font-weight: 600;
   line-height: 24px;
   border-radius: 16px;
   text-align: center;
   cursor: pointer;
   color: #00E0FF;
-  padding: 4px 24px;
   background:#02031C;
   border: 1px solid #00E0FF;
   // box-shadow: 0px 4px 8.9px 0px #2775CA33;

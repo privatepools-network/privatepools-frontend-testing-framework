@@ -34,7 +34,7 @@
           v-if="HideParticles"
           color="#00E0FF"
           type="cobweb"
-          :num="100"
+          :num="80"
           :bg="false"
           class="!pointer-events-none"
         />

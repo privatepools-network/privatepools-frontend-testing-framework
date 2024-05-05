@@ -85,7 +85,7 @@
       </div>
     </div>
     <div class="financial_block_without_bg  dark:!text-white text-black column_loading">
-      <div class="sticky_column_without_bg dark:!bg-[#22222224] bg-white">
+      <div class="sticky_column_without_bg ">
         <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Portfolio
         </div>
@@ -349,7 +349,7 @@
     </div>
 
     <div class="financial_block_without_bg  dark:!text-white text-black column_loading">
-      <div class="sticky_column_without_bg dark:!bg-[#22222224] bg-white">
+      <div class="sticky_column_without_bg ">
         <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Holdings
         </div>
@@ -940,7 +940,8 @@ onBeforeMount(async () => {
 }
 
 .sticky_column_without_bg {
-  /* margin-right: 200px; */
+  // backdrop-filter: blur(10px);
+  background: #000117;
   min-width: 300px;
   padding: 20px 10px 20px 10px;
 
@@ -950,6 +951,7 @@ onBeforeMount(async () => {
   border-radius: 20px;
   overflow-x: scroll;
   backdrop-filter: blur(10px);
+
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 4px 0px #00000040;
 

@@ -10,7 +10,7 @@ $primary: #181c1f;
 }
 
 // select {
-//   font-family: Montserrat;
+//   
 // }
 
 input {
@@ -46,7 +46,7 @@ body::-webkit-scrollbar-thumb {
 .load_more {
   display: flex;
   justify-content: center;
-  font-family: Montserrat;
+  
   font-size: clamp(12px, 0.8vw, 14px);
   font-weight: 600;
   line-height: 24px;
@@ -359,7 +359,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .offer-btn {
-  font-family: Montserrat;
+  
   font-size: 13px;
   font-weight: 400;
   line-height: 15px;

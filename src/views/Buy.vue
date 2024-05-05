@@ -669,7 +669,7 @@ async function onToken1Blur() {
   box-shadow: 0px 4px 4px 0px #00000040;
   border-radius: 16px;
   padding: 30px;
-  font-family: Montserrat;
+  
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 400;
   line-height: 22px;
@@ -765,7 +765,7 @@ async function onToken1Blur() {
 // }
 
 .selector_button {
-  font-family: Montserrat;
+  
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -793,7 +793,7 @@ async function onToken1Blur() {
   margin-top: 45px;
   margin-bottom: 5px;
   border-radius: 4px;
-  font-family: Montserrat;
+  
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
@@ -810,7 +810,7 @@ async function onToken1Blur() {
 }
 
 .chart_container {
-  font-family: Montserrat;
+  
   font-size: clamp(16px, 0.8vw, 22px);
   font-weight: 700;
   letter-spacing: 0em;

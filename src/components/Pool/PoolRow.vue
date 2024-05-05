@@ -552,7 +552,7 @@ const visibleDetails = ref(false)
     }
 
     &__activity {
-      font-family: Montserrat;
+      
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
@@ -681,7 +681,7 @@ const visibleDetails = ref(false)
 }
 
 .liquidity_button_text {
-  font-family: Montserrat;
+  
   font-size: 12px;
   font-weight: 400;
   line-height: 21px;
