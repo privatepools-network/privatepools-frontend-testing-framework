@@ -115,6 +115,89 @@ body::-webkit-scrollbar-thumb {
     transform: rotate(360deg);
   }
 }
+
+
+
+.step_number {
+  cursor: help;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  text-align: center;
+  font-size: 14px;
+
+  font-weight: 500;
+  letter-spacing: -0.4000000059604645px;
+  text-align: center;
+  color: #00E0FF;
+  border-radius: 100%;
+  background-color: #02031C;
+  border: 2px solid #00E0FF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  &_active {
+    color: #00E0FF;
+  }
+}
+
+
+
+.compose_pool_connect_wallet {
+  margin-top: 8px;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #02031C;
+  border: 0px;
+  border-radius: 16px;
+  background: #00E0FF;
+
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+
+  box-shadow: 0px 4px 6px -1px #0000000D;
+  
+  &:hover {
+    color: #fff;
+    background: #00c9ff;
+    box-shadow: 0px 12px 24px 0px rgba(#00c9ff, 0.2),
+      0px 4px 8px 0px rgba(#00c9ff, 0.3);
+  }
+}
+
+
+.pool_type {
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0em;
+  font-family: 'Syne', sans-serif;
+  z-index: 1;
+
+  &_WP {
+    background: #fb800f;
+  }
+
+  &_CL {
+    background: #00dc3e;
+  }
+}
+
+
+//////////////////////////////////////!
+
+
+
+
+
 .collapse {
   visibility: visible;
 }

@@ -38,9 +38,9 @@
           :key="`tokens-key-${index}`"
           class="d-flex align-items-center justify-content-between px-3 gap-3"
         >
-          <div class="d-flex flex-column align-items-start text-white">
-            <div>{{ token.depositAmount }} {{ token.symbol }}</div>
-            <div>${{ token.usdAmount }}</div>
+          <div class="d-flex flex-column align-items-start text-white ">
+            <div class="font-['Roboto_Mono',_monospace]">{{ token.depositAmount }} {{ token.symbol }}</div>
+            <div class="font-['Roboto_Mono',_monospace]">${{ token.usdAmount }}</div>
           </div>
           <div class="d-flex align-items-center">
             <img
@@ -76,8 +76,8 @@
         <div
           class="d-flex align-items-center justify-content-between px-3 gap-3"
         >
-          <div class="d-flex flex-column align-items-start text-white">
-            <div>
+          <div class="d-flex flex-column align-items-start text-white font-['Roboto_Mono',_monospace]">
+            <div class="font-['Roboto_Mono',_monospace]">
               {{ (total / pool.lpPrice).toFixed(2) }}
               {{
                 pool.tokens
@@ -85,7 +85,7 @@
                   .join('/')
               }}
             </div>
-            <div>
+            <div class="font-['Roboto_Mono',_monospace]">
               ${{ total.toFixed(2) }} ({{
                 (total / ((pool.lpPrice * pool.totalShares) / 100)).toFixed(2)
               }}%)
@@ -147,15 +147,15 @@
       >
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('total') }}</div>
-          <div class="d-flex gap-1">${{ total.toFixed(2) }}</div>
+          <div class="d-flex gap-1 font-['Roboto_Mono',_monospace]">${{ total.toFixed(2) }}</div>
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('value_loss') }}</div>
-          <div class="d-flex gap-1">{{ valueLoss }}%</div>
+          <div class="d-flex gap-1 font-['Roboto_Mono',_monospace]">{{ valueLoss }}%</div>
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('potential_weekly_yield') }}</div>
-          <div class="d-flex gap-1">${{ weeklyYield }}</div>
+          <div class="d-flex gap-1 font-['Roboto_Mono',_monospace]">${{ weeklyYield }}</div>
         </div>
       </div>
     </div>
@@ -188,12 +188,12 @@
                     : 'step_number'
                 "
               >
-                1
+                01
               </div>
             </div>
             <div class="position-relative" v-else-if="approveStep === 2">
               <div class="metamask_loader"></div>
-              <div class="step_number step_number_active flex items-center justify-center pt-1">
+              <div class="step_number step_number_active flex items-center justify-center">
                 <img :src="metamask" width="20" />
               </div>
             </div>
@@ -218,22 +218,11 @@
               <div
                 :class="
                   approveStep === 3
-                    ? 'step_number step_number_active flex items-center justify-center h-full'
-                    : 'step_number flex items-center justify-center h-full'
+                    ? 'step_number step_number_active flex items-center justify-center h-full !bg-[#00E0FF]'
+                    : 'step_number flex items-center justify-center h-full !bg-[#00E0FF]'
                 "
               >
-                <svg
-                  width="15"
-                  height="11"
-                  viewBox="0 0 15 11"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M4.97 10.583L0 5.613L0.714 4.9L4.97 9.156L14.126 0L14.839 0.713L4.97 10.583Z"
-                    fill="#7EF6B2"
-                  />
-                </svg>
+                <img :src="checked_step_img" />
               </div>
             </div>
           </div>
@@ -304,7 +293,7 @@
                 : 'step_number'
             "
           >
-            2
+            02
           </div>
         </div>
         <div
@@ -313,7 +302,7 @@
         >
           <div class="position-relative">
             <div class="metamask_loader"></div>
-            <div class="step_number step_number_active  flex items-center justify-center pt-1">
+            <div class="step_number step_number_active  flex items-center justify-center">
               <img :src="metamask" width="20" />
             </div>
           </div>
@@ -373,6 +362,10 @@ import { useApproveTokens } from '@/composables/poolActions/deposit/useApproveTo
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
+import checked_step_img from '@/assets/icons/CLIcons/checked_step.svg'
+
+
+
 import { t } from 'i18next'
 var emitter = require('tiny-emitter/instance')
 
@@ -600,46 +593,8 @@ watch(
 )
 </script>
 <style lang="scss" scoped>
-.compose_pool_connect_wallet {
-  margin-top: 8px;
-  padding: 8px;
-  font-size: 12px;
-  color: white;
-  border: 0px;
-  background: linear-gradient(89.26deg, #00c9ff 5.07%, #00c8ffb7 99.37%);
-  width: 100%;
-  border-radius: 20px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  // transition-duration: 0.3s;
-  text-shadow: 1px 1px 2px black;
 
-  &:hover {
-    color: #fff;
-    background: #00c9ff;
-    box-shadow: 0px 12px 24px 0px rgba(#00c9ff, 0.2),
-      0px 4px 8px 0px rgba(#00c9ff, 0.3);
-  }
-}
 
-.step_number {
-  cursor: help;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.4000000059604645px;
-  text-align: center;
-  color: white;
-
-  &_active {
-    color: #00c9ff;
-  }
-}
 
 .modal_body_header {
   font-family: Montserrat;
@@ -653,11 +608,9 @@ watch(
 .metamask_loader {
   width: 30px;
   height: 30px;
-  border: 2px solid #fff;
+  // border: 2px solid #fff;
   border-bottom-color: #00c9ff;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
+  border-radius: 100%;
   animation: rotation 1s linear infinite;
 }
 

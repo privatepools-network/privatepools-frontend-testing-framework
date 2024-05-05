@@ -1,5 +1,5 @@
 <template>
-  <CTable style="table-layout: fixed" class="!bg-[white] dark:!bg-[#fff0]">
+  <CTable style="table-layout: fixed" class="!bg-[white] dark:!bg-[#fff0]  backdrop-blur-md">
     <CTableHead color="transparent">
       <CTableRow class="table-row text-black dark:!text-white">
         <CTableHeaderCell class="text-left table-header-font-folder text-black dark:!text-white" v-for="header in headers" :key="header">

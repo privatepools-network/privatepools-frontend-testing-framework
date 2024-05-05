@@ -9,9 +9,13 @@
           "
           class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
         >
-          <div class="d-flex justify-content-between text-black dark:!text-white">
+          <div
+            class="d-flex justify-content-between text-black dark:!text-white"
+          >
             <div class="d-flex align-items-center gap-2">
-              <div class="diagrams_title">{{ $t('historical_asset_values') }}</div>
+              <div class="diagrams_title">
+                {{ $t('historical_asset_values') }}
+              </div>
               <VTooltip :distance="0" :placement="'right'">
                 <div style="cursor: help">
                   <svg
@@ -77,7 +81,9 @@
                 class="text-black dark:!text-white"
                 :style="{
                   color:
-                    opt == assetsPerformanceRangeOption ? '#00C9FF !important' : '',
+                    opt == assetsPerformanceRangeOption
+                      ? '#00C9FF !important'
+                      : '',
                 }"
                 v-for="opt in advancedRangeOptions"
                 :key="`trade-${opt}-range-option`"
@@ -95,7 +101,11 @@
             />
           </div>
         </div>
-        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
+        <div
+          v-else
+          style="height: 350px"
+          class="chart_card dark:!bg-[#22222224] !bg-[white]"
+        >
           <LoaderPulse />
         </div>
       </CCol>
@@ -112,7 +122,9 @@
           "
           class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
         >
-          <div class="d-flex justify-content-between text-black dark:!text-white">
+          <div
+            class="d-flex justify-content-between text-black dark:!text-white"
+          >
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">Pool {{ $t('distribution') }}</div>
               <VTooltip :distance="0" :placement="'right'">
@@ -136,7 +148,7 @@
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
         12 20Z"
-        class="dark:!fill-white fill-black"
+                      class="dark:!fill-white fill-black"
                     />
                   </svg>
                 </div>
@@ -208,7 +220,11 @@
             />
           </div>
         </div>
-        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
+        <div
+          v-else
+          style="height: 350px"
+          class="chart_card dark:!bg-[#22222224] !bg-[white]"
+        >
           <LoaderPulse />
         </div>
       </CCol>
@@ -219,7 +235,9 @@
           "
           class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
         >
-          <div class="d-flex justify-content-between text-black dark:!text-white">
+          <div
+            class="d-flex justify-content-between text-black dark:!text-white"
+          >
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">{{ $t('trades') }}</div>
               <VTooltip :distance="0" :placement="'right'">
@@ -341,7 +359,11 @@
             />
           </div>
         </div>
-        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
+        <div
+          v-else
+          style="height: 350px"
+          class="chart_card dark:!bg-[#22222224] !bg-[white]"
+        >
           <LoaderPulse />
         </div>
       </CCol>
@@ -354,7 +376,9 @@
           "
           class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
         >
-          <div class="d-flex justify-content-between text-black dark:!text-white">
+          <div
+            class="d-flex justify-content-between text-black dark:!text-white"
+          >
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">{{ $t('ranges_traded') }}</div>
 
@@ -445,11 +469,15 @@
             />
           </div>
         </div>
-        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
+        <div
+          v-else
+          style="height: 350px"
+          class="chart_card dark:!bg-[#22222224] !bg-[white]"
+        >
           <LoaderPulse />
         </div>
       </CCol>
-      <CCol v-else xl="4" >
+      <CCol v-else xl="4">
         <div
           v-if="
             profitsData[profitRangeOption] &&
@@ -457,7 +485,9 @@
           "
           class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
         >
-          <div class="d-flex justify-content-between text-black dark:!text-white">
+          <div
+            class="d-flex justify-content-between text-black dark:!text-white"
+          >
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">{{ $t('profit_generated') }}</div>
 
@@ -548,7 +578,11 @@
             />
           </div>
         </div>
-        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
+        <div
+          v-else
+          style="height: 350px"
+          class="chart_card dark:!bg-[#22222224] !bg-[white]"
+        >
           <LoaderPulse />
         </div>
       </CCol>
@@ -891,11 +925,11 @@ const chartOptionsCLPool1 = computed(() => {
         colors: '#777',
       },
       fontSize: '10px',
-      
+
       markers: {
         width: 10,
         height: 10,
-        radius: 100
+        radius: 100,
       },
     },
     tooltip: {
@@ -903,8 +937,6 @@ const chartOptionsCLPool1 = computed(() => {
       y: {
         formatter: (val, opt) => {
           return `Amount: ${val} `
-
-   
         },
       },
     },
@@ -1029,9 +1061,6 @@ const chartOptions2 = computed(() => {
   }
 })
 
-
-
-
 const chartOptionsCLPool2 = computed(() => {
   return {
     ...tradesOptions.value,
@@ -1058,7 +1087,14 @@ const chartOptionsCLPool2 = computed(() => {
     },
     xaxis: {
       // categories: tradesTimestamps.value[tradeRangeOption.value],
-      categories: ['-30% +30%', '-20% +20%', '-10% +10%', '-5% +5%', '-2.5% +2.5%', '-1% +1%'],
+      categories: [
+        '-30% +30%',
+        '-20% +20%',
+        '-10% +10%',
+        '-5% +5%',
+        '-2.5% +2.5%',
+        '-1% +1%',
+      ],
       axisTicks: {
         show: false,
       },
@@ -1077,7 +1113,6 @@ const chartOptionsCLPool2 = computed(() => {
       },
     },
     yaxis: {
-      
       labels: {
         show: true,
         rotate: 0,
@@ -1097,11 +1132,11 @@ const chartOptionsCLPool2 = computed(() => {
         colors: '#777',
       },
       fontSize: '10px',
-      
+
       markers: {
         width: 10,
         height: 10,
-        radius: 100
+        radius: 100,
       },
     },
     tooltip: {
@@ -1109,20 +1144,14 @@ const chartOptionsCLPool2 = computed(() => {
       y: {
         formatter: (val, opt) => {
           return `${val}k`
-
-   
         },
       },
     },
-       grid: {
+    grid: {
       show: true,
       borderColor: 'rgba(255, 255, 255, 0.11)',
     },
   }
-
-
-
-
 })
 </script>
 
@@ -1150,8 +1179,9 @@ const chartOptionsCLPool2 = computed(() => {
 
 .chart_card {
   padding: 15px;
-height: 100%;
-  // border: 1px solid rgba(163, 164, 165, 0.1);
+  height: 100%;
+  backdrop-filter: blur(10px);
+
   border-radius: 20px;
   // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;

@@ -134,6 +134,8 @@ const specificPortfolioStats = ref([
   margin: 1% 30% 10% 30%;
   padding: 2.5%;
   border-radius: 16px;
+  backdrop-filter: blur(10px);
+
 }
 .search-input {
   width: 100%;

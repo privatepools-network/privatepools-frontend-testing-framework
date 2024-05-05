@@ -2,7 +2,7 @@
   <div class="stats_container dark:!bg-[#22222224] !bg-[white]">
     <div class="stats_column_tables">
       <div class="stats_column_tables_inside">
-        <div class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white] p-2">
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#02031C] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
               ROI
@@ -75,14 +75,14 @@
               data-coreui-placement="left" :title="dataCell">
               {{ dataCell }}
             </div>
-            <div v-else :class="`text-truncate file-table-cell ${parseFloat(dataCell) > 0
+            <div v-else :class="`text-truncate file-table-cell font-['Roboto_Mono',_monospace] ${parseFloat(dataCell) > 0
               ? 'positive'
               : parseFloat(dataCell) < 0
                 ? 'negative'
                 : ''
               }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
               :title="dataCell">
-              <div class="d-flex align-items-center justify-content-end" :class="{
+              <div class="d-flex align-items-center justify-content-end font-['Roboto_Mono',_monospace]" :class="{
                 'text-danger': parseFloat(dataCell) < 0,
                 'text-success': parseFloat(dataCell) > 0,
               }">
@@ -95,7 +95,7 @@
         </DataTable>
       </div>
       <div class="stats_column_tables_inside">
-        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#02031C] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
               APR
@@ -168,14 +168,14 @@
               data-coreui-placement="left" :title="dataCell">
               {{ dataCell }}
             </div>
-            <div v-else :class="`text-truncate file-table-cell  ${parseFloat(dataCell) > 0
+            <div v-else :class="`text-truncate font-['Roboto_Mono',_monospace] file-table-cell  ${parseFloat(dataCell) > 0
               ? 'positive'
               : parseFloat(dataCell) < 0
                 ? 'negative'
                 : ''
               }`" style="font-size: clamp(10px, 0.8vw, 13px)" data-coreui-toggle="tooltip" data-coreui-placement="left"
               :title="dataCell">
-              <div class="d-flex align-items-center justify-content-end" :class="{
+              <div class="d-flex align-items-center justify-content-end font-['Roboto_Mono',_monospace]" :class="{
                 'text-danger': parseFloat(dataCell) < 0,
                 'text-success': parseFloat(dataCell) > 0,
               }">
@@ -190,7 +190,7 @@
     </div>
     <div class="stats_column gap-xxl-5 gap-3">
       <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#02031C] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
               {{ $t('drawdowns') }}
@@ -283,7 +283,7 @@
       </div>
 
       <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#02031C] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
               {{ $t('risk_metrics') }}
@@ -398,7 +398,7 @@
       </div>
 
       <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#02031C] !bg-[white] p-2">
           <div class="d-flex gap-2 items-center">
             <div class="font-medium text-sm text-black dark:!text-white">
               {{ $t('profits') }}
@@ -484,7 +484,7 @@
     </div>
     <div class="stats_column_charts" style="gap: 30px">
       <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#02031C] !bg-[white] p-2">
           <div class="d-flex align-items-center gap-2">
             <div class="d-flex gap-2 items-center align-items-baseline">
               <div style="
@@ -582,7 +582,7 @@
       </div>
 
       <div class="stats_column_inside">
-        <div class="d-flex align-items-center justify-content-between dark:!bg-[#2222225d] !bg-[white] p-2">
+        <div class="d-flex align-items-center justify-content-between dark:!bg-[#02031C] !bg-[white] p-2">
           <div class="d-flex align-items-center gap-2">
             <div class="d-flex gap-2 items-center align-items-baseline">
               <div style="
@@ -1073,7 +1073,8 @@ watch(chainSelected, async () => {
 .stats_value {
   color: white;
   margin-right: 15px;
-  font-family: Montserrat;
+  font-family: 'Roboto Mono', monospace;
+
   font-size: clamp(10px, 0.8vw, 13px);
   font-weight: 400;
   line-height: 21px;
@@ -1125,6 +1126,7 @@ watch(chainSelected, async () => {
   // background: #22222224;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;
+  backdrop-filter: blur(10px);
 }
 
 .stats_column {

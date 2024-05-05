@@ -87,7 +87,7 @@
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal">
+                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['APR 24H']) }}
                 </div>
               </div>
@@ -96,7 +96,7 @@
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal">
+                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['APR 7D']) }}
                 </div>
               </div>
@@ -105,7 +105,7 @@
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal">
+                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['APR 30D']) }}
                 </div>
               </div>
@@ -155,7 +155,7 @@
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal">
+                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['Profit 24H']) }}
                 </div>
               </div>
@@ -164,7 +164,7 @@
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal">
+                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['Profit 7D']) }}
                 </div>
               </div>
@@ -173,7 +173,7 @@
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal">
+                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['Profit 30D']) }}
                 </div>
               </div>
@@ -192,7 +192,7 @@
             ">
             <div
               class="dark:!text-white text-black d-flex align-items-center justify-content-between visible_head mt-3">
-              <div class="dark:!text-white text-black font-normal text-[12px]">
+              <div class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace] text-[12px]">
                 {{$t('my_rewards')}}
               </div>
               <div v-if="networks_data" class="dark:!text-white text-black font-extrabold text-[12px]">
@@ -401,6 +401,8 @@ const visibleTotalGas = ref(true)
 }
 
 .arbitrage_bot_sections_text {
+  font-family: 'Roboto Mono', monospace;
+
   font-size: clamp(10px, 0.7vw, 14px);
   margin-top: 10px;
   margin-bottom: 5px;
@@ -408,7 +410,7 @@ const visibleTotalGas = ref(true)
 
 .arbitrage_bot_card {
   width: 30%;
-  // background: #22222224;
+  backdrop-filter: blur(10px);
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;
   border-radius: 20px 0px 0px 20px;

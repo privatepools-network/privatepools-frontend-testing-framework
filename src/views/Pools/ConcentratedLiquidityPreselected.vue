@@ -940,6 +940,8 @@ watch((networkId), async () => {
   margin: 1% 10% 10% 10%;
   padding: 2.5%;
   border-radius: 16px;
+  backdrop-filter: blur(10px);
+
 }
 
 .compose_text {
@@ -1035,22 +1037,7 @@ watch((networkId), async () => {
 
 
 
-.step_number {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.4000000059604645px;
-  text-align: center;
-  color: white;
 
-  &_active {
-    color: #00c9ff;
-  }
-}
 
 .back_button {
   width: 32px;

@@ -330,24 +330,7 @@
     }
   }
   
-  .pool_type {
-    padding: 4px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-family: Montserrat;
-    font-weight: 600;
-    line-height: 16px;
-    letter-spacing: 0em;
-  
-    &_WP {
-      background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
-    }
-  
-    &_CL {
-      background: linear-gradient(45deg, #f7931a 0%, #40b66b 100%);
-    }
-  }
-  
+ 
 
   
   .liquidity_button {

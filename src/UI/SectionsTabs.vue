@@ -1,7 +1,7 @@
 <template>
   <div class="tabs_filter" v-if="tabsOptions[0].title">
     <div
-      class="tabs_filter__el"
+      class="tabs_filter__el text-black dark:!text-white"
       v-for="option in tabsOptions"
       :key="option"
       :class="{
@@ -14,7 +14,7 @@
   </div>
   <div :class="filterEye === false ? 'tabs_filter' : 'tabs'" v-else>
     <div
-      class="tabs__el"
+      class="tabs__el  text-black dark:!text-white hover:!bg-[#00c8ff23]"
       v-for="option in tabsOptions"
       :key="option"
       :class="{
@@ -59,34 +59,32 @@ const { selectedTab, tabsOptions, filterEye } = toRefs(props)
 
 .tabs_filter {
   padding: 4px;
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
-
+  // border-radius: 16px;
+  // background: #22222224;
   gap: 10px;
-  box-shadow: 0px 4px 4px 0px #00000040;
 
   display: flex;
   @media (max-width: $xxl) {
     padding: 2px;
   }
   &__el {
+    background: #FFFFFF1A !important;
     font-family: 'Syne', sans-serif;
     backdrop-filter: blur(10px);
+
+    border-radius: 8px;
+    color: white;
     padding: 3px 9px;
     font-size: clamp(10px, 1vw, 14px);
-    font-weight: 500;
-    color: #fff;
+
     @media (max-width: $xxl) {
+      
       padding: 2px 6px;
     }
     &_active {
-      color: black !important;
-      border-radius: 20px;
-      background: #00e0ff;
+      color: #00E0FF!important;
     }
     &:hover {
-      color: #fff;
-      border-radius: 20px;
       background: darken(#00c9ff, 10%);
       cursor: pointer;
     }
@@ -95,33 +93,32 @@ const { selectedTab, tabsOptions, filterEye } = toRefs(props)
 
 .tabs {
   padding: 4px;
-  border-radius: 23px;
-  background: none;
+  // border-radius: 16px;
+  // background: #22222224;
   gap: 10px;
-  // border: 1px solid #00C9FF;
+
   display: flex;
   @media (max-width: $xxl) {
     padding: 2px;
   }
   &__el {
-    box-shadow: 0px 4px 4px 0px #00000040;
-    font-weight: 500;
-    border-radius: 20px;
-    color: #fff;
+    background: #FFFFFF1A !important;
+    font-family: 'Syne', sans-serif;
+    backdrop-filter: blur(10px);
+
+    border-radius: 8px;
+    color: white;
     padding: 3px 9px;
-    font-size: 13px;
+    font-size: clamp(10px, 1vw, 14px);
+
     @media (max-width: $xxl) {
-      font-size: clamp(10px, 1vw, 14px);
+      
       padding: 2px 6px;
     }
     &_active {
-      color: black !important;
-      border-radius: 20px;
-      background: #00e0ff;
+      color: #00E0FF!important;
     }
     &:hover {
-      color: #fff;
-      border-radius: 20px;
       background: darken(#00c9ff, 10%);
       cursor: pointer;
     }

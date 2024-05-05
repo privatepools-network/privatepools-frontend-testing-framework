@@ -6,18 +6,31 @@
   </MainCard>
 
   <MainCard v-else-if="!visibleDepositComponent && !visibleWithdrawComponent">
-    <CRow class="mb-5" v-if="pool && pool.tokens">
-      <div class="mb-3 text-[black] dark:!text-white font-bold text-xl">
+    <CRow class="mb-3 mt-4" v-if="pool && pool.tokens">
+      <div
+        class="mb-3 text-black dark:!text-white text-[20px] font-bold flex items-center gap-1"
+      >
         {{ $t('concentrated_liquidity_pool') }}
+        <div class="pool_type text-white" :class="'pool_type_CL'">CLP</div>
       </div>
-      <div class="d-flex align-items-center" style="justify-content: space-between">
+      <div
+        class="d-flex align-items-center"
+        style="justify-content: space-between"
+      >
         <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">
           {{ pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/') }}
         </div> -->
+        {{ console.log('pool.tokens', pool.tokens) }}
         <div class="caption-row">
-          <div v-for="(poolToken, poolTokenIndex) in pool.tokens" :key="`pool-token-${poolTokenIndex}`"
-            class="big-chip dark:!bg-[#151515] bg-white">
-            <CAvatar :src="getTokenEntity(poolToken.symbol, 'short').icon" class="big-chip__image" />
+          <div
+            v-for="(poolToken, poolTokenIndex) in pool.tokens"
+            :key="`pool-token-${poolTokenIndex}`"
+            class="big-chip dark:!bg-[#22222224] bg-white"
+          >
+            <CAvatar
+              :src="getTokenEntity(poolToken.symbol, 'short').icon"
+              class="big-chip__image"
+            />
             <div class="big-chip__text text-black dark:!text-white">
               {{ poolToken.symbol }}
             </div>
@@ -25,36 +38,37 @@
               {{ Math.round(poolToken.weight * 100) }}%
             </div>
           </div>
-          <div class="d-flex align-items-center gap-1 ml-1">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M13.9398 4.33428C13.197 4.60938 12.6132 5.23179 12.3552 6.02367L11.8737 7.50099C11.8668 7.52352 11.8471 7.53869 11.8249 7.53869C11.8027 7.53869 11.783 7.52352 11.7761 7.50099L11.2947 6.02367C11.0366 5.23175 10.4527 4.60932 9.70982 4.33428L8.32416 3.82111C8.30349 3.81345 8.2896 3.79268 8.2896 3.76935C8.2896 3.74602 8.30349 3.72525 8.32416 3.71759L9.70982 3.20442C10.4527 2.92938 11.0366 2.30695 11.2947 1.51503L11.7761 0.0376909C11.783 0.0152013 11.8027 0 11.8249 0C11.8471 0 11.8668 0.0152013 11.8737 0.0376909L12.3552 1.51503C12.6132 2.30691 13.197 2.92932 13.9398 3.20442L15.3255 3.71759C15.3461 3.72525 15.36 3.74602 15.36 3.76935C15.36 3.79268 15.3461 3.81345 15.3255 3.82111L13.9398 4.33428ZM7.84723 8.94374C6.81562 9.32589 6.00481 10.1903 5.64649 11.2902L4.97759 13.342C4.96777 13.3729 4.94057 13.3937 4.90997 13.3937C4.87937 13.3937 4.85217 13.3729 4.84235 13.342L4.17345 11.2902C3.81514 10.1903 3.00433 9.32589 1.97272 8.94374L0.0479334 8.23104C0.0192337 8.22035 0 8.19155 0 8.1591C0 8.12672 0.0192337 8.09792 0.0479334 8.08723L1.97272 7.37453C3.00434 6.99238 3.81514 6.12794 4.17345 5.02812L4.84235 2.97626C4.85217 2.94536 4.87937 2.92458 4.90997 2.92458C4.94057 2.92458 4.96777 2.94536 4.97759 2.97626L5.64649 5.02812C6.00481 6.12794 6.81562 6.99238 7.84723 7.37453L9.77203 8.08723C9.8007 8.09792 9.81997 8.12672 9.81997 8.1591C9.81997 8.19155 9.8007 8.22035 9.77203 8.23104L7.84723 8.94374ZM11.7776 14.1467C11.984 13.5132 12.4509 13.0153 13.0451 12.7951L14.1542 12.3846C14.1707 12.3785 14.1818 12.3619 14.1818 12.3432C14.1818 12.3245 14.1707 12.3079 14.1542 12.3018L13.0451 11.8913C12.4509 11.6711 11.984 11.1732 11.7776 10.5397L11.3923 9.35789C11.3872 9.3392 11.3711 9.3264 11.3529 9.3264C11.3347 9.3264 11.3186 9.3392 11.3135 9.35789L10.9292 10.5397C10.7226 11.1734 10.2552 11.6714 9.66067 11.8913L8.55258 12.3018C8.53606 12.3079 8.52493 12.3245 8.52493 12.3432C8.52493 12.3619 8.53606 12.3785 8.55258 12.3846L9.66067 12.7951C10.2552 13.015 10.7226 13.513 10.9292 14.1467L11.3135 15.3286C11.3186 15.3472 11.3347 15.36 11.3529 15.36C11.3711 15.36 11.3872 15.3472 11.3923 15.3286L11.7776 14.1467Z"
-                fill="url(#paint0_linear_25_3105)" />
-              <defs>
-                <linearGradient id="paint0_linear_25_3105" x1="15.36" y1="-7.68" x2="1.74547" y2="10.1236"
-                  gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#2775CA" />
-                  <stop offset="1" stop-color="#00e0ff" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M10.026 7.54902C10.0861 7.5099 10.1535 7.48318 10.2241 7.47042C10.2946 7.45767 10.3671 7.45915 10.4371 7.47477L16.4743 8.78202C16.6157 8.81273 16.7391 8.89831 16.8175 9.01995C16.8958 9.14159 16.9227 9.28936 16.8921 9.43079L15.5849 15.468C15.5501 15.6051 15.4634 15.7234 15.3431 15.7979C15.2229 15.8724 15.0784 15.8973 14.9401 15.8673C14.8019 15.8374 14.6806 15.755 14.6019 15.6374C14.5232 15.5198 14.4933 15.3763 14.5183 15.2371L15.7101 9.73313L10.2061 8.54134C10.0648 8.51064 9.94133 8.42506 9.86299 8.30342C9.78465 8.18177 9.7578 8.03401 9.78833 7.89258C9.80307 7.82238 9.83169 7.75582 9.8725 7.69683C9.91331 7.63783 9.9655 7.58758 10.026 7.54902Z"
-                fill="#4E4E4E" />
-              <path
-                d="M7.49468 14.3746L16.0632 8.85626C16.185 8.77786 16.3329 8.75103 16.4744 8.78167C16.6159 8.81232 16.7395 8.89793 16.8179 9.01967C16.8963 9.14141 16.9231 9.28931 16.8925 9.43084C16.8618 9.57236 16.7762 9.69592 16.6545 9.77432L8.08593 15.2926C7.96419 15.371 7.81629 15.3979 7.67476 15.3672C7.53324 15.3366 7.40968 15.251 7.33128 15.1292C7.25287 15.0075 7.22604 14.8596 7.25669 14.718C7.28733 14.5765 7.37294 14.453 7.49468 14.3746Z"
-                fill="#4E4E4E" />
-            </svg>
+          <div class="ml-2">
+            <a target="_blank" :href="scannerLink">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M13.9942 12.4373V8.16327C13.9942 7.94752 13.8192 7.77259 13.6035 7.77259H12.828C12.6122 7.77259 12.4373 7.94752 12.4373 8.16327V12.4373H1.55685V1.55685H5.8309C6.04665 1.55685 6.22157 1.38192 6.22157 1.16618V0.390671C6.22157 0.174927 6.04665 0 5.8309 0H1.55685C0.693878 0 0 0.693878 0 1.55685V12.4431C0 12.8561 0.164025 13.252 0.455991 13.544C0.747957 13.836 1.14395 14 1.55685 14H12.4431C12.8561 14 13.252 13.836 13.544 13.544C13.836 13.252 14 12.8561 14 12.4431L13.9942 12.4373ZM13.6152 0.180758L13.8251 0.390671C13.93 0.489796 13.9942 0.629738 13.9942 0.781341V5.83673C13.9942 6.05248 13.8192 6.22741 13.6035 6.22741H12.828C12.7244 6.22741 12.625 6.18625 12.5517 6.11298C12.4785 6.03972 12.4373 5.94035 12.4373 5.83673V2.66472L5.87755 9.21866C5.72595 9.37026 5.48105 9.37026 5.32945 9.21866L4.78717 8.67638C4.75114 8.64042 4.72255 8.59771 4.70304 8.55068C4.68353 8.50365 4.67349 8.45324 4.67349 8.40233C4.67349 8.35142 4.68353 8.30101 4.70304 8.25398C4.72255 8.20696 4.75114 8.16424 4.78717 8.12828L11.3411 1.55685H8.16327C8.05965 1.55685 7.96028 1.51569 7.88702 1.44243C7.81375 1.36916 7.77259 1.26979 7.77259 1.16618V0.390671C7.77259 0.174927 7.94752 0 8.16327 0H13.2187C13.3703 0.0058309 13.5102 0.0699708 13.6152 0.180758Z"
+                  fill="#DCEEF6"
+                />
+              </svg>
+            </a>
           </div>
         </div>
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
       </div>
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <!-- <div style="color: #6f6f6f; font-size: 12px">
-          Delegated swap fees; currently fixed: 0.3%
-        </div> -->
-        <div class="rewards_button dark:!bg-[#22222224] !bg-[white]">
+      <div class="flex justify-between items-center mt-3">
+        <div>
+          <SectionsTabs
+            :filterEye="false"
+            :selectedTab="selectedOverallTab"
+            :tabsOptions="[t('overall_view'), t('my_view')]"
+            @changeTab="changeSelectedOverallTab"
+          />
+        </div>
+        <div class="rewards_button">
           {{ $t('rewards') }}
         </div>
       </div>
@@ -72,6 +86,7 @@
     </CRow>
 
     <div style="display: inline-block; margin-bottom: 24px">
+      
       <Tabs :filterEye="true" :selectedTab="selectedTab" :tabsOptions="[
         t('pool_info'),
         t('financial_statement'),
@@ -523,7 +538,7 @@ import {
   updateTokenPrices,
 } from '@/composables/pools/useTokenPairs'
 import { DisplayNetwork } from '@/composables/useNetwork'
-import DepositComponent from './Deposit.vue'
+import SectionsTabs from '@/UI/SectionsTabs'
 import WithdrawComponent from './Withdraw.vue'
 import { convertSwapsCurrency } from '@/composables/pools/usePoolSwapsStats'
 import { CalculateJoinExitPrice } from '@/lib/formatter/financialStatement/financialStatementFormatter'
@@ -1520,8 +1535,8 @@ watch(visibleWithdrawModal, (newValue) => {
 .pool-section {
   height: fit-content;
   width: fit-content;
-  /* flex-grow: 1; */
-  // border: 1px solid rgba(163, 164, 165, 0.1);
+  backdrop-filter: blur(10px);
+
   border-radius: 15px;
 
   // background: #22222224;
@@ -1651,7 +1666,7 @@ watch(visibleWithdrawModal, (newValue) => {
   flex-direction: column;
   // border: 1px solid rgba(163, 164, 165, 0.1);
   border-radius: 15px;
-
+  backdrop-filter: blur(10px);
   box-shadow: 0px 4px 4px 0px #00000040;
   border: 1px solid #ffffff0d;
 
@@ -2053,15 +2068,20 @@ watch(visibleWithdrawModal, (newValue) => {
 }
 
 .rewards_button {
-  box-shadow: 0px 4px 4px 0px #00000040;
-  color: #00e0ff;
-  padding: 8px 16px;
-  font-family: Montserrat;
+  // background: #22222224;
+  color: #02031C;
+  padding: 4px 24px;
+  background:#00E0FF;
+  z-index: 1;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 24px;
-  border-radius: 8px;
+  border-radius: 16px;
   text-align: center;
+
+  &:hover {
+    filter: drop-shadow(0 0 0.3rem #00c9ff);
+  }
 }
 </style>
 <style src="@vueform/slider/themes/default.css"></style>

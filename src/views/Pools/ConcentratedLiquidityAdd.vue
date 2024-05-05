@@ -649,6 +649,7 @@ const chartOptions = computed(() => ({
         value: {
           color: '#999',
           fontSize: '60px',
+          fontFamily: 'Roboto Mono',
           show: true,
           fontWeight: 600,
         },
@@ -657,7 +658,7 @@ const chartOptions = computed(() => ({
           label: 'My APR',
           color: '#30DEFF',
           fontSize: '20px',
-          fontFamily: undefined,
+          
           fontWeight: 700,
           formatter: function (w) {
             // console.log('w', w)
@@ -975,22 +976,6 @@ async function removeLiquidityHandler() {
   cursor: pointer;
 }
 
-.step_number {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.4000000059604645px;
-  text-align: center;
-  color: white;
-
-  &_active {
-    color: #00c9ff;
-  }
-}
 
 .fee_tier_container {
   padding: 16px;

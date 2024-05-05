@@ -32,8 +32,8 @@
   </div>
 
   <div class="mt-5 finance_table dark:!bg-[#22222224] bg-white" style="position: relative">
-    <div class="financial_header dark:!bg-[#1C1C1C] bg-white column_loading">
-      <div class="sticky_first_column dark:!bg-[#1c1c1c] bg-white">
+    <div class="financial_header dark:!bg-[#000117] bg-white column_loading">
+      <div class="sticky_first_column dark:!bg-[#000117] bg-white">
         <div class="financial_header_text dark:!text-white text-black">Financial Statement</div>
         <div class="collapsed_subheader financial_header_text dark:!text-white text-black" @click="visibleProfitLoss = !visibleProfitLoss">
           <div>Profit/Loss</div>
@@ -58,7 +58,7 @@
 
         <div class="financial_header_subtext  dark:!text-white text-black d-flex gap-1 justify-content-end">
           (
-          <div class="flex items-center">
+          <div class="flex items-center font-['Roboto_Mono',_monospace]">
             <CurrencySymbol  />{{ formatBigNumber(item.profitLoss, decimals) }}
           </div>
           <div :class="item.profitLossPercents < 0 ? 'text-danger' : 'text-success'
@@ -72,7 +72,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsProfitLossInfo"
                 :key="asset.symbol">
-                <div class="flex items-center">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
                   <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -85,7 +85,7 @@
       </div>
     </div>
     <div class="financial_block_without_bg  dark:!text-white text-black column_loading">
-      <div class="sticky_column_without_bg dark:!bg-[#191919] bg-white">
+      <div class="sticky_column_without_bg dark:!bg-[#22222224] bg-white">
         <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Portfolio
         </div>
@@ -139,7 +139,7 @@
       </div>
       <div style="margin-top: 80px; min-width: 300px; text-align: right; gap: 1.2rem" class="d-flex flex-column gap-4"
         v-for="(item, index) in financeData" :key="`Portfolio-key-${index}`">
-        <div class="flex gap-2 justify-end items-center">
+        <div class="flex gap-2 justify-end items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol  />{{ formatBigNumber(item.LiquidityDeposited, decimals) }}
           <div :class="item.LiquidityDepositedPercent < 0
             ? 'text-danger'
@@ -149,7 +149,7 @@
           </div>
         </div>
         <div v-if="visibleLiquidity" class="d-flex gap-1 justify-content-end">
-          <div class="flex items-center">
+          <div class="flex items-center font-['Roboto_Mono',_monospace]">
             <CurrencySymbol  />{{ formatBigNumber(item.Deposits, decimals) }}
           </div>
           <div :class="item.DepositsPercent < 0 ? 'text-danger' : 'text-success'">
@@ -161,7 +161,7 @@
             <div class="d-flex flex-column gap-2">
               <div></div>
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsDepositInfo" :key="asset.symbol">
-                <div class="flex items-center">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
                   <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -172,7 +172,7 @@
           </div>
         </CCollapse>
         <div v-if="visibleLiquidity" class="d-flex gap-1 justify-content-end">
-          <div class="flex items-center">
+          <div class="flex items-center font-['Roboto_Mono',_monospace]">
             <CurrencySymbol  />{{ formatBigNumber(item.Withdraws, decimals) }}
           </div>
           <div :class="item.WithdrawsPercent < 0 ? 'text-danger' : 'text-success'">
@@ -184,7 +184,7 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsWithdrawInfo" :key="asset.symbol">
-                <div class="flex items-center">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
                   <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -194,7 +194,7 @@
             </div>
           </div>
         </CCollapse>
-        <div class="flex gap-2 justify-end items-center">
+        <div class="flex gap-2 justify-end items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol  />{{ formatBigNumber(item.TradingVolume) }}
           <div :class="item.TradingVolumePercents < 0 ? 'text-danger' : 'text-success'
             ">
@@ -205,7 +205,7 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsVolumeInfo" :key="asset.symbol">
-                <div class="flex items-center">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
                   <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -218,8 +218,8 @@
         <div style="height: 27px"></div>
       </div>
     </div>
-    <div class="financial_block_with_bg dark:!bg-[#1C1C1C] bg-white dark:!text-white text-black column_loading">
-      <div class="sticky_column_with_bg dark:!bg-[#1C1C1C] bg-white">
+    <div class="financial_block_with_bg dark:!bg-[#000117] bg-white dark:!text-white text-black column_loading">
+      <div class="sticky_column_with_bg dark:!bg-[#000117] bg-white">
         <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Income Statement
         </div>
@@ -277,7 +277,7 @@
       </div>
       <div style="margin-top: 80px; min-width: 300px; text-align: right; gap: 1.2rem" class="d-flex flex-column gap-3"
         v-for="(item, index) in financeData" :key="`Portfolio-key-${index}`">
-        <div class="flex justify-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol  />{{ formatBigNumber(item.Revenue, 2) }}
           <div :class="item.RevenuePercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.RevenuePercent) }}
@@ -287,7 +287,7 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsRevenueInfo" :key="asset.symbol">
-                <div class="flex items-center">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
                   <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -297,7 +297,7 @@
             </div>
           </div>
         </CCollapse>
-        <div class="flex justify-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol  />{{ formatBigNumber(item.Fees, 2) }}
           <div :class="item.FeesPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.FeesPercent) }}
@@ -307,7 +307,7 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsGasFeeInfo" :key="asset.symbol">
-                <div class="flex items-center">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
                   <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -318,7 +318,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justify-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol  />{{ formatBigNumber(item.Profit, 2) }}
           <div :class="item.ProfitPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.ProfitPercent) }}
@@ -328,7 +328,7 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsProfitInfo" :key="asset.symbol">
-                <div class="flex items-center">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
                   <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -349,7 +349,7 @@
     </div>
 
     <div class="financial_block_without_bg  dark:!text-white text-black column_loading">
-      <div class="sticky_column_without_bg dark:!bg-[#191919] bg-white">
+      <div class="sticky_column_without_bg dark:!bg-[#22222224] bg-white">
         <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Holdings
         </div>
@@ -406,7 +406,7 @@
       </div>
       <div style="margin-top: 80px; min-width: 300px; text-align: right; gap: 1.2rem" class="d-flex flex-column gap-4"
         v-for="(item, index) in financeData" :key="`Portfolio-key-${index}`">
-        <div class="flex justify-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol  />{{ formatBigNumber(item.InitialLiquidity, decimals) }}
           <div :class="item.InitialLiquidityPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.InitialLiquidityPercent) }}
@@ -417,7 +417,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsInitialLiquidityInfo"
                 :key="asset.symbol">
-                <div class="flex items-center">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
                   <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -428,7 +428,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justify-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol  />{{ formatBigNumber(item.FinalLiquidity, decimals) }}
           <div :class="item.FinalLiquidityPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.FinalLiquidityPercent) }}
@@ -440,7 +440,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsFinalLiquidityInfo"
                 :key="asset.symbol">
-                <div class="flex items-center">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
                   <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -451,7 +451,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justify-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol  />{{ formatBigNumber(item.Assets, decimals) }}
           <div :class="item.AssetsPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.AssetsPercent) }}
@@ -461,7 +461,7 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsInfo" :key="asset.symbol">
-                <div class="flex items-center">{{ formatBigNumber(asset.balance, decimals) }} {{ asset.symbol }} -
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.balance, decimals) }} {{ asset.symbol }} -
                   <CurrencySymbol  />{{ formatBigNumber(asset.value, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -472,7 +472,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justify-end gap-2 items-center">
+        <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol  />{{ formatBigNumber(item.CapitalGains, decimals) }}
           <div :class="item.CapitalGainsPercent < 0 ? 'text-danger' : 'text-success'
             ">
@@ -482,8 +482,8 @@
       </div>
     </div>
 
-    <div class="financial_block_with_bg dark:!bg-[#1C1C1C] bg-white dark:!text-white text-black column_loading">
-      <div class="sticky_column_with_bg dark:!bg-[#1C1C1C] bg-white">
+    <div class="financial_block_with_bg dark:!bg-[#000117] bg-white dark:!text-white text-black column_loading">
+      <div class="sticky_column_with_bg dark:!bg-[#000117] bg-white">
         <div class="financial_header_text dark:!text-white text-black" style="font-size: clamp(10px, 0.9vw, 16px)">
           Market Data
         </div>
@@ -594,7 +594,7 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsMarketInfo" :key="asset.symbol">
-                <div class="flex items-center">
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">
                   <CurrencySymbol  />{{ formatBigNumber(asset.value, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -654,7 +654,7 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.TokenTurnoverInfo" :key="asset.symbol">
-                <div class="flex items-center">
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">
                   <CurrencySymbol  />{{ formatBigNumber(asset.value, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -848,7 +848,7 @@ onBeforeMount(async () => {
   gap: 40px;
   display: flex;
   width: fit-content;
-  // background: #1C1C1C;
+  // background: #000117;
 }
 
 .column_loading {
@@ -884,7 +884,7 @@ onBeforeMount(async () => {
 
   border-bottom: 1px solid #2c2c2c;
 
-  // background: #1C1C1C;
+  // background: #000117;
   width: fit-content;
 
   display: flex;
@@ -949,7 +949,7 @@ onBeforeMount(async () => {
 .finance_table {
   border-radius: 20px;
   overflow-x: scroll;
-  // background: #22222224;
+  backdrop-filter: blur(10px);
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 4px 0px #00000040;
 

@@ -33,7 +33,7 @@
                     pool.tokens.map((t) => `${t.weight}%${t.symbol}`).join('/')
                   }}
                 </div>
-                <div>
+                <div class="font-['Roboto_Mono',_monospace]">
                   ${{ usdSummary }} ({{
                     (
                       (poolShare.balance * lineNumberPercent) /
@@ -72,8 +72,8 @@
             <div v-for="(token, index) in allPossibleTokens" :key="`tokens-key-${index}`"
               class="d-flex align-items-center justify-content-between px-3 gap-3">
               <div class="d-flex flex-column align-items-start text-white">
-                <div>{{ token.withdrawAmount }} {{ token.symbol }}</div>
-                <div>${{ token.usdAmount }}</div>
+                <div class="font-['Roboto_Mono',_monospace]">{{ token.withdrawAmount }} {{ token.symbol }}</div>
+                <div class="font-['Roboto_Mono',_monospace]">${{ token.usdAmount }}</div>
               </div>
               <div class="d-flex align-items-center">
                 <img :src="getTokenEntity(token.symbol, 'short').icon" width="60" class="p-2" />
@@ -97,11 +97,11 @@
           <div class="d-flex flex-column p-2" style="font-size: 14px; color: rgba(221, 221, 221, 1)">
             <div class="d-flex justify-content-between align-items-center">
               <div>{{ $t('total') }}</div>
-              <div class="d-flex gap-1">${{ usdSummary }}</div>
+              <div class="d-flex gap-1 font-['Roboto_Mono',_monospace]">${{ usdSummary }}</div>
             </div>
             <div class="d-flex justify-content-between align-items-center">
               <div>{{ $t('value_loss') }}</div>
-              <div class="d-flex gap-1">{{ priceImpact }}%</div>
+              <div class="d-flex gap-1 font-['Roboto_Mono',_monospace]">{{ priceImpact }}%</div>
             </div>
           </div>
         </div>
@@ -412,45 +412,8 @@ watch(
 // watch(fw, () => startFireworks())
 </script>
 <style lang="scss" scoped>
-.compose_pool_connect_wallet {
-  margin-top: 8px;
-  padding: 8px;
-  font-size: 12px;
-  color: white;
-  border: 0px;
-  background: linear-gradient(89.26deg, #00C9FF 5.07%, #00c8ffb7 99.37%);
-  width: 100%;
-  border-radius: 20px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  // transition-duration: 0.3s;
-  text-shadow: 1px 1px 2px black;
 
-  &:hover {
-    color: #fff;
-    background: #00C9FF;
-    box-shadow: 0px 12px 24px 0px rgba(#00C9FF, 0.2),
-      0px 4px 8px 0px rgba(#00C9FF, 0.3);
-  }
-}
 
-.step_number {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.4000000059604645px;
-  text-align: center;
-  color: white;
-
-  &_active {
-    color: #00C9FF;
-  }
-}
 
 .modal_body_header {
   font-family: Montserrat;

@@ -184,6 +184,8 @@ const specificPortfolioStats = ref([
   margin: 1% 10% 10% 10%;
   padding: 2.5%;
   border-radius: 16px;
+  backdrop-filter: blur(10px);
+
 }
 
 .caption-row {
@@ -284,28 +286,5 @@ const specificPortfolioStats = ref([
   font-size: clamp(10px, 0.8vw, 14px);
 }
 
-.compose_pool_connect_wallet {
-  margin-top: 8px;
-  padding: 13px 8px;
-  font-size: 12px;
-  color: white;
-  border: 0px;
-  border-radius: 8px;
-  background: linear-gradient(89deg, #00c9ff 1.58%, #0094ff 100.04%);
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.05),
-    0px 4px 6px -1px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  // transition-duration: 0.3s;
-  text-shadow: 1px 1px 2px black;
 
-  &:hover {
-    color: #fff;
-    background: #00c9ff;
-    box-shadow: 0px 12px 24px 0px rgba(#00c9ff, 0.2),
-      0px 4px 8px 0px rgba(#00c9ff, 0.3);
-  }
-}
 </style>

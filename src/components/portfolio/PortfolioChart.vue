@@ -1130,7 +1130,7 @@ function getFilteredData() {
 
 
 .track_chart_card {
-  // border: 1px solid rgba(163, 164, 165, 0.26);
+  backdrop-filter: blur(10px);
   border-radius: 0px 20px 20px 0px;
   width: 100%;
   padding: 20px;

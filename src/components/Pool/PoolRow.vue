@@ -640,23 +640,7 @@ const visibleDetails = ref(false)
   }
 }
 
-.pool_type {
-  padding: 4px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 16px;
-  letter-spacing: 0em;
-  font-family: 'Syne', sans-serif;
 
-  &_WP {
-    background: #fb800f;
-  }
-
-  &_CL {
-    background: #00dc3e;
-  }
-}
 
 .liquidity_button_container {
   // background: #171717;

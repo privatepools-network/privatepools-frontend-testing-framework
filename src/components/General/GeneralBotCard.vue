@@ -16,7 +16,7 @@
             <div v-if="!chains_data" class="totals_loader_header">
               <ThreeDots />
             </div>
-            <div v-else style="font-weight: 700; font-family: Montserrat; font-size: 18px;"
+            <div v-else style="font-weight: 700;  font-size: 18px;"
               class="visible_head arbitrage_bot_sections_text text-black dark:!text-white">
               <div class="d-flex align-items-center">
 
@@ -38,11 +38,11 @@
             </div>
             <div style="
                 font-weight: 700;
-                font-family: Montserrat;
+                
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Montserrat; font-weight: 400"
+                <div style=" font-weight: 400"
                   class="arbitrage_bot_sections_text text-black dark:!text-white">
                   {{ $t('total_volume') }}
                 </div>
@@ -70,7 +70,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(chains_data.volume24H) }}
                 </div>
               </div>
@@ -79,7 +79,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(chains_data.volume7D) }}
                 </div>
               </div>
@@ -88,7 +88,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(chains_data.volume30D) }}
                 </div>
               </div>
@@ -109,12 +109,12 @@
             </div>
             <div style="
                 font-weight: 700;
-                font-family: Montserrat;
+                
                 color: white;
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Montserrat; font-weight: 400"
+                <div style=" font-weight: 400"
                   class="arbitrage_bot_sections_text text-black dark:!text-white">
                   {{ $t('total_profits') }}
                 </div>
@@ -148,7 +148,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(chains_data.profit24H) }}
                 </div>
               </div>
@@ -157,7 +157,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(chains_data.profit7D) }}
                 </div>
               </div>
@@ -166,7 +166,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(chains_data.profit30D) }}
                 </div>
               </div>
@@ -187,11 +187,11 @@
             </div>
             <div style="
                 font-weight: 700;
-                font-family: Montserrat;
+                
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Montserrat; font-weight: 400"
+                <div style=" font-weight: 400"
                   class="arbitrage_bot_sections_text text-black dark:!text-white">
                   {{$t('total_trades')}}
                 </div>
@@ -219,7 +219,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   {{ formatBigNumber(chains_data.trades24H) }}
                 </div>
               </div>
@@ -228,7 +228,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   {{ formatBigNumber(chains_data.trades7D) }}
                 </div>
               </div>
@@ -237,7 +237,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   {{ formatBigNumber(chains_data.trades30D) }}
                 </div>
               </div>
@@ -257,12 +257,12 @@
             </div>
             <div style="
                 font-weight: 700;
-                font-family: Montserrat;
+                
          
                 width: 100%;
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
-                <div style="font-family: Montserrat; font-weight: 400"
+                <div style=" font-weight: 400"
                   class="arbitrage_bot_sections_text text-black dark:!text-white">
                   {{$t('average')}} APR
                 </div>
@@ -290,7 +290,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   {{ formatBigNumber(chains_data.APR24H) }}%
                 </div>
               </div>
@@ -299,7 +299,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   {{ formatBigNumber(chains_data.APR7D) }}%
                 </div>
               </div>
@@ -308,7 +308,7 @@
                 <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="text-black dark:!text-white font-[400]">
+                <div v-else class="text-black dark:!text-white font-[400] font-['Roboto_Mono',_monospace]">
                   {{ formatBigNumber(chains_data.APR30D) }}%
                 </div>
               </div>
@@ -323,7 +323,7 @@
           <div></div>
           <div style="
               font-weight: 700;
-              font-family: Montserrat;
+              
            
               width: 100%;
             ">
@@ -331,7 +331,7 @@
             <div
               class="d-flex align-items-center justify-content-between text-black dark:!text-white visible_head mt-3">
               <div style="
-                  font-family: Montserrat;
+                  
                   font-weight: 400;
                  font-size: clamp(10px, 0.8vw, 14px);
                   font-size: clamp(10px, 0.9vw, 16px);
@@ -493,11 +493,12 @@ onMounted(() => {
 .arbitrage_bot_header {
   font-size: clamp(10px, 0.7vw, 14px);
   font-weight: 700;
-  font-family: Montserrat;
+  
   color: white;
 }
 
 .arbitrage_bot_sections_text {
+  font-family: 'Roboto Mono', monospace;
   font-size: clamp(10px, 0.7vw, 14px);
   margin-top: 10px;
   margin-bottom: 5px;
@@ -505,7 +506,7 @@ onMounted(() => {
 
 .arbitrage_bot_card {
   width: 30%;
-
+  backdrop-filter: blur(10px);
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 4px 0px #00000040;
   border-radius: 20px 0px 0px 20px;
