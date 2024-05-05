@@ -552,7 +552,7 @@ const visibleDetails = ref(false)
     }
 
     &__activity {
-      font-family: Montserrat;
+      
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
@@ -640,23 +640,7 @@ const visibleDetails = ref(false)
   }
 }
 
-.pool_type {
-  padding: 4px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 16px;
-  letter-spacing: 0em;
-  font-family: 'Syne', sans-serif;
 
-  &_WP {
-    background: #fb800f;
-  }
-
-  &_CL {
-    background: #00dc3e;
-  }
-}
 
 .liquidity_button_container {
   // background: #171717;
@@ -697,7 +681,7 @@ const visibleDetails = ref(false)
 }
 
 .liquidity_button_text {
-  font-family: Montserrat;
+  
   font-size: 12px;
   font-weight: 400;
   line-height: 21px;

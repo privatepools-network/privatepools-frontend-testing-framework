@@ -1,36 +1,59 @@
 <template>
   <MainCard>
-    <Modal v-if="visibleDepositModal" @close="changeVisibleDepositClose" size="xl">
+    <Modal
+      v-if="visibleDepositModal"
+      @close="changeVisibleDepositClose"
+      size="xl"
+    >
       <template #body>
-        <DepositModalV2 :pool="pool" :visibleDepositModal="visibleDepositModal"
-          @changeVisibleDepositOpen="changeVisibleDepositClose" :total="lineNumbers.reduce(
-            (sum, current, index) =>
-              sum + (current / 1000) * lastTokenPrices[tokens[index]],
-            0,
-          )
-            " :account="account" :valueLoss="priceImpactFormatted" :bptOut="bptOut" :weeklyYield="totalWeeklyYield"
-          :fiatTotal="fiatTotal" :tokens="pool?.tokens?.map((t, i) => ({
-            ...t,
-            depositAmount: formattedLineNumbers[i],
-            usdAmount: formattedLineNumbers[i] * lastTokenPrices[t.address],
-          }))
-            " />
+        <DepositModalV2
+          :pool="pool"
+          :visibleDepositModal="visibleDepositModal"
+          @changeVisibleDepositOpen="changeVisibleDepositClose"
+          :total="
+            lineNumbers.reduce(
+              (sum, current, index) =>
+                sum + (current / 1000) * lastTokenPrices[tokens[index]],
+              0,
+            )
+          "
+          :account="account"
+          :valueLoss="priceImpactFormatted"
+          :bptOut="bptOut"
+          :weeklyYield="totalWeeklyYield"
+          :fiatTotal="fiatTotal"
+          :tokens="
+            pool?.tokens?.map((t, i) => ({
+              ...t,
+              depositAmount: formattedLineNumbers[i],
+              usdAmount: formattedLineNumbers[i] * lastTokenPrices[t.address],
+            }))
+          "
+        />
       </template>
     </Modal>
     <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
         <div class="d-flex align-items-center justify-content-between">
           <div class="caption-row">
-            <div class="caption dark:!text-white text-black"
-              style="font-size: clamp(10px, 0.9vw, 16px); font-weight: 700">
+            <div
+              class="caption dark:!text-white text-black"
+              style="font-size: clamp(10px, 0.9vw, 16px); font-weight: 700"
+            >
               {{
-              pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/')
+                pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/')
               }}
             </div>
 
-            <div v-for="(poolToken, poolTokenIndex) in pool?.tokens" :key="`pool-token-${poolTokenIndex}`"
-              class="big-chip dark:!bg-[#00000024] bg-white">
-              <CAvatar :src="getTokenEntity(poolToken.symbol, 'short').icon" class="big-chip__image" />
+            <div
+              v-for="(poolToken, poolTokenIndex) in pool?.tokens"
+              :key="`pool-token-${poolTokenIndex}`"
+              class="big-chip dark:!bg-[#00000024] bg-white"
+            >
+              <CAvatar
+                :src="getTokenEntity(poolToken.symbol, 'short').icon"
+                class="big-chip__image"
+              />
               <div class="big-chip__text dark:!text-white text-black">
                 {{ poolToken.symbol }}
               </div>
@@ -40,15 +63,33 @@
             </div>
           </div>
           <div class="back_button" @click="router.push('/pools')">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M6 6L18 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6L6 18"
+                stroke="#FFFFFF"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M6 6L18 18"
+                stroke="#FFFFFF"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </div>
         </div>
       </CRow>
 
-      <div class="d-flex align-items-start gap-5">
+      <div class="flex justify-center gap-5">
         <div class="deposit_choose dark:!bg-[#00000024] bg-white">
           <div class="deposit_network_text dark:!text-white text-black">
             {{ chainSelected }}
@@ -57,60 +98,107 @@
             {{ $t('add_liquidity') }}
           </div>
 
-          <div class="d-flex justify-content-between dark:!bg-[#00000024] bg-white currency_container">
-            <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" />
+          <div
+            class="d-flex justify-content-between dark:!bg-[#00000024] bg-white currency_container"
+          >
+            <CurrencySelector
+              @updateCurrency="
+                (newCurrency) => (currencySelected = newCurrency)
+              "
+            />
             <div>
-              <input class="token-input dark:!text-[#A8A8A8] text-black" style="
+              <input
+                class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
+                style="
                   font-size: clamp(10px, 0.8vw, 14px);
                   font-weight: 500;
                   text-align: right;
-                " type="number" placeholder="0" @input="(e) => onCurrencyInput(e)" />
+                "
+                type="number"
+                placeholder="0"
+                @input="(e) => onCurrencyInput(e)"
+              />
             </div>
           </div>
 
-          <div class="d-flex flex-column gap-2" v-if="
-            balances != {} && lastTokenPrices != {} && lineNumbers.length > 0
-          ">
-            <div class="modal_stake_token dark:!bg-[#15151524] bg-white" v-for="(token, tokenIndex) in pool?.tokens"
-              :key="`deposit-token-${token.address}`">
+          <div
+            class="d-flex flex-column gap-2"
+            v-if="
+              balances != {} && lastTokenPrices != {} && lineNumbers.length > 0
+            "
+          >
+            <div
+              class="modal_stake_token dark:!bg-[#15151524] bg-white"
+              v-for="(token, tokenIndex) in pool?.tokens"
+              :key="`deposit-token-${token.address}`"
+            >
               <div>
                 <div class="d-flex justify-content-between align-items-center">
-                  <div class="modal_stake_token_inner_name dark:!text-white text-black dark:!bg-[#4c4c4c24] bg-white">
-                    <img :src="getTokenEntity(token.symbol, 'short').icon" width="20" />
+                  <div
+                    class="modal_stake_token_inner_name dark:!text-white text-black dark:!bg-[#4c4c4c24] bg-white"
+                  >
+                    <img
+                      :src="getTokenEntity(token.symbol, 'short').icon"
+                      width="20"
+                    />
                     {{ token.symbol }} {{ token.weight * 100 }}%
                   </div>
-                  <input class="token-input dark:!text-[#A8A8A8] text-black" style="
+                  <input
+                    class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
+                    style="
                       font-size: clamp(10px, 0.8vw, 14px);
                       font-weight: 500;
                       text-align: right;
-                    " :value="lineNumbers[tokenIndex] > 0
-                      ? lineNumbers[tokenIndex] / 1000
-                      : lineNumbers[tokenIndex]
-                      " @input="(e) => onTokenInput(e, tokenIndex)" type="number" />
+                    "
+                    :value="
+                      lineNumbers[tokenIndex] > 0
+                        ? lineNumbers[tokenIndex] / 1000
+                        : lineNumbers[tokenIndex]
+                    "
+                    @input="(e) => onTokenInput(e, tokenIndex)"
+                    type="number"
+                  />
                 </div>
                 <div>
                   <div class="modal_balance_slider dark:!text-white text-black">
-                    <div class="value-label" ref="inputRefLabel">
+                    <div
+                      class="value-label font-['Roboto_Mono',_monospace]"
+                      ref="inputRefLabel"
+                    >
                       {{ $t('balance') }}:
-                      <span class="fw-bold">{{
+                      <span class="fw-bold font-['Roboto_Mono',_monospace]">{{
                         RemainingBalance(token, tokenIndex)
-                        }}</span><span @click="() => OnMaxClick(tokenIndex, token.address)"
-                        class="fw-bold bg-transparent" style="cursor: pointer">
-                        {{ $t('max') }}</span>
+                      }}</span
+                      ><span
+                        @click="() => OnMaxClick(tokenIndex, token.address)"
+                        class="fw-bold bg-transparent pl-1"
+                        style="cursor: pointer"
+                      >
+                        {{ $t('max') }}</span
+                      >
                     </div>
-                    <div>
-                      {{currencySelected.symbol}}{{
-                      (
-                      (lineNumbers[tokenIndex] / 1000) *
-                      lastTokenPrices[token.address]
-                      ).toFixed(3)
+                    <div class="font-['Roboto_Mono',_monospace]">
+                      {{ currencySelected.symbol
+                      }}{{
+                        (
+                          (lineNumbers[tokenIndex] / 1000) *
+                          lastTokenPrices[token.address]
+                        ).toFixed(3)
                       }}
                     </div>
                   </div>
                   <div class="mt-2">
-                    <Slider @change="(value) => OnSliderValueChange(tokenIndex, value)
-                      " :tooltips="false" :min="0" :max="balances[token.address] * 1000" :step="1"
-                      v-model="lineNumbers[tokenIndex]" lazy="false" />
+                    <Slider
+                      @change="
+                        (value) => OnSliderValueChange(tokenIndex, value)
+                      "
+                      :tooltips="false"
+                      :min="0"
+                      :max="balances[token.address] * 1000"
+                      :step="1"
+                      v-model="lineNumbers[tokenIndex]"
+                      lazy="false"
+                    />
                   </div>
                 </div>
               </div>
@@ -118,75 +206,118 @@
 
             <div>
               <div class="modal_total_container mt-4">
-                <table style="
+                <table
+                  style="
                     width: 100%;
                     border-collapse: separate;
                     border-spacing: 0;
                     overflow: hidden;
-                  " class="dark:!text-white text-black">
-                  <tr style="
+                  "
+                  class="dark:!text-white text-black"
+                >
+                  <tr
+                    style="
                       border: 1px solid rgba(163, 164, 165, 0.2);
                       border-top-left-radius: 15px;
-                    ">
-                    <td class="w-25 fw-bold" style="
+                    "
+                  >
+                    <td
+                      class="w-25 fw-bold"
+                      style="
                         border-right: 1px solid rgba(163, 164, 165, 0.2);
                         border-bottom: 1px solid rgba(163, 164, 165, 0.2);
                         padding: 8px;
-                      ">
+                      "
+                    >
                       {{ $t('total') }}
                     </td>
-                    <td style="
+                    <td
+                      style="
                         padding: 8px;
                         border-bottom: 1px solid rgba(163, 164, 165, 0.2);
-                      ">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="w-25 fw-bold">
-                          {{ currencySelected.symbol }}{{
-                          lineNumbers.reduce(
-                          (sum, current, index) =>
-                          sum +
-                          (current / 1000) *
-                          lastTokenPrices[tokens[index]],
-                          0,
-                          )
+                      "
+                    >
+                      <div
+                        class="d-flex justify-content-between align-items-center"
+                      >
+                        <div class="w-25 fw-bold font-['Roboto_Mono',_monospace]">
+                          {{ currencySelected.symbol
+                          }}{{
+                            lineNumbers.reduce(
+                              (sum, current, index) =>
+                                sum +
+                                (current / 1000) *
+                                  lastTokenPrices[tokens[index]],
+                              0,
+                            )
                           }}
                         </div>
-                        <div class="optimize dark:!bg-[#00000024] bg-white" @click="OnAllMaxClick">{{ $t('max') }}</div>
+                        <div
+                          class="optimize dark:!bg-[#00000024] bg-white"
+                          @click="OnAllMaxClick"
+                        >
+                          {{ $t('max') }}
+                        </div>
                       </div>
                     </td>
                   </tr>
                   <tr>
-                    <td style="
+                    <td
+                      style="
                         border-right: 1px solid rgba(163, 164, 165, 0.2);
                         padding: 8px;
-                      " class="w-25">
+                      "
+                      class="w-25"
+                    >
                       {{ $t('value_loss') }}
                     </td>
                     <td style="padding: 8px">
                       <div class="flex justify-between items-center">
                         <div class="flex items-center gap-1">
-                          <div>
-                          {{ priceImpactFormatted }}%
-                        </div>
-                          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                          <div class="font-['Roboto_Mono',_monospace]">{{ priceImpactFormatted }}%</div>
+                          <svg
+                            width="13"
+                            height="13"
+                            viewBox="0 0 13 13"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
                             <g clip-path="url(#clip0_1904_24663)">
                               <path
                                 d="M6.78125 11.4932C9.54267 11.4932 11.7812 9.25459 11.7812 6.49316C11.7812 3.73174 9.54267 1.49316 6.78125 1.49316C4.01983 1.49316 1.78125 3.73174 1.78125 6.49316C1.78125 9.25459 4.01983 11.4932 6.78125 11.4932Z"
-                                stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                              <path d="M6.78125 8.49316V6.49316" stroke="white" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                              <path d="M6.78125 4.49316H6.78625" stroke="white" stroke-linecap="round"
-                                stroke-linejoin="round" />
+                                stroke="white"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M6.78125 8.49316V6.49316"
+                                stroke="white"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M6.78125 4.49316H6.78625"
+                                stroke="white"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
                             </g>
                             <defs>
                               <clipPath id="clip0_1904_24663">
-                                <rect width="12" height="12" fill="white" transform="translate(0.78125 0.493164)" />
+                                <rect
+                                  width="12"
+                                  height="12"
+                                  fill="white"
+                                  transform="translate(0.78125 0.493164)"
+                                />
                               </clipPath>
                             </defs>
                           </svg>
                         </div>
-                        <div class="optimize dark:!bg-[#00000024] bg-white" @click="OnOptimizeClick">
+                        <div
+                          class="optimize dark:!bg-[#00000024] bg-white"
+                          @click="OnOptimizeClick"
+                        >
                           {{ $t('optimize') }}
                         </div>
                       </div>
@@ -196,12 +327,16 @@
               </div>
             </div>
           </div>
-          <div class="compose_pool_connect_wallet" @click="changeVisibleDepositOpen">
+          <div
+            class="compose_pool_connect_wallet"
+            @click="changeVisibleDepositOpen"
+          >
             {{ $t('preview') }}
           </div>
         </div>
 
-        <div style="
+        <div
+          style="
             border-radius: 16px;
 
             font-size: clamp(10px, 0.8vw, 14px);
@@ -209,26 +344,36 @@
             width: 250px;
             box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
             border: 1px solid #ffffff0d;
-          " class="dark:!text-white text-black dark:!bg-[#00000024] bg-white">
+          "
+          class="dark:!text-white text-black dark:!bg-[#00000024] bg-white"
+        >
           <div class="fw-bold p-3" style="border-bottom: 1px solid #4f4f4f57">
             {{ $t('my_wallet') }}
           </div>
-          <div class="d-flex flex-column p-2 dark:!text-[#dddddd] text-black" style="
-              font-size: clamp(10px, 0.8vw, 14px);
-        
-            " v-if="
+          <div
+            class="d-flex flex-column p-2 dark:!text-[#dddddd] text-black"
+            style="font-size: clamp(10px, 0.8vw, 14px)"
+            v-if="
               balances != {} && lastTokenPrices != {} && lineNumbers.length > 0
-            ">
-            <div class="d-flex justify-content-between align-items-center" v-for="(token, index) in pool?.tokens"
-              :key="`wallet-${index}`">
+            "
+          >
+            <div
+              class="d-flex justify-content-between align-items-center"
+              v-for="(token, index) in pool?.tokens"
+              :key="`wallet-${index}`"
+            >
               <div>
-                <img :src="getTokenEntity(token.symbol, 'short').icon" width="23" class="p-1" />
+                <img
+                  :src="getTokenEntity(token.symbol, 'short').icon"
+                  width="23"
+                  class="p-1"
+                />
               </div>
-              <div>
+              <div class="font-['Roboto_Mono',_monospace]">
                 {{ parseFloat(balances[token.address]).toFixed(2) }} ({{
-                (
-                balances[token.address] * lastTokenPrices[token.address]
-                ).toFixed(2)
+                  (
+                    balances[token.address] * lastTokenPrices[token.address]
+                  ).toFixed(2)
                 }}$)
               </div>
             </div>
@@ -261,14 +406,15 @@ import { getSinglePoolDetails } from '@/composables/data/detailsData'
 const poolId = router.currentRoute.value.params['id']
 const pool = ref(null)
 
-
 const tokens = ref([])
-const currencySelected = ref({ name: 'USD', code: 'USD', symbol:"$" })
+const currencySelected = ref({ name: 'USD', code: 'USD', symbol: '$' })
 const lineNumbers = ref([])
 const balances = ref({})
 
 const allLastTokenPrices = ref({})
-const lastTokenPrices = computed(() => allLastTokenPrices.value[currencySelected.value.code])
+const lastTokenPrices = computed(
+  () => allLastTokenPrices.value[currencySelected.value.code],
+)
 const formattedLineNumbers = computed(() =>
   lineNumbers.value.map((ln) => ln / 1000),
 )
@@ -336,7 +482,8 @@ onMounted(async () => {
 let lastDepositChanged = ref(0)
 function OnSliderValueChange(index, value) {
   if (balances.value[tokens.value[index].address] * 1000 < value) {
-    lineNumbers.value[index] = balances.value[tokens.value[index].address] * 1000
+    lineNumbers.value[index] =
+      balances.value[tokens.value[index].address] * 1000
   }
   lineNumbers.value[index] = value
   if (value > 0) lastDepositChanged.value = index
@@ -365,7 +512,9 @@ function OnOptimizeClick() {
   }
 }
 
-const totalWeeklyYield = computed(() => weeklyYieldForAPR(`${pool.value.apr.total}`))
+const totalWeeklyYield = computed(() =>
+  weeklyYieldForAPR(`${pool.value.apr.total}`),
+)
 function weeklyYieldForAPR(apr) {
   return bnum(apr).times(fiatTotal.value).div(52).toString()
 }
@@ -423,9 +572,9 @@ function RemainingBalance(token, index) {
   return diff < 0 && diff > -1 ? 0 : diff.toFixed(4)
 }
 
-
 function onCurrencyInput(e) {
-  lineNumbers.value[0] = (e.target.value / lastTokenPrices.value[tokens.value[0]]) * 1000
+  lineNumbers.value[0] =
+    (e.target.value / lastTokenPrices.value[tokens.value[0]]) * 1000
   lastDepositChanged.value = 0
   OnOptimizeClick()
 }
@@ -435,9 +584,10 @@ function onCurrencyInput(e) {
   // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  margin: 1% 10% 10% 10%;
+  margin: 1% 12% 12% 12%;
   padding: 2.5%;
   border-radius: 16px;
+  backdrop-filter: blur(10px);
 }
 
 .caption-row {
@@ -565,31 +715,6 @@ function onCurrencyInput(e) {
   border: 1px solid rgba(163, 164, 165, 0.2);
   border-radius: 15px;
   font-size: clamp(10px, 0.8vw, 14px);
-}
-
-.compose_pool_connect_wallet {
-  margin-top: 8px;
-  padding: 13px 8px;
-  font-size: 12px;
-  color: white;
-  border: 0px;
-  border-radius: 8px;
-  background: linear-gradient(89deg, #00c9ff 1.58%, #0094ff 100.04%);
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.05),
-    0px 4px 6px -1px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  // transition-duration: 0.3s;
-  text-shadow: 1px 1px 2px black;
-
-  &:hover {
-    color: #fff;
-    background: #00c9ff;
-    box-shadow: 0px 12px 24px 0px rgba(#00c9ff, 0.2),
-      0px 4px 8px 0px rgba(#00c9ff, 0.3);
-  }
 }
 
 .optimize {

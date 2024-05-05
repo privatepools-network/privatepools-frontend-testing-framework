@@ -501,7 +501,7 @@ const all_pools = computed(() => {
 @import '@/styles/_variables.scss';
 
 .head_caption_text {
-  font-family: Montserrat;
+  
   font-size: 12px;
   font-weight: 400;
   line-height: 24px;

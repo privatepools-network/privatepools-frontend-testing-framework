@@ -560,7 +560,7 @@ async function handlePortfolioData() {
 
 <style lang="scss" scoped>
 .sidebar_header {
-  font-family: Montserrat;
+  
   font-size: 14px;
   font-weight: 600;
   line-height: 44px;
@@ -600,7 +600,7 @@ async function handlePortfolioData() {
 }
 
 .wallet_text {
-  font-family: Montserrat;
+  
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;
@@ -608,7 +608,7 @@ async function handlePortfolioData() {
 }
 
 .wallet_bottom_text {
-  font-family: Montserrat;
+  
   font-size: 13px;
   font-weight: 400;
   line-height: 24px;
@@ -623,7 +623,7 @@ async function handlePortfolioData() {
 }
 
 .address_text {
-  font-family: Montserrat;
+  
   font-size: 13px;
   font-weight: 500;
   line-height: 24px;
@@ -641,7 +641,7 @@ async function handlePortfolioData() {
 }
 
 .balance_change {
-  font-family: Montserrat;
+  
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0em;
@@ -657,7 +657,7 @@ async function handlePortfolioData() {
   justify-content: center;
   background: #002c4499;
   border-radius: 20px;
-  font-family: Montserrat;
+  
   font-size: 19px;
   font-weight: 600;
   line-height: 24px;
@@ -678,7 +678,7 @@ async function handlePortfolioData() {
   justify-content: center;
   background: #00e0ff;
   border-radius: 5px;
-  font-family: Montserrat;
+  
   font-size: 11px;
   font-weight: 700;
   box-shadow: 0px 4px 4px 0px #00000040;
@@ -694,7 +694,7 @@ async function handlePortfolioData() {
 }
 
 .tab {
-  font-family: Montserrat;
+  
   font-size: 14px;
   font-weight: 500;
   line-height: 16px;

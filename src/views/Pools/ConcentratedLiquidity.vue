@@ -455,12 +455,12 @@
                     ? 'step_number step_number_active'
                     : 'step_number'
                     ">
-                    1
+                    01
                   </div>
                   <div v-else-if="concentratedLiquidityStep === 3" class="step_number">
                     <img :src="metamask" width="20" />
                   </div>
-                  <div v-else-if="concentratedLiquidityStep > 3" class="step_number">
+                  <div v-else-if="concentratedLiquidityStep > 3" class="step_number !bg-[#00E0FF]">
                     <img :src="checked_step_img" />
                   </div>
                 </div>
@@ -475,12 +475,12 @@
                     ? 'step_number step_number_active'
                     : 'step_number'
                     ">
-                    2
+                    02
                   </div>
                   <div v-else-if="concentratedLiquidityStep === 4" class="step_number">
                     <img :src="metamask" width="20" />
                   </div>
-                  <div v-else-if="concentratedLiquidityStep === 5" class="step_number">
+                  <div v-else-if="concentratedLiquidityStep === 5" class="step_number !bg-[#00E0FF]">
                     <img :src="checked_step_img" />
                   </div>
                 </div>
@@ -1096,27 +1096,7 @@ async function initPossibleComposeTokens() {
 
 
 
-.step_number {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.4000000059604645px;
-  text-align: center;
-  color: white;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-
-  &_active {
-    color: #00c9ff;
-  }
-}
 
 .back_button {
   width: 32px;

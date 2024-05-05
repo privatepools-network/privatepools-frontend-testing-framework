@@ -328,7 +328,7 @@ function prettify(ts) {
 .pool_info {
   margin-top: 20px;
   margin-bottom: 20px;
-  font-family: Montserrat;
+  
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;

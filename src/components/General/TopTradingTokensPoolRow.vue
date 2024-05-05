@@ -265,7 +265,7 @@
       }
   
       &__activity {
-        font-family: Montserrat;
+        
         font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
@@ -314,7 +314,7 @@
     padding: 3px 5px;
   
     &_name {
-      font-family: Montserrat;
+      
       font-size: 12px;
       font-weight: 400;
       line-height: 24px;
@@ -322,7 +322,7 @@
     }
   
     &_weight {
-      font-family: Montserrat;
+      
       font-size: 12px;
       font-weight: 400;
       line-height: 16px;
@@ -330,29 +330,12 @@
     }
   }
   
-  .pool_type {
-    padding: 4px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-family: Montserrat;
-    font-weight: 600;
-    line-height: 16px;
-    letter-spacing: 0em;
-  
-    &_WP {
-      background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
-    }
-  
-    &_CL {
-      background: linear-gradient(45deg, #f7931a 0%, #40b66b 100%);
-    }
-  }
-  
+ 
 
   
   .liquidity_button {
     border-radius: 12px;
-    font-family: Montserrat;
+    
     font-size: 12px;
     font-weight: 700;
     line-height: 21px;
@@ -383,7 +366,7 @@
   }
   
   .liquidity_button_text {
-    font-family: Montserrat;
+    
     font-size: 12px;
     font-weight: 400;
     line-height: 21px;
@@ -429,7 +412,7 @@
   }
   
   .actions_button {
-    font-family: Montserrat;
+    
     font-size: 10px;
     font-weight: 600;
     line-height: 21px;

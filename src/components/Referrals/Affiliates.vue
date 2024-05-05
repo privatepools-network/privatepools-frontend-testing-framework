@@ -141,7 +141,7 @@ const specificPortfolioStats = ref([
 
 .text_header {
   margin-top: 7px;
-  font-family: Montserrat;
+  
   font-size: clamp(14px, 0.8vw, 20px);
   font-weight: 400;
   line-height: 20px;
@@ -152,7 +152,7 @@ const specificPortfolioStats = ref([
 }
 .text_value {
   margin-top: 5px;
-  font-family: Montserrat;
+  
   font-size: clamp(14px, 0.8vw, 20px);
   font-weight: 700;
   line-height: 28px;
@@ -166,7 +166,7 @@ const specificPortfolioStats = ref([
   cursor: pointer;
   margin-top: 5px;
   border-radius: 4px;
-  font-family: Montserrat;
+  
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;

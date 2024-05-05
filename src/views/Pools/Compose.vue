@@ -72,7 +72,7 @@
             :activeStep="activeStep"
           />
         </div>
-        <div class="compose_choose dark:!bg-[#00000024] bg-white">
+        <div class="compose_choose dark:!bg-[#DCEEF605] bg-white">
           <div class="compose_network_text">
             {{ DisplayNetwork[networkId] }}
           </div>
@@ -159,7 +159,7 @@
 
           <div
             v-if="activeStep === 1"
-            class="compose_choose_inner_container dark:!bg-[#00000024] bg-white"
+            class="compose_choose_inner_container dark:!bg-[#DCEEF605] bg-white"
           >
             <div class="d-flex justify-content-between">
               <div class="compose_text dark:!text-white text-black">{{ $t('token') }}</div>
@@ -172,7 +172,7 @@
               :key="token.symbol"
             >
               <div
-                class="compose_token_btn dark:!bg-[#00000024] bg-white dark:!text-white text-black"
+                class="compose_token_btn dark:!bg-[#DCEEF605] bg-white dark:!text-white text-black"
                 style="cursor: pointer"
                 @click="() => tokenSelectModalOpen(index)"
               >
@@ -213,6 +213,7 @@
                   @click="tokensData = tokensData.filter((t) => t != token)"
                 >
                   <svg
+            
                     width="35"
                     height="35"
                     viewBox="0 0 35 35"
@@ -332,7 +333,7 @@
                 {{ $t('total_allocated') }}
               </div>
               <div
-                class="compose_text dark:!text-white text-black"
+                class="compose_text dark:!text-white text-black font-['Roboto_Mono',_monospace]"
                 v-if="
                   tokensData && tokensData.length > 0 && tokensData[0].symbol
                 "
@@ -359,7 +360,7 @@
 
           <div
             v-if="activeStep === 4"
-            class="compose_choose_inner_container dark:!bg-[#00000024] bg-white mb-5"
+            class="compose_choose_inner_container dark:!bg-[#DCEEF605] bg-white mb-5"
           >
             <div class="d-flex justify-content-between">
               <div class="compose_text dark:!text-white text-black">
@@ -571,7 +572,7 @@
           </div>
 
           <div v-else-if="activeStep === 2">
-            <div class="compose_third_step dark:!bg-[#00000024] bg-white">
+            <div class="compose_third_step dark:!bg-[#DCEEF605] bg-white">
               <div class="compose_text dark:!text-white text-black">
                 {{ $t('tokens_and_seed_liquidity') }}
               </div>
@@ -837,7 +838,7 @@
           </div>
         </div>
 
-        <div class="compose_chart dark:!bg-[#00000024] bg-white">
+        <div class="compose_chart dark:!bg-[#DCEEF605] bg-white">
           <div class="compose_text dark:!text-white text-black">
             {{ $t('pool_summary') }}
           </div>
@@ -1515,6 +1516,8 @@ const dynamicDonut = computed(() => {
   margin: 1% 10% 10% 10%;
   padding: 2.5%;
   border-radius: 16px;
+  backdrop-filter: blur(10px);
+
 }
 
 .compose_choose {
@@ -1522,7 +1525,7 @@ const dynamicDonut = computed(() => {
   padding: 10px;
   width: 35%;
   border-radius: 16px;
-  // background: #00000024;
+  // background: #DCEEF605;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
@@ -1552,7 +1555,7 @@ const dynamicDonut = computed(() => {
   width: 100%;
   height: fit-content;
   border-radius: 16px;
-  // background: #00000024;
+  // background: #DCEEF605;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
@@ -1562,7 +1565,7 @@ const dynamicDonut = computed(() => {
   width: 25%;
   height: fit-content;
   border-radius: 16px;
-  // background: #00000024;
+  // background: #DCEEF605;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
@@ -1584,13 +1587,14 @@ const dynamicDonut = computed(() => {
 .add_token_btn {
   padding: 4px 16px;
   background: none;
-  border: 1px solid #bfdbfeab;
-  border-radius: 8px;
+  border: 1px solid  #00E0FF;
+  border-radius: 16px;
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 400;
   letter-spacing: -0.4000000059604645px;
   text-align: center;
-  color: #00c9ff;
+  color: #00E0FF;
+  background: #02031C;
 }
 
 .add_token_btn:hover {
@@ -1608,27 +1612,7 @@ const dynamicDonut = computed(() => {
   box-shadow: 0px 4px 4px 0px #00000040;
 }
 
-.compose_pool_connect_wallet {
-  margin-top: 8px;
-  padding: 8px;
-  font-size: 12px;
-  color: white;
-  border: 0px;
-  border-radius: 8px;
-  background: linear-gradient(89deg, #00c9ff 1.58%, #0094ff 100.04%);
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.05),
-    0px 4px 6px -1px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  // transition-duration: 0.3s;
 
-  &:hover {
-    color: #fff;
-    opacity: 0.9;
-  }
-}
 
 .compose_network_text {
   font-size: 9px;
@@ -1687,27 +1671,7 @@ const dynamicDonut = computed(() => {
   stroke: #00c9ff;
 }
 
-.step_number {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.4000000059604645px;
-  text-align: center;
-  // color: white;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-
-  &_active {
-    color: #00c9ff;
-  }
-}
 
 .weight_input {
   background: none;
@@ -1723,7 +1687,7 @@ const dynamicDonut = computed(() => {
   width: 32px;
   height: 32px;
   border-radius: 100%;
-  background: #00000024;
+  background: #DCEEF605;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   border: 1px solid #ffffff0d;
   display: flex;

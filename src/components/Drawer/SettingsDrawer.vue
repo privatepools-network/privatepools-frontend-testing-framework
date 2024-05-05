@@ -161,7 +161,7 @@ const handleChangeLanguage = (lang) => {
 </script>
 <style lang="scss" scoped>
 .sidebar_header {
-  font-family: Montserrat;
+  
   font-size: 14px;
   font-weight: 600;
   line-height: 44px;
@@ -193,7 +193,7 @@ const handleChangeLanguage = (lang) => {
 }
 
 .wallet_text {
-  font-family: Montserrat;
+  
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;
@@ -201,7 +201,7 @@ const handleChangeLanguage = (lang) => {
 }
 
 .wallet_bottom_text {
-  font-family: Montserrat;
+  
   font-size: 13px;
   font-weight: 400;
   line-height: 24px;
@@ -216,7 +216,7 @@ const handleChangeLanguage = (lang) => {
 }
 
 .settings_text {
-  font-family: Montserrat;
+  
   font-size: 13px;
   font-weight: 400;
   line-height: 44px;

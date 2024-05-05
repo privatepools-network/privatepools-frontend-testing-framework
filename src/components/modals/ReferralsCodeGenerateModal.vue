@@ -31,7 +31,7 @@
 @import '@/styles/_variables.scss';
 
 .modal_body_header {
-  font-family: Montserrat;
+  
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;
@@ -66,7 +66,7 @@
   cursor: pointer;
   margin-top: 5px;
   border-radius: 16px;
-  font-family: Montserrat;
+  
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;

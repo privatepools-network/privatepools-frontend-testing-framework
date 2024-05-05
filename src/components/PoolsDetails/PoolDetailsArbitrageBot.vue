@@ -45,7 +45,7 @@
             <div
               v-if="pool"
               style="font-size: clamp(16px, 1vw, 30px)"
-              class="visible_head flex items-center text-black dark:!text-white font-semibold"
+              class="visible_head flex items-center text-black dark:!text-white font-semibold font-['Roboto_Mono',_monospace]"
             >
               <CurrencySymbol />
               {{ numberToAposthrophe(pool.totalLiquidity, currencyDecimals) }}
@@ -77,7 +77,7 @@
                   />
                 </div>
                 <div
-                  class="text-black dark:!text-white flex items-center font-normal"
+                  class="text-black dark:!text-white flex items-center font-normal font-['Roboto_Mono',_monospace]"
                 >
                   <CurrencySymbol />{{
                     numberToAposthrophe(
@@ -137,7 +137,7 @@
                 <div style="font-size: clamp(10px, 0.9vw, 16px)">Pool APR</div>
                 <div
                   v-if="pool"
-                  class="text-black dark:!text-white font-normal"
+                  class="text-black dark:!text-white font-normal font-['Roboto_Mono',_monospace]"
                 >
                   {{ pool['TotalAPR'].toFixed(2) }}%
                 </div>
@@ -155,7 +155,7 @@
                 <div>{{ $t('daily') }} APR</div>
                 <div
                   v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px]"
+                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
                   {{ pool['24hAPR'].toFixed(2) }}%
                 </div>
@@ -167,7 +167,7 @@
                 <div>{{ $t('weekly') }} APR</div>
                 <div
                   v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px]"
+                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
                   {{ pool['7dAPR'].toFixed(2) }}%
                 </div>
@@ -179,7 +179,7 @@
                 <div>{{ $t('monthly') }} APR</div>
                 <div
                   v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px]"
+                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
                   {{ pool['30dAPR'].toFixed(2) }}%
                 </div>
@@ -246,7 +246,7 @@
                 <div>24H {{ $t('volume') }}</div>
                 <div
                   v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px]"
+                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
                   {{ parseFloat(pool['24hVolumeUsd']).toFixed(2) }}$
                 </div>
@@ -258,7 +258,7 @@
                 <div>7 {{ $t('days') }} {{ $t('volume') }}</div>
                 <div
                   v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px]"
+                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
                   {{ parseFloat(pool['7dVolumeUsd']).toFixed(2) }}$
                 </div>
@@ -270,7 +270,7 @@
                 <div>30 {{ $t('days') }} {{ $t('volume') }}</div>
                 <div
                   v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px]"
+                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
                   {{ parseFloat(pool['30dVolumeUsd']).toFixed(2) }}$
                 </div>
@@ -290,12 +290,14 @@
           <div></div>
           <div class="text-black dark:!text-white font-bold w-full">
             <div
-              class="d-flex align-items-center justify-content-between visible_head text-black dark:!text-white font-normal"
+              class="d-flex align-items-center justify-content-between visible_head text-black dark:!text-white font-normal font-['Roboto_Mono',_monospace]"
             >
-              <div style="font-size: clamp(10px, 0.9vw, 16px)">{{ $t('my_rewards') }}</div>
+              <div style="font-size: clamp(10px, 0.9vw, 16px)">
+                {{ $t('my_rewards') }}
+              </div>
               <div
                 v-if="pool"
-                class="text-black dark:!text-white flex items-center"
+                class="text-black dark:!text-white flex items-center font-['Roboto_Mono',_monospace]"
               >
                 <CurrencySymbol />{{
                   numberToAposthrophe(pool.lpPrice, currencyDecimals || 2)
@@ -308,10 +310,12 @@
             <div
               class="d-flex align-items-center justify-content-between font-normal text-black dark:!text-white visible_head mt-3"
             >
-              <div style="font-size: clamp(10px, 0.9vw, 16px)">{{ $t('my_balance') }}</div>
+              <div style="font-size: clamp(10px, 0.9vw, 16px)">
+                {{ $t('my_balance') }}
+              </div>
               <div
                 v-if="pool"
-                class="text-black dark:!text-white flex items-center"
+                class="text-black dark:!text-white flex items-center font-['Roboto_Mono',_monospace]"
               >
                 <CurrencySymbol />{{ numberToAposthrophe(userBalance) }}
               </div>
@@ -327,20 +331,16 @@
     <div class="d-flex justify-content-between w-100 gap-3 mt-4">
       <div
         class="rewards_button w-100"
-        style="
-          color: white;
-          background: linear-gradient(85.18deg, #2775ca 0%, #00e0ff 100%);
-        "
+        
         @click="$emit('changeToDepositView', pool.id)"
       >
-         {{ $t('add_liquidity') }}
+        {{ $t('add_liquidity') }}
       </div>
       <div
-        style="color: white"
-        class="rewards_button w-100"
+        class="rewards_button border-white text-white w-100"
         @click="$emit('changeToWithdrawView', pool.id)"
       >
-         {{ $t('withdraw') }}
+        {{ $t('withdraw') }}
       </div>
     </div>
   </div>
@@ -586,7 +586,7 @@ function GetTokenPrice(address) {
 .arbitrage_bot_header {
   font-size: clamp(10px, 0.7vw, 14px);
   font-weight: 700;
-  font-family: Montserrat;
+  
   color: white;
 }
 
@@ -598,7 +598,7 @@ function GetTokenPrice(address) {
 
 .arbitrage_bot_card {
   width: 30%;
-  // background: #22222224;
+  backdrop-filter: blur(10px);
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;
 
@@ -618,17 +618,20 @@ function GetTokenPrice(address) {
 }
 
 .rewards_button {
-  background: #22222224;
-  box-shadow: 0px 4px 4px 0px #00000040;
-  color: #00e0ff;
-  padding: 8px 12px;
-  font-family: Montserrat;
-  font-size: clamp(8px, 0.7vw, 12px);
+  padding: 8px;
+  font-size: clamp(10px, 0.7vw, 12px);
   font-weight: 600;
   line-height: 24px;
-  border-radius: 8px;
+  border-radius: 16px;
   text-align: center;
   cursor: pointer;
+  color: #00E0FF;
+  background:#02031C;
+  border: 1px solid #00E0FF;
+  // box-shadow: 0px 4px 8.9px 0px #2775CA33;
+&:hover {
+  background: #00e1ff4d;
+}
 }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>

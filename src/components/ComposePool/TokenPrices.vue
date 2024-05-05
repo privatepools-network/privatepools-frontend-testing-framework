@@ -1,5 +1,5 @@
 <template>
-  <div class="compose_steps dark:!bg-[#00000024] bg-white">
+  <div class="compose_steps dark:!bg-[#DCEEF605] bg-white">
     <div class="compose_text dark:!text-white text-black">{{ $t('token_prices') }}
       <!-- <svg v-if="activeStep === 2" width="15" height="15" viewBox="0 0 20 20" fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +39,7 @@ defineProps(['tokenPrices', 'activeStep'])
 
   height: fit-content;
   border-radius: 16px;
-  // background: #00000024;
+  // background: #DCEEF605;
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
 }

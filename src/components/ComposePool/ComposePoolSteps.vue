@@ -1,5 +1,5 @@
 <template>
-  <div class="compose_steps dark:!bg-[#00000024] bg-white">
+  <div class="compose_steps dark:!bg-[#DCEEF605] bg-white">
     <div class="compose_text dark:!text-white text-black">{{ $t('create_wp_steps') }}</div>
     <!-- Comment -->
     <hr class="compose_hr" />
@@ -65,7 +65,7 @@ defineProps(['activeStep'])
   width: 100%;
   height: fit-content;
   border-radius: 16px;
-  // background: #00000024;
+  // background: #DCEEF605;
   border: 1px solid #FFFFFF0D;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
 
@@ -86,6 +86,8 @@ defineProps(['activeStep'])
 
 .step_text {
   font-size: clamp(10px, 0.8vw, 14px);
+  font-family: 'Syne', sans-serif;
+
   font-weight: 400;
   line-height: 20px;
   letter-spacing: 0em;

@@ -90,7 +90,7 @@
         </div>
       </CRow>
 
-      <div class="d-flex align-items-start gap-5">
+      <div class="flex justify-center gap-5">
         <div class="deposit_choose dark:!bg-[#00000024] bg-white">
           <div class="deposit_network_text dark:!text-white text-black">
             {{ chainSelected }}
@@ -153,7 +153,7 @@
                     v-if="
                       pool && poolShare.balance && !isNaN(poolShare.balance)
                     "
-                    class="token-input dark:!text-[#A8A8A8] text-black"
+                    class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
                     style="
                       font-size: clamp(10px, 0.8vw, 14px);
                       font-weight: 500;
@@ -173,14 +173,14 @@
                   >
                     <div class="value-label" ref="inputRefLabel">
                       {{ $t('balance') }}:
-                      <span class="fw-bold">{{
+                      <span class="fw-bold font-['Roboto_Mono',_monospace]">{{
                         parseFloat(
                           poolShare.balance -
                             (poolShare.balance / 100) * lineNumberPercent,
                         ).toFixed(4)
                       }}</span
                       ><span
-                        class="fw-bold bg-transparent"
+                        class="fw-bold bg-transparent font-['Roboto_Mono',_monospace]"
                         style="cursor: pointer"
                         @click="
                           () => {
@@ -192,7 +192,7 @@
                         {{ $t('max') }}</span
                       >
                     </div>
-                    <div>
+                    <div class="font-['Roboto_Mono',_monospace]">
                       ${{
                         (
                           ((poolShare.balance * pool.lpPrice) / 100) *
@@ -276,13 +276,13 @@
                         <div class="d-flex flex-column align-items-end">
                           <div
                             style="font-size: 12px"
-                            class="dark:!text-white text-black"
+                            class="dark:!text-white text-black font-['Roboto_Mono',_monospace]"
                           >
                             {{ token.withdrawAmount }}
                           </div>
                           <div
                             style="font-size: 10px"
-                            class="d-flex align-items-center gap-1 dark:!text-white text-black"
+                            class="d-flex align-items-center gap-1 dark:!text-white text-black font-['Roboto_Mono',_monospace]"
                           >
                             ${{ token.usdAmount }}
                           </div>
@@ -324,7 +324,7 @@
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >
-                        <div class="w-25 fw-bold dark:!text-white text-black">
+                        <div class="w-25 fw-bold dark:!text-white text-black font-['Roboto_Mono',_monospace]">
                           {{ ((priceImpact ?? 0) * 100).toFixed(1) }}%
                         </div>
                       </div>
@@ -582,9 +582,11 @@ function changeVisibleDeposit() {
   // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  margin: 1% 10% 10% 10%;
+  margin: 1% 12% 12% 12%;
   padding: 2.5%;
   border-radius: 16px;
+  backdrop-filter: blur(10px);
+
 }
 
 .caption-row {
@@ -714,28 +716,5 @@ function changeVisibleDeposit() {
   font-size: clamp(10px, 0.8vw, 14px);
 }
 
-.compose_pool_connect_wallet {
-  margin-top: 8px;
-  padding: 13px 8px;
-  font-size: 12px;
-  color: white;
-  border: 0px;
-  border-radius: 8px;
-  background: linear-gradient(89deg, #00c9ff 1.58%, #0094ff 100.04%);
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.05),
-    0px 4px 6px -1px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  // transition-duration: 0.3s;
-  text-shadow: 1px 1px 2px black;
 
-  &:hover {
-    color: #fff;
-    background: #00c9ff;
-    box-shadow: 0px 12px 24px 0px rgba(#00c9ff, 0.2),
-      0px 4px 8px 0px rgba(#00c9ff, 0.3);
-  }
-}
 </style>

@@ -1419,7 +1419,7 @@ onMounted(async () => {
   justify-content: center;
   background: #00e0ff;
   border-radius: 5px;
-  font-family: Montserrat;
+  
   font-size: 11px;
   font-weight: 700;
   box-shadow: 0px 4px 4px 0px #00000040;

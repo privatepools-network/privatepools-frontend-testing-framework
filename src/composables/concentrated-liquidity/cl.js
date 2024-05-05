@@ -797,7 +797,7 @@ async function mintPosition(order, signer, pool) {
         header_text: 'Minting liquidity',
         toast_text: 'Minting CL position',
         tx_link: '',
-        speedUp: '',
+        speedUp: 'speed',
       },
       position: toast.POSITION.TOP_RIGHT,
       theme: 'dark',

@@ -185,7 +185,7 @@ const isPerPageSelectOpened = ref(false)
     font-size: clamp(10px, 0.8vw, 15px);
     // color: #ffffff;
     font-weight: 400;
-    font-family: Montserrat;
+    
     @media (max-width: 1400px) {
       font-size: 12px;
     }

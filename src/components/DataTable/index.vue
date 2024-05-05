@@ -1,10 +1,10 @@
 <template>
-  <CTable borderless  class="!bg-white dark:!bg-[#fff0]"
+  <CTable borderless  class="!bg-white dark:!bg-[#fff0] backdrop-blur-md"
     :class="{ 'table_full': isFullTable == true, 'table_small': isFullTable != true, 'table_small_loading': isFullTable != true && displayTable == null }">
     <CTableHead color="" class="file-table-head">
       <CTableRow class="file-table-row" :class="rowHeight ? rowHeight : 'file-table-row'">
         <CTableHeaderCell v-for="(headCaption, headCaptionIndex) in headCaptions"
-          :key="`head-caption-key-${headCaptionIndex}`" class="text-left dark:!bg-[#171718] bg-white text-black dark:!text-white"
+          :key="`head-caption-key-${headCaptionIndex}`" class="text-left dark:!bg-[#000117] bg-white text-black dark:!text-white"
           :class="{ 'file-table-header-container_full': isFullTable == true, ' file-table-header-container': isFullTable != true, header_cells_bg }">
           {{ console.log(headCaption) }}
           <div class="file-table-header-cell">
@@ -30,7 +30,7 @@
               </div>
               <div @click="
                 $emit('table-header-click', headCaption, headCaptionIndex)
-                " style="font-family: Montserrat; font-weight: 700;width: 20px"
+                " style=" font-weight: 700;width: 20px"
                 v-else-if="sortedHeader && sortedHeader.caption == 'Time' || headCaptionIndex != 0 && sortedHeader && sortedHeader.caption">
                 {{
                   sortedHeader &&

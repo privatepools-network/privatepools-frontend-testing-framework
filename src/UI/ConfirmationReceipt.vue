@@ -49,7 +49,7 @@ defineProps(['header_text', 'header_subtext', "link"])
 </script>
 <style lang="scss" scoped>
 .header_text {
-  font-family: Montserrat;
+  
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;
@@ -58,7 +58,7 @@ defineProps(['header_text', 'header_subtext', "link"])
 }
 
 .header_subtext {
-  font-family: Montserrat;
+  
   font-size: 14px;
   font-weight: 500;
   line-height: 28px;
@@ -66,26 +66,5 @@ defineProps(['header_text', 'header_subtext', "link"])
   color: white;
 }
 
-.compose_pool_connect_wallet {
-  margin-top: 8px;
-  padding: 10px 20px;
-  font-size: 12px;
-  color: white;
-  border: 0px;
-  background: linear-gradient(89.26deg, #00C9FF 5.07%, #7ef6b2 99.37%);
-  //   width: 100%;
-  border-radius: 20px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  // transition-duration: 0.3s;
-  text-shadow: 1px 1px 2px black;
 
-  &:hover {
-    color: #fff;
-    background: #00C9FF;
-    box-shadow: 0px 12px 24px 0px rgba(#00C9FF, 0.2),
-      0px 4px 8px 0px rgba(#00C9FF, 0.3);
-  }
-}
 </style>
