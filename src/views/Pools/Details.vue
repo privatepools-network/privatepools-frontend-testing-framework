@@ -230,7 +230,7 @@
                   <div class="subsection__item__content__right__top paired">
                     <div class="amount flex items-center">
                       <CurrencySymbol />{{
-                        formatBigNumber(pool.profit24h.highest)
+                        formatBigNumber((currentCurrency == "USD" ?  pool.profit24h : pool[`profit24h_${currentCurrency}`]).highest)
                       }}
                     </div>
                     <!-- <div :class="`percentage-chip ${profitInfo.highestPercent > 0 ? '--positive' : ''
@@ -259,7 +259,7 @@
                   <div class="subsection__item__content__right__top paired">
                     <div class="amount flex items-center">
                       <CurrencySymbol />{{
-                        formatBigNumber(pool.profit24h.lowest)
+                        formatBigNumber((currentCurrency == "USD" ?  pool.profit24h : pool[`profit24h_${currentCurrency}`]).lowest)
                       }}
                     </div>
                     <!-- <div :class="`percentage-chip ${profitInfo.lowestPercent > 0 ? '--positive' : ''
@@ -298,7 +298,7 @@
                     class="subsection__item__content__right__top single flex items-center"
                   >
                     <CurrencySymbol />{{
-                      formatBigNumber(pool.TotalVolumeUsd, currencyDecimals)
+                      formatBigNumber(currentCurrency == "USD" ? pool.TotalVolumeUsd : pool[`TotalVolume${currentCurrency}`], currencyDecimals)
                     }}
                   </div>
                 </div>
@@ -316,7 +316,7 @@
                     class="subsection__item__content__right__top single flex items-center"
                   >
                     <CurrencySymbol />{{
-                      formatBigNumber(pool.TotalFeeUsd, currencyDecimals)
+                      formatBigNumber(currentCurrency == "USD" ? pool.TotalFeeUsd : pool[`TotalFee${currentCurrency}`], currencyDecimals)
                     }}
                   </div>
                 </div>
@@ -763,6 +763,13 @@ import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
 import { getDetailsData } from '@/composables/data/detailsData'
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
 import { t } from 'i18next'
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
+
+
+const settingsStore = useSettings();
+
+const { currentCurrency } = storeToRefs(settingsStore)
 
 use([
   CanvasRenderer,
@@ -843,25 +850,6 @@ const poolActivity = ref(null)
 const tokenPrices = ref(null)
 const historical_tvl = ref([])
 
-const poolFees = computed(() =>
-  poolSwapsData.value
-    ? poolSwapsData.value.reduce(
-        (sum, value) => sum + parseFloat(value.gasFeeUsd),
-        0,
-      )
-    : 0,
-)
-const poolVolume = computed(() =>
-  poolSwapsData.value
-    ? poolSwapsData.value.reduce(
-        (sum, value) => sum + parseFloat(value.volumeUsd),
-        0,
-      )
-    : 0,
-)
-const poolTrades = computed(() =>
-  poolSwapsData.value ? poolSwapsData.value.length : 0,
-)
 
 const scannerLink = computed(() => {
   return `${
@@ -1315,7 +1303,7 @@ const dynamicDonut = computed(() => {
 
   let balances = pool.value.tokens.map(
     (t) =>
-      t.balanceUsd ??
+      t[`balance${currentCurrency.value == "USD" ? "Usd" : currentCurrency.value}`] ??
       (historicalPrices.value
         ? t.balance * current_pool_token_prices.value[t.symbol]
         : 0),

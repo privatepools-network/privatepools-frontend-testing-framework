@@ -126,9 +126,13 @@ import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { addEmptyDays } from '@/lib/formatter/chart/chartFormatter'
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import { t } from 'i18next'
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
 import router from '@/router'
 
+const settingsStore = useSettings();
 
+const { currentCurrency } = storeToRefs(settingsStore)
 use([
   CanvasRenderer,
   CandlestickChart,
@@ -187,8 +191,36 @@ const preFiltersList = computed(() =>
           cumulable: true,
         },
         {
+          title: 'Revenue',
+          code: 'Revenue_ETH',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
+          title: 'Revenue',
+          code: 'Revenue_BTC',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
           title: 'Gas Fees',
           code: 'Gas Fees',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
+          title: 'Gas Fees',
+          code: 'Gas Fees_ETH',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
+          title: 'Gas Fees',
+          code: 'Gas Fees_BTC',
           isSolo: true,
           selected: true,
           cumulable: true,
@@ -208,8 +240,36 @@ const preFiltersList = computed(() =>
           cumulable: true,
         },
         {
+          title: 'Volume',
+          code: 'Volume_ETH',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
+          title: 'Volume',
+          code: 'Volume_BTC',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
           title: 'TVL',
           code: 'TVL',
+          isSolo: true,
+          selected: true,
+          cumulable: false,
+        },
+        {
+          title: 'TVL',
+          code: 'TVL_ETH',
+          isSolo: true,
+          selected: true,
+          cumulable: false,
+        },
+        {
+          title: 'TVL',
+          code: 'TVL_BTC',
           isSolo: true,
           selected: true,
           cumulable: false,
@@ -226,6 +286,20 @@ const preFiltersList = computed(() =>
         {
           title: 'Profit',
           code: 'Profits',
+          isSolo: true,
+          selected: true,
+          cumulable: false,
+        },
+        {
+          title: 'Profit',
+          code: 'Profits_ETH',
+          isSolo: true,
+          selected: true,
+          cumulable: false,
+        },
+        {
+          title: 'Profit',
+          code: 'Profits_BTC',
           isSolo: true,
           selected: true,
           cumulable: false,
@@ -282,8 +356,36 @@ const preFiltersList = computed(() =>
           cumulable: true,
         },
         {
+          title: 'Revenue',
+          code: 'Revenue_ETH',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
+          title: 'Revenue',
+          code: 'Revenue_BTC',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
           title: 'Gas Fees',
           code: 'Gas Fees',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
+          title: 'Gas Fees',
+          code: 'Gas Fees_ETH',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
+          title: 'Gas Fees',
+          code: 'Gas Fees_BTC',
           isSolo: true,
           selected: true,
           cumulable: true,
@@ -303,8 +405,36 @@ const preFiltersList = computed(() =>
           cumulable: true,
         },
         {
+          title: 'Volume',
+          code: 'Volume_ETH',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
+          title: 'Volume',
+          code: 'Volume_BTC',
+          isSolo: true,
+          selected: true,
+          cumulable: true,
+        },
+        {
           title: 'TVL',
           code: 'TVL',
+          isSolo: true,
+          selected: true,
+          cumulable: false,
+        },
+        {
+          title: 'TVL',
+          code: 'TVL_ETH',
+          isSolo: true,
+          selected: true,
+          cumulable: false,
+        },
+        {
+          title: 'TVL',
+          code: 'TVL_BTC',
           isSolo: true,
           selected: true,
           cumulable: false,
@@ -321,6 +451,20 @@ const preFiltersList = computed(() =>
         {
           title: 'Profit',
           code: 'Profit',
+          isSolo: true,
+          selected: true,
+          cumulable: false,
+        },
+        {
+          title: 'Profit',
+          code: 'Profit_ETH',
+          isSolo: true,
+          selected: true,
+          cumulable: false,
+        },
+        {
+          title: 'Profit',
+          code: 'Profit_BTC',
           isSolo: true,
           selected: true,
           cumulable: false,
@@ -397,27 +541,6 @@ const assets = computed(() =>
   pool.value ? Array.from(new Set(pool.value.tokens.map((t) => t.symbol))) : [],
 )
 
-// watch(assets, () => {
-//   filters.value = {
-//     Revenue: true,
-//     ['Gas Fees']: true,
-//     ['Trades']: true,
-//     Volume: true,
-//     TVL: true,
-//     ['Average APR']: true,
-//     ['Profit']: true,
-//     ['Capital Gains']: false,
-//     ['PNL']: false,
-//     ['ROI']: false,
-//     ['Token Incentives']: false,
-//     ['Impermanent Loss']: false,
-//     ['Volatility Index']: true,
-//   }
-//   for (let i = 0; i < assets.value.length; i++) {
-//     filters.value[`Token Profits ${assets.value[i]}`] = false
-//     filters.value[`TVL ${assets.value[i]}`] = false
-//   }
-// })
 
 function legendSelectedChange(e) {
   for (const [key, value] of Object.entries(e.selected)) {
@@ -452,12 +575,14 @@ function changeCumulativeMode() {
   isCumulativeMode.value = !isCumulativeMode.value
 }
 
+const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
+
 const dates = computed(() => {
   return filteredData.value.map((v) => v.Date)
 })
 const dataGasFees = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Gas Fees').selected)
-    return filteredData.value.map((v) => v['Gas Fees'])
+    return filteredData.value.map((v) => v[`Gas Fees${postfix.value}`])
   return []
 })
 const dataRevenues = computed(() => {
@@ -466,7 +591,7 @@ const dataRevenues = computed(() => {
 
 const dataVolumes = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Volume').selected)
-    return filteredData.value.map((v) => v.Volume)
+    return filteredData.value.map((v) => v[`Volume${postfix.value}`])
   return []
 })
 const dataTrades = computed(() => {
@@ -489,13 +614,13 @@ const dataVolatilityIndexes = computed(() => {
 
 const dataTvl = computed(() => {
   if (filteredData.value.length > 0 && filteredData.value[0].TVL)
-    return filteredData.value.map((v) => v.TVL[chainSelectedName.value])
+    return filteredData.value.map((v) => v[`TVL${postfix.value}`][chainSelectedName.value])
   return []
 })
 
 const dataProfits = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Profits').selected)
-    return filteredData.value.map((v) => v['Profits'])
+    return filteredData.value.map((v) => v[`Profits${postfix.value}`])
   return []
 })
 
@@ -1465,7 +1590,7 @@ function getFilteredData() {
       ...sumFields(previousItems, selectedCumulableCodes),
     }
     item['Token Profits'] = sumAssetsProfits(previousItems)
-    let profitItem = sumFields(notFilterdPreviousItems, ['Profits'])
+    let profitItem = sumFields(notFilterdPreviousItems, [`Profits${postfix.value}`])
     let result_item = {
       Blockchain: item.Blockchain,
       timestamp: item.timestamp,

@@ -62,7 +62,10 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
-            ${{ numberToAposthrophe(Number(pool['TVL']).toFixed(0)) }}
+            <div class="flex">
+              <CurrencySymbol /> {{ numberToAposthrophe(Number(currentCurrency == "USD" ? pool['TVL'] :
+                pool[`TVL_${currentCurrency}`]), currentCurrency == "USD" ? 0 : 3) }}
+            </div>
           </div>
         </div>
       </div>
@@ -70,7 +73,10 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
-            ${{ numberToAposthrophe(Number(pool['Volume']).toFixed(0)) }}
+            <div class="flex">
+              <CurrencySymbol />{{ numberToAposthrophe(Number(currentCurrency == "USD" ? pool['Volume'] :
+                pool[`Volume_${currentCurrency}`]), currentCurrency == "USD" ? 0 : 3) }}
+            </div>
           </div>
         </div>
       </div>
@@ -348,10 +354,19 @@ import etherscan from '@/assets/icons/etherscan.svg'
 import router from '@/router'
 import APRIcon from '@/assets/icons/APRIcon.svg'
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
+import CurrencySymbol from "@/components/TrackInfo/CurrencySymbol.vue"
 import { addTokenToMetamask } from '@/lib/utils/metamask'
 import { useDark } from '@vueuse/core'
 import binanceScanLight from '@/assets/icons/binanceScanLight.svg'
 import { t } from 'i18next'
+
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
+
+
+const settingsStore = useSettings()
+
+const { currentCurrency } = storeToRefs(settingsStore)
 
 const isDark = useDark()
 
