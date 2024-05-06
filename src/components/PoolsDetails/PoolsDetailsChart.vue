@@ -1955,24 +1955,5 @@ function getFilteredData() {
   }
 }
 
-.add_liq_btn_pools {
-  padding: 8px;
-  display: flex;
-  justify-content: center;
-  background: #00e0ff;
-  border-radius: 5px;
-  
-  font-size: 11px;
-  font-weight: 700;
-  box-shadow: 0px 4px 4px 0px #00000040;
 
-  text-align: center;
-  color: white;
-
-  &:hover {
-    background: #1ab6ff;
-    filter: drop-shadow(0 0 0.6rem #2abcff91);
-    cursor: pointer;
-  }
-}
 </style>

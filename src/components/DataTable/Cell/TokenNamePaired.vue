@@ -12,8 +12,9 @@
       :src="tokenEntity.icon"
       :title="tokenEntity.short"
     />
+   
   </div>
-    <div v-else class="flex flex-wrap">
+    <div v-else class="flex flex-wrap items-center">
     <img
       
       class="pair_avatars"
@@ -24,6 +25,10 @@
       :src="tokenEntity.icon"
       :title="tokenEntity.short"
     />
+    <div class="flex items-center gap-1 pl-1" v-if="route.name === 'Portfolio' ">
+    <div class="pool_type text-white" :class="'pool_type_WP'">WLP</div>
+    <div class="range_container"><span class="pulse_blue"></span> In range</div>
+  </div>
   </div>
 
     <!-- {{ console.log("tokenEntity",tokenEntities) }}
@@ -39,7 +44,7 @@ import { defineProps, computed } from 'vue'
 import { useRoute } from 'vue-router';
 
 const route = useRoute()
-
+console.log('route', route)
 
 const props = defineProps(['value'])
 
@@ -86,5 +91,18 @@ const tokenEntities = computed(() => {
   &:not(:first-child) {
     margin-left: -2px;
   }
+}
+
+.range_container {
+  border-radius: 8px;
+  background: #FFFFFF1A;
+  font-weight: 500;
+  font-family: 'Syne', sans-serif;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  padding: 4px;
 }
 </style>

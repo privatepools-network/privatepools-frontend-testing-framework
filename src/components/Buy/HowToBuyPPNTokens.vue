@@ -45,6 +45,7 @@ const howToBuyCards = ref([
 </script>
 <style lang="scss" scoped>
 .how_to_buy {
+  backdrop-filter: blur(10px);
 
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;

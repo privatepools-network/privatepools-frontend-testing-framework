@@ -22,8 +22,8 @@
               <ThreeDots />
             </div>
             <div v-else style="font-weight: 700;  font-size: 17px"
-              class="visible_head arbitrage_bot_sections_text dark:!text-white text-black">
-              ${{ networks_data.portfolioBalance }}
+              class="visible_head arbitrage_bot_sections_text dark:!text-white text-black font-['Roboto_Mono',_monospace]">
+              ${{ parseFloat(networks_data.portfolioBalance).toFixed(3) }}
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between"
                 v-for="pool in networks_data.breakdown" :key="pool.id">
                 <div>{{ pool.id }}</div>
-                <div class="dark:!text-white text-black font-extrabold text-[12px]">
+                <div class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(pool.shareBalanceUsd) }}
                 </div>
               </div>
@@ -62,13 +62,13 @@
               ">
               <div class="d-flex align-items-baseline justify-content-between visible_head">
                 <div style=" font-weight: 400"
-                  class="arbitrage_bot_sections_text dark:!text-white text-black">
+                  class="arbitrage_bot_sections_text dark:!text-white text-black ">
                   {{ $t('average') }} APR
                 </div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-extrabold text-[12px]">
+                <div v-else class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data.APR) }}
                 </div>
               </div>
@@ -136,7 +136,7 @@
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-extrabold text-[12px]">
+                <div v-else class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['Profit']) }}
                 </div>
               </div>
@@ -449,20 +449,18 @@ const visibleTotalGas = ref(true)
   cursor: pointer;
   margin-top: 25px;
   margin-bottom: 5px;
-  border-radius: 4px;
+  border-radius: 16px;
   
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   line-height: 24px;
-  color: #ffffff;
+  color: #02031C;
   text-align: center;
   padding: 6px;
-  background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
-  box-shadow: 0px 4px 8.899999618530273px 0px #00aae01a;
+  background: #00E0FF;
 
   &:hover {
-    filter: drop-shadow(0 0 0.7rem #00c9ff);
-    background: #00e0ff;
+    filter: drop-shadow(0 0 0.7rem #00E0FF);
   }
 }
 </style>

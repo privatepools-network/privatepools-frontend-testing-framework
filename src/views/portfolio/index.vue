@@ -9,9 +9,15 @@
             :tokensData="tokensData" :chainSelected="chainSelected.name"
             @updateChart="(chart_data) => (all_chart_data = chart_data)" />
         </div>
-        <Tabs :filterEye="true" style="margin-bottom: 44px"
+
+
+          <SectionsTabs
+            :filterEye="true"
+            style="margin-bottom: 44px"
           :tabsOptions="[t('investments'), t('statistics'), t('financial_statement')]" :selectedTab="activeTab"
-          @changeTab="changeActiveTab"></Tabs>
+          @changeTab="changeActiveTab"
+          />
+
         <div class="portfolio-statistics" v-if="activeTab == t('statistics')">
           <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
             :chainSelected="chainSelected" :chartData="portfolioData.chart" :historicalPrices="historicalPrices"
@@ -38,12 +44,12 @@
 
           {{ console.log('selectedInvestmentData', selectedInvestmentData) }}
 
-          <div class="portfolio-table__wrapper dark:!bg-[#22222224] bg-white py-20">
-            <div v-if="!selectedInvestmentData">
+          <div class="portfolio-table__wrapper dark:!bg-[#22222224] bg-white mb-20">
+            <div v-if="!selectedInvestmentData" class="py-40">
               <LoaderPulse />
             </div>
             <div v-else-if="selectedInvestmentData && selectedInvestmentData.length === 0"
-              class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20">
+              class="d-flex flex-column gap-2 justify-content-center align-items-center h-100">
               <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
                 {{ $t('no_pools_yet') }}
               </div>
@@ -54,6 +60,7 @@
                 <div class="d-flex gap-1">+ {{ $t('add_liquidity') }}</div>
               </div>
             </div>
+           
             <DataTable v-else :data="selectedInvestmentData" :default_head_captions="investmentHeadCaptions"
               @table-row-click="onDatatableRowClick" :table_bg="'bg-primary'"
               @table-header-click="onDatatableHeaderClick" :sortedHeader="sortedHeader" :isFullTable="true"
@@ -85,6 +92,7 @@
       </div>
     </CRow>
   </MainCard>
+  {{console.log('selectedInvestmentData', selectedInvestmentData)}}
 </template>
 <script setup>
 import { CRow } from '@coreui/vue'
@@ -132,6 +140,7 @@ import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import { getPortfolioData, getPortfolioBalance } from '@/composables/data/portfolioData'
 import { t } from 'i18next'
+import SectionsTabs from '@/UI/SectionsTabs'
 
 const clActivity = ref([
   {
@@ -998,7 +1007,7 @@ onMounted(async () => {
 }
 
 .portfolio-table__wrapper {
-  // background: #22222224;
+  backdrop-filter: blur(10px);
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;
 
@@ -1175,6 +1184,8 @@ onMounted(async () => {
     margin-bottom: 29px;
 
     &__amount-percents {
+      font-family: 'Roboto Mono', monospace;
+
       font-size: clamp(10px, 0.8vw, 14px);
     }
 
@@ -1192,8 +1203,10 @@ onMounted(async () => {
     }
 
     &__balance {
-      font-size: clamp(14px, 0.9vw, 32px);
-      font-weight: 600;
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(20px, 1vw, 42px);
+      z-index: 1;
+      font-weight: 700;
       margin-bottom: 8px;
     }
 
@@ -1203,6 +1216,8 @@ onMounted(async () => {
 
       &-amount {
         font-size: clamp(10px, 0.8vw, 14px);
+        font-family: 'Roboto Mono', monospace;
+
         margin-right: 8px;
       }
 
@@ -1211,6 +1226,7 @@ onMounted(async () => {
         padding: 2px 6px;
         background: #1a1d1e;
         border-radius: 5px;
+        
       }
     }
   }
@@ -1225,6 +1241,7 @@ onMounted(async () => {
       align-items: center;
       margin-right: 48px;
       margin-bottom: 10px;
+      font-family: 'Roboto Mono', monospace;
     }
 
     &__icon {
@@ -1239,6 +1256,7 @@ onMounted(async () => {
     }
 
     &__amount {
+      font-family: 'Roboto Mono', monospace;
       svg {
         margin-right: 4px;
       }
@@ -1413,24 +1431,5 @@ onMounted(async () => {
   }
 }
 
-.add_liq_btn_pools {
-  padding: 8px;
-  display: flex;
-  justify-content: center;
-  background: #00e0ff;
-  border-radius: 5px;
-  
-  font-size: 11px;
-  font-weight: 700;
-  box-shadow: 0px 4px 4px 0px #00000040;
 
-  text-align: center;
-  color: white;
-
-  &:hover {
-    background: #1ab6ff;
-    filter: drop-shadow(0 0 0.6rem #2abcff91);
-    cursor: pointer;
-  }
-}
 </style>

@@ -5,7 +5,7 @@
     data-coreui-placement="left"
     :title="value"
   >
-    {{ value }}
+    {{  parseFloat(value).toFixed(3) }}
   </div>
 </template>
 <script setup>
@@ -20,6 +20,7 @@ defineProps(['value'])
     text-align: center;
     font-weight: 400;
     letter-spacing: 0em;
-    // color: #ffffff !important;
+    font-family: 'Roboto Mono', monospace;
+
   }
 </style>
