@@ -42,7 +42,7 @@
               </div>
               <div @click="
                 $emit('table-header-click', headCaption, headCaptionIndex)
-                " :class="fontSizeTable" class="text-black dark:!text-white">
+                " :class="fontSizeTable" class="text-black dark:!text-white text-[10px]">
                 {{ headCaption }}
               </div>
 

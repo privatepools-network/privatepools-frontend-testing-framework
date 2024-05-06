@@ -128,7 +128,7 @@ import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
-
+import router from '@/router'
 
 const settingsStore = useSettings();
 
@@ -533,7 +533,6 @@ const filters = ref({
   ['ROI']: true,
   ['Token Incentives']: true,
   ['Impermanent Loss']: true,
-  ['Volatility Index']: true,
   ['Pool Percentage']: true,
   ['Rewards']: true,
   ['Staked Liquidity']: true,
@@ -651,13 +650,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Revenue',
           data: dataRevenues.value,
-          color: '#01B47E',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#01B47E' : '#803D00',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#01B47E',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#01B47E' : '#803D00',
               },
               {
                 offset: 1,
@@ -669,7 +668,7 @@ const series = computed(() =>
           showSymbol: false,
           itemStyle: {
             borderRadius: [5, 5, 0, 0],
-            color: '#01B47E',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#01B47E' : '#803D00',
           },
           emphasis: {
             focus: 'series',
@@ -681,12 +680,12 @@ const series = computed(() =>
           name: 'Gas Fees',
           type: 'bar',
           data: dataGasFees.value,
-          color: '#87F1FF',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#4AFF7D' : '#FF0000',
 
           sampling: 'lttb',
           itemStyle: {
             borderRadius: [5, 5, 0, 0],
-            color: '#87F1FF',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#4AFF7D' : '#FF0000',
           },
           smooth: true,
           showSymbol: false,
@@ -700,13 +699,13 @@ const series = computed(() =>
           name: 'Average APR',
           type: 'line',
           data: dataAvgApr.value,
-          color: '#ffc925',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#FFC925' : '#FFC925',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ffc925',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#FFC925' : '#FFC925',
               },
               {
                 offset: 1,
@@ -718,7 +717,7 @@ const series = computed(() =>
           showSymbol: false,
           lineStyle: {
             width: 1,
-            color: '#ffc925',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#FFC925' : '#FFC925',
           },
           emphasis: {
             focus: 'series',
@@ -729,7 +728,7 @@ const series = computed(() =>
           name: 'Volume',
           type: 'bar',
           data: dataVolumes.value,
-          color: '#FF4242',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#FF4242',
           sampling: 'lttb',
           areaStyle: {},
           xAxisIndex: 0,
@@ -737,7 +736,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#FF4242',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#FF4242',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -749,14 +748,14 @@ const series = computed(() =>
           name: 'Trades',
           type: 'bar',
           data: dataTrades.value,
-          color: '#6e27b2',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#1AB401' : '#FB800F',
           sampling: 'lttb',
           areaStyle: {},
 
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#6e27b2',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#1AB401' : '#FB800F',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -797,13 +796,13 @@ const series = computed(() =>
           type: 'line',
           name: 'TVL',
           data: dataTvl.value,
-          color: '#F07E07',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#B3F007' : '#F07E07',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#F07E07',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#B3F007' : '#F07E07',
               },
               {
                 offset: 1,
@@ -815,7 +814,7 @@ const series = computed(() =>
           showSymbol: false,
           lineStyle: {
             width: 1,
-            color: '#F07E07',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#B3F007' : '#F07E07',
           },
           emphasis: {
             focus: 'series',
@@ -826,13 +825,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Profit',
           data: dataProfits.value,
-          color: '#05FF00',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#FF9B40',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#05FF00',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#FF9B40',
               },
               {
                 offset: 1,
@@ -843,7 +842,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#05FF00',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#FF9B40',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -855,13 +854,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Capital Gains',
           data: dataVolatilityIndexes.value,
-          color: '#FAFF00',
+          color: '#F0DA0F',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#FAFF00',
+                color: '#F0DA0F',
               },
               {
                 offset: 1,
@@ -872,7 +871,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#FAFF00',
+            color: '#F0DA0F',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -884,13 +883,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'PNL',
           data: dataVolatilityIndexes.value,
-          color: '#FF00B8',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#FF00B8',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
               },
               {
                 offset: 1,
@@ -901,7 +900,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#FF00B8',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -913,13 +912,13 @@ const series = computed(() =>
           type: 'line',
           name: 'ROI',
           data: dataVolatilityIndexes.value,
-          color: '#8FBCFF',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#8FBCFF',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
               },
               {
                 offset: 1,
@@ -931,7 +930,7 @@ const series = computed(() =>
           showSymbol: false,
           lineStyle: {
             width: 1,
-            color: '#8FBCFF',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
           },
           emphasis: {
             focus: 'series',
@@ -942,13 +941,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Token Incentives',
           data: dataVolatilityIndexes.value,
-          color: '#00FF75',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#00FF75' : '#F0FF40',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#00FF75',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#00FF75' : '#F0FF40',
               },
               {
                 offset: 1,
@@ -959,7 +958,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#00FF75',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#00FF75' : '#F0FF40',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -971,13 +970,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Impermanent Loss',
           data: dataVolatilityIndexes.value,
-          color: '#E052C6',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#E052C6',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
               },
               {
                 offset: 1,
@@ -988,7 +987,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#E052C6',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -1002,13 +1001,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'PNL',
           data: dataTrades.value,
-          color: '#FF00B8',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#FF00B8',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
               },
               {
                 offset: 1,
@@ -1019,7 +1018,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#FF00B8',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -1031,14 +1030,14 @@ const series = computed(() =>
           name: 'Trades',
           type: 'bar',
           data: dataTrades.value,
-          color: '#6e27b2',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#1AB401' : '#FB800F',
           sampling: 'lttb',
           areaStyle: {},
 
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#6e27b2',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#1AB401' : '#FB800F',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -1050,7 +1049,7 @@ const series = computed(() =>
           name: 'Volume',
           type: 'bar',
           data: dataVolumes.value,
-          color: '#FF4242',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#FF4242',
           sampling: 'lttb',
           areaStyle: {},
           xAxisIndex: 0,
@@ -1058,7 +1057,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#FF4242',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#FF4242',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -1099,13 +1098,13 @@ const series = computed(() =>
           name: 'Average APR',
           type: 'line',
           data: dataAvgApr.value,
-          color: '#ffc925',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#FFC925' : '#FFC925',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#ffc925',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#FFC925' : '#FFC925',
               },
               {
                 offset: 1,
@@ -1117,7 +1116,7 @@ const series = computed(() =>
           showSymbol: false,
           lineStyle: {
             width: 1,
-            color: '#ffc925',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#FFC925' : '#FFC925',
           },
           emphasis: {
             focus: 'series',
@@ -1128,13 +1127,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Rewards',
           data: dataRevenues.value,
-          color: '#05FF00',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#FF9B40',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#05FF00',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#FF9B40',
               },
               {
                 offset: 1,
@@ -1146,7 +1145,7 @@ const series = computed(() =>
           showSymbol: false,
           itemStyle: {
             borderRadius: [5, 5, 0, 0],
-            color: '#05FF00',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#FF9B40',
           },
           emphasis: {
             focus: 'series',
@@ -1157,13 +1156,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Capital Gains',
           data: dataVolatilityIndexes.value,
-          color: '#FAFF00',
+          color: '#F0DA0F',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#FAFF00',
+                color: '#F0DA0F',
               },
               {
                 offset: 1,
@@ -1174,7 +1173,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#FAFF00',
+            color: '#F0DA0F',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -1186,13 +1185,13 @@ const series = computed(() =>
           type: 'line',
           name: 'ROI',
           data: dataVolatilityIndexes.value,
-          color: '#8FBCFF',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#8FBCFF',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
               },
               {
                 offset: 1,
@@ -1204,7 +1203,7 @@ const series = computed(() =>
           showSymbol: false,
           lineStyle: {
             width: 1,
-            color: '#8FBCFF',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
           },
           emphasis: {
             focus: 'series',
@@ -1244,13 +1243,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Impermanent Loss',
           data: dataVolatilityIndexes.value,
-          color: '#E052C6',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: '#E052C6',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
               },
               {
                 offset: 1,
@@ -1261,7 +1260,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: '#E052C6',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -1376,7 +1375,7 @@ const optionObj = ref({
       splitLine: { show: false },
       axisLine: {
         show: true,
-        lineStyle: { color: '#FF4242' },
+        lineStyle: { color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#FF4242' },
       },
       axisLabel: {
         formatter: function (value) {
@@ -1396,7 +1395,7 @@ const optionObj = ref({
       splitLine: { show: false },
       axisLine: {
         show: true,
-        lineStyle: { color: '#f07e07' },
+        lineStyle: { color: router.currentRoute.value.path.includes('CLdetails') ? '#B3F007' : '#F07E07' },
       },
 
       axisLabel: {
@@ -1956,24 +1955,5 @@ function getFilteredData() {
   }
 }
 
-.add_liq_btn_pools {
-  padding: 8px;
-  display: flex;
-  justify-content: center;
-  background: #00e0ff;
-  border-radius: 5px;
-  
-  font-size: 11px;
-  font-weight: 700;
-  box-shadow: 0px 4px 4px 0px #00000040;
 
-  text-align: center;
-  color: white;
-
-  &:hover {
-    background: #1ab6ff;
-    filter: drop-shadow(0 0 0.6rem #2abcff91);
-    cursor: pointer;
-  }
-}
 </style>

@@ -35,7 +35,7 @@
                   " :key="`activity-token-info-key-${tokenInfoIndex}`">
                   <div v-if="tokenInfo[0] !== 'action'" class="d-flex align-items-center">
                     <img :src="getTokenEntity(tokenInfo[0], 'short').icon" class="details-cell__token-entity__icon" />
-                    <div class="details-cell__token-entity__token-name">
+                    <div class="details-cell__token-entity__token-name font-['Roboto_Mono',_monospace]">
                       {{ tokenInfo[1] }}
                     </div>
                     <div v-if="tokenEntry.action === 'Swap' && tokenInfoIndex === 1
@@ -47,8 +47,8 @@
               </div>
             </div>
           </CTableDataCell>
-          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
-            <div>
+          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell ">
+            <div class="font-['Roboto_Mono',_monospace]">
               {{ item[`Value${currentCurrency == "USD" ? "" : "_" + currentCurrency}`] }}
             </div>
           </CTableDataCell>
