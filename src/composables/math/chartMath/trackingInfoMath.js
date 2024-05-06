@@ -50,7 +50,7 @@ export function CalculateAvgApr(
   if (days == 0) days = 1
   if (typeof currentTimeline == 'string')
     days = DaysCount[currentTimeline] // days count of time range 1/7/30
-  else previousItems = addMonthEmptyDaysTimestamps(previousItems, days)
+  //else previousItems = addMonthEmptyDaysTimestamps(previousItems, days)
   let averageTvl = calculateAverage(
     previousItems.map((item) => item.TVL[chainSelected]),
   )
@@ -549,6 +549,9 @@ export function CalculateDayAvgApr(historicalTvl, swapsData, chainSelected) {
  * @returns {TVLInfo[]} array with TVLs with all dates within this time range now - days -> now
  */
 export function addMonthEmptyDaysTimestamps(tvls, days = 30) {
+  if(tvls.length == 0 || days < 1){
+    return []
+  }
   let end_date = new Date()
   let start_date = new Date(end_date.getTime() - 1000 * 60 * 60 * 24 * days)
   let filtered_tvls = []

@@ -921,7 +921,7 @@ const riskMetrics = computed(() => {
 const riskMetricsTitles = ['Sharpe Ratio', 'Sortino Ratio', 'Volatility Ratio']
 
 const profitsData = computed(() => {
-  if (props.statistics && props.statistics.swaps.length > 0) {
+  if (props.statistics) {
     return [
       {
         text: 'Average Profit per Trade',
@@ -952,7 +952,7 @@ const profitsData = computed(() => {
 
 const profitsTitles = ['Average Profit per Trade', 'Average Profit per Pool']
 
-const drawDownData = computed(() =>
+const drawDownData = computed(() => 
   chartData.value.length > 0
     ? AnalyzeDrawdowns(
       chartData.value,
@@ -976,78 +976,12 @@ const aprData = computed(() => props.statistics ? Object.values(props.statistics
 const top10Tokens = ref([])
 const allTokensInfo = ref([])
 
-async function InitRoi() {
-  if (chartData.value.length > 0) {
-    top10Tokens.value = await GetTop10Tokens()
-    let fetchTokens = [
-      ...top10Tokens.value.filter(
-        (token) =>
-          historicalPrices.value.filter((price) => price.symbol == token)
-            .length == 0,
-      ),
-      'stETH',
-    ]
-    let defiTokens = await GetHistoricalTokenPrices(fetchTokens, false)
-    allTokensInfo.value = [...defiTokens, ...historicalPrices.value]
-    roiData.value = await FormatRoiStatistics(
-      chartData.value,
-      allTokensInfo.value,
-      top10Tokens.value,
-      chainSelected.value.name,
-    )
-  }
-}
+
 
 let marketData = ref({})
 
-async function InitApr() {
-  if (chartData.value.length > 0) {
-    var [aave, compound, celsius, lido, yearn] = await Promise.all([
-      GetAaveAprs(),
-      GetCompoundAprs(),
-      GetCelsiusAprs(),
-      GetLidoApr(),
-      GetYearnAprs(),
-    ])
 
-    marketData.value = {
-      aave,
-      compound,
-      celsius,
-      lido,
-      yearn,
-    }
-    aprData.value = FormatAprStatistics(
-      marketData.value,
-      chartData.value,
-      tokensData.value,
-      chainSelected.value.name,
-    )
-  }
-}
 
-onMounted(async () => {
-  await Promise.all([InitRoi(), InitApr()])
-})
-
-watch(chartData, async () => {
-  await Promise.all([InitRoi(), InitApr()])
-})
-
-watch(chainSelected, async () => {
-  aprData.value = FormatAprStatistics(
-    marketData.value,
-    chartData.value,
-    tokensData.value,
-    chainSelected.value.name,
-  )
-  roiData.value = await FormatRoiStatistics(
-    chartData.value,
-    allTokensInfo.value,
-    top10Tokens.value,
-    chainSelected.value.name,
-  )
-})
 </script>
 <style lang="scss">
 @import '@/styles/_variables.scss';
