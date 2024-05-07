@@ -188,9 +188,9 @@ const bigContainerMock = computed(() =>
         {
           icon: totalVolumeIcon,
           name: 'Total Volume',
-          value: props.overview.PPNTVL,
+          value: props.overview.totalVolume,
           description: `24h ${t('volume')}`,
-          value_2: props.overview.APR24H,
+          value_2: props.overview.volume24H,
           chartLabels: props.overview.ppnChart.timestamps,
           chartData: props.overview.ppnChart.data,
         },
