@@ -933,6 +933,7 @@ export function getAverageProfitPerTimeRange(
   chainSelected,
   date0,
   date1,
+  postfix=""
 ) {
   let [ts0, ts1] = [0, Date.now()]
   if (date0 && date1) {
@@ -945,7 +946,9 @@ export function getAverageProfitPerTimeRange(
     (d) =>
       d.timestamp > ts0 && d.timestamp < ts1 && isRightChain(d, chainSelected),
   )
-  let profits = filtered_data.map((item) => item.profitUsd)
+  let profits = filtered_data.map(
+    (item) => item[`profit${postfix == '' ? 'Usd' : postfix.replace('_', '')}`],
+  )
   return calculateAverage(profits)
 }
 
@@ -989,6 +992,7 @@ export function getAveragePoolProfitPerTimeRange(
   historical_tvl,
   date0,
   date1,
+  postfix ="",
 ) {
   let [ts0, ts1] = [0, Date.now()]
   if (date0 && date1) {
@@ -1009,7 +1013,10 @@ export function getAveragePoolProfitPerTimeRange(
       k++
     ) {
       let poolId = filtered_data[i]['swaps'][0]['poolIdVault'][k]
-      let profit = filtered_data[i]['swaps'][0]['profitUsd'][k]
+      let profit =
+        filtered_data[i]['swaps'][0][
+          `profit${postfix == '' ? 'Usd' : postfix.replace('_', '')}`
+        ][k]
       if (!pool_results[poolId]) {
         pool_results[poolId] = {
           trades: 1,
@@ -1022,11 +1029,9 @@ export function getAveragePoolProfitPerTimeRange(
     }
   }
   let profits = []
-  let results = calculateTvl(ts1, historical_tvl, chainSelected)
   for (const [key, value] of Object.entries(pool_results)) {
     let profit = value['profit'] / value['trades']
-    let weighted_profit = profit * (results[key] / results['All'])
-    profits.push(weighted_profit)
+    profits.push(profit)
   }
   return calculateAverage(profits)
 }

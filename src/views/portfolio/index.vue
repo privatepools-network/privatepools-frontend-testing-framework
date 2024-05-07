@@ -73,7 +73,7 @@
                       dataCellKey,
                     )
                   " :value="`${dataCell}%`" />
-                  <StandardCell v-else-if="['Fees'].includes(dataCellKey)" :value="`$${dataCell}`" />
+                  <StandardCell v-else-if="['Fees'].includes(dataCellKey)" :value="`${dataCell}`" />
                   <StandardCell v-else :value="`${dataCell}`" />
                 </div>
               </template>
@@ -434,7 +434,7 @@ const filteredActivities = computed(() => {
   )
 })
 
-const investementModes = ['Pools', t('Pairs')]
+const investementModes = ['Pools']
 
 const investmentDataMap = {
   Pools: pools,

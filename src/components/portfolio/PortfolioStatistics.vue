@@ -546,34 +546,9 @@
           <div v-if="props.statistics">
             <apexchart v-if="AssetsChart === t('assets_breakdown')" :options="dynamicDonut(props.statistics.tokensBreakdown.map((a) => a.name.join('')),
               props.statistics.tokensBreakdown.map((a) => stringToColor(a.name.join(''))),
-              props.statistics.tokensBreakdown.map((a) => parseFloat(a.tvl)),
+              props.statistics.tokensBreakdown,
             )
               " :series="props.statistics.tokensBreakdown.map((a) => parseFloat(a.tvl))" :height="410" :width="370" />
-            <apexchart v-else :options="dynamicDonut(
-              [
-                'Bitcoin (BTC)',
-                'Ethereum (ETH)',
-                'RWAs',
-                'LSDs',
-                'Stablecoins',
-                'Infrastructure',
-                'L1s',
-                'L2s',
-                'DeFi',
-              ],
-              [
-                'rgba(230, 177, 12, 1)',
-                '#00C9FF',
-                'rgba(248, 71, 71, 1)',
-                'rgba(194, 119, 237, 1)',
-                'rgba(0, 199, 242, 1)',
-                'rgba(0, 252, 2, 1)',
-                'rgba(0, 252, 2, 1)',
-                'rgba(0, 252, 2, 1)',
-                'rgba(0, 252, 2, 1)',
-              ],
-            )
-              " :series="[44, 55, 41, 17, 15, 22, 11, 8, 6]" :height="410" :width="415" />
           </div>
           <div v-else style="height: 228px">
             <LoaderPulse></LoaderPulse>
@@ -644,16 +619,8 @@
           <div v-if="props.statistics">
             <apexchart v-if="BreakdownChart === t('pairs_breakdown')" :options="dynamicDonut(props.statistics.pairsBreakdown.map((a) => a.name.join('-')),
               props.statistics.pairsBreakdown.map((a) => stringToColor(a.name.join('-'))),
-              props.statistics.pairsBreakdown.map((a) => parseFloat(a.tvl)),
+              props.statistics.pairsBreakdown,
             )" :series="props.statistics.pairsBreakdown.map((a) => parseFloat(a.tvl))" :height="410" :width="415" />
-            <apexchart v-else :options="dynamicDonut(['USDT/BTC/ETH', 'SUSHI/DAI/FRAX', 'USDT/USDC'],
-              [
-                'rgba(0, 199, 242, 1)',
-                'rgba(194, 119, 237, 1)',
-                'rgba(251, 198, 47, 1)',
-              ],
-            )
-              " :series="[44, 55, 41]" :height="410" :width="415" />
           </div>
           <div v-else style="height: 228px">
             <LoaderPulse></LoaderPulse>
@@ -696,7 +663,16 @@ import { FormatAprStatistics } from '@/lib/formatter/statistics/apr/statisticsAp
 import { AnalyzeDrawdowns } from '@/composables/math/chartMath/drawdownMath'
 import ThreeDots from '@/components/loaders/ThreeDots.vue'
 import { t } from 'i18next'
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
 
+
+const settingsStore = useSettings();
+
+const { currentCurrency } = storeToRefs(settingsStore)
+const currencySymbol = computed(() => currentCurrency.value == "USD" ? "$" : currentCurrency.value)
+const currencyDecimals = computed(() => currentCurrency.value == "USD" ? 2 : 5)
+const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
 const props = defineProps([
   'chainSelected',
   'poolSwapsData',
@@ -719,7 +695,6 @@ const {
   tokenPairs,
 } = toRefs(props)
 
-console.log('TOKENS DATA - ', tokensData)
 
 function dynamicDonut(labels, arrayOfColors, data) {
   return {
@@ -776,14 +751,14 @@ function dynamicDonut(labels, arrayOfColors, data) {
           'TVL:  :' +
           '</span>' +
           ' ' +
-          `$${formatBigNumber(w.config.data[seriesIndex].invested)}` +
+          `${currencySymbol.value}${formatBigNumber(w.config.data[seriesIndex][`tvl${postfix.value}`])}` +
           '</span>' +
           '<span>' +
           '<span style="font-weight:700">' +
           'Allocation:' +
           '</span>' +
           ' ' +
-          `${formatBigNumber(w.config.data[seriesIndex].percent)}%` +
+          `${formatBigNumber(w.config.data[seriesIndex].allocation)}%` +
           '</span>' +
           '<span>' +
           '<span style="font-weight:700">' +
@@ -847,23 +822,6 @@ watch(userFirstTimestamp, () => {
 
 const riskFreeOption = ref('bonds')
 
-const assets = computed(() =>
-  getAssetsBreakdown(
-    poolSwapsData.value,
-    tokensData.value,
-    chainSelected.value.name,
-    historicalPrices.value,
-  ),
-)
-const pairs = computed(() =>
-  getPairsBreakdown(
-    poolSwapsData.value,
-    tokensData.value,
-    tokenPairs.value,
-    chainSelected.value.name,
-    historicalPrices.value,
-  ),
-)
 
 const riskMetrics = computed(() => {
   if (chartData.value.length > 0) {
@@ -925,24 +883,13 @@ const profitsData = computed(() => {
     return [
       {
         text: 'Average Profit per Trade',
-        value: `$${formatBigNumber(
+        value: `${currencySymbol.value} ${
           getAverageProfitPerTimeRange(
           props.statistics.swaps,
             chainSelected.value.name,
             ...datePickerProfit.value,
-          ),
-        )}`,
-      },
-      {
-        text: 'Average Profit per Pool',
-        value: `$${formatBigNumber(
-          getAveragePoolProfitPerTimeRange(
-            props.statistics.swaps,
-            chainSelected.value.name,
-             props.statistics.tvls,
-            ...datePickerProfit.value,
-          ),
-        )}`,
+            postfix.value
+          ).toFixed(currencyDecimals.value)}`,
       },
     ]
   } else {
@@ -950,7 +897,7 @@ const profitsData = computed(() => {
   }
 })
 
-const profitsTitles = ['Average Profit per Trade', 'Average Profit per Pool']
+const profitsTitles = ['Average Profit per Trade']
 
 const drawDownData = computed(() => 
   chartData.value.length > 0
@@ -958,7 +905,8 @@ const drawDownData = computed(() =>
       chartData.value,
       chainSelected.value.name,
       ...datePickerDrawdown.value,
-      "$"
+      currencySymbol.value,
+      postfix.value
     )
     : [],
 )

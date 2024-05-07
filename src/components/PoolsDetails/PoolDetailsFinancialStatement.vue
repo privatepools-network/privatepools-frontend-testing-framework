@@ -35,7 +35,8 @@
     <div class="financial_header dark:!bg-[#000117] bg-white column_loading">
       <div class="sticky_first_column dark:!bg-[#000117] bg-white">
         <div class="financial_header_text dark:!text-white text-black">Financial Statement</div>
-        <div class="collapsed_subheader financial_header_text dark:!text-white text-black" @click="visibleProfitLoss = !visibleProfitLoss">
+        <div class="collapsed_subheader financial_header_text dark:!text-white text-black"
+          @click="visibleProfitLoss = !visibleProfitLoss">
           <div>Profit/Loss</div>
           <div>
             <img :src="arrow_up" :class="visibleProfitLoss ? 'toggle-down' : 'toggle-up'" />
@@ -59,7 +60,7 @@
         <div class="financial_header_subtext  dark:!text-white text-black d-flex gap-1 justify-content-end">
           (
           <div class="flex items-center font-['Roboto_Mono',_monospace]">
-            <CurrencySymbol  />{{ formatBigNumber(item.profitLoss, decimals) }}
+            <CurrencySymbol />{{ formatBigNumber(item[`profitLoss${postfix}`], decimals) }}
           </div>
           <div :class="item.profitLossPercents < 0 ? 'text-danger' : 'text-success'
             ">
@@ -72,8 +73,9 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsProfitLossInfo"
                 :key="asset.symbol">
-                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
-                  <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals)
+                  }} {{ asset.symbol }} -
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -140,7 +142,7 @@
       <div style="margin-top: 80px; min-width: 300px; text-align: right; gap: 1.2rem" class="d-flex flex-column gap-4"
         v-for="(item, index) in financeData" :key="`Portfolio-key-${index}`">
         <div class="flex gap-2 justify-end items-center font-['Roboto_Mono',_monospace]">
-          <CurrencySymbol  />{{ formatBigNumber(item.LiquidityDeposited, decimals) }}
+          <CurrencySymbol />{{ formatBigNumber(item[`LiquidityDeposited${postfix}`], decimals) }}
           <div :class="item.LiquidityDepositedPercent < 0
             ? 'text-danger'
             : 'text-success'
@@ -150,7 +152,7 @@
         </div>
         <div v-if="visibleLiquidity" class="d-flex gap-1 justify-content-end">
           <div class="flex items-center font-['Roboto_Mono',_monospace]">
-            <CurrencySymbol  />{{ formatBigNumber(item.Deposits, decimals) }}
+            <CurrencySymbol />{{ formatBigNumber(item[`Deposits${postfix}`], decimals) }}
           </div>
           <div :class="item.DepositsPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.DepositsPercent) }}
@@ -161,8 +163,9 @@
             <div class="d-flex flex-column gap-2">
               <div></div>
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsDepositInfo" :key="asset.symbol">
-                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
-                  <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals)
+                  }} {{ asset.symbol }} -
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -173,7 +176,7 @@
         </CCollapse>
         <div v-if="visibleLiquidity" class="d-flex gap-1 justify-content-end">
           <div class="flex items-center font-['Roboto_Mono',_monospace]">
-            <CurrencySymbol  />{{ formatBigNumber(item.Withdraws, decimals) }}
+            <CurrencySymbol />{{ formatBigNumber(item[`Withdraws${postfix}`], decimals) }}
           </div>
           <div :class="item.WithdrawsPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.WithdrawsPercent) }}
@@ -183,9 +186,11 @@
           <div></div>
           <div>
             <div class="d-flex flex-column gap-2">
-              <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsWithdrawInfo" :key="asset.symbol">
-                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
-                  <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
+              <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsWithdrawInfo"
+                :key="asset.symbol">
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals)
+                  }} {{ asset.symbol }} -
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -195,7 +200,7 @@
           </div>
         </CCollapse>
         <div class="flex gap-2 justify-end items-center font-['Roboto_Mono',_monospace]">
-          <CurrencySymbol  />{{ formatBigNumber(item.TradingVolume) }}
+          <CurrencySymbol />{{ formatBigNumber(item[`TradingVolume${postfix}`]) }}
           <div :class="item.TradingVolumePercents < 0 ? 'text-danger' : 'text-success'
             ">
             {{ computedPercent(item.TradingVolumePercents) }}
@@ -205,8 +210,9 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsVolumeInfo" :key="asset.symbol">
-                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
-                  <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals)
+                  }} {{ asset.symbol }} -
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -278,7 +284,7 @@
       <div style="margin-top: 80px; min-width: 300px; text-align: right; gap: 1.2rem" class="d-flex flex-column gap-3"
         v-for="(item, index) in financeData" :key="`Portfolio-key-${index}`">
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
-          <CurrencySymbol  />{{ formatBigNumber(item.Revenue, 2) }}
+          <CurrencySymbol />{{ formatBigNumber(item[`Revenue${postfix}`], 2) }}
           <div :class="item.RevenuePercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.RevenuePercent) }}
           </div>
@@ -287,8 +293,9 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsRevenueInfo" :key="asset.symbol">
-                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
-                  <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, 2) }}
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{
+                  asset.symbol }} -
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -298,7 +305,7 @@
           </div>
         </CCollapse>
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
-          <CurrencySymbol  />{{ formatBigNumber(item.Fees, 2) }}
+          <CurrencySymbol />{{ formatBigNumber(item[`Fees${postfix}`], 2) }}
           <div :class="item.FeesPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.FeesPercent) }}
           </div>
@@ -307,8 +314,9 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsGasFeeInfo" :key="asset.symbol">
-                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
-                  <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, 2) }}
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{
+                  asset.symbol }} -
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -319,7 +327,7 @@
         </CCollapse>
 
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
-          <CurrencySymbol  />{{ formatBigNumber(item.Profit, 2) }}
+          <CurrencySymbol />{{ formatBigNumber(item[`Profit${postfix}`], 2) }}
           <div :class="item.ProfitPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.ProfitPercent) }}
           </div>
@@ -328,8 +336,9 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsProfitInfo" :key="asset.symbol">
-                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
-                  <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, 2) }}
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{
+                  asset.symbol }} -
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -354,7 +363,8 @@
           Holdings
         </div>
         <div class="d-flex flex-column gap-4 pt-3">
-          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleInitialLiquidity = !visibleInitialLiquidity">
+          <div class="collapsed_subheader dark:!text-white text-black"
+            @click="visibleInitialLiquidity = !visibleInitialLiquidity">
             <div>Initial Liquidity</div>
             <div>
               <img :src="arrow_up" :class="visibleInitialLiquidity ? 'toggle-down' : 'toggle-up'" />
@@ -369,7 +379,8 @@
               </div>
             </div>
           </CCollapse>
-          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleFinalLiquidity = !visibleFinalLiquidity">
+          <div class="collapsed_subheader dark:!text-white text-black"
+            @click="visibleFinalLiquidity = !visibleFinalLiquidity">
             <div>Final Liquidity</div>
             <div>
               <img :src="arrow_up" :class="visibleFinalLiquidity ? 'toggle-down' : 'toggle-up'" />
@@ -407,7 +418,7 @@
       <div style="margin-top: 80px; min-width: 300px; text-align: right; gap: 1.2rem" class="d-flex flex-column gap-4"
         v-for="(item, index) in financeData" :key="`Portfolio-key-${index}`">
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
-          <CurrencySymbol  />{{ formatBigNumber(item.InitialLiquidity, decimals) }}
+          <CurrencySymbol />{{ formatBigNumber(item[`InitialLiquidity${postfix.replace("_","")}`], decimals) }}
           <div :class="item.InitialLiquidityPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.InitialLiquidityPercent) }}
           </div>
@@ -417,8 +428,9 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsInitialLiquidityInfo"
                 :key="asset.symbol">
-                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }} -
-                  <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals)
+                  }} {{ asset.symbol }} -
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -429,7 +441,7 @@
         </CCollapse>
 
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
-          <CurrencySymbol  />{{ formatBigNumber(item.FinalLiquidity, decimals) }}
+          <CurrencySymbol />{{ formatBigNumber(item[`FinalLiquidity${postfix.replace("_", "")}`], decimals) }}
           <div :class="item.FinalLiquidityPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.FinalLiquidityPercent) }}
           </div>
@@ -440,8 +452,9 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsFinalLiquidityInfo"
                 :key="asset.symbol">
-                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{ asset.symbol }} -
-                  <CurrencySymbol  />{{ formatBigNumber(asset.valueUsd, decimals) }}
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{
+                  asset.symbol }} -
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -452,7 +465,7 @@
         </CCollapse>
 
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
-          <CurrencySymbol  />{{ formatBigNumber(item.Assets, decimals) }}
+          <CurrencySymbol />{{ formatBigNumber(item.Assets, decimals) }}
           <div :class="item.AssetsPercent < 0 ? 'text-danger' : 'text-success'">
             {{ computedPercent(item.AssetsPercent) }}
           </div>
@@ -461,8 +474,9 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsInfo" :key="asset.symbol">
-                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.balance, decimals) }} {{ asset.symbol }} -
-                  <CurrencySymbol  />{{ formatBigNumber(asset.value, decimals) }}
+                <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.balance,
+                  decimals) }} {{ asset.symbol }} -
+                  <CurrencySymbol />{{ formatBigNumber(asset.value, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -473,7 +487,7 @@
         </CCollapse>
 
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
-          <CurrencySymbol  />{{ formatBigNumber(item.CapitalGains, decimals) }}
+          <CurrencySymbol />{{ formatBigNumber(item[`CapitalGains${postfix.replace("_", "")}`], decimals) }}
           <div :class="item.CapitalGainsPercent < 0 ? 'text-danger' : 'text-success'
             ">
             {{ computedPercent(item.CapitalGainsPercent) }}
@@ -505,7 +519,8 @@
             </div>
           </CCollapse>
 
-          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleCirculatingSupply = !visibleCirculatingSupply">
+          <div class="collapsed_subheader dark:!text-white text-black"
+            @click="visibleCirculatingSupply = !visibleCirculatingSupply">
             <div>Circulating Supply</div>
             <div>
               <img :src="arrow_up" :class="visibleCirculatingSupply ? 'toggle-down' : 'toggle-up'" />
@@ -537,7 +552,8 @@
             </div>
           </CCollapse>
 
-          <div class="collapsed_subheader dark:!text-white text-black" @click="visibleTokenTurnover = !visibleTokenTurnover">
+          <div class="collapsed_subheader dark:!text-white text-black"
+            @click="visibleTokenTurnover = !visibleTokenTurnover">
             <div>Token Turnover</div>
             <div>
               <img :src="arrow_up" :class="visibleTokenTurnover ? 'toggle-down' : 'toggle-up'" />
@@ -595,7 +611,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsMarketInfo" :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">
-                  <CurrencySymbol  />{{ formatBigNumber(asset.value, decimals) }}
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd", "")}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -635,7 +651,7 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.MarketCapInfo" :key="asset.symbol">
-                <div>{{ formatBigNumber(asset.value, decimals) }}</div>
+                <div>{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd","")}`], decimals) }}</div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
                 </div>
@@ -655,7 +671,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.TokenTurnoverInfo" :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">
-                  <CurrencySymbol  />{{ formatBigNumber(asset.value, decimals) }}
+                  <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd", "")}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -718,6 +734,15 @@ import { useTokenPricesChange } from '@/composables/useTokenPriceChange'
 import { GetHistoricalTokens } from '@/composables/balances/useHistoricalTokens'
 import CurrencySymbol from "@/components/TrackInfo/CurrencySymbol.vue"
 import { t } from 'i18next'
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
+
+
+const settingsStore = useSettings();
+
+const { currentCurrency } = storeToRefs(settingsStore)
+const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
+const postfix_raw = computed(() => currentCurrency.value == "USD" ? "Usd" : `${currentCurrency.value}`)
 const props = defineProps([
   'chainSelected',
   'poolSwapsData',
@@ -793,12 +818,11 @@ function changeTimeline(tl) {
   currentTimeline.value = tl
 }
 
-const financeData = computed(() =>
-{
-  if(props.all_data){
+const financeData = computed(() => {
+  if (props.all_data) {
     return props.all_data[currentTimeline.value]
   }
-  else if(data.value){
+  else if (data.value) {
     return data.value[currentTimeline.value]
   }
 

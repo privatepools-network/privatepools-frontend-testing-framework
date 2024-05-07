@@ -21,14 +21,14 @@ import { formatBigNumber, timestampToSimpleDate } from '@/lib/utils'
  * @param {Date|number|null} date1 - time range end
  * @returns {DrawdownMetrics} - drawdown metrics
  */
-export function AnalyzeDrawdowns(chart_data, chainSelected, date0, date1, symbol) {
+export function AnalyzeDrawdowns(chart_data, chainSelected, date0, date1, symbol="$", postfix="") {
   let [ts0, ts1] = [0, Date.now()]
   if (date0 && date1) {
     ;[ts0, ts1] = [new Date(date0).getTime(), new Date(date1).getTime()]
   }
   let allTvlProfitsSum = chart_data.map((item) => ({
     timestamp: item.timestamp,
-    value: parseFloat(item.TVL[chainSelected]) + parseFloat(item.Profits),
+    value: parseFloat(item[`TVL${postfix}`][chainSelected]) + parseFloat(item[`Profits${postfix}`]),
   }))
   let filtered_chart_data = allTvlProfitsSum.filter(
     (item) => item.timestamp > ts0 && item.timestamp < ts1,

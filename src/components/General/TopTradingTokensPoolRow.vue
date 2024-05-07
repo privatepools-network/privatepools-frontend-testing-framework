@@ -35,7 +35,7 @@
         <div class="pools-row__col">
           <div class="pools-row__info">
             <div class="pools-row__value">
-              $0
+                ${{ numberToAposthrophe(Number(pool.profit).toFixed(0)) }}
             </div>
           </div>
         </div>

@@ -586,7 +586,7 @@ const dataGasFees = computed(() => {
   return []
 })
 const dataRevenues = computed(() => {
-  return filteredData.value.map((v) => v.Revenue)
+  return filteredData.value.map((v) => v[`Revenue${postfix.value}`])
 })
 
 const dataVolumes = computed(() => {
