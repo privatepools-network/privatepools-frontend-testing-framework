@@ -22,7 +22,8 @@ export async function useWalletActivity(account, network) {
   let response = await axios.get(
     `${BACKEND_URL[network]}/portfolio/activity/${account}`,
   )
-  let txs = response.data.result
+
+  let txs = response.data
   if (!txs) return []
   let formattedTxs = []
   for (let i = 0; i < txs.length; i++) {

@@ -51,7 +51,7 @@
           <div>Particles</div>
           <div @click="$emit('handleHideParticles')"><span v-if="!HideParticles">On</span><span v-else>Off</span></div>
         </div>
-        <ThemeToggler />
+        <!-- <ThemeToggler /> -->
         <div
           class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
           @click="settingsState = 'Language'"

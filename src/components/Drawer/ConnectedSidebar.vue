@@ -81,7 +81,7 @@
         </div>
       </div>
 
-      <div class="flex justify-between gap-2">
+      <!-- <div class="flex justify-between gap-2">
         <a
           href="/pools/concentrated_pool"
           class="text-black dark:!text-white no-underline hover:!text-[#1ab6ff] w-full"
@@ -128,7 +128,7 @@
             </div>
           </div>
         </a>
-      </div>
+      </div> -->
 
       <div class="d-flex gap-3">
         <div
@@ -215,6 +215,7 @@
       </div>
       <div v-else-if="sidebarTab === 'Pools'" class="h-100">
         <div class="d-flex flex-column gap-2" v-if="addressPools.length > 0">
+          {{ console.log('addressPools', addressPools) }}
           <div
             v-for="(item, i) in addressPools"
             :key="`${i}-token`"

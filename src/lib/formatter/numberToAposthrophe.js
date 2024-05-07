@@ -12,7 +12,7 @@ export default function numberToAposthrophe(x, fixedDecimals = 0) {
   // Add the separator to the integer part
   const formattedIntegerPart = integerPart?.replace(
     /\B(?=(\d{3})+(?!\d))/g,
-    "'",
+    '.',
   )
 
   // If there is a decimal part, append it to the formatted integer part
