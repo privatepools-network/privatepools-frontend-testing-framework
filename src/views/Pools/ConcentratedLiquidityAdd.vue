@@ -40,7 +40,6 @@
         v-if="selectedPosition === null"
         class="my-24 flex justify-center items-center"
       >
-        <!-- <LoaderPulse /> -->
         <svg
           class="rotate_and_transist"
           width="220"

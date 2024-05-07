@@ -62,7 +62,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
-            <div class="flex">
+            <div class="flex font-['Roboto_Mono',_monospace]">
               <CurrencySymbol /> {{ numberToAposthrophe(Number(currentCurrency == "USD" ? pool['TVL'] :
                 pool[`TVL_${currentCurrency}`]), currentCurrency == "USD" ? 0 : 3) }}
             </div>
@@ -73,7 +73,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
-            <div class="flex">
+            <div class="flex font-['Roboto_Mono',_monospace]">
               <CurrencySymbol />{{ numberToAposthrophe(Number(currentCurrency == "USD" ? pool['Volume'] :
                 pool[`Volume_${currentCurrency}`]), currentCurrency == "USD" ? 0 : 3) }}
             </div>

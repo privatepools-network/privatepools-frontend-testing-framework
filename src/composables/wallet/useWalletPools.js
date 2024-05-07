@@ -12,6 +12,7 @@ export async function useWalletPools(
     UNISWAP_SUBGRAPHS[networkId],
     USER_POSITIONS_QUERY(address),
   )
+
   if (data && data['positions']) {
     let user_shares = await GetAllUserShares(address)
     let user_pools = user_shares.map((item) => item.poolId.id)

@@ -14,7 +14,7 @@
           >
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">
-                {{ $t('historical_asset_values') }}
+                {{ $t('Assets Performance') }}
               </div>
               <VTooltip :distance="0" :placement="'right'">
                 <div style="cursor: help">
@@ -115,7 +115,7 @@
           router.currentRoute.value.path.includes('CLdetails'),
         )
       }}
-      <CCol xl="4" v-if="router.currentRoute.value.path.includes('CLdetails')">
+      <!-- <CCol xl="4" v-if="router.currentRoute.value.path.includes('CLdetails')">
         <div
           v-if="
             tradesData[tradeRangeOption] && tradesTimestamps[tradeRangeOption]
@@ -227,8 +227,8 @@
         >
           <LoaderPulse />
         </div>
-      </CCol>
-      <CCol xl="4" v-else>
+      </CCol> -->
+      <CCol xl="4">
         <div
           v-if="
             tradesData[tradeRangeOption] && tradesTimestamps[tradeRangeOption]
@@ -683,6 +683,7 @@ const chartOptions0 = computed(() => {
         show: false,
       },
     },
+    colors: router.currentRoute.value.path.includes('CLdetails') ? ['#01B47E', '#4AFF7D', '#1AB401', '#8AFF42'] : ['#FB800F', '#803D00', '#F07E07', '#FF9B40'],
     dataLabels: {
       enabled: false,
     },

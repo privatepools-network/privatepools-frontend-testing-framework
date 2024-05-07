@@ -17,13 +17,11 @@
       <div class="mb-2">
         <div @click="clickOnVisibleTVL()" class="visible_head" style="cursor: pointer">
           <div class="d-flex align-items-center gap-2" style="margin-left: -20px; width: clamp(10px, 0.8vw, 14px)">
-            <div>
-              <div>
-                <img :src="arrow_up" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
-              </div>
-            </div>
-            <div v-if="pool" style="font-size: clamp(16px, 1vw, 30px)"
-              class="visible_head flex items-center text-black dark:!text-white font-semibold font-['Roboto_Mono',_monospace]">
+            
+                <img :src="arrow_up" :width="10" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
+              
+            <div v-if="pool" 
+              class="visible_head flex items-center text-black dark:!text-white text-[18px] font-semibold font-['Roboto_Mono',_monospace]">
               <CurrencySymbol />
               {{ numberToAposthrophe(pool[`totalLiquidity${currentCurrency == "USD" ? "" : '_'+currentCurrency}`], currencyDecimals) }}
             </div>
@@ -34,14 +32,14 @@
         </div>
         <CCollapse :visible="visibleTVL">
           <div class="text-black dark:!text-white">
-            <div style="font-size: 13px; margin-top: 10px; margin-bottom: 5px">
+            <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
               {{ $t('assets_breakdown') }}
             </div>
-            <div class="d-flex flex-column gap-1" v-if="pool && pool.tokens && cryptocomparePrices">
+            <div class="d-flex flex-column gap-1 text-xs" v-if="pool && pool.tokens && cryptocomparePrices">
               <div v-for="token in pool.tokens" :key="token.symbol"
                 class="d-flex align-items-center justify-content-between">
                 <div class="flex items-center gap-1">
-                  {{ Number(token.balance).toFixed(2) }} {{ token.symbol }}
+                  {{ Number(token.balance).toFixed(2) }} <span class="font-['Syne',_sans-serif]"> {{token.symbol }}</span>
                   <img :src="getTokenEntity(token.symbol, 'short').icon" width="10" />
                 </div>
                 <div class="text-black dark:!text-white flex items-center font-normal font-['Roboto_Mono',_monospace]">
@@ -88,8 +86,8 @@
             <div class="text-black dark:!text-white font-bold w-full">
               <div
                 class="d-flex align-items-center justify-content-between visible_head font-normal text-black dark:!text-white">
-                <div style="font-size: clamp(10px, 0.9vw, 16px)">Pool APR</div>
-                <div v-if="pool" class="text-black dark:!text-white font-normal font-['Roboto_Mono',_monospace]">
+                <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">Pool APR</div>
+                <div v-if="pool" class="text-black dark:!text-white text-[13px] font-semibold font-['Roboto_Mono',_monospace]">
                   {{ pool['TotalAPR'].toFixed(2) }}%
                 </div>
                 <div v-else style="margin-right: 15px">
@@ -103,7 +101,7 @@
           <div class="text-black dark:!text-white mt-[10px] mb-[5px]">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
-                <div>{{ $t('daily') }} APR</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('daily') }} APR</div>
                 <div v-if="pool"
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
                   {{ pool['24hAPR'].toFixed(2) }}%
@@ -113,7 +111,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>{{ $t('weekly') }} APR</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('weekly') }} APR</div>
                 <div v-if="pool"
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
                   {{ pool['7dAPR'].toFixed(2) }}%
@@ -123,7 +121,7 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>{{ $t('monthly') }} APR</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('monthly') }} APR</div>
                 <div v-if="pool"
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
                   {{ pool['30dAPR'].toFixed(2) }}%
@@ -148,10 +146,10 @@
             <div class="text-black dark:!text-white font-bold w-full">
               <div
                 class="d-flex align-items-center justify-content-between visible_head font-normal text-black dark:!text-white">
-                <div style="font-size: clamp(10px, 0.9vw, 16px)">
+                <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
                   Pool {{ $t('volume') }}
                 </div>
-                <div class="text-black dark:!text-white flex items-center" v-if="pool">
+                <div class="text-black dark:!text-white flex items-center text-[13px] font-semibold font-['Roboto_Mono',_monospace]" v-if="pool">
                   <CurrencySymbol />{{
                     numberToAposthrophe(
                       pool[`TotalVolume${currentCurrency == "USD" ? "Usd" : currentCurrency}`],
@@ -170,9 +168,9 @@
           <div class="text-black dark:!text-white mt-[10px] mb-[5px]">
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
-                <div>24H {{ $t('volume') }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">24H {{ $t('volume') }}</div>
                 <div v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  class="text-black dark:!text-white flex items-center gap-1 font-normal text-[12px] font-['Roboto_Mono',_monospace]">
                   {{ parseFloat(pool[`24hVolume${currentCurrency == "USD" ? "Usd" : currentCurrency
                     }`]).toFixed(currencyDecimals) }}
                   <CurrencySymbol />
@@ -182,9 +180,9 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>7 {{ $t('days') }} {{ $t('volume') }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">7 {{ $t('days') }} {{ $t('volume') }}</div>
                 <div v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  class="text-black dark:!text-white font-normal flex items-center gap-1 text-[12px] font-['Roboto_Mono',_monospace]">
                   {{ parseFloat(pool[`7dVolume${currentCurrency == "USD" ? "Usd" : currentCurrency
                     }`]).toFixed(currencyDecimals) }}
                   <CurrencySymbol />
@@ -194,9 +192,9 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
-                <div>30 {{ $t('days') }} {{ $t('volume') }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">30 {{ $t('days') }} {{ $t('volume') }}</div>
                 <div v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  class="text-black dark:!text-white font-normal flex items-center gap-1 text-[12px] font-['Roboto_Mono',_monospace]">
                   {{ parseFloat(pool[`30dVolume${currentCurrency == "USD" ? "Usd" : currentCurrency
                     }`]).toFixed(currencyDecimals) }}
                   <CurrencySymbol />
@@ -215,10 +213,10 @@
           <div class="text-black dark:!text-white font-bold w-full">
             <div
               class="d-flex align-items-center justify-content-between visible_head text-black dark:!text-white font-normal font-['Roboto_Mono',_monospace]">
-              <div style="font-size: clamp(10px, 0.9vw, 16px)">
+              <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
                 {{ $t('my_rewards') }}
               </div>
-              <div v-if="pool" class="text-black dark:!text-white flex items-center font-['Roboto_Mono',_monospace]">
+              <div v-if="pool" class="text-black text-[13px] dark:!text-white flex items-center font-['Roboto_Mono',_monospace]">
                 <CurrencySymbol />0
                 <!-- {{
                   numberToAposthrophe(pool.lpPrice, currencyDecimals || 2)
@@ -230,10 +228,10 @@
             </div>
             <div
               class="d-flex align-items-center justify-content-between font-normal text-black dark:!text-white visible_head mt-3">
-              <div style="font-size: clamp(10px, 0.9vw, 16px)">
+              <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
                 {{ $t('my_balance') }}
               </div>
-              <div v-if="pool" class="text-black dark:!text-white flex items-center font-['Roboto_Mono',_monospace]">
+              <div v-if="pool" class="text-black text-[13px] dark:!text-white flex items-center font-['Roboto_Mono',_monospace]">
                 <CurrencySymbol />{{ numberToAposthrophe(userBalance) }}
               </div>
               <div v-else>

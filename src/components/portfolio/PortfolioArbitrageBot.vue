@@ -13,30 +13,28 @@
       <div class="mb-xxl-4 mb-2">
         <div @click="visibleTVL = !visibleTVL" class="visible_head" style="cursor: pointer">
           <div class="d-flex align-items-center gap-2" style="margin-left: -20px; width: 15px">
-            <div>
-              <div>
-                <img :src="arrow_up" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
-              </div>
-            </div>
+            
+                <img :src="arrow_up" :width="10" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
+           
             <div v-if="!networks_data" class="totals_loader_header">
               <ThreeDots />
             </div>
-            <div v-else style="font-weight: 700;  font-size: 17px"
-              class="visible_head arbitrage_bot_sections_text dark:!text-white text-black font-['Roboto_Mono',_monospace]">
+            <div v-else 
+              class="visible_head mt-[10px] dark:!text-white text-black font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
               ${{ parseFloat(networks_data.portfolioBalance).toFixed(3) }}
             </div>
           </div>
         </div>
         <CCollapse :visible="visibleTVL">
           <div>
-            <div class="arbitrage_bot_sections_text dark:!text-white text-black"
-              style="margin-top: 10px; margin-bottom: 5px">
+            <div class="arbitrage_bot_sections_text dark:!text-white text-black "
+              >
               {{ $t('investments_breakdown') }}
             </div>
             <div class="d-flex flex-column gap-1" v-if="networks_data">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between"
                 v-for="pool in networks_data.breakdown" :key="pool.id">
-                <div>{{ pool.id }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ pool.id }}</div>
                 <div class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(pool.shareBalanceUsd) }}
                 </div>
@@ -83,29 +81,29 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>APR 24 {{ $t('hours') }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">APR 24 {{ $t('hours') }}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
+                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['APR 24H']) }}
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>APR 7 {{ $t('days') }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">APR 7 {{ $t('days') }}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
+                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['APR 7D']) }}
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>APR 30 {{ $t('days') }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">APR 30 {{ $t('days') }}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
+                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['APR 30D']) }}
                 </div>
               </div>
@@ -151,29 +149,29 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>{{$t('volume')}} 24 {{$t('hours')}}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{$t('volume')}} 24 {{$t('hours')}}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
+                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['Profit 24H']) }}
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>{{$t('volume')}} 7 {{$t('days')}}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{$t('volume')}} 7 {{$t('days')}}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
+                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['Profit 7D']) }}
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div>{{$t('volume')}} 30 {{$t('days')}}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{$t('volume')}} 30 {{$t('days')}}</div>
                 <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div>
-                <div v-else class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace]">
+                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(networks_data['Profit 30D']) }}
                 </div>
               </div>
@@ -192,7 +190,7 @@
             ">
             <div
               class="dark:!text-white text-black d-flex align-items-center justify-content-between visible_head mt-3">
-              <div class="dark:!text-white text-black font-normal font-['Roboto_Mono',_monospace] text-[12px]">
+              <div class="dark:!text-white text-black text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
                 {{$t('my_rewards')}}
               </div>
               <div v-if="networks_data" class="dark:!text-white text-black font-extrabold text-[12px]">
@@ -401,11 +399,11 @@ const visibleTotalGas = ref(true)
 }
 
 .arbitrage_bot_sections_text {
-  font-family: 'Roboto Mono', monospace;
-
-  font-size: clamp(10px, 0.7vw, 14px);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
   margin-top: 10px;
   margin-bottom: 5px;
+  font-weight: 600;
 }
 
 .arbitrage_bot_card {
