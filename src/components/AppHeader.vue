@@ -37,8 +37,8 @@
         v-else-if="address && address !== ''"
         class="d-flex align-items-center gap-2"
       >
-        <!-- <RewardsDropdown /> -->
-        <TokenDropdown />
+        <RewardsDropdown />
+        <!-- <TokenDropdown /> -->
 
         <div
           class="wallet_address dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white"

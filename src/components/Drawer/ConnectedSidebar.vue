@@ -150,7 +150,10 @@
           {{ $t('activity') }}
         </div>
       </div>
-      <div v-if="sidebarTab === 'Tokens'" class="flex flex-col gap-2 overflow-auto h-full activity_container">
+      <div
+        v-if="sidebarTab === 'Tokens'"
+        class="flex flex-col gap-2 overflow-auto h-full activity_container"
+      >
         <div
           v-if="sidebarData?.userBalance?.tokens != null"
           v-for="(item, i) in sidebarData?.userBalance?.tokens.filter(
@@ -252,9 +255,18 @@
                 </defs>
               </svg>
 
-              <div class="d-flex flex-column">
-                <div class="text-black dark:!text-white text-[12px]">
-                  {{ item.label }}
+              <div class="flex items-center gap-1">
+                <div class="flex-col">
+                  <div class="flex items-center gap-1">
+                    <div
+                      class="text-black dark:!text-white text-[12px]"
+                      :key="token.symbol + i"
+                      v-for="(token, i) in item.tokens"
+                    >
+                      {{ token.symbol }} <span v-if="i === 0">/</span>
+                    </div>
+                  </div>
+                  <div class="text-black dark:!text-[#8e8e8e] text-[10px]">{{ item.APR }}% APR</div>
                 </div>
                 <div class="text-black dark:!text-[#8e8e8e] text-[10px]">
                   {{ item.img }}
@@ -262,12 +274,13 @@
               </div>
             </div>
             <div>
-              <div class="d-flex flex-column align-items-end">
-                <div class="text-black dark:!text-white text-[12px]">
-                  {{ item.price }}
+              <div class="d-flex flex-column align-items-end" >
+                <div class="text-black dark:!text-white text-[12px] font-['Roboto_Mono',_monospace]">
+                  ${{ item.shareBalanceUsd.toFixed(3) }}
                 </div>
                 <div
-                  class="d-flex align-items-center gap-1 text-black dark:!text-[#8e8e8e] text-[10px]"
+                v-if="item.LiquidityType === 'WP'"
+                  class="flex items-center gap-1 text-black dark:!text-[#8e8e8e] text-[10px]"
                 >
                   <svg
                     v-if="
@@ -297,7 +310,7 @@
                       </clipPath>
                     </defs>
                   </svg>
-                  {{ item.percentChange }}
+                  {{ item.percentage }}
                   <svg
                     v-if="
                       item.percentChange === 'Out of range' ||
@@ -320,6 +333,12 @@
                       "
                     />
                   </svg>
+                </div>
+                <div v-else class="flex items-center gap-1 text-black dark:!text-[#8e8e8e] text-[10px]">
+                  On range <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="2.5" cy="2.5" r="2.5" fill="#40B66B"/>
+</svg>
+
                 </div>
               </div>
             </div>
@@ -348,7 +367,9 @@
               fill="#7D7D7D"
             />
           </svg>
-          <div class="text-black dark:!text-white">{{ $t('no_pools_yet') }}</div>
+          <div class="text-black dark:!text-white">
+            {{ $t('no_pools_yet') }}
+          </div>
           <div class="text-black dark:!text-white text-[12px] text-center">
             {{ $t('open_position_to_get_started') }}
           </div>
@@ -401,7 +422,9 @@
           </div>
         </div>
         <div>
-          <div class="tab my-2" style="font-size: 12px">{{ $t('this_week') }}</div>
+          <div class="tab my-2" style="font-size: 12px">
+            {{ $t('this_week') }}
+          </div>
           <div class="d-flex flex-column gap-2">
             <a
               :href="`${configService.getNetworkConfig(56).explorer}/tx/${
@@ -439,7 +462,9 @@
           </div>
         </div>
         <div>
-          <div class="tab my-2" style="font-size: 12px">{{ $t('this_month') }}</div>
+          <div class="tab my-2" style="font-size: 12px">
+            {{ $t('this_month') }}
+          </div>
           <div class="d-flex flex-column gap-2">
             <a
               v-for="(item, i) in addressActivity.filter(
@@ -504,12 +529,8 @@ const emit = defineEmits(['toggleSettings', 'toggleToWallets', 'setAddress'])
 const sidebarTab = ref('Tokens')
 const sidebarData = ref({})
 
-const tokensOptions = ref([
-
-])
-const mockPools = ref([
-
-])
+const tokensOptions = ref([])
+const mockPools = ref([])
 const addressActivity = ref([])
 const addressPools = ref([])
 
@@ -553,7 +574,10 @@ onMounted(async () => {
 async function handlePortfolioData() {
   if (props.address) {
     let mmProvider = await InitializeMetamask()
-    addressActivity.value = await useWalletActivity(props.address, networkId.value)
+    addressActivity.value = await useWalletActivity(
+      props.address,
+      networkId.value,
+    )
     addressPools.value = await useWalletPools(props.address, networkId.value)
   }
 }
@@ -561,7 +585,6 @@ async function handlePortfolioData() {
 
 <style lang="scss" scoped>
 .sidebar_header {
-  
   font-size: 14px;
   font-weight: 600;
   line-height: 44px;
@@ -601,7 +624,6 @@ async function handlePortfolioData() {
 }
 
 .wallet_text {
-  
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;
@@ -609,7 +631,6 @@ async function handlePortfolioData() {
 }
 
 .wallet_bottom_text {
-  
   font-size: 13px;
   font-weight: 400;
   line-height: 24px;
@@ -624,7 +645,6 @@ async function handlePortfolioData() {
 }
 
 .address_text {
-  
   font-size: 13px;
   font-weight: 500;
   line-height: 24px;
@@ -642,7 +662,6 @@ async function handlePortfolioData() {
 }
 
 .balance_change {
-  
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0em;
@@ -658,7 +677,7 @@ async function handlePortfolioData() {
   justify-content: center;
   background: #002c4499;
   border-radius: 20px;
-  
+
   font-size: 19px;
   font-weight: 600;
   line-height: 24px;
@@ -673,10 +692,7 @@ async function handlePortfolioData() {
   }
 }
 
-
-
 .tab {
-  
   font-size: 14px;
   font-weight: 500;
   line-height: 16px;
@@ -700,7 +716,7 @@ async function handlePortfolioData() {
 }
 
 .activity_container::-webkit-scrollbar-thumb {
-  background-color: #00E0FF;
+  background-color: #00e0ff;
   border-radius: 100px;
 }
 </style>

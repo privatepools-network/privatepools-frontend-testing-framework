@@ -49,7 +49,7 @@
           </CTableDataCell>
           <CTableDataCell scope="row" class="text-black dark:!text-white table-cell ">
             <div class="font-['Roboto_Mono',_monospace]">
-              {{ item[`Value${currentCurrency == "USD" ? "" : "_" + currentCurrency}`] }}
+              ${{ item[`Value${currentCurrency == "USD" ? "" : "_" + currentCurrency}`] }}
             </div>
           </CTableDataCell>
 
@@ -119,6 +119,7 @@ import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
 import moment from 'moment'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
+import router from '@/router'
 
 
 const settingsStore = useSettings()
@@ -184,7 +185,9 @@ const periodsOfData = [
     title: t('all_time'),
   },
 ]
-const activitiesModes = [t('all'), t('deposit'), t('trade'), t('harvest'), t('withdraw')]
+
+
+const activitiesModes = router.currentRoute.value.path === '/portfolio' ? [t('all'), t('deposit'), t('harvest'), t('withdraw')] : [t('all'), t('deposit'), t('trade'), t('harvest'), t('withdraw')]
 
 const activitiesSelectedMode = ref(activitiesModes[0])
 const actSelectedPeriodOfData = ref(periodsOfData[4])

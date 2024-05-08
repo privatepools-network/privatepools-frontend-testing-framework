@@ -63,7 +63,7 @@
               </div>
             </div>
           </div>
-          <div class="back_button" @click="router.push('/pools')">
+          <div class="back_button" @click="router.go(-1)">
             <svg
               width="22"
               height="22"

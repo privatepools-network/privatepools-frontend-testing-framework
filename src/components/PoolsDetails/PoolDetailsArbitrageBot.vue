@@ -1,16 +1,15 @@
 <template>
   <div class="arbitrage_bot_card dark:!bg-[#22222224] bg-[white] py-3 px-4">
-    <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
+    <!-- <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
       <div class="d-flex align-items-center justify-content-between w-100">
         <div v-if="pool && pool.tokens" class="flex items-center text-black dark:!text-white font-bold text-[14px]">
           <img class="pair_avatars_manage_pool pair_avatars_active" :data-tooltip="tokenEntity.symbol"
             v-for="(tokenEntity, tokenEntityIndex) in pool?.tokens" :key="`token-entity-key-${tokenEntityIndex}`"
             :src="computedTokenImage(tokenEntity.symbol)" :title="tokenEntity.symbol" />
-          <!-- {{ pool && pool.tokens ? pool.tokens.map(t => t.symbol).join("/") : "" }} -->
         </div>
         <ThreeDots v-else style="margin-left: 20px" />
       </div>
-    </div>
+    </div> -->
 
     <div class="px-2">
       <div class="text-black dark:!text-white mt-[5%]">{{ $t('TVL') }}</div>

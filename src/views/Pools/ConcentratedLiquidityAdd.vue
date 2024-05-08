@@ -11,7 +11,7 @@
   <MainCard>
     <div class="center_container bg-white dark:!bg-[#15151524]">
       <div class="d-flex justify-content-end w-100 mb-4">
-        <div class="back_button" @click="router.push('/pools')">
+        <div class="back_button" @click="router.go(-1)">
           <svg
             width="22"
             height="22"
