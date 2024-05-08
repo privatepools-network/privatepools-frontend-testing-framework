@@ -99,6 +99,8 @@
         </div>
       </div>
 
+
+      {{console.log('user_staked_pools', user_staked_pools)}}
       <div
         v-if="user_staked_pools.length === 0 && hidePools"
         class="my-5 text-center text-black dark:!text-white"

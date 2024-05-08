@@ -3,32 +3,22 @@
     <div class="chart-timeline">
       <Tabs :tabsOptions="timelines" :selectedTab="currentTimeline" @changeTab="changeTimeline"></Tabs>
     </div>
-    <!-- <div class="finance_above_buttons">
+    <div class="finance_above_buttons">
       <div>
-        <CButton  variant="outline" style="
-            border-radius: 20px;
-            font-size: clamp(10px, 0.8vw, 14px);
-            padding: 4px 8px;
-            border-color: #00C9FF;
-          ">
-          <div class="d-flex align-items-center gap-2 dark:!text-white text-black">
+        <button class="financial_button">
+          <div class="flex items-center gap-2 dark:!text-white text-black">
             <img :src="downloadIcon" width="15" /> Download PDF
           </div>
-        </CButton>
+        </button>
       </div>
       <div>
-        <CButton  variant="outline" style="
-            border-radius: 20px;
-            font-size: clamp(10px, 0.8vw, 14px);
-            padding: 4px 8px;
-            border-color: #00C9FF;
-          ">
-          <div class="d-flex align-items-center gap-2 dark:!text-white text-black">
+        <button class="financial_button">
+          <div class="flex items-center gap-2 dark:!text-white text-black">
             <img :src="downloadIcon" width="15" /> Download CSV
           </div>
-        </CButton>
+        </button>
       </div>
-    </div> -->
+    </div>
   </div>
 
   <div class="mt-5 finance_table dark:!bg-[#22222224] bg-white" style="position: relative">
@@ -1079,5 +1069,15 @@ onBeforeMount(async () => {
   .chart-timeline {
     width: fit-content;
   }
+}
+
+.financial_button {
+  background: #02031C;
+  border: 1px solid #DCEEF6;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #DCEEF6;
+  padding: 8px;
 }
 </style>
