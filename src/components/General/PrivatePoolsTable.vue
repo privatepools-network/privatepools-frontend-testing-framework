@@ -187,7 +187,7 @@ const periodsOfData = [
 ]
 
 
-const activitiesModes = router.currentRoute.value.path === '/portfolio' ? [t('all'), t('deposit'), t('harvest'), t('withdraw')] : [t('all'), t('deposit'), t('trade'), t('harvest'), t('withdraw')]
+const activitiesModes = router.currentRoute.value.path === '/portfolio' ? [t('all'), t('deposit'), t('withdraw')] : [t('all'), t('deposit'), t('trade'), t('withdraw')]
 
 const activitiesSelectedMode = ref(activitiesModes[0])
 const actSelectedPeriodOfData = ref(periodsOfData[4])

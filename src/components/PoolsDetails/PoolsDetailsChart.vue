@@ -319,27 +319,6 @@ const preFiltersList = computed(() =>
           cumulable: false,
         },
         {
-          title: 'ROI',
-          code: 'ROI',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Token Incentives',
-          code: 'Token Incentives',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Impermanent Loss',
-          code: 'Impermanent Loss',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
           title: 'Volatility Index',
           code: 'Volatility Index',
           isSolo: true,
@@ -498,13 +477,6 @@ const preFiltersList = computed(() =>
           cumulable: true,
         },
         {
-          title: 'Impermanent Loss',
-          code: 'Impermanent Loss',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
           title: 'Volatility Index',
           code: 'Volatility Index',
           isSolo: true,
@@ -532,7 +504,6 @@ const filters = ref({
   ['PNL']: true,
   ['ROI']: true,
   ['Token Incentives']: true,
-  ['Impermanent Loss']: true,
   ['Pool Percentage']: true,
   ['Rewards']: true,
   ['Staked Liquidity']: true,
@@ -650,13 +621,13 @@ const series = computed(() =>
           type: 'bar',
           name: 'Revenue',
           data: dataRevenues.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#01B47E' : '#803D00',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#803D00' : '#01B47E',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#01B47E' : '#803D00',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#803D00' : '#01B47E',
               },
               {
                 offset: 1,
@@ -668,7 +639,7 @@ const series = computed(() =>
           showSymbol: false,
           itemStyle: {
             borderRadius: [5, 5, 0, 0],
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#01B47E' : '#803D00',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#803D00' : '#01B47E',
           },
           emphasis: {
             focus: 'series',
@@ -748,14 +719,14 @@ const series = computed(() =>
           name: 'Trades',
           type: 'bar',
           data: dataTrades.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#1AB401' : '#FB800F',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
           sampling: 'lttb',
           areaStyle: {},
 
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#1AB401' : '#FB800F',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -849,165 +820,20 @@ const series = computed(() =>
             focus: 'series',
             blurScope: 'coordinateSystem',
           },
-        },
-        {
-          type: 'bar',
-          name: 'Capital Gains',
-          data: dataVolatilityIndexes.value,
-          color: '#F0DA0F',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#F0DA0F',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: '#F0DA0F',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'bar',
-          name: 'PNL',
-          data: dataVolatilityIndexes.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'line',
-          name: 'ROI',
-          data: dataVolatilityIndexes.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'bar',
-          name: 'Token Incentives',
-          data: dataVolatilityIndexes.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#00FF75' : '#F0FF40',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#00FF75' : '#F0FF40',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#00FF75' : '#F0FF40',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'bar',
-          name: 'Impermanent Loss',
-          data: dataVolatilityIndexes.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
+        }
       ]
     : [
         {
           type: 'bar',
           name: 'PNL',
           data: dataTrades.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#70FF00',
           sampling: 'lttb',
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
+                color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#70FF00',
               },
               {
                 offset: 1,
@@ -1018,7 +844,7 @@ const series = computed(() =>
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#70FF00' : '#FB800F',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#70FF00',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -1030,14 +856,14 @@ const series = computed(() =>
           name: 'Trades',
           type: 'bar',
           data: dataTrades.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#1AB401' : '#FB800F',
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
           sampling: 'lttb',
           areaStyle: {},
 
           smooth: true,
           showSymbol: false,
           itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#1AB401' : '#FB800F',
+            color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
             borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
@@ -1233,35 +1059,6 @@ const series = computed(() =>
           lineStyle: {
             width: 1,
             color: '#FF8FD6',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'bar',
-          name: 'Impermanent Loss',
-          data: dataVolatilityIndexes.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#DC9E00' : '#954700',
-            borderRadius: [5, 5, 0, 0],
           },
           emphasis: {
             focus: 'series',

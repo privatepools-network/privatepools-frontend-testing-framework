@@ -65,7 +65,7 @@
           >
             {{ $t('general') }}
           </a>
-          <a
+        <!-- <a
             href="/user_analytics"
             :class="
               router.currentRoute.value.path === '/user_analytics'
@@ -84,7 +84,7 @@
             "
           >
             {{ $t('referrals') }}
-          </a>
+          </a> -->
           <div class="popup_headers">Protocol</div>
           <a
             href="https://medium.com/@D3_Innovations"

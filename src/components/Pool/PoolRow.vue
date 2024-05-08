@@ -143,12 +143,12 @@
         <div v-else class="d-flex gap-4 align-items-center liquidity_button_container text-black dark:!text-white ">
           <div class="details-el__col">
             <div v-if="pool['LiquidityType'] === 'CL'"
-              class="details-el__title d-flex gap-1 align-items-center green w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D] ">
+              class="details-el__title d-flex gap-1 align-items-center orange w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D] ">
               {{ $t('concentrated_liquidity_pool') }}
               <div class="details-el__circle"></div>
             </div>
             <div v-else
-              class="details-el__title d-flex gap-1 align-items-center orange w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D] ">
+              class="details-el__title d-flex gap-1 align-items-center green w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D] ">
               {{ $t('weighted_pool') }}
               <div class="details-el__circle"></div>
             </div>
@@ -186,7 +186,7 @@
             <div class="vr" style="border: 1px solid #383838"></div>
           </div>
           <div class="details-el__col">
-            <div :class="pool['LiquidityType'] === 'CL' ? 'green' : 'orange'"
+            <div :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'green'"
               class="details-el__title d-flex gap-1 align-items-center  w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D] ">
               {{ $t('liquidity_added') }}
               <div class="details-el__circle"></div>
@@ -575,22 +575,22 @@ const visibleDetails = ref(false)
   text-align: center;
 
   &_LP {
-    background: #00DC3E;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #00DC3E);
-    }
-  }
-
-  &_WP {
     background: #FB800F;
     // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
 
     &:hover {
       cursor: pointer;
       filter: drop-shadow(0 0 0.4rem #FB800F);
+    }
+  }
+
+  &_WP {
+    background: #00DC3E; 
+    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
+
+    &:hover {
+      cursor: pointer;
+      filter: drop-shadow(0 0 0.4rem #00DC3E);
     }
   }
 }

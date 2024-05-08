@@ -172,36 +172,8 @@ const preFiltersList = ref([
     cumulable: false,
   },
   {
-    title: 'Capital Gains',
-    code: 'Capital Gains',
-    isSolo: true,
-    selected: true,
-    cumulable: false,
-  },
-  {
-    title: 'PNL',
-    code: 'PNL',
-    isSolo: true,
-    selected: true,
-    cumulable: false,
-  },
-  {
-    title: 'ROI',
-    code: 'ROI',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
     title: 'Token Incentives',
     code: 'Token Incentives',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
-    title: 'Impermanent Loss',
-    code: 'Impermanent Loss',
     isSolo: true,
     selected: true,
     cumulable: true,
@@ -284,11 +256,6 @@ const filters = ref({
   TVL: false,
   ['Average APR']: true,
   ['Profit']: false,
-  ['Capital Gains']: false,
-  ['PNL']: false,
-  ['ROI']: false,
-  ['Token Incentives']: false,
-  ['Impermanent Loss']: false,
   ['Volatility Index']: false,
 })
 
@@ -474,122 +441,6 @@ const series = computed(() => [
     showSymbol: false,
     itemStyle: {
       color: '#00FF75',
-      borderRadius: [5, 5, 0, 0],
-    },
-    emphasis: {
-      focus: 'series',
-      blurScope: 'coordinateSystem',
-    },
-  },
-  {
-    type: 'bar',
-    name: 'Capital Gains',
-    data: dataVolatilityIndexes.value,
-    color: '#FAFF00',
-    sampling: 'lttb',
-    areaStyle: {
-      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-        {
-          offset: 0,
-          color: '#FAFF00',
-        },
-        {
-          offset: 1,
-          color: 'transparent',
-        },
-      ]),
-    },
-    smooth: true,
-    showSymbol: false,
-    itemStyle: {
-      color: '#FAFF00',
-      borderRadius: [5, 5, 0, 0],
-    },
-    emphasis: {
-      focus: 'series',
-      blurScope: 'coordinateSystem',
-    },
-  },
-  {
-    type: 'bar',
-    name: 'PNL',
-    data: dataVolatilityIndexes.value,
-    color: '#FF00B8',
-    sampling: 'lttb',
-    areaStyle: {
-      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-        {
-          offset: 0,
-          color: '#FF00B8',
-        },
-        {
-          offset: 1,
-          color: 'transparent',
-        },
-      ]),
-    },
-    smooth: true,
-    showSymbol: false,
-    itemStyle: {
-      color: '#FF00B8',
-      borderRadius: [5, 5, 0, 0],
-    },
-    emphasis: {
-      focus: 'series',
-      blurScope: 'coordinateSystem',
-    },
-  },
-  {
-    type: 'line',
-    name: 'ROI',
-    data: dataVolatilityIndexes.value,
-    color: '#8FBCFF',
-    sampling: 'lttb',
-    areaStyle: {
-      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-        {
-          offset: 0,
-          color: '#8FBCFF',
-        },
-        {
-          offset: 1,
-          color: 'transparent',
-        },
-      ]),
-    },
-    smooth: true,
-    showSymbol: false,
-    lineStyle: {
-      width: 1,
-      color: '#8FBCFF',
-    },
-    emphasis: {
-      focus: 'series',
-      blurScope: 'coordinateSystem',
-    },
-  },
-  {
-    type: 'bar',
-    name: 'Token Incentives',
-    data: dataVolatilityIndexes.value,
-    color: '#05FF00',
-    sampling: 'lttb',
-    areaStyle: {
-      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-        {
-          offset: 0,
-          color: '#05FF00',
-        },
-        {
-          offset: 1,
-          color: 'transparent',
-        },
-      ]),
-    },
-    smooth: true,
-    showSymbol: false,
-    itemStyle: {
-      color: '#05FF00',
       borderRadius: [5, 5, 0, 0],
     },
     emphasis: {

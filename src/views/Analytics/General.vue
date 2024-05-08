@@ -21,8 +21,8 @@
         {{ $t('top_perfomance_pools') }}
       </div>
       <div>
-        <Tabs :selectedTab="selectedTopPerformanceFilter" :tabsOptions="topPerformanceFilters"
-          @changeTab="changeTopPerformanceFilter"></Tabs>
+      <!--  <Tabs :selectedTab="selectedTopPerformanceFilter" :tabsOptions="topPerformanceFilters"
+          @changeTab="changeTopPerformanceFilter"></Tabs> -->
       </div>
     </div>
     <GeneralPerformanceTable :user_staked_pools="user_staked_pools" :all_pools="selectedTopPerformanceFilter === t('all') ? allData?.topPerformancePools : allData?.topPerformancePools?.filter(el => el.LiquidityType === selectedTopPerformanceFilter)" />

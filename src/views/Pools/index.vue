@@ -141,7 +141,7 @@ const route = useRoute()
 const optionsTokens = ref([])
 const optionsPoolType = ref([
   { name: 'WP', selected: false },
-  { name: 'CLP', selected: false },
+  //{ name: 'CLP', selected: false },
 ])
 const optionsPoolAttribute = ref([{ name: t('new'), selected: false }])
 
@@ -352,7 +352,7 @@ onMounted(async () => {
     let volume_7d_trades = poolSwapsData.value.filter((item) =>
       isTimestampWithinLast7Days(item.timestamp),
     )
-    cl_snapshots.value = await useUniswapTvlSnapshots(null)
+   /* cl_snapshots.value = await useUniswapTvlSnapshots(null)
     cl_pools.value = (await useUniswapPools(56)).map((item) => ({
       id: item.id,
       address: item.id,
@@ -380,7 +380,7 @@ onMounted(async () => {
       ),
       fee: item.feeTier,
       Blockchain: 'Binance',
-    }))
+    })) */
     console.log('CL POOLS - ', cl_pools.value)
     let wp_symbols = _defaultPools
       .map((item) => item.tokens.map((item) => item.symbol))
@@ -395,7 +395,7 @@ onMounted(async () => {
   } else {
     const result = await getPoolsData(56)
     pools.value = result.table.filter((item) => item.LiquidityType == 'WP')
-    cl_pools.value = result.table.filter((item) => item.LiquidityType == 'CL')
+   // cl_pools.value = result.table.filter((item) => item.LiquidityType == 'CL')
     const symbols = result.table.map((item) => item['Pool Name'][0]).flat()
     let all_token_symbols = Array.from(new Set(symbols))
     optionsTokens.value = all_token_symbols.map((item) => ({
@@ -413,13 +413,14 @@ onMounted(async () => {
 const all_pools = computed(() => {
   let result = []
   let nonSelected =
-    !optionsPoolType.value[0].selected && !optionsPoolType.value[1].selected
+    !optionsPoolType.value[0].selected
+    // && !optionsPoolType.value[1].selected
   if (nonSelected || optionsPoolType.value[0].selected) {
     result.push(...pools.value)
   }
-  if (nonSelected || optionsPoolType.value[1].selected) {
+  /* if (nonSelected || optionsPoolType.value[1].selected) {
     result.push(...cl_pools.value)
-  }
+  } */
   if (hidePools.value) {
     let user_pools_ids = user_staked_pools.value.map((item) => item.id)
     result = result.filter((item) => user_pools_ids.includes(item.id))
