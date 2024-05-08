@@ -1,6 +1,6 @@
 export const USER_POSITIONS_QUERY = (user) => `
 {
-  positions(where:{owner:"${user}"}){
+  positions(where:{owner:"${user.toLowerCase()}"}){
     owner
     depositedToken0
     depositedToken1

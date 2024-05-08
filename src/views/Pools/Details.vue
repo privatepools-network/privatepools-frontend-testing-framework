@@ -486,7 +486,7 @@
     <PortfolioStatistics v-else-if="selectedTab == t('statistics') && pool" :historical_tvl="historical_tvl"
       :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
         " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historicalPrices="historicalPrices"
-      :userFirstTimestamp="0" :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
+      :userFirstTimestamp="historical_tvl.length > 0 ? historical_tvl[0].timestamp : Date.now()" :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
     </PortfolioStatistics>
 
     <!-- {{ console.log('pool!!!', pool) }} -->
