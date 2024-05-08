@@ -88,3 +88,11 @@ export async function getPortfolioBalance(network, userAddress) {
   )
   return response.data
 }
+
+
+export async function getUserPools(network, userAddress){
+   const response = await axios.get(
+     `${BACKEND_URL[network]}/data/portfolio/${userAddress}/pools`,
+   )
+   return response.data
+} 
