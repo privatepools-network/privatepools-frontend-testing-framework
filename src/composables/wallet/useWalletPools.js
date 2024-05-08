@@ -1,29 +1,14 @@
-import { GetAllUserShares } from '../pools/usePoolShares'
 import { USER_POSITIONS_QUERY } from '../queries/external/uniswapPositionsQuery'
 import useGraphQLQuery from '../useQuery'
 import { UNISWAP_SUBGRAPHS } from '../concentrated-liquidity/constants'
 import { useFilteredUniswapPools } from '@/composables/concentrated-liquidity/useUniswapPools'
+import { getUserPools } from '../data/portfolioData'
 export async function useWalletPools(
   address,
   networkId,
   includeStatsInfo = true,
 ) {
-  let data = await useGraphQLQuery(
-    UNISWAP_SUBGRAPHS[networkId],
-    USER_POSITIONS_QUERY(address),
-  )
-
-  if (data && data['positions']) {
-    let user_shares = await GetAllUserShares(address)
-    let user_pools = user_shares.map((item) => item.poolId.id)
-    let cl_pools = formatCLPools(data['positions'])
-    console.log('WALLET POOLS PARSED')
-    return [
-      ...user_pools.map((item) => ({ id: item })),
-      ...cl_pools.map((item) => item.id),
-    ]
-  }
-  return []
+  return await getUserPools(networkId, address.toLowerCase())
 }
 
 export async function GetUserUniswapPools(address, networkId) {

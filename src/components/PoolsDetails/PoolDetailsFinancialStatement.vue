@@ -750,6 +750,7 @@ const {
   historical_tvl,
   historicalPrices,
   poolId,
+  decimals
 } = toRefs(props)
 const activeUsers = ref(null)
 const joinExits = ref(null)

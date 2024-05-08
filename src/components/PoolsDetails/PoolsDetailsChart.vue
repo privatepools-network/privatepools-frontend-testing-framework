@@ -566,7 +566,7 @@ const timelines = [
 ]
 
 const isCumulativeMode = ref(false)
-const currentTimeline = ref(timelines[1])
+const currentTimeline = ref(timelines[0])
 
 function changeTimeline(tl) {
   currentTimeline.value = tl
@@ -1567,7 +1567,7 @@ function getFilteredData() {
       isRightChainName(d.Blockchain, chainSelectedName.value) ||
       d.Blockchain == '',
   )
-  chart_data = addEmptyDays(chart_data)
+  //chart_data = addEmptyDays(chart_data)
   let timestamps = chart_data.map((v) => v.timestamp)
   let indexes = TimelineFilters[currentTimeline.value.name](timestamps)
   indexes = indexes.sort((a, b) => a - b)
