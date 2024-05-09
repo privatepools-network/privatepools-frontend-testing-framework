@@ -29,9 +29,7 @@
                 class="d-flex align-items-center font-semibold text-[18px] font-['Roboto_Mono',_monospace]"
               >
                 <CurrencySymbol />{{
-                  parseFloat(
-                    numberToAposthrophe(chains_data.tvl, currencyDecimals),
-                  ).toFixed(3)
+                    numberToAposthrophe(chains_data.tvl, currencyDecimals)
                 }}
               </div>
             </div>
