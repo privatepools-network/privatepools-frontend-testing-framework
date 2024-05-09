@@ -23,6 +23,7 @@ import link from '../assets/images/tokens/LINK.png'
 import ldo from '../assets/images/tokens/LDO.png'
 import boom from '../assets/images/tokens/BOOM.png'
 import uni from '../assets/images/tokens/UNI.png'
+import ppn from '../assets/images/tokens/PPN.png'
 
 export default function computedTokenImage(token) {
   if (token.symbol === 'WBTC' || token === 'WBTC') {
@@ -124,5 +125,8 @@ export default function computedTokenImage(token) {
   }
   if (token.symbol === 'UNI' || token === 'UNI') {
     return uni
+  }
+  if (token.symbol === 'PPN' || token === 'PPN') {
+    return ppn
   }
 }

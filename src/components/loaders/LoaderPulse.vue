@@ -1,43 +1,60 @@
 <template>
   <div class="loading_pulse">
     <!-- <img :src="spinner" alt="D3" class="loading_pulse__img"> -->
-    <span class="loader"></span>
+    <!-- <span class="loader"></span> -->
+    <div class="flex justify-center items-center">
+      
+      <img :src="ppn" class="loader" alt="loading">
+    </div>
   </div>
 </template>
 <script setup>
 // import spinner from '@/assets/images/loader.svg'
+import ppn from '@/assets/images/tokens/PPN.png'
+
 </script>
 <style scoped lang="scss">
 .loading_pulse {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    filter: drop-shadow(0 0 0.3rem #00C9FF);
-    // &__img {
-    //   width: 100px;
-    // }
-  }
-
-.loader {
-  
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: inline-block;
-  border-top: 3px solid #00C9FF;
-  border-right: 3px solid transparent;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  filter: drop-shadow(0 0 0.3rem #00c9ff);
+  // &__img {
+  //   width: 100px;
+  // }
 }
 
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} 
+.loader {
+  width: 48px;
+  height: 48px;
+  // border-radius: 50%;
+  // display: inline-block;
+  // border-top: 3px solid #00c9ff;
+  // border-right: 3px solid transparent;
+  // box-sizing: border-box;
+  animation: pulse 2s linear infinite;
+}
+
+
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.85);
+		// box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		// box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(0.85);
+		// box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+}
+
 </style>

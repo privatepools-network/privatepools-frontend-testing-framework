@@ -1,8 +1,8 @@
 <template>
-  <div class="pools-rows" >
+  <div class="pools-rows">
     <div class="pools-row pools-row_header">
       <div
-        class="pools-row__col text-black dark:!text-white"
+        class="pools-row__col !text-black dark:!text-white"
         v-for="(headCaption, headCaptionIndex) in headers"
         :key="headCaption"
       >
@@ -17,16 +17,12 @@
               v-if="
                 !['pool composition', 'actions', 'tokens'].includes(
                   headCaption.toLowerCase(),
-                ) 
+                )
               "
-            >
-           
-            </div>
+            ></div>
             <div
               style="width: 20px; display: flex; align-items: center; gap: 6px"
-              v-if="
-                ['tokens'].includes(headCaption.toLowerCase())
-              "
+              v-if="['tokens'].includes(headCaption.toLowerCase())"
             >
               <svg
                 width="24"
@@ -74,27 +70,42 @@
             >
               {{ headCaption }}
             </div>
-         
           </div>
         </div>
       </div>
     </div>
-    {{ console.log('filterByStatus', filterByStatus) }}
-    <LoaderPulse v-if="!all_tokens" />
-    <TopTradingTokensPoolRow
-    v-else-if="all_tokens && all_tokens.length > 0"
-      v-for="(pool, index) in all_tokens"
-      :poolsLength="all_tokens.length"
+    {{ console.log('all_pools!!!', all_pools) }}
+    <LoaderPulse v-if="!all_pools" />
+    <InvestmentsPoolRow
+      v-else-if="all_pools && all_pools.length > 0"
+      v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
       :key="pool.name"
       :pool="pool"
+      :userPools="
+        all_pools.filter((item) =>
+          user_staked_pools.map((p) => p.id).includes(item.id),
+        )
+      "
       :index="index"
-
+      @goToPoolWithdraw="goToPoolWithdraw"
+      @goToCLPool="goToCLPool"
+      @goToPool="goToPool"
+      @goToPoolDeposit="goToPoolDeposit"
+      @goToPoolManage="goToPoolManage"
+      @goToCL="goToCL"
       :isActions="true"
     />
+    <div
+      v-else
+      class="p-10 flex justify-center items-center dark:!text-white text-black"
+    >
+      No pools of this type
+    </div>
   </div>
+
   <!-- <Pagination
       :perPage="perPage"
-      :pools="all_tokens"
+      :pools="all_pools"
       :currentPage="currentPage"
       @changePage="changePage"
       @changePerPage="changePerPage"
@@ -102,10 +113,11 @@
     ></Pagination> -->
 </template>
 <script setup>
-import { t } from 'i18next';
-import Pagination from '../Pool/Pagination.vue';
-import TopTradingTokensPoolRow from './TopTradingTokensPoolRow.vue';
-import {defineProps, ref} from "vue"
+import { t } from 'i18next'
+import Pagination from '../Pool/Pagination.vue'
+import InvestmentsPoolRow from '../Pool/InvestmentsPoolRow.vue'
+import { defineProps, ref } from 'vue'
+import LoaderPulse from '../loaders/LoaderPulse.vue'
 
 const perPage = ref(25)
 const currentPage = ref(1)
@@ -122,65 +134,92 @@ function changePerPage(v1) {
   perPage.value = Number(v1)
   currentPage.value = 1
 }
-
-const props = defineProps(["all_tokens"])
-
+const props = defineProps(['all_pools', 'user_staked_pools'])
 
 const headers = [
-  '#',
-  t('tokens_name'),
+  'Name',
+  'AVG APR',
+  'Liquidity Deposited',
+  '% Of Pool',
+  'Returns Harvested',
   'TVL',
-  t('volume'),
-  t('profit'),
-
+  'Volume',
+  'Fees',
+  'AVG Profit Per Trade',
+  'Number Of Trades',
 ]
-
 </script>
 <style lang="scss" scoped>
-  @import '@/styles/_variables.scss';
+@import '@/styles/_variables.scss';
 
 .pools-row {
+  display: flex;
+  align-items: center;
+  padding: 24px 32px;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(49, 56, 61, 0.81);
+  cursor: pointer;
+
+  @media all and (max-width: $lg) {
+    min-width: 130%;
+  }
+
+  @media all and (max-width: $md) {
+    min-width: 300%;
+  }
 
   &__col {
-      display: flex;
-      // color: #fff;
-      width: 18%;
-      // justify-content: center;
+    display: flex;
+    // color: #fff;
+    width: 18%;
+    // justify-content: center;
 
-      @media (max-width: $xxl) {
-        width: 23%;
-      }
-
-      &:first-child {
-        min-width: 180px;
-        display: flex;
-        justify-content: start;
-
-        @media (max-width: $xl) {
-          min-width: 250px;
-        }
-
-        @media (max-width: $lg) {
-          min-width: 200px;
-        }
-      }
-      &:nth-child(2) {
-          display: flex;
-          justify-content: start;
-        }
-      
-
-      
+    @media (max-width: $xxl) {
+      width: 23%;
     }
+
+    &:first-child {
+      min-width: 180px;
+      display: flex;
+      justify-content: start;
+
+      @media (max-width: $xl) {
+        min-width: 250px;
+      }
+
+      @media (max-width: $lg) {
+        min-width: 200px;
+      }
+    }
+
+    &:nth-child(2) {
+      min-width: 30%;
+
+      @media (max-width: $xl) {
+        min-width: 250px;
+      }
+
+      @media (max-width: $lg) {
+        min-width: 200px;
+      }
+    }
+
+    &:last-child {
+      width: 10%;
+    }
+  }
 }
+
 .pools {
   &-rows {
     padding: 0;
     border-radius: 16px;
     border: 1px solid #ffffff0d;
-    background: linear-gradient(0deg,
-        rgba(255, 255, 255, 2%),
-        rgba(255, 255, 255, 0%));
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 2%),
+      rgba(255, 255, 255, 0%)
+    );
     box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
     backdrop-filter: blur(10px);
 
@@ -190,9 +229,5 @@ const headers = [
       overflow-x: auto;
     }
   }
-
-
-
 }
-
 </style>

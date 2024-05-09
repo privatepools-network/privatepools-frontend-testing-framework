@@ -1162,3 +1162,17 @@ body::-webkit-scrollbar-thumb {
     box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
   }
 }
+
+
+
+.pools-row {
+  &_header {
+    font-size: clamp(10px, 1vw, 12px);
+    text-transform: uppercase;
+    font-weight: 500;
+
+    @media (max-width: $xxl) {
+      font-size: 8px;
+    }
+  }
+}

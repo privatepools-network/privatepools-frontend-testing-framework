@@ -924,7 +924,11 @@ function getFilteredData() {
 }
 
 .chart-logo {
-  display: none;
+  position: relative;
+  top: 42%;
+  left: 45%;
+  opacity: 0.15;
+  height: 40px;
 }
 
 .chart {

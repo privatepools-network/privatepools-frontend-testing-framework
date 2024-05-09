@@ -78,22 +78,28 @@ defineProps(['closeToast', 'toastProps'])
 </template>
 
 <style lang="scss">
+.Toastify__toast-theme--dark {
+  background: #15151524 !important;
+  backdrop-filter: blur(20px) !important;
+}
+
 .toast_container {
 }
 
 .toast_header {
-  
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 15px;
 }
 
 .toast_text {
   margin-top: 10px;
+  font-family: 'Syne', sans-serif;
   
   font-size: 10px;
   font-weight: 400;
-  line-height: 20px;
+  font-size: 11px;
+  line-height: 13px;
 }
 
 .Toastify__toast-body {
