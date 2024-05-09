@@ -12,17 +12,11 @@
             :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
             style="cursor: pointer; height: 20px"
           >
-            <div
-              style=""
-              v-if="
-                !['pool composition', 'actions', 'tokens'].includes(
-                  headCaption.toLowerCase(),
-                )
-              "
-            ></div>
-            <div
+          <div
               style="width: 20px; display: flex; align-items: center; gap: 6px"
-              v-if="['tokens'].includes(headCaption.toLowerCase())"
+              v-if="
+                ['tokens'].includes(headCaption.toLowerCase())
+              "
             >
               <svg
                 width="24"
@@ -63,6 +57,7 @@
                 </defs>
               </svg>
             </div>
+          
 
             <div
               @click="onDatatableHeaderClick(headCaption)"
@@ -137,16 +132,15 @@ function changePerPage(v1) {
 const props = defineProps(['all_pools', 'user_staked_pools'])
 
 const headers = [
-  'Name',
+  'Tokens',
   'AVG APR',
+  'Total Returns',
   'Liquidity Deposited',
   '% Of Pool',
-  'Returns Harvested',
+  'Rewards',
   'TVL',
   'Volume',
-  'Fees',
-  'AVG Profit Per Trade',
-  'Number Of Trades',
+  'Actions',
 ]
 </script>
 <style lang="scss" scoped>
@@ -179,34 +173,22 @@ const headers = [
     }
 
     &:first-child {
-      min-width: 180px;
+      // min-width: 150px;
       display: flex;
       justify-content: start;
 
-      @media (max-width: $xl) {
-        min-width: 250px;
-      }
+      // @media (max-width: $xl) {
+      //   min-width: 150px;
+      // }
 
-      @media (max-width: $lg) {
-        min-width: 200px;
-      }
+      // @media (max-width: $lg) {
+      //   min-width: 100px;
+      // }
     }
 
-    &:nth-child(2) {
-      min-width: 30%;
+   
 
-      @media (max-width: $xl) {
-        min-width: 250px;
-      }
-
-      @media (max-width: $lg) {
-        min-width: 200px;
-      }
-    }
-
-    &:last-child {
-      width: 10%;
-    }
+  
   }
 }
 
