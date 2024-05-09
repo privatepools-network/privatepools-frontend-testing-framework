@@ -73,6 +73,7 @@
     "vue-multiselect": "3.0.0-alpha.2",
     "vue-next-select": "^2.10.5",
     "vue-router": "^4.1.6",
+    "vue-typical": "^2.1.0",
     "vue3-apexcharts": "^1.4.4",
     "vue3-click-away": "^1.2.4",
     "vue3-histogram-slider": "^0.4.16",

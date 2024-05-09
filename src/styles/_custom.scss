@@ -47,7 +47,16 @@ body::-webkit-scrollbar-thumb {
   font-family: 'Roboto Mono', monospace;
 
 }
+.blink::after {
+  content: '_';
+  animation: blink 1s infinite step-start;
+}
 
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
 .load_more {
   display: flex;
   justify-content: center;
