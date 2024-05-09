@@ -248,12 +248,12 @@
                 style="font-size: 9px; font-weight: 700"
                 class="flex items-center gap-1"
               >
-                <div style="font-size: 18px; font-weight: 700">
+                <div class="text-[18px] font-[700]">
                   {{ lp_name }}
                 </div>
               </div>
               <div v-else class="d-flex flex-column gap-2">
-                <div style="font-size: 18px; font-weight: 700">
+                <div class="text-[18px] font-[700]">
                   {{ lp_name }}
                 </div>
               </div>
@@ -291,7 +291,7 @@
               class="d-flex align-items-end justify-content-between mt-4 gap-3"
             >
               <div class="d-flex flex-column gap-2">
-                <div style="font-size: 18px; font-weight: 700">
+                <div class="text-[18px] font-[700] font-['Roboto_Mono',_monospace]">
                   {{ console.log('STAKED POOL', userStakedPool) }}
                   <CurrencySymbol />
                   {{
@@ -340,7 +340,7 @@
               class="d-flex align-items-end justify-content-between mt-4 gap-3"
             >
               <div class="d-flex flex-column gap-2">
-                <div style="font-size: 18px; font-weight: 700">$-</div>
+                <div class="text-[18px] font-[700]">$-</div>
               </div>
               <div class="actions_button text-black dark:!text-white">
                 {{ $t('harvest') }}

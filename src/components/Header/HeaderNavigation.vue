@@ -115,7 +115,7 @@
                 <img :src="twitterIcon" />
               </div>
             </a>
-            <a href="https://twitter.com/D3_firm" target="_blank">
+            <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
               <div>
                 <img :src="discordIcon" />
               </div>
@@ -125,7 +125,7 @@
                 <img :src="mediumIcon" />
               </div>
             </a>
-            <a href="mailto:team@d3vs.xyz?subject=Contact" target="_blank">
+            <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
               <div>
                 <img :src="telegramIcon" />
               </div>
