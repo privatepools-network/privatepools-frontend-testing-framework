@@ -20,8 +20,10 @@
               <ThreeDots />
             </div>
             <div v-else 
-              class="visible_head mt-[10px] dark:!text-white text-black font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
-              ${{ parseFloat(networks_data.portfolioBalance).toFixed(3) }}
+              class="visible_head mt-[10px] flex items-center dark:!text-white text-black font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
+              $
+              <!-- {{ parseFloat(networks_data.portfolioBalance).toFixed(3) }} -->
+              <count-up  :start-val='0' :end-val='parseFloat(networks_data.portfolioBalance).toFixed(3)' :duration='3' :options="{ separator: '.' }"></count-up>
             </div>
           </div>
         </div>
@@ -214,6 +216,7 @@ import ThreeDots from '@/components/loaders/ThreeDots.vue'
 import { formatBigNumber } from '@/lib/utils'
 import { Network, DisplayNetwork } from '@/composables/useNetwork'
 import computedTokenImage from '@/composables/useComputedTokenImage'
+import CountUp from 'vue-countup-v3'
 
 import {
   usePool24hProfit,

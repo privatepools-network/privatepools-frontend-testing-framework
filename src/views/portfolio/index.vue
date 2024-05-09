@@ -61,23 +61,7 @@
             </div> -->
 
             <InvestmentsTable :user_staked_pools="UserStackedMock" :all_pools="InvestmentsWithDetailsMOCK" />
-            <!-- <DataTable v-else :data="selectedInvestmentData" :default_head_captions="investmentHeadCaptions"
-              @table-row-click="onDatatableRowClick" :table_bg="'bg-primary'"
-              @table-header-click="onDatatableHeaderClick" :sortedHeader="sortedHeader" :isFullTable="true"
-              :displayTable="selectedInvestmentData" :sortIcons="true">
-              <template v-slot:default="{ dataCell, dataCellKey }">
-                <div>
-                  <DataTableCellTokenNamePaired v-if="dataCellKey === 'Name'" :value="dataCell" />
-                  <StandardCell v-else-if="
-                    ['% of Pool', 'Avg APR', 'Avg Profit Per Trade'].includes(
-                      dataCellKey,
-                    )
-                  " :value="`${dataCell}%`" />
-                  <StandardCell v-else-if="['Fees'].includes(dataCellKey)" :value="`${dataCell}`" />
-                  <StandardCell v-else :value="`${dataCell}`" />
-                </div>
-              </template>
-            </DataTable> -->
+            
           </div>
       
         <div class="portfolio-table mt-5" v-if="activeTab == t('investments')">

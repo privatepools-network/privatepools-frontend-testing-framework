@@ -33,7 +33,7 @@
       class="portfolio-header__balance flex items-center text-black dark:!text-white"
       v-if="isBalanceHidden == false"
     >
-    {{ formattedBalance }} <CurrencySymbol  /> 
+    <count-up  :start-val='0' :end-val='props.balance.toFixed(2)' :duration='3' :options="{ separator: '.' }"></count-up> <CurrencySymbol  /> 
     </div>
     <div class="portfolio-header__balance text-black dark:!text-white" v-else>
       ${{ hiddenBalance }}
@@ -180,6 +180,7 @@
 import { getTokenEntity } from '@/lib/helpers/util'
 import { ref, defineProps, computed } from 'vue'
 import CurrencySymbol from '../TrackInfo/CurrencySymbol.vue';
+import CountUp from 'vue-countup-v3'
 
 const props = defineProps(['performers', 'balance'])
 

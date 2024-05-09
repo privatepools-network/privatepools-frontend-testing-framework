@@ -43,6 +43,11 @@ body::-webkit-scrollbar-thumb {
   border-radius: 100px;
 }
 
+.countup-wrap span {
+  font-family: 'Roboto Mono', monospace;
+
+}
+
 .load_more {
   display: flex;
   justify-content: center;
