@@ -1,7 +1,7 @@
 <template>
   <div class="table__header">
-    <Tabs style="margin-right: 15px" :selectedTab="activitiesSelectedMode" :tabsOptions="activitiesModes"
-      @changeTab="changeActivitiesMode"></Tabs>
+    <Tabs style="margin-right: 15px" :selectedTab="activitiesModes[english_names.indexOf(activitiesSelectedMode)]"
+      :tabsOptions="activitiesModes" @changeTab="changeActivitiesMode"></Tabs>
 
     <Tabs :selectedTab="actSelectedPeriodOfData" :tabsOptions="periodsOfData" @changeTab="changeActPeriodOfData">
     </Tabs>
@@ -9,7 +9,7 @@
 
   <CRow id="pool-activity-row" class="table-wrapper">
     <Table
-      :headers="activitiesSelectedMode === t('trade') ? [t('actions'), t('details'), t('value'), t('profits'), t('time')] : [t('actions'), t('details'), t('value'), t('time')]">
+      :headers="activitiesSelectedMode === 'Trade' ? [t('actions'), t('details'), t('value'), t('profits'), t('time')] : [t('actions'), t('details'), t('value'), t('time')]">
       <CTableBody v-if="activities" class="text-black dark:!text-white"
         :class="isDark ? 'table-body' : 'table-body-light'">
         <CTableRow v-for="(item, i) in activities.slice(0, sliceNumber)" :key="i" class="table-row">
@@ -48,8 +48,13 @@
             </div>
           </CTableDataCell>
           <CTableDataCell scope="row" class="text-black dark:!text-white table-cell ">
-            <div class="font-['Roboto_Mono',_monospace]">
-              ${{ item[`Value${currentCurrency == "USD" ? "" : "_" + currentCurrency}`] }}
+            <div class="font-['Roboto_Mono',_monospace] flex">
+              <CurrencySymbol/>{{ (item[`Value${currentCurrency == "USD" ? "" : "_" + currentCurrency}`]) }}
+            </div>
+          </CTableDataCell>
+          <CTableDataCell v-if="activitiesSelectedMode === 'Trade'" scope="row" class="text-black dark:!text-white table-cell ">
+            <div class="font-['Roboto_Mono',_monospace] flex">
+              <CurrencySymbol/>{{ parseFloat(item[`Profits${currentCurrency == "USD" ? "" : "_" + currentCurrency}`]).toFixed(currencyDecimals) }}
             </div>
           </CTableDataCell>
 
@@ -120,11 +125,11 @@ import moment from 'moment'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import router from '@/router'
-
-
+import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 const settingsStore = useSettings()
 
 const { currentCurrency } = storeToRefs(settingsStore)
+const currencyDecimals = computed(() => currentCurrency.value == "USD" ? 3 : 5)
 const isDark = useDark()
 
 const props = defineProps(['clActivity', 'wpActivity', 'all_activities'])
@@ -138,7 +143,7 @@ const activities = computed(() => {
   return result
     .filter(
       (item) =>
-        activitiesSelectedMode.value == t('all') ||
+        activitiesSelectedMode.value == 'All' ||
         activitiesSelectedMode.value == item.Actions,
     )
     .filter((item) => item.timestamp >= filtered_time_ago)
@@ -186,14 +191,14 @@ const periodsOfData = [
   },
 ]
 
-
+const english_names = router.currentRoute.value.path === '/portfolio' ? ['All', 'Deposit', "Withdraw",] : ['All', 'Deposit', "Trade", "Withdraw",]
 const activitiesModes = router.currentRoute.value.path === '/portfolio' ? [t('all'), t('deposit'), t('withdraw')] : [t('all'), t('deposit'), t('trade'), t('withdraw')]
 
-const activitiesSelectedMode = ref(activitiesModes[0])
+const activitiesSelectedMode = ref(english_names[0])
 const actSelectedPeriodOfData = ref(periodsOfData[4])
 
 function changeActivitiesMode(_new) {
-  activitiesSelectedMode.value = _new
+  activitiesSelectedMode.value = english_names[activitiesModes.indexOf(_new)]
 }
 
 function changeActPeriodOfData(_new) {

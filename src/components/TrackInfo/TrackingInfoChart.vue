@@ -5,20 +5,10 @@
       <LoaderPulse />
     </div>
     <div v-else class="chart_inside">
-      <ChartTimeline
-        :isCumulativeMode="isCumulativeMode"
-        :currentTimeline="currentTimeline"
-        :timelines="timelines"
-        @changeCumulativeMode="changeCumulativeMode"
-        @changeTimeline="changeTimeline"
-      />
+      <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
+        @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
       <img :src="logo" alt="D3" class="chart-logo" height="40px" />
-      <VChart
-        class="chart"
-        :option="optionObj"
-        @legendselectchanged="legendSelectedChange"
-        :autoresize="true"
-      />
+      <VChart class="chart" :option="optionObj" @legendselectchanged="legendSelectedChange" :autoresize="true" />
     </div>
   </div>
 </template>
@@ -109,14 +99,14 @@ const chainsMap = ref(getDefaultChainsMapValue())
 const assets = computed(() =>
   tokensData.value.length > 0
     ? Array.from(
-        new Set(
-          tokensData.value
-            .filter((t) =>
-              isRightChainName(t.Blockchain, chainSelected.value.name),
-            )
-            .map((t) => t.symbol),
-        ),
-      )
+      new Set(
+        tokensData.value
+          .filter((t) =>
+            isRightChainName(t.Blockchain, chainSelected.value.name),
+          )
+          .map((t) => t.symbol),
+      ),
+    )
     : [],
 )
 const preFiltersList = ref([
@@ -165,8 +155,8 @@ const preFiltersList = ref([
   },
 
   {
-    title: 'Profit',
-    code: 'Profit',
+    title: 'Profits',
+    code: 'Profits',
     isSolo: true,
     selected: true,
     cumulable: false,
@@ -198,7 +188,7 @@ const dataGasFees = computed(() => {
 })
 const dataTVL = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'TVL').selected)
-    return filteredData.value.map((v) => v['TVL'])
+    return filteredData.value.map((v) => v['TVL']["Binance"])
   return []
 })
 const dataRevenues = computed(() => {
@@ -225,6 +215,11 @@ const dataAvgApr = computed(() => {
 const dataVolatilityIndexes = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Volatility Index').selected)
     return filteredData.value.map((v) => v['Volatility Index'])
+  return []
+})
+const dataProfits = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Profits').selected)
+    return filteredData.value.map((v) => v[`Profits`])
   return []
 })
 
@@ -255,7 +250,7 @@ const filters = ref({
   Volume: true,
   TVL: false,
   ['Average APR']: true,
-  ['Profit']: false,
+  ['Profits']: false,
   ['Volatility Index']: false,
 })
 
@@ -419,8 +414,8 @@ const series = computed(() => [
   },
   {
     type: 'bar',
-    name: 'Profit',
-    data: dataVolatilityIndexes.value,
+    name: 'Profits',
+    data: dataProfits.value,
     color: '#00FF75',
     sampling: 'lttb',
     areaStyle: {
@@ -551,29 +546,25 @@ const optionObj = ref({
       return `
                 ${params[0].name} <br />
                 ${params
-                  .map((el) =>
-                    el.seriesName === 'Revenue' ||
-                    el.seriesName === 'Profits' ||
-                    el.seriesName === 'TVL' ||
-                    el.seriesName === 'Gas Fees' ||
-                    el.seriesName === 'Volume'
-                      ? `${el.marker} ${el.seriesName}: ${
-                          el.value ? el.value.toFixed(3) : 0
-                        }${props.symbol} <br />`
-                      : el.seriesName === 'Average APR' ||
-                        el.seriesName === 'Volatility Index'
-                      ? `${el.marker} ${el.seriesName}: ${
-                          el.value ? el.value.toFixed(3) : 0
-                        }% <br />`
-                      : el.seriesName === 'Trades'
-                      ? `${el.marker} ${el.seriesName}: ${
-                          el.value ? el.value.toFixed(3) : 0
-                        } Trades  <br />`
-                      : `${el.marker} ${el.seriesName}: ${
-                          el.value ? el.value.toFixed(3) : 0
-                        } <br />`,
-                  )
-                  .join('')}
+          .map((el) =>
+            el.seriesName === 'Revenue' ||
+              el.seriesName === 'Profits' ||
+              el.seriesName === 'TVL' ||
+              el.seriesName === 'Gas Fees' ||
+              el.seriesName === 'Volume'
+              ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
+              }${props.symbol} <br />`
+              : el.seriesName === 'Average APR' ||
+                el.seriesName === 'Volatility Index'
+                ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
+                }% <br />`
+                : el.seriesName === 'Trades'
+                  ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
+                  } Trades  <br />`
+                  : `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
+                  } <br />`,
+          )
+          .join('')}
                 `
     },
   },
@@ -654,7 +645,7 @@ const optionObj = ref({
     },
     {
       type: 'value',
-      name: 'Profit',
+      name: 'Profits',
       position: 'right',
       min: 0,
 
@@ -787,51 +778,13 @@ function getFilteredData() {
             result_item[filter_code] = item[filter_code]
           }
         }
-        let avg_apr = CalculateAvgApr(
-          profitItem,
-          notFilterdPreviousItems,
-          currentTimeline.value.name,
-          chainSelected.value.name,
-        )
         if (filter_code == 'Average APR') {
-          result_item[filter_code] = avg_apr
+          result_item[filter_code] = item[filter_code]
         }
-        let volatility_index = null
         if (filter_code == 'Volatility Index') {
-          result_item[filter_code] = CalculateVolatilityIndex(
-            chainSelected.value.name,
-            notFilterdPreviousItems,
-            historicalPrices.value,
-            currentTimeline.value.name,
-            assets.value,
-          )
-          volatility_index = result_item[filter_code]
+          result_item[filter_code] = item[filter_code]
         }
 
-        if (filter_code == 'Sharpe Ratio') {
-          result_item[filter_code] = CalculateSharpeRatio(
-            chainSelected.value.name,
-            notFilterdPreviousItems,
-            historicalPrices.value,
-            currentTimeline.value.name,
-            assets.value,
-            avg_apr,
-            result_item.timestamp,
-            volatility_index,
-          )
-        }
-        if (filter_code == 'Sortino Ratio') {
-          result_item[filter_code] = CalculateSortinoRatio(
-            chainSelected.value.name,
-            notFilterdPreviousItems,
-            historicalPrices.value,
-            currentTimeline.value.name,
-            assets.value,
-            avg_apr,
-            result_item.timestamp,
-            volatility_index,
-          )
-        }
       } else {
         result_item['Blockchain'] = ''
         if (isCumulativeMode.value && selectedFilters[k].cumulable) {
@@ -899,39 +852,6 @@ const convertFromNumber = (str) => {
   return result
 }
 
-// function updateTokenFilters(selected, all) {
-//   for (const [key] of Object.entries(filters.value)) {
-//     if (all.includes(key)) {
-//       delete filters.value[key]
-//     }
-//   }
-//   for (let k = 0; k < selected.length; k++) {
-//     filters.value[selected[k]] = true
-//   }
-// }
-
-// function onDenominationClick(item, denomination) {
-//   if (item.selectedDenominations.includes(denomination)) {
-//     item.selectedDenominations = item.selectedDenominations.filter(
-//       (d) => d != denomination,
-//     )
-//   } else {
-//     item.selectedDenominations.push(denomination)
-//   }
-//   item.selected = item.selectedDenominations.length > 0
-//   updateTokenFilters(item.selectedDenominations, assets.value)
-// }
-
-// function onClearClick(item) {
-//   item.selectedDenominations = []
-//   item.selected = false
-//   updateTokenFilters(item.selectedDenominations, assets.value)
-// }
-// function onToggleAllClick(item) {
-//   item.selectedDenominations = [...item.denominations]
-//   item.selected = true
-//   updateTokenFilters(item.selectedDenominations, assets.value)
-// }
 
 function getDefaultChainsMapValue() {
   return ChainRelatedFields.reduce(
