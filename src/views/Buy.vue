@@ -409,10 +409,9 @@ import {
 import { useUniswapPPNHistory } from '@/composables/concentrated-liquidity/useUniswapPPNHistory'
 import Modal from '@/UI/Modal.vue'
 import {
-  buyPPNToken,
+  swapPPNToken,
   getAmountOut,
 } from '@/composables/poolActions/swap/weighted/swap'
-import { BigNumber, ethers } from 'ethers'
 import { SwapType } from '@wavelength/sdk'
 
 const tokenPPN = ref({
@@ -632,11 +631,12 @@ async function buyClick() {
     //   provider.getSigner(),
     //   selectedTab.value == 'Buy' ? 'in' : 'out',
     // )
-    await buyPPNToken(
-      convertedTokenCurrency.value,
+    await swapPPNToken(
       convertedTokenPPN.value,
+      convertedTokenCurrency.value,
       selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
       provider.getSigner(),
+      selectedTab.value,
     )
   }
 }
@@ -646,12 +646,10 @@ const token1InitialAmount = ref(0)
 
 function onToken0Focus() {
   token0InitialAmount.value = token0Amount.value
-  console.log(token0Amount.value)
 }
 
 function onToken1Focus() {
   token1InitialAmount.value = token1Amount.value
-  console.log(token1Amount.value)
 }
 
 async function onToken0Blur() {
