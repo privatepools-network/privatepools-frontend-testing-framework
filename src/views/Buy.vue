@@ -32,19 +32,29 @@
             <div class="d-flex">
               <div
                 @click="selectedTab = 'Buy'"
-                :class="selectedTab === 'Sell' ? 'buy_tab dark:!text-[#5e6673] text-black dark:!bg-[#2b3139] bg-[#CBCBCB]' : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#171717]'"
+                :class="
+                  selectedTab === 'Sell'
+                    ? 'buy_tab dark:!text-[#5e6673] text-black dark:!bg-[#2b3139] bg-[#CBCBCB]'
+                    : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#171717]'
+                "
               >
                 {{ $t('buy') }}
               </div>
               <div
                 @click="selectedTab = 'Sell'"
-                :class="selectedTab === 'Buy' ? 'buy_tab dark:!text-[#eaecef] text-black dark:!bg-[#2b3139] bg-[#CBCBCB]' : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#171717]'"
+                :class="
+                  selectedTab === 'Buy'
+                    ? 'buy_tab dark:!text-[#eaecef] text-black dark:!bg-[#2b3139] bg-[#CBCBCB]'
+                    : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#171717]'
+                "
               >
                 {{ $t('sell') }}
               </div>
             </div>
             <div class="d-flex flex-column gap-3 p-4">
-              <div class="selector_button dark:!bg-[#22222224] bg-white dark:!text-[#eaecef] text-black">
+              <div
+                class="selector_button dark:!bg-[#22222224] bg-white dark:!text-[#eaecef] text-black"
+              >
                 <div class="d-flex flex-column gap-2">
                   <div>{{ $t('spend') }}</div>
                   <input
@@ -130,7 +140,9 @@
                   </div>
                 </div>
               </div>
-              <div class="selector_button dark:!bg-[#22222224] bg-white dark:!text-[#eaecef] text-black">
+              <div
+                class="selector_button dark:!bg-[#22222224] bg-white dark:!text-[#eaecef] text-black"
+              >
                 <div class="d-flex flex-column gap-2">
                   <div>{{ $t('receive') }}</div>
                   <input
@@ -217,13 +229,15 @@
                 </div>
               </div>
               <div class="referrals_button" @click="buyClick()">
-                {{ selectedTab === 'Sell' ? $t('sell') : $t('buy')  }}
+                {{ selectedTab === 'Sell' ? $t('sell') : $t('buy') }}
               </div>
             </div>
           </div>
         </div>
         <div class="chart_container" style="width: 65%">
-          <div class="d-flex justify-content-between dark:!text-white text-black">
+          <div
+            class="d-flex justify-content-between dark:!text-white text-black"
+          >
             <div>PPN/USDC</div>
             <div>$65.62</div>
           </div>
@@ -253,17 +267,21 @@
       </div>
 
       <div
-        class=" mt-[160px] mb-5 dark:!text-white text-black text-3xl font-bold"
+        class="mt-[160px] mb-5 dark:!text-white text-black text-3xl font-bold"
       >
         {{ $t('private_pool_network_token') }}
       </div>
       <div class="d-flex gap-5">
-        <div class="buy_balance_container w-full dark:!bg-[#22222224] bg-white dark:!text-white text-black">
+        <div
+          class="buy_balance_container w-full dark:!bg-[#22222224] bg-white dark:!text-white text-black"
+        >
           <div class="text-lg font-bold">$PPN {{ $t('token') }}</div>
           <div class="d-flex justify-content-between mt-3">
             <div class="d-flex justify-content-between w-100 gap-3">
               <div>
-                <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
+                <div
+                  class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1"
+                >
                   PPN {{ $t('price') }}
                   <svg
                     width="12"
@@ -280,11 +298,15 @@
                     />
                   </svg>
                 </div>
-                <div class="text-lg font-semibold dark:!text-white text-black" >$65.62</div>
+                <div class="text-lg font-semibold dark:!text-white text-black">
+                  $65.62
+                </div>
               </div>
 
               <div>
-                <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
+                <div
+                  class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1"
+                >
                   {{ $t('market_cap') }}
                   <svg
                     width="12"
@@ -307,7 +329,9 @@
               </div>
 
               <div>
-                <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
+                <div
+                  class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1"
+                >
                   {{ $t('volume') }}
                   <svg
                     width="12"
@@ -324,11 +348,15 @@
                     />
                   </svg>
                 </div>
-                <div class="text-lg font-semibold dark:!text-white text-black">A$85.66B</div>
+                <div class="text-lg font-semibold dark:!text-white text-black">
+                  A$85.66B
+                </div>
               </div>
 
               <div>
-                <div class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1">
+                <div
+                  class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1"
+                >
                   {{ $t('circulating_supply') }}
                   <svg
                     width="12"
@@ -345,13 +373,14 @@
                     />
                   </svg>
                 </div>
-                <div class="text-lg font-semibold dark:!text-white text-black">19.65M</div>
+                <div class="text-lg font-semibold dark:!text-white text-black">
+                  19.65M
+                </div>
               </div>
             </div>
           </div>
-          <div class="ppn_token_desc   dark:!text-[#b7bdc6] text-black">
+          <div class="ppn_token_desc dark:!text-[#b7bdc6] text-black">
             {{ $t('ppn_is_desription_buy_page') }}
-            
           </div>
         </div>
       </div>
@@ -379,9 +408,15 @@ import {
 } from '@/composables/poolActions/swap/cl/swap'
 import { useUniswapPPNHistory } from '@/composables/concentrated-liquidity/useUniswapPPNHistory'
 import Modal from '@/UI/Modal.vue'
+import {
+  buyPPNToken,
+  getAmountOut,
+} from '@/composables/poolActions/swap/weighted/swap'
+import { BigNumber, ethers } from 'ethers'
+import { SwapType } from '@wavelength/sdk'
 
 const tokenPPN = ref({
-  address: '0x0cfa47331af179f9b932ae87f447f675a2b500d1',
+  address: '0xC687E90f6a0a7e01d3fd03df2aABCeA7f323A845',
   symbol: 'PPN',
   balance: 0,
   decimals: 18,
@@ -575,12 +610,12 @@ onMounted(async () => {
     ])
     tokenPPN.value.decimals = decimals1
     tokenCurrency.value.decimals = decimals2
-    poolInfo.value = await GetCLPoolInfo(
-      convertedTokenPPN.value,
-      convertedTokenCurrency.value,
-      500,
-      signer,
-    )
+    // poolInfo.value = await GetCLPoolInfo(
+    //   convertedTokenPPN.value,
+    //   convertedTokenCurrency.value,
+    //   500,
+    //   signer,
+    // )
   }
   chartData.value = await useUniswapPPNHistory(56)
   console.log('DATA - ', chartData.value)
@@ -589,13 +624,19 @@ onMounted(async () => {
 async function buyClick() {
   const provider = await InitializeMetamask()
   if (provider) {
-    await SwapCLTokens(
-      convertedTokenPPN.value,
+    // await SwapCLTokens(
+    //   convertedTokenPPN.value,
+    //   convertedTokenCurrency.value,
+    //   poolInfo.value,
+    //   selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
+    //   provider.getSigner(),
+    //   selectedTab.value == 'Buy' ? 'in' : 'out',
+    // )
+    await buyPPNToken(
       convertedTokenCurrency.value,
-      poolInfo.value,
+      convertedTokenPPN.value,
       selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
       provider.getSigner(),
-      selectedTab.value == 'Buy' ? 'in' : 'out',
     )
   }
 }
@@ -614,28 +655,44 @@ function onToken1Focus() {
 }
 
 async function onToken0Blur() {
-  if (token0InitialAmount.value == token0Amount.value) {
+  const provider = await InitializeMetamask()
+  if (token0InitialAmount.value == token0Amount.value || !provider) {
     return
   }
-  const secondAmount = await quoteCL(
-    convertedTokenPPN.value,
+  // const secondAmount = await quoteCL(
+  //   convertedTokenPPN.value,
+  //   convertedTokenCurrency.value,
+  //   poolInfo.value,
+  //   token0Amount.value,
+  //   'in',
+  // )
+  const secondAmount = await getAmountOut(
     convertedTokenCurrency.value,
-    poolInfo.value,
+    convertedTokenPPN.value,
     token0Amount.value,
-    'in',
+    provider.getSigner(),
+    SwapType.SwapExactIn,
   )
   token1Amount.value = secondAmount
 }
 async function onToken1Blur() {
-  if (token1InitialAmount.value == token1Amount.value) {
+  const provider = await InitializeMetamask()
+  if (token1InitialAmount.value == token1Amount.value || !provider) {
     return
   }
-  const secondAmount = await quoteCL(
-    convertedTokenPPN.value,
+  // const secondAmount = await quoteCL(
+  //   convertedTokenPPN.value,
+  //   convertedTokenCurrency.value,
+  //   poolInfo.value,
+  //   token1Amount.value,
+  //   'out',
+  // )
+  const secondAmount = await getAmountOut(
     convertedTokenCurrency.value,
-    poolInfo.value,
+    convertedTokenPPN.value,
     token1Amount.value,
-    'out',
+    provider.getSigner(),
+    SwapType.SwapExactOut,
   )
   token0Amount.value = secondAmount
 }
@@ -669,7 +726,7 @@ async function onToken1Blur() {
   box-shadow: 0px 4px 4px 0px #00000040;
   border-radius: 16px;
   padding: 30px;
-  
+
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 400;
   line-height: 22px;
@@ -765,7 +822,6 @@ async function onToken1Blur() {
 // }
 
 .selector_button {
-  
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
@@ -793,7 +849,7 @@ async function onToken1Blur() {
   margin-top: 45px;
   margin-bottom: 5px;
   border-radius: 4px;
-  
+
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
@@ -810,7 +866,6 @@ async function onToken1Blur() {
 }
 
 .chart_container {
-  
   font-size: clamp(16px, 0.8vw, 22px);
   font-weight: 700;
   letter-spacing: 0em;

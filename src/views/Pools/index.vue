@@ -403,6 +403,7 @@ onMounted(async () => {
       name: item,
       selected: item == route.query.token,
     }))
+    await InitUserStakedPools()
   }
   if (window.ethereum !== undefined && networkId.value > 0) {
     let provider = new ethers.providers.Web3Provider(window.ethereum)

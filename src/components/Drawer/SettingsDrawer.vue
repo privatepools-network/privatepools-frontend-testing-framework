@@ -79,8 +79,8 @@
           style="cursor: pointer"
           v-for="language in languages"
           :key="language"
+          @click="handleChangeLanguage(language)"
         >
-        <!-- @click="handleChangeLanguage(language)" -->
           <div>{{ language.nativeName }}</div>
           <div v-if="currentLanguage === language.name">
             <img :src="check_icon" />

@@ -1,10 +1,10 @@
 import axios from 'axios'
-
-export async function getSidebarData(address) {
+import { BACKEND_URL } from '../pools/mappings'
+export async function getSidebarData(address, network) {
   const subUrls = ['']
   const promises = []
   for (let i = 0; i < subUrls.length; i++) {
-    const url = `https://binancerunbotdoprimocosta.xyz/portfolio/${address}`
+    const url = `${BACKEND_URL[network]}/portfolio/${address}`
     promises.push(axios.get(url))
   }
   const data = await Promise.all(promises)

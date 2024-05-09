@@ -123,16 +123,24 @@ onBeforeMount(async () => {
   }
   else {
     allData.value = await getGeneralData(56);
-    let mmProvider = await InitializeMetamask()
-    let address = await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
-    user_staked_pools.value = await useWalletPools(
-      address,
-      networkId.value,
-      false,
-    )
     generalOverviewLoader.value = false
     // historicalPrices.value = await GetHistoricalTokenPrices(allData.value.topTradingTokens.map((item) => item.symbol), true, 500, currency.value)
     console.log(allData.value)
+  }
+})
+watch(networkId, async () => {
+  if(networkId.value){
+    let mmProvider = await InitializeMetamask()
+    if (mmProvider) {
+  
+      let address = await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
+  
+      user_staked_pools.value = await useWalletPools(
+        address,
+        56,
+        false,
+      )
+    }
   }
 })
 
@@ -214,7 +222,7 @@ async function Init() {
   let formatted_token_snapshots = FormatTokenSnapshots(tokenSnapshots, tokensData.value)
   formatChartData(formatted_tvl, formatted_token_snapshots, chart_data)
 
-  chartData.value = addEmptyDays(chart_data)
+  chartData.value =chart_data //addEmptyDays(chart_data)
 }
 
 
