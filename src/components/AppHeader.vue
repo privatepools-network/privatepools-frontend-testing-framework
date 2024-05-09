@@ -14,6 +14,7 @@
       <HeaderSearchbar
         :selectOptions="selectOptions"
         :handleInput="handleInput"
+        :searchInput="searchInput"
       />
 
       <div v-if="!address">

@@ -1,6 +1,6 @@
 <template>
-  <Dropdown :distance="4" :placement="'bottom-start'">
-    <div class="flex items-center">
+  <!-- <Dropdown :distance="4" :placement="'bottom-start'"> -->
+    <div class="flex items-center" @click="onClick">
       <div class="button gap-2">
         {{ $t('Create a Pool') }}
       </div>
@@ -23,7 +23,7 @@
         </svg>
       </div>
     </div>
-    <template #popper>
+    <!-- <template #popper>
       <div
         class="compose_pool_dropdown w-[143px]  text-black "
       >
@@ -46,7 +46,7 @@
         </div>
       </div>
     </template>
-  </Dropdown>
+  </Dropdown> -->
 </template>
 <script setup>
 import { ref } from 'vue'
@@ -136,6 +136,7 @@ const onClickConcentratedPool = () => {
 }
 
 .arrow_anim {
+  rotate: -90deg;
   animation: float 2s ease-in-out infinite;
 
 }

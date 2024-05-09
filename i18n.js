@@ -8,7 +8,7 @@ import pt from '@/assets/localization/languages/pt.json'
 i18next
   // detect user language
   // learn more: https://github.com/i18next/i18next-browser-languageDetector
-  .use(LanguageDetector)
+  // .use(LanguageDetector)
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({

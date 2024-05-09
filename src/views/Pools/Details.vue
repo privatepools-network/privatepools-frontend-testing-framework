@@ -1092,7 +1092,7 @@ function filterPoolActions(removeExcess = true) {
 
 const poolActivityData = computed(() => filterPoolActions(false))
 
-const colors = ['#FB800F', '#803D00', '#F07E07', '#FF9B40']
+const colors = ['#01B47E', '#4AFF7D', '#1AB401', '#8AFF42']
 const dynamicDonut = computed(() => {
   let labels = pool.value.tokens.map((t) => t.symbol)
   let arrayOfColors = labels.map((s, i) =>
@@ -1683,7 +1683,7 @@ function changeToDepositView() {
     border-radius: 15px;
 
     :deep(.apexcharts-inner) {
-      filter: drop-shadow(0 0 0.35rem #ff9c406b);
+      filter: drop-shadow(0 0 0.35rem #01b47e5e);
     }
   }
 }

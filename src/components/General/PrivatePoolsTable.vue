@@ -3,13 +3,18 @@
     <Tabs style="margin-right: 15px" :selectedTab="activitiesModes[english_names.indexOf(activitiesSelectedMode)]"
       :tabsOptions="activitiesModes" @changeTab="changeActivitiesMode"></Tabs>
 
-    <Tabs :selectedTab="actSelectedPeriodOfData" :tabsOptions="periodsOfData" @changeTab="changeActPeriodOfData">
+    <Tabs
+      :selectedTab="actSelectedPeriodOfData"
+      :tabsOptions="periodsOfData"
+      @changeTab="changeActPeriodOfData"
+    >
     </Tabs>
   </div>
-
   <CRow id="pool-activity-row" class="table-wrapper">
-    <Table
-      :headers="activitiesSelectedMode === 'Trade' ? [t('actions'), t('details'), t('value'), t('profits'), t('time')] : [t('actions'), t('details'), t('value'), t('time')]">
+    <div v-if="activities.length === 0" class="!bg-[white] dark:!bg-[#fff0]  backdrop-blur-md h-[500px]">
+      <LoaderPulse/>
+    </div>
+    <Table v-else-if="activities.length !== 0" :headers="activitiesSelectedMode === 'Trade' ? [t('actions'), t('details'), t('value'), t('profits'), t('time')] : [t('actions'), t('details'), t('value'), t('time')]">
       <CTableBody v-if="activities" class="text-black dark:!text-white"
         :class="isDark ? 'table-body' : 'table-body-light'">
         <CTableRow v-for="(item, i) in activities.slice(0, sliceNumber)" :key="i" class="table-row">
@@ -23,23 +28,46 @@
               </div>
             </div>
           </CTableDataCell>
-          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
+          <CTableDataCell
+            scope="row"
+            class="text-black dark:!text-white table-cell"
+          >
             <div class="details-cell">
-              <div v-for="(tokenEntry, tokenIndex) in item['Details']" class="details-cell__token-entity"
-                :key="`activity-token-key-${tokenIndex}`">
-                <div v-for="(tokenInfo, tokenInfoIndex) in Object.entries(
-                  tokenEntry,
-                )" :class="tokenInfo[0] !== 'action'
-                  ? 'details-cell__token-entity'
-                  : ''
-                  " :key="`activity-token-info-key-${tokenInfoIndex}`">
-                  <div v-if="tokenInfo[0] !== 'action'" class="d-flex align-items-center">
-                    <img :src="getTokenEntity(tokenInfo[0], 'short').icon" class="details-cell__token-entity__icon" />
-                    <div class="details-cell__token-entity__token-name font-['Roboto_Mono',_monospace]">
+              <div
+                v-for="(tokenEntry, tokenIndex) in item['Details']"
+                class="details-cell__token-entity"
+                :key="`activity-token-key-${tokenIndex}`"
+              >
+                <div
+                  v-for="(tokenInfo, tokenInfoIndex) in Object.entries(
+                    tokenEntry,
+                  )"
+                  :class="
+                    tokenInfo[0] !== 'action'
+                      ? 'details-cell__token-entity'
+                      : ''
+                  "
+                  :key="`activity-token-info-key-${tokenInfoIndex}`"
+                >
+                  <div
+                    v-if="tokenInfo[0] !== 'action'"
+                    class="d-flex align-items-center"
+                  >
+                    <img
+                      :src="getTokenEntity(tokenInfo[0], 'short').icon"
+                      class="details-cell__token-entity__icon"
+                    />
+                    <div
+                      class="details-cell__token-entity__token-name font-['Roboto_Mono',_monospace]"
+                    >
                       {{ tokenInfo[1] }}
                     </div>
-                    <div v-if="tokenEntry.action === 'Swap' && tokenInfoIndex === 1
-                    " style="margin-left: 10px">
+                    <div
+                      v-if="
+                        tokenEntry.action === 'Swap' && tokenInfoIndex === 1
+                      "
+                      style="margin-left: 10px"
+                    >
                       <img :src="swapArrowIcon" />
                     </div>
                   </div>
@@ -58,48 +86,84 @@
             </div>
           </CTableDataCell>
 
-          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
+          <CTableDataCell
+            scope="row"
+            class="text-black dark:!text-white table-cell"
+          >
             <div class="time-cell">
-              <a target="_blank" :href="`${configService.getNetworkConfig(item.chainId).explorer
-                }/tx/${item.Tx}`" class="flex items-center gap-1 text-black dark:!text-white">
-                {{ moment.unix(item['timestamp']).format("L, LTS") }}
+              <a
+                target="_blank"
+                :href="`${
+                  configService.getNetworkConfig(item.chainId).explorer
+                }/tx/${item.Tx}`"
+                class="flex items-center gap-1 text-black dark:!text-white"
+              >
+                {{ moment.unix(item['timestamp']).format('L, LTS') }}
                 <div class="w-[14px] h-[14px]">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <path
                       d="M10.5068 7.58333V11.0833C10.5068 11.3928 10.3839 11.6895 10.1651 11.9083C9.94633 12.1271 9.64959 12.25 9.34017 12.25H2.9235C2.61408 12.25 2.31734 12.1271 2.09854 11.9083C1.87975 11.6895 1.75684 11.3928 1.75684 11.0833V4.66667C1.75684 4.35725 1.87975 4.0605 2.09854 3.84171C2.31734 3.62292 2.61408 3.5 2.9235 3.5H6.4235"
-                      stroke="#00e0ff" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M8.75684 1.75H12.2568V5.25" stroke="#00e0ff" stroke-width="1.16667" stroke-linecap="round"
-                      stroke-linejoin="round" />
-                    <path d="M5.83984 8.16667L12.2565 1.75" stroke="#00e0ff" stroke-width="1.16667"
-                      stroke-linecap="round" stroke-linejoin="round" />
+                      stroke="#00e0ff"
+                      stroke-width="1.16667"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M8.75684 1.75H12.2568V5.25"
+                      stroke="#00e0ff"
+                      stroke-width="1.16667"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M5.83984 8.16667L12.2565 1.75"
+                      stroke="#00e0ff"
+                      stroke-width="1.16667"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </svg>
                 </div>
               </a>
             </div>
           </CTableDataCell>
         </CTableRow>
-        <div @click="activities.slice(0, (sliceNumber = sliceNumber + 5))"
-          class="load_more text-black dark:!text-white">
+        <div
+          v-if="sliceNumber < activities.length"
+          @click="activities.slice(0, (sliceNumber = sliceNumber + 5))"
+          class="load_more text-black dark:!text-white"
+        >
           {{ $t('load_more') }}
           <img :src="arrow_bottom" class="!border-b-0 !p-0" />
         </div>
       </CTableBody>
-      <div v-else-if="activities.length === 0"
-        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20">
-        <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
-          No Activity yet
-        </div>
-        <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
-          Choose a pool to invest or create a pool to get started.
-        </div>
-        <div class="add_liq_btn_pools">
-          <div class="d-flex gap-1">+ Add liquidity</div>
-        </div>
-      </div>
-      <div v-else style="height: 500px">
-        <LoaderPulse></LoaderPulse>
-      </div>
     </Table>
+    <div
+      v-else
+      class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20"
+    >
+      <div
+        class="text-black dark:!text-white"
+        style="font-size: 14px; text-align: center"
+      >
+        No Activity yet
+      </div>
+      <div
+        class="text-black dark:!text-white"
+        style="font-size: 12px; text-align: center"
+      >
+        Choose a pool to invest or create a pool to get started.
+      </div>
+      <div class="add_liq_btn_pools">
+        <div class="d-flex gap-1">+ Add liquidity</div>
+      </div>
+    </div>
   </CRow>
 
   <!-- <Pagination :perPage="perPage" :pools="activities" :currentPage="currentPage" @changePage="changePage"
@@ -107,7 +171,7 @@
 </template>
 <script setup>
 import Tabs from '@/UI/Tabs'
-import LoaderPulse from '../loaders/LoaderPulse.vue'
+import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import Table from '@/UI/Table'
 import { ref, defineProps, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
@@ -136,7 +200,7 @@ const props = defineProps(['clActivity', 'wpActivity', 'all_activities'])
 const sliceNumber = ref(10)
 const activities = computed(() => {
   let result = props.all_activities ?? []
-  console.log("HERE", props.all_activities)
+  console.log('HERE', props.all_activities)
 
   let now = Date.now() / 1000
   let filtered_time_ago = now - actSelectedPeriodOfData.value.number
@@ -149,7 +213,6 @@ const activities = computed(() => {
     .filter((item) => item.timestamp >= filtered_time_ago)
     .sort((a, b) => b.timestamp - a.timestamp)
 })
-
 
 const perPage = ref(25)
 const currentPage = ref(1)
@@ -166,7 +229,6 @@ function changePerPage(v1) {
   perPage.value = Number(v1)
   currentPage.value = 1
 }
-
 
 const periodsOfData = [
   {
@@ -224,10 +286,10 @@ function changeActPeriodOfData(_new) {
   }
 
   &:nth-child(2) {
-    width: 600px;
+    width: 300px !important;
 
     @media (max-width: $xxl) {
-      width: 300px;
+      width: 200px !important;
     }
   }
 }

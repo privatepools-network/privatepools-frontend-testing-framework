@@ -3,7 +3,7 @@
     <div class="title text-black dark:!text-white my-3">
       {{ $t('overview') }}
     </div>
-    <GeneralOverview :overview="allData.overview" />
+    <GeneralOverview :overview="allData.overview" :generalOverviewLoader="generalOverviewLoader"/>
     <div class="title text-black dark:!text-white mt-5 mb-3">
       {{ $t('analytics_chart') }}
     </div>
@@ -25,6 +25,7 @@
           @changeTab="changeTopPerformanceFilter"></Tabs> -->
       </div>
     </div>
+    {{ console.log('user_staked_pools!!!', user_staked_pools) }}
     <GeneralPerformanceTable :user_staked_pools="user_staked_pools" :all_pools="selectedTopPerformanceFilter === t('all') ? allData?.topPerformancePools : allData?.topPerformancePools?.filter(el => el.LiquidityType === selectedTopPerformanceFilter)" />
     <div class="mt-5 mb-3 title text-black dark:!text-white">
       {{ $t('top_trading_tokens') }}
@@ -91,6 +92,8 @@ const joinExits = ref([])
 const clActivity = ref([])
 const activeUsers = ref([])
 
+const generalOverviewLoader = ref(true)
+
 const topPerformanceFilters = [t('all'), 'WP', 'CL']
 
 const selectedTopPerformanceFilter = ref(topPerformanceFilters[0])
@@ -113,13 +116,14 @@ const user_staked_pools = ref([])
 const allData = ref({});
 
 onBeforeMount(async () => {
+  generalOverviewLoader.value = true
   if (!process.env.VUE_APP_LOCAL_API) {
     InitTreasuryYields()
     await Init()
   }
   else {
     allData.value = await getGeneralData(56);
-   
+    generalOverviewLoader.value = false
     // historicalPrices.value = await GetHistoricalTokenPrices(allData.value.topTradingTokens.map((item) => item.symbol), true, 500, currency.value)
     console.log(allData.value)
   }

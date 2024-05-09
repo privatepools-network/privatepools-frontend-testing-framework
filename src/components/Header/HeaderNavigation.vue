@@ -13,6 +13,7 @@
     >
       {{ $t('pools') }}
     </div>
+ 
     <div
       @click="router.push('/buy')"
       :class="
@@ -65,7 +66,7 @@
           >
             {{ $t('general') }}
           </a>
-        <!-- <a
+          <!-- <a
             href="/user_analytics"
             :class="
               router.currentRoute.value.path === '/user_analytics'
@@ -115,7 +116,7 @@
                 <img :src="twitterIcon" />
               </div>
             </a>
-            <a href="https://twitter.com/D3_firm" target="_blank">
+            <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
               <div>
                 <img :src="discordIcon" />
               </div>
@@ -125,7 +126,7 @@
                 <img :src="mediumIcon" />
               </div>
             </a>
-            <a href="mailto:team@d3vs.xyz?subject=Contact" target="_blank">
+            <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
               <div>
                 <img :src="telegramIcon" />
               </div>
@@ -158,7 +159,6 @@ import discordIcon from '@/assets/icons/Footer/discord.svg'
 import telegramIcon from '@/assets/icons/Footer/telegram.svg'
 import mediumIcon from '@/assets/icons/Footer/medium.svg'
 import twitterIcon from '@/assets/icons/Footer/twitter.svg'
-
 defineProps(['address'])
 </script>
 <style lang="scss" scoped>
