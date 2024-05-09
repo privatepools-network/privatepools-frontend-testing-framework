@@ -6,6 +6,9 @@
         v-for="(item, i) in bigContainerMock"
         :key="`${i}-big-container`"
       >
+      {{ console.log('generalOverviewLoader', generalOverviewLoader) }}
+      <LoaderPulse v-if="generalOverviewLoader"/>
+      <div v-else>
         <div class="flex justify-between items-center mb-10">
           <div>
             <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">
@@ -111,13 +114,15 @@
         </div>
       </div>
     </div>
+    </div>
     <div class="flex gap-3 flex-col">
       <div
         class="overview_small_container bg-[#FFFFFF24] dark:!bg-[#22222224]"
         v-for="(item, i) in smallContainerMock"
         :key="`${i}-small`"
       >
-        <div class="flex justify-between items-center">
+      <LoaderPulse v-if="generalOverviewLoader"/>
+        <div v-else class="flex justify-between items-center">
           <div>
             <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">
               {{ item.name }}
@@ -139,6 +144,8 @@
   </div>
 </template>
 <script setup>
+import LoaderPulse from '../loaders/LoaderPulse.vue'
+
 import { CChart } from '@coreui/vue-chartjs'
 import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 import totalUsers from '@/assets/icons/generalIcons/totalUsers.svg'
@@ -154,7 +161,7 @@ import { defineProps, computed } from 'vue'
 import { t } from 'i18next'
 const isDark = useDark()
 
-const props = defineProps(['overview'])
+const props = defineProps(['overview', 'generalOverviewLoader'])
 const bigContainerMock = computed(() =>
   props.overview
     ? [

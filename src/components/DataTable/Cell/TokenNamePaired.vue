@@ -82,6 +82,12 @@ const tokenEntities = computed(() => {
 }
 .pair_avatars_manage_pool {
   width: 32px;
+    background: white;
+    border-radius: 100%;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   margin-right: -2px;
   
 }

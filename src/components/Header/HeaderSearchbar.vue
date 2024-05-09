@@ -1,13 +1,15 @@
 <template>
   <div style="position: relative; cursor: text">
+    
     <vue-select
       :options="selectOptions"
       label-by="id"
       searchable
       @search:input="handleInput"
-      :search-placeholder="$t('search_tokens')"
-      :placeholder="$t('search_tokens')"
+      :search-placeholder="''"
+      :placeholder="''"
     >
+     
       <template #dropdown-item="{ option }">
         <div
           v-if="option.firstToken"
@@ -38,7 +40,9 @@
             <div class="d-flex align-items-center gap-2">
               <img :src="getTokenEntity(option.img, 'short').icon" width="38" />
               <div class="d-flex flex-column">
-                <div class="drop-shadow-lg text-[12px] !text-black dark:!text-white">
+                <div
+                  class="drop-shadow-lg text-[12px] !text-black dark:!text-white"
+                >
                   {{ option.label }}
                 </div>
                 <div
@@ -50,7 +54,9 @@
             </div>
             <div>
               <div class="d-flex flex-column align-items-end">
-                <div class="drop-shadow-lg text-[12px] font-['Roboto_Mono',_monospace] !text-black dark:!text-white">
+                <div
+                  class="drop-shadow-lg text-[12px] font-['Roboto_Mono',_monospace] !text-black dark:!text-white"
+                >
                   {{ option.price }}
                 </div>
                 <div
@@ -129,7 +135,7 @@
                   {{ option.label }}
                 </div>
                 <div
-                  class="drop-shadow-lg  !text-black dark:!text-[#7d7d7d] ml-[18px] text-[10px]"
+                  class="drop-shadow-lg !text-black dark:!text-[#7d7d7d] ml-[18px] text-[10px]"
                 >
                   {{ option.desc }}
                 </div>
@@ -177,6 +183,21 @@
         </template>
       </template>
     </vue-select>
+    <div v-if="!searchInput" style="position: absolute; left: 36px; top: 7px; pointer-events: none;">
+        <v-typical
+          class="text-[12px] text-[#7d7d7d] font-medium blink"
+          :steps="[
+            'PPN offers a new DeFi ecosystem for users',
+            1000,
+            'PPN pioneers new means of value extraction',
+            1000,
+            'PPN empowers access to automated arbitrage',
+            1000,
+          ]"
+          :loop="Infinity"
+          :wrapper="'span'"
+        ></v-typical>
+      </div>
     <div style="position: absolute; left: 7px; top: 9px; color: #858c90">
       <svg
         width="20"
@@ -192,7 +213,10 @@
       </svg>
     </div>
 
-    <div class="bg-[#22222212] rounded py-1 px-2" style="position: absolute; right: 12px; top: 11px; color: #7d7d7d">
+    <div
+      class="bg-[#22222212] rounded py-1 px-2"
+      style="position: absolute; right: 12px; top: 11px; color: #7d7d7d"
+    >
       <svg
         width="5"
         height="12"
@@ -216,8 +240,9 @@ import { getTokenEntity } from '@/lib/helpers/util'
 import VueSelect from 'vue-next-select'
 import 'vue-next-select/dist/index.css'
 import computedTokenImage from '@/composables/useComputedTokenImage'
+import VTypical from 'vue-typical';
 
-defineProps(['selectOptions', 'handleInput'])
+defineProps(['selectOptions', 'handleInput', 'searchInput'])
 
 function goToPool(poolId, chainId, type) {
   router.push(

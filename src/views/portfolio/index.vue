@@ -35,17 +35,16 @@
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
             {{ $t('investments') }}
           </div>
-          <div class="portfolio-table__header">
+          <!-- <div class="portfolio-table__header">
             <div class="portfolio-table__header__left" style="justify-content: space-between; width: 100%">
               <Tabs :selectedTab="selectedInvestmentsMode" :tabsOptions="investementModes"
                 @changeTab="changeInvestmentMode"></Tabs>
             </div>
-          </div>
+          </div> -->
 
           {{ console.log('selectedInvestmentData', selectedInvestmentData) }}
 
-          <div class="portfolio-table__wrapper dark:!bg-[#22222224] bg-white mb-20">
-            <div v-if="!selectedInvestmentData" class="py-40">
+            <!-- <div v-if="!selectedInvestmentData" class="py-40">
               <LoaderPulse />
             </div>
             <div v-else-if="selectedInvestmentData && selectedInvestmentData.length === 0"
@@ -59,27 +58,12 @@
               <div class="add_liq_btn_pools">
                 <div class="d-flex gap-1">+ {{ $t('add_liquidity') }}</div>
               </div>
-            </div>
-           
-            <DataTable v-else :data="selectedInvestmentData" :default_head_captions="investmentHeadCaptions"
-              @table-row-click="onDatatableRowClick" :table_bg="'bg-primary'"
-              @table-header-click="onDatatableHeaderClick" :sortedHeader="sortedHeader" :isFullTable="true"
-              :displayTable="selectedInvestmentData" :sortIcons="true">
-              <template v-slot:default="{ dataCell, dataCellKey }">
-                <div>
-                  <DataTableCellTokenNamePaired v-if="dataCellKey === 'Name'" :value="dataCell" />
-                  <StandardCell v-else-if="
-                    ['% of Pool', 'Avg APR', 'Avg Profit Per Trade'].includes(
-                      dataCellKey,
-                    )
-                  " :value="`${dataCell}%`" />
-                  <StandardCell v-else-if="['Fees'].includes(dataCellKey)" :value="`${dataCell}`" />
-                  <StandardCell v-else :value="`${dataCell}`" />
-                </div>
-              </template>
-            </DataTable>
+            </div> -->
+
+            <InvestmentsTable :user_staked_pools="UserStackedMock" :all_pools="InvestmentsWithDetailsMOCK" />
+            
           </div>
-        </div>
+      
         <div class="portfolio-table mt-5" v-if="activeTab == t('investments')">
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
             {{ $t('portfolio_activity') }}
@@ -101,6 +85,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import DataTableCellTokenNamePaired from '@/components/DataTable/Cell/TokenNamePaired.vue'
 import DataTable from '@/components/DataTable/index.vue'
 import PortfolioChart from '@/components/portfolio/PortfolioChart.vue'
+import InvestmentsTable from '@/components/General/InvestmentsTable.vue'
 import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
 // import PortfolioFinancialStatement from '@/components/portfolio/PortfolioFinancialStatement.vue'
 import PoolDetailsFinancialStatement from '@/components/PoolsDetails/PoolDetailsFinancialStatement'
@@ -387,6 +372,379 @@ const joinExits = ref([
     chainId: 56,
   },
 ])
+
+const UserStackedMock = ref(
+  [{
+    "id": "0xc1490d8caf3a7f10ec505e5d42390cf93fd5c054",
+    "address": "0xc1490d8caf3a7f10ec505e5d42390cf93fd5c054",
+    "Pool Name": [
+        [
+            "DAI",
+            "DOGE"
+        ]
+    ],
+    "Pool Weight": [
+        [
+            {
+                "token": "DAI",
+                "weight": "50%"
+            },
+            {
+                "token": "DOGE",
+                "weight": "50%"
+            }
+        ]
+    ],
+    "time_created": "1713867828",
+    "LiquidityType": "CL",
+    "ROI": "-",
+    "Liquidity": "5.968163565912328",
+    "TVL": "5.968163565912328",
+    "TVL_ETH": "0.0020088838562860897",
+    "TVL_BTC": "0.0000979375641166213",
+    "Volume": 0,
+    "Volume_ETH": 0,
+    "Volume_BTC": 0,
+    "Revenue": 0,
+    "Profit": 0,
+    "profit24H": 0,
+    "profit7D": 0,
+    "profit30D": 0,
+    "Trades": 0,
+    "Fees": 0,
+    "APR": 0,
+    "Blockchain": "Binance",
+    "tokens": [
+        {
+            "symbol": "DAI",
+            "id": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
+            "tokenBalance": "5.352103200096425074",
+            "tvl": 5.3467510968963285
+        },
+        {
+            "symbol": "DOGE",
+            "id": "0xba2ae424d960c26247dd6c32edc70b295c744c43",
+            "tokenBalance": "4.24462069",
+            "tvl": 0.621412469016
+        }
+    ],
+    "Name": [
+        [
+            "DAI",
+            "DOGE"
+        ]
+    ],
+    "shares": {
+        "poolId": "0xc1490d8caf3a7f10ec505e5d42390cf93fd5c054",
+        "balance": 0,
+        "percentage": 0,
+        "type": "CL",
+        "id": "12"
+    },
+    "percentage": 0,
+    "shareBalanceUsd": 1.4727247246842194,
+    "shareBalanceETH": 0.0004954245973837714,
+    "shareBalanceBTC": 0.00002413795823757436
+}]
+)
+const InvestmentsWithDetailsMOCK = ref([
+    {
+        "id": "0xde603002c8da7e53131b09a0d3d9f2d6badec60700020000000000000000000e",
+        "Pool Name": [
+            [
+                "DAI",
+                "ETH"
+            ]
+        ],
+        "Revenue": 279.2882045999223,
+        "Fees": 8.24699401920335,
+        "Trades": 49,
+        "Volume": 21.6701761813525,
+        "Volume_ETH": 0.007214181954821844,
+        "Volume_BTC": 0.00034787257952166866,
+        "TVL": "3586.39107",
+        "TVL_ETH": 1.206103316841,
+        "TVL_BTC": 0.058816813547999995,
+        "Liquidity": "3586.39107",
+        "APR": "299.233",
+        "Profit": 271.04134430392025,
+        "profit24H": 0.08832722898749754,
+        "profit7D": 6.447425729775241,
+        "profit30D": 271.04134430392025,
+        "Blockchain": "Binance",
+        "totalShares": "65.587668270969605017",
+        "Pool Weight": [
+            [
+                {
+                    "token": "DAI",
+                    "weight": "50%"
+                },
+                {
+                    "token": "ETH",
+                    "weight": "50%"
+                }
+            ]
+        ],
+        "LiquidityType": "WP",
+        "ROI": "-",
+        "address": "0xde603002c8da7e53131b09a0d3d9f2d6badec607",
+        "tokens": [
+            {
+                "symbol": "DAI",
+                "address": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
+                "balance": "1811.687336971869575984",
+                "weight": "0.5",
+                "balanceUsd": 1809.8756496348979,
+                "id": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"
+            },
+            {
+                "symbol": "ETH",
+                "address": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+                "balance": "0.5936103217808454",
+                "weight": "0.5",
+                "balanceUsd": 1776.5154183031893,
+                "id": "0x2170ed0880ac9a755fd29b2688956bd959f933f8"
+            }
+        ]
+    },
+    {
+        "id": "0x63060b9f420a642973e0f9b1067afe9ae4900df500020000000000000000000d",
+        "Pool Name": [
+            [
+                "DAI",
+                "DOGE"
+            ]
+        ],
+        "Revenue": 71.80292717817613,
+        "Fees": 9.309904072930149,
+        "Trades": 54,
+        "Volume": 0,
+        "Volume_ETH": 0,
+        "Volume_BTC": 0,
+        "TVL": "2393.59793",
+        "TVL_ETH": 0.8049669838589999,
+        "TVL_BTC": 0.039255006052,
+        "Liquidity": "2393.59793",
+        "APR": "21.995",
+        "Profit": 62.48485634385749,
+        "profit24H": 0,
+        "profit7D": 4.632652897892735,
+        "profit30D": 19.056202861618445,
+        "Blockchain": "Binance",
+        "totalShares": "6257.74863745151804224",
+        "Pool Weight": [
+            [
+                {
+                    "token": "DAI",
+                    "weight": "50%"
+                },
+                {
+                    "token": "DOGE",
+                    "weight": "50%"
+                }
+            ]
+        ],
+        "LiquidityType": "WP",
+        "ROI": "-",
+        "address": "0x63060b9f420a642973e0f9b1067afe9ae4900df5",
+        "tokens": [
+            {
+                "symbol": "DAI",
+                "address": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
+                "balance": "1220.854814658099760436",
+                "weight": "0.5",
+                "balanceUsd": 1219.6339598434415,
+                "id": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"
+            },
+            {
+                "symbol": "DOGE",
+                "address": "0xba2ae424d960c26247dd6c32edc70b295c744c43",
+                "balance": "8018.879561",
+                "weight": "0.5",
+                "balanceUsd": 1173.9639677303999,
+                "id": "0xba2ae424d960c26247dd6c32edc70b295c744c43"
+            }
+        ]
+    },
+    {
+        "id": "0x39e621ad99326749b5161e8d1b1f610b009b36ac000200000000000000000002",
+        "Pool Name": [
+            [
+                "ETH",
+                "USDT"
+            ]
+        ],
+        "Revenue": 40.167316711019254,
+        "Fees": 0.141396109965,
+        "Trades": 1,
+        "Volume": 0,
+        "Volume_ETH": 0,
+        "Volume_BTC": 0,
+        "TVL": "267.95028",
+        "TVL_ETH": 0.09011167916400001,
+        "TVL_BTC": 0.004394384592,
+        "Liquidity": "267.95028",
+        "APR": "24.262",
+        "Profit": 40.02592060105425,
+        "profit24H": 0,
+        "profit7D": 0,
+        "profit30D": 0,
+        "Blockchain": "Binance",
+        "totalShares": "4.222740634532589641",
+        "Pool Weight": [
+            [
+                {
+                    "token": "ETH",
+                    "weight": "50%"
+                },
+                {
+                    "token": "USDT",
+                    "weight": "50%"
+                }
+            ]
+        ],
+        "LiquidityType": "WP",
+        "ROI": "-",
+        "address": "0x39e621ad99326749b5161e8d1b1f610b009b36ac",
+        "tokens": [
+            {
+                "symbol": "ETH",
+                "address": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+                "balance": "0.02233101671061258",
+                "weight": "0.5",
+                "balanceUsd": 66.83070364035159,
+                "id": "0x2170ed0880ac9a755fd29b2688956bd959f933f8"
+            },
+            {
+                "symbol": "USDT",
+                "address": "0x55d398326f99059ff775485246999027b3197955",
+                "balance": "201.119576913435274809",
+                "weight": "0.5",
+                "balanceUsd": 201.11957691343528,
+                "id": "0x55d398326f99059ff775485246999027b3197955"
+            }
+        ]
+    },
+    {
+        "id": "0x2cd7aa6d79bdf5c2390eb282088a03cf48dabd8e00020000000000000000000f",
+        "Pool Name": [
+            [
+                "DAI",
+                "SOL"
+            ]
+        ],
+        "Revenue": 5.120526950185201,
+        "Fees": 1.33296120007875,
+        "Trades": 6,
+        "Volume": 93.58004189898969,
+        "Volume_ETH": 0.03115637814019092,
+        "Volume_BTC": 0.0015017683859466838,
+        "TVL": "3901.97164",
+        "TVL_ETH": 1.312233062532,
+        "TVL_BTC": 0.063992334896,
+        "Liquidity": "3901.97164",
+        "APR": "17.659",
+        "Profit": 3.7874203820127015,
+        "profit24H": 1.5893944592548837,
+        "profit7D": 3.7874203820127015,
+        "profit30D": 3.7874203820127015,
+        "Blockchain": "Binance",
+        "totalShares": "324.150277164903479934",
+        "Pool Weight": [
+            [
+                {
+                    "token": "DAI",
+                    "weight": "50%"
+                },
+                {
+                    "token": "SOL",
+                    "weight": "50%"
+                }
+            ]
+        ],
+        "LiquidityType": "WP",
+        "ROI": "-",
+        "address": "0x2cd7aa6d79bdf5c2390eb282088a03cf48dabd8e",
+        "tokens": [
+            {
+                "symbol": "DAI",
+                "address": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
+                "balance": "1921.58942267337696996",
+                "weight": "0.5",
+                "balanceUsd": 1919.6678332507036,
+                "id": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"
+            },
+            {
+                "symbol": "SOL",
+                "address": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+                "balance": "13.670117963398931799",
+                "weight": "0.5",
+                "balanceUsd": 1982.303805872479,
+                "id": "0x570a5d26f7765ecb712c0924e4de545b89fd43df"
+            }
+        ]
+    },
+    {
+        "id": "0x0aa192945e41b84263dd96df5e957b4c99f8cddd000200000000000000000016",
+        "Pool Name": [
+            [
+                "ETH",
+                "SOL"
+            ]
+        ],
+        "Revenue": 0,
+        "Fees": 0,
+        "Trades": 0,
+        "Volume": 0,
+        "Volume_ETH": 0,
+        "Volume_BTC": 0,
+        "TVL": "0.00000",
+        "TVL_ETH": 0,
+        "TVL_BTC": 0,
+        "Liquidity": "0.00000",
+        "APR": "0.000",
+        "Profit": 0,
+        "profit24H": 0,
+        "profit7D": 0,
+        "profit30D": 0,
+        "Blockchain": "Binance",
+        "totalShares": "0.000000000001",
+        "Pool Weight": [
+            [
+                {
+                    "token": "ETH",
+                    "weight": "50%"
+                },
+                {
+                    "token": "SOL",
+                    "weight": "50%"
+                }
+            ]
+        ],
+        "LiquidityType": "WP",
+        "ROI": "-",
+        "address": "0x0aa192945e41b84263dd96df5e957b4c99f8cddd",
+        "tokens": [
+            {
+                "symbol": "ETH",
+                "address": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+                "balance": "0.00000000000014374",
+                "weight": "0.5",
+                "balanceUsd": 4.3017501020000003e-10,
+                "id": "0x2170ed0880ac9a755fd29b2688956bd959f933f8"
+            },
+            {
+                "symbol": "SOL",
+                "address": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
+                "balance": "0.000000000001739253",
+                "weight": "0.5",
+                "balanceUsd": 2.5220907753e-10,
+                "id": "0x570a5d26f7765ecb712c0924e4de545b89fd43df"
+            }
+        ]
+    }
+])
+
 
 const NetworkUnsupported = ref(false)
 const networksSupported = ref(false)

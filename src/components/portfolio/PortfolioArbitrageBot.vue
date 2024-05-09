@@ -20,8 +20,10 @@
               <ThreeDots />
             </div>
             <div v-else 
-              class="visible_head mt-[10px] dark:!text-white text-black font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
-              ${{ parseFloat(networks_data.portfolioBalance).toFixed(3) }}
+              class="visible_head mt-[10px] flex items-center dark:!text-white text-black font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
+              $
+              <!-- {{ parseFloat(networks_data.portfolioBalance).toFixed(3) }} -->
+              <count-up  :start-val='0' :end-val='parseFloat(networks_data.portfolioBalance).toFixed(3)' :duration='3' :options="{ separator: '.' }"></count-up>
             </div>
           </div>
         </div>
@@ -34,7 +36,7 @@
             <div class="d-flex flex-column gap-1" v-if="networks_data">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between"
                 v-for="pool in networks_data.breakdown" :key="pool.id">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ pool.id }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif] flex items-center gap-1">{{ pool.id }} <div class="flex items-center gap-1"><img :src="computedTokenImage(token)" class="w-3 h-3" :key="`token-${i}`" v-for="token, i in pool.id.split('-')"/></div></div>
                 <div class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
                   ${{ formatBigNumber(pool.shareBalanceUsd) }}
                 </div>
@@ -213,6 +215,9 @@ import { ref, defineProps, toRefs, computed } from 'vue'
 import ThreeDots from '@/components/loaders/ThreeDots.vue'
 import { formatBigNumber } from '@/lib/utils'
 import { Network, DisplayNetwork } from '@/composables/useNetwork'
+import computedTokenImage from '@/composables/useComputedTokenImage'
+import CountUp from 'vue-countup-v3'
+
 import {
   usePool24hProfit,
   usePool7dProfit,
@@ -392,8 +397,8 @@ const visibleTotalGas = ref(true)
 }
 
 .arbitrage_bot_header {
-  font-size: clamp(10px, 0.7vw, 14px);
-  font-weight: 700;
+  font-size: clamp(10px, 1vw, 16px);
+  font-weight: 400;
   
   color: white;
 }

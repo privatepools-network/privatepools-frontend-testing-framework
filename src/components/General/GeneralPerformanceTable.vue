@@ -41,9 +41,9 @@
         </div>
       </div>
     </div>
-    {{ console.log('all_pools!!!', all_pools) }}
-
-    <PoolRow v-if="all_pools && all_pools.length > 0" v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
+  
+    <LoaderPulse v-if="!all_pools"/>
+    <PoolRow v-else-if="all_pools && all_pools.length > 0" v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
       :key="pool.name" :pool="pool"
       :userPools="all_pools.filter((item) => user_staked_pools.map((p) => p.id).includes(item.id))" :index="index"
       @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
@@ -67,6 +67,7 @@ import { t } from 'i18next';
 import Pagination from '../Pool/Pagination.vue';
 import PoolRow from '../Pool/PoolRow.vue';
 import { defineProps, ref } from "vue";
+import LoaderPulse from '../loaders/LoaderPulse.vue';
 
 const perPage = ref(25)
 const currentPage = ref(1)
@@ -115,15 +116,7 @@ const headers = [
     min-width: 300%;
   }
 
-  &_header {
-    font-size: clamp(10px, 1vw, 14px);
-    
-    font-weight: 600;
 
-    @media (max-width: $xxl) {
-      font-size: 8px;
-    }
-  }
 
   &__col {
     display: flex;

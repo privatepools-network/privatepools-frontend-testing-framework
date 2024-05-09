@@ -13,7 +13,7 @@
               <img :src="twitterIcon" />
             </div>
           </a>
-          <a href="https://twitter.com/D3_firm" target="_blank">
+          <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
             <div class="link_logo">
               <img :src="discordIcon" />
             </div>
@@ -23,7 +23,7 @@
               <img :src="mediumIcon" />
             </div>
           </a>
-          <a href="mailto:team@d3vs.xyz?subject=Contact" target="_blank">
+          <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
             <div class="link_logo">
               <img :src="telegramIcon" />
             </div>
@@ -33,7 +33,8 @@
 
       <div >
         <div class="flex flex-col mt-4 gap-2 footer_text text-black dark:!text-white">
-          <div class="flex items-center gap-1 font-['Syne',_sans-serif] uppercase">
+          <a href="https://docsend.com/v/qh6sz/private-pools-network-one-page" target="_blank" class="text-decoration-none">
+          <div class="flex items-center gap-1 font-['Syne',_sans-serif] uppercase footer_text_svg">
             {{ $t('Docs') }}
             <svg
               width="14"
@@ -50,7 +51,9 @@
               />
             </svg>
           </div>
-          <div class="flex items-center gap-1 font-['Syne',_sans-serif] uppercase">
+        </a>
+          <a href="https://privatepoolsnetwork.docsend.com/view/s/83p82p4623uuj9rh" target="_blank" class="text-decoration-none">
+          <div class="flex items-center gap-1 font-['Syne',_sans-serif] uppercase footer_text_svg">
             {{ $t('Pitch deck') }}
             <svg
               width="14"
@@ -67,7 +70,9 @@
               />
             </svg>
           </div>
-          <div class="flex items-center gap-1 font-['Syne',_sans-serif] uppercase">
+        </a>
+          <a href="https://privatepoolsnetwork.docsend.com/view/y7mfypipz654xd2u" target="_blank" class="text-decoration-none">
+          <div class="flex items-center gap-1 font-['Syne',_sans-serif] uppercase footer_text_svg">
             {{ $t('whitepaper') }}
             <svg
               width="14"
@@ -84,6 +89,7 @@
               />
             </svg>
           </div>
+        </a>
         </div>
       </div>
     </div>
@@ -162,5 +168,12 @@ import twitterIcon from '@/assets/icons/Footer/twitter.svg'
   &:hover {
     cursor: pointer;
   }
+}
+
+.footer_text_svg:hover{
+  color: #00c9ff;
+}
+.footer_text_svg:hover svg path {
+  fill: #00c9ff;
 }
 </style>

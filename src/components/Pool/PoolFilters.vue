@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    <div v-click-away="onClickAwayFilters">
+    <!-- <div v-click-away="onClickAwayFilters">
       <div
         class="filter_button bg-white dark:!bg-[#02031C] text-black dark:!text-white w-[190px]"
         :style="
@@ -176,7 +176,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
      <!-- <div class="flex items-center gap-2">
         <Toggler :toggle="hidePools"  :label="''" />
         <div class="dark:!text-white text-black" style="font-size: clamp(12px, 0.8vw, 16px)">

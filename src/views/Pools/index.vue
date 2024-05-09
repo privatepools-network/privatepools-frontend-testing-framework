@@ -78,8 +78,8 @@
         @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
         @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
 
-      {{ console.log('all_pools', all_pools) }}
-      <div @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
+      {{ console.log('user_staked_pools', user_staked_pools) }}
+      <div v-if="sliceNumber < all_pools.length" @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
         {{ $t('load_more') }}
         <img :src="arrow_bottom" />
       </div>

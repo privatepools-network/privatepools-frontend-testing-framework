@@ -703,9 +703,9 @@
       </div>
     </div>
 
-    <!-- <div style="position: absolute; left: 50%; top: 50%">
+    <div style="position: absolute; left: 50%; top: 50%">
       <LoaderPulse v-if="!isDataReady"></LoaderPulse>
-    </div> -->
+    </div>
   </div>
 </template>
 <script setup>
