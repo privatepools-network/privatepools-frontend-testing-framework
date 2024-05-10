@@ -23,7 +23,7 @@
               class="visible_head mt-[10px] flex items-center dark:!text-white text-black font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
               $
               <!-- {{ parseFloat(networks_data.portfolioBalance).toFixed(3) }} -->
-              <count-up  :start-val='0' :end-val='parseFloat(networks_data.portfolioBalance).toFixed(3)' :duration='3' :options="{ separator: '.' }"></count-up>
+              <count-up  :start-val='0' :end-val='parseFloat(networks_data.portfolioBalance).toFixed(3)' :duration='3' :options="{ separator: '\'' }"></count-up>
             </div>
           </div>
         </div>

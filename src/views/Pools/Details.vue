@@ -680,8 +680,8 @@ onMounted(async () => {
     poolStatistics.value = data.statistics
     poolChartData.value = data.general.chart
     pool.value = data.general
-    console.log('ACTIVITY - ', data.general.activities)
     poolActivity.value = data.general.activities
+    historical_tvl.value = data.statistics.tvls
   }
 })
 const unformattedPoolActivity = ref(null)
@@ -700,8 +700,6 @@ watch(currency, async () => {
   poolActivity.value = null
   tokenPrices.value = null
   historical_tvl.value = []
-  pool.value = (await setPoolsTvls([pool.value], currency.value))[0]
-  await SetNetworkData()
 })
 
 const chainPairs = ref([])
