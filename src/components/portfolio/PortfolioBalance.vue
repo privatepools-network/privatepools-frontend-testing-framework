@@ -139,7 +139,7 @@ const props = defineProps(['performers', 'balance', 'balance_ETH', 'balance_BTC'
 const { balanceUsd, balance_ETH, balance_BTC } = toRefs(props)
 const isBalanceHidden = ref(false)
 
-const currencyBalance = computed(() => currentCurrency.value == "USD" ? balanceUsd.value : props[`balance${postfix.value}`])
+const currencyBalance = computed(() => currentCurrency.value == "USDT" ? balanceUsd.value : props[`balance${postfix.value}`])
 
 
 const hiddenBalance = computed(() => {
