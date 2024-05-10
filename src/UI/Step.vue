@@ -2,19 +2,19 @@
   <div class="flex flex-col items-center gap-[6px]">
     <div class="position-relative w-[35px] h-[35px]">
       <div
-        v-if="activeStep - 1 < displayedActiveStep && !mmActive"
+        v-if="activeStep < displayedActiveStep && !mmActive"
         :class=" 'step_number'"
       >
         {{  displayedActiveStep  }}
       </div>
       <div
-        v-else-if="mmActive && activeStep - 1 === displayedActiveStep"
+        v-else-if="mmActive && activeStep === displayedActiveStep"
         class="step_number "
       >
         <img :src="metamask" width="20" />
       </div>
       <div
-        v-else-if="activeStep - 1 > displayedActiveStep"
+        v-else-if="activeStep > displayedActiveStep"
         class="step_number !bg-[#00E0FF]"
       >
       <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">

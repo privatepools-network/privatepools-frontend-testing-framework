@@ -131,7 +131,7 @@
 
             {{ $t('add_initial_liquidity') }}
           </div>
-
+<!-- 
           <div
             class="compose_text dark:!text-white text-black my-1 flex items-center gap-1"
             v-else-if="activeStep === 4"
@@ -155,7 +155,7 @@
             </svg>
 
             {{ $t('swap') }}
-          </div>
+          </div> -->
 
           <div
             v-if="activeStep === 1"
@@ -656,7 +656,7 @@
             <div class="flex gap-1">
               <VTooltip :distance="0" :placement="'top'">
                 <Step
-                  :activeStep="activeStep"
+                  :activeStep="activeStep - 1"
                   :displayedActiveStep="1"
                   :mmActive="mmActive"
                   :stepText="'Create'"
@@ -691,17 +691,25 @@
                 <span v-else class="progress_loader_still"></span>
               </div>
               <Step
-                :activeStep="activeStep"
+                :activeStep="activeStep  - 1"
                 :displayedActiveStep="2"
                 :mmActive="mmActive"
                 :stepText="'Approve'"
+                v-if="!tokensApproved"
+              />
+              <Step
+                :activeStep="activeStep  - 1"
+                :displayedActiveStep="1"
+                :mmActive="mmActive"
+                :stepText="'Approve'"
+                v-else
               />
               <div class="w-12 mt-1">
                 <ProgressLoader v-if="mmActive && activeStep === 3" />
                 <span v-else class="progress_loader_still"></span>
               </div>
               <Step
-                :activeStep="activeStep"
+                :activeStep="activeStep  - 1"
                 :displayedActiveStep="3"
                 :mmActive="mmActive"
                 :stepText="'Deposit'"
@@ -942,7 +950,7 @@ const mmActive = ref(false)
 const visibleNetworkModal = ref(false)
 const activeStep = ref(1)
 
-
+const tokensApproved = ref(false)
 
 const txHash = ref('')
 
@@ -1314,6 +1322,8 @@ async function JoinNewPool() {
     SetErrorTxPopup('Approve was cancelled')
     notify()
     return
+  }else {
+    tokensApproved.value = true
   }
 
   const addLiquidityToPoolPending = toast.loading(Toast, {
@@ -1376,7 +1386,7 @@ async function JoinNewPool() {
 
   notify()
   activeStep.value = 4
-
+  tokensApproved.value = false
   mmActive.value = false
   finishedSwaps.value = []
 }
@@ -1755,13 +1765,5 @@ const dynamicDonut = computed(() => {
   cursor: pointer;
 }
 
-.progress_loader_still {
-  width: 100%;
-  height: 2.8px;
-  display: inline-block;
-  position: relative;
-  background: #00e0ff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  box-sizing: border-box;
-}
+
 </style>
