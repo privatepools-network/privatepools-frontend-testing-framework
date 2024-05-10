@@ -3,6 +3,8 @@ import ABI_ERC20 from '@/lib/abi/ERC20.json'
 import { configService } from '@/services/config/config.service'
 import { networkId } from '../../useNetwork'
 import { InitializeMetamask } from '@/lib/utils/metamask'
+import Toast from '@/UI/Toast.vue'
+import { toast } from 'vue3-toastify'
 
 /**
  * Approve ERC20 tokens.
@@ -13,6 +15,18 @@ import { InitializeMetamask } from '@/lib/utils/metamask'
  * @returns {Promise<boolean>} results of the transactions was it successful or not
  */
 export async function useApproveTokens(tokens, amounts, wallet_address) {
+  const approveTokensPending = toast.loading(Toast, {
+    data: {
+      header_text: 'Approve pending',
+      toast_text: 'Approve all tokens for adding liquidity',
+      tx_link: '',
+      speedUp: '',
+    },
+    position: toast.POSITION.TOP_RIGHT,
+    theme: 'dark',
+    closeOnClick: false,
+  })
+
   let provider = await InitializeMetamask()
   if (!provider) return
   let config = configService.getNetworkConfig(networkId.value)
@@ -40,8 +54,41 @@ export async function useApproveTokens(tokens, amounts, wallet_address) {
       }
     } catch (error) {
       console.error('Error sending transaction:', error)
+
+      toast.update(approveTokensPending, {
+        render: Toast,
+        data: {
+          header_text: 'Approved rejected',
+          toast_text: 'You rejected approval',
+          tx_link: ``,
+          speedUp: '',
+        },
+
+        closeOnClick: false,
+        autoClose: 5000,
+        closeButton: false,
+        type: 'error',
+        isLoading: false,
+      })
       return false
     }
   }
+
+  toast.update(approveTokensPending, {
+    render: Toast,
+    data: {
+      header_text: 'Approved Confirm',
+      toast_text: 'All tokens have been approved',
+      tx_link: ``,
+      speedUp: '',
+    },
+
+    closeOnClick: false,
+    autoClose: 5000,
+    closeButton: false,
+    type: 'success',
+    isLoading: false,
+  })
+
   return true
 }

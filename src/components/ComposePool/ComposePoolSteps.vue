@@ -29,14 +29,14 @@
             {{ $t('add_initial_liquidity') }}
           </div>
         </div>
-        <div class="d-flex align-items-end gap-2">
+        <!-- <div class="d-flex align-items-end gap-2">
           <img :src="step4activeImg" v-if="activeStep === 4" />
           <img :src="step4Img" v-else />
 
           <div class="mb-1" :class="activeStep === 4 ? 'step_text active' : 'step_text'">
             {{ $t('swap_tokens') }}
           </div>
-        </div>
+        </div> -->
 
 
 
