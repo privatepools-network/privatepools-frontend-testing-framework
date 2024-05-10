@@ -26,6 +26,7 @@ export async function getPortfolioData(network, address) {
   }
   return {
     pools: data[0].data.map((item) => ({
+      ...item,
       Name: item['Pool Name'][0],
       'AVG APR': item.APR,
       'Liquidity Deposited': item.shareBalanceUsd,
