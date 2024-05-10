@@ -14,10 +14,11 @@
       <div class="mt-3 d-flex flex-column justify-content-center gap-0">
         <div class="d-flex flex-column gap-3">
 
-
+          
           <div class="d-flex justify-content-between w-100 compose_text dark:!text-white text-black" v-for="token in tokenPrices" :key="token.symbol">
-            <div>{{ token.symbol }}</div>
-            <div>${{ parseFloat(token.price).toFixed(4) }}</div>
+            {{ console.log('token.symbol', token.symbol) }}
+            <div class="flex items-center gap-1">{{ token.symbol }} <img :src="computedTokenImage(token)" class="h-3 w-3"/></div>
+            <div>${{ parseFloat(token.price).toFixed(3) }}</div>
           </div>
 
         </div>
@@ -29,6 +30,9 @@
 </template>
 <script setup>
 import { defineProps } from 'vue'
+import computedTokenImage from '@/composables/useComputedTokenImage'
+
+
 defineProps(['tokenPrices', 'activeStep'])
 
 </script>
