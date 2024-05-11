@@ -22,7 +22,7 @@
             <div 
               class="visible_head mt-[10px]  dark:!text-white text-black font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
               <!-- {{ parseFloat(networks_data.portfolioBalance).toFixed(3) }} -->
-              <CounterAnimation :currency="'$'" :decimalPlaces="currencyDecimals" :value="parseFloat(networks_data?.portfolioBalance).toFixed(3)"/>
+              <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals" :value="parseFloat(networks_data?.portfolioBalance).toFixed(3)"/>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
                 v-for="pool in networks_data.breakdown" :key="pool.id">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif] flex items-center gap-1">{{ pool.id }} <div class="flex items-center gap-1"><img :src="computedTokenImage(token)" class="w-3 h-3" :key="`token-${i}`" v-for="token, i in pool.id.split('-')"/></div></div>
                 <div class="dark:!text-white text-black font-extrabold text-[12px] flex items-center font-['Roboto_Mono',_monospace]">
-                  <CurrencySymbol /><CounterAnimation :currency="''" :value="parseFloat(pool?.shareBalanceUsd).toFixed(3)"/>
+                  <CounterAnimation :currency="''" :value="parseFloat(pool?.shareBalanceUsd).toFixed(3)"/>
 
                 </div>
               </div>
@@ -67,7 +67,7 @@
                   <ThreeDots />
                 </div> -->
                 <div class="dark:!text-white text-black font-extrabold text-[12px] flex items-center font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.APR).toFixed(3)"/>
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.APR).toFixed(3)"/>%
                 </div>
               </div>
             </div>
@@ -85,8 +85,8 @@
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['APR 24H']).toFixed(3)"/>
+                <div  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 24H']).toFixed(3)"/>%
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
@@ -94,8 +94,8 @@
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['APR 7D']).toFixed(3)"/>
+                <div  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 7D']).toFixed(3)"/>%
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
@@ -103,8 +103,8 @@
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['APR 30D']).toFixed(3)"/>
+                <div  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 30D']).toFixed(3)"/>%
                 </div>
               </div>
             </div>
@@ -134,7 +134,7 @@
                   <ThreeDots />
                 </div> -->
                 <div  class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CurrencySymbol /><CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit']).toFixed(3)"/>
+                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit']).toFixed(3)"/>
                 </div>
               </div>
             </div>
@@ -153,7 +153,7 @@
                   <ThreeDots />
                 </div> -->
                 <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CurrencySymbol /><CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 24H']).toFixed(3)"/>
+                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 24H']).toFixed(3)"/>
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
@@ -162,7 +162,7 @@
                   <ThreeDots />
                 </div> -->
                 <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CurrencySymbol /><CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 7D']).toFixed(3)"/>
+                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 7D']).toFixed(3)"/>
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
@@ -171,7 +171,7 @@
                   <ThreeDots />
                 </div> -->
                 <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CurrencySymbol /><CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 30D']).toFixed(3)"/>
+                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 30D']).toFixed(3)"/>
                 </div>
               </div>
             </div>
@@ -194,7 +194,7 @@
                 {{ $t('my_rewards') }}
               </div>
               <div  class="dark:!text-white text-black font-extrabold text-[12px]">
-                <CurrencySymbol /><CounterAnimation :currency="''" :value="parseFloat(networks_data?.rewards).toFixed(3)"/>
+                <CounterAnimation :currency="''" :value="parseFloat(networks_data?.rewards).toFixed(3)"/>
 
               </div>
               <!-- <div v-else style="margin-right: 15px">

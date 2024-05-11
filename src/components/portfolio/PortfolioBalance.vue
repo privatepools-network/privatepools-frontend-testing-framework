@@ -20,8 +20,8 @@
     <div class="portfolio-header__balance flex items-center text-black dark:!text-white"
       v-if="isBalanceHidden == false">
 
-        <CounterAnimation :currency="''" :value="currencyBalance.toFixed(currencyDecimals)"/>
-      <CurrencySymbol />
+        <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals" :value="currencyBalance.toFixed(currencyDecimals)"/>
+
     </div>
     <div class="portfolio-header__balance text-black dark:!text-white" v-else>
       ${{ hiddenBalance }}
