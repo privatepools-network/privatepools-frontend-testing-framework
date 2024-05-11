@@ -63,7 +63,7 @@ import { GetHistoricalTokenPrices } from '@/composables/balances/useHistoricalTo
 import { addEmptyDays } from '@/lib/formatter/chart/chartFormatter'
 import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
-import { formatSimpleTimestamp } from '@/lib/utils/index'
+import { formatSimpleTimestamp, trimZeros} from '@/lib/utils/index'
 import { GetTokenPricesBySymbols } from "@/composables/balances/cryptocompare"
 import {
   convertSwapsCurrency
