@@ -1,7 +1,7 @@
 <template>
   <MainCard>
     <div class="title text-black dark:!text-white my-3">
-      {{ $t('overview') }}
+      {{ $t('Ecosystem Overview') }}
     </div>
     <GeneralOverview :overview="allData.overview" :generalOverviewLoader="generalOverviewLoader"/>
     <div class="title text-black dark:!text-white mt-5 mb-3">

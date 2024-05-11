@@ -13,19 +13,16 @@
       <div class="mb-xxl-4 mb-2">
         <div @click="visibleTVL = !visibleTVL" class="visible_head" style="cursor: pointer">
           <div class="d-flex align-items-center gap-2" style="margin-left: -20px; width: 15px">
-
-            <img :src="arrow_up" :width="10" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
-
-            <div v-if="!networks_data" class="totals_loader_header">
+            
+                <img :src="arrow_up" :width="10" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
+           
+            <!-- <div v-if="!networks_data" class="totals_loader_header">
               <ThreeDots />
-            </div>
-            <div v-else
-              class="visible_head mt-[10px] items-center dark:!text-white text-black font-semibold text-[18px] font-['Roboto_Mono',_monospace] flex">
-              <CurrencySymbol />
+            </div> -->
+            <div 
+              class="visible_head mt-[10px]  dark:!text-white text-black font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
               <!-- {{ parseFloat(networks_data.portfolioBalance).toFixed(3) }} -->
-              <count-up :start-val='0'
-                :end-val='parseFloat(networks_data[`portfolioBalance${postfix}`]).toFixed(currencyDecimals)'
-                :duration='3' :decimal-places="currencyDecimals" :options="{ separator: '\'' }"></count-up>
+              <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals" :value="parseFloat(networks_data?.portfolioBalance).toFixed(3)"/>
             </div>
           </div>
         </div>
@@ -37,12 +34,10 @@
             <div class="d-flex flex-column gap-1" v-if="networks_data">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between"
                 v-for="pool in networks_data.breakdown" :key="pool.id">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif] flex items-center gap-1">{{ pool.id }}
-                  <div class="flex items-center gap-1"><img :src="computedTokenImage(token)" class="w-3 h-3"
-                      :key="`token-${i}`" v-for="token, i in pool.id.split('-')" /></div>
-                </div>
-                <div class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CurrencySymbol />{{ formatBigNumber(pool[`shareBalance${postfix_raw}`], currencyDecimals) }}
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif] flex items-center gap-1">{{ pool.id }} <div class="flex items-center gap-1"><img :src="computedTokenImage(token)" class="w-3 h-3" :key="`token-${i}`" v-for="token, i in pool.id.split('-')"/></div></div>
+                <div class="dark:!text-white text-black font-extrabold text-[12px] flex items-center font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="''" :value="parseFloat(pool?.shareBalanceUsd).toFixed(3)"/>
+
                 </div>
               </div>
             </div>
@@ -68,12 +63,11 @@
                 <div style=" font-weight: 400" class="arbitrage_bot_sections_text dark:!text-white text-black ">
                   {{ $t('average') }} APR
                 </div>
-                <div v-if="!networks_data" class="totals_loader">
+                <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
-                </div>
-                <div v-else
-                  class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
-                  {{ formatBigNumber(networks_data.APR) }}%
+                </div> -->
+                <div class="dark:!text-white text-black font-extrabold text-[12px] flex items-center font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.APR).toFixed(3)"/>%
                 </div>
               </div>
             </div>
@@ -88,29 +82,29 @@
             <div class="d-flex flex-column gap-1">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">APR 24 {{ $t('hours') }}</div>
-                <div v-if="!networks_data" class="totals_loader">
+                <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
-                </div>
-                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  {{ formatBigNumber(networks_data['APR 24H']) }}%
+                </div> -->
+                <div  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 24H']).toFixed(3)"/>%
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">APR 7 {{ $t('days') }}</div>
-                <div v-if="!networks_data" class="totals_loader">
+                <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
-                </div>
-                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  {{ formatBigNumber(networks_data['APR 7D']) }}%
+                </div> -->
+                <div  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 7D']).toFixed(3)"/>%
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">APR 30 {{ $t('days') }}</div>
-                <div v-if="!networks_data" class="totals_loader">
+                <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
-                </div>
-                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  {{ formatBigNumber(networks_data['APR 30D']) }}%
+                </div> -->
+                <div  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 30D']).toFixed(3)"/>%
                 </div>
               </div>
             </div>
@@ -136,12 +130,11 @@
                 <div style=" font-weight: 400" class="arbitrage_bot_sections_text dark:!text-white text-black">
                   {{ $t('profits_earned') }}
                 </div>
-                <div v-if="!networks_data" class="totals_loader">
+                <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
-                </div>
-                <div v-else
-                  class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace] flex">
-                  <CurrencySymbol />{{ formatBigNumber(networks_data[`Profit${postfix}`], currencyDecimals) }}
+                </div> -->
+                <div  class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit']).toFixed(3)"/>
                 </div>
               </div>
             </div>
@@ -155,33 +148,30 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 24 {{ $t('hours') }}
-                </div>
-                <div v-if="!networks_data" class="totals_loader">
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{$t('volume')}} 24 {{$t('hours')}}</div>
+                <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
-                </div>
-                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace] flex">
-                  <CurrencySymbol />{{ formatBigNumber(networks_data[`Profit 24H${postfix}`], currencyDecimals) }}
+                </div> -->
+                <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 24H']).toFixed(3)"/>
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 7 {{ $t('days') }}
-                </div>
-                <div v-if="!networks_data" class="totals_loader">
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{$t('volume')}} 7 {{$t('days')}}</div>
+                <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
-                </div>
-                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace] flex">
-                  <CurrencySymbol />{{ formatBigNumber(networks_data[`Profit 7D${postfix}`], currencyDecimals) }}
+                </div> -->
+                <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 7D']).toFixed(3)"/>
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 30 {{ $t('days') }}
-                </div>
-                <div v-if="!networks_data" class="totals_loader">
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{$t('volume')}} 30 {{$t('days')}}</div>
+                <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
-                </div>
-                <div v-else class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace] flex">
-                  <CurrencySymbol />{{ formatBigNumber(networks_data[`Profit 30D${postfix}`],currencyDecimals) }}
+                </div> -->
+                <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 30D']).toFixed(3)"/>
                 </div>
               </div>
             </div>
@@ -203,12 +193,13 @@
                 class="dark:!text-white text-black text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
                 {{ $t('my_rewards') }}
               </div>
-              <div v-if="networks_data" class="dark:!text-white text-black font-extrabold text-[12px] flex">
-                <CurrencySymbol /> {{ networks_data.rewards }}
+              <div  class="dark:!text-white text-black font-extrabold text-[12px]">
+                <CounterAnimation :currency="''" :value="parseFloat(networks_data?.rewards).toFixed(3)"/>
+
               </div>
-              <div v-else style="margin-right: 15px">
+              <!-- <div v-else style="margin-right: 15px">
                 <ThreeDots></ThreeDots>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -224,8 +215,7 @@ import ThreeDots from '@/components/loaders/ThreeDots.vue'
 import { formatBigNumber } from '@/lib/utils'
 import { Network, DisplayNetwork } from '@/composables/useNetwork'
 import computedTokenImage from '@/composables/useComputedTokenImage'
-import CountUp from 'vue-countup-v3'
-
+import CounterAnimation from '@/UI/CounterAnimation.vue'
 import {
   usePool24hProfit,
   usePool7dProfit,

@@ -737,7 +737,7 @@
             v-else-if="activeStep === 3"
             @click="JoinNewPool"
           >
-            {{ mmActive ? 'Approving' : $t('approve_tokens_for_adding') }}
+            {{ mmActive ? 'Depositing liquidity' : $t('approve_tokens_for_adding') }}
             <span v-if="mmActive" class="button_loader pl-2"></span>
           </div>
           <div class="flex justify-evenly " v-if="activeStep === 4">
@@ -782,7 +782,7 @@
               </svg>
             </div>
           </a>
-          <a :href="`/pools/details/${txHash}/BNB/info`" class="text-decoration-none" target="_blank">
+          <a :href="`/pools/details/${txHash}/BNB/info`" class="text-decoration-none">
             <div class="compose_pool_connect_wallet">
               View Pool
             </div>

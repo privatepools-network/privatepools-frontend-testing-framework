@@ -8,9 +8,10 @@
 
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
-          <div class="pools-row__value">
-            {{ pool['AVG APR'] }}%
+          <div class="pools-row__value flex items-center gap-1">
             <img :src="APRIcon" />
+            {{ pool['AVG APR'] }}%
+            
           </div>
         </div>
       </div>
@@ -273,7 +274,7 @@ import { ReversedDisplayNetwork } from '@/composables/useNetwork'
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import etherscan from '@/assets/icons/etherscan.svg'
 import router from '@/router'
-import APRIcon from '@/assets/icons/APRIcon.svg'
+import APRIcon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import { addTokenToMetamask } from '@/lib/utils/metamask'

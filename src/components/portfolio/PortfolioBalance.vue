@@ -19,9 +19,9 @@
     </div>
     <div class="portfolio-header__balance flex items-center text-black dark:!text-white"
       v-if="isBalanceHidden == false">
-      <count-up :start-val='0' :end-val='currencyBalance.toFixed(currencyDecimals)' :decimal-places="currencyDecimals" :duration='3'
-        :options="{ separator: '\'' }"></count-up>
-      <CurrencySymbol />
+
+        <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals" :value="currencyBalance.toFixed(currencyDecimals)"/>
+
     </div>
     <div class="portfolio-header__balance text-black dark:!text-white" v-else>
       ${{ hiddenBalance }}
@@ -125,6 +125,7 @@ import CountUp from 'vue-countup-v3'
 
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
+import CounterAnimation from '@/UI/CounterAnimation.vue';
 
 const settingsStore = useSettings()
 

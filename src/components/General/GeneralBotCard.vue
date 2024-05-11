@@ -21,16 +21,17 @@
           style="cursor: pointer"
         >
           <div class="d-flex align-items-center gap-2">
-            <div v-if="!chains_data" class="totals_loader_header">
+            <!-- <div v-if="!chains_data" class="totals_loader_header">
               <ThreeDots />
-            </div>
-            <div v-else class="visible_head text-black dark:!text-white">
+            </div> -->
+            <div class="visible_head text-black dark:!text-white">
               <div
                 class="d-flex align-items-center font-semibold text-[18px] font-['Roboto_Mono',_monospace]"
               >
-                <CurrencySymbol />{{
-                    numberToAposthrophe(chains_data.tvl, currencyDecimals)
-                }}
+                <CounterAnimation
+                  :currency="''"
+                  :value="chains_data?.tvl"
+                />
               </div>
             </div>
           </div>
@@ -69,20 +70,17 @@
                 >
                   {{ $t('total_volume') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
                   class="text-black flex items-center dark:!text-white font-extrabold text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  <CurrencySymbol />
-                  {{
-                    numberToAposthrophe(
-                      chains_data.totalVolume,
-                      currencyDecimals,
-                    )
-                  }}
+                  <CounterAnimation
+                    :currency="''"
+                    :value=" chains_data?.totalVolume
+                    "
+                  />
                 </div>
               </div>
             </div>
@@ -103,14 +101,18 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   {{ $t('volume') }} 24 {{ $t('hours') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+                
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  ${{ formatBigNumber(chains_data.volume24H) }}
+               
+                  <CounterAnimation
+                    :currency="''"
+                    :value="chains_data?.volume24H"
+                  />
                 </div>
               </div>
               <div
@@ -119,14 +121,17 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   {{ $t('volume') }} 7 {{ $t('days') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+              
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  ${{ formatBigNumber(chains_data.volume7D) }}
+                <CounterAnimation
+                    :currency="''"
+                    :value="chains_data?.volume7D"
+                  />
                 </div>
               </div>
               <div
@@ -135,14 +140,17 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   {{ $t('volume') }} 30 {{ $t('days') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+                
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  ${{ formatBigNumber(chains_data.volume30D) }}
+                <CounterAnimation
+                    :currency="''"
+                    :value="chains_data?.volume30D"
+                  />
                 </div>
               </div>
             </div>
@@ -186,26 +194,18 @@
                 >
                   {{ $t('total_profits') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+                 
                   class="text-black dark:!text-white font-extrabold text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  <span v-if="currencySelected.symbol === '₿'">
-                    <img :src="btcSymbol" width="9" />
-                  </span>
-                  <span v-else-if="currencySelected.symbol === 'Ξ'">
-                    <img :src="ethSymbol" width="9" />
-                  </span>
-                  <span v-else>{{ currencySelected.symbol }} </span>
-                  {{
-                    numberToAposthrophe(
-                      chains_data.totalProfits,
-                      currencyDecimals,
-                    )
-                  }}
+                <CounterAnimation
+                    :currency="''"
+                    :value="chains_data?.totalProfits"
+                  />
+        
                 </div>
               </div>
             </div>
@@ -226,14 +226,18 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   {{ $t('profit') }} 24 {{ $t('hours') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+               
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  ${{ formatBigNumber(chains_data.profit24H) }}
+           
+                  <CounterAnimation
+                    :currency="''"
+                    :value="chains_data?.profit24H"
+                  />
                 </div>
               </div>
               <div
@@ -242,14 +246,18 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   {{ $t('profit') }} 7 Days
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+             
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  ${{ formatBigNumber(chains_data.profit7D) }}
+              
+                  <CounterAnimation
+                    :currency="''"
+                    :value="chains_data?.profit7D"
+                  />
                 </div>
               </div>
               <div
@@ -258,14 +266,18 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   {{ $t('profit') }} 30 Days
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+              
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  ${{ formatBigNumber(chains_data.profit30D) }}
+            
+                  <CounterAnimation
+                    :currency="''"
+                    :value="chains_data?.profit30D"
+                  />
                 </div>
               </div>
             </div>
@@ -308,19 +320,18 @@
                 >
                   {{ $t('total_trades') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+            
                   class="text-black dark:!text-white font-extrabold text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  {{
-                    numberToAposthrophe(
-                      chains_data.totalTrades,
-                      currencyDecimals,
-                    )
-                  }}
+                 
+                    <CounterAnimation
+                    :currency="true"
+                    :value="chains_data?.totalTrades"
+                  />
                 </div>
               </div>
             </div>
@@ -341,14 +352,18 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   {{ $t('trades') }} 24 {{ $t('hours') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+             
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  {{ formatBigNumber(chains_data.trades24H) }}
+                  
+                  <CounterAnimation
+                    :currency="true"
+                    :value="chains_data?.trades24H"
+                  />
                 </div>
               </div>
               <div
@@ -357,14 +372,18 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   {{ $t('trades') }} 7 {{ $t('days') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+              
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  {{ formatBigNumber(chains_data.trades7D) }}
+         
+                  <CounterAnimation
+                    :currency="true"
+                    :value="chains_data?.trades7D"
+                  />
                 </div>
               </div>
               <div
@@ -373,14 +392,18 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   {{ $t('trades') }} 30 {{ $t('days') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
+              
                   class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  {{ formatBigNumber(chains_data.trades30D) }}
+               
+                  <CounterAnimation
+                    :currency="true"
+                    :value="chains_data?.trades30D"
+                  />
                 </div>
               </div>
             </div>
@@ -423,16 +446,18 @@
                 >
                   {{ $t('average') }} APR
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
-                  class="text-black dark:!text-white font-extrabold text-[12px] font-['Roboto_Mono',_monospace]"
+               
+                  class="text-black dark:!text-white font-extrabold flex items-center text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  {{
-                    numberToAposthrophe(chains_data.avgAPR, currencyDecimals)
-                  }}%
+                 
+                     <CounterAnimation
+                    :currency="true"
+                    :value="chains_data?.avgAPR"
+                  />%
                 </div>
               </div>
             </div>
@@ -453,14 +478,18 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   APR 24 {{ $t('hours') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
-                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
+             
+                  class="text-black dark:!text-white flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  {{ formatBigNumber(chains_data.APR24H) }}%
+               
+                  <CounterAnimation
+                    :currency="true"
+                    :value="chains_data?.APR24H"
+                  />%
                 </div>
               </div>
               <div
@@ -469,14 +498,18 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   APR 7 {{ $t('days') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
-                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
+                
+                  class="text-black dark:!text-white flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  {{ formatBigNumber(chains_data.APR7D) }}%
+            
+                  <CounterAnimation
+                    :currency="true"
+                    :value="chains_data?.APR7D"
+                  />%
                 </div>
               </div>
               <div
@@ -485,14 +518,18 @@
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">
                   APR 30 {{ $t('days') }}
                 </div>
-                <div v-if="!chains_data" class="totals_loader">
+                <!-- <div v-if="!chains_data" class="totals_loader">
                   <ThreeDots />
-                </div>
+                </div> -->
                 <div
-                  v-else
-                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]"
+               
+                  class="text-black dark:!text-white flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]"
                 >
-                  {{ formatBigNumber(chains_data.APR30D) }}%
+            
+                  <CounterAnimation
+                    :currency="true"
+                    :value="chains_data?.APR30D"
+                  />%
                 </div>
               </div>
             </div>
@@ -540,6 +577,7 @@ import router from '@/router'
 import { formatBigNumber } from '@/lib/utils/index'
 import CurrencySymbol from '../TrackInfo/CurrencySymbol.vue'
 import { t } from 'i18next'
+import CounterAnimation from '@/UI/CounterAnimation.vue'
 
 const props = defineProps(['chains_data', 'currencySelected', 'chainSelected'])
 

@@ -64,11 +64,16 @@
           </div>
         </div>
       </div>
+      {{console.log('filteredPossibleTokens', filteredPossibleTokens)}}
       <div class="mt-3 tokens_container">
+        <div class="flex items-center justify-center h-full" v-if="filteredPossibleTokens.length === 0">
+          <LoaderPulse/>
+        </div>
         <div
+          v-else
           v-for="(token, index) in filteredPossibleTokens"
           :key="`tokens-key-${index}`"
-          class="d-flex align-items-center justify-content-between p-3 gap-3 token_card"
+          class="flex items-center justify-between p-3 gap-3 token_card"
           @click="
             emit('updateToken', { ...token }, props.pairIndex),
               emit('tokenSelectModalClose')
@@ -102,6 +107,7 @@ import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import { COMMON_TOKENS } from "@/composables/poolActions/compose/usePossibleComposeTokens"
 import { t } from 'i18next';
+import LoaderPulse from '../loaders/LoaderPulse.vue';
 const props = defineProps([
   'tokenSelectModal',
   'possibleComposeTokens',

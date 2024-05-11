@@ -29,12 +29,12 @@
     </div>
     <div class="d-flex flex-column h-100 gap-3 mt-3">
       <div class="d-flex flex-column">
-        <div class="balance_text text-black dark:!text-white" v-if="sidebarData?.userBalance?.total != null">
-          ${{ Number(sidebarData?.userBalance?.total).toFixed(2) }}
+        <div class="balance_text text-black dark:!text-white" >
+          <CounterAnimation :currency="'$'" :value="Number(sidebarData?.userBalance?.total).toFixed(2)"/>
         </div>
-        <div v-else class="py-8 px-4">
+        <!-- <div v-else class="py-8 px-4">
           <ThreeDots />
-        </div>
+        </div> -->
         <div class="balance_change" v-if="sidebarData?.userBalance?.total != null">
           <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_67_2314)">
@@ -374,6 +374,7 @@ import { getSidebarData } from '@/composables/data/sidebarData'
 import ThreeDots from '../loaders/ThreeDots.vue'
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 import { Dropdown } from 'floating-vue'
+import CounterAnimation from '@/UI/CounterAnimation.vue'
 
 const props = defineProps(['isConnectedToWeb3', 'address'])
 const emit = defineEmits(['toggleSettings', 'toggleToWallets', 'setAddress'])

@@ -19,14 +19,19 @@
             
                 <img :src="arrow_up" :width="10" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
               
-            <div v-if="pool" 
+            <div 
               class="visible_head flex items-center text-black dark:!text-white text-[18px] font-semibold font-['Roboto_Mono',_monospace]">
-              <CurrencySymbol />
-              {{ numberToAposthrophe(pool[`totalLiquidity${currentCurrency == "USD" ? "" : '_'+currentCurrency}`], currencyDecimals) }}
+              {{console.log('pool', pool)}}
+              <CounterAnimation
+                    :currency="''"
+                    :value="pool?.[`totalLiquidity${currentCurrency == 'USD' ? '' : '_'+currentCurrency}`]"
+                    :decimal-places="currencyDecimals"
+                  />
+
             </div>
-            <div v-else style="margin-left: 20px">
+            <!-- <div v-else style="margin-left: 20px">
               <ThreeDots></ThreeDots>
-            </div>
+            </div> -->
           </div>
         </div>
         <CCollapse :visible="visibleTVL">
@@ -42,17 +47,17 @@
                   <img :src="getTokenEntity(token.symbol, 'short').icon" width="10" />
                 </div>
                 <div class="text-black dark:!text-white flex items-center font-normal font-['Roboto_Mono',_monospace]">
-                  <CurrencySymbol />{{
-                    numberToAposthrophe(
-                      token[`balance${currentCurrency == "USD" ? 'Usd' : currentCurrency}`] ??
-                      token.balance * GetTokenPrice(token.address),
-                      currencyDecimals,
-                    )
-                  }}
+                  
+                   <CounterAnimation
+                    :currency="''"
+                    :value=" token?.[`balance${currentCurrency == 'USD' ? 'Usd' : currentCurrency}`] ??
+                      token.balance * GetTokenPrice(token.address)"
+                    :decimal-places="currencyDecimals"
+                  />
                 </div>
               </div>
             </div>
-            <div class="mt-2 d-flex flex-column gap-3" v-else>
+            <!-- <div class="mt-2 d-flex flex-column gap-3" v-else>
               <div class="d-flex align-items-center justify-content-between">
                 <div style="margin-left: 20px">
                   <ThreeDots></ThreeDots>
@@ -69,7 +74,7 @@
                   <ThreeDots></ThreeDots>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </CCollapse>
       </div>
@@ -86,12 +91,16 @@
               <div
                 class="d-flex align-items-center justify-content-between visible_head font-normal text-black dark:!text-white">
                 <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">Pool APR</div>
-                <div v-if="pool" class="text-black dark:!text-white text-[13px] font-semibold font-['Roboto_Mono',_monospace]">
-                  {{ pool['TotalAPR'].toFixed(2) }}%
+                <div  class="text-black dark:!text-white flex items-center text-[13px] font-semibold font-['Roboto_Mono',_monospace]">
+             
+                  <CounterAnimation
+                    :currency="true"
+                    :value="pool?.['TotalAPR'].toFixed(2)"
+                  />%
                 </div>
-                <div v-else style="margin-right: 15px">
+                <!-- <div v-else style="margin-right: 15px">
                   <ThreeDots></ThreeDots>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -101,33 +110,46 @@
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('daily') }} APR</div>
-                <div v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  {{ pool['24hAPR'].toFixed(2) }}%
+                <div
+                  class="text-black flex items-center dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+             
+                  
+                  <CounterAnimation
+                    :currency="true"
+                    :value="pool?.['24hAPR'].toFixed(2)"
+                  />%
                 </div>
-                <div v-else style="margin-right: 15px">
+                <!-- <div v-else style="margin-right: 15px">
                   <ThreeDots></ThreeDots>
-                </div>
+                </div> -->
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('weekly') }} APR</div>
-                <div v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  {{ pool['7dAPR'].toFixed(2) }}%
+                <div 
+                  class="text-black dark:!text-white font-normal flex items-center text-[12px] font-['Roboto_Mono',_monospace]">
+                
+                  <CounterAnimation
+                    :currency="true"
+                    :value="pool?.['7dAPR'].toFixed(2)"
+                  />%
                 </div>
-                <div v-else style="margin-right: 15px">
+                <!-- <div v-else style="margin-right: 15px">
                   <ThreeDots></ThreeDots>
-                </div>
+                </div> -->
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('monthly') }} APR</div>
-                <div v-if="pool"
-                  class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  {{ pool['30dAPR'].toFixed(2) }}%
+                <div 
+                  class="text-black dark:!text-white flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                
+                  <CounterAnimation
+                    :currency="true"
+                    :value="pool?.['30dAPR'].toFixed(2)"
+                  />%
                 </div>
-                <div v-else style="margin-right: 15px">
+                <!-- <div v-else style="margin-right: 15px">
                   <ThreeDots></ThreeDots>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -149,16 +171,16 @@
                   Pool {{ $t('volume') }}
                 </div>
                 <div class="text-black dark:!text-white flex items-center text-[13px] font-semibold font-['Roboto_Mono',_monospace]" v-if="pool">
-                  <CurrencySymbol />{{
-                    numberToAposthrophe(
-                      pool[`TotalVolume${currentCurrency == "USD" ? "Usd" : currentCurrency}`],
-                      currencyDecimals,
-                    )
-                  }}
+                  
+                   <CounterAnimation
+                    :currency="''"
+                    :value="pool?.[`TotalVolume${currentCurrency == 'USD' ? 'Usd' : currentCurrency}`]"
+                    :decimal-places="currencyDecimals"
+                  />
                 </div>
-                <div v-else style="margin-right: 15px">
+                <!-- <div v-else style="margin-right: 15px">
                   <ThreeDots></ThreeDots>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -168,39 +190,51 @@
             <div class="d-flex flex-column gap-1">
               <div class="d-flex align-items-center justify-content-between">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">24H {{ $t('volume') }}</div>
-                <div v-if="pool"
+                <div 
                   class="text-black dark:!text-white flex items-center gap-1 font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  {{ parseFloat(pool[`24hVolume${currentCurrency == "USD" ? "Usd" : currentCurrency
-                    }`]).toFixed(currencyDecimals) }}
-                  <CurrencySymbol />
+                
+                  <CounterAnimation
+                    :currency="''"
+                    :value="pool?.[`24hVolume${currentCurrency == 'USD' ? 'Usd' : currentCurrency
+                    }`]"
+                    :decimal-places="currencyDecimals"
+                  />
                 </div>
-                <div v-else>
+                <!-- <div v-else>
                   <ThreeDots></ThreeDots>
-                </div>
+                </div> -->
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">7 {{ $t('days') }} {{ $t('volume') }}</div>
-                <div v-if="pool"
+                <div 
                   class="text-black dark:!text-white font-normal flex items-center gap-1 text-[12px] font-['Roboto_Mono',_monospace]">
-                  {{ parseFloat(pool[`7dVolume${currentCurrency == "USD" ? "Usd" : currentCurrency
-                    }`]).toFixed(currencyDecimals) }}
-                  <CurrencySymbol />
+                
+                  <CounterAnimation
+                    :currency="''"
+                    :value="pool?.[`7dVolume${currentCurrency == 'USD' ? 'Usd' : currentCurrency
+                    }`]"
+                    :decimal-places="currencyDecimals"
+                  />
                 </div>
-                <div v-else>
+                <!-- <div v-else>
                   <ThreeDots></ThreeDots>
-                </div>
+                </div> -->
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif]">30 {{ $t('days') }} {{ $t('volume') }}</div>
-                <div v-if="pool"
+                <div
                   class="text-black dark:!text-white font-normal flex items-center gap-1 text-[12px] font-['Roboto_Mono',_monospace]">
-                  {{ parseFloat(pool[`30dVolume${currentCurrency == "USD" ? "Usd" : currentCurrency
-                    }`]).toFixed(currencyDecimals) }}
-                  <CurrencySymbol />
+               
+                  <CounterAnimation
+                    :currency="''"
+                    :value="pool?.[`30dVolume${currentCurrency == 'USD' ? 'Usd' : currentCurrency
+                    }`]"
+                    :decimal-places="currencyDecimals"
+                  />
                 </div>
-                <div v-else>
+                <!-- <div v-else>
                   <ThreeDots></ThreeDots>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -228,12 +262,17 @@
               <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
                 {{ $t('my_balance') }}
               </div>
-              <div v-if="pool" class="text-black text-[13px] dark:!text-white flex items-center font-['Roboto_Mono',_monospace]">
-                <CurrencySymbol />{{ numberToAposthrophe(userBalance) }}
+              <div  class="text-black text-[13px] dark:!text-white flex items-center font-['Roboto_Mono',_monospace]">
+           
+                <CounterAnimation
+                    :currency="''"
+                    :value="userBalance"
+                    :decimal-places="currencyDecimals"
+                  />
               </div>
-              <div v-else>
+              <!-- <div v-else>
                 <ThreeDots></ThreeDots>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -275,6 +314,7 @@ import {
 import { getTokenEntity } from '@/lib/helpers/util'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
+import CounterAnimation from '@/UI/CounterAnimation.vue'
 
 
 const settingsStore = useSettings()

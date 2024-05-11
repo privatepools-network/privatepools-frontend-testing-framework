@@ -434,7 +434,7 @@
                 <a
                   :href="`/pools/details/${txHash}/BNB/info`"
                   class="text-decoration-none"
-                  target="_blank"
+                  
                 >
                   <div class="compose_pool_connect_wallet">View Pool</div>
                 </a>
