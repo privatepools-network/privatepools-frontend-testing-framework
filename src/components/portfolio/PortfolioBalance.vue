@@ -136,11 +136,11 @@ const currencyDecimals = computed(() =>
   currentCurrency.value == 'USD' ? 2 : 5,
 )
 const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
-const props = defineProps(['performers', 'balance', 'balance_ETH', 'balance_BTC'])
-const { balanceUsd, balance_ETH, balance_BTC } = toRefs(props)
+const props = defineProps(['performers', 'balanceUsd', 'balance_ETH', 'balance_BTC'])
+const { balanceUsd } = toRefs(props)
 const isBalanceHidden = ref(false)
 
-const currencyBalance = computed(() => currentCurrency.value == "USDT" ? balanceUsd.value : props[`balance${postfix.value}`])
+const currencyBalance = computed(() => currentCurrency.value == "USD" ? balanceUsd.value : props[`balance${postfix.value}`])
 
 
 const hiddenBalance = computed(() => {

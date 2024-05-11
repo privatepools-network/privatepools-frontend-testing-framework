@@ -1,76 +1,35 @@
 <template>
   <div class="pools_chart_container">
-    <PoolDetailsArbitrageBot
-      @changeToDepositView="changeToDepositView"
-      @changeToWithdrawView="changeToWithdrawView"
-      :chart_data="all_chart_data"
-      :tokenPrices="poolTokenPrices"
-      :currencySelected="currencySelected"
-      :cryptocomparePrices="tokenPrices"
-      :swapsData="swapsData"
-      :pool="pool"
-      :historical_tvl="FormatHistoricalTvl(historical_tvl)"
-      :chainSelected="chainSelectedName"
-      :userBalance="userBalance"
-    />
+    <PoolDetailsArbitrageBot @changeToDepositView="changeToDepositView" @changeToWithdrawView="changeToWithdrawView"
+      :chart_data="all_chart_data" :tokenPrices="poolTokenPrices" :currencySelected="currencySelected"
+      :cryptocomparePrices="tokenPrices" :swapsData="swapsData" :pool="pool"
+      :historical_tvl="FormatHistoricalTvl(historical_tvl)" :chainSelected="chainSelectedName"
+      :userBalance="userBalance" />
 
     <div class="track_chart_card bg-white dark:!bg-[#22222224]">
       <div v-if="dataRevenues.length == 0" class="chart_inside">
         <LoaderPulse />
       </div>
-      <div
-        v-else-if="
-          dataRevenues.length > 0 && selectedOverallTab === t('overall_view')
-        "
-        class="chart_inside"
-      >
-        <ChartTimeline
-          :isCumulativeMode="isCumulativeMode"
-          :currentTimeline="currentTimeline"
-          :timelines="timelines"
-          @changeCumulativeMode="changeCumulativeMode"
-          @changeTimeline="changeTimeline"
-        />
+      <div v-else-if="
+        dataRevenues.length > 0 && selectedOverallTab === t('overall_view')
+      " class="chart_inside">
+        <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
+          @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
         <img :src="logo" alt="D3" class="chart-logo" height="40px" />
-        <VChart
-          ref="chart"
-          class="chart"
-          :option="optionObj"
-          @legendselectchanged="legendSelectedChange"
-          :autoresize="true"
-          :notMerge="true"
-          :lazyUpdate="true"
-          :silent="true"
-        />
+        <VChart ref="chart" class="chart" :option="optionObj" @legendselectchanged="legendSelectedChange"
+          :autoresize="true" :notMerge="true" :lazyUpdate="true" :silent="true" />
       </div>
-      <div
-        v-else
-        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100"
-      >
-        <svg
-          width="74"
-          height="72"
-          viewBox="0 0 74 72"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+      <div v-else class="d-flex flex-column gap-2 justify-content-center align-items-center h-100">
+        <svg width="74" height="72" viewBox="0 0 74 72" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M3 51.4851L9.664 48.0541C12.2844 46.7035 15.1774 46 18.1111 46C21.0448 46 23.9378 46.7035 26.5582 48.0541L28.5529 49.083C31.1733 50.4337 34.0663 51.1372 37 51.1372C39.9337 51.1372 42.8267 50.4337 45.4471 49.083L47.4418 48.0541C50.0622 46.7035 52.9552 46 55.8889 46C58.8226 46 61.7156 46.7035 64.336 48.0541L71 51.4851M3 69L9.664 65.5651C12.2844 64.2145 15.1774 63.511 18.1111 63.511C21.0448 63.511 23.9378 64.2145 26.5582 65.5651L28.5529 66.594C31.1733 67.9447 34.0663 68.6481 37 68.6481C39.9337 68.6481 42.8267 67.9447 45.4471 66.594L47.4418 65.5651C50.0622 64.2145 52.9552 63.511 55.8889 63.511C58.8226 63.511 61.7156 64.2145 64.336 65.5651L71 69"
-            stroke="#1E5973"
-            stroke-width="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+            stroke="#1E5973" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
           <path
             d="M37.5 18.525C48.2707 18.525 57 14.884 57 10.3974C57 5.91091 48.2707 2.2699 37.5 2.2699C26.7293 2.2699 18 5.91091 18 10.3974C18 14.884 26.7293 18.525 37.5 18.525ZM37.5 31.5199C30.058 31.5199 23.4768 29.7299 19.3254 26.9648C18.4799 27.8789 18 28.8615 18 29.8974C18 34.384 26.7293 38.025 37.5 38.025C48.2707 38.025 57 34.384 57 29.8974C57 28.8615 56.5201 27.8789 55.6746 26.9724C51.5232 29.7299 44.942 31.5199 37.5 31.5199ZM37.5 21.7699C30.058 21.7699 23.4768 19.9799 19.3254 17.2148C18.4799 18.1289 18 19.1115 18 20.1474C18 24.634 26.7293 28.275 37.5 28.275C48.2707 28.275 57 24.634 57 20.1474C57 19.1115 56.5201 18.1289 55.6746 17.2224C51.5232 19.9799 44.942 21.7699 37.5 21.7699Z"
-            fill="#7D7D7D"
-          />
+            fill="#7D7D7D" />
         </svg>
 
-        <div
-          class="text-black dark:!text-white"
-          style="font-size: 12px; text-align: center"
-        >
+        <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
           {{ $t('please_add_liq_to_see') }}
         </div>
         <div class="add_liq_btn_pools">
@@ -183,314 +142,314 @@ const filteredData = computed(() =>
 const preFiltersList = computed(() =>
   props.selectedOverallTab === t('overall_view')
     ? [
-        {
-          title: 'Revenue',
-          code: 'Revenue',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Revenue',
-          code: 'Revenue_ETH',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Revenue',
-          code: 'Revenue_BTC',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Gas Fees',
-          code: 'Gas Fees',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Gas Fees',
-          code: 'Gas Fees_ETH',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Gas Fees',
-          code: 'Gas Fees_BTC',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Trades',
-          code: 'Trades',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Volume',
-          code: 'Volume',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Volume',
-          code: 'Volume_ETH',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Volume',
-          code: 'Volume_BTC',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'TVL',
-          code: 'TVL',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'TVL',
-          code: 'TVL_ETH',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'TVL',
-          code: 'TVL_BTC',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
+      {
+        title: 'Revenue',
+        code: 'Revenue',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Revenue',
+        code: 'Revenue_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Revenue',
+        code: 'Revenue_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Gas Fees',
+        code: 'Gas Fees',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Gas Fees',
+        code: 'Gas Fees_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Gas Fees',
+        code: 'Gas Fees_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Trades',
+        code: 'Trades',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Volume',
+        code: 'Volume',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Volume',
+        code: 'Volume_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Volume',
+        code: 'Volume_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'TVL',
+        code: 'TVL',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'TVL',
+        code: 'TVL_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'TVL',
+        code: 'TVL_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
 
-        {
-          title: 'Average APR',
-          code: 'Average APR',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
+      {
+        title: 'Average APR',
+        code: 'Average APR',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
 
-        {
-          title: 'Profit',
-          code: 'Profits',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'Profit',
-          code: 'Profits_ETH',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'Profit',
-          code: 'Profits_BTC',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'Capital Gains',
-          code: 'Capital Gains',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'PNL',
-          code: 'PNL',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'Volatility Index',
-          code: 'Volatility Index',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-      ]
+      {
+        title: 'Profit',
+        code: 'Profits',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Profit',
+        code: 'Profits_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Profit',
+        code: 'Profits_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Capital Gains',
+        code: 'Capital Gains',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'PNL',
+        code: 'PNL',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'Volatility Index',
+        code: 'Volatility Index',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+    ]
     : [
-        {
-          title: 'Revenue',
-          code: 'Revenue',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Revenue',
-          code: 'Revenue_ETH',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Revenue',
-          code: 'Revenue_BTC',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Gas Fees',
-          code: 'Gas Fees',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Gas Fees',
-          code: 'Gas Fees_ETH',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Gas Fees',
-          code: 'Gas Fees_BTC',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Trades',
-          code: 'Trades',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Volume',
-          code: 'Volume',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Volume',
-          code: 'Volume_ETH',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Volume',
-          code: 'Volume_BTC',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'TVL',
-          code: 'TVL',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'TVL',
-          code: 'TVL_ETH',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'TVL',
-          code: 'TVL_BTC',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
+      {
+        title: 'Revenue',
+        code: 'Revenue',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Revenue',
+        code: 'Revenue_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Revenue',
+        code: 'Revenue_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Gas Fees',
+        code: 'Gas Fees',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Gas Fees',
+        code: 'Gas Fees_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Gas Fees',
+        code: 'Gas Fees_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Trades',
+        code: 'Trades',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Volume',
+        code: 'Volume',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Volume',
+        code: 'Volume_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Volume',
+        code: 'Volume_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'TVL',
+        code: 'TVL',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'TVL',
+        code: 'TVL_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'TVL',
+        code: 'TVL_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
 
-        {
-          title: 'Average APR',
-          code: 'Average APR',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
+      {
+        title: 'Average APR',
+        code: 'Average APR',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
 
-        {
-          title: 'Profit',
-          code: 'Profit',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'Profit',
-          code: 'Profit_ETH',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'Profit',
-          code: 'Profit_BTC',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'Capital Gains',
-          code: 'Capital Gains',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'PNL',
-          code: 'PNL',
-          isSolo: true,
-          selected: true,
-          cumulable: false,
-        },
-        {
-          title: 'ROI',
-          code: 'ROI',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Token Incentives',
-          code: 'Token Incentives',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Volatility Index',
-          code: 'Volatility Index',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-        {
-          title: 'Pool percentage',
-          code: 'Pool percentage',
-          isSolo: true,
-          selected: true,
-          cumulable: true,
-        },
-      ],
+      {
+        title: 'Profit',
+        code: 'Profit',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'Profit',
+        code: 'Profit_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'Profit',
+        code: 'Profit_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'Capital Gains',
+        code: 'Capital Gains',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'PNL',
+        code: 'PNL',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'ROI',
+        code: 'ROI',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Token Incentives',
+        code: 'Token Incentives',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+      {
+        title: 'Volatility Index',
+        code: 'Volatility Index',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'Pool percentage',
+        code: 'Pool percentage',
+        isSolo: true,
+        selected: true,
+        cumulable: true,
+      },
+    ],
 )
 const filters = ref({
   Revenue: true,
@@ -501,6 +460,7 @@ const filters = ref({
   ['Average APR']: true,
   ['Profit']: true,
   ['Capital Gains']: true,
+  ['Volatility Index']: true,
   ['PNL']: true,
   ['ROI']: true,
   ['Token Incentives']: true,
@@ -617,455 +577,484 @@ const convertFromNumber = (str) => {
 const series = computed(() =>
   props.selectedOverallTab === t('overall_view')
     ? [
-        {
-          type: 'bar',
-          name: 'Revenue',
-          data: dataRevenues.value,
+      {
+        type: 'bar',
+        name: 'Revenue',
+        data: dataRevenues.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#803D00' : '#01B47E',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: router.currentRoute.value.path.includes('CLdetails') ? '#803D00' : '#01B47E',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        itemStyle: {
+          borderRadius: [5, 5, 0, 0],
           color: router.currentRoute.value.path.includes('CLdetails') ? '#803D00' : '#01B47E',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#803D00' : '#01B47E',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#803D00' : '#01B47E',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
 
-        {
-          name: 'Gas Fees',
-          type: 'bar',
-          data: dataGasFees.value,
+      {
+        name: 'Gas Fees',
+        type: 'bar',
+        data: dataGasFees.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#4AFF7D' : '#4AFF7D',
+
+        sampling: 'lttb',
+        itemStyle: {
+          borderRadius: [5, 5, 0, 0],
           color: router.currentRoute.value.path.includes('CLdetails') ? '#4AFF7D' : '#4AFF7D',
-
-          sampling: 'lttb',
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#4AFF7D' : '#4AFF7D',
-          },
-          smooth: true,
-          showSymbol: false,
-
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
-        {
-          name: 'Average APR',
-          type: 'line',
-          data: dataAvgApr.value,
+        smooth: true,
+        showSymbol: false,
+
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        name: 'Average APR',
+        type: 'line',
+        data: dataAvgApr.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          width: 1,
           color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
-        {
-          name: 'Volume',
-          type: 'bar',
-          data: dataVolumes.value,
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        name: 'Volume',
+        type: 'bar',
+        data: dataVolumes.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#8AFF42',
+        sampling: 'lttb',
+        areaStyle: {},
+        xAxisIndex: 0,
+        yAxisIndex: 1,
+        smooth: true,
+        showSymbol: false,
+        itemStyle: {
           color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#8AFF42',
-          sampling: 'lttb',
-          areaStyle: {},
-          xAxisIndex: 0,
-          yAxisIndex: 1,
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#8AFF42',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+          borderRadius: [5, 5, 0, 0],
         },
-        {
-          name: 'Trades',
-          type: 'bar',
-          data: dataTrades.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
-          sampling: 'lttb',
-          areaStyle: {},
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        name: 'Trades',
+        type: 'bar',
+        data: dataTrades.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
+        sampling: 'lttb',
+        areaStyle: {},
 
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+        smooth: true,
+        showSymbol: false,
+        itemStyle: {
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
+          borderRadius: [5, 5, 0, 0],
         },
-        {
-          type: 'line',
-          name: 'Volatility Index',
-          data: dataVolatilityIndexes.value,
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        type: 'line',
+        name: 'Volatility Index',
+        data: dataVolatilityIndexes.value,
+        color: '#FF8FD6',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: '#FF8FD6',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          width: 1,
           color: '#FF8FD6',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#FF8FD6',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#FF8FD6',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
-        {
-          type: 'line',
-          name: 'TVL',
-          data: dataTvl.value,
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        type: 'line',
+        name: 'TVL',
+        data: dataTvl.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#B3F007' : '#B3F007',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: router.currentRoute.value.path.includes('CLdetails') ? '#B3F007' : '#B3F007',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          width: 1,
           color: router.currentRoute.value.path.includes('CLdetails') ? '#B3F007' : '#B3F007',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#B3F007' : '#B3F007',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#B3F007' : '#B3F007',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
-        {
-          type: 'bar',
-          name: 'Profit',
-          data: dataProfits.value,
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        type: 'bar',
+        name: 'Profit',
+        data: dataProfits.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        itemStyle: {
           color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        }
-      ]
+          borderRadius: [5, 5, 0, 0],
+        },
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      }
+    ]
     : [
-        {
-          type: 'bar',
-          name: 'PNL',
-          data: dataTrades.value,
+      {
+        type: 'bar',
+        name: 'PNL',
+        data: dataTrades.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#70FF00',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#70FF00',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        itemStyle: {
           color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#70FF00',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#70FF00',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#70FF00',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+          borderRadius: [5, 5, 0, 0],
         },
-        {
-          name: 'Trades',
-          type: 'bar',
-          data: dataTrades.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
-          sampling: 'lttb',
-          areaStyle: {},
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        name: 'Trades',
+        type: 'bar',
+        data: dataTrades.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
+        sampling: 'lttb',
+        areaStyle: {},
 
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+        smooth: true,
+        showSymbol: false,
+        itemStyle: {
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#FB800F' : '#1AB401',
+          borderRadius: [5, 5, 0, 0],
         },
-        {
-          name: 'Volume',
-          type: 'bar',
-          data: dataVolumes.value,
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        name: 'Volume',
+        type: 'bar',
+        data: dataVolumes.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#8AFF42',
+        sampling: 'lttb',
+        areaStyle: {},
+        xAxisIndex: 0,
+        yAxisIndex: 1,
+        smooth: true,
+        showSymbol: false,
+        itemStyle: {
           color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#8AFF42',
-          sampling: 'lttb',
-          areaStyle: {},
-          xAxisIndex: 0,
-          yAxisIndex: 1,
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#8AFF42' : '#8AFF42',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+          borderRadius: [5, 5, 0, 0],
         },
-        {
-          type: 'line',
-          name: 'Staked Liquidity',
-          data: dataRevenues.value,
-          color: '#B3F007',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#B3F007',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#B3F007',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
         },
-        {
-          name: 'Average APR',
-          type: 'line',
-          data: dataAvgApr.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+      },
+      {
+        type: 'line',
+        name: 'Volatility Index',
+        data: dataVolatilityIndexes.value,
+        color: '#FF8FD6',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: '#FF8FD6',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
         },
-        {
-          type: 'bar',
-          name: 'Rewards',
-          data: dataRevenues.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'bar',
-          name: 'Capital Gains',
-          data: dataVolatilityIndexes.value,
-          color: '#F0DA0F',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#F0DA0F',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: '#F0DA0F',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'line',
-          name: 'ROI',
-          data: dataVolatilityIndexes.value,
-          color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'line',
-          name: 'Pool Percentage',
-          data: dataRevenues.value,
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          width: 1,
           color: '#FF8FD6',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#FF8FD6',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#FF8FD6',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
         },
-      ],
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        type: 'line',
+        name: 'Staked Liquidity',
+        data: dataRevenues.value,
+        color: '#B3F007',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: '#B3F007',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          width: 1,
+          color: '#B3F007',
+        },
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        name: 'Average APR',
+        type: 'line',
+        data: dataAvgApr.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          width: 1,
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#00DC3E',
+        },
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        type: 'bar',
+        name: 'Rewards',
+        data: dataRevenues.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        itemStyle: {
+          borderRadius: [5, 5, 0, 0],
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#05FF00' : '#05FF00',
+        },
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        type: 'bar',
+        name: 'Capital Gains',
+        data: dataVolatilityIndexes.value,
+        color: '#F0DA0F',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: '#F0DA0F',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        itemStyle: {
+          color: '#F0DA0F',
+          borderRadius: [5, 5, 0, 0],
+        },
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        type: 'line',
+        name: 'ROI',
+        data: dataVolatilityIndexes.value,
+        color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          width: 1,
+          color: router.currentRoute.value.path.includes('CLdetails') ? '#00DC3E' : '#432102',
+        },
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+      {
+        type: 'line',
+        name: 'Pool Percentage',
+        data: dataRevenues.value,
+        color: '#FF8FD6',
+        sampling: 'lttb',
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: '#FF8FD6',
+            },
+            {
+              offset: 1,
+              color: 'transparent',
+            },
+          ]),
+        },
+        smooth: true,
+        showSymbol: false,
+        lineStyle: {
+          width: 1,
+          color: '#FF8FD6',
+        },
+        emphasis: {
+          focus: 'series',
+          blurScope: 'coordinateSystem',
+        },
+      },
+    ],
 )
 
 const optionObj = ref({
@@ -1109,29 +1098,25 @@ const optionObj = ref({
       return `
                 ${params[0].name} <br />
                 ${params
-                  .map((el) =>
-                    el.seriesName === 'Revenue' ||
-                    el.seriesName === 'Profits' ||
-                    el.seriesName === 'TVL' ||
-                    el.seriesName === 'Gas Fees' ||
-                    el.seriesName === 'Volume'
-                      ? `${el.marker} ${el.seriesName}: ${props.symbol}${
-                          el.value ? el.value.toFixed(3) : 0
-                        } <br />`
-                      : el.seriesName === 'Average APR' ||
-                        el.seriesName === 'Volatility Index'
-                      ? `${el.marker} ${el.seriesName}: ${
-                          el.value ? el.value.toFixed(3) : 0
-                        }% <br />`
-                      : el.seriesName === 'Trades'
-                      ? `${el.marker} ${el.seriesName}: ${
-                          el.value ? el.value.toFixed(3) : 0
-                        } Trades  <br />`
-                      : `${el.marker} ${el.seriesName}: ${
-                          el.value ? el.value.toFixed(3) : 0
-                        } <br />`,
-                  )
-                  .join('')}
+          .map((el) =>
+            el.seriesName === 'Revenue' ||
+              el.seriesName === 'Profits' ||
+              el.seriesName === 'TVL' ||
+              el.seriesName === 'Gas Fees' ||
+              el.seriesName === 'Volume'
+              ? `${el.marker} ${el.seriesName}: ${props.symbol}${el.value ? el.value.toFixed(3) : 0
+              } <br />`
+              : el.seriesName === 'Average APR' ||
+                el.seriesName === 'Volatility Index'
+                ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
+                }% <br />`
+                : el.seriesName === 'Trades'
+                  ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
+                  } Trades  <br />`
+                  : `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
+                  } <br />`,
+          )
+          .join('')}
                 `
     },
   },
@@ -1404,66 +1389,13 @@ function getFilteredData() {
           result_item[filter_code] = item[filter_code]
         }
       }
-      let avg_apr = CalculateAvgApr(
-        profitItem,
-        notFilterdPreviousItems,
-        currentTimeline.value.name,
-        chainSelectedName.value,
-      )
       if (filter_code == 'Average APR') {
-        result_item[filter_code] = avg_apr
+        result_item[filter_code] = item[filter_code]
       }
-      let isTvlLessThan1 =
-        chart_data[indexes[i]].TVL[chainSelectedName.value] < 1
-
-      if (
-        assets.value.length > 0 &&
-        tokenPrices.value &&
-        tokenPrices.value.length > 0
-      ) {
-        let volatility_index = null
-        if (filter_code == 'Volatility Index') {
-          result_item[filter_code] = !isTvlLessThan1
-            ? CalculateVolatilityIndex(
-                chainSelectedName.value,
-                notFilterdPreviousItems,
-                tokenPrices.value,
-                currentTimeline.value.name,
-                assets.value,
-              )
-            : 0
-          volatility_index = result_item[filter_code]
-        }
-
-        if (filter_code == 'Sharpe Ratio') {
-          result_item[filter_code] = !isTvlLessThan1
-            ? CalculateSharpeRatio(
-                chainSelectedName.value,
-                notFilterdPreviousItems,
-                tokenPrices.value,
-                currentTimeline.value.name,
-                assets.value,
-                avg_apr,
-                result_item.timestamp,
-                volatility_index,
-              )
-            : 0
-        }
-        if (filter_code == 'Sortino Ratio') {
-          result_item[filter_code] = !isTvlLessThan1
-            ? CalculateSortinoRatio(
-                chainSelectedName.value,
-                notFilterdPreviousItems,
-                tokenPrices.value,
-                currentTimeline.value.name,
-                assets.value,
-                avg_apr,
-                result_item.timestamp,
-                null,
-              )
-            : 0
-        }
+      if (filter_code == 'Volatility Index') {
+        result_item[filter_code] = item[filter_code]
       }
+
     }
     result.push(result_item)
   }
@@ -1755,6 +1687,4 @@ function getFilteredData() {
     }
   }
 }
-
-
 </style>

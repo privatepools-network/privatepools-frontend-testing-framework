@@ -1,4 +1,4 @@
-<template>
+cking<template>
   <div class="track_chart_card bg-white dark:!bg-[#22222224]">
     <div class="d-flex justify-content-end"></div>
     <div v-if="filteredData.length === 0" class="chart_inside">
@@ -159,7 +159,7 @@ const preFiltersList = ref([
     code: 'Profits',
     isSolo: true,
     selected: true,
-    cumulable: false,
+    cumulable: true,
   },
   {
     title: 'Token Incentives',
@@ -192,7 +192,9 @@ const dataTVL = computed(() => {
   return []
 })
 const dataRevenues = computed(() => {
-  return filteredData.value.map((v) => v.Revenue)
+  if (preFiltersList.value.find((f) => f.code == 'Revenue').selected)
+    return filteredData.value.map((v) => v['Revenue'])
+  return []
 })
 
 const dataVolumes = computed(() => {
@@ -729,7 +731,6 @@ function getFilteredData() {
       isRightChainName(d.Blockchain, chainSelected.value.name) ||
       d.Blockchain == '',
   )
-  chart_data = addEmptyDays(chart_data)
   let timestamps = chart_data.map((v) => v.timestamp)
   let indexes = TimelineFilters[currentTimeline.value.name](timestamps)
   indexes = indexes.sort((a, b) => a - b)
@@ -744,9 +745,7 @@ function getFilteredData() {
     let end_index = indexes[i] + 1
     let previousItems = chart_data.slice(start_index, end_index)
     let notFilterdPreviousItems = [...previousItems]
-    if (chainSelected.value.name == 'All Chains') {
-      mapValuesForEachChain(previousItems, selectedCumulableCodes)
-    }
+
     previousItems = previousItems.filter(
       (p) =>
         p.Blockchain == '' ||
@@ -795,7 +794,7 @@ function getFilteredData() {
     }
     result.push(result_item)
   }
-  console.log(optionObj.value.legend.selected)
+  console.log("CHART", result)
 
   return result
 }

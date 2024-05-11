@@ -198,7 +198,7 @@ const filterByTimeVolume = ref('24H')
 const headers = [
   t('tokens'),
   t('composition'),
-  'ROI',
+  'All Returns %',
   'TVL',
   t('volume'),
   'APR',

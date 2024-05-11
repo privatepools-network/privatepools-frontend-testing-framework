@@ -2,8 +2,8 @@
   <MainCard>
     <CRow class="d-flex align-items-center">
       <div class="portfolio mt-4">
-        <PortfolioBalance :performers="performers" :balance="balanceData.total ?? 0"
-          :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0"  />
+        <PortfolioBalance :performers="performers" :balanceUsd="balanceData.total ?? 0"
+          :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0" />
 
         <div class="portfolio-chart">
           <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
@@ -90,7 +90,6 @@ import { Network } from '@/composables/useNetwork'
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import { GetUserHistoricalBalances } from '@/composables/portfolio/usePortfolioHistoricalBalances'
 import { GetActivePeriodsSwapsData } from '@/lib/formatter/portfolio/portfolioSwapsFormatter'
-import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { GetUserUniswapPools } from '@/composables/wallet/useWalletPools'
 import PortfolioBalance from '@/components/portfolio/PortfolioBalance.vue'
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
