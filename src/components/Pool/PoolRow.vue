@@ -18,7 +18,7 @@
               <span class="chip_token_name text-black dark:!text-white">{{
                 item.token
                 }}</span>
-              <span class="chip_token_weight text-[#475569] dark:!text-[#8f8f8f]"
+              <span class="chip_token_weight text-[#475569] dark:!text-[rgb(143,143,143)]"
                 v-if="pool['LiquidityType'] === 'WP'">{{ parseFloat(item.weight).toFixed(0) }}%</span>
             </div>
           </div>
@@ -32,7 +32,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
-            {{ pool['ROI'] }}
+            {{ pool['All Returns %'] }}%
           </div>
         </div>
       </div>

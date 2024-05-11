@@ -129,7 +129,7 @@ const sliceNumber = ref(10)
 const headers = [
   t('tokens'),
   t('composition'),
-  'ROI',
+  'All Returns %',
   'TVL',
   `${t('volume')} (24h)`,
   'APR',
