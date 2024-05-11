@@ -354,20 +354,11 @@ const computedAddress = computed(() =>
   top: 0;
   z-index: 12;
   margin-bottom: 10px;
-  background: linear-gradient(
-      356.2deg,
-      #02031C,
-      #000000 105.42%
-    );
-  // backdrop-filter: blur(10px);
+  background: #0c0c0cbe;
+  backdrop-filter: blur(10px);
   &_bg {
-    background: linear-gradient(
-      356.2deg,
-      #02031C,
-      #000000 105.42%
-    ) !important;
-    // -webkit-backdrop-filter: blur(60px);
-    // backdrop-filter: blur(60px);
+    background: #0c0c0c3d;
+    backdrop-filter: blur(10px);
   }
 
   &_bg-white {
@@ -823,12 +814,16 @@ const computedAddress = computed(() =>
 
 .vue-dropdown {
   // background: #171717;
-  background: #00000000;
+  background: linear-gradient(
+      356.2deg,
+      #02031C,
+      #000000 105.42%
+    );
 
   border: 1px solid #222222c9;
   // color: white;
-  -webkit-backdrop-filter: blur(50px);
-  backdrop-filter: blur(50px);
+  // -webkit-backdrop-filter: blur(50px);
+  // backdrop-filter: blur(50px);
 }
 
 /* Scrollbar */

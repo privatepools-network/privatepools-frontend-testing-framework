@@ -16,10 +16,10 @@
         >
           <div class="d-flex flex-column align-items-start text-white">
             <div class="font-['Roboto_Mono',_monospace] text-[13px]">
-              {{ token.depositAmount }} {{ token.symbol }}
+              {{ token.depositAmount.toFixed(4) }} {{ token.symbol }}
             </div>
             <div class="font-['Roboto_Mono',_monospace] text-[13px]">
-              ${{ token.usdAmount }}
+              ${{ token.usdAmount.toFixed(2) }}
             </div>
           </div>
           <div class="d-flex align-items-center">
@@ -146,7 +146,7 @@
         />
 
         <div class="w-12 mt-1">
-          <ProgressLoader v-if="mmActive && approveStep === 4" />
+          <ProgressLoader v-if="mmActive && approveStep === 4 || approveStep === 2" />
           <span v-else class="progress_loader_still"></span>
         </div>
 
