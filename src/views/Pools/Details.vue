@@ -39,7 +39,7 @@
         </div>
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
       </div>
-    <!--   <div class="flex justify-between items-center mt-3">
+      <!--   <div class="flex justify-between items-center mt-3">
         <div>
         <div class="rewards_button">
           {{ $t('rewards') }}
@@ -218,7 +218,7 @@
                     <CurrencySymbol />{{
                       formatBigNumber(currentCurrency == "USD" ? pool.TotalVolumeUsd :
                         pool[`TotalVolume${currentCurrency}`],
-                    currencyDecimals)
+                        currencyDecimals)
                     }}
                   </div>
                 </div>
@@ -455,16 +455,16 @@
           diagrams_data ||
           (assetsPerformance && poolTradesData && poolProfitsData)
         " :tradesData="diagrams_data.trades.tradesData ?? poolTradesData.tradesData
-            " :tradesTimestamps="diagrams_data.trades.tradesTimestamps ??
-            poolTradesData.tradesTimestamps
-            " :profitsData="diagrams_data.profits[`profitsData${postfix}`] ?? poolProfitsData.profitsData
-            " :profitsTimestamps="diagrams_data.profits.profitsTimestamps ??
-            poolProfitsData.profitsTimestamps
-            " :symbol="currencySymbol" :decimals="currencyDecimals" :assetsPerformanceData="diagrams_data.assetsPerformance[`assetsPerformanceData${postfix}`] ??
-            assetsPerformance.assetsPerformanceData
-            " :assetsPerformanceTimestamps="diagrams_data.assetsPerformance.assetsPerformanceTimestamps ??
-            assetsPerformance.assetsPerformanceTimestamps
-            " :tokens="pool.tokens" />
+          " :tradesTimestamps="diagrams_data.trades.tradesTimestamps ??
+              poolTradesData.tradesTimestamps
+              " :profitsData="diagrams_data.profits[`profitsData${postfix}`] ?? poolProfitsData.profitsData
+              " :profitsTimestamps="diagrams_data.profits.profitsTimestamps ??
+              poolProfitsData.profitsTimestamps
+              " :symbol="currencySymbol" :decimals="currencyDecimals" :assetsPerformanceData="diagrams_data.assetsPerformance[`assetsPerformanceData${postfix}`] ??
+              assetsPerformance.assetsPerformanceData
+              " :assetsPerformanceTimestamps="diagrams_data.assetsPerformance.assetsPerformanceTimestamps ??
+              assetsPerformance.assetsPerformanceTimestamps
+              " :tokens="pool.tokens" />
         <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-else style="height: 330px; width: 70%">
           <LoaderPulse></LoaderPulse>
         </div>
@@ -483,7 +483,8 @@
     <PortfolioStatistics v-else-if="selectedTab == t('statistics') && pool" :historical_tvl="historical_tvl"
       :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
         " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historicalPrices="historicalPrices"
-      :userFirstTimestamp="historical_tvl.length > 0 ? historical_tvl[0].timestamp : Date.now()" :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
+      :userFirstTimestamp="historical_tvl.length > 0 ? historical_tvl[historical_tvl.length - 1].timestamp * 1000 : Date.now()"
+      :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
     </PortfolioStatistics>
 
     <!-- {{ console.log('pool!!!', pool) }} -->
@@ -682,6 +683,8 @@ onMounted(async () => {
     pool.value = data.general
     poolActivity.value = data.general.activities
     historical_tvl.value = data.statistics.tvls
+    console.log("TVLS - ", historical_tvl.value)
+    historicalPrices.value = data.historical_prices
   }
 })
 const unformattedPoolActivity = ref(null)
