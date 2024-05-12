@@ -48,8 +48,7 @@ export function CalculateAvgApr(
   const protocolFee = 0
   let days = currentTimeline
   if (days == 0) days = 1
-  if (typeof currentTimeline == 'string')
-    days = DaysCount[currentTimeline] // days count of time range 1/7/30
+  if (typeof currentTimeline == 'string') days = DaysCount[currentTimeline] // days count of time range 1/7/30
   //else previousItems = addMonthEmptyDaysTimestamps(previousItems, days)
   let averageTvl = calculateAverage(
     previousItems.map((item) => item.TVL[chainSelected]),
@@ -193,6 +192,7 @@ export function CalculateVolatilityIndex(
   historicalPrices,
   currentTimeline,
   assets,
+  treasury_yields,
   sortino = false,
   timestamp = null,
   riskFreeOption = 'bonds',
@@ -212,7 +212,7 @@ export function CalculateVolatilityIndex(
     let prices_changes = calculatePricesPercentageChange(prices)
     let avg_price = calculateAverage(prices_changes) // [1] get average asset price for the period
     if (sortino) {
-      let bondsTreasury = FindTreasury(timestamp)
+      let bondsTreasury = FindTreasury(treasury_yields, timestamp)
       let treasury =
         riskFreeOption == 'bonds'
           ? bondsTreasury
@@ -259,6 +259,7 @@ export function CalculateSharpeRatio(
   assets,
   avg_apr,
   timestamp,
+  treasury,
   volatility_index = null,
   riskFreeOption = 'bonds',
 ) {
@@ -271,9 +272,16 @@ export function CalculateSharpeRatio(
       assets,
       false,
       riskFreeOption,
+      treasury,
     )
   }
-  return CalculateRatio(avg_apr, volatility_index, timestamp, riskFreeOption)
+  return CalculateRatio(
+    avg_apr,
+    volatility_index,
+    timestamp,
+    treasury,
+    riskFreeOption,
+  )
 }
 
 /**
@@ -298,6 +306,7 @@ export function CalculateSortinoRatio(
   assets,
   avg_apr,
   timestamp,
+  treasury,
   volatility_index = null,
   riskFreeOption = 'bonds',
 ) {
@@ -311,9 +320,16 @@ export function CalculateSortinoRatio(
       true,
       timestamp,
       riskFreeOption,
+      treasury,
     )
   }
-  return CalculateRatio(avg_apr, volatility_index, timestamp, riskFreeOption)
+  return CalculateRatio(
+    avg_apr,
+    volatility_index,
+    timestamp,
+    treasury,
+    riskFreeOption,
+  )
 }
 
 /**
@@ -322,9 +338,8 @@ export function CalculateSortinoRatio(
  * @param {number} timestamp - (ms) timestamp of when to find US Treasury
  * @return {Treasury} US Treasury for this timestamp.
  **/
-function FindTreasury(timestamp) {
+function FindTreasury(treasury_yields, timestamp) {
   let date = new Date(timestamp)
-  let treasury_yields = GetCachedTreasuryYields()
   let found = treasury_yields.find(
     (t) =>
       parseFloat(t.record_calendar_month) == date.getMonth() + 1 &&
@@ -352,9 +367,10 @@ function CalculateRatio(
   avg_apr,
   volatility_index,
   timestamp,
+  treasury_yields,
   riskFreeOption = 'bonds',
 ) {
-  let bonds_ratio = FindTreasury(timestamp)
+  let bonds_ratio = FindTreasury(treasury_yields, timestamp)
   let treasury =
     riskFreeOption == 'bonds'
       ? bonds_ratio
@@ -549,7 +565,7 @@ export function CalculateDayAvgApr(historicalTvl, swapsData, chainSelected) {
  * @returns {TVLInfo[]} array with TVLs with all dates within this time range now - days -> now
  */
 export function addMonthEmptyDaysTimestamps(tvls, days = 30) {
-  if(tvls.length == 0 || days < 1){
+  if (tvls.length == 0 || days < 1) {
     return []
   }
   let end_date = new Date()

@@ -128,6 +128,7 @@
         v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
         :key="pool.name"
         :pool="pool"
+        :filters="{APR:filterByTimeAPR, Volume:filterByVolume}"
         :userPools="user_staked_pools"
         :inactive="isPoolInactive(pool)"
         :index="index"

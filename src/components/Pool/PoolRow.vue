@@ -52,8 +52,9 @@
         <div class="pools-row__info">
           <div class="pools-row__value">
             <div class="flex font-['Roboto_Mono',_monospace]">
-              <CurrencySymbol />{{ numberToAposthrophe(Number(currentCurrency == "USD" ? pool['Volume'] :
-              pool[`Volume_${currentCurrency}`]), currencyDecimals) }}
+              <CurrencySymbol />{{ numberToAposthrophe(Number(currentCurrency == "USD" ?  pool[`Volume${filters &&filters['Volume'] ? `_${filters['Volume']}` : ''}`] :
+              pool[`Volume${filters &&filters['Volume'] ? `_${filters['Volume']}` : ''}_${currentCurrency}`]), currencyDecimals)
+              }}
             </div>
           </div>
         </div>
@@ -62,7 +63,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value flex">
-            {{ Number(pool['APR']).toFixed(0) }}%
+            {{ Number(pool[`APR${filters && filters['APR'] ? ` ${filters['APR']}` : ''}`]).toFixed(0) }}%
             <img :src="APRIcon" />
           </div>
         </div>
@@ -133,8 +134,8 @@
                 onMountedActivity: 'deposit',
               })
             " class="liquidity_button !text-white uppercase" :class="pool['LiquidityType'] === 'CL'
-                ? 'liquidity_button_LP'
-                : 'liquidity_button_WP'
+              ? 'liquidity_button_LP'
+              : 'liquidity_button_WP'
               ">
             {{ $t('add_liquidity') }}
           </div>
@@ -196,8 +197,9 @@
             <div class="d-flex align-items-end justify-content-between mt-4 gap-3">
               <div class="d-flex flex-column gap-2">
                 <div class="text-[18px] font-[700] font-['Roboto_Mono',_monospace]">
-                  {{console.log("STAKED POOL", userStakedPool )}}
-                  <CurrencySymbol /> {{ numberToAposthrophe(userStakedPool[`shareBalance${currentCurrency == "USD" ? "Usd" :
+                  {{ console.log("STAKED POOL", userStakedPool) }}
+                  <CurrencySymbol /> {{ numberToAposthrophe(userStakedPool[`shareBalance${currentCurrency == "USD" ?
+                  "Usd" :
                   currentCurrency}`], currencyDecimals)}}
                 </div>
               </div>
@@ -277,9 +279,10 @@ const props = defineProps({
   inactive: Boolean,
   isActions: Boolean,
   userPools: [],
+  filters: Object,
 })
 
-const { pool, index, inactive, isActions, userPools } = toRefs(props)
+const { pool, index, inactive, isActions, userPools, filters } = toRefs(props)
 
 const userStakedPool = computed(() =>
   userPools.value.find((item) => item.id == pool.value.id),
@@ -585,7 +588,7 @@ const visibleDetails = ref(false)
   }
 
   &_WP {
-    background: #00DC3E; 
+    background: #00DC3E;
     // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
 
     &:hover {

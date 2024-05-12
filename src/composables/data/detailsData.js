@@ -7,6 +7,7 @@ export async function getDetailsData(network, poolId) {
     `${BACKEND_URL[network]}/data/details/${poolId}/statistics/`,
     `${BACKEND_URL[network]}/data/details/${poolId}/pairsTokens/`,
     `${BACKEND_URL[network]}/data/details/${poolId}/diagrams/`,
+    `${BACKEND_URL[network]}/historical_prices/${poolId}`,
   ]
 
   const promises = urls.map((url) => axios.get(url))
@@ -17,6 +18,7 @@ export async function getDetailsData(network, poolId) {
     statistics: data[2].data,
     pairsTokens: data[3].data,
     diagrams: data[4].data,
+    historical_prices: data[5].data,
   }
 }
 export async function getCLDetailsData(network, poolId) {

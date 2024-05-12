@@ -650,6 +650,9 @@ export function groupTimestampsByMonthWithIndexes(timestamps) {
 }
 
 export function calculateAverage(array) {
+  if(array.length == 0){
+    return 0
+  }
   let sum = array.reduce((acc, current) => acc + current, 0)
   return sum / array.length
 }

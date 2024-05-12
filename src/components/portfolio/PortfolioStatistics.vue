@@ -597,7 +597,7 @@
                   width: 400px;
                 ">
                 <div style="font-size: clamp(10px, 0.9vw, 16px)">
-                 {{ $t('assets_breakdown') }}
+                  {{ $t('assets_breakdown') }}
                 </div>
                 <div style="
                     display: flex;
@@ -695,7 +695,7 @@ const {
   tokenPairs,
 } = toRefs(props)
 
-
+console.log(userFirstTimestamp)
 function dynamicDonut(labels, arrayOfColors, data) {
   return {
     chart: {
@@ -837,7 +837,8 @@ const riskMetrics = computed(() => {
             chainSelected.value.name,
             datePickerRisks.value[0],
             datePickerRisks.value[1],
-            riskFreeOption.value,
+            props.statistics.treasuryYield,
+            riskFreeOption.value
           ),
         )}`,
       },
@@ -851,7 +852,8 @@ const riskMetrics = computed(() => {
             chainSelected.value.name,
             datePickerRisks.value[0],
             datePickerRisks.value[1],
-            riskFreeOption.value,
+            props.statistics.treasuryYield,
+            riskFreeOption.value
           ),
         )}`,
       },
@@ -865,6 +867,7 @@ const riskMetrics = computed(() => {
             tokensData.value,
             datePickerRisks.value[0],
             datePickerRisks.value[1],
+            props.statistics.treasuryYield,
             false,
             null,
             riskFreeOption.value,
@@ -884,13 +887,12 @@ const profitsData = computed(() => {
     return [
       {
         text: 'Average Profit per Trade',
-        value: `${currencySymbol.value} ${
-          getAverageProfitPerTimeRange(
+        value: `${currencySymbol.value} ${getAverageProfitPerTimeRange(
           props.statistics.swaps,
-            chainSelected.value.name,
-            ...datePickerProfit.value,
-            postfix.value
-          ).toFixed(currencyDecimals.value)}`,
+          chainSelected.value.name,
+          ...datePickerProfit.value,
+          postfix.value
+        ).toFixed(currencyDecimals.value)}`,
       },
     ]
   } else {
@@ -900,7 +902,7 @@ const profitsData = computed(() => {
 
 const profitsTitles = ['Average Profit per Trade']
 
-const drawDownData = computed(() => 
+const drawDownData = computed(() =>
   chartData.value.length > 0
     ? AnalyzeDrawdowns(
       chartData.value,
@@ -945,7 +947,7 @@ let marketData = ref({})
 
 .stats_text {
   // color: rgba(243, 244, 246, 1);
-  
+
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 400;
   line-height: 21px;

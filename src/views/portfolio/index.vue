@@ -19,7 +19,7 @@
         <div class="portfolio-statistics" v-if="activeTab == t('statistics')">
           <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
             :chainSelected="chainSelected" :chartData="portfolioData.chart" :historicalPrices="historicalPrices"
-            :userFirstTimestamp="historical_tvl.length > 0 ? historical_tvl[0].timestamp : Date.now()"
+            :userFirstTimestamp="historical_tvl.length > 0 ? historical_tvl[historical_tvl.length - 1].timestamp * 1000 : Date.now()"
             :tokenPairs="chainPairs" :statistics="portfolioData.statistics">
           </PortfolioStatistics>
         </div>
