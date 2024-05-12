@@ -83,6 +83,21 @@ export function formatBigNumber(number, decimals = 2) {
   }
   return number.toString()
 }
+
+export function trimZeros(number) {
+  if (isNaN(number) || number == '-') return 0
+  // Convert number to string
+  let numberString = number.toString()
+
+  // Check if the number has a decimal point
+  if (numberString.includes('.')) {
+    // Remove trailing zeros after decimal point
+    numberString = numberString.replace(/\.?0+$/, '')
+  }
+
+  // Convert back to number and return
+  return parseFloat(numberString)
+}
 export function formatDateFromTimestamp(timestamp) {
   const months = [
     'Jan',
@@ -635,6 +650,9 @@ export function groupTimestampsByMonthWithIndexes(timestamps) {
 }
 
 export function calculateAverage(array) {
+  if(array.length == 0){
+    return 0
+  }
   let sum = array.reduce((acc, current) => acc + current, 0)
   return sum / array.length
 }

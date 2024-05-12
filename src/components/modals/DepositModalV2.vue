@@ -1,32 +1,8 @@
 <template>
-  <div class="d-flex justify-content-between w-100">
-    <div
-      style="cursor: pointer"
-      @click="
-        depositStep == 1 ? $emit('changeVisibleDepositClose') : depositStep--
-      "
-    >
-      <img :src="arrow_back" />
-    </div>
-    <!-- <div style="cursor: pointer" @click="$emit('changeVisibleDepositClose')">
-          <img :src="close_modal_icon" />
-        </div> -->
-  </div>
-
-  <div class="px-5" v-if="!depositFinished">
-    <div class="modal_body_header">
-      <h3>{{ $t('add_liquidity_preview') }}</h3>
-    </div>
-    <div
-      style="
-        border: 1px solid rgba(163, 164, 165, 0.2);
-        border-radius: 20px;
-        color: white;
-      "
-      class="my-2"
-    >
+  <div class="px-1" v-if="!depositFinished">
+    <div class="my-2 bg-[#22222224] shadow-md rounded-2xl text-white">
       <div
-        class="fs-6 fw-bold p-2"
+        class="text-[13px] font-normal p-2"
         style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
       >
         {{ $t('you_providing') }}
@@ -38,9 +14,13 @@
           :key="`tokens-key-${index}`"
           class="d-flex align-items-center justify-content-between px-3 gap-3"
         >
-          <div class="d-flex flex-column align-items-start text-white ">
-            <div class="font-['Roboto_Mono',_monospace]">{{ token.depositAmount }} {{ token.symbol }}</div>
-            <div class="font-['Roboto_Mono',_monospace]">${{ token.usdAmount }}</div>
+          <div class="d-flex flex-column align-items-start text-white">
+            <div class="font-['Roboto_Mono',_monospace] text-[13px]">
+              {{ token.depositAmount.toFixed(4) }} {{ token.symbol }}
+            </div>
+            <div class="font-['Roboto_Mono',_monospace] text-[13px]">
+              ${{ token.usdAmount.toFixed(2) }}
+            </div>
           </div>
           <div class="d-flex align-items-center">
             <img
@@ -57,16 +37,9 @@
       </div>
     </div>
 
-    <div
-      style="
-        border: 1px solid rgba(163, 164, 165, 0.2);
-        border-radius: 20px;
-        color: white;
-      "
-      class="my-4"
-    >
+    <div class="my-4 bg-[#22222224] shadow-md rounded-2xl text-white">
       <div
-        class="fs-6 fw-bold p-2"
+        class="text-[13px] font-normal p-2"
         style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
       >
         {{ $t('you_expected_to_receive') }}
@@ -76,8 +49,10 @@
         <div
           class="d-flex align-items-center justify-content-between px-3 gap-3"
         >
-          <div class="d-flex flex-column align-items-start text-white font-['Roboto_Mono',_monospace]">
-            <div class="font-['Roboto_Mono',_monospace]">
+          <div
+            class="d-flex flex-column align-items-start text-white font-['Roboto_Mono',_monospace] text-[13px]"
+          >
+            <div class="font-['Roboto_Mono',_monospace] text-[13px]">
               {{ (total / pool.lpPrice).toFixed(2) }}
               {{
                 pool.tokens
@@ -85,7 +60,7 @@
                   .join('/')
               }}
             </div>
-            <div class="font-['Roboto_Mono',_monospace]">
+            <div class="font-['Roboto_Mono',_monospace] text-[13px]">
               ${{ total.toFixed(2) }} ({{
                 (total / ((pool.lpPrice * pool.totalShares) / 100)).toFixed(2)
               }}%)
@@ -127,16 +102,9 @@
       </div>
     </div>
 
-    <div
-      style="
-        border: 1px solid rgba(163, 164, 165, 0.2);
-        border-radius: 20px;
-        color: white;
-      "
-      class="my-4"
-    >
+    <div class="my-4 bg-[#22222224] shadow-md rounded-2xl text-white">
       <div
-        class="fs-6 fw-bold p-2"
+        class="text-[13px] font-normal p-2"
         style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
       >
         {{ $t('summary') }}
@@ -147,15 +115,21 @@
       >
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('total') }}</div>
-          <div class="d-flex gap-1 font-['Roboto_Mono',_monospace]">${{ total.toFixed(2) }}</div>
+          <div class="d-flex gap-1 font-['Roboto_Mono',_monospace] text-[13px]">
+            ${{ total.toFixed(2) }}
+          </div>
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('value_loss') }}</div>
-          <div class="d-flex gap-1 font-['Roboto_Mono',_monospace]">{{ valueLoss }}%</div>
+          <div class="d-flex gap-1 font-['Roboto_Mono',_monospace] text-[13px]">
+            {{ valueLoss }}%
+          </div>
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('potential_weekly_yield') }}</div>
-          <div class="d-flex gap-1 font-['Roboto_Mono',_monospace]">${{ weeklyYield }}</div>
+          <div class="d-flex gap-1 font-['Roboto_Mono',_monospace] text-[13px]">
+            ${{ weeklyYield }}
+          </div>
         </div>
       </div>
     </div>
@@ -163,150 +137,25 @@
     <div class="my-3 d-flex justify-content-center position-relative">
       {{ console.log('approveStep', approveStep) }}
       <!-- There should be iteration by length of every token that need approve - ApproveStep I guess will be index -->
-      <div class="d-flex gap-2">
-        <VTooltip :distance="0" :placement="'top'">
-          <div>
-            <div class="position-relative" v-if="approveStep === 1">
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="15"
-                  cy="15"
-                  r="14.5"
-                  :stroke="approveStep === 1 ? '#00C9FF' : 'white'"
-                />
-              </svg>
-              <div
-                :class="
-                  approveStep === 1
-                    ? 'step_number step_number_active'
-                    : 'step_number'
-                "
-              >
-                01
-              </div>
-            </div>
-            <div class="position-relative" v-else-if="approveStep === 2">
-              <div class="metamask_loader"></div>
-              <div class="step_number step_number_active flex items-center justify-center">
-                <img :src="metamask" width="20" />
-              </div>
-            </div>
-            <div
-              class="position-relative"
-              v-if="approveStep === 3 || approveStep === 4 || approveStep === 5"
-            >
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="15"
-                  cy="15"
-                  r="14.5"
-                  :stroke="approveStep === 3 ? '#00C9FF' : 'white'"
-                />
-              </svg>
-              <div
-                :class="
-                  approveStep === 3
-                    ? 'step_number step_number_active flex items-center justify-center h-full !bg-[#00E0FF]'
-                    : 'step_number flex items-center justify-center h-full !bg-[#00E0FF]'
-                "
-              >
-                <img :src="checked_step_img" />
-              </div>
-            </div>
-          </div>
-          <template #popper>
-            <div
-              style="
-                background: linear-gradient(
-                  rgba(89, 89, 89, 0.75),
-                  rgba(73, 73, 73, 0.15)
-                );
-                backdrop-filter: blur(10px);
-                padding: 10px;
-                border-radius: 4px;
-                width: 300px;
-              "
-            >
-              <div
-                style="
-                  display: flex;
-                  flex-direction: column;
-                  font-size: clamp(10px, 0.8vw, 14px);
-                "
-              >
-                {{ $t('you_must_approve_all_tokens_tooltip') }}
-              </div>
-            </div>
-          </template>
-        </VTooltip>
-        <!-- <div class="position-relative">
-              <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="15" cy="15" r="14.5" :stroke="approveStep === 1 ? '#00C9FF' : 'white'" />
-                </svg>
-              <div class="step_number step_number_active">
-                <img :src="metamask" width="20" />
-              </div>
-            </div> -->
-        <div
-          class="position-relative"
-          v-if="
-            approveStep === 1 ||
-            approveStep === 2 ||
-            approveStep === 3 ||
-            approveStep === 4
-          "
-        >
-          <svg
-            width="30"
-            height="30"
-            viewBox="0 0 30 30"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="15"
-              cy="15"
-              r="14.5"
-              :stroke="
-                approveStep === 3 || approveStep === 4 || approveStep === 5
-                  ? '#00C9FF'
-                  : 'white'
-              "
-            />
-          </svg>
-          <div
-            :class="
-              approveStep === 3 || approveStep === 4 || approveStep === 5
-                ? 'step_number active'
-                : 'step_number'
-            "
-          >
-            02
-          </div>
+      <div class="d-flex gap-1">
+        <Step
+          :activeStep="approveStep - 1"
+          :displayedActiveStep="1"
+          :mmActive="mmActive"
+          :stepText="'Approve'"
+        />
+
+        <div class="w-12 mt-1">
+          <ProgressLoader v-if="mmActive && approveStep === 4 || approveStep === 2" />
+          <span v-else class="progress_loader_still"></span>
         </div>
-        <div
-          v-else-if="approveStep === 4 || approveStep === 5"
-          class="position-relative"
-        >
-          <div class="position-relative">
-            <div class="metamask_loader"></div>
-            <div class="step_number step_number_active  flex items-center justify-center">
-              <img :src="metamask" width="20" />
-            </div>
-          </div>
-        </div>
+
+        <Step
+          :activeStep="approveStep - 2"
+          :displayedActiveStep="2"
+          :mmActive="mmActive"
+          :stepText="'Deposit'"
+        />
       </div>
     </div>
 
@@ -322,15 +171,15 @@
     </div>
     <div
       class="compose_pool_connect_wallet"
-      @click="OnPreviewClick();
-        approveStep = 4
+      @click="OnPreviewClick(); approveStep = 4
       "
       v-else-if="approveStep === 3"
     >
       {{ $t('add_liquidity') }}
     </div>
     <div class="compose_pool_connect_wallet" v-else-if="approveStep === 4">
-      <span class="button_loader pl-2"></span> {{ $t('confirm_approval_in_wallet') }}
+     
+      Adding Liquidty <span v-if="mmActive" class="button_loader pl-2"></span>
     </div>
     <div
       class="compose_pool_connect_wallet"
@@ -347,7 +196,6 @@
 </template>
 
 <script setup>
-import arrow_back from '@/assets/icons/arrow/arrow_back.svg'
 import close_modal_icon from '@/assets/icons/arrow/close_modal_icon.svg'
 import { getTokenEntity } from '@/lib/helpers/util'
 import { defineProps, defineEmits, ref, watch } from 'vue'
@@ -364,10 +212,11 @@ import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
 import checked_step_img from '@/assets/icons/CLIcons/checked_step.svg'
 
-
-
 import { t } from 'i18next'
+import Step from '@/UI/Step.vue'
+import ProgressLoader from '@/UI/ProgressLoader.vue'
 var emitter = require('tiny-emitter/instance')
+const mmActive = ref(false)
 
 // const popupType = ref("error")
 // const popupSubText = ref("")
@@ -416,94 +265,36 @@ const props = defineProps([
   'account',
   'fiatTotal',
   'weeklyYield',
+  'approveStep',
 ])
-const emit = defineEmits(['changeVisibleDepositClose'])
+const emit = defineEmits(['changeVisibleDepositClose', 'changeApproveStep'])
 console.log('PROPS - ', props)
 const depositFinished = ref(false)
-const approveStep = ref(1)
 
 const txLink = ref('')
 async function OnPreviewClick() {
-  if (approveStep.value === 1) {
-    const ApproveTokensToastPending = toast.loading(Toast, {
-      data: {
-        header_text: t('approve_pending'),
-        toast_text: t('approve_all_requested_tokens'),
-        tx_link: '',
-        speedUp: '',
-      },
-      position: toast.POSITION.TOP_LEFT,
-      theme: 'dark',
-      closeOnClick: false,
-    })
-    approveStep.value = 2
+  console.log('props.approveStep', props.approveStep)
+
+  if (props.approveStep === 1) {
+    // props.approveStep = 2
+    emit('changeApproveStep', 2)
     let tokenAddresses = props.tokens.map((t) => t.address)
+    mmActive.value = true
     let success = await useApproveTokens(
       tokenAddresses,
       props.tokens.map((t) => t.depositAmount),
       props.account,
     )
     if (!success) {
-      toast.update(ApproveTokensToastPending, {
-        render: Toast,
-        data: {
-          header_text: t('approval_rejected'),
-          toast_text: t('you_rejected_tokens_approval'),
-          tx_link: '',
-          speedUp: '',
-        },
-        autoClose: 7000,
-        closeOnClick: false,
-        closeButton: false,
-        type: 'error',
-        isLoading: false,
-      })
-      approveStep.value = 1
+      emit('changeApproveStep', 1)
       return
     }
-    toast.update(ApproveTokensToastPending, {
-      render: Toast,
-      data: {
-        header_text: t('all_tokens_approved'),
-        toast_text: t('all_tokens_successfully_approved'),
-        tx_link: ``,
-        speedUp: '',
-      },
 
-      closeOnClick: false,
-      autoClose: 5000,
-      closeButton: false,
-      type: 'success',
-      isLoading: false,
-    })
     console.log('success', success)
-    approveStep.value = 3
+    mmActive.value = false
+    emit('changeApproveStep', 3)
   } else {
-    let tx = await useJoinPool(
-      props.pool,
-      Object.values(props.pool.tokens),
-      props.tokens.map((t) => t.depositAmount),
-      props.account,
-      props.bptOut,
-    )
-
-    // if (!success) {
-    //   approveStep.value = 1
-    //   SetErrorTxPopup("Approve was cancelled")
-    //   notify()
-    //   return
-    // }
-    // ?
-    // approveStep.value = 4
-
-    console.log('3123')
-
-    txLink.value = `${
-      configService.getNetworkConfig(networkId.value).explorer
-    }/tx/${tx.hash}`
-
-    approveStep.value = 5
-
+    mmActive.value = true
     const ConfirmToastPending = toast.loading(Toast, {
       data: {
         header_text: 'Add liquidity pending',
@@ -513,14 +304,32 @@ async function OnPreviewClick() {
         tx_link: '',
         speedUp: '/',
       },
-      position: toast.POSITION.TOP_LEFT,
+      position: toast.POSITION.TOP_RIGHT,
       theme: 'dark',
       closeOnClick: false,
     })
+    let tx = await useJoinPool(
+      props.pool,
+      Object.values(props.pool.tokens),
+      props.tokens.map((t) => t.depositAmount),
+      props.account,
+      props.bptOut,
+    )
+
+ 
+    txLink.value = `${
+      configService.getNetworkConfig(networkId.value).explorer
+    }/tx/${tx.hash}`
+
+    // props.approveStep = 5
+    emit('changeApproveStep', 5)
+
+
 
     if (tx.error) {
       console.log('!!!', tx.error)
-      approveStep.value = 3
+      // props.approveStep = 3
+      emit('changeApproveStep', 3)
       setTimeout(() => {
         toast.update(ConfirmToastPending, {
           render: Toast,
@@ -554,7 +363,7 @@ async function OnPreviewClick() {
         tx_link: `${conf.explorer}/tx/${tx.hash}`,
         speedUp: '',
       },
-
+      
       closeOnClick: false,
       autoClose: 10000,
       closeButton: false,
@@ -562,42 +371,17 @@ async function OnPreviewClick() {
       isLoading: false,
     })
 
-    // SetSuccessTxPopup(tx.hash, "Tokens successfully deposited")
-    // notify()
+    mmActive.value = false
     emit('changeVisibleDepositClose')
     depositFinished.value = true
 
-    emitter.emit('addNotification', {
-      type: 'Deposit',
-      value: `${parseFloat(props.fiatTotal).toFixed(
-        4,
-      )} USD - ${formatNotificationDate(new Date().getTime())}`,
-      status: 'Success',
-      hash: tx.hash,
-      network: DisplayNetwork[networkId.value],
-    })
+ 
   }
 }
-// function setTxError(e) {
-//   let errorCode = e.error.data.message
-//   SetErrorTxPopup(GetDisplayStringError(errorCode))
-// }
 
-watch(
-  () => props.visibleDepositModal,
-  () => {
-    console.log('111')
-    approveStep.value = 1
-    depositFinished.value = false
-  },
-)
 </script>
 <style lang="scss" scoped>
-
-
-
 .modal_body_header {
-  
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;
@@ -613,9 +397,6 @@ watch(
   border-radius: 100%;
   animation: rotation 1s linear infinite;
 }
-
-
-
 
 @keyframes rotation {
   0% {

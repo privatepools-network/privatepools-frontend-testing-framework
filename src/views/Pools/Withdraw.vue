@@ -1,38 +1,14 @@
 <template>
   <MainCard>
-    <Modal
+    <!-- <Modal
       v-if="visibleDepositModal"
       @close="changeVisibleDepositClose"
       size="xl"
     >
       <template #body>
-        <WithdrawModalV2
-          v-if="pool"
-          :pool="pool"
-          :visibleDepositModal="visibleDepositModal"
-          @changeVisibleDeposit="changeVisibleDeposit"
-          :usdSummary="
-            pool
-              ? (usdPoolShareValue > pool.totalShares * pool.lpPrice
-                  ? pool.totalShares * pool.lpPrice
-                  : usdPoolShareValue
-                ).toFixed(4)
-              : 0
-          "
-          :priceImpact="((priceImpact ?? 0) * 100).toFixed(1)"
-          :bptIn="bptIn"
-          :bptBalance="bptBalance"
-          :allPossibleTokens="allSelectedTokensDisplay"
-          :allSelectedTokens="allSelectedTokens"
-          :account="account"
-          :lineNumberPercent="lineNumberPercent"
-          :exactOut="exactOut"
-          :poolShare="poolShare"
-          :getTokenWithdrawAmount="getTokenWithdrawAmount"
-          :init="init"
-        />
+
       </template>
-    </Modal>
+    </Modal> -->
 
     <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
@@ -90,206 +66,166 @@
         </div>
       </CRow>
 
-
-
       <div
         v-if="Object.keys(balances).length === 0"
         class="my-24 flex justify-center items-center"
       >
-        <svg
-          class="rotate_and_transist"
-          width="220"
-          height="303"
-          viewBox="0 0 320 403"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M160.003 258.305L160.003 3.05176e-05H163.782C250.017 3.05176e-05 320.003 70.2329 320.003 156.771V258.305H160.003Z"
-            fill="url(#paint0_linear_329_3142)"
-          />
-          <path
-            d="M160.003 0L160.003 403H156.223C69.9893 403 0.00292969 332.767 0.00292969 246.229L0.00292969 0L160.003 0Z"
-            fill="url(#paint1_linear_329_3142)"
-          />
-          <defs>
-            <linearGradient
-              id="paint0_linear_329_3142"
-              x1="239.981"
-              y1="258.305"
-              x2="239.981"
-              y2="3.05176e-05"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stop-color="#00E0FF" stop-opacity="0" />
-              <stop offset="1" stop-color="#00E0FF" />
-            </linearGradient>
-            <linearGradient
-              id="paint1_linear_329_3142"
-              x1="79.9812"
-              y1="0"
-              x2="79.9812"
-              y2="403"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stop-color="#00E0FF" stop-opacity="0" />
-              <stop offset="1" stop-color="#00E0FF" />
-            </linearGradient>
-          </defs>
-        </svg>
+        <BigLogoLoader />
       </div>
       <div v-else class="flex justify-center gap-5">
         <div class="deposit_choose dark:!bg-[#00000024] bg-white">
-          <div class="deposit_network_text dark:!text-white text-black">
-            {{ chainSelected }}
-          </div>
           <div class="deposit_text dark:!text-white text-black my-1">
             {{ $t('withdraw_from_pool') }}
           </div>
 
-          <div class="d-flex flex-column gap-2 mt-4">
-            <div class="deposit_text dark:!text-white text-black fw-bolder">
-              {{ $t('you_provided') }}
-            </div>
-
-            <div
-              class="modal_stake_token dark:!text-white text-black dark:!bg-[#15151524] bg-white"
-            >
-              <div>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div
-                    class="modal_stake_token_inner_name dark:!text-white text-black"
-                  >
-                    <svg
-                      width="23"
-                      height="23"
-                      viewBox="0 0 23 23"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <circle cx="11.5" cy="11.5" r="11.5" fill="#CFB428" />
-                      <mask
-                        id="mask0_5890_7370"
-                        style="mask-type: alpha"
-                        maskUnits="userSpaceOnUse"
-                        x="0"
-                        y="0"
-                        width="23"
-                        height="23"
-                      >
-                        <circle cx="11.5" cy="11.5" r="11.5" fill="#3E3E3E" />
-                      </mask>
-                      <g mask="url(#mask0_5890_7370)">
-                        <rect
-                          x="-7.2627"
-                          y="4.27515"
-                          width="19.4451"
-                          height="19.4451"
-                          transform="rotate(-30 -7.2627 4.27515)"
-                          fill="#2A5CA9"
-                        />
-                      </g>
-                    </svg>
-
-                    {{
-                      pool?.tokens
-                        .map((t) => `${t.weight}${t.symbol}`)
-                        .join('-')
-                    }}
-                  </div>
-                  <input
-                    v-if="
-                      pool && poolShare.balance && !isNaN(poolShare.balance)
-                    "
-                    class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
-                    style="
-                      font-size: clamp(10px, 0.8vw, 14px);
-                      font-weight: 500;
-                      text-align: right;
-                    "
-                    @input="(e) => onShareInput(e)"
-                    :value="usdPoolShareValue"
-                    type="number"
-                  />
-                </div>
-                <div>
-                  <div
-                    class="modal_balance_slider dark:!text-white text-black"
-                    v-if="
-                      pool && poolShare.balance && !isNaN(poolShare.balance)
-                    "
-                  >
-                    <div class="value-label" ref="inputRefLabel">
-                      {{ $t('balance') }}:
-                      <span class="fw-bold font-['Roboto_Mono',_monospace]">{{
-                        parseFloat(
-                          poolShare.balance -
-                            (poolShare.balance / 100) * lineNumberPercent,
-                        ).toFixed(4)
-                      }}</span
-                      ><span
-                        class="fw-bold bg-transparent font-['Roboto_Mono',_monospace]"
-                        style="cursor: pointer"
-                        @click="
-                          () => {
-                            lineNumberPercent = 100
-                            usdPoolShareValue = poolShare.balance * pool.lpPrice
-                          }
-                        "
-                      >
-                        {{ $t('max') }}</span
-                      >
-                    </div>
-                    <div class="font-['Roboto_Mono',_monospace]">
-                      ${{
-                        (
-                          ((poolShare.balance * pool.lpPrice) / 100) *
-                          lineNumberPercent
-                        ).toFixed(4)
-                      }}
-                    </div>
-                  </div>
-                  <div class="mt-2">
-                    <Slider
-                      v-model="lineNumberPercent"
-                      @change="
-                        (value) =>
-                          (usdPoolShareValue =
-                            ((poolShare.balance * pool.lpPrice) / 100) * value)
-                      "
-                      :tooltips="false"
-                      :min="0"
-                      :max="100"
-                      :step="1"
-                      :value="80"
-                      lazy="false"
-                    />
-                  </div>
-                </div>
+          <div v-if="visibleDepositModal === false">
+            <div class="d-flex flex-column gap-2 mt-4">
+              <div class="deposit_text dark:!text-white text-black fw-bolder">
+                {{ $t('you_provided') }}
               </div>
-            </div>
 
-            <div
-              class="deposit_text dark:!bg-[#00000024] bg-white dark:!text-white text-black fw-bolder mt-3"
-            >
-              {{ $t('you_receive') }}
-            </div>
-            <div>
               <div
-                style="
-                  border-radius: 16px;
-                  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-                  border: 1px solid #ffffff0d;
-                  font-size: clamp(10px, 0.8vw, 14px);
-                "
+                class="modal_stake_token dark:!text-white text-black dark:!bg-[#15151524] bg-white"
               >
                 <div>
                   <div
-                    v-for="(token, index) in allSelectedTokensDisplay"
-                    :key="`tokens-key-${index}`"
-                    class="d-flex align-items-center justify-content-between px-3 gap-3"
+                    class="d-flex justify-content-between align-items-center"
                   >
-                    <!-- <div class="d-flex flex-column align-items-start text-white">
+                    <div
+                      class="modal_stake_token_inner_name dark:!text-white text-black"
+                    >
+                      <svg
+                        width="23"
+                        height="23"
+                        viewBox="0 0 23 23"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle cx="11.5" cy="11.5" r="11.5" fill="#CFB428" />
+                        <mask
+                          id="mask0_5890_7370"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
+                          width="23"
+                          height="23"
+                        >
+                          <circle cx="11.5" cy="11.5" r="11.5" fill="#3E3E3E" />
+                        </mask>
+                        <g mask="url(#mask0_5890_7370)">
+                          <rect
+                            x="-7.2627"
+                            y="4.27515"
+                            width="19.4451"
+                            height="19.4451"
+                            transform="rotate(-30 -7.2627 4.27515)"
+                            fill="#2A5CA9"
+                          />
+                        </g>
+                      </svg>
+
+                      {{
+                        pool?.tokens
+                          .map((t) => `${t.weight}${t.symbol}`)
+                          .join('-')
+                      }}
+                    </div>
+                    <input
+                      v-if="
+                        pool && poolShare.balance && !isNaN(poolShare.balance)
+                      "
+                      class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
+                      style="
+                        font-size: clamp(10px, 0.8vw, 14px);
+                        font-weight: 500;
+                        text-align: right;
+                      "
+                      @input="(e) => onShareInput(e)"
+                      :value="usdPoolShareValue.toFixed(4)"
+                      type="number"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="modal_balance_slider dark:!text-white text-black"
+                      v-if="
+                        pool && poolShare.balance && !isNaN(poolShare.balance)
+                      "
+                    >
+                      <div class="value-label" ref="inputRefLabel">
+                        {{ $t('balance') }}:
+                        <span class="fw-bold font-['Roboto_Mono',_monospace]">{{
+                          parseFloat(
+                            poolShare.balance -
+                              (poolShare.balance / 100) * lineNumberPercent,
+                          ).toFixed(4)
+                        }}</span
+                        ><span
+                          class="fw-bold bg-transparent font-['Roboto_Mono',_monospace] pl-1"
+                          style="cursor: pointer"
+                          @click="
+                            () => {
+                              lineNumberPercent = 100
+                              usdPoolShareValue =
+                                poolShare.balance * pool.lpPrice
+                            }
+                          "
+                        >
+                          {{ $t('max') }}</span
+                        >
+                      </div>
+                      <div class="font-['Roboto_Mono',_monospace]">
+                        ${{
+                          (
+                            ((poolShare.balance * pool.lpPrice) / 100) *
+                            lineNumberPercent
+                          ).toFixed(4)
+                        }}
+                      </div>
+                    </div>
+                    <div class="mt-2">
+                      <Slider
+                        v-model="lineNumberPercent"
+                        @change="
+                          (value) =>
+                            (usdPoolShareValue =
+                              ((poolShare.balance * pool.lpPrice) / 100) *
+                              value)
+                        "
+                        :tooltips="false"
+                        :min="0"
+                        :max="100"
+                        :step="1"
+                        :value="80"
+                        lazy="false"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="deposit_text dark:!bg-[#00000024] bg-white dark:!text-white text-black fw-bolder mt-3"
+              >
+                {{ $t('you_receive') }}
+              </div>
+              <div>
+                <div
+                  style="
+                    border-radius: 16px;
+                    box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+                    border: 1px solid #ffffff0d;
+                    font-size: clamp(10px, 0.8vw, 14px);
+                  "
+                >
+                  <div>
+                    <div
+                      v-for="(token, index) in allSelectedTokensDisplay"
+                      :key="`tokens-key-${index}`"
+                      class="d-flex align-items-center justify-content-between px-3 gap-3"
+                    >
+                      <!-- <div class="d-flex flex-column align-items-start text-white">
                     <div>{{ token.withdrawAmount }} {{ token.symbol }}</div>
                     <div>${{ token.usdAmount }}</div>
                   </div>
@@ -298,41 +234,42 @@
                
                   </div> -->
 
-                    <div
-                      class="p-2 d-flex align-items-center justify-content-between gap-2 w-100"
-                    >
-                      <div class="d-flex align-items-center gap-2">
-                        <img
-                          :src="getTokenEntity(token.symbol, 'short').icon"
-                          width="38"
-                        />
-                        <div
-                          class="d-flex flex-column dark:!text-white text-black"
-                        >
-                          <div style="font-size: 12px">
-                            {{ token.symbol }} 25%
-                          </div>
+                      <div
+                        class="p-2 d-flex align-items-center justify-content-between gap-2 w-100"
+                      >
+                        <div class="d-flex align-items-center gap-2">
+                          <img
+                            :src="getTokenEntity(token.symbol, 'short').icon"
+                            width="38"
+                          />
                           <div
-                            style="font-size: 10px"
-                            class="dark:!text-white text-black"
+                            class="d-flex flex-column dark:!text-white text-black"
                           >
-                            {{ token.symbol }}
+                            <div style="font-size: 12px">
+                              {{ token.symbol }} 25%
+                            </div>
+                            <div
+                              style="font-size: 10px"
+                              class="dark:!text-white text-black"
+                            >
+                              {{ token.symbol }}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div>
-                        <div class="d-flex flex-column align-items-end">
-                          <div
-                            style="font-size: 12px"
-                            class="dark:!text-white text-black font-['Roboto_Mono',_monospace]"
-                          >
-                            {{ token.withdrawAmount }}
-                          </div>
-                          <div
-                            style="font-size: 10px"
-                            class="d-flex align-items-center gap-1 dark:!text-white text-black font-['Roboto_Mono',_monospace]"
-                          >
-                            ${{ token.usdAmount }}
+                        <div>
+                          <div class="d-flex flex-column align-items-end">
+                            <div
+                              style="font-size: 12px"
+                              class="dark:!text-white text-black font-['Roboto_Mono',_monospace]"
+                            >
+                              {{ token.withdrawAmount }}
+                            </div>
+                            <div
+                              style="font-size: 10px"
+                              class="d-flex align-items-center gap-1 dark:!text-white text-black font-['Roboto_Mono',_monospace]"
+                            >
+                              ${{ token.usdAmount }}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -340,55 +277,85 @@
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div>
-              <div class="modal_total_container my-4">
-                <table
-                  style="
-                    color: white;
-                    width: 100%;
-                    border-collapse: separate;
-                    border-spacing: 0;
-                    overflow: hidden;
-                  "
-                >
-                  <tr
+              <div>
+                <div class="modal_total_container my-4">
+                  <table
                     style="
-                      border: 1px solid rgba(163, 164, 165, 0.2);
-                      border-top-left-radius: 15px;
+                      color: white;
+                      width: 100%;
+                      border-collapse: separate;
+                      border-spacing: 0;
+                      overflow: hidden;
                     "
                   >
-                    <td
-                      class="w-25 fw-bold dark:!text-white text-black"
+                    <tr
                       style="
-                        border-right: 1px solid rgba(163, 164, 165, 0.2);
-                        padding: 8px;
+                        border: 1px solid rgba(163, 164, 165, 0.2);
+                        border-top-left-radius: 15px;
                       "
                     >
-                      {{ $t('price_impact') }}
-                    </td>
-                    <td style="padding: 8px">
-                      <div
-                        class="d-flex justify-content-between align-items-center"
+                      <td
+                        class="w-25 fw-bold dark:!text-white text-black"
+                        style="
+                          border-right: 1px solid rgba(163, 164, 165, 0.2);
+                          padding: 8px;
+                        "
                       >
-                        <div class="w-25 fw-bold dark:!text-white text-black font-['Roboto_Mono',_monospace]">
-                          {{ ((priceImpact ?? 0) * 100).toFixed(1) }}%
+                        {{ $t('price_impact') }}
+                      </td>
+                      <td style="padding: 8px">
+                        <div
+                          class="d-flex justify-content-between align-items-center"
+                        >
+                          <div
+                            class="w-25 fw-bold dark:!text-white text-black font-['Roboto_Mono',_monospace]"
+                          >
+                            {{ ((priceImpact ?? 0) * 100).toFixed(1) }}%
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
               </div>
             </div>
+            <button
+              class="compose_pool_connect_wallet"
+              :disabled="!poolShare || !poolShare.balance"
+              @click="changeVisibleDeposit"
+            >
+              {{ $t('preview') }}
+            </button>
           </div>
-          <button
-            class="compose_pool_connect_wallet"
-            :disabled="!poolShare || !poolShare.balance"
-            @click="changeVisibleDeposit"
-          >
-            {{ $t('preview') }}
-          </button>
+          <div v-else>
+            <WithdrawModalV2
+              v-if="pool"
+              :pool="pool"
+              :visibleDepositModal="visibleDepositModal"
+              @changeVisibleDeposit="changeVisibleDeposit"
+              @changeVisibleDepositBack="changeVisibleDepositBack"
+              :usdSummary="
+                pool
+                  ? (usdPoolShareValue > pool.totalShares * pool.lpPrice
+                      ? pool.totalShares * pool.lpPrice
+                      : usdPoolShareValue
+                    ).toFixed(4)
+                  : 0
+              "
+              :priceImpact="((priceImpact ?? 0) * 100).toFixed(1)"
+              :bptIn="bptIn"
+              :bptBalance="bptBalance"
+              :allPossibleTokens="allSelectedTokensDisplay"
+              :allSelectedTokens="allSelectedTokens"
+              :account="account"
+              :lineNumberPercent="lineNumberPercent"
+              :exactOut="exactOut"
+              :poolShare="poolShare"
+              :getTokenWithdrawAmount="getTokenWithdrawAmount"
+              :init="init"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -417,6 +384,7 @@ import 'vue3-toastify/dist/index.css'
 import router from '@/router'
 import { getSinglePoolDetails } from '@/composables/data/detailsData'
 import Modal from '@/UI/Modal.vue'
+import BigLogoLoader from '@/components/loaders/BigLogoLoader.vue'
 
 const poolId = router.currentRoute.value.params['id']
 const pool = ref(null)
@@ -430,9 +398,6 @@ const lineNumbers = ref([])
 const lastTokenPrices = ref([])
 const usdPoolShareValue = ref(0.1)
 
-// watchEffect(() => {
-//   console.log('visibleWithdrawModal effect:', visibleWithdrawModal.value)
-// })
 
 const poolShare = ref({})
 
@@ -539,7 +504,7 @@ async function init() {
   }
   account.value = _account
   lineNumbers.value = _lineNumbers
-  lastTokenPrices.value = _lastTokenPrices["USD"]
+  lastTokenPrices.value = _lastTokenPrices['USD']
   poolShare.value = await GetPoolShares(pool.value.id, account)
   usdPoolShareValue.value = poolShare.value.balance * pool.value.lpPrice
 
@@ -599,7 +564,7 @@ function onShareInput(e) {
 
 const visibleDepositModal = ref(false)
 
-function changeVisibleDepositClose() {
+function changeVisibleDepositBack() {
   visibleDepositModal.value = false
 }
 
@@ -621,7 +586,7 @@ function changeVisibleDeposit() {
       },
     })
   } else {
-    visibleDepositModal.value = !visibleDepositModal.value
+    visibleDepositModal.value = true
   }
 }
 </script>
@@ -634,7 +599,6 @@ function changeVisibleDeposit() {
   padding: 2.5%;
   border-radius: 16px;
   backdrop-filter: blur(10px);
-
 }
 
 .caption-row {
@@ -710,6 +674,9 @@ function changeVisibleDeposit() {
   // background: #00000024;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  @media (max-width:1400px) {
+    width: 60%;
+  }
 }
 
 .token-input {
@@ -752,7 +719,7 @@ function changeVisibleDeposit() {
   align-items: center;
   gap: 4px;
   border-radius: 17px;
-  background: rgba(76, 76, 76, 0.14);
+  border: 0.5px solid #00e0ff69;
   // color: white;
   font-size: clamp(10px, 0.8vw, 14px);
   padding: 4px 12px;
@@ -763,6 +730,4 @@ function changeVisibleDeposit() {
   border-radius: 15px;
   font-size: clamp(10px, 0.8vw, 14px);
 }
-
-
 </style>

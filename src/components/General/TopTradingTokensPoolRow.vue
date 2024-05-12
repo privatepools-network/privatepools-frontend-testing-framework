@@ -11,7 +11,7 @@
         <div class="pools-row__col">
           <div class="pools-row__info">
             <div class="pools-row__value flex items-center gap-1">
-              <img :src="getTokenEntity(pool.symbol, 'short').icon" width="28" /> {{ pool.name }} <span class="!text-[#00000077] dark:!text-[#FFFFFF4A]">({{ pool.symbol }})</span>
+              <img :src="getTokenEntity(pool.symbol, 'short').icon" width="28" class="img_bg"/> {{ pool.name }} <span class="!text-[#00000077] dark:!text-[#FFFFFF4A]">({{ pool.symbol }})</span>
             </div>
           </div>
         </div>
@@ -428,6 +428,17 @@
       background: #2abcffa4;
       cursor: pointer;
     }
+  }
+
+  .img_bg {
+    width: 30px;
+    background: white;
+    border-radius: 100%;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  margin-right: 2px;
   }
   </style>
   

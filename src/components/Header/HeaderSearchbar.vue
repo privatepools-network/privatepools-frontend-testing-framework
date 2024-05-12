@@ -187,11 +187,11 @@
         <v-typical
           class="text-[12px] text-[#7d7d7d] font-medium blink"
           :steps="[
-            'PPN offers a new DeFi ecosystem for users',
+            'Search tokens for market insights',
             1000,
-            'PPN pioneers new means of value extraction',
+            'Search liquidity pools for depth analysis',
             1000,
-            'PPN empowers access to automated arbitrage',
+            'Search indexes aligned with your preferences',
             1000,
           ]"
           :loop="Infinity"

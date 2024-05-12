@@ -64,7 +64,7 @@
                 : 'navigation_text  !text-black dark:!text-[#868686] hover:!text-[#00e0ff]'
             "
           >
-            {{ $t('general') }}
+            {{ $t('Ecosystem Analytics') }}
           </a>
           <!-- <a
             href="/user_analytics"

@@ -45,7 +45,7 @@
     <LoaderPulse v-if="!all_pools"/>
     <PoolRow v-else-if="all_pools && all_pools.length > 0" v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
       :key="pool.name" :pool="pool"
-      :userPools="all_pools.filter((item) => user_staked_pools.map((p) => p.id).includes(item.id))" :index="index"
+      :userPools="user_staked_pools" :index="index"
       @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
       @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
       <div v-else class="p-10 flex justify-center items-center dark:!text-white text-black">
@@ -90,7 +90,7 @@ const props = defineProps(['all_pools', 'user_staked_pools'])
 const headers = [
   t('tokens'),
   t('composition'),
-  'ROI',
+  'All Returns %',
   'TVL',
   `${t('volume')} (24h)`,
   'APR',

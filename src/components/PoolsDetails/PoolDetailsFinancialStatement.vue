@@ -35,8 +35,9 @@
         <CCollapse :visible="visibleProfitLoss">
           <div class="financial_header_text dark:!text-white text-black">
             <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-              <div v-for="asset in financeData[0].AssetsProfitLossInfo" :key="asset.symbol">
-                {{ asset.symbol }}
+              <div v-for="asset in financeData[0].AssetsProfitLossInfo" :key="asset.symbol"
+                class="flex items-center gap-1">
+                {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
               </div>
             </div>
           </div>
@@ -64,7 +65,7 @@
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsProfitLossInfo"
                 :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals)
-                  }} {{ asset.symbol }} -
+                  }} {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /> -
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -94,8 +95,9 @@
           <CCollapse :visible="visibleLiquidity">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].AssetsDepositInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].AssetsDepositInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -106,8 +108,9 @@
           <CCollapse :visible="visibleLiquidity">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].AssetsWithdrawInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].AssetsWithdrawInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -121,8 +124,9 @@
           <CCollapse :visible="visibleVolume">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].AssetsVolumeInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].AssetsVolumeInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -154,7 +158,7 @@
               <div></div>
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsDepositInfo" :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals)
-                  }} {{ asset.symbol }} -
+                  }} {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /> -
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -179,7 +183,7 @@
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsWithdrawInfo"
                 :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals)
-                  }} {{ asset.symbol }} -
+                  }} {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /> -
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -201,7 +205,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsVolumeInfo" :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals)
-                  }} {{ asset.symbol }} -
+                  }} {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /> -
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -229,8 +233,9 @@
           <CCollapse :visible="visibleRevenue">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].AssetsRevenueInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].AssetsRevenueInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -244,8 +249,9 @@
           <CCollapse :visible="visibleGasFee">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].AssetsGasFeeInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].AssetsGasFeeInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -259,8 +265,9 @@
           <CCollapse :visible="visibleProfits">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].AssetsProfitInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].AssetsProfitInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -284,7 +291,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsRevenueInfo" :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{
-                  asset.symbol }} -
+                  asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /> -
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -305,7 +312,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsGasFeeInfo" :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{
-                  asset.symbol }} -
+                  asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /> -
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -327,7 +334,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsProfitInfo" :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{
-                  asset.symbol }} -
+                  asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /> -
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -363,8 +370,9 @@
           <CCollapse :visible="visibleInitialLiquidity">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].AssetsInitialLiquidityInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].AssetsInitialLiquidityInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -379,8 +387,9 @@
           <CCollapse :visible="visibleFinalLiquidity">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].AssetsFinalLiquidityInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].AssetsFinalLiquidityInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -395,8 +404,8 @@
           <CCollapse :visible="visibleAssets">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].AssetsInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].AssetsInfo" :key="asset.symbol" class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -419,7 +428,7 @@
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsInitialLiquidityInfo"
                 :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, decimals)
-                  }} {{ asset.symbol }} -
+                  }} {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /> -
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -443,7 +452,7 @@
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsFinalLiquidityInfo"
                 :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.value, 4) }} {{
-                  asset.symbol }} -
+                  asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /> -
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -465,7 +474,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.AssetsInfo" :key="asset.symbol">
                 <div class="flex items-center font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset.balance,
-                  decimals) }} {{ asset.symbol }} -
+                  decimals) }} {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /> -
                   <CurrencySymbol />{{ formatBigNumber(asset.value, decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
@@ -502,8 +511,9 @@
           <CCollapse :visible="visiblePrice">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].AssetsMarketInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].AssetsMarketInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -519,8 +529,9 @@
           <CCollapse :visible="visibleCirculatingSupply">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].CirculatingSupplyInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].CirculatingSupplyInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -535,8 +546,8 @@
           <CCollapse :visible="visibleMarketCap">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].MarketCapInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].MarketCapInfo" :key="asset.symbol" class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -552,8 +563,9 @@
           <CCollapse :visible="visibleTokenTurnover">
             <div>
               <div class="d-flex flex-column gap-2" v-if="financeData.length > 0">
-                <div v-for="asset in financeData[0].TokenTurnoverInfo" :key="asset.symbol">
-                  {{ asset.symbol }}
+                <div v-for="asset in financeData[0].TokenTurnoverInfo" :key="asset.symbol"
+                  class="flex items-center gap-1">
+                  {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" />
                 </div>
               </div>
             </div>
@@ -622,7 +634,8 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.CirculatingSupplyInfo"
                 :key="asset.symbol">
-                <div>{{ formatBigNumber(asset.value, decimals) }} {{ asset.symbol }}</div>
+                <div class="flex items-center gap-1">{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd", "")}`],
+                  decimals) }} {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /></div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
                 </div>
@@ -703,9 +716,9 @@
       </div>
     </div>
 
-    <div style="position: absolute; left: 50%; top: 50%">
+    <!-- <div style="position: absolute; left: 50%; top: 50%">
       <LoaderPulse v-if="!isDataReady"></LoaderPulse>
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup>
@@ -726,6 +739,7 @@ import CurrencySymbol from "@/components/TrackInfo/CurrencySymbol.vue"
 import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
+import computedTokenImage from '@/composables/useComputedTokenImage'
 
 
 const settingsStore = useSettings();

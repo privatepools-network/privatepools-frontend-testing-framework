@@ -2,7 +2,8 @@
   <MainCard>
     <CRow class="d-flex align-items-center">
       <div class="portfolio mt-4">
-        <PortfolioBalance :performers="performers" :balance="balanceData.total ?? 0" />
+        <PortfolioBalance :performers="performers" :balanceUsd="balanceData.total ?? 0"
+          :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0" />
 
         <div class="portfolio-chart">
           <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
@@ -11,23 +12,21 @@
         </div>
 
 
-          <SectionsTabs
-            :filterEye="true"
-            style="margin-bottom: 44px"
+        <SectionsTabs :filterEye="true" style="margin-bottom: 44px"
           :tabsOptions="[t('investments'), t('statistics'), t('financial_statement')]" :selectedTab="activeTab"
-          @changeTab="changeActiveTab"
-          />
+          @changeTab="changeActiveTab" />
 
         <div class="portfolio-statistics" v-if="activeTab == t('statistics')">
           <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
             :chainSelected="chainSelected" :chartData="portfolioData.chart" :historicalPrices="historicalPrices"
-            :userFirstTimestamp="firstUserTimestamp" :tokenPairs="chainPairs" :statistics="portfolioData.statistics">
+            :userFirstTimestamp="historical_tvl.length > 0 ? historical_tvl[historical_tvl.length - 1].timestamp * 1000 : Date.now()"
+            :tokenPairs="chainPairs" :statistics="portfolioData.statistics">
           </PortfolioStatistics>
         </div>
         <div class="portfolio-financial-statement" v-else-if="activeTab == t('financial_statement')">
           <PoolDetailsFinancialStatement :all_data="portfolioData.financialStatement" :poolSwapsData="poolSwapsData"
             :chainSelected="chainSelected" :historical_tvl="historical_tvl" :historicalPrices="historicalPrices"
-            :poolId="'0x631b9f9996c30ce37c2d57d1704fdc568429ef41'" :symbol="'$'" :decimals="2">
+            :symbol="currencySymbol" :decimals="currencyDecimals">
           </PoolDetailsFinancialStatement>
 
         </div>
@@ -35,48 +34,21 @@
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
             {{ $t('investments') }}
           </div>
-          <!-- <div class="portfolio-table__header">
-            <div class="portfolio-table__header__left" style="justify-content: space-between; width: 100%">
-              <Tabs :selectedTab="selectedInvestmentsMode" :tabsOptions="investementModes"
-                @changeTab="changeInvestmentMode"></Tabs>
-            </div>
-          </div> -->
 
-          {{ console.log('selectedInvestmentData', selectedInvestmentData) }}
+          <InvestmentsTable :user_staked_pools="selectedInvestmentData" :all_pools="selectedInvestmentData" />
 
-            <!-- <div v-if="!selectedInvestmentData" class="py-40">
-              <LoaderPulse />
-            </div>
-            <div v-else-if="selectedInvestmentData && selectedInvestmentData.length === 0"
-              class="d-flex flex-column gap-2 justify-content-center align-items-center h-100">
-              <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
-                {{ $t('no_pools_yet') }}
-              </div>
-              <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
-                {{ $t('invest_to_start_pool') }}
-              </div>
-              <div class="add_liq_btn_pools">
-                <div class="d-flex gap-1">+ {{ $t('add_liquidity') }}</div>
-              </div>
-            </div> -->
+        </div>
 
-            <InvestmentsTable :user_staked_pools="UserStackedMock" :all_pools="InvestmentsWithDetailsMOCK" />
-            
-          </div>
-      
         <div class="portfolio-table mt-5" v-if="activeTab == t('investments')">
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
             {{ $t('portfolio_activity') }}
           </div>
 
-          <!-- <PortfolioActivityTable :displayActivities="displayActivities" :account="account" :filteredActivities="filteredActivities" /> -->
-          <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits"
-            :all_activities="portfolioData.activity ? portfolioData.activity.slice(0, 25) : []" />
+          <PrivatePoolsTable :all_activities="portfolioData.activity ? portfolioData.activity.slice(0, 25) : []" />
         </div>
       </div>
     </CRow>
   </MainCard>
-  {{console.log('selectedInvestmentData', selectedInvestmentData)}}
 </template>
 <script setup>
 import { CRow } from '@coreui/vue'
@@ -118,7 +90,6 @@ import { Network } from '@/composables/useNetwork'
 import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import { GetUserHistoricalBalances } from '@/composables/portfolio/usePortfolioHistoricalBalances'
 import { GetActivePeriodsSwapsData } from '@/lib/formatter/portfolio/portfolioSwapsFormatter'
-import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { GetUserUniswapPools } from '@/composables/wallet/useWalletPools'
 import PortfolioBalance from '@/components/portfolio/PortfolioBalance.vue'
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
@@ -127,623 +98,17 @@ import { getPortfolioData, getPortfolioBalance } from '@/composables/data/portfo
 import { t } from 'i18next'
 import SectionsTabs from '@/UI/SectionsTabs'
 
-const clActivity = ref([
-  {
-    Actions: 'Swap',
-    Details: [
-      {
-        action: 'Swap',
-        ETH: '-0.00',
-        USDT: '0.00',
-      },
-    ],
-    Value: '0',
-    Time: '1 month ago',
-    Tx: '0x049538159d5f10f741626caaf6cef43a0c58f396286d96fa727116da20bdad5d',
-    timestamp: '1708532754',
-    chainId: 56,
-    chain: 'Binance',
-  },
-  {
-    Actions: 'Swap',
-    Details: [
-      {
-        action: 'Swap',
-        BTCB: '0.00',
-        WBNB: '-0.02',
-      },
-    ],
-    Value: '0',
-    Time: '9 days ago',
-    Tx: '0x085edbdad9c6d433d4cd3d006c088ada94f2994dd6a07cb0131827168833cd4e',
-    timestamp: '1711363947',
-    chainId: 56,
-    chain: 'Binance',
-  },
-])
-const joinExits = ref([
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: [
-      '13.465999999999999304',
-      '0.001',
-      '0.001',
-      '0',
-      '0.001',
-      '0',
-      '0.001',
-      '0.001',
-    ],
-    pool: {
-      tokens: [
-        {
-          symbol: 'Cake',
-        },
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'XRP',
-        },
-        {
-          symbol: 'ETH',
-        },
-        {
-          symbol: 'ADA',
-        },
-        {
-          symbol: 'DOT',
-        },
-        {
-          symbol: 'INJ',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '0',
-    type: 'Join',
-    timestamp: 1702503184,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: [
-      '7.554760289442242907',
-      '3.770726094964460187',
-      '0.006792699854304051',
-      '1.176872358543111302',
-    ],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '1137.184818600137953607662435191093',
-    type: 'Exit',
-    timestamp: 1702639931,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['0.307402', '0.158687', '0.000289', '0.04967'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '47.93505265238665018797586063640085',
-    type: 'Exit',
-    timestamp: 1702646626,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['3.096000000000000085', '0', '0', '0'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '41.84800387934665651679103821900545',
-    type: 'Join',
-    timestamp: 1702638092,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['0.19', '1.8', '0.0003', '0.5'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'DOT',
-        },
-        {
-          symbol: 'BTCB',
-        },
-        {
-          symbol: 'INJ',
-        },
-      ],
-    },
-    valueUSD: '0',
-    type: 'Join',
-    timestamp: 1702469234,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0xdd2ee0c16f58dc53ebec021dae05cecf8051373f',
-    },
-    amounts: ['0.2', '3', '0.3', '0.005'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'AVAX',
-        },
-        {
-          symbol: 'USDT',
-        },
-        {
-          symbol: 'SOL',
-        },
-        {
-          symbol: 'WBNB',
-        },
-      ],
-    },
-    valueUSD: '3',
-    type: 'Join',
-    timestamp: 1702602127,
-    chain: 'Binance',
-    chainId: 56,
-  },
-  {
-    user: {
-      id: '0x4bde150b69408dafbe4833f0d7b9689246a6597b',
-    },
-    amounts: ['0.239010698854900089', '0.000005451740851665'],
-    pool: {
-      tokens: [
-        {
-          symbol: 'USDT',
-        },
-        {
-          symbol: 'BTCB',
-        },
-      ],
-    },
-    valueUSD: '0.4730702492177080825503071512930907',
-    type: 'Exit',
-    timestamp: 1702647027,
-    chain: 'Binance',
-    chainId: 56,
-  },
-])
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
 
-const UserStackedMock = ref(
-  [{
-    "id": "0xc1490d8caf3a7f10ec505e5d42390cf93fd5c054",
-    "address": "0xc1490d8caf3a7f10ec505e5d42390cf93fd5c054",
-    "Pool Name": [
-        [
-            "DAI",
-            "DOGE"
-        ]
-    ],
-    "Pool Weight": [
-        [
-            {
-                "token": "DAI",
-                "weight": "50%"
-            },
-            {
-                "token": "DOGE",
-                "weight": "50%"
-            }
-        ]
-    ],
-    "time_created": "1713867828",
-    "LiquidityType": "CL",
-    "ROI": "-",
-    "Liquidity": "5.968163565912328",
-    "TVL": "5.968163565912328",
-    "TVL_ETH": "0.0020088838562860897",
-    "TVL_BTC": "0.0000979375641166213",
-    "Volume": 0,
-    "Volume_ETH": 0,
-    "Volume_BTC": 0,
-    "Revenue": 0,
-    "Profit": 0,
-    "profit24H": 0,
-    "profit7D": 0,
-    "profit30D": 0,
-    "Trades": 0,
-    "Fees": 0,
-    "APR": 0,
-    "Blockchain": "Binance",
-    "tokens": [
-        {
-            "symbol": "DAI",
-            "id": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
-            "tokenBalance": "5.352103200096425074",
-            "tvl": 5.3467510968963285
-        },
-        {
-            "symbol": "DOGE",
-            "id": "0xba2ae424d960c26247dd6c32edc70b295c744c43",
-            "tokenBalance": "4.24462069",
-            "tvl": 0.621412469016
-        }
-    ],
-    "Name": [
-        [
-            "DAI",
-            "DOGE"
-        ]
-    ],
-    "shares": {
-        "poolId": "0xc1490d8caf3a7f10ec505e5d42390cf93fd5c054",
-        "balance": 0,
-        "percentage": 0,
-        "type": "CL",
-        "id": "12"
-    },
-    "percentage": 0,
-    "shareBalanceUsd": 1.4727247246842194,
-    "shareBalanceETH": 0.0004954245973837714,
-    "shareBalanceBTC": 0.00002413795823757436
-}]
+const settingsStore = useSettings()
+
+const { currentCurrency } = storeToRefs(settingsStore)
+
+const currencySymbol = computed(() => currentCurrency.value == "USD" ? "$" : currentCurrency.value)
+const currencyDecimals = computed(() =>
+  currentCurrency == 'USD' ? 2 : 5,
 )
-const InvestmentsWithDetailsMOCK = ref([
-    {
-        "id": "0xde603002c8da7e53131b09a0d3d9f2d6badec60700020000000000000000000e",
-        "Pool Name": [
-            [
-                "DAI",
-                "ETH"
-            ]
-        ],
-        "Revenue": 279.2882045999223,
-        "Fees": 8.24699401920335,
-        "Trades": 49,
-        "Volume": 21.6701761813525,
-        "Volume_ETH": 0.007214181954821844,
-        "Volume_BTC": 0.00034787257952166866,
-        "TVL": "3586.39107",
-        "TVL_ETH": 1.206103316841,
-        "TVL_BTC": 0.058816813547999995,
-        "Liquidity": "3586.39107",
-        "APR": "299.233",
-        "Profit": 271.04134430392025,
-        "profit24H": 0.08832722898749754,
-        "profit7D": 6.447425729775241,
-        "profit30D": 271.04134430392025,
-        "Blockchain": "Binance",
-        "totalShares": "65.587668270969605017",
-        "Pool Weight": [
-            [
-                {
-                    "token": "DAI",
-                    "weight": "50%"
-                },
-                {
-                    "token": "ETH",
-                    "weight": "50%"
-                }
-            ]
-        ],
-        "LiquidityType": "WP",
-        "ROI": "-",
-        "address": "0xde603002c8da7e53131b09a0d3d9f2d6badec607",
-        "tokens": [
-            {
-                "symbol": "DAI",
-                "address": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
-                "balance": "1811.687336971869575984",
-                "weight": "0.5",
-                "balanceUsd": 1809.8756496348979,
-                "id": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"
-            },
-            {
-                "symbol": "ETH",
-                "address": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-                "balance": "0.5936103217808454",
-                "weight": "0.5",
-                "balanceUsd": 1776.5154183031893,
-                "id": "0x2170ed0880ac9a755fd29b2688956bd959f933f8"
-            }
-        ]
-    },
-    {
-        "id": "0x63060b9f420a642973e0f9b1067afe9ae4900df500020000000000000000000d",
-        "Pool Name": [
-            [
-                "DAI",
-                "DOGE"
-            ]
-        ],
-        "Revenue": 71.80292717817613,
-        "Fees": 9.309904072930149,
-        "Trades": 54,
-        "Volume": 0,
-        "Volume_ETH": 0,
-        "Volume_BTC": 0,
-        "TVL": "2393.59793",
-        "TVL_ETH": 0.8049669838589999,
-        "TVL_BTC": 0.039255006052,
-        "Liquidity": "2393.59793",
-        "APR": "21.995",
-        "Profit": 62.48485634385749,
-        "profit24H": 0,
-        "profit7D": 4.632652897892735,
-        "profit30D": 19.056202861618445,
-        "Blockchain": "Binance",
-        "totalShares": "6257.74863745151804224",
-        "Pool Weight": [
-            [
-                {
-                    "token": "DAI",
-                    "weight": "50%"
-                },
-                {
-                    "token": "DOGE",
-                    "weight": "50%"
-                }
-            ]
-        ],
-        "LiquidityType": "WP",
-        "ROI": "-",
-        "address": "0x63060b9f420a642973e0f9b1067afe9ae4900df5",
-        "tokens": [
-            {
-                "symbol": "DAI",
-                "address": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
-                "balance": "1220.854814658099760436",
-                "weight": "0.5",
-                "balanceUsd": 1219.6339598434415,
-                "id": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"
-            },
-            {
-                "symbol": "DOGE",
-                "address": "0xba2ae424d960c26247dd6c32edc70b295c744c43",
-                "balance": "8018.879561",
-                "weight": "0.5",
-                "balanceUsd": 1173.9639677303999,
-                "id": "0xba2ae424d960c26247dd6c32edc70b295c744c43"
-            }
-        ]
-    },
-    {
-        "id": "0x39e621ad99326749b5161e8d1b1f610b009b36ac000200000000000000000002",
-        "Pool Name": [
-            [
-                "ETH",
-                "USDT"
-            ]
-        ],
-        "Revenue": 40.167316711019254,
-        "Fees": 0.141396109965,
-        "Trades": 1,
-        "Volume": 0,
-        "Volume_ETH": 0,
-        "Volume_BTC": 0,
-        "TVL": "267.95028",
-        "TVL_ETH": 0.09011167916400001,
-        "TVL_BTC": 0.004394384592,
-        "Liquidity": "267.95028",
-        "APR": "24.262",
-        "Profit": 40.02592060105425,
-        "profit24H": 0,
-        "profit7D": 0,
-        "profit30D": 0,
-        "Blockchain": "Binance",
-        "totalShares": "4.222740634532589641",
-        "Pool Weight": [
-            [
-                {
-                    "token": "ETH",
-                    "weight": "50%"
-                },
-                {
-                    "token": "USDT",
-                    "weight": "50%"
-                }
-            ]
-        ],
-        "LiquidityType": "WP",
-        "ROI": "-",
-        "address": "0x39e621ad99326749b5161e8d1b1f610b009b36ac",
-        "tokens": [
-            {
-                "symbol": "ETH",
-                "address": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-                "balance": "0.02233101671061258",
-                "weight": "0.5",
-                "balanceUsd": 66.83070364035159,
-                "id": "0x2170ed0880ac9a755fd29b2688956bd959f933f8"
-            },
-            {
-                "symbol": "USDT",
-                "address": "0x55d398326f99059ff775485246999027b3197955",
-                "balance": "201.119576913435274809",
-                "weight": "0.5",
-                "balanceUsd": 201.11957691343528,
-                "id": "0x55d398326f99059ff775485246999027b3197955"
-            }
-        ]
-    },
-    {
-        "id": "0x2cd7aa6d79bdf5c2390eb282088a03cf48dabd8e00020000000000000000000f",
-        "Pool Name": [
-            [
-                "DAI",
-                "SOL"
-            ]
-        ],
-        "Revenue": 5.120526950185201,
-        "Fees": 1.33296120007875,
-        "Trades": 6,
-        "Volume": 93.58004189898969,
-        "Volume_ETH": 0.03115637814019092,
-        "Volume_BTC": 0.0015017683859466838,
-        "TVL": "3901.97164",
-        "TVL_ETH": 1.312233062532,
-        "TVL_BTC": 0.063992334896,
-        "Liquidity": "3901.97164",
-        "APR": "17.659",
-        "Profit": 3.7874203820127015,
-        "profit24H": 1.5893944592548837,
-        "profit7D": 3.7874203820127015,
-        "profit30D": 3.7874203820127015,
-        "Blockchain": "Binance",
-        "totalShares": "324.150277164903479934",
-        "Pool Weight": [
-            [
-                {
-                    "token": "DAI",
-                    "weight": "50%"
-                },
-                {
-                    "token": "SOL",
-                    "weight": "50%"
-                }
-            ]
-        ],
-        "LiquidityType": "WP",
-        "ROI": "-",
-        "address": "0x2cd7aa6d79bdf5c2390eb282088a03cf48dabd8e",
-        "tokens": [
-            {
-                "symbol": "DAI",
-                "address": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
-                "balance": "1921.58942267337696996",
-                "weight": "0.5",
-                "balanceUsd": 1919.6678332507036,
-                "id": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"
-            },
-            {
-                "symbol": "SOL",
-                "address": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
-                "balance": "13.670117963398931799",
-                "weight": "0.5",
-                "balanceUsd": 1982.303805872479,
-                "id": "0x570a5d26f7765ecb712c0924e4de545b89fd43df"
-            }
-        ]
-    },
-    {
-        "id": "0x0aa192945e41b84263dd96df5e957b4c99f8cddd000200000000000000000016",
-        "Pool Name": [
-            [
-                "ETH",
-                "SOL"
-            ]
-        ],
-        "Revenue": 0,
-        "Fees": 0,
-        "Trades": 0,
-        "Volume": 0,
-        "Volume_ETH": 0,
-        "Volume_BTC": 0,
-        "TVL": "0.00000",
-        "TVL_ETH": 0,
-        "TVL_BTC": 0,
-        "Liquidity": "0.00000",
-        "APR": "0.000",
-        "Profit": 0,
-        "profit24H": 0,
-        "profit7D": 0,
-        "profit30D": 0,
-        "Blockchain": "Binance",
-        "totalShares": "0.000000000001",
-        "Pool Weight": [
-            [
-                {
-                    "token": "ETH",
-                    "weight": "50%"
-                },
-                {
-                    "token": "SOL",
-                    "weight": "50%"
-                }
-            ]
-        ],
-        "LiquidityType": "WP",
-        "ROI": "-",
-        "address": "0x0aa192945e41b84263dd96df5e957b4c99f8cddd",
-        "tokens": [
-            {
-                "symbol": "ETH",
-                "address": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-                "balance": "0.00000000000014374",
-                "weight": "0.5",
-                "balanceUsd": 4.3017501020000003e-10,
-                "id": "0x2170ed0880ac9a755fd29b2688956bd959f933f8"
-            },
-            {
-                "symbol": "SOL",
-                "address": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
-                "balance": "0.000000000001739253",
-                "weight": "0.5",
-                "balanceUsd": 2.5220907753e-10,
-                "id": "0x570a5d26f7765ecb712c0924e4de545b89fd43df"
-            }
-        ]
-    }
-])
 
 
 const NetworkUnsupported = ref(false)
@@ -765,32 +130,8 @@ const pairs = ref(null)
 const activities = ref(null)
 const hideSmallerThan10Pools = ref(false)
 
-const displayActivities = computed(() =>
-  filteredActivities.value.map((item) =>
-    excludeKeysFromObject(item, ['tx', 'timestamp', 'network']),
-  ),
-)
 
-const filteredActivities = computed(() => {
-  let output = []
-  if (!activities.value || activities.value.length == 0) output = []
-  else if (activitiesSelectedMode.value == 'All') {
-    output = activities.value[actSelectedPeriodOfData.value.number]
-  } else {
-    let newData = []
-    activities.value[actSelectedPeriodOfData.value.number].forEach((item) => {
-      if (item['Actions'] == activitiesSelectedMode.value) {
-        newData.push(item)
-      }
-    })
-    output = newData
-  }
-  return output.filter(
-    (item) =>
-      chainSelected.value.name == 'All Chains' ||
-      DisplayNetwork[item.network] == chainSelected.value.name,
-  )
-})
+
 
 const investementModes = ['Pools']
 
@@ -811,10 +152,11 @@ const selectedInvestmentData = computed(() => {
   }
   else {
     let data = selectedInvestmentsMode.value == "Pools" ? portfolioData.value.pools : portfolioData.value.pairs
-    if (!data) return null
+    if (!data) return []
     if (hideSmallerThan10Pools.value) {
       data = data.filter((el) => el.TVL.fullAmount > 10)
     }
+    console.log("INVESTMENTS DATA ", data)
     return data
   }
 })
@@ -990,54 +332,31 @@ const sortedHeader = ref({})
 const isCorrectNetwork = computed(() =>
   [42161, 56, 137].includes(networkId.value),
 )
-const portfolioActions = ref([])
-const firstUserTimestamp = computed(() =>
-  portfolioActions.value.joinExits
-    ? [...portfolioActions.value.joinExits].sort(
-      (a, b) => a.timestamp - b.timestamp,
-    )[0].timestamp * 1000
-    : 0,
-)
+
 const account = ref('')
 
-function clearUserData() {
-  networks_data.value = []
-  portfolioActions.value = []
-}
+
 watch(networkId, async () => {
   const mmProvider = await InitializeMetamask()
   let previous_account = account.value
   account.value = '' //'0xb51027d05ffbf77b38be6e66978b2c5b6467f615'
   if (!mmProvider) {
-    clearUserData()
     return
   }
 
   if (networkId.value > 0)
     account.value = await mmProvider.getSigner().getAddress()
-  if (previous_account != account.value) {
-    clearUserData()
-  }
+
   // hardcoded for testing
   //account.value = '0xb51027d05ffbf77b38be6e66978b2c5b6467f615'
   await InitInvestments()
-  if (isCorrectNetwork.value) {
-    if (portfolioActions.value.length == 0) await InitPortfolioActions()
-    activities.value = FormatPortfolioActivity(portfolioActions.value)
-  }
 })
 
 watch(chainSelected, () => {
   InitInvestments()
 })
 
-async function InitPortfolioActions() {
-  let actions = await Promise.all(
-    networks.map((n) => GetPortfolioActions(account.value.toLowerCase(), n)),
-  )
-  console.log(actions)
-  portfolioActions.value = combineArrayObjects(actions)
-}
+
 
 function onDatatableHeaderClick(caption) {
   let data = investmentDataMap[selectedInvestmentsMode.value]
@@ -1089,6 +408,9 @@ function changeActiveTab(_new) {
   activeTab.value = _new
 }
 
+watch((activeTab), () => {
+  console.log(activeTab.value)
+})
 const tokensData = ref([])
 const historicalPrices = ref([])
 
@@ -1289,6 +611,7 @@ onMounted(async () => {
     account.value = '0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'//await mmProvider.getSigner().getAddress()
     if (process.env.VUE_APP_LOCAL_API) {
       portfolioData.value = await getPortfolioData(56, account.value)
+      historical_tvl.value = portfolioData.value.statistics.tvls
       balanceData.value = await getPortfolioBalance(56, account.value)
       console.log("PORTFOLIO DATA - ", portfolioData.value)
     }
@@ -1584,7 +907,7 @@ onMounted(async () => {
         padding: 2px 6px;
         background: #1a1d1e;
         border-radius: 5px;
-        
+
       }
     }
   }
@@ -1615,6 +938,7 @@ onMounted(async () => {
 
     &__amount {
       font-family: 'Roboto Mono', monospace;
+
       svg {
         margin-right: 4px;
       }
@@ -1788,6 +1112,4 @@ onMounted(async () => {
     width: 100%;
   }
 }
-
-
 </style>

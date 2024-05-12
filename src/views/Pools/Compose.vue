@@ -108,7 +108,7 @@
             {{ $t('preview_new_weighted_pool') }}
           </div>
           <div
-            class="compose_text dark:!text-white text-black my-1"
+            class="compose_text flex items-center dark:!text-white text-black my-1"
             v-else-if="activeStep === 3"
           >
             <svg
@@ -131,9 +131,9 @@
 
             {{ $t('add_initial_liquidity') }}
           </div>
-
+<!-- 
           <div
-            class="compose_text dark:!text-white text-black my-1"
+            class="compose_text dark:!text-white text-black my-1 flex items-center gap-1"
             v-else-if="activeStep === 4"
           >
             <svg
@@ -155,15 +155,19 @@
             </svg>
 
             {{ $t('swap') }}
-          </div>
+          </div> -->
 
           <div
             v-if="activeStep === 1"
             class="compose_choose_inner_container dark:!bg-[#DCEEF605] bg-white"
           >
             <div class="d-flex justify-content-between">
-              <div class="compose_text dark:!text-white text-black">{{ $t('token') }}</div>
-              <div class="compose_text dark:!text-white text-black">{{ $t('weight') }}</div>
+              <div class="compose_text dark:!text-white text-black">
+                {{ $t('token') }}
+              </div>
+              <div class="compose_text dark:!text-white text-black">
+                {{ $t('weight') }}
+              </div>
             </div>
 
             <div
@@ -213,7 +217,6 @@
                   @click="tokensData = tokensData.filter((t) => t != token)"
                 >
                   <svg
-            
                     width="35"
                     height="35"
                     viewBox="0 0 35 35"
@@ -228,7 +231,6 @@
                         height="26"
                         rx="13"
                         class="dark:!fill-[#0F303B] fill-white"
-
                         shape-rendering="crispEdges"
                       />
                       <g clip-path="url(#clip0_1807_17197)">
@@ -360,71 +362,26 @@
 
           <div
             v-if="activeStep === 4"
-            class="compose_choose_inner_container dark:!bg-[#DCEEF605] bg-white mb-5"
+            class="compose_choose_inner_container py-4 flex flex-col items-center justify-center dark:!bg-[#DCEEF605] bg-white mb-5"
           >
-            <div class="d-flex justify-content-between">
-              <div class="compose_text dark:!text-white text-black">
-                {{ $t('preview_trade') }}
-              </div>
+            <div class="text-[20px] text-white font-medium mb-3">
+              Pool Created !
             </div>
-            <div
-              class="d-flex"
-              v-for="swap in displaySwaps"
-              :key="`${swap.fromToken.symbol}-${swap.toToken.symbol}`"
+            <svg
+              class="mb-3"
+              width="74"
+              height="74"
+              viewBox="0 0 74 74"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <div class="d-flex">
-                <div>
-                  <img
-                    :src="getTokenEntity(swap.fromToken.symbol, 'short').icon"
-                    width="40"
-                    class="p-1"
-                  />
-                </div>
-                <div style="margin-left: -10px">
-                  <img
-                    :src="getTokenEntity(swap.toToken.symbol, 'short').icon"
-                    width="40"
-                    class="p-1"
-                  />
-                </div>
-              </div>
-              <div
-                class="d-flex flex-column"
-                style="font-size: clamp(10px, 0.8vw, 14px); color: white"
-              >
-                <div class="d-flex align-items-center">
-                  <div>
-                    {{
-                      swap.amountIn >= 0.0001
-                        ? parseFloat(swap.amountIn).toFixed(4)
-                        : `>0.0001`
-                    }}
-                    {{ swap.fromToken.symbol }}
-                  </div>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"
-                      fill="#00C9FF"
-                    />
-                  </svg>
-
-                  <div>
-                    {{
-                      swap.amountOut >= 0.0001
-                        ? parseFloat(swap.amountOut).toFixed(4)
-                        : `>0.0001`
-                    }}
-                    {{ swap.toToken.symbol }}
-                  </div>
-                </div>
-                <div>${{ MIN_USD_SWAP }}</div>
-              </div>
+              <path
+                d="M36.9987 0.333008C16.7587 0.333008 0.332031 16.7597 0.332031 36.9997C0.332031 57.2397 16.7587 73.6663 36.9987 73.6663C57.2387 73.6663 73.6654 57.2397 73.6654 36.9997C73.6654 16.7597 57.2387 0.333008 36.9987 0.333008ZM27.062 52.7297L13.8987 39.5663C13.5592 39.2269 13.29 38.8239 13.1062 38.3803C12.9225 37.9368 12.828 37.4614 12.828 36.9813C12.828 36.5013 12.9225 36.0259 13.1062 35.5824C13.29 35.1388 13.5592 34.7358 13.8987 34.3963C14.2382 34.0569 14.6412 33.7876 15.0847 33.6039C15.5282 33.4202 16.0036 33.3256 16.4837 33.3256C16.9638 33.3256 17.4392 33.4202 17.8827 33.6039C18.3262 33.7876 18.7292 34.0569 19.0687 34.3963L29.6654 44.9563L54.892 19.7297C55.5776 19.0441 56.5075 18.6589 57.477 18.6589C58.4466 18.6589 59.3764 19.0441 60.062 19.7297C60.7476 20.4153 61.1328 21.3451 61.1328 22.3147C61.1328 23.2842 60.7476 24.2141 60.062 24.8997L32.232 52.7297C31.8928 53.0696 31.4899 53.3393 31.0463 53.5233C30.6028 53.7073 30.1272 53.802 29.647 53.802C29.1668 53.802 28.6913 53.7073 28.2477 53.5233C27.8042 53.3393 27.4012 53.0696 27.062 52.7297Z"
+                fill="#00E0FF"
+              />
+            </svg>
+            <div class="text-[15px] text-[#888888] font-medium">
+              Successfully created new Pool
             </div>
           </div>
           <div v-else-if="activeStep === 3" class="d-flex flex-column gap-2">
@@ -435,7 +392,9 @@
             >
               <div>
                 <div class="d-flex justify-content-between align-items-center">
-                  <div class="modal_stake_token_inner_name">
+                  <div
+                    class="modal_stake_token_inner_name flex items-center gap-1"
+                  >
                     <img
                       :src="getTokenEntity(token.symbol, 'short').icon"
                       width="20"
@@ -472,7 +431,7 @@
                         class="fw-bold bg-transparent"
                         style="cursor: pointer"
                       >
-                      {{ $t('max') }}</span
+                        {{ $t('max') }}</span
                       >
                     </div>
                     <div>
@@ -505,12 +464,19 @@
               class="compose_text dark:!text-white text-black d-flex align-items-center gap-2 mt-1"
             >
               {{ $t('auto_optimize_liquidity') }}
-              <div style="cursor: pointer">
-                <CFormSwitch
-                  size="lg"
-                  v-model="autoOptimizeLiq"
-                  id="hideZeroOpportunities"
-                />
+              <div class="flex items-center gap-2">
+                <label class="inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    class="sr-only peer"
+                    :value="autoOptimizeLiq"
+                    @click="autoOptimizeLiq = !autoOptimizeLiq"
+                    :checked="autoOptimizeLiq"
+                  />
+                  <div
+                    class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800/50 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ABDFF]"
+                  ></div>
+                </label>
               </div>
             </div>
             <div>
@@ -524,33 +490,24 @@
                     overflow: hidden;
                   "
                 >
-                  <tr
-                    style="
-                      border: 1px solid rgba(163, 164, 165, 0.2);
-                      border-top-left-radius: 15px;
-                    "
-                  >
+                  <tr style="border-top-left-radius: 15px">
                     <td
                       class="w-25 fw-bold"
                       style="
                         border-right: 1px solid rgba(163, 164, 165, 0.2);
-                        border-bottom: 1px solid rgba(163, 164, 165, 0.2);
                         padding: 8px;
                       "
                     >
                       {{ $t('total') }}
                     </td>
-                    <td
-                      style="
-                        padding: 8px;
-                        border-bottom: 1px solid rgba(163, 164, 165, 0.2);
-                      "
-                    >
+                    <td style="padding: 8px">
                       <div
                         v-if="lineNumbers.length > 0"
                         class="d-flex justify-content-between align-items-center"
                       >
-                        <div class="w-25 fw-bold">
+                        <div
+                          class="w-25 fw-bold font-['Roboto_Mono',_monospace]"
+                        >
                           ${{ totalFiat.toFixed(4) }}
                         </div>
                         <div
@@ -592,10 +549,14 @@
                       />
                       <div class="d-flex flex-column">
                         <div>{{ token.weight }}% {{ token.symbol }}</div>
-                        <div>{{ $t('initial_weight') }}: {{ token.weight }}</div>
+                        <div>
+                          {{ $t('initial_weight') }}: {{ token.weight }}
+                        </div>
                       </div>
                     </div>
-                    <div class="d-flex flex-column align-items-end dark:!text-white text-black">
+                    <div
+                      class="d-flex flex-column align-items-end dark:!text-white text-black"
+                    >
                       <div>{{ token.symbol }}</div>
                       <!-- <div>${{ token.usdAmount }}</div> -->
                     </div>
@@ -610,8 +571,9 @@
 
               <div
                 style="
-                  border: 1px solid rgba(163, 164, 165, 0.2);
-                  border-radius: 20px;
+                  box-shadow: 0px 4px 4px 0px #00000040;
+
+                  border-radius: 16px;
                   /* color: white; */
                   font-size: clamp(10px, 0.8vw, 14px);
                 "
@@ -624,7 +586,7 @@
                   {{ $t('summary') }}
                 </div>
                 <div
-                  class="d-flex flex-column p-2"
+                  class="flex flex-col p-2 gap-2 text-[#D7D7D7] font-light"
                   style="
                     font-size: clamp(10px, 0.8vw, 14px);
                     color: rgba(221, 221, 221, 1);
@@ -633,7 +595,9 @@
                   <div
                     class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
-                    <div>{{ $t('pool_name') }}:</div>
+                    <div class="text-[#D7D7D7] font-light">
+                      {{ $t('pool_name') }}:
+                    </div>
                     <div class="d-flex gap-1">
                       {{
                         tokensData
@@ -645,7 +609,9 @@
                   <div
                     class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
-                    <div>{{ $t('pool_symbol') }}:</div>
+                    <div class="text-[#D7D7D7] font-light">
+                      {{ $t('pool_symbol') }}:
+                    </div>
                     <div class="d-flex gap-1">
                       {{
                         tokensData
@@ -657,19 +623,25 @@
                   <div
                     class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
-                    <div>{{ $t('pool_type') }}:</div>
+                    <div class="text-[#D7D7D7] font-light">
+                      {{ $t('pool_type') }}:
+                    </div>
                     <div class="d-flex gap-1">{{ $t('weighted') }}</div>
                   </div>
                   <div
                     class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
-                    <div>{{ $t('swap_fee') }}:</div>
+                    <div class="text-[#D7D7D7] font-light">
+                      {{ $t('swap_fee') }}:
+                    </div>
                     <div class="d-flex gap-1">1.00%</div>
                   </div>
                   <div
                     class="d-flex justify-content-between align-items-center dark:!text-white text-black"
                   >
-                    <div>{{ $t('swap_fee_manager') }}:</div>
+                    <div class="text-[#D7D7D7] font-light">
+                      {{ $t('swap_fee_manager') }}:
+                    </div>
                     <div class="d-flex gap-1">Private Pools</div>
                   </div>
                 </div>
@@ -679,42 +651,16 @@
 
           <div
             class="my-3 d-flex justify-content-center position-relative"
-            v-if="activeStep === 4 || activeStep === 2"
+            v-if="activeStep > 1 && activeStep < 4"
           >
-            <div class="d-flex gap-2">
+            <div class="flex gap-1">
               <VTooltip :distance="0" :placement="'top'">
-                <div class="position-relative">
-                  <svg
-                    width="30"
-                    height="30"
-                    viewBox="0 0 30 30"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="15"
-                      cy="15"
-                      r="14.5"
-                      :stroke="activeStep === 2 ? '#00C9FF' : 'gray'"
-                    />
-                  </svg>
-                  <div
-                    v-if="activeStep != 2 || (!mmActive && activeStep == 2)"
-                    :class="
-                      activeStep === 2
-                        ? 'step_number step_number_active'
-                        : 'step_number dark:!text-white text-black'
-                    "
-                  >
-                    1
-                  </div>
-                  <div
-                    v-else-if="activeStep === 2 && mmActive"
-                    class="step_number dark:!text-white text-black"
-                  >
-                    <img :src="metamask" width="20" />
-                  </div>
-                </div>
+                <Step
+                  :activeStep="activeStep - 1"
+                  :displayedActiveStep="1"
+                  :mmActive="mmActive"
+                  :stepText="'Create'"
+                />
                 <template #popper>
                   <div
                     style="
@@ -735,76 +681,39 @@
                         font-size: clamp(10px, 0.8vw, 14px);
                       "
                     >
-                     
                       {{ $t('you_must_approve_to_add_tokens') }}
                     </div>
                   </div>
                 </template>
               </VTooltip>
-              <div class="position-relative">
-                <svg
-                  width="30"
-                  height="30"
-                  viewBox="0 0 30 30"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="15"
-                    cy="15"
-                    r="14.5"
-                    :stroke="activeStep === 3 ? '#00C9FF' : 'gray'"
-                  />
-                </svg>
-                <div
-                  v-if="activeStep != 3 || (!mmActive && activeStep == 3)"
-                  :class="
-                    activeStep === 3
-                      ? 'step_number step_number_active'
-                      : 'step_number dark:!text-white text-black'
-                  "
-                >
-                  2
-                </div>
-                <div
-                  v-else-if="activeStep === 3 && mmActive"
-                  class="step_number dark:!text-white text-black"
-                >
-                  <img :src="metamask" width="20" />
-                </div>
+              <div class="w-12 mt-1">
+                <ProgressLoader v-if="mmActive && activeStep === 2" />
+                <span v-else class="progress_loader_still"></span>
               </div>
-              <div class="position-relative">
-                <svg
-                  width="30"
-                  height="30"
-                  viewBox="0 0 30 30"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="15"
-                    cy="15"
-                    r="14.5"
-                    :stroke="activeStep === 4 ? '#00C9FF' : 'gray'"
-                  />
-                </svg>
-                <div
-                  :class="
-                    activeStep === 4
-                      ? 'step_number step_number_active'
-                      : 'step_number dark:!text-white text-black'
-                  "
-                  v-if="activeStep != 4 || (!mmActive && activeStep == 4)"
-                >
-                  3
-                </div>
-                <div
-                  v-else-if="activeStep === 4 && mmActive"
-                  class="step_number dark:!text-white text-black"
-                >
-                  <img :src="metamask" width="20" />
-                </div>
+              <Step
+                :activeStep="activeStep  - 1"
+                :displayedActiveStep="2"
+                :mmActive="mmActive"
+                :stepText="'Approve'"
+                v-if="!tokensApproved"
+              />
+              <Step
+                :activeStep="activeStep  - 1"
+                :displayedActiveStep="1"
+                :mmActive="mmActive"
+                :stepText="'Approve'"
+                v-else
+              />
+              <div class="w-12 mt-1">
+                <ProgressLoader v-if="mmActive && activeStep === 3" />
+                <span v-else class="progress_loader_still"></span>
               </div>
+              <Step
+                :activeStep="activeStep  - 1"
+                :displayedActiveStep="3"
+                :mmActive="mmActive"
+                :stepText="'Deposit'"
+              />
             </div>
           </div>
 
@@ -820,21 +729,64 @@
             v-else-if="activeStep === 2"
             @click="CreateNewPool"
           >
-            {{ $t('preview') }}
+            {{ mmActive ? 'Creating pool' : $t('preview') }}
+            <span v-if="mmActive" class="button_loader pl-2"></span>
           </div>
           <div
             class="compose_pool_connect_wallet"
             v-else-if="activeStep === 3"
             @click="JoinNewPool"
           >
-            {{ $t('approve_tokens_for_adding') }}
+            {{ mmActive ? 'Depositing liquidity' : $t('approve_tokens_for_adding') }}
+            <span v-if="mmActive" class="button_loader pl-2"></span>
           </div>
-          <div
-            class="compose_pool_connect_wallet"
-            v-if="activeStep === 4"
-            @click="SwapNewPoolTokens"
-          >
-            {{ $t('swap_tokens') }}
+          <div class="flex justify-evenly " v-if="activeStep === 4">
+            <a :href="`https://bscscan.com/tx/${txHash}`" class="text-decoration-none" target="_blank">
+            <div class="compose_pool_connect_wallet flex items-center">
+              Receipt
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_558_15327)">
+                  <path
+                    d="M10.5 7.58333V11.0833C10.5 11.3928 10.3771 11.6895 10.1583 11.9083C9.9395 12.1271 9.64275 12.25 9.33333 12.25H2.91667C2.60725 12.25 2.3105 12.1271 2.09171 11.9083C1.87292 11.6895 1.75 11.3928 1.75 11.0833V4.66667C1.75 4.35725 1.87292 4.0605 2.09171 3.84171C2.3105 3.62292 2.60725 3.5 2.91667 3.5H6.41667"
+                    stroke="#05061B"
+                    stroke-width="1.16667"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M8.75 1.75H12.25V5.25"
+                    stroke="#05061B"
+                    stroke-width="1.16667"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M5.83203 8.16667L12.2487 1.75"
+                    stroke="#05061B"
+                    stroke-width="1.16667"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_558_15327">
+                    <rect width="14" height="14" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+          </a>
+          <a :href="`/pools/details/${txHash}/BNB/info`" class="text-decoration-none">
+            <div class="compose_pool_connect_wallet">
+              View Pool
+            </div>
+          </a>
           </div>
         </div>
 
@@ -892,7 +844,38 @@
             <div
               class="compose_text dark:!text-white text-black flex items-center gap-1"
             >
-              {{ $t('in_your_wallet') }} <img :src="info" class="info_icon" />
+              {{ $t('in_your_wallet') }}
+
+              <VTooltip :distance="0" :placement="'bottom'">
+                <img :src="info" class="info_icon" />
+                <template #popper>
+                  <div
+                    style="
+                      background: #02031c;
+                      backdrop-filter: blur(10px);
+                      padding: 10px;
+                      border-radius: 11px;
+                      width: 200px;
+                      border: 0.5px solid #dceef60d;
+                      box-shadow: 0px 4px 8.9px 0px #02031cb5;
+                    "
+                  >
+                    <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
+                      {{ $t('information') }}
+                    </h6>
+                    <div
+                      style="
+                        display: flex;
+                        flex-direction: column;
+                        font-size: clamp(10px, 0.8vw, 14px);
+                        font-family: 'Syne', sans-serif;
+                      "
+                    >
+                      <div>Balance available on the selected tokens</div>
+                    </div>
+                  </div>
+                </template>
+              </VTooltip>
             </div>
             <div
               v-if="tokensData.length > 0 && tokensData[0].symbol"
@@ -913,11 +896,13 @@
   <!-- <div class="" v-if="visibleNetworkModal && visibleNetworkModal != 'closed'">
     <Warning :NetworkUnsupported="NetworkUnsupported" :closable="true" @closeWarning="closeWarning"></Warning>
   </div> -->
+  {{ console.log('activeStep', activeStep) }}
 </template>
 
 <script setup>
 import router from '@/router'
-
+import Step from '@/UI/Step.vue'
+import ProgressLoader from '@/UI/ProgressLoader.vue'
 import MainCard from '@/UI/MainCard.vue'
 import { ref, computed, watch, onMounted } from 'vue'
 import ComposePoolSteps from '@/components/ComposePool/ComposePoolSteps.vue'
@@ -964,6 +949,10 @@ const autoOptimizeLiq = ref(true)
 const mmActive = ref(false)
 const visibleNetworkModal = ref(false)
 const activeStep = ref(1)
+
+const tokensApproved = ref(false)
+
+const txHash = ref('')
 
 function changeVisibleNetworkModal() {
   visibleNetworkModal.value = !visibleNetworkModal.value
@@ -1068,7 +1057,6 @@ const NetworkUnsupported = ref(false)
 const networksSupported = ref(null)
 
 const account = ref('')
-
 
 onMounted(async () => {
   if (window.ethereum !== undefined && networkId.value > 0) {
@@ -1219,7 +1207,7 @@ async function onStep1Click() {
         speedUp: '',
       },
     })
-  }else if (areWeightSmallerThanZero.value) {
+  } else if (areWeightSmallerThanZero.value) {
     toast(Toast, {
       closeOnClick: true,
       theme: 'dark',
@@ -1234,19 +1222,32 @@ async function onStep1Click() {
         speedUp: '',
       },
     })
-  }else {
-    if (account.value == '') {
-    account.value = await (await InitializeMetamask()).getSigner().getAddress()
   } else {
-    activeStep.value = 2
+    if (account.value == '') {
+      account.value = await (await InitializeMetamask())
+        .getSigner()
+        .getAddress()
+    } else {
+      activeStep.value = 2
+    }
   }
-  }
-
 }
-
 
 async function CreateNewPool() {
   let poolCreateService = new PoolCreatorService(networkId.value)
+
+  const CreateNewPoolPending = toast.loading(Toast, {
+    data: {
+      header_text: t('Creation pending'),
+      toast_text: t('Pool creation pending...'),
+      tx_link: '',
+      speedUp: '',
+    },
+    position: toast.POSITION.TOP_RIGHT,
+    theme: 'dark',
+    closeOnClick: false,
+  })
+
   mmActive.value = true
   let provider = await InitializeMetamask()
   account.value = await provider.getSigner().getAddress()
@@ -1267,8 +1268,41 @@ async function CreateNewPool() {
       configService.getNetworkConfig(networkId.value).explorer
     }/tx/${tx.hash}`
     lineNumbers.value = tokensData.value.map(() => 0)
+
+    toast.update(CreateNewPoolPending, {
+      render: Toast,
+      data: {
+        header_text: t('Pool Created!'),
+        toast_text: t('Pool created sucessfully!'),
+        tx_link: tx.hash,
+        speedUp: '',
+      },
+
+      closeOnClick: false,
+      autoClose: 5000,
+      closeButton: false,
+      type: 'success',
+      isLoading: false,
+    })
+
+    txHash.value = tx.hash
+
     activeStep.value = 3
   } else {
+    toast.update(CreateNewPoolPending, {
+      render: Toast,
+      data: {
+        header_text: t('Pool not created!'),
+        toast_text: t('You rejected pool creation!'),
+        tx_link: '',
+        speedUp: '',
+      },
+      autoClose: 7000,
+      closeOnClick: false,
+      closeButton: false,
+      type: 'error',
+      isLoading: false,
+    })
     setTxError(tx)
   }
   notify()
@@ -1288,7 +1322,21 @@ async function JoinNewPool() {
     SetErrorTxPopup('Approve was cancelled')
     notify()
     return
+  }else {
+    tokensApproved.value = true
   }
+
+  const addLiquidityToPoolPending = toast.loading(Toast, {
+    data: {
+      header_text: 'Add liquidity pending',
+      toast_text: 'Add tokens to pool pending...',
+      tx_link: '',
+      speedUp: '',
+    },
+    position: toast.POSITION.TOP_RIGHT,
+    theme: 'dark',
+    closeOnClick: false,
+  })
 
   let tx = await useJoinPool(
     { onchain: { totalSupply: '0' }, id: createdPoolId.value },
@@ -1299,22 +1347,46 @@ async function JoinNewPool() {
   )
   if (tx.error) {
     setTxError(tx)
+    toast.update(addLiquidityToPoolPending, {
+      render: Toast,
+      data: {
+        header_text: 'Add Liquidity rejected!',
+        toast_text: 'You rejected added liquidity!',
+        tx_link: tx.hash,
+        speedUp: '',
+      },
+
+      closeOnClick: false,
+      autoClose: 5000,
+      closeButton: false,
+      type: 'error',
+      isLoading: false,
+    })
     notify()
     return
   }
   await tx.wait()
   SetSuccessTxPopup(tx.hash, 'Tokens successfully deposited')
+
+  toast.update(addLiquidityToPoolPending, {
+    render: Toast,
+    data: {
+      header_text: 'Add Liquidity Confirm!',
+      toast_text: 'Liquidity sucessfully added!',
+      tx_link: tx.hash,
+      speedUp: '',
+    },
+
+    closeOnClick: false,
+    autoClose: 5000,
+    closeButton: false,
+    type: 'success',
+    isLoading: false,
+  })
+
   notify()
   activeStep.value = 4
-  emitter.emit('addNotification', {
-    type: 'Deposit',
-    value: `${totalFiat.value.toFixed(4)} USD - ${formatNotificationDate(
-      new Date().getTime(),
-    )}`,
-    status: 'Success',
-    hash: tx.hash,
-    network: DisplayNetwork[networkId.value],
-  })
+  tokensApproved.value = false
   mmActive.value = false
   finishedSwaps.value = []
 }
@@ -1517,7 +1589,6 @@ const dynamicDonut = computed(() => {
   padding: 2.5%;
   border-radius: 16px;
   backdrop-filter: blur(10px);
-
 }
 
 .compose_choose {
@@ -1531,13 +1602,14 @@ const dynamicDonut = computed(() => {
 }
 
 .modal_total_container {
-  border: 1px solid rgba(163, 164, 165, 0.2);
   border-radius: 15px;
   font-size: clamp(10px, 0.8vw, 14px);
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
 }
 
 .compose_hr {
-  border-bottom: 1px solid #00c9ff57;
+  border-bottom: 1px solid #00e1ff50;
   margin: 0px;
   margin-top: 5px;
   margin-right: -10px;
@@ -1587,14 +1659,14 @@ const dynamicDonut = computed(() => {
 .add_token_btn {
   padding: 4px 16px;
   background: none;
-  border: 1px solid  #00E0FF;
+  border: 1px solid #00e0ff;
   border-radius: 16px;
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 400;
   letter-spacing: -0.4000000059604645px;
   text-align: center;
-  color: #00E0FF;
-  background: #02031C;
+  color: #00e0ff;
+  background: #02031c;
 }
 
 .add_token_btn:hover {
@@ -1611,8 +1683,6 @@ const dynamicDonut = computed(() => {
   // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
 }
-
-
 
 .compose_network_text {
   font-size: 9px;
@@ -1646,9 +1716,10 @@ const dynamicDonut = computed(() => {
 }
 
 .modal_stake_token {
-  border: 1px solid rgba(163, 164, 165, 0.2);
   border-radius: 20px;
   padding: 15px;
+  background: #22222224;
+  box-shadow: 0px 4px 4px 0px #00000040;
 }
 
 .modal_balance_slider {
@@ -1671,8 +1742,6 @@ const dynamicDonut = computed(() => {
   stroke: #00c9ff;
 }
 
-
-
 .weight_input {
   background: none;
   outline: none;
@@ -1687,7 +1756,7 @@ const dynamicDonut = computed(() => {
   width: 32px;
   height: 32px;
   border-radius: 100%;
-  background: #DCEEF605;
+  background: #dceef605;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
   border: 1px solid #ffffff0d;
   display: flex;
@@ -1695,4 +1764,6 @@ const dynamicDonut = computed(() => {
   align-items: center;
   cursor: pointer;
 }
+
+
 </style>

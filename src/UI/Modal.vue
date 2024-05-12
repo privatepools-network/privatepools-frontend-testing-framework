@@ -5,7 +5,8 @@
     />
     <div
       ref="modalRef"
-      class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
+      class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[1000] w-full md:inset-0 h-modal md:h-full justify-center items-start flex"
+      
       style="backdrop-filter: blur(5px);"
       tabindex="0"
       @click.self="clickOutside"
@@ -18,7 +19,7 @@
        
       >
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:!bg-[#02031CC4] z-50">
+        <div class="relative bg-white rounded-lg shadow dark:!bg-[#02031c] z-[1000] modal_scale">
           <!-- Modal header -->
           <div
             :class="
@@ -134,5 +135,12 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.modal_scale {
+  @media (max-width: 1400px) {
+    transform: scale(0.8);
+  }
+
 }
 </style>

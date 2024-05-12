@@ -36,7 +36,7 @@
         <input
           type="search"
           id="search"
-          class="block w-full ps-10 text-sm text-gray-900  border-gray-300 rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-[#02031CC4] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class="block w-full ps-10 text-sm text-gray-900  border-gray-300 rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-[#02031c] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           :placeholder="t('search_by_name_symbol_address')"
           aria-label="Search by name, symbol or address"
           v-model="filterName"
@@ -64,11 +64,16 @@
           </div>
         </div>
       </div>
+      {{console.log('filteredPossibleTokens', filteredPossibleTokens)}}
       <div class="mt-3 tokens_container">
+        <div class="flex items-center justify-center h-full" v-if="filteredPossibleTokens.length === 0">
+          <LoaderPulse/>
+        </div>
         <div
+          v-else
           v-for="(token, index) in filteredPossibleTokens"
           :key="`tokens-key-${index}`"
-          class="d-flex align-items-center justify-content-between p-3 gap-3 token_card"
+          class="flex items-center justify-between p-3 gap-3 token_card"
           @click="
             emit('updateToken', { ...token }, props.pairIndex),
               emit('tokenSelectModalClose')
@@ -86,8 +91,8 @@
             </div>
           </div>
           <div class="d-flex flex-column align-items-end text-black dark:!text-white">
-            <div>{{ token.balance }} {{ token.symbol }}</div>
-            <div>${{ token.balance * token.price }}</div>
+            <div>{{ parseFloat(token.balance).toFixed(3) }} {{ token.symbol }}</div>
+            <div>${{ parseFloat(token.balance * token.price).toFixed(3) }}</div>
           </div>
         </div>
       </div>
@@ -102,6 +107,7 @@ import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import { COMMON_TOKENS } from "@/composables/poolActions/compose/usePossibleComposeTokens"
 import { t } from 'i18next';
+import LoaderPulse from '../loaders/LoaderPulse.vue';
 const props = defineProps([
   'tokenSelectModal',
   'possibleComposeTokens',

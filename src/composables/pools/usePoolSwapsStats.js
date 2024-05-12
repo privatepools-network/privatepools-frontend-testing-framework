@@ -933,7 +933,7 @@ export function getAverageProfitPerTimeRange(
   chainSelected,
   date0,
   date1,
-  postfix=""
+  postfix = '',
 ) {
   let [ts0, ts1] = [0, Date.now()]
   if (date0 && date1) {
@@ -992,7 +992,7 @@ export function getAveragePoolProfitPerTimeRange(
   historical_tvl,
   date0,
   date1,
-  postfix ="",
+  postfix = '',
 ) {
   let [ts0, ts1] = [0, Date.now()]
   if (date0 && date1) {
@@ -1271,6 +1271,7 @@ export function getVolatilityIndexPerTimeRange(
   tokensData,
   date0,
   date1,
+  treasury,
   sortino = false,
   timestamp = null,
   riskFreeOption = 'bonds',
@@ -1288,6 +1289,7 @@ export function getVolatilityIndexPerTimeRange(
     historicalPrices,
     daysDifference,
     assets,
+    treasury,
     sortino,
     timestamp,
     riskFreeOption,
@@ -1313,6 +1315,7 @@ export function getSharpeRatioPerTimeRange(
   chainSelected,
   date0,
   date1,
+  treasury,
   riskFreeOption = 'bonds',
 ) {
   let { daysDifference, filtered_data, assets } = GetTimeRangeRiskData(
@@ -1321,6 +1324,7 @@ export function getSharpeRatioPerTimeRange(
     tokensData,
     date0,
     date1,
+    treasury,
   )
   if (filtered_data.length == 0) return 0
   let last_ts = filtered_data[filtered_data.length - 1].timestamp
@@ -1330,6 +1334,7 @@ export function getSharpeRatioPerTimeRange(
     historicalPrices,
     daysDifference,
     assets,
+    treasury,
     false,
     null,
     riskFreeOption,
@@ -1349,6 +1354,7 @@ export function getSharpeRatioPerTimeRange(
     assets,
     avg_apr,
     last_ts,
+    treasury,
     volatility_index,
     riskFreeOption,
   )
@@ -1372,6 +1378,7 @@ export function getSortinoRatioPerTimeRange(
   chainSelected,
   date0,
   date1,
+  treasury,
   riskFreeOption = 'bonds',
 ) {
   let { daysDifference, filtered_data, assets } = GetTimeRangeRiskData(
@@ -1380,6 +1387,7 @@ export function getSortinoRatioPerTimeRange(
     tokensData,
     date0,
     date1,
+    treasury,
   )
   if (filtered_data.length == 0) return 0
   let last_ts = filtered_data[filtered_data.length - 1].timestamp
@@ -1389,6 +1397,7 @@ export function getSortinoRatioPerTimeRange(
     historicalPrices,
     daysDifference,
     assets,
+    treasury,
     true,
     last_ts,
     riskFreeOption,
@@ -1408,6 +1417,7 @@ export function getSortinoRatioPerTimeRange(
     assets,
     avg_apr,
     last_ts,
+    treasury,
     volatility_index,
     riskFreeOption,
   )
