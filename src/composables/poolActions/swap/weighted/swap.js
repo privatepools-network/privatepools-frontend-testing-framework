@@ -6,12 +6,15 @@ import ABI_PPNBuyer from '@/lib/abi/PPNBuyer.json'
 import ABI_Vault from '@/lib/abi/VaultAbi.json'
 import ABI_ERC20 from '@/lib/abi/ERC20.json'
 
-const ppnBuyerAddress = '0x9A518d5B3C1e035A62DB9E572DBf2c194dF03ed9'
-const ppnBuyerPoolId =
+const ppnBuyerAddress = '0x939EDCA8F050C1965082aF99ff1b53106E55682D'
+const ppnPoolId =
   '0x9458b32c812f14632a7cf9fe287ec2f99071828a000200000000000000000010'
 
-export async function buyPPNToken(tokenIn, tokenOut, amount, signer) {
+export async function swapPPNToken(token1, token2, amount, signer, method) {
   try {
+    const tokenIn = method === 'buy' ? token2 : token1
+    const tokenOut = method === 'buy' ? token1 : token2
+
     approveToken(tokenIn, amount, ppnBuyerAddress, signer)
 
     const vault = new ethers.Contract(
@@ -24,7 +27,7 @@ export async function buyPPNToken(tokenIn, tokenOut, amount, signer) {
 
     const batchSwaps = [
       {
-        poolId: ppnBuyerPoolId,
+        poolId: ppnPoolId,
         assetInIndex: 0,
         assetOutIndex: 1,
         amount: ethers.utils.parseUnits(amount.toString(), tokenIn.decimals),
@@ -53,8 +56,6 @@ export async function buyPPNToken(tokenIn, tokenOut, amount, signer) {
       0,
     )
     const deadline = Math.floor(Date.now() / 1000) + 60
-
-    console.log(await ppnBuyer.token())
 
     const tx = await ppnBuyer.swapWithVault(
       batchSwaps,
@@ -112,7 +113,7 @@ export async function getAmountOut(
     )
     const batchSwaps = [
       {
-        poolId: ppnBuyerPoolId,
+        poolId: ppnPoolId,
         assetInIndex: 0,
         assetOutIndex: 1,
         amount: amountoWei,
