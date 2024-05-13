@@ -154,3 +154,9 @@ export async function getUserPools(network, userAddress) {
   )
   return response.data
 }
+export async function getRewards(network) {
+  const response = await axios.get(
+    `${BACKEND_URL[network]}/rewards`,
+  )
+  return response.data
+}
