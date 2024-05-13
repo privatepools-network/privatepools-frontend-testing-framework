@@ -1,6 +1,6 @@
 <template>
   <div class="pools_chart_container">
-    <PortfolioArbitrageBot :networks_data="networks_data" :chainSelected="chainSelected" />
+    <PortfolioArbitrageBot :networks_data="networks_data" :chainSelected="chainSelected" :rewardsData="rewardsData" />
 
     <div class="track_chart_card bg-[white] dark:!bg-[#22222224]">
 
@@ -83,10 +83,9 @@ import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import { networkId } from '@/composables/useNetwork'
 import ChartTimeline from '@/UI/ChartTimeline.vue'
 import { t } from 'i18next'
-const emit = defineEmits(['updateChart'])
 
-const props = defineProps(['networks_data', 'chainSelected', 'all_chart_data'])
-const { networks_data, chainSelected } = toRefs(props)
+const props = defineProps(['networks_data', 'chainSelected', 'all_chart_data', 'rewardsData'])
+const { networks_data, chainSelected, rewardsData } = toRefs(props)
 
 const allChartData = ref([])
 const filteredData = computed(() => getFilteredData())
@@ -94,13 +93,71 @@ const filteredData = computed(() => getFilteredData())
 const filters = ref({
   PNL: true,
   Rewards: true,
-  APR: true,
+  'Average APR': true,
   ROI: true,
   'Staked Liquidity': true,
   Volume: true,
   'Number of Trades': true,
   'Capital Gains': true,
 })
+const preFiltersList = ref([
+  {
+    title: 'Staked Liquidity',
+    code: 'Staked Liquidity',
+    selected: true,
+    cumulable: false,
+    isSolo: true,
+  },
+  {
+    title: 'PNL',
+    code: 'PNL',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'Average APR',
+    code: 'Average APR',
+    selected: true,
+    cumulable: false,
+    isSolo: true,
+  },
+  {
+    title: 'Rewards',
+    code: 'Rewards',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'Volume',
+    code: 'Volume',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'Number of Trades',
+    code: 'Trades',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'ROI',
+    code: 'ROI',
+    selected: true,
+    cumulable: false,
+    isSolo: true,
+  },
+  {
+    title: 'Capital Gains',
+    code: 'Capital Gains',
+    selected: true,
+    cumulable: false,
+    isSolo: true,
+  },
+])
 
 const filterKeys = computed(() => Object.keys(filters.value))
 
@@ -148,11 +205,11 @@ const dataRewards = computed(() => {
   return []
 })
 const dataAPR = computed(() => {
-  if (preFiltersList.value.find((f) => f.code == 'APR').selected)
-    return filteredData.value.map((v) => v['APR'])
+  if (preFiltersList.value.find((f) => f.code == 'Average APR').selected)
+    return filteredData.value.map((v) => v['Average APR'])
   return []
 })
-const dataProfits = computed(() => {
+const dataROI = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'ROI').selected)
     return filteredData.value.map((v) => v['ROI'])
   return []
@@ -194,167 +251,8 @@ const convertFromNumber = (str) => {
   return result
 }
 
-function InitChartData() {
-  if (!process.env.VUE_APP_LOCAL_API) {
-    const networks = [
-      process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined,
-      process.env.VUE_APP_KEY_BINANCE ? Network.BINANCE : undefined,
-      process.env.VUE_APP_KEY_POLYGON ? Network.POLYGON : undefined,
-    ].filter((n) => n != undefined)
-
-    let chart_data = networks
-      .map((n, i) =>
-        isRightChainName(DisplayNetwork[n], chainSelected.value) &&
-          networks_data.value[i]
-          ? FormatTrackingInfoChart(networks_data.value[i][1], n)
-          : [],
-      )
-      .flat()
-    if (chart_data.length == 0) {
-      allChartData.value = []
-      return []
-    }
-    let historical_tvl = networks
-      .map((n, i) =>
-        isRightChainName(DisplayNetwork[n], chainSelected.value) &&
-          networks_data.value[i][3]
-          ? networks_data.value[i][3]
-          : [],
-      )
-      .flat()
-    let tokenSnapshots = networks
-      .map((n, i) =>
-        isRightChainName(DisplayNetwork[n], chainSelected.value) &&
-          networks_data.value[i][4]
-          ? networks_data.value[i][4].tokenSnapshots
-          : [],
-      )
-      .flat()
-    let tokensData = networks
-      .map((n, i) =>
-        isRightChainName(DisplayNetwork[n], chainSelected.value) &&
-          networks_data.value[i][4]
-          ? networks_data.value[i][4].tokens
-          : [],
-      )
-      .flat()
-    historical_tvl = historical_tvl.filter((v) => v != null)
-    let formatted_tvl = FormatHistoricalTvl(historical_tvl)
-    let formatted_token_snapshots = FormatTokenSnapshots(
-      tokenSnapshots,
-      tokensData,
-    )
 
 
-    chart_data.sort((a, b) => a.timestamp - b.timestamp)
-    formatChartData(formatted_tvl, formatted_token_snapshots, chart_data)
-    allChartData.value = addEmptyDays(chart_data)
-  }
-}
-
-function formatChartData(formatted_tvl, formatted_token_snapshots, chart_data) {
-  for (let i = 0; i < formatted_tvl.length; i++) {
-    let index = chart_data.findIndex(
-      (item) => item.Blockchain != '' && item.Date == formatted_tvl[i].Date,
-    )
-    if (index > -1) {
-      chart_data[index].TVL = { ...formatted_tvl[i] }
-    } else {
-      let index = chart_data.findIndex(
-        (item) => item.timestamp > formatted_tvl[i].timestamp,
-      )
-      let empty_tvl_element = {
-        Date: formatted_tvl[i].Date,
-        Blockchain: '',
-        timestamp: formatted_tvl[i].timestamp,
-        'Avg Profit per Trade': 0,
-        ROI: 0,
-        Revenue: 0,
-        'Gas Fees': 0,
-        Volume: 0,
-        Assets: {},
-        Trades: 0,
-      }
-      empty_tvl_element['TVL'] = formatted_tvl[i]
-      if (index == -1) {
-        chart_data.push(empty_tvl_element)
-      } else {
-        chart_data.splice(index, 0, empty_tvl_element)
-      }
-    }
-  }
-  let nearestTvl = null
-  let tokens = Object.keys(formatted_token_snapshots).filter(
-    (k) => k != 'timestamps' && k != 'Dates',
-  )
-  let lastIndex = 0
-  for (let i = 0; i < chart_data.length; i++) {
-    if (!chart_data[i].TVL && !nearestTvl) {
-      nearestTvl = { ...chart_data.find((d) => d.TVL != null).TVL }
-      chart_data[i].TVL = { ...nearestTvl }
-    } else if (!chart_data[i].TVL) {
-      chart_data[i].TVL = { ...nearestTvl }
-    }
-    nearestTvl = { ...chart_data[i].TVL }
-    let index = formatted_token_snapshots.Dates.findIndex(
-      (s) => s == chart_data[i].Date,
-    )
-    index = index == -1 ? lastIndex : index
-    lastIndex = index
-    for (let k = 0; k < tokens.length; k++) {
-      chart_data[i].Assets[tokens[k]] =
-        formatted_token_snapshots[tokens[k]][index]
-    }
-  }
-}
-
-function addEmptyDays(chart_data) {
-  let ts = chart_data[0].timestamp
-  let last_ts = Date.now()
-  let last_index = 1
-  let dates = chart_data.map((item) => item.Date)
-  while (ts < last_ts) {
-    let date = formatSimpleTimestamp(ts / 1000)
-    let found_index = dates.lastIndexOf(date)
-    if (found_index == -1) {
-      chart_data.splice(last_index, 0, {
-        Date: date,
-        Blockchain: '',
-        timestamp: ts,
-        Profits: 0,
-        Revenue: 0,
-        'Gas Fees': 0,
-        Volume: 0,
-        Trades: 0,
-        Assets: { ...chart_data[last_index - 1].Assets },
-        TVL: { ...chart_data[last_index - 1].TVL },
-      })
-      dates.splice(last_index, 0, date)
-      last_index++
-    } else {
-      last_index = found_index + 1
-    }
-    ts += 86400000
-  }
-  return chart_data
-}
-
-watch(networks_data, () => {
-  if (networks_data.value) InitChartData()
-})
-
-watch(chainSelected, () => {
-  console.log('HERE')
-  InitChartData()
-})
-
-watch(networkId, async () => {
-  await InitChartData()
-})
-
-watch(allChartData, () => {
-  emit('updateChart', allChartData.value)
-})
 
 const optionObj = ref({
   legend: {
@@ -484,7 +382,7 @@ const optionObj = ref({
     {
       type: 'bar',
       name: 'ROI',
-      data: dataProfits,
+      data: dataROI,
 
       color: '#00FF75',
       sampling: 'lttb',
@@ -592,7 +490,7 @@ const optionObj = ref({
       },
     },
     {
-      name: 'APR',
+      name: 'Average APR',
       type: 'line',
       data: dataAPR,
       color: '#FFC925',
@@ -790,68 +688,12 @@ const TimelineFilters = {
   [t('monthly')]: groupTimestampsByMonthWithIndexes,
 }
 
-const preFiltersList = ref([
-  {
-    title: 'Staked Liquidity',
-    code: 'Staked Liquidity',
-    selected: true,
-    cumulable: false,
-    isSolo: true,
-  },
-  {
-    title: 'PNL',
-    code: 'PNL',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
-    title: 'APR',
-    code: 'APR',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
-    title: 'Rewards',
-    code: 'Rewards',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
-    title: 'Volume',
-    code: 'Volume',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
-    title: 'Number of Trades',
-    code: 'Trades',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
-    title: 'ROI',
-    code: 'ROI',
-    selected: true,
-    cumulable: false,
-    isSolo: true,
-  },
-  {
-    title: 'Capital Gains',
-    code: 'Capital Gains',
-    selected: true,
-    cumulable: false,
-    isSolo: true,
-  },
-])
+
 
 function getFilteredData() {
   let result = []
   let chart_data = []
+  console.log("BEFORE - ", props.all_chart_data)
   if (!process.env.VUE_APP_LOCAL_API)
     chart_data = [...allChartData.value]
   else if (props.all_chart_data)
@@ -901,6 +743,7 @@ function getFilteredData() {
     }
     result.push(result_item)
   }
+  console.log("RESULT CHART ", result)
   return result
 }
 </script>
@@ -1128,7 +971,7 @@ function getFilteredData() {
     justify-content: center;
     align-items: center;
 
- 
+
   }
 }
 

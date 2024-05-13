@@ -794,7 +794,7 @@ function getFilteredData() {
     }
     result.push(result_item)
   }
-  console.log("CHART", result)
+
 
   return result
 }
