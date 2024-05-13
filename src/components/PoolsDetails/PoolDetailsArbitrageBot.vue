@@ -12,7 +12,7 @@
     </div> -->
 
     <div class="px-2">
-      <div class="text-black dark:!text-white mt-[5%]">{{ $t('TVL') }}</div>
+      <div class="text-black dark:!text-white mt-[5%] font-['Syne',_sans-serif]">{{ $t('TVL') }}</div>
       <div class="mb-2">
         <div @click="clickOnVisibleTVL()" class="visible_head" style="cursor: pointer">
           <div class="d-flex align-items-center gap-2" style="margin-left: -20px; width: clamp(10px, 0.8vw, 14px)">

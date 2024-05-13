@@ -364,7 +364,7 @@
 <script setup>
 import MainCard from '@/UI/MainCard.vue'
 import { getTokenEntity } from '@/lib/helpers/util'
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import Slider from '@vueform/slider'
 
 import WithdrawModalV2 from '@/components/modals/WithdrawModalV2.vue'
@@ -388,6 +388,7 @@ import BigLogoLoader from '@/components/loaders/BigLogoLoader.vue'
 
 const poolId = router.currentRoute.value.params['id']
 const pool = ref(null)
+
 
 const tokens = ref([])
 

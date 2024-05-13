@@ -150,10 +150,17 @@
   <div v-else-if="depositFinished">
     <div>
       <div class="py-4 flex flex-col items-center justify-center mb-5">
+        <ConfettiExplosion 
+          v-if="confettiVisible"
+          :particleSize="8" 
+          :duration="5000" 
+          :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']"
+          />
         <div class="text-[20px] text-white font-medium mb-3">
           Liquidity withdrawed !
         </div>
         <svg
+        @click="explode"
           class="mb-3"
           width="74"
           height="74"
@@ -249,7 +256,7 @@
 import arrow_back from '@/assets/icons/arrow/arrow_back.svg'
 import close_modal_icon from '@/assets/icons/arrow/close_modal_icon.svg'
 import { getTokenEntity } from '@/lib/helpers/util'
-import { defineProps, defineEmits, ref, watch } from 'vue'
+import { defineProps, defineEmits, ref, watch, nextTick } from 'vue'
 import { useExitPool } from '@/composables/poolActions/withdraw/useExitPool'
 import { configService } from '@/services/config/config.service'
 import { GetDisplayStringError } from '@/lib/utils/balancer/helpers/displayError'
@@ -259,6 +266,15 @@ import { formatUnits } from '@ethersproject/units'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
+import ConfettiExplosion from "vue-confetti-explosion";
+import { useSound } from '@vueuse/sound'
+import successSound from '@/assets/sounds/success_sound.mp3'
+import errorSound from '@/assets/sounds/error_sound.mp3'
+
+
+const playSuccess = useSound(successSound, { volume: 1 })
+    const playError = useSound(errorSound, { volume: 1 })
+
 // import { Fireworks } from '@fireworks-js/vue'
 
 // const fw = ref()
@@ -273,6 +289,16 @@ import 'vue3-toastify/dist/index.css'
 //   await fw.value.waitStop()
 //   mounted.value = false
 // }
+
+
+const confettiVisible = ref(false);
+
+const explode = async () => {
+  confettiVisible.value = false;
+  await nextTick();
+  confettiVisible.value = true;
+};
+
 
 const props = defineProps([
   'visibleDepositModal',
@@ -341,6 +367,7 @@ function roundDown(number, decimals) {
   ).toString()
 }
 const txLink = ref('')
+const soundError = ref(false)
 
 async function OnWithdrawClick() {
   const ConfirmToastPending = toast.loading(Toast, {
@@ -412,6 +439,8 @@ async function OnWithdrawClick() {
     try {
       await tx.wait()
     } catch (error) {
+      playError.play()
+      soundError.value = true
       toast.update(ConfirmToastPending, {
         render: Toast,
         data: {
@@ -431,10 +460,17 @@ async function OnWithdrawClick() {
 
     // SetSuccessTxPopup(tx.hash, "Tokens successfully withdrew")
     // notify()
+  
+   // soundError to not duplicate sounds
+   if(soundError.value === false) {
+    playSuccess.play()
+   }
+    
+
     toast.update(ConfirmToastPending, {
       render: Toast,
       data: {
-        header_text: 'Approve confirmed',
+        header_text: 'Tokens successfully withdrew',
         toast_text: `${parseFloat(props.fiatTotal).toFixed(
           4,
         )} USD - ${formatNotificationDate(new Date().getTime())}`,
@@ -448,10 +484,14 @@ async function OnWithdrawClick() {
       type: 'success',
       isLoading: false,
     })
+    
     await props.init()
+    soundError.value = false
     // startFireworks()
     emit('changeVisibleDeposit')
+   
     depositFinished.value = true
+    explode()
     confirmingState.value = false
   } else if (tx.error) {
     setTxError(tx)

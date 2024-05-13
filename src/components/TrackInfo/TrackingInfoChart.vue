@@ -687,7 +687,7 @@ const optionObj = ref({
     {
       type: 'inside',
       xAxisIndex: 0,
-      start: 93,
+      start: 0,
       end: 100,
     },
     {

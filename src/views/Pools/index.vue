@@ -26,7 +26,7 @@
 
       <ComposePoolDropdown />
 
-      {{ console.log('hidePools', hidePools) }}
+      <!-- {{ console.log('hidePools', hidePools) }} -->
     </div>
 
     <div class="pools-rows">
@@ -59,18 +59,31 @@
               </div>
               <div v-else-if="headCaption === t('volume')"
                 :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'">
-                {{ headCaption }} ({{filterByTimeVolume}})
+                <img :src="filterArrow" :class="ascendFilterBy === t('volume') ? 'rotate-180' : ''" @click="ascendFilterBy = t('volume')"/> {{ headCaption }} ({{filterByTimeVolume}})
+                
                 <img :src="filterSVG"
-                  @click="filterByTimeVolume === '24H' ? filterByTimeVolume = '7D' : filterByTimeVolume === '7D' ?  filterByTimeVolume = '30D' : filterByTimeVolume = '24H'" />
+                  @click="
+                  filterByTimeVolume === '24H' ? filterByTimeVolume = '7D' : 
+                  filterByTimeVolume === '7D' ?  filterByTimeVolume = '30D' : 
+                  filterByTimeVolume === '30D' ? filterByTimeVolume = 'ALL' : 
+                  filterByTimeVolume === 'ALL' ? filterByTimeVolume = '24H' : 
+                  filterByTimeVolume = '24H'" />
               </div>
               <div v-else-if="headCaption === 'APR'"
                 :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'">
-                {{ headCaption }} ({{filterByTimeAPR}})
+                <img :src="filterArrow" :class="ascendFilterBy === 'APR' ? 'rotate-180' : ''" @click="ascendFilterBy = 'APR'"/> {{ headCaption }} ({{filterByTimeAPR}})
+
                 <img :src="filterSVG"
-                  @click="filterByTimeAPR === '24H' ? filterByTimeAPR = '7D' : filterByTimeAPR === '7D' ?  filterByTimeAPR = '30D' : filterByTimeAPR = '24H'" />
+                @click="
+                filterByTimeAPR === '24H' ? filterByTimeAPR = '7D' : 
+                  filterByTimeAPR === '7D' ?  filterByTimeAPR = '30D' : 
+                  filterByTimeAPR === '30D' ? filterByTimeAPR = 'ALL' : 
+                  filterByTimeAPR === 'ALL' ? filterByTimeAPR = '24H' : 
+                  filterByTimeAPR = '24H'" />
               </div>
-              <div v-else :class="'head_caption_text text-black dark:!text-white'">
-                {{ headCaption }}
+              <div v-else :class="'head_caption_text flex items-center gap-1 text-black dark:!text-white'">
+              <img :class="ascendFilterBy === headCaption ? 'rotate-180' : ''" v-if="!headCaption.includes(t('composition')) && !headCaption.includes(t('actions'))" :src="filterArrow" 
+              @click="ascendFilterBy = headCaption"/>  {{ headCaption }}
               </div>
             </div>
           </div>
@@ -85,13 +98,12 @@
         <LoaderPulse />
       </div>
 
-      <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
+      <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber).toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy])" :key="pool.name" :pool="pool"
         :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }" :userPools="user_staked_pools"
         :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
         @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"
         :isActions="true" />
 
-      {{ console.log('user_staked_pools', user_staked_pools) }}
       <div v-if="sliceNumber < all_pools.length" @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
         class="load_more text-black dark:!text-white">
         {{ $t('load_more') }}
@@ -136,12 +148,18 @@ import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
 import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 import { getPoolsData } from '@/composables/data/poolsData'
 import { t } from 'i18next'
+import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
+
+
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 
 const sliceNumber = ref(10)
 
 const filterByTimeAPR = ref('24H')
 const filterByTimeVolume = ref('24H')
+
+
+const ascendFilterBy = ref('TVL')
 
 const headers = [
   t('tokens'),

@@ -6,7 +6,7 @@
       :start-val="0"
       :end-val="value ? parseFloat(value) : 0"
       :duration="3"
-      :options="{ separator: '\'' }"
+      :options="{ separator: ',' }"
       :decimal-places="decimalPlaces"
     ></count-up>
   </div>

@@ -267,7 +267,7 @@ const props = defineProps([
   'weeklyYield',
   'approveStep',
 ])
-const emit = defineEmits(['changeVisibleDepositClose', 'changeApproveStep'])
+const emit = defineEmits(['changeVisibleDepositClose', 'changeApproveStep', 'explode'])
 console.log('PROPS - ', props)
 const depositFinished = ref(false)
 
@@ -322,8 +322,9 @@ async function OnPreviewClick() {
     }/tx/${tx.hash}`
 
     // props.approveStep = 5
+    
     emit('changeApproveStep', 5)
-
+    emit('explode')
 
 
     if (tx.error) {

@@ -60,10 +60,13 @@
           
 
             <div
-              @click="onDatatableHeaderClick(headCaption)"
-              :class="'head_caption_text'"
+              
+              :class="'head_caption_text flex items-center'"
             >
-              {{ headCaption }}
+            <img
+            v-if="!headCaption.includes('Tokens') && 
+            !headCaption.includes('Actions')"
+            :src="filterArrow" :class="ascendFilterBy === headCaption ? 'rotate-180' : ''" @click="ascendFilterBy = headCaption"/>  {{ headCaption }}
             </div>
           </div>
         </div>
@@ -73,7 +76,7 @@
     <LoaderPulse v-if="!all_pools" />
     <InvestmentsPoolRow
       v-else-if="all_pools && all_pools.length > 0"
-      v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
+      v-for="(pool, index) in all_pools.slice(0, sliceNumber).toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy])"
       :key="pool.name"
       :pool="pool"
       :userPools="
@@ -113,9 +116,13 @@ import Pagination from '../Pool/Pagination.vue'
 import InvestmentsPoolRow from '../Pool/InvestmentsPoolRow.vue'
 import { defineProps, ref } from 'vue'
 import LoaderPulse from '../loaders/LoaderPulse.vue'
+import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
 
 const perPage = ref(25)
 const currentPage = ref(1)
+
+const ascendFilterBy = ref('TVL')
+
 
 function changePage(args) {
   if (args.isEquating == false) {
@@ -134,10 +141,10 @@ const props = defineProps(['all_pools', 'user_staked_pools'])
 const headers = [
   'Tokens',
   'AVG APR',
-  'Total Returns',
+  // 'Total Returns',
   'Liquidity Deposited',
   '% Of Pool',
-  'Rewards',
+  // 'Rewards',
   'TVL',
   'Volume',
   'Actions',

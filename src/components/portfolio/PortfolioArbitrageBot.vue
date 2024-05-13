@@ -411,7 +411,7 @@ const visibleTotalGas = ref(true)
 .arbitrage_bot_header {
   font-size: clamp(10px, 1vw, 16px);
   font-weight: 400;
-
+  font-family: 'Syne', sans-serif;
   color: white;
 }
 

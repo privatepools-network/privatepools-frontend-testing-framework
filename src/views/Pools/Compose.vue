@@ -364,10 +364,19 @@
             v-if="activeStep === 4"
             class="compose_choose_inner_container py-4 flex flex-col items-center justify-center dark:!bg-[#DCEEF605] bg-white mb-5"
           >
+          <ConfettiExplosion 
+          v-if="confettiVisible"
+          :particleSize="8" 
+          :duration="5000" 
+          :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']"
+          />
+          <!-- :stageHeight="500"
+          :stageWidth="500" -->
             <div class="text-[20px] text-white font-medium mb-3">
               Pool Created !
             </div>
             <svg
+              @click="explode"
               class="mb-3"
               width="74"
               height="74"
@@ -904,7 +913,7 @@ import router from '@/router'
 import Step from '@/UI/Step.vue'
 import ProgressLoader from '@/UI/ProgressLoader.vue'
 import MainCard from '@/UI/MainCard.vue'
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import ComposePoolSteps from '@/components/ComposePool/ComposePoolSteps.vue'
 import TokenPrices from '@/components/ComposePool/TokenPrices.vue'
 import info from '@/assets/images/info.svg'
@@ -940,9 +949,19 @@ import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
 import Modal from '@/UI/Modal.vue'
 import { t } from 'i18next'
+import ConfettiExplosion from "vue-confetti-explosion";
 
-var emitter = require('tiny-emitter/instance')
 //import { InitBalancer } from '@/composables/math/withdrawMath/balancer.sdk';
+
+
+const confettiVisible = ref(false);
+
+const explode = async () => {
+  confettiVisible.value = false;
+  await nextTick();
+  confettiVisible.value = true;
+};
+
 
 const possibleComposeTokens = ref([])
 const autoOptimizeLiq = ref(true)
@@ -1383,7 +1402,7 @@ async function JoinNewPool() {
     type: 'success',
     isLoading: false,
   })
-
+  explode()
   notify()
   activeStep.value = 4
   tokensApproved.value = false

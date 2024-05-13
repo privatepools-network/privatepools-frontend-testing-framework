@@ -32,6 +32,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
+
             {{ pool['All Returns %'] }}%
           </div>
         </div>
@@ -40,7 +41,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
-            <div class="flex font-['Roboto_Mono',_monospace]">
+            <div class="flex items-center font-['Roboto_Mono',_monospace]">
               <CurrencySymbol /> {{ numberToAposthrophe(Number(currentCurrency == "USD" ? pool['TVL'] :
               pool[`TVL_${currentCurrency}`]), currencyDecimals) }}
             </div>
@@ -51,7 +52,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
-            <div class="flex font-['Roboto_Mono',_monospace]">
+            <div class="flex items-center font-['Roboto_Mono',_monospace]">
               <CurrencySymbol />{{ numberToAposthrophe(Number(currentCurrency == "USD" ?  pool[`Volume${filters &&filters['Volume'] ? `_${filters['Volume']}` : ''}`] :
               pool[`Volume${filters &&filters['Volume'] ? `_${filters['Volume']}` : ''}_${currentCurrency}`]), currencyDecimals)
               }}
@@ -196,7 +197,7 @@
 
             <div class="d-flex align-items-end justify-content-between mt-4 gap-3">
               <div class="d-flex flex-column gap-2">
-                <div class="text-[18px] font-[700] font-['Roboto_Mono',_monospace]">
+                <div class="flex items-center text-[18px] font-[700] font-['Roboto_Mono',_monospace]">
                   {{ console.log("STAKED POOL", userStakedPool) }}
                   <CurrencySymbol /> {{ numberToAposthrophe(userStakedPool[`shareBalance${currentCurrency == "USD" ?
                   "Usd" :
@@ -255,7 +256,8 @@ import { ReversedDisplayNetwork } from '@/composables/useNetwork'
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import etherscan from '@/assets/icons/etherscan.svg'
 import router from '@/router'
-import APRIcon from '@/assets/icons/APRIcon.svg'
+import APRIcon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
+
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import CurrencySymbol from "@/components/TrackInfo/CurrencySymbol.vue"
 import { addTokenToMetamask } from '@/lib/utils/metamask'
