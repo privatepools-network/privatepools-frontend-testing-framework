@@ -13,6 +13,7 @@
             gap: 6px;
             flex-wrap: wrap;
           ">
+          {{ console.log('pool!!!!', pool) }}
           <div class="pools-row__value" v-for="(item, i) in pool['Pool Weight'][0]" :key="`${i}-tokens`">
             <div class="d-flex gap-2 chip_token align-items-center !bg-[#EAF0F6] dark:!bg-[#22222224]">
               <span class="chip_token_name text-black dark:!text-white">{{
@@ -32,6 +33,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
+
             {{ pool['All Returns %'] }}%
           </div>
         </div>
@@ -255,7 +257,8 @@ import { ReversedDisplayNetwork } from '@/composables/useNetwork'
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import etherscan from '@/assets/icons/etherscan.svg'
 import router from '@/router'
-import APRIcon from '@/assets/icons/APRIcon.svg'
+import APRIcon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
+
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import CurrencySymbol from "@/components/TrackInfo/CurrencySymbol.vue"
 import { addTokenToMetamask } from '@/lib/utils/metamask'

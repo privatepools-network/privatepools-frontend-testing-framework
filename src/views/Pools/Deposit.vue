@@ -360,14 +360,22 @@
                 "
                 :approveStep="approveStep"
                 @changeApproveStep="changeApproveStep"
+                @explode="explode"
               />
             </div>
             <div v-else-if="approveStep === 5">
               <div class="py-4 flex flex-col items-center justify-center mb-5">
+                <ConfettiExplosion 
+          v-if="confettiVisible"
+          :particleSize="8" 
+          :duration="5000" 
+          :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']"
+          />
                 <div class="text-[20px] text-white font-medium mb-3">
                   Liquidity added !
                 </div>
                 <svg
+                @click="explode"
                   class="mb-3"
                   width="74"
                   height="74"
@@ -509,7 +517,7 @@ import MainCard from '@/UI/MainCard.vue'
 import DepositModalV2 from '@/components/modals/DepositModalV2.vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import BigLogoLoader from '@/components/loaders/BigLogoLoader.vue'
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import Slider from '@vueform/slider'
 import CurrencySelector from '@/UI/CurrencySelector.vue'
 import { onMounted, toRef, computed } from 'vue'
@@ -518,6 +526,7 @@ import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
 import arrow_back from '@/assets/icons/arrow/arrow_back.svg'
+import ConfettiExplosion from "vue-confetti-explosion";
 
 import useInvestFormMath from '@/composables/math/investMath/useInvestMath'
 import { bnum } from '@/lib/utils'
@@ -525,9 +534,19 @@ import router from '@/router'
 import Modal from '@/UI/Modal.vue'
 import { getSinglePoolDetails } from '@/composables/data/detailsData'
 
+
 const poolId = router.currentRoute.value.params['id']
 const pool = ref(null)
 const approveStep = ref(0)
+
+
+const confettiVisible = ref(false);
+
+const explode = async () => {
+  confettiVisible.value = false;
+  await nextTick();
+  confettiVisible.value = true;
+};
 
 function changeApproveStep(step) {
   approveStep.value = step

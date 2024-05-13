@@ -150,10 +150,17 @@
   <div v-else-if="depositFinished">
     <div>
       <div class="py-4 flex flex-col items-center justify-center mb-5">
+        <ConfettiExplosion 
+          v-if="confettiVisible"
+          :particleSize="8" 
+          :duration="5000" 
+          :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']"
+          />
         <div class="text-[20px] text-white font-medium mb-3">
           Liquidity withdrawed !
         </div>
         <svg
+        @click="explode"
           class="mb-3"
           width="74"
           height="74"
@@ -249,7 +256,7 @@
 import arrow_back from '@/assets/icons/arrow/arrow_back.svg'
 import close_modal_icon from '@/assets/icons/arrow/close_modal_icon.svg'
 import { getTokenEntity } from '@/lib/helpers/util'
-import { defineProps, defineEmits, ref, watch } from 'vue'
+import { defineProps, defineEmits, ref, watch, nextTick } from 'vue'
 import { useExitPool } from '@/composables/poolActions/withdraw/useExitPool'
 import { configService } from '@/services/config/config.service'
 import { GetDisplayStringError } from '@/lib/utils/balancer/helpers/displayError'
@@ -259,6 +266,8 @@ import { formatUnits } from '@ethersproject/units'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
+import ConfettiExplosion from "vue-confetti-explosion";
+
 // import { Fireworks } from '@fireworks-js/vue'
 
 // const fw = ref()
@@ -273,6 +282,16 @@ import 'vue3-toastify/dist/index.css'
 //   await fw.value.waitStop()
 //   mounted.value = false
 // }
+
+
+const confettiVisible = ref(false);
+
+const explode = async () => {
+  confettiVisible.value = false;
+  await nextTick();
+  confettiVisible.value = true;
+};
+
 
 const props = defineProps([
   'visibleDepositModal',
@@ -451,7 +470,9 @@ async function OnWithdrawClick() {
     await props.init()
     // startFireworks()
     emit('changeVisibleDeposit')
+   
     depositFinished.value = true
+    explode()
     confirmingState.value = false
   } else if (tx.error) {
     setTxError(tx)

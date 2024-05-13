@@ -92,7 +92,7 @@
                 v-else-if="headCaption === t('volume')"
                 :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'"
               >
-                {{ headCaption }} ({{filterByTimeVolume}})
+                <img :src="filterArrow"/> {{headCaption }} ({{filterByTimeVolume}})
                <img :src="filterSVG" @click="filterByTimeVolume === '24H' ? filterByTimeVolume = '7D' : filterByTimeVolume === '7D' ?  filterByTimeVolume = '30D' : filterByTimeVolume = '24H'"/>
               </div>
               <div
@@ -123,6 +123,8 @@
       <div v-else-if="all_pools.length === 0" class="my-5">
         <LoaderPulse />
       </div>
+
+      {{ console.log('all_pools.slice(0, sliceNumber)', all_pools.slice(0, sliceNumber)) }}
 
       <PoolRow
         v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
@@ -189,12 +191,18 @@ import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
 import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 import { getPoolsData } from '@/composables/data/poolsData'
 import { t } from 'i18next'
+import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
+
+
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 
 const sliceNumber = ref(10)
 
 const filterByTimeAPR = ref('24H')
 const filterByTimeVolume = ref('24H')
+
+
+const ascendFilterBy = ref('Volume')
 
 const headers = [
   t('tokens'),

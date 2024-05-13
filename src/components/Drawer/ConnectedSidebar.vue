@@ -30,17 +30,19 @@
     <div class="d-flex flex-column h-100 gap-3 mt-3">
       <div class="d-flex flex-column">
         <div class="balance_text text-black dark:!text-white" >
-          <CounterAnimation :currency="'$'" :value="Number(sidebarData?.userBalance?.total).toFixed(2)"/>
+          <CounterAnimation :currency="false" :value="Number(sidebarData?.userBalance?.total).toFixed(2)"/>
         </div>
         <!-- <div v-else class="py-8 px-4">
           <ThreeDots />
         </div> -->
         <div class="balance_change" v-if="sidebarData?.userBalance?.total != null">
-          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+          :class="sidebarData?.userBalance?.balanceChange > 0 ? '' : 'rotate-180'"
+          width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_67_2314)">
               <path
                 d="M8.55317 6.00527C9.03679 6.84355 8.43184 7.89135 7.46406 7.89166L2.51976 7.89456C1.55104 7.89549 0.945005 6.84648 1.42942 6.00745L3.90407 1.72123C4.38848 0.882201 5.59997 0.882539 6.08352 1.72194L8.55317 6.00527Z"
-                fill="#40B66B" />
+                :fill="sidebarData?.userBalance?.balanceChange > 0 ? '#40B66B' : '#D22B2B'" />
             </g>
             <defs>
               <clipPath id="clip0_67_2314">
@@ -48,7 +50,7 @@
               </clipPath>
             </defs>
           </svg>
-          ${{ Number(sidebarData?.userBalance?.totalYesterday).toFixed(2) }}
+          <!-- ${{ Number(sidebarData?.userBalance?.totalYesterday).toFixed(2) }} -->
           ({{ Number(sidebarData?.userBalance?.balanceChange).toFixed(1) }}%)
         </div>
       </div>
