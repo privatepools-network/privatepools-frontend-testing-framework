@@ -8,7 +8,7 @@
         <div class="portfolio-chart">
           <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
             :tokensData="tokensData" :chainSelected="chainSelected.name"
-            @updateChart="(chart_data) => (all_chart_data = chart_data)" />
+            :rewardsData="rewardsData"/>
         </div>
 
 
@@ -94,7 +94,7 @@ import { GetUserUniswapPools } from '@/composables/wallet/useWalletPools'
 import PortfolioBalance from '@/components/portfolio/PortfolioBalance.vue'
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
-import { getPortfolioData, getPortfolioBalance } from '@/composables/data/portfolioData'
+import { getPortfolioData, getPortfolioBalance, getRewards } from '@/composables/data/portfolioData'
 import { t } from 'i18next'
 import SectionsTabs from '@/UI/SectionsTabs'
 
@@ -583,6 +583,7 @@ async function InitNetworksData() {
 
 const portfolioData = ref({})
 const balanceData = ref({})
+const rewardsData = ref([])
 onMounted(async () => {
   //InitTreasuryYields()
   if (window.ethereum !== undefined) {
@@ -608,9 +609,10 @@ onMounted(async () => {
   }
   const mmProvider = await InitializeMetamask()
   if (mmProvider) {
-    account.value = '0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'//await mmProvider.getSigner().getAddress()
+    account.value = await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'//
     if (process.env.VUE_APP_LOCAL_API) {
       portfolioData.value = await getPortfolioData(56, account.value)
+      rewardsData.value = await getRewards(56)
       historical_tvl.value = portfolioData.value.statistics.tvls
       balanceData.value = await getPortfolioBalance(56, account.value)
       console.log("PORTFOLIO DATA - ", portfolioData.value)

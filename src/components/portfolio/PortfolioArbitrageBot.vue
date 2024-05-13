@@ -194,7 +194,7 @@
                 {{ $t('my_rewards') }}
               </div>
               <div  class="dark:!text-white text-black font-extrabold text-[12px]">
-                <CounterAnimation :currency="''" :value="parseFloat(networks_data?.rewards).toFixed(3)"/>
+                <CounterAnimation :currency="'$'" :value="totalRewards"/>
 
               </div>
               <!-- <div v-else style="margin-right: 15px">
@@ -204,13 +204,14 @@
           </div>
         </div>
       </div>
-      <div class="referrals_button">{{ $t('claim_rewards') }}</div>
+      <div class="referrals_button" @click="() => claimRewards(rewardsData)">{{ $t('claim_rewards') }}</div>
     </div>
   </div>
 </template>
 <script setup>
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import { ref, defineProps, toRefs, computed } from 'vue'
+import { claimRewards } from "@/composables/portfolio/useRewards"
 import ThreeDots from '@/components/loaders/ThreeDots.vue'
 import { formatBigNumber } from '@/lib/utils'
 import { Network, DisplayNetwork } from '@/composables/useNetwork'
@@ -244,9 +245,9 @@ const postfix_raw = computed(() => currentCurrency.value == "USD" ? "Usd" : `${c
 const currencyDecimals = computed(() =>
   currentCurrency.value == 'USD' ? 2 : 5,
 )
-const props = defineProps(['networks_data', 'chainSelected'])
-const { networks_data, chainSelected } = toRefs(props)
-
+const props = defineProps(['networks_data', 'chainSelected', 'rewardsData'])
+const { networks_data, chainSelected,rewardsData } = toRefs(props)
+const totalRewards = computed(() => rewardsData.value.reduce((sum, value) => sum + value.rewardUsd, 0).toFixed(2))
 const isNetworkDataReady = computed(
   () =>
     networks_data.value.length && networks_data.value.length > 0 &&
