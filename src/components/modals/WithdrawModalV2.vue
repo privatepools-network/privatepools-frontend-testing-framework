@@ -267,6 +267,13 @@ import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
 import ConfettiExplosion from "vue-confetti-explosion";
+import { useSound } from '@vueuse/sound'
+import successSound from '@/assets/sounds/success_sound.mp3'
+import errorSound from '@/assets/sounds/error_sound.mp3'
+
+
+const playSuccess = useSound(successSound, { volume: 1 })
+    const playError = useSound(errorSound, { volume: 1 })
 
 // import { Fireworks } from '@fireworks-js/vue'
 
@@ -360,6 +367,7 @@ function roundDown(number, decimals) {
   ).toString()
 }
 const txLink = ref('')
+const soundError = ref(false)
 
 async function OnWithdrawClick() {
   const ConfirmToastPending = toast.loading(Toast, {
@@ -431,6 +439,8 @@ async function OnWithdrawClick() {
     try {
       await tx.wait()
     } catch (error) {
+      playError.play()
+      soundError.value = true
       toast.update(ConfirmToastPending, {
         render: Toast,
         data: {
@@ -450,10 +460,17 @@ async function OnWithdrawClick() {
 
     // SetSuccessTxPopup(tx.hash, "Tokens successfully withdrew")
     // notify()
+  
+   // soundError to not duplicate sounds
+   if(soundError.value === false) {
+    playSuccess.play()
+   }
+    
+
     toast.update(ConfirmToastPending, {
       render: Toast,
       data: {
-        header_text: 'Approve confirmed',
+        header_text: 'Tokens successfully withdrew',
         toast_text: `${parseFloat(props.fiatTotal).toFixed(
           4,
         )} USD - ${formatNotificationDate(new Date().getTime())}`,
@@ -467,7 +484,9 @@ async function OnWithdrawClick() {
       type: 'success',
       isLoading: false,
     })
+    
     await props.init()
+    soundError.value = false
     // startFireworks()
     emit('changeVisibleDeposit')
    

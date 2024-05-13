@@ -3,11 +3,11 @@
     <PortfolioArbitrageBot :networks_data="networks_data" :chainSelected="chainSelected" :rewardsData="rewardsData" />
 
     <div class="track_chart_card bg-[white] dark:!bg-[#22222224]">
-
-      <div v-if="filteredData === null" class="chart_inside">
+      {{ console.log('all_chart_data', all_chart_data) }}
+      <div v-if="all_chart_data === undefined" class="chart_inside">
         <LoaderPulse />
       </div>
-      <div v-if="filteredData.length === 0"
+      <div v-else-if="filteredData.length === 0"
         class="d-flex flex-column gap-2 justify-content-center align-items-center h-100">
         <svg width="42" height="44" viewBox="0 0 42 44" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -352,7 +352,7 @@ const optionObj = ref({
     {
       type: 'inside',
       xAxisIndex: 0,
-      start: 10,
+      start: 0,
       end: 100,
     },
     {
@@ -741,9 +741,12 @@ function getFilteredData() {
         result_item['Avg Gas Fee per Trade'] = avg_fee
       }
     }
+    
     result.push(result_item)
   }
+  
   console.log("RESULT CHART ", result)
+
   return result
 }
 </script>

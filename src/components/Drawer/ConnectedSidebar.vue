@@ -115,9 +115,10 @@
           {{ $t('activity') }}
         </div>
       </div>
+      {{ console.log('sidebarData?.userBalance?.tokens', sidebarData?.userBalance?.tokens) }}
       <div v-if="sidebarTab === 'Tokens'" class="flex flex-col gap-2 overflow-auto h-full activity_container">
         <div v-if="sidebarData?.userBalance?.tokens != null" v-for="(item, i) in sidebarData?.userBalance?.tokens.filter(
-          (item) => item.usdAmount !== 0 || item.symbol === 'PPN',
+          (item) => item.usdAmount !== 0 && item.symbol !== 'BOOM',
         )" :key="`${i}-token`" class="p-2 d-flex align-items-center justify-content-between gap-2">
           <div class="d-flex align-items-center gap-2">
             <img :src="getTokenEntity(item.symbol, 'short').icon" width="38" />
@@ -137,11 +138,11 @@
               </div>
 
               <div class="d-flex align-items-center gap-1 text-black dark:!text-[#8e8e8e] text-[10px]">
-                <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg :class="item.percentChange24h > 0 ? '' : 'rotate-180'" width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_74_4052)">
                     <path
                       d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z"
-                      fill="#40B66B" />
+                      :fill="item.percentChange24h > 0 ? '#40B66B' : '#D22B2B'" />
                   </g>
                   <defs>
                     <clipPath id="clip0_74_4052">
@@ -206,32 +207,21 @@
                 </div>
                 <div v-if="item.LiquidityType === 'WP'"
                   class="flex items-center gap-1 text-black dark:!text-[#8e8e8e] text-[10px]">
-                  <svg v-if="
-                    item.percentChange !== 'Out of range' &&
-                    item.percentChange !== 'On range'
-                  " width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_74_4052)">
-                      <path
-                        d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z"
-                        fill="#40B66B" />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_74_4052">
-                        <rect width="5.12436" height="5.12436" fill="white"
-                          transform="translate(4.4375 7) rotate(-150)" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                  {{ item.percentage }}
-                  <svg v-if="
-                    item.percentChange === 'Out of range' ||
-                    item.percentChange === 'On range'
-                  " width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="2.5" cy="2.5" r="2.5" :fill="item.percentChange === 'Out of range'
-                        ? '#EC9E13'
-                        : '#40B66B'
-                      " />
-                  </svg>
+                  <svg :class="item.percentage > 0 ? '' : 'rotate-180'" width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_74_4052)">
+                    <path
+                      d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z"
+                      :fill="item.percentage > 0 ? '#40B66B' : '#D22B2B'" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_74_4052">
+                      <rect width="5.12436" height="5.12436" fill="white"
+                        transform="translate(4.4375 7) rotate(-150)" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                  {{ item.percentage.toFixed(2) }}%
+             
                 </div>
                 <div v-else class="flex items-center gap-1 text-black dark:!text-[#8e8e8e] text-[10px]">
                   On range <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">

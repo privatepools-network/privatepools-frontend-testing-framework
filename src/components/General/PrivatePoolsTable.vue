@@ -11,7 +11,8 @@
       <LoaderPulse />
     </div>
     <Table v-else-if="activities.length !== 0"
-      :headers="activitiesSelectedMode === 'Trade' ? [t('actions'), t('details'), t('value'), t('profits'), t('time')] : [t('actions'), t('details'), t('value'), t('time')]">
+      :headers="activitiesSelectedMode === 'Trade' || activitiesSelectedMode === 'All' ? [t('actions'), t('details'), t('value'), t('profits'), t('time')] 
+      : [t('actions'), t('details'), t('value'), t('time')]">
       <CTableBody v-if="activities" class="text-black dark:!text-white"
         :class="isDark ? 'table-body' : 'table-body-light'">
         <CTableRow v-for="(item, i) in activities.slice(0, sliceNumber)" :key="i" class="table-row">
@@ -50,18 +51,33 @@
               </div>
             </div>
           </CTableDataCell>
+
+
+
           <CTableDataCell scope="row" class="text-black dark:!text-white table-cell ">
-            <div class="font-['Roboto_Mono',_monospace] flex">
-              <CurrencySymbol />{{ trimZeros(item[`Value${currentCurrency == "USD" ? "" : "_" + currentCurrency}`]) }}
+            <div class="font-['Roboto_Mono',_monospace] flex items-center">
+              {{ console.log('111111',  item['Value']) }}
+              <CurrencySymbol />{{
+                item[`Value${currentCurrency == "USD" ? "" : "_" +
+                currentCurrency}`] === '-' ? '-' :
+                trimZeros(item[`Value${currentCurrency == "USD" ? "" : "_" + currentCurrency}`]) }}
             </div>
           </CTableDataCell>
-          <CTableDataCell v-if="activitiesSelectedMode === 'Trade'" scope="row"
+
+
+
+          <CTableDataCell v-if="activitiesSelectedMode === 'Trade' || activitiesSelectedMode === 'All'" scope="row"
             class="text-black dark:!text-white table-cell ">
-            <div class="font-['Roboto_Mono',_monospace] flex">
-              <CurrencySymbol />{{ trimZeros(parseFloat(item[`Profits${currentCurrency == "USD" ? "" : "_" +
+            <div class="font-['Roboto_Mono',_monospace] flex  items-center">
+              <CurrencySymbol />{{
+              item[`Profits${currentCurrency == "USD" ? "" : "_" +
+                currentCurrency}`] === undefined ? '-' :
+              trimZeros(parseFloat(item[`Profits${currentCurrency == "USD" ? "" : "_" +
                 currentCurrency}`]).toFixed(currencyDecimals)) }}
             </div>
           </CTableDataCell>
+
+
 
           <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
             <div class="time-cell">

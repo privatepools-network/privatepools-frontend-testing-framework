@@ -13,7 +13,6 @@
             gap: 6px;
             flex-wrap: wrap;
           ">
-          {{ console.log('pool!!!!', pool) }}
           <div class="pools-row__value" v-for="(item, i) in pool['Pool Weight'][0]" :key="`${i}-tokens`">
             <div class="d-flex gap-2 chip_token align-items-center !bg-[#EAF0F6] dark:!bg-[#22222224]">
               <span class="chip_token_name text-black dark:!text-white">{{
@@ -42,7 +41,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
-            <div class="flex font-['Roboto_Mono',_monospace]">
+            <div class="flex items-center font-['Roboto_Mono',_monospace]">
               <CurrencySymbol /> {{ numberToAposthrophe(Number(currentCurrency == "USD" ? pool['TVL'] :
               pool[`TVL_${currentCurrency}`]), currencyDecimals) }}
             </div>
@@ -53,7 +52,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
-            <div class="flex font-['Roboto_Mono',_monospace]">
+            <div class="flex items-center font-['Roboto_Mono',_monospace]">
               <CurrencySymbol />{{ numberToAposthrophe(Number(currentCurrency == "USD" ?  pool[`Volume${filters &&filters['Volume'] ? `_${filters['Volume']}` : ''}`] :
               pool[`Volume${filters &&filters['Volume'] ? `_${filters['Volume']}` : ''}_${currentCurrency}`]), currencyDecimals)
               }}
@@ -198,7 +197,7 @@
 
             <div class="d-flex align-items-end justify-content-between mt-4 gap-3">
               <div class="d-flex flex-column gap-2">
-                <div class="text-[18px] font-[700] font-['Roboto_Mono',_monospace]">
+                <div class="flex items-center text-[18px] font-[700] font-['Roboto_Mono',_monospace]">
                   {{ console.log("STAKED POOL", userStakedPool) }}
                   <CurrencySymbol /> {{ numberToAposthrophe(userStakedPool[`shareBalance${currentCurrency == "USD" ?
                   "Usd" :
