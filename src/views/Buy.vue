@@ -414,6 +414,7 @@ import {
 } from '@/composables/poolActions/swap/weighted/swap'
 import { BigNumber, ethers } from 'ethers'
 import { SwapType } from '@wavelength/sdk'
+import { useVaultPPNHistory } from '@/composables/weighted/useVaultPPNHistory'
 
 const tokenPPN = ref({
   address: '0xC687E90f6a0a7e01d3fd03df2aABCeA7f323A845',
@@ -617,7 +618,8 @@ onMounted(async () => {
     //   signer,
     // )
   }
-  chartData.value = await useUniswapPPNHistory(56)
+  // chartData.value = await useUniswapPPNHistory(56)
+  chartData.value = await useVaultPPNHistory(56)
   console.log('DATA - ', chartData.value)
 })
 
