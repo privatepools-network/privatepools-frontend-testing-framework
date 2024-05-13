@@ -239,14 +239,16 @@
             class="d-flex justify-content-between dark:!text-white text-black"
           >
             <div>PPN/USDC</div>
-            <div>$65.62</div>
+            <div>${{ ppnInfo.priceUsd }}</div>
           </div>
           <div class="d-flex justify-content-between">
             <div class="flex items-center gap-2">
               <img :src="walletPoolsImg" width="18" />
               <img :src="getTokenEntity('USDC', 'short').icon" width="18" />
             </div>
-            <div class="text-success">+0.59%</div>
+            <div :class="priceChange < 0 ? 'text-danger' : 'text-success'">
+              {{ priceChange }}%
+            </div>
           </div>
           <div class="d-flex justify-content-end mt-4">
             <ChartTimeline
@@ -299,7 +301,7 @@
                   </svg>
                 </div>
                 <div class="text-lg font-semibold dark:!text-white text-black">
-                  $65.62
+                  ${{ ppnInfo.priceUsd }}
                 </div>
               </div>
 
@@ -324,7 +326,7 @@
                   </svg>
                 </div>
                 <div class="text-lg font-semibold dark:!text-white text-black">
-                  $1,997.25B
+                  ${{ ppnInfo.marketCap }}
                 </div>
               </div>
 
@@ -349,7 +351,7 @@
                   </svg>
                 </div>
                 <div class="text-lg font-semibold dark:!text-white text-black">
-                  A$85.66B
+                  ${{ ppnInfo.totalVolume }}
                 </div>
               </div>
 
@@ -374,7 +376,7 @@
                   </svg>
                 </div>
                 <div class="text-lg font-semibold dark:!text-white text-black">
-                  19.65M
+                  {{ ppnInfo.circulatingSupply }}
                 </div>
               </div>
             </div>
@@ -409,11 +411,12 @@ import {
 import { useUniswapPPNHistory } from '@/composables/concentrated-liquidity/useUniswapPPNHistory'
 import Modal from '@/UI/Modal.vue'
 import {
-  swapPPNToken,
+  buyPPNToken,
   getAmountOut,
 } from '@/composables/poolActions/swap/weighted/swap'
 import { SwapType } from '@wavelength/sdk'
 import { useVaultPPNHistory } from '@/composables/weighted/useVaultPPNHistory'
+import { usePPNInfo } from '@/composables/weighted/usePPNInfo'
 
 const tokenPPN = ref({
   address: '0xC687E90f6a0a7e01d3fd03df2aABCeA7f323A845',
@@ -460,6 +463,13 @@ const token1Amount = ref(0)
 
 const poolInfo = ref(null)
 const chartData = ref(null)
+const priceChange = ref(0)
+const ppnInfo = ref({
+  priceUsd: 0,
+  marketCap: 0,
+  totalVolume: 0,
+  circulatingSupply: 0,
+})
 
 const timelines = [
   {
@@ -619,6 +629,16 @@ onMounted(async () => {
   }
   // chartData.value = await useUniswapPPNHistory(56)
   chartData.value = await useVaultPPNHistory(56)
+  ppnInfo.value = await usePPNInfo()
+  // calcuate price change
+  const timelineData = chartData.value[currentTimeline.value.name].data
+  priceChange.value =
+    timelineData[timelineData.length - 2] === 0
+      ? timelineData[timelineData.length - 1] * 100
+      : ((timelineData[timelineData.length - 1] -
+          timelineData[timelineData.length - 2]) /
+          timelineData[timelineData.length - 2]) *
+        100
   console.log('DATA - ', chartData.value)
 })
 
@@ -633,12 +653,11 @@ async function buyClick() {
     //   provider.getSigner(),
     //   selectedTab.value == 'Buy' ? 'in' : 'out',
     // )
-    await swapPPNToken(
-      convertedTokenPPN.value,
+    await buyPPNToken(
       convertedTokenCurrency.value,
+      convertedTokenPPN.value,
       selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
       provider.getSigner(),
-      selectedTab.value,
     )
   }
 }
