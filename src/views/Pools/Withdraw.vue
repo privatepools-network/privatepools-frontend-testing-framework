@@ -373,7 +373,7 @@ import useWithdrawMath from '@/composables/math/withdrawMath/useWithdrawMath'
 import { usePoolActionBalances } from '@/composables/balances/usePoolActionBalances'
 import { GetPoolShares } from '@/composables/pools/usePoolShares'
 import useDecimals from '@/composables/useDecimals'
-import { bnum } from '@/lib/utils'
+import { bnum, groupBy } from '@/lib/utils'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import BigNumber from 'bignumber.js'
 import { getJsonRpcProvider } from '@/composables/useProvider'
@@ -404,7 +404,7 @@ const poolShare = ref({})
 
 const allTokens = computed(() =>
   poolToken.value && pool.value && poolToken.value[pool.value.address]
-    ? Object.assign({}, pool.value.onchain.tokens, poolToken.value)
+    ? Object.assign({}, groupBy(pool.value.tokens, ({address}) => address), poolToken.value)
     : {},
 )
 

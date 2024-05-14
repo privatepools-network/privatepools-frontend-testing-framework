@@ -29,16 +29,12 @@
         </svg>
       </div>
     </div>
-    <div class="flex items-center gap-1">
-    <div
-      class="portfolio-header__balance flex items-center text-black dark:!text-white"
-      v-if="isBalanceHidden == false"
-    >
-      <CounterAnimation
-        :currency="''"
-        :decimalPlaces="currencyDecimals"
-        :value="currencyBalance.toFixed(currencyDecimals)"
-      />
+    <div class="portfolio-header__balance flex items-center text-black dark:!text-white"
+      v-if="isBalanceHidden == false">
+
+      <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals"
+        :value="currencyBalance.toFixed(currencyDecimals)" />
+
     </div>
     <div class="portfolio-header__balance text-black dark:!text-white" v-else>
       ${{ hiddenBalance }}
@@ -77,7 +73,7 @@
       ({{ Number(sidebarData?.userBalance?.balanceChange).toFixed(1) }}%)
     </div>
   </div>
-  </div>
+ 
 
   <div class="portfolio-stats">
     <!-- <div class="portfolio-stats__el">
@@ -129,15 +125,12 @@
           >
             <path d="M6 0L11.1962 9H0.803848L6 0Z" fill="#2DC24E" />
           </svg>
-          <span v-if="performers.best" class="portfolio-header__amount-percents"
-            >{{ performers.best.percent_diff.toFixed(2) }}% ({{
+          <span v-if="performers.best" class="portfolio-header__amount-percents">{{
+            performers.best.percent_diff.toFixed(2) }}% ({{
               formatBalanceVariation(performers.best.diff)
-            }})</span
-          >
-          <span
-            v-else-if="performers.best === undefined"
-            class="portfolio-header__amount-percents"
-            >{{ $t('unavailable') }}
+            }})</span>
+          <span v-else-if="performers.best === undefined" class="portfolio-header__amount-percents">{{ $t('unavailable')
+            }}
           </span>
           <div v-else class="mt-3">
             <ThreeDots></ThreeDots>
@@ -171,17 +164,12 @@
           >
             <path d="M6 0L11.1962 9H0.803848L6 0Z" fill="#2DC24E" />
           </svg>
-          <span
-            v-if="performers.worst"
-            class="portfolio-header__amount-percents"
-            >{{ performers.worst.percent_diff.toFixed(2) }}% ({{
+          <span v-if="performers.worst" class="portfolio-header__amount-percents">{{
+            performers.worst.percent_diff.toFixed(2) }}% ({{
               formatBalanceVariation(performers.worst.diff)
-            }})</span
-          >
-          <span
-            v-else-if="performers.worst === undefined"
-            class="portfolio-header__amount-percents"
-            >{{ $t('unavailable') }}
+            }})</span>
+          <span v-else-if="performers.worst === undefined" class="portfolio-header__amount-percents">{{
+            $t('unavailable') }}
           </span>
           <div v-else class="mt-3">
             <ThreeDots></ThreeDots>
@@ -214,17 +202,13 @@ const currencySymbol = computed(() =>
 const currencyDecimals = computed(() =>
   currentCurrency.value == 'USD' ? 2 : 5,
 )
-const postfix = computed(() =>
-  currentCurrency.value == 'USD' ? '' : `_${currentCurrency.value}`,
-)
-const props = defineProps([
-  'account',
-  'performers',
-  'balanceUsd',
-  'balance_ETH',
-  'balance_BTC',
-])
-const { balanceUsd } = toRefs(props)
+
+const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
+const postfix_raw = computed(() => currentCurrency.value == "USD" ? "Usd" : `${currentCurrency.value}`)
+
+const props = defineProps(['account','performers', 'balanceUsd', 'balance_ETH', 'balance_BTC', 'rewardsData'])
+const { balanceUsd, rewardsData } = toRefs(props)
+const totalRewards = computed(() => rewardsData.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
 const isBalanceHidden = ref(false)
 
 const currencyBalance = computed(() =>

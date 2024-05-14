@@ -84,6 +84,15 @@ import { networkId } from '@/composables/useNetwork'
 import ChartTimeline from '@/UI/ChartTimeline.vue'
 import { t } from 'i18next'
 
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
+
+const settingsStore = useSettings();
+
+const { currentCurrency } = storeToRefs(settingsStore)
+
+const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
+
 const props = defineProps(['networks_data', 'chainSelected', 'all_chart_data', 'rewardsData'])
 const { networks_data, chainSelected, rewardsData } = toRefs(props)
 
@@ -217,7 +226,7 @@ const dataROI = computed(() => {
 
 const dataVolume = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Volume').selected)
-    return filteredData.value.map((v) => v['Volume'])
+    return filteredData.value.map((v) => v[`Volume${postfix.value}`])
   return []
 })
 
@@ -228,7 +237,7 @@ const dataTrades = computed(() => {
 })
 const dataTvl = computed(() => {
   if (filteredData.value.length > 0 && filteredData.value[0].TVL)
-    return filteredData.value.map((v) => v.TVL[chainSelected.value])
+    return filteredData.value.map((v) => v[`TVL${postfix.value}`][chainSelected.value])
   return []
 })
 
@@ -741,10 +750,10 @@ function getFilteredData() {
         result_item['Avg Gas Fee per Trade'] = avg_fee
       }
     }
-    
+
     result.push(result_item)
   }
-  
+
   console.log("RESULT CHART ", result)
 
   return result
