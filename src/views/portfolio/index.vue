@@ -3,12 +3,12 @@
     <CRow class="d-flex align-items-center">
       <div class="portfolio mt-4">
         <PortfolioBalance :performers="performers" :balanceUsd="balanceData.total ?? 0"
-          :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0" />
+          :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0"
+          :rewardsData="rewardsData" />
 
         <div class="portfolio-chart">
           <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
-            :tokensData="tokensData" :chainSelected="chainSelected.name"
-            :rewardsData="rewardsData"/>
+            :tokensData="tokensData" :chainSelected="chainSelected.name" :rewardsData="rewardsData" />
         </div>
 
 
@@ -17,8 +17,10 @@
           @changeTab="changeActiveTab" />
 
         <div class="portfolio-statistics" v-if="activeTab == t('statistics')">
-          <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
-            :chainSelected="chainSelected" :chartData="portfolioData.chart" :historicalPrices="historicalPrices"
+          <PortfolioStatistics :historical_tvl="historical_tvl"
+            :tokensData="portfolioData && portfolioData.pools ? portfolioData.pools.flatMap((p) => p.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))) : []"
+            :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :chartData="portfolioData.chart"
+            :historicalPrices="historicalPrices"
             :userFirstTimestamp="historical_tvl.length > 0 ? historical_tvl[historical_tvl.length - 1].timestamp * 1000 : Date.now()"
             :tokenPairs="chainPairs" :statistics="portfolioData.statistics">
           </PortfolioStatistics>
@@ -52,10 +54,7 @@
 </template>
 <script setup>
 import { CRow } from '@coreui/vue'
-import StandardCell from '@/components/DataTable/Cell/StandardCell.vue'
 import { computed, onMounted, ref, watch } from 'vue'
-import DataTableCellTokenNamePaired from '@/components/DataTable/Cell/TokenNamePaired.vue'
-import DataTable from '@/components/DataTable/index.vue'
 import PortfolioChart from '@/components/portfolio/PortfolioChart.vue'
 import InvestmentsTable from '@/components/General/InvestmentsTable.vue'
 import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
@@ -63,25 +62,16 @@ import PortfolioStatistics from '@/components/portfolio/PortfolioStatistics.vue'
 import PoolDetailsFinancialStatement from '@/components/PoolsDetails/PoolDetailsFinancialStatement'
 import router from '@/router'
 import { InitializeMetamask } from '@/lib/utils/metamask'
-import { GetPortfolioActions } from '@/composables/portfolio/usePortfolioActions'
 import { DisplayNetwork, networkId } from '@/composables/useNetwork'
-import { FormatPortfolioActivity } from '@/lib/formatter/portfolioFormatter'
 import { ethers } from 'ethers'
 import MainCard from '@/UI/MainCard.vue'
-import { GetHistoricalTokenPrices } from '@/composables/balances/useHistoricalTokenPrices'
-import Tabs from '@/UI/Tabs.vue'
 import { GetUserPools } from '@/composables/portfolio/useUserPools'
 import { GetPoolSwapsData } from '@/composables/pools/charts/usePoolSwapsData'
-import { FormatPoolsData } from '@/lib/formatter/poolsFormatter'
-import { FormatPortfolioPools } from '@/lib/formatter/portfolio/portfolioPoolsFormatter'
-import { FormatPortfolioPairs } from '@/lib/formatter/portfolio/portfolioPairsFormatter'
 import { GetPoolHistoricValues } from '@/composables/pools/charts/usePoolHistoricValues'
 import { GetHistoricalTvl } from '@/composables/pools/snapshots/usePoolHistoricalTvl'
 import { GetTokenPairs } from '@/composables/pools/useTokenPairs'
-import { GetTokenPricesBySymbols } from '@/composables/balances/cryptocompare'
 import {
   excludeKeysFromObject,
-  combineArrayObjects,
   median,
   calculatePercentageDifference,
 } from '@/lib/utils'
@@ -349,12 +339,9 @@ watch(networkId, async () => {
 
   // hardcoded for testing
   //account.value = '0xb51027d05ffbf77b38be6e66978b2c5b6467f615'
-  await InitInvestments()
 })
 
-watch(chainSelected, () => {
-  InitInvestments()
-})
+
 
 
 
@@ -448,138 +435,8 @@ const networks = [
 
 const historical_tvl = ref([])
 const poolSwapsData = ref([])
-async function InitInvestments() {
-  if (process.env.VUE_APP_LOCAL_API) return
-  console.log('INIT INVESTMENTS')
-  pairs.value = null
-  pools.value = null
-  if (networkId.value == 0) {
-    return
-  }
-  console.log('INIT NETWORKS DATA')
-  if (networks_data.value.length == 0) {
-    await InitNetworksData()
-  }
-  pools.value = []
-  pairs.value = []
-  historical_tvl.value = []
-  poolSwapsData.value = []
-  console.log('NETWORKS DATA - ', networks_data)
-  for (let i = 0; i < networks_data.value.length; i++) {
-    if (
-      chainSelected.value.name == 'All Chains' ||
-      ChainSelectedIndex[chainSelected.value.name] == i
-    ) {
-      let [_user, _poolSwapsData, _historicValues, _historical_tvl, _pairs] =
-        networks_data.value[i]
-
-      if (!_user || _user.length == 0) {
-        continue
-      }
-      let userPools = _user.sharesOwned.map((share) => share.poolId)
-      let formatted_pools = FormatPoolsData(
-        userPools,
-        _poolSwapsData,
-        _historicValues,
-        true,
-      )
-      if (tokenPrices.value == {})
-        tokenPrices.value = await GetTokenPricesBySymbols(
-          _pairs.tokens.map((t) => t.symbol),
-        )
-      tokensData.value = [
-        ...tokensData.value,
-        ..._pairs.tokens.map((t) => ({
-          ...t,
-          Blockchain: DisplayNetwork[networks[i]],
-        })),
-      ]
-      console.log('TOKENS DATA', tokensData.value)
-      historicalPrices.value = [
-        ...historicalPrices.value,
-        ...(await GetHistoricalTokenPrices(
-          Array.from(new Set([...tokensData.value.map((t) => t.symbol)])),
-        )),
-      ]
-      historical_tvl.value = [...historical_tvl.value, ..._historical_tvl]
-      poolSwapsData.value = [...poolSwapsData.value, ..._poolSwapsData]
-      let formatted_historical_tvl = FormatHistoricalTvl(_historical_tvl)
-      let formattedPools = FormatPortfolioPools(
-        formatted_pools,
-        _user,
-        _poolSwapsData,
-        formatted_historical_tvl,
-        DisplayNetwork[networks[i]],
-      )
-      let formattedPairs = FormatPortfolioPairs(
-        _user,
-        _poolSwapsData,
-        _pairs,
-        tokenPrices.value,
-      )
-      pools.value = [...pools.value, ...formattedPools]
-      pairs.value = [...pairs.value, ...formattedPairs]
-      console.log(pools.value)
-      console.log(pairs.value)
-    }
-  }
-}
-console.log('HERE')
 const chainPairs = ref([])
-async function InitNetworksData() {
-  console.log('ACCOUNT - ', account.value)
-  let chains_data = await Promise.all(
-    networks.map((n) => InitUserData(account.value.toLowerCase(), n)),
-  )
-  let result = []
-  for (let i = 0; i < chains_data.length; i++) {
-    let [
-      _user,
-      _poolSwapsData,
-      _historicValues,
-      historical_tvl,
-      _pairs,
-      _historicalBalances,
-      uniswap_pools,
-    ] = chains_data[i]
-    if (!_user || _user.length == 0) {
-      result.push([null, null, null, null, null])
-      continue
-    }
-    let userPools = _user.sharesOwned.map((share) => share.poolId)
-    let userPoolIds = userPools.map((p) => p.id)
-    let filteredPoolSwapsData = _poolSwapsData.filter(
-      (item) =>
-        item.swaps[0]['poolIdVault'].filter((poolId) =>
-          userPoolIds.includes(poolId),
-        ).length > 0,
-    )
-    filteredPoolSwapsData = GetActivePeriodsSwapsData(
-      _historicalBalances,
-      filteredPoolSwapsData,
-    )
-    let filteredHistoricalTvl = historical_tvl.filter((item) =>
-      userPoolIds.includes(item.pool.id),
-    )
-    chainPairs.value = [
-      ...chainPairs.value,
-      ..._pairs.tokenPairs.map((p) => ({
-        ...p,
-        Blockchain: DisplayNetwork[networks[i]],
-      })),
-    ]
-    result.push([
-      _user,
-      filteredPoolSwapsData,
-      _historicValues,
-      filteredHistoricalTvl,
-      _pairs,
-      _historicalBalances,
-      uniswap_pools,
-    ])
-  }
-  networks_data.value = result
-}
+
 
 const portfolioData = ref({})
 const balanceData = ref({})
@@ -609,12 +466,14 @@ onMounted(async () => {
   }
   const mmProvider = await InitializeMetamask()
   if (mmProvider) {
-    account.value = await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'//
+    account.value = await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'//await mmProvider.getSigner().getAddress()//
     if (process.env.VUE_APP_LOCAL_API) {
-      portfolioData.value = await getPortfolioData(56, account.value)
-      rewardsData.value = await getRewards(56)
+      const [_portfolio, _rewards, _balance] = await Promise.all([getPortfolioData(56, account.value), getRewards(56), getPortfolioBalance(56, account.value)])
+      portfolioData.value = _portfolio
+      rewardsData.value = _rewards
+      historicalPrices.value = portfolioData.value.historicalPrices
       historical_tvl.value = portfolioData.value.statistics.tvls
-      balanceData.value = await getPortfolioBalance(56, account.value)
+      balanceData.value = await _balance
       console.log("PORTFOLIO DATA - ", portfolioData.value)
     }
   }

@@ -20,7 +20,8 @@
     <div class="portfolio-header__balance flex items-center text-black dark:!text-white"
       v-if="isBalanceHidden == false">
 
-        <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals" :value="currencyBalance.toFixed(currencyDecimals)"/>
+      <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals"
+        :value="currencyBalance.toFixed(currencyDecimals)" />
 
     </div>
     <div class="portfolio-header__balance text-black dark:!text-white" v-else>
@@ -33,7 +34,7 @@
         'portfolio-stats__amount_success': balanceVariation >= 0,
       }">
         {{ formattedBalanceVariation }} ({{ typeof balanceVariationInPercents !== Number ? '0.0' :
-        balanceVariationInPercents }}%)
+          balanceVariationInPercents }}%)
       </div>
       <div class="portfolio-header__variation-period">24H</div>
     </div>
@@ -55,7 +56,7 @@
           <!-- <span class="portfolio-header__amount-percents"
             >2.52% ({{ formatBalanceVariation(324.84) }})</span
           > -->
-          <span class="portfolio-header__amount-percents">{{ $t('unavailable') }}
+          <span class="portfolio-header__amount-percents">{{ totalRewards }}
           </span>
         </div>
       </div>
@@ -78,7 +79,7 @@
           </svg>
           <span v-if="performers.best" class="portfolio-header__amount-percents">{{
             performers.best.percent_diff.toFixed(2) }}% ({{
-            formatBalanceVariation(performers.best.diff)
+              formatBalanceVariation(performers.best.diff)
             }})</span>
           <span v-else-if="performers.best === undefined" class="portfolio-header__amount-percents">{{ $t('unavailable')
             }}
@@ -104,7 +105,7 @@
           </svg>
           <span v-if="performers.worst" class="portfolio-header__amount-percents">{{
             performers.worst.percent_diff.toFixed(2) }}% ({{
-            formatBalanceVariation(performers.worst.diff)
+              formatBalanceVariation(performers.worst.diff)
             }})</span>
           <span v-else-if="performers.worst === undefined" class="portfolio-header__amount-percents">{{
             $t('unavailable') }}
@@ -135,9 +136,13 @@ const currencySymbol = computed(() => currentCurrency.value == "USD" ? "$" : cur
 const currencyDecimals = computed(() =>
   currentCurrency.value == 'USD' ? 2 : 5,
 )
+
 const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
-const props = defineProps(['performers', 'balanceUsd', 'balance_ETH', 'balance_BTC'])
-const { balanceUsd } = toRefs(props)
+const postfix_raw = computed(() => currentCurrency.value == "USD" ? "Usd" : `${currentCurrency.value}`)
+
+const props = defineProps(['performers', 'balanceUsd', 'balance_ETH', 'balance_BTC', 'rewardsData'])
+const { balanceUsd, rewardsData } = toRefs(props)
+const totalRewards = computed(() => rewardsData.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
 const isBalanceHidden = ref(false)
 
 const currencyBalance = computed(() => currentCurrency.value == "USD" ? balanceUsd.value : props[`balance${postfix.value}`])

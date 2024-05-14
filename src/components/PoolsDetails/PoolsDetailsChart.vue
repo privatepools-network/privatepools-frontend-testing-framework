@@ -1123,6 +1123,7 @@ const optionObj = ref({
   xAxis: [
     {
       type: 'category',
+  
       data: dates,
       axisLine: { lineStyle: { color: '#8392A5' } },
     },

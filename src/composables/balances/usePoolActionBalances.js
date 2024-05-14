@@ -1,6 +1,7 @@
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import useBalance from '../useBalance'
 import { getPrices } from '../data/pricesData'
+import { getPortfolioBalance } from '../data/portfolioData'
 export async function usePoolActionBalances(tokens, tokensInfo, network) {
   let account = ''
   let balances = {}
@@ -9,38 +10,33 @@ export async function usePoolActionBalances(tokens, tokensInfo, network) {
   const mmProvider = await InitializeMetamask()
   if (!mmProvider) return
   account = await mmProvider.getSigner().getAddress()
-  let balancesPromises = tokens.map(async (t) => {
-    return {
-      token: t,
-      balance: await useBalance(t, mmProvider, account),
-    }
-  })
-  let balancesMapping = await Promise.all(balancesPromises)
-  const pricesUSD = await getPrices(
-    network,
-    tokensInfo.map((t) => t.symbol),
-  )
-  const pricesETH = await getPrices(
-    network,
-    tokensInfo.map((t) => t.symbol),
-    'ETH',
-  )
-  const pricesBTC = await getPrices(
-    network,
-    tokensInfo.map((t) => t.symbol),
-    'BTC',
-  )
+  const account_balances = await getPortfolioBalance(56, account)
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i]
-    let found_balance = balancesMapping.find((bm) => bm['token'] == token)
-    let balance = found_balance.balance
-    balances[token] = parseFloat(balance).toFixed(6)
-    let found_token = tokensInfo.find((t) => t.address == token)
-    if (found_token) {
-      lastTokenPrices['USD'][token] = pricesUSD[found_token.symbol]
-      lastTokenPrices['ETH'][token] = pricesETH[found_token.symbol]
-      lastTokenPrices['BTC'][token] = pricesBTC[found_token.symbol]
-      found_token.userBalance = balance
+    let found_balance = account_balances.tokens.find((bm) => bm['address'] == token)
+    let balance = 0
+    if (found_balance) {
+      balance = found_balance.amount
+      balances[token] = parseFloat(balance).toFixed(6)
+      let found_token = tokensInfo.find((t) => t.address == token)
+      if (found_token) {
+        const usdPrice = found_balance.usdAmount / found_balance.amount
+        const ethPrice = found_balance.ETHAmount / found_balance.amount
+        const btcPrice = found_balance.BTCAmount / found_balance.amount
+        lastTokenPrices['USD'][token] = usdPrice
+        lastTokenPrices['ETH'][token] = ethPrice
+        lastTokenPrices['BTC'][token] = btcPrice
+        found_token.userBalance = balance
+      }
+    } else {
+      balances[token] = '0'
+      let found_token = tokensInfo.find((t) => t.address == token)
+      if (found_token) {
+        lastTokenPrices['USD'][token] = 0
+        lastTokenPrices['ETH'][token] = 0
+        lastTokenPrices['BTC'][token] = 0
+        found_token.userBalance = balance
+      }
     }
     lineNumbers.push(balance > 0.001 ? 1 : balance)
   }

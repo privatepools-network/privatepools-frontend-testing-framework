@@ -205,7 +205,7 @@ export function CalculateVolatilityIndex(
   let avg_percentages = [] // avg_token_percentage1 * volatility_value
   for (let i = 0; i < assets.length; i++) {
     let symbol_historical = historicalPrices.find((p) => p.symbol == assets[i]) // get historical prices for the asset
-    if (!symbol_historical) continue
+    if (!symbol_historical || !symbol_historical[prices_key]) continue
     let prices = symbol_historical[prices_key] // for the daily filter - we are using hourly data, for weekly,monthly - we are using daily data
       .slice(-prices_length) // slice n price positions
       .map((p) => CalculateTokenOrderPrice(p)) // for price we are taking average for the sum of: low, high, close positions

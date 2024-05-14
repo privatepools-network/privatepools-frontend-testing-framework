@@ -13,16 +13,17 @@
       <div class="mb-xxl-4 mb-2">
         <div @click="visibleTVL = !visibleTVL" class="visible_head" style="cursor: pointer">
           <div class="d-flex align-items-center gap-2" style="margin-left: -20px; width: 15px">
-            
-                <img :src="arrow_up" :width="10" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
-           
+
+            <img :src="arrow_up" :width="10" :class="!visibleTVL ? 'toggle-down' : 'toggle-up'" />
+
             <!-- <div v-if="!networks_data" class="totals_loader_header">
               <ThreeDots />
             </div> -->
-            <div 
+            <div v-if="networks_data"
               class="visible_head mt-[10px]  dark:!text-white text-black font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
               <!-- {{ parseFloat(networks_data.portfolioBalance).toFixed(3) }} -->
-              <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals" :value="parseFloat(networks_data?.portfolioBalance).toFixed(3)"/>
+              <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals"
+                :value="parseFloat(networks_data[`portfolioBalance${postfix}`]).toFixed(3)" />
             </div>
           </div>
         </div>
@@ -34,9 +35,14 @@
             <div class="d-flex flex-column gap-1" v-if="networks_data">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between"
                 v-for="pool in networks_data.breakdown" :key="pool.id">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif] flex items-center gap-1">{{ pool.id }} <div class="flex items-center gap-1"><img :src="computedTokenImage(token)" class="w-3 h-3" :key="`token-${i}`" v-for="token, i in pool.id.split('-')"/></div></div>
-                <div class="dark:!text-white text-black font-extrabold text-[12px] flex items-center font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="''" :value="parseFloat(pool?.shareBalanceUsd).toFixed(3)"/>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif] flex items-center gap-1">{{ pool.id }}
+                  <div class="flex items-center gap-1"><img :src="computedTokenImage(token)" class="w-3 h-3"
+                      :key="`token-${i}`" v-for="token, i in pool.id.split('-')" /></div>
+                </div>
+                <div
+                  class="dark:!text-white text-black font-extrabold text-[12px] flex items-center font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals"
+                    :value="parseFloat(pool[`shareBalance${postfix_raw}`]).toFixed(currencyDecimals)" />
 
                 </div>
               </div>
@@ -66,8 +72,9 @@
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div class="dark:!text-white text-black font-extrabold text-[12px] flex items-center font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.APR).toFixed(3)"/>%
+                <div
+                  class="dark:!text-white text-black font-extrabold text-[12px] flex items-center font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.APR).toFixed(3)" />%
                 </div>
               </div>
             </div>
@@ -85,8 +92,9 @@
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 24H']).toFixed(3)"/>%
+                <div
+                  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 24H']).toFixed(3)" />%
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
@@ -94,8 +102,9 @@
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 7D']).toFixed(3)"/>%
+                <div
+                  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 7D']).toFixed(3)" />%
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
@@ -103,8 +112,9 @@
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 30D']).toFixed(3)"/>%
+                <div
+                  class="dark:!text-white text-black flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="true" :value="parseFloat(networks_data?.['APR 30D']).toFixed(3)" />%
                 </div>
               </div>
             </div>
@@ -133,8 +143,9 @@
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div  class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit']).toFixed(3)"/>
+                <div class="dark:!text-white text-black font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals"
+                    :value="parseFloat(networks_data?.[`Profit${postfix}`]).toFixed(currencyDecimals)" />
                 </div>
               </div>
             </div>
@@ -148,30 +159,33 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{$t('volume')}} 24 {{$t('hours')}}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 24 {{ $t('hours') }}</div>
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 24H']).toFixed(3)"/>
+                <div class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals"
+                    :value="parseFloat(networks_data?.[`Profit 24H${postfix}`]).toFixed(currencyDecimals)" />
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{$t('volume')}} 7 {{$t('days')}}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 7 {{ $t('days') }}</div>
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 7D']).toFixed(3)"/>
+                <div class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals"
+                    :value="parseFloat(networks_data?.[`Profit 7D${postfix}`]).toFixed(currencyDecimals)" />
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{$t('volume')}} 30 {{$t('days')}}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 30 {{ $t('days') }}</div>
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
-                <div  class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :currency="''" :value="parseFloat(networks_data?.['Profit 30D']).toFixed(3)"/>
+                <div class="dark:!text-white text-black font-normal text-[12px] font-['Roboto_Mono',_monospace]">
+                  <CounterAnimation :currency="''" :decimalPlaces="currencyDecimals"
+                    :value="parseFloat(networks_data?.[`Profit 30D${postfix}`]).toFixed(currencyDecimals)" />
                 </div>
               </div>
             </div>
@@ -193,8 +207,8 @@
                 class="dark:!text-white text-black text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
                 {{ $t('my_rewards') }}
               </div>
-              <div  class="dark:!text-white text-black font-extrabold text-[12px]">
-                <CounterAnimation :currency="'$'" :value="totalRewards"/>
+              <div class="dark:!text-white text-black font-extrabold text-[12px]">
+                <CounterAnimation :value="totalRewards" :decimalPlaces="currencyDecimals" />
 
               </div>
               <!-- <div v-else style="margin-right: 15px">
@@ -246,8 +260,8 @@ const currencyDecimals = computed(() =>
   currentCurrency.value == 'USD' ? 2 : 5,
 )
 const props = defineProps(['networks_data', 'chainSelected', 'rewardsData'])
-const { networks_data, chainSelected,rewardsData } = toRefs(props)
-const totalRewards = computed(() => rewardsData.value.reduce((sum, value) => sum + value.rewardUsd, 0).toFixed(2))
+const { networks_data, chainSelected, rewardsData } = toRefs(props)
+const totalRewards = computed(() => rewardsData.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
 const isNetworkDataReady = computed(
   () =>
     networks_data.value.length && networks_data.value.length > 0 &&
@@ -255,97 +269,6 @@ const isNetworkDataReady = computed(
       .length > 0,
 )
 
-// const selected_chain_data = computed(() => {
-//   let networks = [Network.ARBITRUM, Network.BINANCE, Network.POLYGON]
-//   let result = []
-//   for (let i = 0; i < networks_data.value.length; i++) {
-//     let network = networks[i]
-//     let chain_name = DisplayNetwork[network]
-//     if (isRightChainName(chain_name, chainSelected.value)) {
-//       result.push()
-//     }
-//   }
-//   return []
-// })
-const chains_data = computed(() => {
-  if (!isNetworkDataReady.value) return null
-  let result = {}
-  const networks = [
-    process.env.VUE_APP_KEY_ARBITRUM ? Network.ARBITRUM : undefined,
-    process.env.VUE_APP_KEY_BINANCE ? Network.BINANCE : undefined,
-    process.env.VUE_APP_KEY_POLYGON ? Network.POLYGON : undefined,
-  ].filter((n) => n != undefined)
-
-  let sum = {
-    TVL: 0,
-    Profit: 0,
-    'Profit 24H': 0,
-    'Profit 7D': 0,
-    'Profit 30D': 0,
-    Revenue: 0,
-    'Revenue 24H': 0,
-    'Revenue 7D': 0,
-    'Revenue 30D': 0,
-    'Gas Fee': 0,
-    'Gas Fee 24H': 0,
-    'Gas Fee 7D': 0,
-    'Gas Fee 30D': 0,
-  }
-  for (let i = 0; i < networks.length; i++) {
-    let network = networks[i]
-    let chain_name = DisplayNetwork[network]
-    if (!networks_data.value[i][0]) continue
-    let tvl = networks_data.value[i][0].sharesOwned.reduce(
-      (sum, p) => sum + parseFloat(p.poolId.totalLiquidity),
-      0,
-    )
-    let cl_tvl = networks_data.value[i][6].reduce(
-      (sum, cl_pool) => sum + parseFloat(cl_pool.totalValueLockedUSD),
-      0,
-    )
-    console.log('CL TVL - ', cl_tvl)
-    tvl += cl_tvl
-    result[chain_name] = {
-      TVL: tvl,
-    }
-    if (isRightChainName(chain_name, chainSelected.value)) {
-      sum['TVL'] += tvl
-      let swaps_data = networks_data.value[i][1]
-      sum['Profit'] += parseFloat(usePoolAllTimeProfit(swaps_data).value)
-      sum['Profit 24H'] += parseFloat(usePool24hProfit(swaps_data).value)
-      sum['Profit 7D'] += parseFloat(usePool7dProfit(swaps_data).value)
-      sum['Profit 30D'] += parseFloat(usePool30dProfit(swaps_data).value)
-
-      sum['Revenue'] += parseFloat(usePoolAllTimeRevenue(swaps_data).value)
-      sum['Revenue 24H'] += parseFloat(usePool24hRevenue(swaps_data).value)
-      sum['Revenue 7D'] += parseFloat(usePool7dRevenue(swaps_data).value)
-      sum['Revenue 30D'] += parseFloat(usePool30dRevenue(swaps_data).value)
-
-      sum['Gas Fee'] += parseFloat(usePoolAllTimeGasFee(swaps_data).value)
-      sum['Gas Fee 24H'] += parseFloat(usePool24hGasFee(swaps_data).value)
-      sum['Gas Fee 7D'] += parseFloat(usePool7dGasFee(swaps_data).value)
-      sum['Gas Fee 30D'] += parseFloat(usePool30dGasFee(swaps_data).value)
-    }
-  }
-  result['Sum'] = sum
-  return result
-})
-
-const tvl_data = computed(() => ({
-  TVL: chains_data.value ? chains_data.value['Sum']['TVL'] : 0,
-  'TVL Arbitrum':
-    chains_data.value && chains_data.value['Arbitrum']
-      ? chains_data.value['Arbitrum']['TVL']
-      : 0,
-  'TVL Binance':
-    chains_data.value && chains_data.value['Binance']
-      ? chains_data.value['Binance']['TVL']
-      : 0,
-  'TVL Polygon':
-    chains_data.value && chains_data.value['Polygon']
-      ? chains_data.value['Polygon']['TVL']
-      : 0,
-}))
 
 const visibleTVL = ref(true)
 const visibleTotalRevenue = ref(true)
