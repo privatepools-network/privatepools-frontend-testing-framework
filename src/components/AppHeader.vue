@@ -120,6 +120,8 @@ const tokensOptions = computed(() => {
       pools: true,
     })),
   )
+
+  console.log('result', result)
   return result
 })
 
@@ -170,6 +172,7 @@ onMounted(async () => {
 const searchInput = ref('')
 function handleInput(event) {
   searchInput.value = event.target.value
+  console.log('searchInput', searchInput.value)
   let _search = searchInput.value.toLowerCase()
   visibleOptions.value = searchInput.value
     ? [
@@ -178,6 +181,7 @@ function handleInput(event) {
         ),
       ]
     : [...visibleOptionsComputed.value]
+    
 }
 
 function checkInputSearchItem(_search, item) {

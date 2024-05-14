@@ -2,7 +2,7 @@
   <div style="position: relative; cursor: text">
     <vue-select
       :options="selectOptions"
-      label-by="id"
+      :label-by="false"
       searchable
       @search:input="handleInput"
       :search-placeholder="''"
@@ -181,6 +181,7 @@
         </template>
       </template>
     </vue-select>
+
     <div
       v-if="!searchInput"
       style="position: absolute; left: 36px; top: 7px; pointer-events: none"
@@ -232,6 +233,7 @@
       </svg>
     </div>
   </div>
+ 
 </template>
 <script setup>
 import router from '@/router'
