@@ -267,7 +267,7 @@ const props = defineProps([
   'weeklyYield',
   'approveStep',
 ])
-const emit = defineEmits(['changeVisibleDepositClose', 'changeApproveStep', 'explode'])
+const emit = defineEmits(['changeVisibleDepositClose', 'changeApproveStep', 'explode', 'addedTXHash'])
 console.log('PROPS - ', props)
 const depositFinished = ref(false)
 
@@ -316,7 +316,8 @@ async function OnPreviewClick() {
       props.bptOut,
     )
 
- 
+    emit('addedTXHash', tx.hash)
+    
     txLink.value = `${
       configService.getNetworkConfig(networkId.value).explorer
     }/tx/${tx.hash}`

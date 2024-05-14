@@ -1,12 +1,13 @@
 <template>
   <MainCard>
     <CRow class="d-flex align-items-center">
+      {{ console.log('account!!!!', account) }}
       <div class="portfolio mt-4">
-        <PortfolioBalance :performers="performers" :balanceUsd="balanceData.total ?? 0"
+        <PortfolioBalance :account="account" :performers="performers" :balanceUsd="balanceData.total ?? 0"
           :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0" />
-
+    
         <div class="portfolio-chart">
-          <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
+          <PortfolioChart  :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
             :tokensData="tokensData" :chainSelected="chainSelected.name"
             :rewardsData="rewardsData"/>
         </div>

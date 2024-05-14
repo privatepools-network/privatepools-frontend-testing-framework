@@ -157,7 +157,7 @@
           :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']"
           />
         <div class="text-[20px] text-white font-medium mb-3">
-          Liquidity withdrawed !
+          Liquidity removed!
         </div>
         <svg
         @click="explode"
@@ -174,7 +174,7 @@
           />
         </svg>
         <div class="text-[15px] text-[#888888] font-medium">
-          Successfully created new Pool
+          Successfully removed liquidity.
         </div>
       </div>
 
@@ -225,11 +225,11 @@
           </div>
         </a>
         <a
-          :href="`/pools/details/${txHash}/BNB/info`"
+          :href="`/pools`"
           class="text-decoration-none"
         
         >
-          <div class="compose_pool_connect_wallet">View Pool</div>
+          <div class="compose_pool_connect_wallet">Pools</div>
         </a>
       </div>
     </div>
@@ -273,7 +273,7 @@ import errorSound from '@/assets/sounds/error_sound.mp3'
 
 
 const playSuccess = useSound(successSound, { volume: 1 })
-    const playError = useSound(errorSound, { volume: 1 })
+const playError = useSound(errorSound, { volume: 1 })
 
 // import { Fireworks } from '@fireworks-js/vue'
 
@@ -319,16 +319,14 @@ const props = defineProps([
   'allSelectedTokens',
   'exactOut',
 ])
-const emit = defineEmits(['changeVisibleDeposit', 'changeVisibleDepositBack'])
 
-var emitter = require('tiny-emitter/instance')
+
+const emit = defineEmits(['changeVisibleDeposit', 'changeVisibleDepositBack'])
 
 const depositFinished = ref(false)
 const confirmingState = ref(false)
 // hardcoded tx
-const txHash = ref(
-  '0x8015c22a1de37b3e777d388180bc7d564524feb100020000000000000000001a',
-)
+const txHash = ref('')
 
 // const ConfirmToastPending = ref('')
 const popupType = ref('error')
@@ -435,7 +433,7 @@ async function OnWithdrawClick() {
     txLink.value = `${
       configService.getNetworkConfig(networkId.value).explorer
     }/tx/${tx.hash}`
-
+    txHash.value = tx.hash
     try {
       await tx.wait()
     } catch (error) {

@@ -584,7 +584,7 @@ const optionObj = ref({
       name: 'Number of Trades',
       type: 'bar',
       data: dataTrades,
-      color: '#6E27B2',
+      color: '#87F1FF',
       sampling: 'lttb',
       areaStyle: {},
       xAxisIndex: 0,
@@ -592,7 +592,7 @@ const optionObj = ref({
       smooth: true,
       showSymbol: false,
       itemStyle: {
-        color: '#6E27B2',
+        color: '#87F1FF',
         borderRadius: [5, 5, 0, 0],
       },
       emphasis: {
