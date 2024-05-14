@@ -208,7 +208,7 @@
                 {{ $t('my_rewards') }}
               </div>
               <div class="dark:!text-white text-black font-extrabold text-[12px]">
-                <CounterAnimation :value="totalRewards" :decimalPlaces="currencyDecimals" />
+                <CounterAnimation :currency="false" :value="totalRewards" :decimalPlaces="currencyDecimals" />
 
               </div>
               <!-- <div v-else style="margin-right: 15px">
@@ -331,20 +331,9 @@ const visibleTotalGas = ref(true)
   background: #00c8ffb0 !important;
 }
 
-.arbitrage_bot_header {
-  font-size: clamp(10px, 1vw, 16px);
-  font-weight: 400;
-  font-family: 'Syne', sans-serif;
-  color: white;
-}
 
-.arbitrage_bot_sections_text {
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  font-weight: 600;
-}
+
+
 
 .arbitrage_bot_card {
   width: 30%;

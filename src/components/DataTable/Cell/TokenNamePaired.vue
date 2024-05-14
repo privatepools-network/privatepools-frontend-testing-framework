@@ -44,7 +44,7 @@ import { defineProps, computed } from 'vue'
 import { useRoute } from 'vue-router';
 
 const route = useRoute()
-console.log('route', route)
+// console.log('route', route)
 
 const props = defineProps(['value'])
 

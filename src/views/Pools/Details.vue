@@ -46,9 +46,9 @@
         </div>
       </div> -->
     </CRow>
-    <div style="height: 34px" class="mb-5" v-else>
+    <!-- <div style="height: 34px" class="mb-5" v-else>
       <ThreeDots style="margin-left: 20px; margin-top: 10px"></ThreeDots>
-    </div>
+    </div> -->
 
     <CRow class="mb-5" v-if="render">
       <PoolsDetailsChart :selectedOverallTab="selectedOverallTab" :changeToDepositView="changeToDepositView"

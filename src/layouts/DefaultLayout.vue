@@ -18,8 +18,7 @@
       <SettingsDrawer
         v-else-if="sidebarWalletState === 'Settings'"
         @toggleToWallets="toggleToWallets"
-        :HideParticles="HideParticles"
-        @handleHideParticles="handleHideParticles"
+
       />
     </div>
   </Drawer>
@@ -31,7 +30,7 @@
     <div class="background">
     <div class="particles">
       <particles-bg
-          v-if="HideParticles"
+          v-if="currentParticles === 'on'"
           color="#00E0FF"
           type="cobweb"
           :num="80"
@@ -75,12 +74,13 @@ import Drawer from '@/UI/Drawer.vue'
 import { watch, ref } from 'vue'
 import AppFooter from '@/components/AppFooter.vue'
 import { ParticlesBg } from 'particles-bg-vue'
+import { useSettings } from '@/store/settings'
+import { storeToRefs } from 'pinia'
+const settingsStore = useSettings()
 
-const HideParticles = ref(true)
+const { currentParticles } = storeToRefs(settingsStore)
 
-function handleHideParticles() {
-  HideParticles.value = !HideParticles.value
-}
+
 
 const sidebarWalletOpen = ref(false)
 const sidebarWalletState = ref('Connect wallet')

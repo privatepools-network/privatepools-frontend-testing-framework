@@ -1,6 +1,5 @@
 <template>
   <div style="position: relative; cursor: text">
-    
     <vue-select
       :options="selectOptions"
       label-by="id"
@@ -9,7 +8,6 @@
       :search-placeholder="''"
       :placeholder="''"
     >
-     
       <template #dropdown-item="{ option }">
         <div
           v-if="option.firstToken"
@@ -183,21 +181,24 @@
         </template>
       </template>
     </vue-select>
-    <div v-if="!searchInput" style="position: absolute; left: 36px; top: 7px; pointer-events: none;">
-        <v-typical
-          class="text-[12px] text-[#7d7d7d] font-medium blink"
-          :steps="[
-            'Search tokens for market insights',
-            1000,
-            'Search liquidity pools for depth analysis',
-            1000,
-            'Search indexes aligned with your preferences',
-            1000,
-          ]"
-          :loop="Infinity"
-          :wrapper="'span'"
-        ></v-typical>
-      </div>
+    <div
+      v-if="!searchInput"
+      style="position: absolute; left: 36px; top: 7px; pointer-events: none"
+    >
+      <v-typical
+        class="text-[12px] text-[#7d7d7d] font-medium blink"
+        :steps="[
+          'Search tokens for market insights',
+          1000,
+          'Search liquidity pools for depth analysis',
+          1000,
+          'Search indexes aligned with your preferences',
+          1000,
+        ]"
+        :loop="Infinity"
+        :wrapper="'span'"
+      ></v-typical>
+    </div>
     <div style="position: absolute; left: 7px; top: 9px; color: #858c90">
       <svg
         width="20"
@@ -240,20 +241,43 @@ import { getTokenEntity } from '@/lib/helpers/util'
 import VueSelect from 'vue-next-select'
 import 'vue-next-select/dist/index.css'
 import computedTokenImage from '@/composables/useComputedTokenImage'
-import VTypical from 'vue-typical';
+import VTypical from 'vue-typical'
 
 defineProps(['selectOptions', 'handleInput', 'searchInput'])
 
 function goToPool(poolId, chainId, type) {
-  router.push(
-    `/pools/${
-      type == 'Concentrated Liquidity' ? 'CLdetails' : 'details'
-    }/${poolId}/${DisplayChain[chainId]}/info`,
-  )
+  if (router.currentRoute.value.path.startsWith('/pools')) {  
+    router.push(
+      `/pools/${
+        type == 'Concentrated Liquidity' ? 'CLdetails' : 'details'
+      }/${poolId}/${DisplayChain[chainId]}/info`,
+    )
+    setTimeout(() => {
+      window.location.reload()
+    }, 500);
+  }else {
+    router.push(
+      `/pools/${
+        type == 'Concentrated Liquidity' ? 'CLdetails' : 'details'
+      }/${poolId}/${DisplayChain[chainId]}/info`,
+    )
+  }
+  
+
 }
 
 function goToFilteredPools(token) {
-  router.push({ path: `/pools`, query: { token } })
+  if (router.currentRoute.value.path.startsWith('/pools')) {  
+    router.push({ path: `/pools`, query: { token } })
+    setTimeout(() => {
+      window.location.reload()
+    }, 500);
+    
+  } else {
+    router.push({ path: `/pools`, query: { token } })
+  }
 }
+
+
 </script>
 <style lang="scss" scoped></style>

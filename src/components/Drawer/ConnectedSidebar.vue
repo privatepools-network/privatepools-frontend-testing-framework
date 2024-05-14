@@ -133,7 +133,7 @@
           </div>
           <div>
             <div class="d-flex flex-column align-items-end">
-              <div class="text-black dark:!text-white text-[12px]">
+              <div class="text-black dark:!text-white text-[12px] flex items-center">
                 <CurrencySymbol /> {{ item[`${prefix}Amount`].toFixed(currencyDecimals) }}
               </div>
 
@@ -378,7 +378,7 @@ const settingsStore = useSettings();
 
 const { currentCurrency } = storeToRefs(settingsStore)
 const currencyDecimals = computed(() =>
-  currentCurrency == 'USD' ? 2 : 5,
+  currentCurrency.value == 'USD' ? 2 : 5,
 )
 
 const prefix = computed(() => currentCurrency.value == "USD" ? "usd" : currentCurrency.value)

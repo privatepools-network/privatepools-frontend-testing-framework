@@ -14,7 +14,7 @@
       {{ $t('pools') }}
     </div>
  
-    <div
+    <!-- <div
       @click="router.push('/buy')"
       :class="
         router.currentRoute.value.path === '/buy'
@@ -23,7 +23,21 @@
       "
     >
       {{ $t('buy') }}
+    </div> -->
+
+    <div
+      @click="router.push('/general')"
+      :class="
+        router.currentRoute.value.path === '/general'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+      "
+    >
+      {{ $t('Analytics') }}
     </div>
+
+ 
+
     <div
       v-if="address"
       @click="router.push('/portfolio')"
@@ -35,7 +49,7 @@
     >
       {{ $t('portfolio') }}
     </div>
-    <Dropdown :distance="10">
+    <!-- <Dropdown :distance="10">
       <div class="arrow_header">
         <svg
           width="9"
@@ -66,7 +80,7 @@
           >
             {{ $t('Ecosystem Analytics') }}
           </a>
-          <!-- <a
+          <a
             href="/user_analytics"
             :class="
               router.currentRoute.value.path === '/user_analytics'
@@ -85,7 +99,7 @@
             "
           >
             {{ $t('referrals') }}
-          </a> -->
+          </a>
           <div class="popup_headers">Protocol</div>
           <a
             href="https://medium.com/@D3_Innovations"
@@ -134,7 +148,7 @@
           </div>
         </div>
       </template>
-    </Dropdown>
+    </Dropdown> -->
 
     <!-- <div @click="router.push('/referrals')" :class="router.currentRoute.value.path === '/referrals'
           ? 'navigation_text_selected navigation_text'

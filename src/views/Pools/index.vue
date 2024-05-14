@@ -59,8 +59,11 @@
               </div>
               <div v-else-if="headCaption === t('volume')"
                 :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'">
-                <img :src="filterArrow" :class="ascendFilterBy === t('volume') ? 'rotate-180' : ''" @click="ascendFilterBy = t('volume')"/> {{ headCaption }} ({{filterByTimeVolume}})
-                
+                <img 
+                :src="filterArrow" 
+                :class="ascendFilterBy === `${t('volume')}_${filterByTimeVolume}` ? 'rotate-180' : ''" 
+                @click="ascendFilterBy = `${t('volume')}_${filterByTimeVolume}`"/> {{ headCaption }} ({{filterByTimeVolume}})
+                {{ console.log('ascendFilterBy', ascendFilterBy) }}
                 <img :src="filterSVG"
                   @click="
                   filterByTimeVolume === '24H' ? filterByTimeVolume = '7D' : 
@@ -71,7 +74,10 @@
               </div>
               <div v-else-if="headCaption === 'APR'"
                 :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'">
-                <img :src="filterArrow" :class="ascendFilterBy === 'APR' ? 'rotate-180' : ''" @click="ascendFilterBy = 'APR'"/> {{ headCaption }} ({{filterByTimeAPR}})
+                <img 
+                :src="filterArrow" 
+                :class="ascendFilterBy === `APR ${filterByTimeAPR}` ? 'rotate-180' : ''" 
+                @click="ascendFilterBy = `APR ${filterByTimeAPR}`"/> {{ headCaption }} ({{filterByTimeAPR}})
 
                 <img :src="filterSVG"
                 @click="
@@ -98,7 +104,7 @@
         <LoaderPulse />
       </div>
 
-      <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber).toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy])" :key="pool.name" :pool="pool"
+      <PoolRow v-for="(pool, index) in all_pools.slice(0, sliceNumber).toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))" :key="pool.name" :pool="pool"
         :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }" :userPools="user_staked_pools"
         :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
         @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"

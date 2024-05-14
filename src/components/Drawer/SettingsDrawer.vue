@@ -49,7 +49,7 @@
           class="settings_text text-black dark:!text-white flex items-center justify-between"
         >
           <div>Particles</div>
-          <div @click="$emit('handleHideParticles')"><span v-if="!HideParticles">On</span><span v-else>Off</span></div>
+          <div @click="currentParticles === 'on' ? handleChangeParticles('off') : handleChangeParticles('on')"><span v-if="currentParticles === 'on'">On</span><span v-else>Off</span></div>
         </div>
         <!-- <ThemeToggler /> -->
         <div
@@ -127,7 +127,7 @@ import i18next from 'i18next'
 
 const settingsStore = useSettings()
 
-const { currentCurrency, currentLanguage } = storeToRefs(settingsStore)
+const { currentCurrency, currentLanguage, currentParticles } = storeToRefs(settingsStore)
 
 const currencyList = [
   {
@@ -144,8 +144,7 @@ const currencyList = [
   },
 ]
 
-defineProps(['HideParticles'])
-defineEmits(['toggleToWallets', 'handleHideParticles'])
+defineEmits(['toggleToWallets'])
 const HideSmallBalances = ref(true)
 
 const settingsState = ref('Main')
@@ -156,6 +155,9 @@ const handleChangeCurrency = (cur) => {
 const handleChangeLanguage = (lang) => {
   i18next.changeLanguage(lang.symbol)
   settingsStore.updateLanguage(lang.name)
+}
+const handleChangeParticles = (prop) => {
+  settingsStore.updateParticles(prop)
 }
 </script>
 <style lang="scss" scoped>

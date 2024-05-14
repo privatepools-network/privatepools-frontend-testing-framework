@@ -215,7 +215,15 @@ import checked_step_img from '@/assets/icons/CLIcons/checked_step.svg'
 import { t } from 'i18next'
 import Step from '@/UI/Step.vue'
 import ProgressLoader from '@/UI/ProgressLoader.vue'
-var emitter = require('tiny-emitter/instance')
+import successSound from '@/assets/sounds/success_sound.mp3'
+import errorSound from '@/assets/sounds/error_sound.mp3'
+import { useSound } from '@vueuse/sound'
+
+
+const playSuccess = useSound(successSound, { volume: 1 })
+const playError = useSound(errorSound, { volume: 1 })
+
+
 const mmActive = ref(false)
 
 // const popupType = ref("error")
@@ -267,7 +275,7 @@ const props = defineProps([
   'weeklyYield',
   'approveStep',
 ])
-const emit = defineEmits(['changeVisibleDepositClose', 'changeApproveStep', 'explode'])
+const emit = defineEmits(['changeVisibleDepositClose', 'changeApproveStep', 'explode', 'addedTXHash'])
 console.log('PROPS - ', props)
 const depositFinished = ref(false)
 
@@ -316,7 +324,8 @@ async function OnPreviewClick() {
       props.bptOut,
     )
 
- 
+    emit('addedTXHash', tx.hash)
+
     txLink.value = `${
       configService.getNetworkConfig(networkId.value).explorer
     }/tx/${tx.hash}`
@@ -332,6 +341,7 @@ async function OnPreviewClick() {
       // props.approveStep = 3
       emit('changeApproveStep', 3)
       setTimeout(() => {
+        playError.play()
         toast.update(ConfirmToastPending, {
           render: Toast,
           data: {
@@ -353,7 +363,7 @@ async function OnPreviewClick() {
       return
     }
     await tx.wait()
-
+    playSuccess.play()
     toast.update(ConfirmToastPending, {
       render: Toast,
       data: {

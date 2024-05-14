@@ -361,6 +361,7 @@
                 :approveStep="approveStep"
                 @changeApproveStep="changeApproveStep"
                 @explode="explode"
+                @addedTXHash="addedTXHash"
               />
             </div>
             <div v-else-if="approveStep === 5">
@@ -372,7 +373,7 @@
           :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']"
           />
                 <div class="text-[20px] text-white font-medium mb-3">
-                  Liquidity added !
+                  Liquidity added!
                 </div>
                 <svg
                 @click="explode"
@@ -389,7 +390,7 @@
                   />
                 </svg>
                 <div class="text-[15px] text-[#888888] font-medium">
-                  Successfully created new Pool
+                  Successfully added liquidity.
                 </div>
               </div>
 
@@ -440,7 +441,7 @@
                   </div>
                 </a>
                 <a
-                  :href="`/pools/details/${txHash}/BNB/info`"
+                  :href="`/pools/details/${poolId}/BNB/info`"
                   class="text-decoration-none"
                   
                 >
@@ -557,9 +558,11 @@ const lineNumbers = ref([])
 const balances = ref({})
 
 // hardcoded tx
-const txHash = ref(
-  '0x8015c22a1de37b3e777d388180bc7d564524feb100020000000000000000001a',
-)
+const txHash = ref('')
+
+function addedTXHash(hash) {
+  txHash.value = hash
+}
 
 const allLastTokenPrices = ref({})
 const lastTokenPrices = computed(

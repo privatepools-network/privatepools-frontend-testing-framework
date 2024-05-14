@@ -10,7 +10,7 @@
 
     <div class="px-2">
       <div
-        class="arbitrage_bot_sections_text mt-[5%] text-black dark:!text-white"
+        class="arbitrage_bot_header mt-[5%] text-black dark:!text-white"
       >
         {{ $t('TVL') }}
       </div>
@@ -699,20 +699,9 @@ onMounted(() => {
   background: #00c8ffb0 !important;
 }
 
-.arbitrage_bot_header {
-  font-size: clamp(10px, 0.7vw, 14px);
-  font-weight: 700;
 
-  color: white;
-}
 
-.arbitrage_bot_sections_text {
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  font-weight: 600;
-}
+
 
 .arbitrage_bot_card {
   width: 30%;

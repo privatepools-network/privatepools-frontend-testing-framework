@@ -12,7 +12,7 @@
     </div> -->
 
     <div class="px-2">
-      <div class="text-black dark:!text-white mt-[5%] font-['Syne',_sans-serif]">{{ $t('TVL') }}</div>
+      <div class="text-black dark:!text-white mt-[5%] arbitrage_bot_header">{{ $t('TVL') }}</div>
       <div class="mb-2">
         <div @click="clickOnVisibleTVL()" class="visible_head" style="cursor: pointer">
           <div class="d-flex align-items-center gap-2" style="margin-left: -20px; width: clamp(10px, 0.8vw, 14px)">
@@ -240,7 +240,7 @@
           </div>
         </CCollapse>
       </div>
-      <div style="cursor: pointer" class="visible_head text-black dark:!text-white mt-4">
+      <div style="cursor: pointer" class="visible_head h-24 text-black dark:!text-white mt-4">
         <div class="d-flex align-items-center gap-2" style="margin-left: -10px">
           <div></div>
           <div class="text-black dark:!text-white font-bold w-full">
@@ -257,7 +257,7 @@
                 <ThreeDots></ThreeDots>
               </div>
             </div> --> 
-            <div
+            <!-- <div
               class="d-flex align-items-center justify-content-between font-normal text-black dark:!text-white visible_head mt-3">
               <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
                 {{ $t('my_balance') }}
@@ -270,10 +270,8 @@
                     :decimal-places="currencyDecimals"
                   />
               </div>
-              <!-- <div v-else>
-                <ThreeDots></ThreeDots>
-              </div> -->
-            </div>
+            
+            </div> -->
           </div>
         </div>
       </div>
@@ -535,18 +533,9 @@ function GetTokenPrice(address) {
   background: #00c8ffb0 !important;
 }
 
-.arbitrage_bot_header {
-  font-size: clamp(10px, 0.7vw, 14px);
-  font-weight: 700;
 
-  color: white;
-}
 
-.arbitrage_bot_sections_text {
-  font-size: clamp(10px, 0.7vw, 14px);
-  margin-top: 10px;
-  margin-bottom: 5px;
-}
+
 
 .arbitrage_bot_card {
   width: 30%;
