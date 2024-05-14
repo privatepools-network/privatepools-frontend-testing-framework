@@ -250,7 +250,7 @@ const filters = ref({
   ['Gas Fees']: false,
   ['Trades']: true,
   Volume: true,
-  TVL: false,
+  TVL: true,
   ['Average APR']: true,
   ['Profits']: false,
   ['Volatility Index']: false,
@@ -284,7 +284,7 @@ const series = computed(() => [
       ]),
     },
     xAxisIndex: 0,
-    yAxisIndex: 1,
+    yAxisIndex: 2,
     smooth: true,
     showSymbol: false,
     itemStyle: {
@@ -303,7 +303,7 @@ const series = computed(() => [
     data: dataGasFees.value,
     color: '#87F1FF',
     xAxisIndex: 0,
-    yAxisIndex: 2,
+    yAxisIndex: 3,
     sampling: 'lttb',
     itemStyle: {
       borderRadius: [5, 5, 0, 0],
@@ -323,6 +323,7 @@ const series = computed(() => [
     data: dataAvgApr.value,
     color: '#ffc925',
     sampling: 'lttb',
+    yAxisIndex: 4,
     areaStyle: {
       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
         {
@@ -354,7 +355,7 @@ const series = computed(() => [
     sampling: 'lttb',
     areaStyle: {},
     // xAxisIndex: 0,
-    // yAxisIndex: 1,
+    yAxisIndex: 1,
     smooth: true,
     showSymbol: false,
     itemStyle: {
@@ -373,7 +374,7 @@ const series = computed(() => [
     color: '#6e27b2',
     sampling: 'lttb',
     areaStyle: {},
-
+    yAxisIndex: 3,
     smooth: true,
     showSymbol: false,
     itemStyle: {
@@ -391,6 +392,7 @@ const series = computed(() => [
     data: dataVolatilityIndexes.value,
     color: '#FF8FD6',
     sampling: 'lttb',
+    yAxisIndex: 4,
     areaStyle: {
       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
         {
@@ -433,7 +435,7 @@ const series = computed(() => [
       ]),
     },
     smooth: true,
-    xAxisIndex: 0,
+ 
     yAxisIndex: 3,
     showSymbol: false,
     itemStyle: {
@@ -451,6 +453,8 @@ const series = computed(() => [
     data: dataTVL.value,
     color: '#F07E07',
     sampling: 'lttb',
+    yAxisIndex: 0,
+
     areaStyle: {
       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
         {
@@ -529,11 +533,13 @@ const optionObj = ref({
     },
   },
   tooltip: {
-    backgroundColor: 'rgba(73, 73, 73, 0.65)',
+    backgroundColor: 'rgba(2, 3, 28, 0.65)',
     borderWidth: 0,
     textStyle: {
       color: 'white',
+      fontSize: 9,
     },
+    valueFormatter: (value) => value ? Number(value).toFixed(3) : '-',
     trigger: 'axis',
     confine: true,
     axisPointer: {
@@ -543,31 +549,6 @@ const optionObj = ref({
         width: 1,
         opacity: 0.7,
       },
-    },
-    formatter: (params) => {
-      return `
-                ${params[0].name} <br />
-                ${params
-          .map((el) =>
-            el.seriesName === 'Revenue' ||
-              el.seriesName === 'Profits' ||
-              el.seriesName === 'TVL' ||
-              el.seriesName === 'Gas Fees' ||
-              el.seriesName === 'Volume'
-              ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
-              }${props.symbol} <br />`
-              : el.seriesName === 'Average APR' ||
-                el.seriesName === 'Volatility Index'
-                ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
-                }% <br />`
-                : el.seriesName === 'Trades'
-                  ? `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
-                  } Trades  <br />`
-                  : `${el.marker} ${el.seriesName}: ${el.value ? el.value.toFixed(3) : 0
-                  } <br />`,
-          )
-          .join('')}
-                `
     },
   },
   xAxis: [
@@ -580,37 +561,39 @@ const optionObj = ref({
   yAxis: [
     {
       scale: true,
+      axisLine: { lineStyle: { color: '#8392A5' } },
       min: 0,
 
-      axisLine: { lineStyle: { color: '#8392A5' } },
       gridIndex: 0,
       splitLine: {
         lineStyle: {
           color: 'rgba(51,51,51, 0.35)',
         },
       },
+      axisLabel: {
+        formatter: function (value) {
+          return `${convertFromNumber(value)}`
+        },
+      },
     },
     {
       type: 'value',
-      name: 'Revenue',
-      min: 0,
-      nameTextStyle: {
-        fontSize: 12,
-      },
+      name: 'Volume',
       gridIndex: 0,
+      min: 0,
+      nameLocation: 'center',
+      nameGap: -20,
       position: 'right',
       alignTicks: true,
       axisTick: { show: false },
       splitLine: { show: false },
       axisLine: {
         show: true,
-        lineStyle: { color: '#01B47E' },
+        lineStyle: {
+          color: '#FF4242'
+        },
       },
       axisLabel: {
-        textStyle: {
-          fontSize: '12px',
-          fontFamily: 'Montserrat',
-        },
         formatter: function (value) {
           return convertFromNumber(value)
         },
@@ -618,24 +601,23 @@ const optionObj = ref({
     },
     {
       type: 'value',
-      name: 'Gas Fees',
-      position: 'right',
+      name: 'Revenue / Profits',
       min: 0,
-
+      nameLocation: 'center',
+      nameGap: -20,
+      position: 'right',
       offset: 60,
       alignTicks: true,
       axisTick: { show: false },
       splitLine: { show: false },
       axisLine: {
         show: true,
-        lineStyle: { color: '#87F1FF' },
+        lineStyle: {
+          color: '#01B47E',
+        },
       },
 
       axisLabel: {
-        textStyle: {
-          fontSize: '12px',
-          fontFamily: 'Montserrat',
-        },
         formatter: function (value) {
           return convertFromNumber(value)
         },
@@ -647,24 +629,51 @@ const optionObj = ref({
     },
     {
       type: 'value',
-      name: 'Profits',
-      position: 'right',
+      name: 'Trades / Gas Fees',
       min: 0,
-
+      position: 'right',
+      nameLocation: 'center',
+      nameGap: -20,
       offset: 120,
       alignTicks: true,
       axisTick: { show: false },
       splitLine: { show: false },
       axisLine: {
         show: true,
-        lineStyle: { color: '#00FF75' },
+        lineStyle: {
+          color: '#87F1FF',
+        },
       },
 
       axisLabel: {
-        textStyle: {
-          fontSize: '12px',
-          fontFamily: 'Montserrat',
+        formatter: function (value) {
+          return convertFromNumber(value)
         },
+      },
+      emphasis: {
+        focus: 'series',
+        blurScope: 'coordinateSystem',
+      },
+    },
+    {
+      type: 'value',
+      name: 'APR / Volatility Index',
+      min: 0,
+      position: 'right',
+      nameLocation: 'center',
+      nameGap: -20,
+      offset: 180,
+      alignTicks: true,
+      axisTick: { show: false },
+      splitLine: { show: false },
+      axisLine: {
+        show: true,
+        lineStyle: {
+          color: '#ffc925',
+        },
+      },
+
+      axisLabel: {
         formatter: function (value) {
           return convertFromNumber(value)
         },
@@ -675,14 +684,14 @@ const optionObj = ref({
       },
     },
   ],
-  grid: [
-    {
-      left: '5%',
-      right: '17%',
-      top: 120,
-      bottom: 155,
-    },
-  ],
+  // grid: [
+  //   {
+  //     left: '5%',
+  //     right: '17%',
+  //     top: 120,
+  //     bottom: 155,
+  //   },
+  // ],
   dataZoom: [
     {
       type: 'inside',
@@ -695,7 +704,7 @@ const optionObj = ref({
       xAxisIndex: 0,
       type: 'slider',
       bottom: 70,
-      start: 93,
+      start: 0,
       end: 100,
       selectedDataBackground: {
         areaStyle: {
@@ -714,7 +723,51 @@ const optionObj = ref({
     },
   ],
   series: series,
+  media: [
 
+    {
+      query: {
+        maxWidth: 1920,
+      },
+      option: {
+        grid: [
+        {
+           left: '5%',
+           right: '18%',
+           top: 120,
+           bottom: 155,
+         },
+        ],
+      },
+    },
+    {
+      query: {
+        maxWidth: 1200,
+      },
+     option: {
+       xAxis: {
+         axisLabel: {
+           fontSize: 12,
+         },
+       },
+       yAxis: {
+         axisLabel: {
+           fontSize: 12,
+         },
+       },
+
+       grid: [
+       {
+            left: '5%',
+            right: '27%',
+            top: 120,
+            bottom: 155,
+          },
+         
+       ],
+     },
+   },
+  ],
 })
 
 const TimelineFilters = {

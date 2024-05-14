@@ -950,7 +950,13 @@ import 'vue3-toastify/dist/index.css'
 import Modal from '@/UI/Modal.vue'
 import { t } from 'i18next'
 import ConfettiExplosion from "vue-confetti-explosion";
+import { useSound } from '@vueuse/sound'
+import successSound from '@/assets/sounds/success_sound.mp3'
+import errorSound from '@/assets/sounds/error_sound.mp3'
 
+
+const playSuccess = useSound(successSound, { volume: 1 })
+const playError = useSound(errorSound, { volume: 1 })
 //import { InitBalancer } from '@/composables/math/withdrawMath/balancer.sdk';
 
 
@@ -1288,6 +1294,7 @@ async function CreateNewPool() {
     }/tx/${tx.hash}`
     lineNumbers.value = tokensData.value.map(() => 0)
 
+    playSuccess.play()
     toast.update(CreateNewPoolPending, {
       render: Toast,
       data: {
@@ -1308,6 +1315,7 @@ async function CreateNewPool() {
 
     activeStep.value = 3
   } else {
+    playError.play()
     toast.update(CreateNewPoolPending, {
       render: Toast,
       data: {
@@ -1366,6 +1374,7 @@ async function JoinNewPool() {
   )
   if (tx.error) {
     setTxError(tx)
+    playError.play()
     toast.update(addLiquidityToPoolPending, {
       render: Toast,
       data: {
@@ -1386,7 +1395,7 @@ async function JoinNewPool() {
   }
   await tx.wait()
   SetSuccessTxPopup(tx.hash, 'Tokens successfully deposited')
-
+  playSuccess.play()
   toast.update(addLiquidityToPoolPending, {
     render: Toast,
     data: {

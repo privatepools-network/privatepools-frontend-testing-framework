@@ -240,7 +240,7 @@
           </div>
         </CCollapse>
       </div>
-      <div style="cursor: pointer" class="visible_head h-14 text-black dark:!text-white mt-4">
+      <div style="cursor: pointer" class="visible_head h-24 text-black dark:!text-white mt-4">
         <div class="d-flex align-items-center gap-2" style="margin-left: -10px">
           <div></div>
           <div class="text-black dark:!text-white font-bold w-full">

@@ -5,7 +5,12 @@ import { networkId } from '../../useNetwork'
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import Toast from '@/UI/Toast.vue'
 import { toast } from 'vue3-toastify'
+import successSound from '@/assets/sounds/success_sound.mp3'
+import errorSound from '@/assets/sounds/error_sound.mp3'
+import { useSound } from '@vueuse/sound'
 
+const playSuccess = useSound(successSound, { volume: 1 })
+const playError = useSound(errorSound, { volume: 1 })
 /**
  * Approve ERC20 tokens.
  * @function useApproveTokens
@@ -26,6 +31,8 @@ export async function useApproveTokens(tokens, amounts, wallet_address) {
     theme: 'dark',
     closeOnClick: false,
   })
+
+  let approveErrorCheck = false
 
   let provider = await InitializeMetamask()
   if (!provider) return
@@ -54,7 +61,8 @@ export async function useApproveTokens(tokens, amounts, wallet_address) {
       }
     } catch (error) {
       console.error('Error sending transaction:', error)
-
+      approveErrorCheck = true
+      playError.play()
       toast.update(approveTokensPending, {
         render: Toast,
         data: {
@@ -73,7 +81,9 @@ export async function useApproveTokens(tokens, amounts, wallet_address) {
       return false
     }
   }
-
+  if (approveErrorCheck === false) {
+    playSuccess.play()
+  }
   toast.update(approveTokensPending, {
     render: Toast,
     data: {
@@ -89,6 +99,6 @@ export async function useApproveTokens(tokens, amounts, wallet_address) {
     type: 'success',
     isLoading: false,
   })
-
+  approveErrorCheck = false
   return true
 }

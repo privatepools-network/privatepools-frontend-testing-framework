@@ -196,7 +196,7 @@ import help from '@/assets/icons/sidebarMobile/help.svg'
 defineProps(['navOpen', 'computedAddress'])
 
 const route = useRoute()
-console.log('route', route.name)
+// console.log('route', route.name)
 const visibleTrack = ref(false)
 const visibleAdmin = ref(false)
 

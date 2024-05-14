@@ -29,6 +29,8 @@
         </svg>
       </div>
     </div>
+    
+    <div class="flex items-center gap-1">
     <div class="portfolio-header__balance flex items-center text-black dark:!text-white"
       v-if="isBalanceHidden == false">
 
@@ -70,13 +72,13 @@
         </defs>
       </svg>
       <!-- ${{ Number(sidebarData?.userBalance?.totalYesterday).toFixed(2) }} -->
-      ({{ Number(sidebarData?.userBalance?.balanceChange).toFixed(1) }}%)
+      ({{ sidebarData?.userBalance?.balanceChange ? Number(sidebarData?.userBalance?.balanceChange).toFixed(1) : 0 }}%)
     </div>
   </div>
- 
+  </div>
 
   <div class="portfolio-stats">
-    <!-- <div class="portfolio-stats__el">
+    <div class="portfolio-stats__el">
       <div class="portfolio-stats__info">
         <div class="portfolio-stats__title dark:!text-[#e1e1e1] text-black">
           {{ $t('my_rewards') }}
@@ -88,14 +90,10 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="9" viewBox="0 0 12 9" fill="none">
             <path d="M6 0L11.1962 9H0.803848L6 0Z" fill="#2DC24E" />
           </svg>
-          <span class="portfolio-header__amount-percents"
-            >2.52% ({{ formatBalanceVariation(324.84) }})</span
-          >
-          <span class="portfolio-header__amount-percents">{{ $t('unavailable') }}
-          </span>
+          <span class="portfolio-header__amount-percents">${{ totalRewards }}</span>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <div class="portfolio-stats__el">
       <div v-if="performers.best" class="flex items-center">

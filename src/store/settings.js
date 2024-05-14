@@ -9,6 +9,8 @@ export const useSettings = defineStore('settings', {
     currentCurrency: useLocalStorage('currency', 'USD'),
 
     currentLanguage: useLocalStorage('language', 'English'),
+
+    currentParticles: useLocalStorage('particles', 'on'),
   }),
   actions: {
     updateCurrency(newCurrency) {
@@ -16,6 +18,9 @@ export const useSettings = defineStore('settings', {
     },
     updateLanguage(newLang) {
       this.currentLanguage = newLang
+    },
+    updateParticles(newProp) {
+      this.currentParticles = newProp
     },
   },
   getters: {},
