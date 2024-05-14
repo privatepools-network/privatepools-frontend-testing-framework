@@ -4,7 +4,7 @@ export async function getPortfolioData(network, address) {
   const subUrls = [
     'pools',
     'activity',
-    'pairsTokens',
+    'historicalPrices',
     'chart',
     'statistics',
     'financialStatement',
@@ -52,17 +52,18 @@ export async function getPortfolioData(network, address) {
     })),
     all_pools: data[0].data,
     activity: data[1].data,
-    pairsTokens: data[2].data,
-    pairs: data[2].data.pairs.map((item) => ({
-      Name: item['Name'],
-      'Liquidity Deposited': item['Liquidity Deposited'],
-      '% Of Pair': item['% Of Pair'],
-      TVL: item['TVL'],
-      Volume: item['Volume'],
-      Fees: item['Fees'],
-      'AVG Profit Per Trade': item['AVG Profit Per Trade'],
-      'Number Of Trades': item['Number Of Trades'],
-    })),
+    historicalPrices: data[2].data,
+    // pairsTokens: data[2].data,
+    // pairs: data[2].data.pairs.map((item) => ({
+    //   Name: item['Name'],
+    //   'Liquidity Deposited': item['Liquidity Deposited'],
+    //   '% Of Pair': item['% Of Pair'],
+    //   TVL: item['TVL'],
+    //   Volume: item['Volume'],
+    //   Fees: item['Fees'],
+    //   'AVG Profit Per Trade': item['AVG Profit Per Trade'],
+    //   'Number Of Trades': item['Number Of Trades'],
+    // })),
     chart: data[3].data,
     statistics: data[4].data,
     financialStatement: data[5].data,
@@ -115,10 +116,10 @@ export async function getPortfolioData(network, address) {
         (sum, item) => sum + parseFloat(item['profit30D_BTC']),
         0,
       ),
-      'APR 24H': aprs['24H'],
-      'APR 7D': aprs['7D'],
-      'APR 30D': aprs['1M'],
-      APR: aprs['1Y'],
+      'APR 24H': aprs['24H'].APR,
+      'APR 7D': aprs['7D'].APR,
+      'APR 30D': aprs['1M'].APR,
+      APR: aprs['1Y'].APR,
       rewards: '-',
       portfolioBalance: data[0].data.reduce(
         (sum, value) => sum + value.shareBalanceUsd,
@@ -155,8 +156,6 @@ export async function getUserPools(network, userAddress) {
   return response.data
 }
 export async function getRewards(network) {
-  const response = await axios.get(
-    `${BACKEND_URL[network]}/rewards`,
-  )
+  const response = await axios.get(`${BACKEND_URL[network]}/rewards`)
   return response.data
 }

@@ -29,16 +29,16 @@
     </div>
     <div class="d-flex flex-column h-100 gap-3 mt-3">
       <div class="d-flex flex-column">
-        <div class="balance_text text-black dark:!text-white" >
-          <CounterAnimation :currency="false" :value="Number(sidebarData?.userBalance?.total).toFixed(2)"/>
+        <div class="balance_text text-black dark:!text-white">
+          <CounterAnimation :currency="false" :decimalPlaces="currencyDecimals"
+            :value="parseFloat(sidebarData?.userBalance ? sidebarData?.userBalance[`total${postfix}`] : 0).toFixed(currencyDecimals)" />
         </div>
         <!-- <div v-else class="py-8 px-4">
           <ThreeDots />
         </div> -->
         <div class="balance_change" v-if="sidebarData?.userBalance?.total != null">
-          <svg
-          :class="sidebarData?.userBalance?.balanceChange > 0 ? '' : 'rotate-180'"
-          width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg :class="sidebarData?.userBalance?.balanceChange > 0 ? '' : 'rotate-180'" width="11" height="11"
+            viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_67_2314)">
               <path
                 d="M8.55317 6.00527C9.03679 6.84355 8.43184 7.89135 7.46406 7.89166L2.51976 7.89456C1.55104 7.89549 0.945005 6.84648 1.42942 6.00745L3.90407 1.72123C4.38848 0.882201 5.59997 0.882539 6.08352 1.72194L8.55317 6.00527Z"
@@ -134,11 +134,12 @@
           <div>
             <div class="d-flex flex-column align-items-end">
               <div class="text-black dark:!text-white text-[12px]">
-                ${{ item.usdAmount.toFixed(2) }}
+                <CurrencySymbol /> {{ item[`${prefix}Amount`].toFixed(currencyDecimals) }}
               </div>
 
               <div class="d-flex align-items-center gap-1 text-black dark:!text-[#8e8e8e] text-[10px]">
-                <svg :class="item.percentChange24h > 0 ? '' : 'rotate-180'" width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg :class="item.percentChange24h > 0 ? '' : 'rotate-180'" width="7" height="7" viewBox="0 0 7 7"
+                  fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_74_4052)">
                     <path
                       d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z"
@@ -203,25 +204,26 @@
             <div>
               <div class="d-flex flex-column align-items-end">
                 <div class="text-black dark:!text-white text-[12px] font-['Roboto_Mono',_monospace]">
-                  ${{ item.shareBalanceUsd.toFixed(3) }}
+                  ${{ item[`shareBalance${postfix_raw}`].toFixed(3) }}
                 </div>
                 <div v-if="item.LiquidityType === 'WP'"
                   class="flex items-center gap-1 text-black dark:!text-[#8e8e8e] text-[10px]">
-                  <svg :class="item.percentage > 0 ? '' : 'rotate-180'" width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g clip-path="url(#clip0_74_4052)">
-                    <path
-                      d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z"
-                      :fill="item.percentage > 0 ? '#40B66B' : '#D22B2B'" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_74_4052">
-                      <rect width="5.12436" height="5.12436" fill="white"
-                        transform="translate(4.4375 7) rotate(-150)" />
-                    </clipPath>
-                  </defs>
-                </svg>
+                  <svg :class="item.percentage > 0 ? '' : 'rotate-180'" width="7" height="7" viewBox="0 0 7 7"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_74_4052)">
+                      <path
+                        d="M5.44288 3.82129C5.75064 4.35474 5.36567 5.02152 4.74981 5.02172L1.60344 5.02356C0.986982 5.02415 0.601322 4.3566 0.909584 3.82268L2.48436 1.09508C2.79262 0.561153 3.56357 0.561368 3.87129 1.09553L5.44288 3.82129Z"
+                        :fill="item.percentage > 0 ? '#40B66B' : '#D22B2B'" />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_74_4052">
+                        <rect width="5.12436" height="5.12436" fill="white"
+                          transform="translate(4.4375 7) rotate(-150)" />
+                      </clipPath>
+                    </defs>
+                  </svg>
                   {{ item.percentage.toFixed(2) }}%
-             
+
                 </div>
                 <div v-else class="flex items-center gap-1 text-black dark:!text-[#8e8e8e] text-[10px]">
                   On range <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -323,7 +325,7 @@
             <a v-for="(item, i) in addressActivity.filter(
               (el) => el.type == 'month',
             )" :key="`${i}-token`" target="_blank" :href="`${configService.getNetworkConfig(56).explorer}/tx/${item.hash
-                }`" class="p-2 d-flex align-items-center justify-content-between gap-2" style="text-decoration: none">
+              }`" class="p-2 d-flex align-items-center justify-content-between gap-2" style="text-decoration: none">
               <div class="d-flex align-items-center gap-2">
                 <img :src="item.img" width="38" />
                 <div class="d-flex flex-column">
@@ -367,6 +369,21 @@ import ThreeDots from '../loaders/ThreeDots.vue'
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 import { Dropdown } from 'floating-vue'
 import CounterAnimation from '@/UI/CounterAnimation.vue'
+import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
+
+
+const settingsStore = useSettings();
+
+const { currentCurrency } = storeToRefs(settingsStore)
+const currencyDecimals = computed(() =>
+  currentCurrency == 'USD' ? 2 : 5,
+)
+
+const prefix = computed(() => currentCurrency.value == "USD" ? "usd" : currentCurrency.value)
+const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
+const postfix_raw = computed(() => currentCurrency.value == "USD" ? "Usd" : `${currentCurrency.value}`)
 
 const props = defineProps(['isConnectedToWeb3', 'address'])
 const emit = defineEmits(['toggleSettings', 'toggleToWallets', 'setAddress'])
@@ -416,13 +433,13 @@ onMounted(async () => {
 
 async function handlePortfolioData() {
   if (props.address) {
-    let mmProvider = await InitializeMetamask()
-    addressActivity.value = await useWalletActivity(
+    const [_activity, _pools, _sidebarData] = await Promise.all([useWalletActivity(
       props.address,
       networkId.value,
-    )
-    addressPools.value = await useWalletPools(props.address, networkId.value)
-    sidebarData.value = await getSidebarData(props.address, 56)
+    ), useWalletPools(props.address, networkId.value), getSidebarData(props.address, 56)])
+    addressActivity.value = _activity
+    addressPools.value = _pools
+    sidebarData.value = _sidebarData
   }
 }
 </script>

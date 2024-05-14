@@ -1,9 +1,9 @@
 <template>
   <Dropdown :distance="4" :placement="'bottom-center'">
-    <div class="button_drop dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white p-2">
+    <div class="button_drop dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white p-2 flex">
       <img :src="rewards_icon" />
 
-      ${{ totalRewards }}
+      <CurrencySymbol/>{{ totalRewards }}
     </div>
     <template #popper>
       <div class="header__popup bg-white dark:!bg-[#02031C]">
@@ -24,7 +24,7 @@
             </svg>
           </div>
           <div class="flex items-center gap-1">
-            ${{ totalRewards }}
+            <CurrencySymbol/>{{ totalRewards }}
             <img :src="rewards_icon" width="16" />
           </div>
           <div v-if="openRewardsDropdown" class="flex flex-col gap-1" v-for="item, i in rewards" :key="`${i}-rewards`">
@@ -32,7 +32,7 @@
               <img class="w-3 h-3" :src="computedTokenImage(item.symbol)" :title="item.symbol" />
               <div class="text-[10px] font-['Roboto_Mono',_monospace]">{{ item.value }}</div>
               <div class="text-[10px] font-['Roboto_Mono',_monospace]">{{ item.symbol }}</div>
-              <div class="text-[10px] font-['Roboto_Mono',_monospace]">({{ item.usdValue }})</div>
+              <div class="text-[10px] font-['Roboto_Mono',_monospace]">({{ item[`${postfix_raw_lower}Value`] }})</div>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
           <div class="text-[12px] font-['Syne',_sans-serif] text-black dark:!text-[#626262]">
             {{ $t('total_staked') }}
           </div>
-          <div>${{ userTotalStaked }}</div>
+          <div class="flex"><CurrencySymbol/>{{ userTotalStaked }}</div>
           <div class="text-[10px] font-['Syne',_sans-serif] text-black dark:!text-[#626262]">
             {{ `in ${userPools.length} pool(s)` }}
           </div>
@@ -58,15 +58,29 @@ import computedTokenImage from '@/composables/useComputedTokenImage'
 import { InitializeMetamask } from "@/lib/utils/metamask"
 import { ethers } from 'ethers';
 import { getHeaderData } from "@/composables/data/headerData"
+import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import rewards_abi from '@/lib/abi/Rewards.json'
-import {claimRewards} from "@/composables/portfolio/useRewards"
+import { claimRewards } from "@/composables/portfolio/useRewards"
 import { getUserPools, getRewards } from '@/composables/data/portfolioData';
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
+
+const settingsStore = useSettings()
+
+const { currentCurrency } = storeToRefs(settingsStore)
+
+const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
+const postfix_raw = computed(() => currentCurrency.value == "USD" ? "Usd" : `${currentCurrency.value}`)
+const postfix_raw_lower = computed(() => currentCurrency.value == "USD" ? "usd" : `${currentCurrency.value}`)
+const currencyDecimals = computed(() =>
+  currentCurrency.value == 'USD' ? 2 : 5,
+)
 const openRewardsDropdown = ref(false)
 
 const rewards = ref([])
-const totalRewards = computed(() => rewards.value.reduce((sum, value) => sum + value.rewardUsd, 0).toFixed(2))
+const totalRewards = computed(() => rewards.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
 const userPools = ref([])
-const userTotalStaked = computed(() => userPools.value.reduce((sum, pool) => sum + pool.shareBalanceUsd, 0).toFixed(2))
+const userTotalStaked = computed(() => userPools.value.reduce((sum, pool) => sum + pool[`shareBalance${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
 onMounted(async () => {
   const mmProvider = await InitializeMetamask()
   if (mmProvider) {
