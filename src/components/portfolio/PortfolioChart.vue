@@ -112,7 +112,21 @@ const filters = ref({
 const preFiltersList = ref([
   {
     title: 'Staked Liquidity',
-    code: 'Staked Liquidity',
+    code: 'TVL',
+    selected: true,
+    cumulable: false,
+    isSolo: true,
+  },
+  {
+    title: 'Staked Liquidity',
+    code: 'TVL_ETH',
+    selected: true,
+    cumulable: false,
+    isSolo: true,
+  },
+  {
+    title: 'Staked Liquidity',
+    code: 'TVL_BTC',
     selected: true,
     cumulable: false,
     isSolo: true,
@@ -120,6 +134,20 @@ const preFiltersList = ref([
   {
     title: 'PNL',
     code: 'PNL',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'PNL',
+    code: 'PNL_ETH',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'PNL',
+    code: 'PNL_BTC',
     selected: true,
     cumulable: true,
     isSolo: true,
@@ -146,6 +174,20 @@ const preFiltersList = ref([
     isSolo: true,
   },
   {
+    title: 'Volume',
+    code: 'Volume_ETH',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'Volume',
+    code: 'Volume_BTC',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
     title: 'Number of Trades',
     code: 'Trades',
     selected: true,
@@ -162,6 +204,20 @@ const preFiltersList = ref([
   {
     title: 'Capital Gains',
     code: 'Capital Gains',
+    selected: true,
+    cumulable: false,
+    isSolo: true,
+  },
+  {
+    title: 'Capital Gains',
+    code: 'Capital Gains_ETH',
+    selected: true,
+    cumulable: false,
+    isSolo: true,
+  },
+  {
+    title: 'Capital Gains',
+    code: 'Capital Gains_BTC',
     selected: true,
     cumulable: false,
     isSolo: true,
@@ -200,12 +256,12 @@ const dates = computed(() => {
 
 const dataGasFees = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'PNL').selected)
-    return filteredData.value.map((v) => v['PNL'])
+    return filteredData.value.map((v) => v[`PNL${postfix.value}`])
   return []
 })
 const dataCapitalGains = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Capital Gains').selected)
-    return filteredData.value.map((v) => v['Capital Gains'])
+    return filteredData.value.map((v) => v[`Capital Gains${postfix.value}`])
   return []
 })
 const dataRewards = computed(() => {
@@ -293,7 +349,7 @@ const optionObj = ref({
     },
     trigger: 'axis',
     confine: true,
-    valueFormatter: (value) => value ? Number(value).toFixed(3) : '-',
+    valueFormatter: (value) => value ? Number(value).toFixed(5) : 0,
     axisPointer: {
       type: 'cross',
       lineStyle: {
@@ -317,7 +373,7 @@ const optionObj = ref({
       min: 0,
 
       gridIndex: 0,
-     
+
       axisLabel: {
         formatter: function (value) {
           return `${convertFromNumber(value)}`
@@ -335,7 +391,7 @@ const optionObj = ref({
       position: 'right',
       alignTicks: true,
       axisTick: { show: false },
-       splitLine: {
+      splitLine: {
         lineStyle: {
           color: 'rgba(51,51,51, 0.35)',
         },
@@ -708,12 +764,12 @@ const optionObj = ref({
       },
       option: {
         grid: [
-        {
-           left: '5%',
-           right: '18%',
-           top: 120,
-           bottom: 155,
-         },
+          {
+            left: '5%',
+            right: '18%',
+            top: 120,
+            bottom: 155,
+          },
         ],
       },
     },
@@ -721,29 +777,29 @@ const optionObj = ref({
       query: {
         maxWidth: 1200,
       },
-     option: {
-       xAxis: {
-         axisLabel: {
-           fontSize: 12,
-         },
-       },
-       yAxis: {
-         axisLabel: {
-           fontSize: 12,
-         },
-       },
+      option: {
+        xAxis: {
+          axisLabel: {
+            fontSize: 12,
+          },
+        },
+        yAxis: {
+          axisLabel: {
+            fontSize: 12,
+          },
+        },
 
-       grid: [
-       {
+        grid: [
+          {
             left: '5%',
             right: '27%',
             top: 120,
             bottom: 155,
           },
-         
-       ],
-     },
-   },
+
+        ],
+      },
+    },
   ],
 })
 

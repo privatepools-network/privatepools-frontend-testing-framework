@@ -611,7 +611,7 @@ const currencySelected = ref({ symbol: '$', code: 'USD' })
 const currency = computed(() => currencySelected.value.code)
 const currencySymbol = computed(() => currentCurrency.value == "USD" ? "$" : currentCurrency.value)
 const currencyDecimals = computed(() =>
-  currentCurrency == 'USD' ? 2 : 5,
+  currentCurrency.value == 'USD' ? 2 : 5,
 )
 
 const currency_prices = ref(null)

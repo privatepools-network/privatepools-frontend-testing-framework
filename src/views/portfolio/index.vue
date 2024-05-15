@@ -467,7 +467,7 @@ onMounted(async () => {
   }
   const mmProvider = await InitializeMetamask()
   if (mmProvider) {
-    account.value = await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'//await mmProvider.getSigner().getAddress()//
+    account.value =  await mmProvider.getSigner().getAddress()// await mmProvider.getSigner().getAddress()////await mmProvider.getSigner().getAddress()//
     if (process.env.VUE_APP_LOCAL_API) {
       const [_portfolio, _rewards, _balance] = await Promise.all([getPortfolioData(56, account.value), getRewards(56), getPortfolioBalance(56, account.value)])
       portfolioData.value = _portfolio
