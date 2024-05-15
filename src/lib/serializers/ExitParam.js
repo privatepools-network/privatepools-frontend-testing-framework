@@ -24,7 +24,7 @@ export default class ExitParams {
 
   serialize(account, amountsOut, tokensOut, bptIn, exitTokenIndex, exactOut) {
     const parsedAmountsOut = this.parseAmounts(amountsOut)
-    const parsedBptIn = parseUnits(bptIn, this.pool.value.onchain.decimals)
+    const parsedBptIn = parseUnits(bptIn.toString(), this.pool.value.onchain.decimals)
     const assets = this.parseTokensOut(tokensOut)
     const txData = this.txData(
       parsedAmountsOut,
@@ -53,7 +53,7 @@ export default class ExitParams {
   parseAmounts(amounts) {
     return amounts.map((amount, i) => {
       const token = this.pool.value.tokens[i]
-      return parseUnits(amount, token.decimals)
+      return parseUnits(amount.toString(), token.decimals)
     })
   }
 

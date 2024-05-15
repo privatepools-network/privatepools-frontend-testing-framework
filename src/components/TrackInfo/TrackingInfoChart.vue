@@ -49,6 +49,17 @@ import { isRightChainName } from '@/composables/pools/usePoolSwapsStats'
 import ChartTimeline from '@/UI/ChartTimeline.vue'
 import { useDark } from '@vueuse/core'
 import { t } from 'i18next'
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
+
+const settingsStore = useSettings()
+
+const { currentCurrency } = storeToRefs(settingsStore)
+
+
+const postfix = computed(() =>
+  currentCurrency.value == 'USD' ? '' : `_${currentCurrency.value}`,
+)
 
 const isDark = useDark()
 
@@ -118,8 +129,36 @@ const preFiltersList = ref([
     cumulable: true,
   },
   {
+    title: 'Revenue',
+    code: 'Revenue_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Revenue',
+    code: 'Revenue_BTC',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
     title: 'Gas Fees',
     code: 'Gas Fees',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Gas Fees',
+    code: 'Gas Fees_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Gas Fees',
+    code: 'Gas Fees_BTC',
     isSolo: true,
     selected: true,
     cumulable: true,
@@ -139,8 +178,36 @@ const preFiltersList = ref([
     cumulable: true,
   },
   {
+    title: 'Volume',
+    code: 'Volume_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Volume',
+    code: 'Volume_BTC',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
     title: 'TVL',
     code: 'TVL',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+  {
+    title: 'TVL',
+    code: 'TVL_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+  {
+    title: 'TVL',
+    code: 'TVL_BTC',
     isSolo: true,
     selected: true,
     cumulable: false,
@@ -157,6 +224,20 @@ const preFiltersList = ref([
   {
     title: 'Profits',
     code: 'Profits',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Profits',
+    code: 'Profits_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Profits',
+    code: 'Profits_BTC',
     isSolo: true,
     selected: true,
     cumulable: true,
@@ -183,23 +264,23 @@ const dates = computed(() => {
 
 const dataGasFees = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Gas Fees').selected)
-    return filteredData.value.map((v) => v['Gas Fees'])
+    return filteredData.value.map((v) => v[`Gas Fees${postfix.value}`])
   return []
 })
 const dataTVL = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'TVL').selected)
-    return filteredData.value.map((v) => v['TVL']["Binance"])
+    return filteredData.value.map((v) => v[`TVL${postfix.value}`]["Binance"])
   return []
 })
 const dataRevenues = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Revenue').selected)
-    return filteredData.value.map((v) => v['Revenue'])
+    return filteredData.value.map((v) => v[`Revenue${postfix.value}`])
   return []
 })
 
 const dataVolumes = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Volume').selected)
-    return filteredData.value.map((v) => v.Volume)
+    return filteredData.value.map((v) => v[`Volume${postfix.value}`])
   return []
 })
 const dataTrades = computed(() => {
@@ -221,7 +302,7 @@ const dataVolatilityIndexes = computed(() => {
 })
 const dataProfits = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Profits').selected)
-    return filteredData.value.map((v) => v[`Profits`])
+    return filteredData.value.map((v) => v[`Profits${postfix.value}`])
   return []
 })
 
@@ -808,7 +889,6 @@ function getFilteredData() {
       ...chart_data[indexes[i]],
       ...sumFields(previousItems, selectedCumulableCodes),
     }
-    let profitItem = sumFields(notFilterdPreviousItems, ['Profits'])
     let result_item = {
       Blockchain: item.Blockchain,
       timestamp: item.timestamp,
