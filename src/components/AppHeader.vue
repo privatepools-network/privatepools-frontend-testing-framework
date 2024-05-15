@@ -98,6 +98,8 @@ const tokensOptions = computed(() => {
       label: item.name,
       img: item.symbol,
       price: `${item.price.toFixed(2)}$`,
+      price_ETH: `${item.price_ETH.toFixed(5)} ETH`,
+      price_BTC: `${item.price_BTC.toFixed(5)} BTC`,
       percentChange: `${item.priceChange.toFixed(2)}%`,
       tokens: true,
     })),
@@ -117,6 +119,8 @@ const tokensOptions = computed(() => {
       desc: item.tokens.map((token) => token.symbol).join('/'),
       percentChange: '0%',
       price: `${parseFloat(item.totalLiquidity).toFixed(2)}$`,
+      price_ETH: `${parseFloat(item.totalLiquidity_ETH).toFixed(5)} ETH`,
+      price_BTC: `${parseFloat(item.totalLiquidity_BTC).toFixed(5)} BTC`,
       pools: true,
     })),
   )

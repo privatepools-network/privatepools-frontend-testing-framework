@@ -67,7 +67,7 @@ export async function useJoinPool(
 
 function getMaxBalance(token) {
   let balance = token.userBalance
-    ? parseUnits(token.userBalance, token.decimals)
+    ? parseUnits(token.userBalance.toString(), token.decimals)
     : parseUnits('0', token.decimals)
   let slippage = parseUnits('0.001', token.decimals)
   let amount = parseUnits(token.amount.toFixed(token.decimals), token.decimals)

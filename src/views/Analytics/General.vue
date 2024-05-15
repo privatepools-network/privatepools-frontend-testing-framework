@@ -82,6 +82,7 @@ import MainChart from '@/UI/MainChart.vue';
 import { t } from 'i18next';
 import { useWalletPools } from '@/composables/wallet/useWalletPools'
 import { InitializeMetamask } from '@/lib/utils/metamask'
+
 const allPoolsTableData = ref([])
 const allPairsTableData = ref([])
 const chartData = ref([])
