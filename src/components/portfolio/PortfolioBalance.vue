@@ -78,7 +78,7 @@
   </div>
 
   <div class="portfolio-stats">
-    <div class="portfolio-stats__el">
+    <!-- <div class="portfolio-stats__el">
       <div class="portfolio-stats__info">
         <div class="portfolio-stats__title dark:!text-[#e1e1e1] text-black">
           {{ $t('my_rewards') }}
@@ -93,7 +93,7 @@
           <span class="portfolio-header__amount-percents">${{ totalRewards }}</span>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="portfolio-stats__el">
       <div v-if="performers.best" class="flex items-center">

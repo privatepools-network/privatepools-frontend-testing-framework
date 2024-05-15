@@ -7,6 +7,7 @@
       @search:input="handleInput"
       :search-placeholder="''"
       :placeholder="''"
+      :clear-on-select="true"
     >
       <template #dropdown-item="{ option }">
         <div
