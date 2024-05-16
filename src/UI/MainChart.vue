@@ -75,5 +75,9 @@ function changeCumulativeMode() {
   height: 100%;
 }
 
-
+:deep(.apexcharts-tooltip) {
+  background: rgba(2, 3, 28, 0.65) !important;
+  color: white;
+  backdrop-filter: blur(3px);
+}
 </style>

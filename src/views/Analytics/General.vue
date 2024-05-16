@@ -134,7 +134,7 @@ const series = ref([
   },
   {
     name: 'Revenue',
-    type: 'line',
+    type: 'area',
     data: [20, 29, 37, 36, 44, 45, 50, 58],
   },
 ])
@@ -187,7 +187,6 @@ const chartOptions = ref({
           color: '#008FFB',
         },
       },
-   
     },
     {
       min: 0,
@@ -241,23 +240,37 @@ const chartOptions = ref({
       },
     },
   ],
-
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      borderRadius: 10,
+      borderRadiusApplication: 'end',
+      columnWidth: '70%',
+      barHeight: '70%',
+    },
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shade: "light",
+      type: "vertical",
+      shadeIntensity: 0,
+      opacityFrom: 0.85,
+      opacityTo: 0.65
+    }
+  },
   stroke: {
     show: false,
-    curve: 'straight',
-    lineCap: 'butt',
-    colors: undefined,
-    width: 2,
-    dashArray: 0,
+
   },
   tooltip: {
-    // theme: false,
+    theme: false,
 
     fixed: {
       enabled: true,
       position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
       offsetY: 30,
-      offsetX: 60,
+      offsetX: 80,
     },
   },
   legend: {
