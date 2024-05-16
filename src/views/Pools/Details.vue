@@ -1899,7 +1899,7 @@ function changeToDepositView() {
   align-items: center;
 
   &__image {
-    width: 1.5vw;
+    width: 25px
   }
 
   &__text {

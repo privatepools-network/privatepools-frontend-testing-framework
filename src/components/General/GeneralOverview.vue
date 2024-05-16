@@ -237,6 +237,10 @@ const smallContainerMock = computed(() =>
   padding: 20px 30px;
   width: 16.5vw;
   box-shadow: 0px 4px 4px 0px #00000040;
+
+  @media (min-width: 1950px) {
+    width: 10.5vw;
+  }
 }
 
 .overview_small_container {
@@ -247,6 +251,10 @@ const smallContainerMock = computed(() =>
   width: 14vw;
   height: fit-content;
   box-shadow: 0px 4px 4px 0px #00000040;
+
+  @media (min-width: 1950px) {
+    width: 10.5vw;
+  }
 }
 
 .icon_container {

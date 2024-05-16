@@ -1,4 +1,4 @@
-cking<template>
+<template>
   <div class="track_chart_card bg-white dark:!bg-[#22222224]">
     <div class="d-flex justify-content-end"></div>
     <div v-if="filteredData.length === 0" class="chart_inside">

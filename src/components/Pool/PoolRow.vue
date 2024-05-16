@@ -611,6 +611,10 @@ const visibleDetails = ref(false)
   padding: 10px;
   text-align: center;
 
+  @media (min-width: 1950px) {
+    width: 40vw;
+  }
+
   &_LP {
     background: #fb800f;
     // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
