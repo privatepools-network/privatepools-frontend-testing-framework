@@ -1,20 +1,13 @@
 import axios from 'axios'
-import { BACKEND_URL } from '../pools/mappings'
+import { BACKEND_URL, REDUNDANT_BACKEND_URL } from '../pools/mappings'
 export async function getPortfolioData(network, address) {
-  const subUrls = [
-    'pools',
-    'activity',
-    'historicalPrices',
-    'chart',
-    'statistics',
-    'financialStatement',
-  ]
-  const promises = []
-  for (let i = 0; i < subUrls.length; i++) {
-    const url = `${BACKEND_URL[network]}/data/portfolio/${address}/${subUrls[i]}`
-    promises.push(axios.get(url))
+  let data = []
+  try {
+    data = await getPortfolioDataByUrl(BACKEND_URL[network], address)
+  } catch (e) {
+    console.error('[SERVER ERROR]', e)
+    data = await getPortfolioDataByUrl(REDUNDANT_BACKEND_URL[network], address)
   }
-  const data = await Promise.all(promises)
   let aprs = data[4].data.aprTable
   if (!aprs) {
     aprs = {
@@ -142,20 +135,62 @@ export async function getPortfolioData(network, address) {
     },
   }
 }
+
+async function getPortfolioDataByUrl(base_url, address) {
+  const subUrls = [
+    'pools',
+    'activity',
+    'historicalPrices',
+    'chart',
+    'statistics',
+    'financialStatement',
+  ]
+  const promises = []
+  for (let i = 0; i < subUrls.length; i++) {
+    const url = `${base_url}/data/portfolio/${address}/${subUrls[i]}`
+    promises.push(axios.get(url))
+  }
+  const data = await Promise.all(promises)
+  return data
+}
+
 export async function getPortfolioBalance(network, userAddress) {
-  const response = await axios.get(
-    `${BACKEND_URL[network]}/portfolio/${userAddress}`,
-  )
-  return response.data
+  try {
+    const response = await axios.get(
+      `${BACKEND_URL[network]}/portfolio/${userAddress}`,
+    )
+    return response.data
+  } catch (e) {
+    console.error('[SERVER ERROR]', e)
+  }
+  return (
+    await axios.get(
+      `${REDUNDANT_BACKEND_URL[network]}/portfolio/${userAddress}`,
+    )
+  ).data
 }
 
 export async function getUserPools(network, userAddress) {
-  const response = await axios.get(
-    `${BACKEND_URL[network]}/data/portfolio/${userAddress}/pools`,
-  )
-  return response.data
+  try {
+    const response = await axios.get(
+      `${BACKEND_URL[network]}/data/portfolio/${userAddress}/pools`,
+    )
+    return response.data
+  } catch (e) {
+    console.error('[SERVER ERROR]', e)
+  }
+  return (
+    await axios.get(
+      `${REDUNDANT_BACKEND_URL[network]}/data/portfolio/${userAddress}/pools`,
+    )
+  ).data
 }
 export async function getRewards(network) {
-  const response = await axios.get(`${BACKEND_URL[network]}/rewards`)
-  return response.data
+  try {
+    const response = await axios.get(`${BACKEND_URL[network]}/rewards`)
+    return response.data
+  } catch (e) {
+    console.error('[SERVER ERROR]', e)
+  }
+  return (await axios.get(`${REDUNDANT_BACKEND_URL[network]}/rewards`)).data
 }

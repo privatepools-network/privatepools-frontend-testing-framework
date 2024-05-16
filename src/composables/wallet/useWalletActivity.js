@@ -6,7 +6,7 @@ import {
   POOL_FACTORY_CONTRACT_ADDRESS,
   V3_SWAP_ROUTER_ADDRESS,
 } from '../concentrated-liquidity/constants'
-import { BACKEND_URL } from '../pools/mappings'
+import { BACKEND_URL, REDUNDANT_BACKEND_URL } from '../pools/mappings'
 
 const PPContracts = [
   POOL_FACTORY_CONTRACT_ADDRESS,
@@ -19,9 +19,17 @@ const PPContracts = [
 ]
 
 export async function useWalletActivity(account, network) {
-  let response = await axios.get(
-    `${BACKEND_URL[network]}/portfolio/activity/${account}`,
-  )
+  let response = null
+  try {
+    response = await axios.get(
+      `${BACKEND_URL[network]}/portfolio/activity/${account}`,
+    )
+  } catch (e) {
+    console.error('[SERVER ERROR]', e)
+    response = await axios.get(
+      `${REDUNDANT_BACKEND_URL[network]}/portfolio/activity/${account}`,
+    )
+  }
 
   let txs = response.data
   if (!txs) return []

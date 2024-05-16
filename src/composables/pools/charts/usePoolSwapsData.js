@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/vue-query'
 import axios from 'axios'
-import { BACKEND_URL } from '../mappings'
+import { BACKEND_URL, REDUNDANT_BACKEND_URL } from '../mappings'
 import { networkId } from '../../useNetwork'
 
 /**
@@ -13,8 +13,16 @@ import { networkId } from '../../useNetwork'
 export async function GetPoolSwapsData(poolId, network) {
   network = network ? network : networkId.value
   if (!network || !BACKEND_URL[network]) return []
-  const url = `${BACKEND_URL[network]}/output`
-  let response = await axios.get(url)
+  let response = null
+  try{
+
+    const url = `${BACKEND_URL[network]}/output`
+    response = await axios.get(url)
+  }
+  catch(e){
+    console.error("[SERVER ERROR]", e)
+    response = await axios.get(`${REDUNDANT_BACKEND_URL[network]}/output`)
+  }
   let data = response.data
   let filtered = data
   if (poolId)
