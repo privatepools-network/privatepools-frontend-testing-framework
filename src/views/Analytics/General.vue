@@ -23,7 +23,8 @@
 
       {{ console.log('filteredData', filteredData) }}
       <!-- Test chart -->
-      <!-- <MainChart
+      <MainChart
+        :height="600"
         :series="series"
         :chartOptions="chartOptions"
         :filteredData="filteredData"
@@ -32,11 +33,11 @@
         :isCumulativeMode="isCumulativeMode"
         :changeTimeline="changeTimeline"
         :changeCumulativeMode="changeCumulativeMode"
-      /> -->
-      <TrackingInfoChart 
+      />
+      <!-- <TrackingInfoChart 
         :chartData="allData.chart" 
         :chainSelected="chainSelected"
-        />
+        /> -->
     </div>
 
     <div class="mt-5 mb-3 flex justify-between items-center">
@@ -74,13 +75,14 @@
       :all_activities="allData.activities ? allData.activities : []"
     />
   </MainCard>
+  {{ console.log('dates', dates) }}
 </template>
 
 <script setup>
 import MainCard from '@/UI/MainCard.vue'
 import GeneralBotCard from '@/components/General/GeneralBotCard.vue'
 import TrackingInfoChart from '@/components/TrackInfo/TrackingInfoChart.vue'
-import { ref, onBeforeMount, watch, computed } from 'vue'
+import { ref, onBeforeMount, watch, computed, onMounted, watchEffect } from 'vue'
 import { Network, DisplayNetwork, networkId } from '@/composables/useNetwork'
 import { FormatAllPoolForTrackingPage } from '@/lib/formatter/poolsFormatter'
 import { FormatAllPairsData } from '@/lib/formatter/trackPairsFormatter'
@@ -199,7 +201,7 @@ const dates = computed(() => {
   return filteredData.value.map((v) => v.Date)
 })
 
-console.log('dates', dates)
+
 
 const preFiltersList = ref([
   {
@@ -399,7 +401,6 @@ function yAxisEntity(seriesName, color, opposite, show) {
       color: color,
     },
     labels: {
-      
       style: {
         colors: color,
         fontSize: '10px',
@@ -415,8 +416,6 @@ function yAxisEntity(seriesName, color, opposite, show) {
     },
   }
 }
-
-
 
 const series = computed(() => [
   {
@@ -467,15 +466,29 @@ const series = computed(() => [
     data: dataProfits.value,
     color: '#00FF75',
   },
-
 ])
 
 const chartOptions = ref({
   chart: {
     type: 'line',
     stacked: false,
-    toolbar: false,
- 
+
+    toolbar: {
+      show: true,
+      offsetX: 0,
+      offsetY: -20,
+      tools: {
+        download: true,
+        // selection: true,
+        zoom: true,
+        zoomin: true,
+        zoomout: true,
+        // pan: true,
+        reset: true,
+      },
+
+      autoSelected: 'zoom',
+    },
   },
 
   dataLabels: {
@@ -483,6 +496,10 @@ const chartOptions = ref({
   },
 
   xaxis: {
+    // min: 1,
+    // max: 10,
+    // range: 10,
+    // type: 'datetime',
     tooltip: { enabled: false },
     categories: dates,
     tickAmount: 12,
@@ -503,12 +520,11 @@ const chartOptions = ref({
     yAxisEntity('Gas Fees', '#008FFB', true, true),
     yAxisEntity('Revenue', '#9f9fff', true, true),
     yAxisEntity('TVL', '#F07E07', false, true),
-    yAxisEntity('Volume', '#ff6464', true, true),
+    yAxisEntity('Volume', '#ff6464', true, false),
     yAxisEntity('Trades', '#6e27b2', true, true),
     yAxisEntity('APR', '#ffb6c1', true, true),
-    yAxisEntity('Volatility Index', '#01B47E', true, true),
-    yAxisEntity('Profits', '#00FF75', true, true),
-  
+    yAxisEntity('Volatility Index', '#01B47E', true, false),
+    yAxisEntity('Profits', '#00FF75', true, false),
   ],
   plotOptions: {
     bar: {
@@ -525,20 +541,20 @@ const chartOptions = ref({
       shade: 'light',
       type: 'vertical',
       shadeIntensity: 0,
-      opacityFrom: 0.90,
+      opacityFrom: 0.9,
       opacityTo: 0.65,
       stops: [0, 20, 100],
     },
   },
   stroke: {
     curve: 'smooth',
-    show: false,
+    width: 1,
   },
   tooltip: {
     theme: false,
 
     fixed: {
-      enabled: true,
+      enabled: false,
       position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
       offsetY: 30,
       offsetX: 80,
@@ -549,7 +565,7 @@ const chartOptions = ref({
     horizontalAlign: 'left',
     offsetX: 40,
     fontSize: '12px',
-    fontFamily: 'Roboto Mono',
+    fontFamily: 'Montserrat',
     fontWeight: 500,
     colors: 'white',
     labels: {
@@ -942,6 +958,32 @@ async function InitPoolsData(network) {
     GetUniswapActivity(network),
   ])
 }
+
+watch(filteredData, async () => {
+  if (filteredData.value !== 0) {
+
+    console.log('chartOptions.value', chartOptions.value)
+
+    // Animated filtration by time
+    // setTimeout(() => {
+    //   const legendItems = document.querySelectorAll('.apexcharts-legend-text')
+    //   legendItems[3].dispatchEvent(new Event('click'))
+    // }, 50)
+    // setTimeout(() => {
+    //   const legendItems = document.querySelectorAll('.apexcharts-legend-text')
+    //   legendItems[4].dispatchEvent(new Event('click'))
+    // }, 50)
+    // setTimeout(() => {
+    //   const legendItems = document.querySelectorAll('.apexcharts-legend-text')
+    //   legendItems[6].dispatchEvent(new Event('click'))
+    // }, 50)
+    // setTimeout(() => {
+    //   const legendItems = document.querySelectorAll('.apexcharts-legend-text')
+    //   legendItems[7].dispatchEvent(new Event('click'))
+    // }, 50)
+  }
+})
+
 </script>
 <style lang="scss">
 @import '@/styles/_variables.scss';
