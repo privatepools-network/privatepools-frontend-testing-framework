@@ -171,7 +171,7 @@ const timelines = [
   },
 ]
 
-const currentTimeline = ref(timelines[0])
+const currentTimeline = ref(timelines[2])
 const isCumulativeMode = ref(false)
 
 const TimelineFilters = {
