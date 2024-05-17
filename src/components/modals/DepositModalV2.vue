@@ -60,11 +60,11 @@
                   .join('/')
               }}
             </div>
-            <div class="font-['Roboto_Mono',_monospace] text-[13px]">
+            <!-- <div class="font-['Roboto_Mono',_monospace] text-[13px]">
               ${{ total.toFixed(2) }} ({{
                 (total / ((pool.lpPrice * pool.totalShares) / 100)).toFixed(2)
               }}%)
-            </div>
+            </div> -->
           </div>
           <div>
             <svg
