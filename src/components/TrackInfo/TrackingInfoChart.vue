@@ -78,15 +78,11 @@ use([
 const props = defineProps([
   'chartData',
   'chainSelected',
-  'tokensData',
-  'historicalPrices',
-  'symbol',
 ])
 const {
   chartData: allChartData,
   chainSelected,
-  tokensData,
-  historicalPrices,
+
 } = toRefs(props)
 
 const isCumulativeMode = ref(false)
@@ -107,19 +103,7 @@ const ChainRelatedFields = [
 
 const chainsMap = ref(getDefaultChainsMapValue())
 
-const assets = computed(() =>
-  tokensData.value.length > 0
-    ? Array.from(
-      new Set(
-        tokensData.value
-          .filter((t) =>
-            isRightChainName(t.Blockchain, chainSelected.value.name),
-          )
-          .map((t) => t.symbol),
-      ),
-    )
-    : [],
-)
+
 const preFiltersList = ref([
   {
     title: 'Revenue',
@@ -261,6 +245,8 @@ const preFiltersList = ref([
 const dates = computed(() => {
   return filteredData.value.map((v) => v.Date)
 })
+
+
 
 const dataGasFees = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Gas Fees').selected)
@@ -932,38 +918,9 @@ function getFilteredData() {
   return result
 }
 
-function mapValuesForEachChain(previousItems, selectedCumulableCodes) {
-  let arbItems = previousItems.filter((v) => v.Blockchain == 'Arbitrum')
-  let bnbItems = previousItems.filter((v) => v.Blockchain == 'Binance')
-  let polygonItems = previousItems.filter((v) => v.Blockchain == 'Polygon')
-  let sum_arb = sumFields(arbItems, selectedCumulableCodes)
-  let sum_bnb = sumFields(bnbItems, selectedCumulableCodes)
-  let sum_polygon = sumFields(polygonItems, selectedCumulableCodes)
-  for (let j = 0; j < ChainRelatedFields.length; j++) {
-    let key = ChainRelatedFields[j]
-    if (selectedCumulableCodes.includes(key)) {
-      chainsMap.value[key].Arbitrum.push(sum_arb[key] ? sum_arb[key] : 0)
-      chainsMap.value[key].Binance.push(sum_bnb[key] ? sum_bnb[key] : 0)
-      chainsMap.value[key].Polygon.push(sum_polygon[key] ? sum_polygon[key] : 0)
-    }
-  }
-}
 
-// function onFilterClick(e, item) {
-//   if (item.isSolo) {
-//     item.selected = !item.selected
-//     if (item.selected) {
-//       filters.value[item.title] = true
-//     } else {
-//       delete filters.value[item.title]
-//     }
-//   } else if (
-//     typeof e.target.className != 'string' ||
-//     e.target.className.includes('title')
-//   ) {
-//     item.isOpened = !item.isOpened
-//   }
-// }
+
+
 
 const convertFromNumber = (str) => {
   let number = parseFloat(str)

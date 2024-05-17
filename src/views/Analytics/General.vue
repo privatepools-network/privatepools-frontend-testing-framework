@@ -21,10 +21,22 @@
         :chains_data="allData.analytics"
       />
 
+      {{ console.log('filteredData', filteredData) }}
       <!-- Test chart -->
-      <!-- <MainChart :series="series" :chartOptions="chartOptions" /> -->
-      <TrackingInfoChart :historicalPrices="historicalPrices" :chartData="allData.chart" :chainSelected="chainSelected"
-        :tokensData="allData.topTradingTokens" :symbol="currencySymbol" />
+      <!-- <MainChart
+        :series="series"
+        :chartOptions="chartOptions"
+        :filteredData="filteredData"
+        :timelines="timelines"
+        :currentTimeline="currentTimeline"
+        :isCumulativeMode="isCumulativeMode"
+        :changeTimeline="changeTimeline"
+        :changeCumulativeMode="changeCumulativeMode"
+      /> -->
+      <TrackingInfoChart 
+        :chartData="allData.chart" 
+        :chainSelected="chainSelected"
+        />
     </div>
 
     <div class="mt-5 mb-3 flex justify-between items-center">
@@ -87,9 +99,18 @@ import { GetHistoricalTokenPrices } from '@/composables/balances/useHistoricalTo
 import { addEmptyDays } from '@/lib/formatter/chart/chartFormatter'
 import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
-import { formatSimpleTimestamp, trimZeros } from '@/lib/utils/index'
+import {
+  formatSimpleTimestamp,
+  groupTimestampsByDayWithIndexes,
+  groupTimestampsByMonthWithIndexes,
+  groupTimestampsByWeekWithIndexes,
+  trimZeros,
+} from '@/lib/utils/index'
 import { GetTokenPricesBySymbols } from '@/composables/balances/cryptocompare'
-import { convertSwapsCurrency } from '@/composables/pools/usePoolSwapsStats'
+import {
+  convertSwapsCurrency,
+  isRightChainName,
+} from '@/composables/pools/usePoolSwapsStats'
 import { GetActiveUsers } from '@/composables/users/useActiveUsers'
 import GeneralOverview from '@/components/General/GeneralOverview.vue'
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
@@ -101,6 +122,17 @@ import MainChart from '@/UI/MainChart.vue'
 import { t } from 'i18next'
 import { useWalletPools } from '@/composables/wallet/useWalletPools'
 import { InitializeMetamask } from '@/lib/utils/metamask'
+import { sumFields } from '@/lib/utils'
+import { storeToRefs } from 'pinia'
+import { useSettings } from '@/store/settings'
+
+const settingsStore = useSettings()
+
+const { currentCurrency } = storeToRefs(settingsStore)
+
+const postfix = computed(() =>
+  currentCurrency.value == 'USD' ? '' : `_${currentCurrency.value}`,
+)
 
 const allPoolsTableData = ref([])
 const allPairsTableData = ref([])
@@ -115,28 +147,327 @@ const joinExits = ref([])
 const clActivity = ref([])
 const activeUsers = ref([])
 
+const allData = ref({})
+
 const generalOverviewLoader = ref(true)
 
 const topPerformanceFilters = [t('all'), 'WP', 'CL']
 
 const selectedTopPerformanceFilter = ref(topPerformanceFilters[0])
 
-const series = ref([
+///////////////////////////! TIMELINE
+
+const timelines = [
   {
-    name: 'Income',
-    type: 'column',
-    data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
+    name: t('daily'),
   },
   {
-    name: 'Cashflow',
+    name: t('weekly'),
+  },
+  {
+    name: t('monthly'),
+  },
+]
+
+const currentTimeline = ref(timelines[0])
+const isCumulativeMode = ref(false)
+
+const TimelineFilters = {
+  // 'All-time': groupTimestampsByDayWithIndexes,
+  [t('daily')]: groupTimestampsByDayWithIndexes,
+  [t('weekly')]: groupTimestampsByWeekWithIndexes,
+  [t('monthly')]: groupTimestampsByMonthWithIndexes,
+}
+
+function changeTimeline(tl) {
+  currentTimeline.value = tl
+}
+
+function changeCumulativeMode() {
+  isCumulativeMode.value = !isCumulativeMode.value
+}
+
+///////////////////////////!
+
+const filteredData = computed(() =>
+  allData.value.chart && allData.value.chart.length > 0
+    ? getFilteredData()
+    : [],
+)
+
+const dates = computed(() => {
+  return filteredData.value.map((v) => v.Date)
+})
+
+console.log('dates', dates)
+
+const preFiltersList = ref([
+  {
+    title: 'Revenue',
+    code: 'Revenue',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Revenue',
+    code: 'Revenue_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Revenue',
+    code: 'Revenue_BTC',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Gas Fees',
+    code: 'Gas Fees',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Gas Fees',
+    code: 'Gas Fees_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Gas Fees',
+    code: 'Gas Fees_BTC',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Trades',
+    code: 'Trades',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Volume',
+    code: 'Volume',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Volume',
+    code: 'Volume_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Volume',
+    code: 'Volume_BTC',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'TVL',
+    code: 'TVL',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+  {
+    title: 'TVL',
+    code: 'TVL_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+  {
+    title: 'TVL',
+    code: 'TVL_BTC',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+
+  {
+    title: 'Average APR',
+    code: 'Average APR',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+
+  {
+    title: 'Profits',
+    code: 'Profits',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Profits',
+    code: 'Profits_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Profits',
+    code: 'Profits_BTC',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Token Incentives',
+    code: 'Token Incentives',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+  {
+    title: 'Volatility Index',
+    code: 'Volatility Index',
+    isSolo: true,
+    selected: true,
+    cumulable: true,
+  },
+])
+
+const dataGasFees = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Gas Fees').selected)
+    return filteredData.value.map((v) => v[`Gas Fees${postfix.value}`])
+  return []
+})
+const dataRevenues = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Revenue').selected)
+    return filteredData.value.map((v) => v[`Revenue${postfix.value}`])
+  return []
+})
+
+const dataTVL = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'TVL').selected)
+    return filteredData.value.map((v) => v[`TVL${postfix.value}`]['Binance'])
+  return []
+})
+
+const dataVolumes = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Volume').selected)
+    return filteredData.value.map((v) => v[`Volume${postfix.value}`])
+  return []
+})
+const dataTrades = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Trades').selected)
+    return filteredData.value.map((v) => v['Trades'])
+  return []
+})
+
+const dataAvgApr = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Average APR').selected)
+    return filteredData.value.map((v) => v['Average APR'])
+  return []
+})
+
+const dataVolatilityIndexes = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Volatility Index').selected)
+    return filteredData.value.map((v) => v['Volatility Index'])
+  return []
+})
+const dataProfits = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Profits').selected)
+    return filteredData.value.map((v) => v[`Profits${postfix.value}`])
+  return []
+})
+
+function yAxisEntity(seriesName, color, opposite, show) {
+  return {
+    min: 0,
+    seriesName: seriesName,
+    show: show,
+    decimalsInFloat: 2,
+    opposite: opposite,
+    axisTicks: {
+      show: false,
+    },
+    axisBorder: {
+      show: true,
+      color: color,
+    },
+    labels: {
+      
+      style: {
+        colors: color,
+        fontSize: '10px',
+        fontFamily: 'Roboto Mono',
+        fontWeight: 500,
+      },
+    },
+    title: {
+      text: seriesName,
+      style: {
+        color: color,
+      },
+    },
+  }
+}
+
+
+
+const series = computed(() => [
+  {
+    name: 'Gas Fees',
     type: 'column',
-    data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5],
+    data: dataGasFees.value,
+    color: '#008FFB',
   },
   {
     name: 'Revenue',
-    type: 'area',
-    data: [20, 29, 37, 36, 44, 45, 50, 58],
+    type: 'column',
+    data: dataRevenues.value,
+    color: '#9f9fff',
   },
+  {
+    name: 'TVL',
+    type: 'area',
+    data: dataTVL.value,
+    color: '#F07E07',
+  },
+  {
+    name: 'Volume',
+    type: 'column',
+    data: dataVolumes.value,
+    color: '#ff6464',
+  },
+  {
+    name: 'Trades',
+    type: 'column',
+    data: dataTrades.value,
+    color: '#6e27b2',
+  },
+  {
+    name: 'APR',
+    type: 'area',
+    data: dataAvgApr.value,
+    color: '#ffb6c1',
+  },
+  {
+    name: 'Volatility Index',
+    type: 'area',
+    data: dataVolatilityIndexes.value,
+    color: '#01B47E',
+  },
+  {
+    name: 'Profits',
+    type: 'column',
+    data: dataProfits.value,
+    color: '#00FF75',
+  },
+
 ])
 
 const chartOptions = ref({
@@ -144,6 +475,7 @@ const chartOptions = ref({
     type: 'line',
     stacked: false,
     toolbar: false,
+ 
   },
 
   dataLabels: {
@@ -152,93 +484,31 @@ const chartOptions = ref({
 
   xaxis: {
     tooltip: { enabled: false },
-    categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+    categories: dates,
+    tickAmount: 12,
     labels: {
+      // trim: false,
+      // rotate: 0,
+      // minHeight: 40,
+      // hideOverlappingLabels: true,
       style: {
         colors: 'white',
-        fontSize: '12px',
+        fontSize: '10px',
         fontFamily: 'Roboto Mono',
         fontWeight: 500,
       },
     },
   },
   yaxis: [
-    {
-      min: 0,
-      seriesName: 'Income',
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: true,
-        color: '#008FFB',
-      },
-      labels: {
-        style: {
-          colors: '#008FFB',
-          fontSize: '12px',
-          fontFamily: 'Roboto Mono',
-          fontWeight: 500,
-        },
-      },
-      title: {
-        text: 'Income (thousand crores)',
-        style: {
-          color: '#008FFB',
-        },
-      },
-    },
-    {
-      min: 0,
-      seriesName: 'Cashflow',
-      opposite: true,
-      axisTicks: {
-        show: true,
-      },
-      axisBorder: {
-        show: true,
-        color: '#00E396',
-      },
-      labels: {
-        style: {
-          colors: '#00E396',
-          fontSize: '12px',
-          fontFamily: 'Roboto Mono',
-          fontWeight: 500,
-        },
-      },
-      title: {
-        text: 'Operating Cashflow (thousand crores)',
-        style: {
-          color: '#00E396',
-        },
-      },
-    },
-    {
-      seriesName: 'Revenue',
-      opposite: true,
-      axisTicks: {
-        show: true,
-      },
-      axisBorder: {
-        show: true,
-        color: '#FEB019',
-      },
-      labels: {
-        style: {
-          colors: '#FEB019',
-          fontSize: '12px',
-          fontFamily: 'Roboto Mono',
-          fontWeight: 500,
-        },
-      },
-      title: {
-        text: 'Revenue (thousand crores)',
-        style: {
-          color: '#FEB019',
-        },
-      },
-    },
+    yAxisEntity('Gas Fees', '#008FFB', true, true),
+    yAxisEntity('Revenue', '#9f9fff', true, true),
+    yAxisEntity('TVL', '#F07E07', false, true),
+    yAxisEntity('Volume', '#ff6464', true, true),
+    yAxisEntity('Trades', '#6e27b2', true, true),
+    yAxisEntity('APR', '#ffb6c1', true, true),
+    yAxisEntity('Volatility Index', '#01B47E', true, true),
+    yAxisEntity('Profits', '#00FF75', true, true),
+  
   ],
   plotOptions: {
     bar: {
@@ -250,18 +520,19 @@ const chartOptions = ref({
     },
   },
   fill: {
-    type: "gradient",
+    type: ['solid', 'solid', 'gradient', 'solid', 'solid', 'gradient'],
     gradient: {
-      shade: "light",
-      type: "vertical",
+      shade: 'light',
+      type: 'vertical',
       shadeIntensity: 0,
-      opacityFrom: 0.85,
-      opacityTo: 0.65
-    }
+      opacityFrom: 0.90,
+      opacityTo: 0.65,
+      stops: [0, 20, 100],
+    },
   },
   stroke: {
+    curve: 'smooth',
     show: false,
-
   },
   tooltip: {
     theme: false,
@@ -313,7 +584,97 @@ const currencyDecimals = computed(() =>
   currencySelected.value.code == 'USD' ? 3 : 5,
 )
 const user_staked_pools = ref([])
-const allData = ref({})
+
+const ChainRelatedFields = [
+  'Gas Fees',
+  'Revenue',
+  'Profits',
+  'Volume',
+  'Trades',
+]
+
+const chainsMap = ref(getDefaultChainsMapValue())
+
+function getDefaultChainsMapValue() {
+  return ChainRelatedFields.reduce(
+    (acc, currentValue) => ({
+      ...acc,
+      [currentValue]: { Arbitrum: [], Binance: [], Polygon: [] },
+    }),
+    {},
+  )
+}
+
+function getFilteredData() {
+  let result = []
+  let chart_data = allData.value.chart.filter(
+    (d) =>
+      isRightChainName(d.Blockchain, chainSelected.value.name) ||
+      d.Blockchain == '',
+  )
+  let timestamps = chart_data.map((v) => v.timestamp)
+  let indexes = TimelineFilters[currentTimeline.value.name](timestamps)
+  indexes = indexes.sort((a, b) => a - b)
+  let selectedFilters = preFiltersList.value.filter((v) => v.selected)
+  let selectedCumulableCodes = selectedFilters
+    .filter((v) => v.cumulable)
+    .map((v) => v.code)
+  chainsMap.value = getDefaultChainsMapValue()
+  console.log(selectedFilters)
+  for (let i = 0; i < indexes.length; i++) {
+    let start_index = i == 0 ? 0 : indexes[i - 1] + 1
+    let end_index = indexes[i] + 1
+    let previousItems = chart_data.slice(start_index, end_index)
+
+    previousItems = previousItems.filter(
+      (p) =>
+        p.Blockchain == '' ||
+        isRightChainName(p.Blockchain, chainSelected.value.name),
+    )
+    let item = {
+      ...chart_data[indexes[i]],
+      ...sumFields(previousItems, selectedCumulableCodes),
+    }
+    let result_item = {
+      Blockchain: item.Blockchain,
+      timestamp: item.timestamp,
+      Date: item.Date,
+    }
+    for (let k = 0; k < selectedFilters.length; k++) {
+      let filter_code = selectedFilters[k].code
+      if (
+        !ChainRelatedFields.includes(filter_code) ||
+        (ChainRelatedFields.includes(filter_code) &&
+          isRightChainName(item.Blockchain, chainSelected.value.name))
+      ) {
+        if (Object.hasOwn(item, filter_code)) {
+          if (isCumulativeMode.value && selectedFilters[k].cumulable) {
+            let previous_value =
+              result.length == 0 ? 0 : result[result.length - 1][filter_code]
+            result_item[filter_code] = item[filter_code] + previous_value
+          } else {
+            result_item[filter_code] = item[filter_code]
+          }
+        }
+        if (filter_code == 'Average APR') {
+          result_item[filter_code] = item[filter_code]
+        }
+        if (filter_code == 'Volatility Index') {
+          result_item[filter_code] = item[filter_code]
+        }
+      } else {
+        result_item['Blockchain'] = ''
+        if (isCumulativeMode.value && selectedFilters[k].cumulable) {
+          result_item[filter_code] =
+            result.length == 0 ? 0 : result[result.length - 1][filter_code]
+        } else result_item[filter_code] = 0
+      }
+    }
+    result.push(result_item)
+  }
+
+  return result
+}
 
 onBeforeMount(async () => {
   generalOverviewLoader.value = true
