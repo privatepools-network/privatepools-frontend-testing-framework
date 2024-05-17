@@ -1,7 +1,7 @@
 <template>
   <div class="chart_card bg-white dark:!bg-[#22222224]">
     <div class="d-flex justify-content-end"></div>
-    <div v-if="series.length === 0" class="chart_inside">
+    <div v-if="filteredData.length === 0" class="chart_inside">
       <LoaderPulse />
     </div>
     <div v-else class="chart_inside">
@@ -21,35 +21,18 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, defineEmits, ref } from 'vue'
 import ChartTimeline from './ChartTimeline.vue'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import logo from '@/assets/images/d3v.png'
 import { t } from 'i18next'
 
-defineProps(['series', 'chartOptions'])
+defineProps(['filteredData','series', 'chartOptions', 'timelines', 'currentTimeline', 'isCumulativeMode','changeTimeline', 'changeCumulativeMode'])
+// defineEmits(['changeTimeline', 'changeCumulativeMode'])
 
-const timelines = [
-  {
-    name: t('daily'),
-  },
-  {
-    name: t('weekly'),
-  },
-  {
-    name: t('monthly'),
-  },
-]
-const currentTimeline = ref(timelines[0])
 
-function changeTimeline(tl) {
-  currentTimeline.value = tl
-}
 
-const isCumulativeMode = ref(false)
-function changeCumulativeMode() {
-  isCumulativeMode.value = !isCumulativeMode.value
-}
+
 </script>
 
 <style lang="scss" scoped>
