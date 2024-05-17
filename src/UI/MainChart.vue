@@ -15,7 +15,7 @@
         />
       </div>
       <img :src="logo" alt="D3" class="chart-logo" height="40px" />
-      <apexchart class="w-full" height="500" :options="chartOptions" :series="series" />
+      <apexchart class="w-full" :height="height" :options="chartOptions" :series="series" />
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import logo from '@/assets/images/d3v.png'
 import { t } from 'i18next'
 
-defineProps(['filteredData','series', 'chartOptions', 'timelines', 'currentTimeline', 'isCumulativeMode','changeTimeline', 'changeCumulativeMode'])
+defineProps(['height','filteredData','series', 'chartOptions', 'timelines', 'currentTimeline', 'isCumulativeMode','changeTimeline', 'changeCumulativeMode'])
 // defineEmits(['changeTimeline', 'changeCumulativeMode'])
 
 
@@ -58,9 +58,13 @@ defineProps(['filteredData','series', 'chartOptions', 'timelines', 'currentTimel
   height: 100%;
 }
 
+// :deep(.apexcharts-inner) {
+//     filter: drop-shadow(0 0 0.35rem #00c8ff4b);
+// }
+
 :deep(.apexcharts-tooltip) {
   background: rgba(2, 3, 28, 0.65) !important;
   color: white;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(10px);
 }
 </style>
