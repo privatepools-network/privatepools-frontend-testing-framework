@@ -23,7 +23,7 @@
 
       {{ console.log('filteredData', filteredData) }}
       <!-- Test chart -->
-      <MainChart
+      <!-- <MainChart
         :height="600"
         :series="series"
         :chartOptions="chartOptions"
@@ -33,11 +33,11 @@
         :isCumulativeMode="isCumulativeMode"
         :changeTimeline="changeTimeline"
         :changeCumulativeMode="changeCumulativeMode"
-      />
-      <!-- <TrackingInfoChart 
+      /> -->
+      <TrackingInfoChart 
         :chartData="allData.chart" 
         :chainSelected="chainSelected"
-        /> -->
+        />
     </div>
 
     <div class="mt-5 mb-3 flex justify-between items-center">
