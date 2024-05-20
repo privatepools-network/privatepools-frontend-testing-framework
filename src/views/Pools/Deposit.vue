@@ -115,7 +115,7 @@
                       </div>
                       <div class="mt-2">
                         <Slider @change="(value) => OnSliderValueChange(tokenIndex, value)
-                          " :tooltips="false" :min="0" :max="balances[token.address] * 1000" :step="1"
+                          " :tooltips="false" :min="0" :max="maxBalances[token.address] * 1000" :step="1"
                           v-model="lineNumbers[tokenIndex]" lazy="false" />
                       </div>
                     </div>
@@ -362,6 +362,49 @@ const currencySelected = ref({ name: 'USD', code: 'USD', symbol: '$' })
 const lineNumbers = ref([])
 const balances = ref({})
 
+
+
+
+const allLastTokenPrices = ref({})
+const lastTokenPrices = computed(
+  () => allLastTokenPrices.value[currencySelected.value.code],
+)
+
+const usdValues = computed(() => {
+  if (lineNumbers.value.length > 0) {
+    return pool.value.tokens.map((t) => balances.value[t.address] * lastTokenPrices.value[t.address])
+  }
+  return []
+})
+const leastBalanceIndex = computed(() => {
+  const minValue = Math.min(...usdValues.value)
+  let index = usdValues.value.indexOf(minValue)
+  return index == -1 ? 0 : index
+})
+
+const leastBalanceValue = computed(() => {
+  if (usdValues.value.length > 0) {
+    return usdValues.value[leastBalanceIndex.value]
+
+  }
+  return 0
+})
+
+const maxBalances = computed(() => {
+  const result = {}
+  let iterator = 0
+  for (const [key,] of Object.entries(balances.value)) {
+    if (iterator != leastBalanceIndex.value) {
+      let toOptimizeUsdAmount = leastBalanceValue.value / pool.value.tokens[leastBalanceIndex.value].weight * pool.value.tokens[iterator].weight
+      result[key] = toOptimizeUsdAmount / lastTokenPrices.value[key]
+      iterator++
+    }
+    else {
+      result[key] = leastBalanceValue.value / lastTokenPrices.value[key]
+    }
+  }
+  return result
+})
 // hardcoded tx
 const txHash = ref('')
 
@@ -369,10 +412,7 @@ function addedTXHash(hash) {
   txHash.value = hash
 }
 
-const allLastTokenPrices = ref({})
-const lastTokenPrices = computed(
-  () => allLastTokenPrices.value[currencySelected.value.code],
-)
+
 const formattedLineNumbers = computed(() =>
   lineNumbers.value.map((ln) => ln / 1000),
 )
@@ -468,18 +508,18 @@ function OnMaxClick(index, address) {
 function OnOptimizeClick() {
   if (lastDepositChanged.value == -1) return
   let token = tokens.value[lastDepositChanged.value]
-  let usdAmount =
-    (lineNumbers.value[lastDepositChanged.value] / 1000) *
+  let usdAmount = (lineNumbers.value[lastDepositChanged.value] / 1000) *
     lastTokenPrices.value[token]
+  usdAmount = Math.min(usdAmount, leastBalanceValue.value)
   for (let i = 0; i < lineNumbers.value.length; i++) {
-    if (i != lastDepositChanged.value) {
-      let toOptimize = pool.value.tokens[i]
-      let weightDiff = pool.value.tokens[lastDepositChanged.value].weight - toOptimize.weight
-      let sumDiff = usdAmount * weightDiff
-      let toOptimizeUsdAmount = usdAmount + sumDiff
-      let newValue = toOptimizeUsdAmount / lastTokenPrices.value[tokens.value[i]]
-      lineNumbers.value[i] = newValue * 1000
-    }
+    // let toOptimize = pool.value.tokens[i]
+    // let weightDiff = toOptimize.weight / pool.value.tokens[lastDepositChanged.value].weight 
+    // let sumDiff = usdAmount * weightDiff
+    // let toOptimizeUsdAmount = usdAmount + sumDiff
+    // let newValue = toOptimizeUsdAmount / lastTokenPrices.value[tokens.value[i]]
+    let toOptimizeUsdAmount = usdAmount / pool.value.tokens[lastDepositChanged.value].weight * pool.value.tokens[i].weight
+    let newValue = toOptimizeUsdAmount / lastTokenPrices[pool.value.tokens[i]]
+    lineNumbers.value[i] = newValue * 1000
   }
 }
 
@@ -544,9 +584,10 @@ function RemainingBalance(token, index) {
 }
 
 function onCurrencyInput(e) {
-  lineNumbers.value[0] =
-    ((e.target.value * pool.value.tokens[0].weight) / lastTokenPrices.value[tokens.value[0]]) * 1000
-  lastDepositChanged.value = 0
+  let possibleAmount = ((e.target.value * pool.value.tokens[leastBalanceIndex.value].weight) / lastTokenPrices.value[tokens.value[leastBalanceIndex.value]])
+  lineNumbers.value[leastBalanceIndex.value] =
+    balances.value[pool.value.tokens[0]] <= possibleAmount ? possibleAmount * 1000 : balances.value[pool.value.tokens[leastBalanceIndex.value]]
+  lastDepositChanged.value = leastBalanceIndex.value
   OnOptimizeClick()
 }
 </script>

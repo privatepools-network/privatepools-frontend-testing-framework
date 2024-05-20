@@ -10,7 +10,7 @@ export async function GetPoolShares(poolId, account) {
   let data = await useGraphQLQuery(
     config.subgraph,
     PoolSharesQuery(
-      account.value && typeof account.value == 'string' ? account.value : '',
+      account,
       poolId,
     ),
   )
