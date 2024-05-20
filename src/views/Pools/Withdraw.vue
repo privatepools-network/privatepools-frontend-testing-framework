@@ -457,7 +457,7 @@ const withdrawMath = computed(() =>
         tokenOutIndex,
         tokenOutAmount,
       )
-    : {},
+    : {}
 )
 const bptIn = computed(() =>
   withdrawMath.value ? withdrawMath.value.bptIn.value : 0,
@@ -506,7 +506,7 @@ async function init() {
   account.value = _account
   lineNumbers.value = _lineNumbers
   lastTokenPrices.value = _lastTokenPrices['USD']
-  poolShare.value = await GetPoolShares(pool.value.id, account)
+  poolShare.value = await GetPoolShares(pool.value.id, account.value)
   usdPoolShareValue.value = poolShare.value.balance * pool.value.lpPrice
 
   allSelectedTokens.value = getAllSelectedTokens(allOption.value)

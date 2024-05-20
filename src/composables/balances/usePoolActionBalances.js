@@ -11,9 +11,16 @@ export async function usePoolActionBalances(tokens, tokensInfo, network) {
   if (!mmProvider) return
   account = await mmProvider.getSigner().getAddress()
   const account_balances = await getPortfolioBalance(56, account)
+  const prices = await getPrices(56, [
+    'ETH',
+    'BTC',
+    ...tokensInfo.map((t) => t.symbol),
+  ])
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i]
-    let found_balance = account_balances.tokens.find((bm) => bm['address'] == token)
+    let found_balance = account_balances.tokens.find(
+      (bm) => bm['address'] == token,
+    )
     let balance = 0
     if (found_balance) {
       balance = found_balance.amount
@@ -32,13 +39,15 @@ export async function usePoolActionBalances(tokens, tokensInfo, network) {
       balances[token] = '0'
       let found_token = tokensInfo.find((t) => t.address == token)
       if (found_token) {
-        lastTokenPrices['USD'][token] = 0
-        lastTokenPrices['ETH'][token] = 0
-        lastTokenPrices['BTC'][token] = 0
+        lastTokenPrices['USD'][token] = prices[found_token.symbol]
+        lastTokenPrices['ETH'][token] =
+          prices[found_token.symbol] * (1 / prices['ETH'])
+        lastTokenPrices['BTC'][token] =
+          prices[found_token.symbol] * (1 / prices['BTC'])
         found_token.userBalance = balance
       }
     }
-    lineNumbers.push(balance > 0.001 ? 1 : balance)
+    lineNumbers.push(0)
   }
   return {
     account,

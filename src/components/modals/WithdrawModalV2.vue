@@ -469,7 +469,7 @@ async function OnWithdrawClick() {
       render: Toast,
       data: {
         header_text: 'Tokens successfully withdrew',
-        toast_text: `${parseFloat(props.fiatTotal).toFixed(
+        toast_text: `${parseFloat(props.usdSummary).toFixed(
           4,
         )} USD - ${formatNotificationDate(new Date().getTime())}`,
         tx_link: `${conf.explorer}/tx/${tx.hash}`,
