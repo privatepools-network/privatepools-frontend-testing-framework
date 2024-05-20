@@ -32,7 +32,7 @@
         <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
           @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
         <img :src="logo" alt="D3" class="chart-logo" height="40px" />
-        <VChart class="chart" :option="optionObj" :autoresize="true" />
+        <VChart class="chart" :option="optionObj" @legendselectchanged="legendSelectedChange" :autoresize="true" />
       </div>
     </div>
   </div>
@@ -86,6 +86,8 @@ import { t } from 'i18next'
 
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
+import { strictCheckChartOffsetConditions } from '@/composables/chartLogic/strictCheckChartOffsetConditions'
+import { checkGridByKeys } from '@/composables/chartLogic/checkGridByKeys'
 
 const settingsStore = useSettings();
 
@@ -100,13 +102,14 @@ const allChartData = ref([])
 const filteredData = computed(() => getFilteredData())
 console.log('filteredData', filteredData)
 const filters = ref({
+  TVL: true,
   PNL: true,
   Rewards: true,
   'Average APR': true,
   ROI: true,
   'Staked Liquidity': true,
   Volume: true,
-  'Number of Trades': true,
+  'Trades': true,
   'Capital Gains': true,
 })
 const preFiltersList = ref([
@@ -254,7 +257,7 @@ const dates = computed(() => {
   return filteredData.value.map((v) => v.Date)
 })
 
-const dataGasFees = computed(() => {
+const dataPNL = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'PNL').selected)
     return filteredData.value.map((v) => v[`PNL${postfix.value}`])
   return []
@@ -269,7 +272,7 @@ const dataRewards = computed(() => {
     return filteredData.value.map((v) => v['Rewards'])
   return []
 })
-const dataAPR = computed(() => {
+const dataAvgApr = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Average APR').selected)
     return filteredData.value.map((v) => v['Average APR'])
   return []
@@ -280,7 +283,7 @@ const dataROI = computed(() => {
   return []
 })
 
-const dataVolume = computed(() => {
+const dataVolumes = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Volume').selected)
     return filteredData.value.map((v) => v[`Volume${postfix.value}`])
   return []
@@ -291,7 +294,7 @@ const dataTrades = computed(() => {
     return filteredData.value.map((v) => v['Trades'])
   return []
 })
-const dataTvl = computed(() => {
+const dataTVL = computed(() => {
   if (filteredData.value.length > 0 && filteredData.value[0].TVL)
     return filteredData.value.map((v) => v[`TVL${postfix.value}`][chainSelected.value])
   return []
@@ -318,26 +321,193 @@ const convertFromNumber = (str) => {
 
 
 
+const currentGridToRight = ref(240)
+
+const showVolume = ref(true)
+const showRevenueProfits = ref(true)
+const showTradesGasFees = ref(true)
+const showAPRVolatility = ref(true)
+
+function yAxisInstance(name, show, offset, color) {
+  return {
+    type: 'value',
+    name: name,
+    gridIndex: 0,
+    min: 0,
+    show: show,
+    nameLocation: 'center',
+    nameGap: 38,
+    nameRotate: 270,
+    position: 'right',
+    offset: offset,
+    alignTicks: true,
+    axisTick: { show: true },
+    splitLine: { show: false },
+    axisLine: {
+      show: true,
+      lineStyle: {
+        color: color,
+      },
+    },
+    nameTextStyle: {
+      fontFamily: 'Syne',
+      fontWeight: '700',
+    },
+    axisLabel: {
+      fontFamily: 'Roboto mono',
+      fontWeight: '700',
+      formatter: function (value) {
+        return convertFromNumber(value.toFixed(2))
+      },
+    },
+  }
+}
+
+function seriesInstance(name, type, data, yAxisIndex, color) {
+  return {
+    type: type,
+    name: name,
+    data: data,
+    color: color,
+    sampling: 'lttb',
+    areaStyle: {
+      shadowColor: color,
+      shadowBlur: 20,
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        {
+          offset: 0,
+          color: color,
+        },
+        {
+          offset: 1,
+          color: 'transparent',
+        },
+      ]),
+    },
+    xAxisIndex: 0,
+    yAxisIndex: yAxisIndex,
+    smooth: true,
+    showSymbol: false,
+    itemStyle: {
+      borderRadius: [10, 10, 0, 0],
+      shadowColor: color,
+      shadowBlur: 10,
+      color: color,
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  }
+}
+
+function legendSelectedChange(e) {
+  console.log('EEEE', e)
+  console.log('currentGridToRight', currentGridToRight.value)
+  console.log('optionObj.value.yAxis', optionObj.value.yAxis)
+  for (const [key, value] of Object.entries(e.selected)) {
+    filters.value[key] = value
+  }
+
+  if (e.name === 'Volume') {
+    showVolume.value = !showVolume.value
+    // if (showVolume.value === true) {
+    //   currentGridToRight.value = currentGridToRight.value + 55
+    // } else {
+    //   currentGridToRight.value = currentGridToRight.value - 55
+    // }
+  }
+
+  if (e.name === 'Capital Gains' || e.name === 'ROI') {
+    if (e.selected['Capital Gains'] === false && e.selected.ROI === false) {
+      showRevenueProfits.value = false
+    } else if (e.selected['Capital Gains']  === true || e.selected.ROI === true) {
+      showRevenueProfits.value = true
+    }
+  }
+
+  if (e.name === 'PNL' || e.name === 'Trades') {
+    if (e.selected['PNL'] === false && e.selected.Trades === false) {
+      showTradesGasFees.value = false
+    } else if (e.selected['PNL'] === true || e.selected.Trades === true) {
+      showTradesGasFees.value = true
+    }
+  }
+
+  if (e.name === 'Average APR' || e.name === 'Rewards') {
+    if (
+      e.selected['Average APR'] === false &&
+      e.selected['Rewards'] === false
+    ) {
+      showAPRVolatility.value = false
+    } else if (
+      e.selected['Average APR'] === true ||
+      e.selected['Rewards'] === true
+    ) {
+      showAPRVolatility.value = true
+    }
+  }
+
+  strictCheckChartOffsetConditions(
+    showVolume,
+    showRevenueProfits,
+    showTradesGasFees,
+    showAPRVolatility,
+    optionObj,
+  )
+
+  ///////
+
+  const trueKeys = {
+    showVolume: showVolume.value,
+    showRevenueProfits: showRevenueProfits.value,
+    showTradesGasFees: showTradesGasFees.value,
+    showAPRVolatility: showAPRVolatility.value,
+  }
+  const showTrueCount = Object.values(trueKeys).filter(
+    (value) => value === true,
+  ).length
+
+  checkGridByKeys(showTrueCount, currentGridToRight)
+
+  ///////
+}
+
+
+const series = computed(() => [
+  seriesInstance('Capital Gains', 'bar', dataCapitalGains.value, 2, '#01B47E'),
+  seriesInstance('PNL', 'bar', dataPNL.value, 3, '#87F1FF'),
+  seriesInstance('Average APR', 'line', dataAvgApr.value, 4, '#FFD700'),
+  seriesInstance('Volume', 'bar', dataVolumes.value, 1, '#FA5173'),
+  seriesInstance('Trades', 'bar', dataTrades.value, 3, '#77aaff'),
+  seriesInstance('Rewards','line', dataRewards.value,4,'#FFC374'),
+  seriesInstance('ROI', 'bar', dataROI.value, 2, '#00FF75'),
+  seriesInstance('TVL', 'line', dataTVL.value, 0, '#F07E07'),
+])
+
+
+
 
 const optionObj = ref({
   legend: {
     data: filterKeys,
     selected: filters,
+    // type: 'scroll',
     top: -5,
     left: 10,
     bottom: 30,
     width: '50%',
     inactiveColor: '#777',
     textStyle: {
-      color: '#777',
-      fontSize: '10px',
+      color: '#ccc',
+      fontSize: '11px',
       fontFamily: 'Montserrat',
       fontWeight: 700,
     },
   },
   axisPointer: {
     label: {
-      fontSize: 8,
+      fontSize: 10,
     },
   },
   tooltip: {
@@ -345,11 +515,12 @@ const optionObj = ref({
     borderWidth: 0,
     textStyle: {
       color: 'white',
-      fontSize: 9,
+      fontSize: 10,
+      fontFamily: 'Roboto mono',
     },
+    valueFormatter: (value) => (value ? Number(value).toFixed(3) : '-'),
     trigger: 'axis',
     confine: true,
-    valueFormatter: (value) => value ? Number(value).toFixed(5) : 0,
     axisPointer: {
       type: 'cross',
       lineStyle: {
@@ -364,141 +535,47 @@ const optionObj = ref({
       type: 'category',
       data: dates,
       axisLine: { lineStyle: { color: '#8392A5' } },
+      axisLabel: {
+      fontFamily: 'Roboto mono',
+      fontWeight: '700',
+      
+    },
     },
   ],
   yAxis: [
     {
       scale: true,
-      axisLine: { lineStyle: { color: '#8392A5' } },
+      axisLine: { lineStyle: { color: '#F07E07' } },
       min: 0,
-
       gridIndex: 0,
-
-      axisLabel: {
-        formatter: function (value) {
-          return `${convertFromNumber(value)}`
-        },
-      },
-    },
-    {
-      type: 'value',
-      name: 'Volume',
-      gridIndex: 0,
-      min: 0,
-
-      nameLocation: 'center',
-      nameGap: -20,
-      position: 'right',
-      alignTicks: true,
-      axisTick: { show: false },
       splitLine: {
         lineStyle: {
           color: 'rgba(51,51,51, 0.35)',
         },
       },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: '#FF4242'
-        },
+      nameTextStyle: {
+        fontFamily: 'Syne',
+        fontWeight: '700',
       },
       axisLabel: {
+        fontFamily: 'Roboto mono',
+        fontWeight: '700',
         formatter: function (value) {
-          return convertFromNumber(value)
+          return `${convertFromNumber(value)}`
         },
       },
     },
-    {
-      type: 'value',
-      name: 'APR / ROI',
-      min: 0,
-      nameLocation: 'center',
-      nameGap: -20,
-      position: 'right',
-      offset: 60,
-      alignTicks: true,
-      axisTick: { show: false },
-      splitLine: { show: false },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: '#01B47E',
-        },
-      },
-
-      axisLabel: {
-        formatter: function (value) {
-          return convertFromNumber(value)
-        },
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      type: 'value',
-      name: 'Rewards / Capital Gains',
-      min: 0,
-      position: 'right',
-      nameLocation: 'center',
-      nameGap: -20,
-      offset: 120,
-      alignTicks: true,
-      axisTick: { show: false },
-      splitLine: { show: false },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: '#05FF00',
-        },
-      },
-
-      axisLabel: {
-        formatter: function (value) {
-          return convertFromNumber(value)
-        },
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      type: 'value',
-      name: 'PNL / Number of trades',
-      min: 0,
-      position: 'right',
-      nameLocation: 'center',
-      nameGap: -20,
-      offset: 180,
-      alignTicks: true,
-      axisTick: { show: false },
-      splitLine: { show: false },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: '#00C9FF',
-        },
-      },
-
-      axisLabel: {
-        formatter: function (value) {
-          return convertFromNumber(value)
-        },
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
+    yAxisInstance('Volume', showVolume, 0, '#FA5173'),
+    yAxisInstance('Capital Gains / ROI', showRevenueProfits, 60, '#01B47E'),
+    yAxisInstance('Trades / PNL', showTradesGasFees, 120, '#77aaff'),
+    yAxisInstance('APR / Rewards', showAPRVolatility, 180, '#FFD700'),
   ],
   grid: [
     {
       left: '5%',
-      right: '5%',
-      top: 80,
-      bottom: 160,
+      right: currentGridToRight,
+      top: 120,
+      bottom: 155,
     },
   ],
   dataZoom: [
@@ -516,6 +593,9 @@ const optionObj = ref({
       start: 0,
       end: 100,
       selectedDataBackground: {
+        lineStyle: {
+          color: 'orange',
+        },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
@@ -531,246 +611,11 @@ const optionObj = ref({
       },
     },
   ],
-  series: [
-    {
-      type: 'bar',
-      name: 'ROI',
-      data: dataROI,
-      yAxisIndex: 2,
-      color: '#00FF75',
-      sampling: 'lttb',
-      areaStyle: {
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: '#00FF75',
-          },
-          {
-            offset: 1,
-            color: 'transparent',
-          },
-        ]),
-      },
-      smooth: true,
-      showSymbol: false,
-
-      itemStyle: {
-        color: '#00FF75',
-        borderRadius: [5, 5, 0, 0],
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      type: 'bar',
-      name: 'Capital Gains',
-      data: dataCapitalGains,
-      yAxisIndex: 3,
-      color: '#FAFF00',
-      sampling: 'lttb',
-      areaStyle: {
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: '#FAFF00',
-          },
-          {
-            offset: 1,
-            color: 'transparent',
-          },
-        ]),
-      },
-      smooth: true,
-      showSymbol: false,
-      itemStyle: {
-        color: '#FAFF00',
-        borderRadius: [5, 5, 0, 0],
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      name: 'Volume',
-      type: 'bar',
-      data: dataVolume,
-      color: '#FF4242',
-      sampling: 'lttb',
-      areaStyle: {},
-      xAxisIndex: 0,
-      yAxisIndex: 1,
-      smooth: true,
-      showSymbol: false,
-      itemStyle: {
-        color: '#FF4242',
-        borderRadius: [5, 5, 0, 0],
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      name: 'PNL',
-      type: 'bar',
-      data: dataGasFees,
-      color: '#00C9FF',
-      sampling: 'lttb',
-      yAxisIndex: 4,
-      areaStyle: {
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: '#00C9FF',
-          },
-          {
-            offset: 1,
-            color: 'transparent',
-          },
-        ]),
-      },
-      smooth: true,
-      showSymbol: false,
-      itemStyle: {
-        color: '#00C9FF',
-        borderRadius: [5, 5, 0, 0],
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      name: 'Average APR',
-      type: 'line',
-      data: dataAPR,
-      color: '#FFC925',
-      yAxisIndex: 2,
-      sampling: 'lttb',
-      areaStyle: {
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: '#FFC925',
-          },
-          {
-            offset: 1,
-            color: 'transparent',
-          },
-        ]),
-      },
-      smooth: true,
-      showSymbol: false,
-      lineStyle: {
-        width: 1,
-        color: '#FFC925',
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      type: 'line',
-      name: 'Staked Liquidity',
-      data: dataTvl,
-      color: '#f07e07',
-      sampling: 'lttb',
-      xAxisIndex: 0,
-
-      areaStyle: {
-        color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
-          {
-            offset: 0,
-            color: '#f07e07',
-          },
-          {
-            offset: 1,
-            color: 'transparent',
-          },
-        ]),
-      },
-      smooth: true,
-      showSymbol: false,
-      lineStyle: {
-        width: 1,
-        color: '#f07e07',
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      type: 'bar',
-      name: 'Rewards',
-      data: dataRewards,
-      color: '#05FF00',
-      sampling: 'lttb',
-      xAxisIndex: 0,
-      yAxisIndex: 3,
-      areaStyle: {
-        color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
-          {
-            offset: 0,
-            color: '#05FF00',
-          },
-          {
-            offset: 1,
-            color: 'transparent',
-          },
-        ]),
-      },
-      smooth: true,
-      showSymbol: false,
-      itemStyle: {
-        color: '#05FF00',
-        borderRadius: [5, 5, 0, 0],
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      name: 'Number of Trades',
-      type: 'bar',
-      data: dataTrades,
-      color: '#87F1FF',
-      sampling: 'lttb',
-      areaStyle: {},
-      xAxisIndex: 0,
-      yAxisIndex: 4,
-      smooth: true,
-      showSymbol: false,
-      itemStyle: {
-        color: '#87F1FF',
-        borderRadius: [5, 5, 0, 0],
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-  ],
+  series: series,
   media: [
-
     {
       query: {
         maxWidth: 1920,
-      },
-      option: {
-        grid: [
-          {
-            left: '5%',
-            right: '18%',
-            top: 120,
-            bottom: 155,
-          },
-        ],
       },
     },
     {
@@ -788,16 +633,6 @@ const optionObj = ref({
             fontSize: 12,
           },
         },
-
-        grid: [
-          {
-            left: '5%',
-            right: '27%',
-            top: 120,
-            bottom: 155,
-          },
-
-        ],
       },
     },
   ],
@@ -1115,16 +950,17 @@ function getFilteredData() {
   width: fit-content;
   display: block;
   position: relative;
-  top: 25px;
+  top: 65px;
   margin-left: auto;
-  right: 0px;
-
-  z-index: 11;
+  right: 5px;
+  margin-top: -65px;
+  z-index: 30;
 }
 
 .chart_inside {
   width: 100%;
   height: 100%;
+  padding-bottom: 20px;
 }
 
 @media (max-width: $xxl) {
