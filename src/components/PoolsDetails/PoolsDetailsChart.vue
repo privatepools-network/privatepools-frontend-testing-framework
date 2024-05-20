@@ -129,6 +129,8 @@ import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import router from '@/router'
+import { strictCheckChartOffsetConditions } from '@/composables/chartLogic/strictCheckChartOffsetConditions'
+import { checkGridByKeys } from '@/composables/chartLogic/checkGridByKeys'
 
 const settingsStore = useSettings()
 
@@ -284,21 +286,21 @@ const preFiltersList = computed(() =>
         },
 
         {
-          title: 'Profit',
+          title: 'Profits',
           code: 'Profits',
           isSolo: true,
           selected: true,
           cumulable: true,
         },
         {
-          title: 'Profit',
+          title: 'Profits',
           code: 'Profits_ETH',
           isSolo: true,
           selected: true,
           cumulable: true,
         },
         {
-          title: 'Profit',
+          title: 'Profits',
           code: 'Profits_BTC',
           isSolo: true,
           selected: true,
@@ -428,21 +430,21 @@ const preFiltersList = computed(() =>
         },
 
         {
-          title: 'Profit',
-          code: 'Profit',
+          title: 'Profits',
+          code: 'Profits',
           isSolo: true,
           selected: true,
           cumulable: false,
         },
         {
-          title: 'Profit',
+          title: 'Profits',
           code: 'Profit_ETH',
           isSolo: true,
           selected: true,
           cumulable: false,
         },
         {
-          title: 'Profit',
+          title: 'Profits',
           code: 'Profit_BTC',
           isSolo: true,
           selected: true,
@@ -499,27 +501,22 @@ const filters = ref({
   Volume: true,
   TVL: true,
   ['Average APR']: true,
-  ['Profit']: true,
+  ['Profits']: true,
   ['Capital Gains']: true,
   ['Volatility Index']: true,
-  ['PNL']: true,
-  ['ROI']: true,
-  ['Token Incentives']: true,
-  ['Pool Percentage']: true,
-  ['Rewards']: true,
-  ['Staked Liquidity']: true,
+  // ['PNL']: true,
+  // ['ROI']: true,
+  // ['Token Incentives']: true,
+  // ['Pool Percentage']: true,
+  // ['Rewards']: true,
+  // ['Staked Liquidity']: true,
 })
-const assets = computed(() =>
-  pool.value ? Array.from(new Set(pool.value.tokens.map((t) => t.symbol))) : [],
-)
+// const assets = computed(() =>
+//   pool.value ? Array.from(new Set(pool.value.tokens.map((t) => t.symbol))) : [],
+// )
 
-function legendSelectedChange(e) {
-  for (const [key, value] of Object.entries(e.selected)) {
-    filters.value[key] = value
-  }
-}
 
-const filterKeys = computed(() => Object.keys(filters.value))
+
 
 const timelines = [
   // {
@@ -585,7 +582,7 @@ const dataVolatilityIndexes = computed(() => {
   return []
 })
 
-const dataTvl = computed(() => {
+const dataTVL = computed(() => {
   if (filteredData.value.length > 0 && filteredData.value[0].TVL)
     return filteredData.value.map(
       (v) => v[`TVL${postfix.value}`][chainSelectedName.value],
@@ -618,567 +615,182 @@ const convertFromNumber = (str) => {
   return result
 }
 
-const series = computed(() =>
-  props.selectedOverallTab === t('overall_view')
-    ? [
-        {
-          type: 'bar',
-          name: 'Revenue',
-          data: dataRevenues.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#01B47E'
-            : '#01B47E',
-          sampling: 'lttb',
-          yAxisIndex: 2,
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails')
-                  ? '#01B47E'
-                  : '#01B47E',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#803D00'
-              : '#01B47E',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
+const currentGridToRight = ref(240)
 
-        {
-          name: 'Gas Fees',
-          type: 'bar',
-          data: dataGasFees.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#87F1FF'
-            : '#87F1FF',
-          yAxisIndex: 3,
-          sampling: 'lttb',
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#87F1FF'
-              : '#87F1FF',
-          },
-          smooth: true,
-          showSymbol: false,
+const showVolume = ref(true)
+const showRevenueProfits = ref(true)
+const showTradesGasFees = ref(true)
+const showAPRVolatility = ref(true)
 
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+function yAxisInstance(name, show, offset, color) {
+  return {
+    type: 'value',
+    name: name,
+    gridIndex: 0,
+    min: 0,
+    show: show,
+    nameLocation: 'center',
+    nameGap: 38,
+    nameRotate: 270,
+    position: 'right',
+    offset: offset,
+    alignTicks: true,
+    axisTick: { show: true },
+    splitLine: { show: false },
+    axisLine: {
+      show: true,
+      lineStyle: {
+        color: color,
+      },
+    },
+    nameTextStyle: {
+      fontFamily: 'Syne',
+      fontWeight: '700',
+    },
+    axisLabel: {
+      fontFamily: 'Roboto mono',
+      fontWeight: '700',
+      formatter: function (value) {
+        return convertFromNumber(value)
+      },
+    },
+  }
+}
+
+function seriesInstance(name, type, data, yAxisIndex, color) {
+  return {
+    type: type,
+    name: name,
+    data: data,
+    color: color,
+    sampling: 'lttb',
+    areaStyle: {
+      shadowColor: color,
+      shadowBlur: 20,
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        {
+          offset: 0,
+          color: color,
         },
         {
-          name: 'Average APR',
-          type: 'line',
-          data: dataAvgApr.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#ffc925'
-            : '#ffc925',
-          sampling: 'lttb',
-          yAxisIndex: 4,
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails')
-                  ? '#ffc925'
-                  : '#ffc925',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#ffc925'
-              : '#ffc925',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
+          offset: 1,
+          color: 'transparent',
         },
-        {
-          name: 'Volume',
-          type: 'bar',
-          data: dataVolumes.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#FF4242'
-            : '#FF4242',
-          sampling: 'lttb',
-          areaStyle: {},
-          xAxisIndex: 0,
-          yAxisIndex: 1,
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#FF4242'
-              : '#FF4242',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          name: 'Trades',
-          type: 'bar',
-          data: dataTrades.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#6e27b2'
-            : '#6e27b2',
-          sampling: 'lttb',
-          areaStyle: {},
-          yAxisIndex: 3,
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#6e27b2'
-              : '#6e27b2',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'line',
-          name: 'Volatility Index',
-          data: dataVolatilityIndexes.value,
-          color: '#FF8FD6',
-          sampling: 'lttb',
-          yAxisIndex: 4,
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#FF8FD6',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#FF8FD6',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'line',
-          name: 'TVL',
-          data: dataTvl.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#F07E07'
-            : '#F07E07',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails')
-                  ? '#F07E07'
-                  : '#F07E07',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#F07E07'
-              : '#F07E07',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'bar',
-          name: 'Profit',
-          data: dataProfits.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#05FF00'
-            : '#05FF00',
-          sampling: 'lttb',
-          yAxisIndex: 2,
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails')
-                  ? '#05FF00'
-                  : '#05FF00',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#05FF00'
-              : '#05FF00',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-      ]
-    : [
-        {
-          type: 'bar',
-          name: 'PNL',
-          data: dataTrades.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#6e27b2'
-            : '#70FF00',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails')
-                  ? '#6e27b2'
-                  : '#70FF00',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#6e27b2'
-              : '#70FF00',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          name: 'Trades',
-          type: 'bar',
-          data: dataTrades.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#6e27b2'
-            : '#6e27b2',
-          sampling: 'lttb',
-          areaStyle: {},
-          yAxisIndex: 3,
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#6e27b2'
-              : '#6e27b2',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          name: 'Volume',
-          type: 'bar',
-          data: dataVolumes.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#FF4242'
-            : '#FF4242',
-          sampling: 'lttb',
-          areaStyle: {},
-          xAxisIndex: 0,
-          yAxisIndex: 1,
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#FF4242'
-              : '#FF4242',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'line',
-          name: 'Volatility Index',
-          data: dataVolatilityIndexes.value,
-          color: '#FF8FD6',
-          sampling: 'lttb',
-          yAxisIndex: 4,
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#FF8FD6',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#FF8FD6',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'line',
-          name: 'Staked Liquidity',
-          data: dataRevenues.value,
-          color: '#F07E07',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#F07E07',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#F07E07',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          name: 'Average APR',
-          type: 'line',
-          data: dataAvgApr.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#ffc925'
-            : '#ffc925',
-          sampling: 'lttb',
-          yAxisIndex: 4,
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails')
-                  ? '#ffc925'
-                  : '#ffc925',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#ffc925'
-              : '#ffc925',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'bar',
-          name: 'Rewards',
-          data: dataRevenues.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#05FF00'
-            : '#05FF00',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails')
-                  ? '#05FF00'
-                  : '#05FF00',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            borderRadius: [5, 5, 0, 0],
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#05FF00'
-              : '#05FF00',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'bar',
-          name: 'Capital Gains',
-          data: dataVolatilityIndexes.value,
-          color: '#F0DA0F',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#F0DA0F',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          itemStyle: {
-            color: '#F0DA0F',
-            borderRadius: [5, 5, 0, 0],
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'line',
-          name: 'ROI',
-          data: dataVolatilityIndexes.value,
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#ffc925'
-            : '#432102',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: router.currentRoute.value.path.includes('CLdetails')
-                  ? '#ffc925'
-                  : '#432102',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: router.currentRoute.value.path.includes('CLdetails')
-              ? '#ffc925'
-              : '#432102',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-        {
-          type: 'line',
-          name: 'Pool Percentage',
-          data: dataRevenues.value,
-          color: '#FF8FD6',
-          sampling: 'lttb',
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: '#FF8FD6',
-              },
-              {
-                offset: 1,
-                color: 'transparent',
-              },
-            ]),
-          },
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 1,
-            color: '#FF8FD6',
-          },
-          emphasis: {
-            focus: 'series',
-            blurScope: 'coordinateSystem',
-          },
-        },
-      ],
-)
+      ]),
+    },
+    xAxisIndex: 0,
+    yAxisIndex: yAxisIndex,
+    smooth: true,
+    showSymbol: false,
+    itemStyle: {
+      borderRadius: [10, 10, 0, 0],
+      shadowColor: color,
+      shadowBlur: 10,
+      color: color,
+    },
+    emphasis: {
+      focus: 'series',
+      blurScope: 'coordinateSystem',
+    },
+  }
+}
+
+function legendSelectedChange(e) {
+  console.log('EEEE', e)
+  console.log('currentGridToRight', currentGridToRight.value)
+  console.log('optionObj.value.yAxis', optionObj.value.yAxis)
+  for (const [key, value] of Object.entries(e.selected)) {
+    filters.value[key] = value
+  }
+
+  if (e.name === 'Volume') {
+    showVolume.value = !showVolume.value
+    // if (showVolume.value === true) {
+    //   currentGridToRight.value = currentGridToRight.value + 55
+    // } else {
+    //   currentGridToRight.value = currentGridToRight.value - 55
+    // }
+  }
+
+  if (e.name === 'Revenue' || e.name === 'Profits') {
+    if (e.selected.Revenue === false && e.selected.Profits === false) {
+      showRevenueProfits.value = false
+    } else if (e.selected.Revenue === true || e.selected.Profits === true) {
+      showRevenueProfits.value = true
+    }
+  }
+
+  if (e.name === 'Gas Fees' || e.name === 'Trades') {
+    if (e.selected['Gas Fees'] === false && e.selected.Trades === false) {
+      showTradesGasFees.value = false
+    } else if (e.selected['Gas Fees'] === true || e.selected.Trades === true) {
+      showTradesGasFees.value = true
+    }
+  }
+
+  if (e.name === 'Average APR' || e.name === 'Volatility Index') {
+    if (
+      e.selected['Average APR'] === false &&
+      e.selected['Volatility Index'] === false
+    ) {
+      showAPRVolatility.value = false
+    } else if (
+      e.selected['Average APR'] === true ||
+      e.selected['Volatility Index'] === true
+    ) {
+      showAPRVolatility.value = true
+    }
+  }
+
+  strictCheckChartOffsetConditions(
+    showVolume,
+    showRevenueProfits,
+    showTradesGasFees,
+    showAPRVolatility,
+    optionObj,
+  )
+
+  ///////
+
+  const trueKeys = {
+    showVolume: showVolume.value,
+    showRevenueProfits: showRevenueProfits.value,
+    showTradesGasFees: showTradesGasFees.value,
+    showAPRVolatility: showAPRVolatility.value,
+  }
+  const showTrueCount = Object.values(trueKeys).filter(
+    (value) => value === true,
+  ).length
+
+  checkGridByKeys(showTrueCount, currentGridToRight)
+
+  ///////
+}
+
+const filterKeys = computed(() => Object.keys(filters.value))
+
+const series = computed(() => [
+  seriesInstance('Revenue', 'bar', dataRevenues.value, 2, '#01B47E'),
+  seriesInstance('Gas Fees', 'bar', dataGasFees.value, 3, '#87F1FF'),
+  seriesInstance('Average APR', 'line', dataAvgApr.value, 4, '#FFD700'),
+  seriesInstance('Volume', 'bar', dataVolumes.value, 1, '#FA5173'),
+  seriesInstance('Trades', 'bar', dataTrades.value, 3, '#77aaff'),
+  seriesInstance(
+    'Volatility Index',
+    'line',
+    dataVolatilityIndexes.value,
+    4,
+    '#FFC374',
+  ),
+  seriesInstance('Profits', 'bar', dataProfits.value, 2, '#00FF75'),
+  seriesInstance('TVL', 'line', dataTVL.value, 0, '#F07E07'),
+])
 
 const optionObj = ref({
   legend: {
     data: filterKeys,
     selected: filters,
+    // type: 'scroll',
     top: -5,
     left: 10,
     bottom: 30,
@@ -1186,14 +798,14 @@ const optionObj = ref({
     inactiveColor: '#777',
     textStyle: {
       color: '#ccc',
-      fontSize: '10px',
+      fontSize: '11px',
       fontFamily: 'Montserrat',
       fontWeight: 700,
     },
   },
   axisPointer: {
     label: {
-      fontSize: 8,
+      fontSize: 10,
     },
   },
   tooltip: {
@@ -1201,11 +813,12 @@ const optionObj = ref({
     borderWidth: 0,
     textStyle: {
       color: 'white',
-      fontSize: 9,
+      fontSize: 10,
+      fontFamily: 'Roboto mono',
     },
+    valueFormatter: (value) => (value ? Number(value).toFixed(3) : '-'),
     trigger: 'axis',
     confine: true,
-    valueFormatter: (value) => value ? Number(value).toFixed(3) : '-',
     axisPointer: {
       type: 'cross',
       lineStyle: {
@@ -1218,153 +831,51 @@ const optionObj = ref({
   xAxis: [
     {
       type: 'category',
-
       data: dates,
       axisLine: { lineStyle: { color: '#8392A5' } },
+      axisLabel: {
+      fontFamily: 'Roboto mono',
+      fontWeight: '700',
+      
+    },
     },
   ],
   yAxis: [
     {
       scale: true,
-      axisLine: { lineStyle: { color: '#8392A5' } },
+      axisLine: { lineStyle: { color: '#F07E07' } },
       min: 0,
-
       gridIndex: 0,
       splitLine: {
         lineStyle: {
           color: 'rgba(51,51,51, 0.35)',
         },
       },
+      nameTextStyle: {
+        fontFamily: 'Syne',
+        fontWeight: '700',
+      },
       axisLabel: {
+        fontFamily: 'Roboto mono',
+        fontWeight: '700',
         formatter: function (value) {
           return `${convertFromNumber(value)}`
         },
       },
     },
+    yAxisInstance('Volume', showVolume, 0, '#FA5173'),
+    yAxisInstance('Revenue / Profits', showRevenueProfits, 60, '#01B47E'),
+    yAxisInstance('Trades / Gas Fees', showTradesGasFees, 120, '#77aaff'),
+    yAxisInstance('APR / Volatility Index', showAPRVolatility, 180, '#FFD700'),
+  ],
+  grid: [
     {
-      type: 'value',
-      name: 'Volume',
-      gridIndex: 0,
-      min: 0,
-      nameLocation: 'center',
-      nameGap: -20,
-      position: 'right',
-      alignTicks: true,
-      axisTick: { show: false },
-      splitLine: { show: false },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#FF4242'
-            : '#FF4242',
-        },
-      },
-      axisLabel: {
-        formatter: function (value) {
-          return convertFromNumber(value)
-        },
-      },
-    },
-    {
-      type: 'value',
-      name: 'Revenue / Profits',
-      min: 0,
-      nameLocation: 'center',
-      nameGap: -20,
-      position: 'right',
-      offset: 60,
-      alignTicks: true,
-      axisTick: { show: false },
-      splitLine: { show: false },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#01B47E'
-            : '#01B47E',
-        },
-      },
-
-      axisLabel: {
-        formatter: function (value) {
-          return convertFromNumber(value)
-        },
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      type: 'value',
-      name: 'Trades / Gas Fees',
-      min: 0,
-      position: 'right',
-      nameLocation: 'center',
-      nameGap: -20,
-      offset: 120,
-      alignTicks: true,
-      axisTick: { show: false },
-      splitLine: { show: false },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#87F1FF'
-            : '#87F1FF',
-        },
-      },
-
-      axisLabel: {
-        formatter: function (value) {
-          return convertFromNumber(value)
-        },
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
-    },
-    {
-      type: 'value',
-      name: 'APR / Volatility Index',
-      min: 0,
-      position: 'right',
-      nameLocation: 'center',
-      nameGap: -20,
-      offset: 180,
-      alignTicks: true,
-      axisTick: { show: false },
-      splitLine: { show: false },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: router.currentRoute.value.path.includes('CLdetails')
-            ? '#ffc925'
-            : '#ffc925',
-        },
-      },
-
-      axisLabel: {
-        formatter: function (value) {
-          return convertFromNumber(value)
-        },
-      },
-      emphasis: {
-        focus: 'series',
-        blurScope: 'coordinateSystem',
-      },
+      left: '5%',
+      right: currentGridToRight,
+      top: 120,
+      bottom: 155,
     },
   ],
-  // grid: [
-  //   {
-  //     left: '5%',
-  //     right: '17%',
-  //     top: 120,
-  //     bottom: 155,
-  //   },
-  // ],
   dataZoom: [
     {
       type: 'inside',
@@ -1380,6 +891,9 @@ const optionObj = ref({
       start: 0,
       end: 100,
       selectedDataBackground: {
+        lineStyle: {
+          color: 'orange',
+        },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
@@ -1397,53 +911,30 @@ const optionObj = ref({
   ],
   series: series,
   media: [
-
     {
       query: {
         maxWidth: 1920,
-      },
-      option: {
-        grid: [
-        {
-           left: '5%',
-           right: '18%',
-           top: 120,
-           bottom: 155,
-         },
-        ],
       },
     },
     {
       query: {
         maxWidth: 1200,
       },
-     option: {
-       xAxis: {
-         axisLabel: {
-           fontSize: 12,
-         },
-       },
-       yAxis: {
-         axisLabel: {
-           fontSize: 12,
-         },
-       },
-
-       grid: [
-       {
-            left: '5%',
-            right: '27%',
-            top: 120,
-            bottom: 155,
+      option: {
+        xAxis: {
+          axisLabel: {
+            fontSize: 12,
           },
-         
-       ],
-     },
-   },
+        },
+        yAxis: {
+          axisLabel: {
+            fontSize: 12,
+          },
+        },
+      },
+    },
   ],
 })
-
-const item = ref(null)
 
 watch(props, () => {
   console.log('props.selectedOverallTab', props.selectedOverallTab)
@@ -1776,16 +1267,18 @@ function getFilteredData() {
   width: fit-content;
   display: block;
   position: relative;
-  top: 25px;
+  top: 65px;
   margin-left: auto;
-  right: 0px;
-
-  z-index: 11;
+  right: 5px;
+  margin-top: -65px;
+  z-index: 30;
 }
 
 .chart_inside {
   width: 100%;
   height: 100%;
+  padding-bottom: 20px;
+  
 }
 
 @media (max-width: $xxl) {

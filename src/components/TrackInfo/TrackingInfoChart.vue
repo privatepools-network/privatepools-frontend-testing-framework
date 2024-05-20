@@ -490,7 +490,7 @@ const series = computed(() => [
   seriesInstance('Revenue', 'bar', dataRevenues.value, 2, '#01B47E'),
   seriesInstance('Gas Fees', 'bar', dataGasFees.value, 3, '#87F1FF'),
   seriesInstance('Average APR', 'line', dataAvgApr.value, 4, '#FFD700'),
-  seriesInstance('Volume', 'bar', dataVolumes.value, 1, '#3061a6'),
+  seriesInstance('Volume', 'bar', dataVolumes.value, 1, '#FA5173'),
   seriesInstance('Trades', 'bar', dataTrades.value, 3, '#77aaff'),
   seriesInstance(
     'Volatility Index',
@@ -580,7 +580,7 @@ const optionObj = ref({
         },
       },
     },
-    yAxisInstance('Volume', showVolume, 0, '#3061a6'),
+    yAxisInstance('Volume', showVolume, 0, '#FA5173'),
     yAxisInstance('Revenue / Profits', showRevenueProfits, 60, '#01B47E'),
     yAxisInstance('Trades / Gas Fees', showTradesGasFees, 120, '#77aaff'),
     yAxisInstance('APR / Volatility Index', showAPRVolatility, 180, '#FFD700'),
