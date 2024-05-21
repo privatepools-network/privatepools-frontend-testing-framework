@@ -27,7 +27,7 @@
               50%
             </div>
           </div>
-          <div class="ml-2">
+          <div class="ml-2 z-50">
             <a target="_blank" :href="scannerLink">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -104,7 +104,7 @@
                   pool.
                 </div>
                 <div>
-                  <b>Number of Investors:</b> Total count of investors in the
+                  <b>Number of LPs:</b> Total count of investors in the
                   pool.
                 </div>
                 <div>
