@@ -45,11 +45,8 @@
     {{ console.log('all_pools!!!', all_pools) }}
     <LoaderPulse v-if="!all_pools" />
     <InvestmentsPoolRow v-else-if="all_pools && all_pools.length > 0"
-      v-for="(pool, index) in all_pools.slice(0, sliceNumber).toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy])"
-      :key="pool.name" :pool="pool" :userPools="all_pools.filter((item) =>
-        user_staked_pools.map((p) => p.id).includes(item.id),
-      )
-        " :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
+      v-for="(pool, index) in sortedPools.slice(0, sliceNumber)"
+      :key="pool.name" :pool="pool" :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
       @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
     <div v-else class="p-10 flex justify-center items-center dark:!text-white text-black">
       No pools of this type
@@ -69,7 +66,7 @@
 import { t } from 'i18next'
 import Pagination from '../Pool/Pagination.vue'
 import InvestmentsPoolRow from '../Pool/InvestmentsPoolRow.vue'
-import { defineProps, ref, toRefs } from 'vue'
+import { defineProps, ref, toRefs,computed } from 'vue'
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
 import {
@@ -97,6 +94,9 @@ function changePerPage(v1) {
 }
 const props = defineProps(['all_pools', 'user_staked_pools'])
 const { all_pools } = toRefs(props)
+
+const sortedPools = computed(() => all_pools.value.toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy]))
+
 const headers = [
   'Tokens',
   'AVG APR',
@@ -110,11 +110,11 @@ const headers = [
 ]
 
 function goToPoolDeposit(args) {
-  if (all_pools.value[args.index].LiquidityType != 'CL') {
+  if (sortedPools.value[args.index].LiquidityType != 'CL') {
     router.push({
       name: 'Pool Deposit',
       params: {
-        id: all_pools.value[args.index].id,
+        id: sortedPools.value[args.index].id,
         onMountedActivity: args.onMountedActivity,
         chainSelected: DisplayChain[networkId.value],
       },
@@ -123,18 +123,18 @@ function goToPoolDeposit(args) {
     router.push({
       name: 'Concentrated liquidity',
       query: {
-        tokens: all_pools.value[args.index].tokens.map((t) => t.id),
-        fee: all_pools.value[args.index].fee,
+        tokens: sortedPools.value[args.index].tokens.map((t) => t.id),
+        fee: sortedPools.value[args.index].fee,
       },
     })
   }
 }
 function goToPoolManage(args) {
-  if (all_pools.value[args.index].LiquidityType == 'WP') {
+  if (sortedPools.value[args.index].LiquidityType == 'WP') {
     router.push({
       name: 'Pool Deposit',
       params: {
-        id: all_pools.value[args.index].id,
+        id: sortedPools.value[args.index].id,
         onMountedActivity: args.onMountedActivity,
         chainSelected: DisplayChain[networkId.value],
       },
@@ -144,7 +144,7 @@ function goToPoolManage(args) {
       name: 'Concentrated liquidity Add',
       params: {
         onMountedActivity: 'deposit',
-        poolId: all_pools.value[args.index].id,
+        poolId: sortedPools.value[args.index].id,
       },
     })
   }
@@ -153,7 +153,7 @@ function goToPoolWithdraw(args) {
   router.push({
     name: 'Pool Withdraw',
     params: {
-      id: all_pools.value[args.index].id,
+      id: sortedPools.value[args.index].id,
       onMountedActivity: args.onMountedActivity,
       chainSelected: DisplayChain[networkId.value],
     },
@@ -163,7 +163,7 @@ function goToPool(args) {
   router.push({
     name: 'Pool Details',
     params: {
-      id: all_pools.value[args.index].id,
+      id: sortedPools.value[args.index].id,
       onMountedActivity: args.onMountedActivity,
       chainSelected: DisplayChain[networkId.value],
     },
@@ -173,7 +173,7 @@ function goToCLPool(args) {
   router.push({
     name: 'Pool CL Details',
     params: {
-      id: all_pools.value[args.index].id,
+      id: sortedPools.value[args.index].id,
       onMountedActivity: args.onMountedActivity,
       chainSelected: DisplayChain[networkId.value],
     },
@@ -184,8 +184,8 @@ function goToCL(args) {
   router.push({
     name: 'Concentrated liquidity',
     query: {
-      tokens: all_pools.value[args.index].tokens.map((t) => t.id),
-      fee: all_pools.value[args.index].fee,
+      tokens: sortedPools.value[args.index].tokens.map((t) => t.id),
+      fee: sortedPools.value[args.index].fee,
     },
   })
 }

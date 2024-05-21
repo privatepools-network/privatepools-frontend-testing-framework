@@ -35,7 +35,7 @@
                 {{ poolToken.symbol }}
               </div>
               <div class="big-chip__text dark:!text-white text-black">
-                {{ poolToken.weight }}%
+                {{ poolToken.weight *100}}%
               </div>
             </div>
           </div>
@@ -127,7 +127,7 @@
 
                       {{
                         pool?.tokens
-                          .map((t) => `${t.weight}${t.symbol}`)
+                          .map((t) => `${t.weight*100}${t.symbol}`)
                           .join('-')
                       }}
                     </div>
@@ -246,7 +246,7 @@
                             class="d-flex flex-column dark:!text-white text-black"
                           >
                             <div style="font-size: 12px">
-                              {{ token.symbol }} 25%
+                              {{ token.symbol }} {{token.weight*100}}%
                             </div>
                             <div
                               style="font-size: 10px"

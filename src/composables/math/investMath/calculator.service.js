@@ -148,7 +148,9 @@ export default class CalculatorService {
   }
 
   tokenOf(type, index) {
-    return this[`${type}Tokens`][index]
+    return this[`${type}Tokens`][
+      Math.min(this[`${type}Tokens`].length - 1, index)
+    ]
   }
 
   ratioOf(type, index) {
@@ -223,7 +225,7 @@ export default class CalculatorService {
   }
 
   get sendRatios() {
-    if (this.action === 'join') return this.pool.valueTokenBalances
+    if (this.action === 'join') return this.poolTokenBalances
     return [this.poolTotalSupply]
   }
 
