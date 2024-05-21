@@ -46,6 +46,7 @@
                 "
               >
                 <svg
+                class="pointer-events-none"
                   v-if="item.selected === true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="8"

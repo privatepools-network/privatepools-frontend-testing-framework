@@ -64,7 +64,7 @@
               </svg>
             </div>
 
-            <div :class="'head_caption_text flex items-center'">
+            <div :class="'head_caption_text flex items-center'"  @click="ascendFilterBy = headCaption">
               <img
                 v-if="
                   !headCaption.includes(t('tokens')) &&
@@ -73,7 +73,7 @@
                 "
                 :src="filterArrow"
                 :class="ascendFilterBy === headCaption ? 'rotate-180' : ''"
-                @click="ascendFilterBy = headCaption"
+               
               />
               {{ headCaption }}
             </div>
@@ -149,7 +149,7 @@ const headers = [
   t('composition'),
   'All Returns %',
   'TVL',
-  `${t('volume')} (24h)`,
+  `${t('volume')}`,
   'APR',
   t('actions'),
 ]

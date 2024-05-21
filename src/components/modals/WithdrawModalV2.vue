@@ -5,8 +5,9 @@
         :src="arrow_back"
         class="w-2 cursor-pointer"
         @click="$emit('changeVisibleDepositBack')"
+       
       />
-      <div class="text-[14px] text-white">Add Liquidity</div>
+      <div class="text-[14px] text-white">Withdraw Liquidity</div>
     </div>
   </div>
 

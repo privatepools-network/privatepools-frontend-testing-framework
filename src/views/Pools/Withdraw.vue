@@ -278,8 +278,8 @@
                 </div>
               </div>
 
-              <div>
-                <div class="modal_total_container my-4">
+              <div class="my-4">
+                <!-- <div class="modal_total_container my-4">
                   <table
                     style="
                       color: white;
@@ -317,7 +317,7 @@
                       </td>
                     </tr>
                   </table>
-                </div>
+                </div> -->
               </div>
             </div>
             <button

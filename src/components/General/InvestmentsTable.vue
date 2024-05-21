@@ -32,10 +32,10 @@
             </div>
 
 
-            <div :class="'head_caption_text flex items-center'">
+            <div :class="'head_caption_text flex items-center'" @click="ascendFilterBy = headCaption">
               <img v-if="!headCaption.includes('Tokens') &&
                 !headCaption.includes('Actions')" :src="filterArrow"
-                :class="ascendFilterBy === headCaption ? 'rotate-180' : ''" @click="ascendFilterBy = headCaption" /> {{
+                :class="ascendFilterBy === headCaption ? 'rotate-180' : ''"  /> {{
                   headCaption }}
             </div>
           </div>

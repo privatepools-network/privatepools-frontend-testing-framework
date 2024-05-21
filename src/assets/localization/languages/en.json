@@ -199,7 +199,7 @@
     "lifetime_stats": "Lifetime stats",
     "fees": "Fees",
     "symbol": "Symbol",
-    "number_of_investors": "Number of investors",
+    "number_of_investors": "Number of LPs",
     "owner": "Owner",
     "this_pie_chart_illustrates": "This pie chart illustrates the percentage breakdown of assets within this pool. It provides a visual representation of how different assets contribute to the pool's overall composition.",
     "pool_analytics": "Pool analytics",
