@@ -9,7 +9,7 @@
     ref="headRef"
   >
     <CContainer fluid class="header_container">
-      <HeaderNavigation :address="address"/>
+      <HeaderNavigation :address="address" />
 
       <HeaderSearchbar
         :selectOptions="selectOptions"
@@ -45,7 +45,7 @@
           class="wallet_address dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white"
           @click="$emit('toggleSidebar')"
         >
-        <span class="pulse_green"></span>
+          <span class="pulse_green"></span>
           {{ computedAddress }}
         </div>
       </div>
@@ -62,6 +62,7 @@ import {
   defineEmits,
   defineProps,
   toRefs,
+watchEffect,
 } from 'vue'
 import HeaderNavigation from '@/components/Header/HeaderNavigation.vue'
 import HeaderSearchbar from '@/components/Header/HeaderSearchbar.vue'
@@ -229,6 +230,7 @@ watch(
           network.current = false
         }
       }
+
       if (!isConnectedToExistingChain) {
         notify(
           'error',
@@ -285,6 +287,7 @@ onMounted(async () => {
     )
   }
 })
+let provider = new ethers.providers.Web3Provider(window.ethereum)
 
 async function connectWallet() {
   window.ethereum
@@ -292,7 +295,6 @@ async function connectWallet() {
     .then(async (res) => {
       // Request MetaMask to connect
       await window.ethereum.enable()
-      let provider = new ethers.providers.Web3Provider(window.ethereum)
       setMetamaskProvider(provider)
       const network = await provider.getNetwork()
 
@@ -336,6 +338,8 @@ async function handleChainChanged() {
   let provider = new ethers.providers.Web3Provider(window.ethereum)
   const newNetwork = await provider.getNetwork()
   setNetworkId(newNetwork.chainId)
+  console.log('newNetwork.chainId!!!', newNetwork.chainId)
+  window.location.reload()
 }
 
 const computedAddress = computed(() =>
@@ -345,6 +349,8 @@ const computedAddress = computed(() =>
       props.address.substring(props.address.length - 4)
     : '',
 )
+
+
 </script>
 <style lang="scss">
 @import '@/styles/_variables.scss';
@@ -448,12 +454,12 @@ const computedAddress = computed(() =>
   &__popup {
     width: 200px;
     border-radius: 16px;
-    box-shadow: 0px 4px 8.9px 0px #02031CB5;
+    box-shadow: 0px 4px 8.9px 0px #02031cb5;
 
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    border: 0.5px solid #DCEEF60D;
+    border: 0.5px solid #dceef60d;
     padding: 13px 8px;
     color: #fff;
     position: relative;
@@ -802,7 +808,7 @@ const computedAddress = computed(() =>
 
 .vue-input {
   padding-left: 35px;
-  
+
   font-size: clamp(10px, 0.8vw, 15px);
   font-weight: 500;
   line-height: 18px;
@@ -821,11 +827,7 @@ const computedAddress = computed(() =>
 }
 .vue-dropdown {
   // background: #171717;
-  background: linear-gradient(
-      356.2deg,
-      #02031C,
-      #000000 105.42%
-    );
+  background: linear-gradient(356.2deg, #02031c, #000000 105.42%);
 
   border: 1px solid #222222c9;
   // color: white;
@@ -869,7 +871,7 @@ input[readonly] {
   display: flex;
   align-items: center;
   gap: 4px;
-  
+
   font-size: 12px;
   font-weight: 500;
   line-height: 15px;
@@ -889,7 +891,7 @@ input[readonly] {
   border: 1px solid #fb800f;
   // box-shadow: 0px 4px 4px 0px #fb800f;
   color: #ff9b40;
-  // 
+  //
   font-size: clamp(10px, 0.8vw, 15px);
   font-weight: 600;
   line-height: 18px;
@@ -907,7 +909,7 @@ input[readonly] {
 .wallet_address {
   height: 40px;
 
-  border: 1px solid #2ABDFF;
+  border: 1px solid #2abdff;
 
   border-radius: 100px;
   padding: 8px 25px;

@@ -3,7 +3,7 @@
     <div class="chart-timeline">
       <Tabs :tabsOptions="timelines" :selectedTab="currentTimeline" @changeTab="changeTimeline"></Tabs>
     </div>
-    <div class="finance_above_buttons">
+    <!-- <div class="finance_above_buttons">
       <div>
         <button class="financial_button">
           <div class="flex items-center gap-2 dark:!text-white text-black">
@@ -18,7 +18,7 @@
           </div>
         </button>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <div class="mt-5 finance_table dark:!bg-[#22222224] bg-white" style="position: relative">

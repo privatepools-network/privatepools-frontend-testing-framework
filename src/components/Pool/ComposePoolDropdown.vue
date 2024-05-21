@@ -53,13 +53,43 @@ import { ref } from 'vue'
 import router from '@/router'
 import { useDevice } from '@/composables/adaptive/useDevice'
 import { Dropdown } from 'floating-vue'
+import Toast from '@/UI/Toast.vue';
+import { notify } from '@/composables/notify'
 
-const { width } = useDevice()
 
-const composePoolDropdownOpen = ref(false)
+const currentChainId = JSON.parse(localStorage.getItem('ethereumNetwork')).chainId
+
+function wrongChainCall() {
+  notify(
+    'error',
+    'Wrong chain',
+    'Please connect to one of the available chains',
+  )
+  window.ethereum.request({
+    method: "wallet_addEthereumChain",
+    params: [{
+        chainId: "0x38",
+        rpcUrls: ["https://bsc-dataseed.binance.org/"],
+        chainName: "BNB Chain",
+        nativeCurrency: {
+            name: "BNB",
+            symbol: "BNB",
+            decimals: 18
+        },
+        blockExplorerUrls: ["https://bscscan.com/"]
+    }]
+});
+}
 
 const onClick = () => {
-  router.push('/pools/compose')
+  console.log('currentChainId', currentChainId)
+
+  if(currentChainId === 56) {
+    router.push('/pools/compose')
+  }else {
+    wrongChainCall()
+  }
+  
 }
 const onClickConcentratedPool = () => {
   router.push('/pools/concentrated_pool')

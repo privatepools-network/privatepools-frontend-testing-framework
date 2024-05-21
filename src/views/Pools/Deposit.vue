@@ -50,7 +50,7 @@
             <div class="deposit_text dark:!text-white text-black my-1">
               <div v-if="approveStep !== 5" class="flex items-center gap-2 py-2"
                 @click="approveStep !== 0 ? approveStep-- : ''">
-                <img :src="arrow_back" class="w-2 cursor-pointer" />
+                <img :src="arrow_back" class="w-2 cursor-pointer"  v-if="approveStep !== 0"/>
                 <div class="text-[14px] text-white">Add Liquidity</div>
               </div>
             </div>

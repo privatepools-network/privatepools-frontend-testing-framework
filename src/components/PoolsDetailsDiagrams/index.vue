@@ -683,7 +683,7 @@ const chartOptions0 = computed(() => {
         show: false,
       },
     },
-    colors: router.currentRoute.value.path.includes('CLdetails') ?  ['#FB800F', '#803D00', '#F07E07', '#FF9B40'] : ['#01B47E', '#4AFF7D', '#1AB401', '#8AFF42'],
+    colors: router.currentRoute.value.path.includes('CLdetails') ?  ['#FB800F', '#803D00', '#F07E07', '#FF9B40'] : ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
     dataLabels: {
       enabled: false,
     },

@@ -186,9 +186,10 @@
       <div v-else-if="all_pools.length === 0" class="my-5">
         <LoaderPulse />
       </div>
-
+      {{ console.log('all_pools', all_pools) }}
       <PoolRow
         v-for="(pool, index) in all_pools
+          .filter((el) => el.TVL_BTC > 0.000004)
           .slice(0, sliceNumber)
           .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
         :key="pool.name"

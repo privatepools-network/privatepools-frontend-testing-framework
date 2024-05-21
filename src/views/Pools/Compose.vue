@@ -384,7 +384,7 @@
                     </div>
                     <div class="d-flex gap-1">{{ $t('weighted') }}</div>
                   </div>
-                  <div class="d-flex justify-content-between align-items-center dark:!text-white text-black">
+                  <!-- <div class="d-flex justify-content-between align-items-center dark:!text-white text-black">
                     <div class="text-[#D7D7D7] font-light">
                       {{ $t('swap_fee') }}:
                     </div>
@@ -395,7 +395,7 @@
                       {{ $t('swap_fee_manager') }}:
                     </div>
                     <div class="d-flex gap-1">Private Pools</div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>

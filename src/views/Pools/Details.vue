@@ -1093,7 +1093,7 @@ function filterPoolActions(removeExcess = true) {
 
 const poolActivityData = computed(() => filterPoolActions(false))
 
-const colors = ['#01B47E', '#4AFF7D', '#1AB401', '#8AFF42']
+const colors = ['#FA5173', '#01B47E', '#77aaff', '#FFD700']
 const dynamicDonut = computed(() => {
   let labels = pool.value.tokens.map((t) => t.symbol)
   let arrayOfColors = labels.map((s, i) =>

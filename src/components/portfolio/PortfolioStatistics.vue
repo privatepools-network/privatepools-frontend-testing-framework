@@ -701,7 +701,7 @@ function dynamicDonut(labels, arrayOfColors, data) {
     chart: {
       type: 'donut',
     },
-    colors: ['#01B47E', '#4AFF7D', '#1AB401', '#8AFF42'],
+    colors: ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
     data: data,
     labels: labels,
     legend: {
@@ -714,7 +714,7 @@ function dynamicDonut(labels, arrayOfColors, data) {
         useSeriesColors: true,
       },
       markers: {
-        fillColors: ['#01B47E', '#4AFF7D', '#1AB401', '#8AFF42'],
+        fillColors: ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
       },
     },
     dataLabels: {
@@ -722,7 +722,7 @@ function dynamicDonut(labels, arrayOfColors, data) {
     },
     fill: {
       opacity: 1,
-      colors: ['#01B47E', '#4AFF7D', '#1AB401', '#8AFF42'],
+      colors: ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
     },
     plotOptions: {
       pie: {
