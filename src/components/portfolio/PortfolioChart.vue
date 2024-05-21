@@ -296,7 +296,7 @@ const dataTrades = computed(() => {
 })
 const dataTVL = computed(() => {
   if (filteredData.value.length > 0 && filteredData.value[0].TVL)
-    return filteredData.value.map((v) => v[`TVL${postfix.value}`][chainSelected.value])
+    return filteredData.value.map((v) => v[`TVL${postfix.value}`]['User Liquidity'])
   return []
 })
 
@@ -482,7 +482,7 @@ const series = computed(() => [
   seriesInstance('Trades', 'bar', dataTrades.value, 3, '#77aaff'),
   seriesInstance('Rewards','line', dataRewards.value,4,'#FFC374'),
   seriesInstance('ROI', 'bar', dataROI.value, 2, '#00FF75'),
-  seriesInstance('TVL', 'line', dataTVL.value, 0, '#F07E07'),
+  seriesInstance('Staked Liquidity', 'line', dataTVL.value, 0, '#F07E07'),
 ])
 
 
