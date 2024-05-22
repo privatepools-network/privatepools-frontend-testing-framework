@@ -713,7 +713,7 @@ function getFilteredData() {
           }
         }
         if (filter_code == 'Average APR') {
-          result_item[filter_code] = item[filter_code]
+          result_item[filter_code] = item[`Profits${postfix.value}`] * 365 / item[`TVL${postfix.value}`]['All Chains'] * 100
         }
         if (filter_code == 'Volatility Index') {
           result_item[filter_code] = item[filter_code]

@@ -485,6 +485,7 @@ function OnSliderValueChange(index, value) {
   }
   lineNumbers.value[index] = value
   if (value > 0) lastDepositChanged.value = index
+  OnOptimizeClick()
 }
 
 function OnAllMaxClick() {
@@ -518,7 +519,7 @@ function OnOptimizeClick() {
     // let toOptimizeUsdAmount = usdAmount + sumDiff
     // let newValue = toOptimizeUsdAmount / lastTokenPrices.value[tokens.value[i]]
     let toOptimizeUsdAmount = usdAmount / pool.value.tokens[lastDepositChanged.value].weight * pool.value.tokens[i].weight
-    let newValue = toOptimizeUsdAmount / lastTokenPrices[pool.value.tokens[i]]
+    let newValue = toOptimizeUsdAmount / lastTokenPrices.value[pool.value.tokens[i].address]
     lineNumbers.value[i] = newValue * 1000
   }
 }

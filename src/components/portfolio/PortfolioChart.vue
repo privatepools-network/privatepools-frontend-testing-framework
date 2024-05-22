@@ -421,7 +421,7 @@ function legendSelectedChange(e) {
   if (e.name === 'Capital Gains' || e.name === 'ROI') {
     if (e.selected['Capital Gains'] === false && e.selected.ROI === false) {
       showRevenueProfits.value = false
-    } else if (e.selected['Capital Gains']  === true || e.selected.ROI === true) {
+    } else if (e.selected['Capital Gains'] === true || e.selected.ROI === true) {
       showRevenueProfits.value = true
     }
   }
@@ -480,7 +480,7 @@ const series = computed(() => [
   seriesInstance('Average APR', 'line', dataAvgApr.value, 4, '#FFD700'),
   seriesInstance('Volume', 'bar', dataVolumes.value, 1, '#FA5173'),
   seriesInstance('Trades', 'bar', dataTrades.value, 3, '#77aaff'),
-  seriesInstance('Rewards','line', dataRewards.value,4,'#FFC374'),
+  seriesInstance('Rewards', 'line', dataRewards.value, 4, '#FFC374'),
   seriesInstance('ROI', 'bar', dataROI.value, 2, '#00FF75'),
   seriesInstance('Staked Liquidity', 'line', dataTVL.value, 0, '#F07E07'),
 ])
@@ -536,10 +536,10 @@ const optionObj = ref({
       data: dates,
       axisLine: { lineStyle: { color: '#8392A5' } },
       axisLabel: {
-      fontFamily: 'Roboto mono',
-      fontWeight: '700',
-      
-    },
+        fontFamily: 'Roboto mono',
+        fontWeight: '700',
+
+      },
     },
   ],
   yAxis: [
@@ -696,6 +696,10 @@ function getFilteredData() {
         result_item['Avg Profit per Trade'] = avg_profit
       } else if (filter_code == 'Avg Gas Fee per Trade') {
         result_item['Avg Gas Fee per Trade'] = avg_fee
+      }
+      else if (filter_code == "Average APR") {
+        result_item[filter_code] = item[`Profits${postfix.value}`] * 365 / item[`TVL${postfix.value}`]['All Chains'] * 100
+
       }
     }
 
