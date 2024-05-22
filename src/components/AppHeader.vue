@@ -62,7 +62,7 @@ import {
   defineEmits,
   defineProps,
   toRefs,
-watchEffect,
+  watchEffect,
 } from 'vue'
 import HeaderNavigation from '@/components/Header/HeaderNavigation.vue'
 import HeaderSearchbar from '@/components/Header/HeaderSearchbar.vue'
@@ -287,7 +287,6 @@ onMounted(async () => {
     )
   }
 })
-let provider = new ethers.providers.Web3Provider(window.ethereum)
 
 async function connectWallet() {
   window.ethereum
@@ -295,6 +294,8 @@ async function connectWallet() {
     .then(async (res) => {
       // Request MetaMask to connect
       await window.ethereum.enable()
+      let provider = new ethers.providers.Web3Provider(window.ethereum)
+
       setMetamaskProvider(provider)
       const network = await provider.getNetwork()
 
@@ -349,8 +350,6 @@ const computedAddress = computed(() =>
       props.address.substring(props.address.length - 4)
     : '',
 )
-
-
 </script>
 <style lang="scss">
 @import '@/styles/_variables.scss';
