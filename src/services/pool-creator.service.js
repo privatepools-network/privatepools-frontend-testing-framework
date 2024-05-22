@@ -74,7 +74,7 @@ export class PoolCreatorService {
           sorted.map((token) => parseUnits(token.weight.toString(), 16)),
         ),
         parseUnits(swapFeePercentage, 16),
-      //  '0x0000000000000000000000000000000000000000000000000000000000000000',
+        '0x0000000000000000000000000000000000000000000000000000000000000000',
       ]
       var tx = await contract.create(...params)
       await tx.wait()
