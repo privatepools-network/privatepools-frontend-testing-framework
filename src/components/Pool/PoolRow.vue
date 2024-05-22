@@ -442,7 +442,7 @@ import CounterAnimation from '@/UI/CounterAnimation.vue'
 const settingsStore = useSettings()
 const currentChainId = JSON.parse(
   localStorage.getItem('ethereumNetwork'),
-).chainId
+)?.chainId
 
 function wrongChainCall() {
   notify(
@@ -451,19 +451,21 @@ function wrongChainCall() {
     'Please connect to one of the available chains',
   )
   window.ethereum.request({
-    method: "wallet_addEthereumChain",
-    params: [{
-        chainId: "0x38",
-        rpcUrls: ["https://bsc-dataseed.binance.org/"],
-        chainName: "BNB Chain",
+    method: 'wallet_addEthereumChain',
+    params: [
+      {
+        chainId: '0x38',
+        rpcUrls: ['https://bsc-dataseed.binance.org/'],
+        chainName: 'BNB Chain',
         nativeCurrency: {
-            name: "BNB",
-            symbol: "BNB",
-            decimals: 18
+          name: 'BNB',
+          symbol: 'BNB',
+          decimals: 18,
         },
-        blockExplorerUrls: ["https://bscscan.com/"]
-    }]
-});
+        blockExplorerUrls: ['https://bscscan.com/'],
+      },
+    ],
+  })
 }
 
 const { currentCurrency } = storeToRefs(settingsStore)

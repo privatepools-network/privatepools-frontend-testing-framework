@@ -13,9 +13,7 @@ import ethSymbol from '@/assets/images/tokens/ethSymbol.png'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 
-
 const settingsStore = useSettings()
 
 const { currentCurrency } = storeToRefs(settingsStore)
-
 </script>

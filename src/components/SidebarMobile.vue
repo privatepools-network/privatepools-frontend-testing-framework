@@ -110,7 +110,7 @@
                   </li> -->
                   <!-- <li class="sidemenu__item">
                     <a
-                      href="/admin/tokens"
+                      href=F"/admin/tokens"
                       :class="
                         route.name === 'Manage Tokens'
                           ? 'sidemenu__item__active'
