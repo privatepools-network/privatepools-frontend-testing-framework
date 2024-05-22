@@ -238,7 +238,7 @@
                       {{ $t('balance') }}:
                       <span class="fw-bold" v-if="lineNumbers.length > 0">{{
                         RemainingBalance(token, tokenIndex)
-                      }}</span><span @click="() => OnMaxClick(tokenIndex)" class="fw-bold bg-transparent"
+                        }}</span><span @click="() => OnMaxClick(tokenIndex)" class="fw-bold bg-transparent"
                         style="cursor: pointer">
                         {{ $t('max') }}</span>
                     </div>
@@ -259,10 +259,10 @@
                 </div>
               </div>
             </div>
-            <div class="compose_text dark:!text-white text-black d-flex align-items-center gap-2 mt-1">
+            <!-- <div class="compose_text dark:!text-white text-black d-flex align-items-center gap-2 mt-1">
               {{ $t('auto_optimize_liquidity') }}
               <div class="flex items-center gap-2">
-                <label class="inline-flex items-center cursor-pointer">
+                <label class"inline-flex items-center cursor-pointer">
                   <input type="checkbox" class="sr-only peer" :value="autoOptimizeLiq"
                     @click="autoOptimizeLiq = !autoOptimizeLiq" :checked="autoOptimizeLiq" />
                   <div
@@ -270,7 +270,7 @@
                   </div>
                 </label>
               </div>
-            </div>
+            </div> -->
             <div>
               <div class="modal_total_container mt-4">
                 <table style="
