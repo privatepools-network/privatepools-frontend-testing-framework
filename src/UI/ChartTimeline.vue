@@ -3,7 +3,7 @@
     <div class="chart-timeline">
       <div class="chart-equivalent bg-white dark:!bg-[#22222224]">
         <div
-          class="chart-equivalent__el "
+          class="chart-equivalent__el"
           v-for="timeline in timelines"
           :key="timeline.name"
           :class="{
@@ -15,8 +15,8 @@
           {{ timeline.name }}
         </div>
         <div
-        v-if="isCumulativeMode !== undefined"
-          class="chart-equivalent__el "
+          v-if="isCumulativeMode !== undefined"
+          class="chart-equivalent__el"
           :class="{
             'chart-equivalent__el_active': isCumulativeMode == true,
           }"
@@ -32,12 +32,9 @@
 import { defineProps, defineEmits } from 'vue'
 defineProps(['isCumulativeMode', 'currentTimeline', 'timelines'])
 const emit = defineEmits(['changeTimeline', 'changeCumulativeMode'])
-
 </script>
 <style lang="scss" scoped>
 .chart {
-
-
   &-equivalent {
     padding: 0px;
     font-size: clamp(10px, 0.5vw, 14px);
@@ -47,29 +44,25 @@ const emit = defineEmits(['changeTimeline', 'changeCumulativeMode'])
     border-radius: 16px;
     box-shadow: 0px 4px 4px 0px #00000040;
 
-
-
     &__el {
       padding: 8px 15px;
       cursor: pointer;
       border-radius: 16px;
       color: #fff;
       &:hover {
-        background: rgba(#00C9FF, 0.3);
+        background: rgba(#00c9ff, 0.3);
       }
 
       &_active {
-        background: #00E0FF;
+        background: #00e0ff;
         color: #000000;
 
         &:hover {
-          background: #00C9FF;
+          background: #00c9ff;
         }
       }
     }
   }
-
-
 
   &-timeline {
     width: 100%;
@@ -80,7 +73,5 @@ const emit = defineEmits(['changeTimeline', 'changeCumulativeMode'])
       margin-top: 10px;
     }
   }
-
-  
 }
 </style>

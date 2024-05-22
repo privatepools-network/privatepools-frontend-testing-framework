@@ -1,29 +1,29 @@
 <template>
   <!-- <Dropdown :distance="4" :placement="'bottom-start'"> -->
-    <div class="flex items-center" @click="onClick">
-      <div class="button gap-2">
-        {{ $t('Create a Pool') }}
-      </div>
-      <div class="button_arrow">
-        <svg
-        class="arrow_anim"
-          width="10"
-          height="14"
-          viewBox="0 0 16 19"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M8 1.5V17.5M8 17.5L1.5 10.6429M8 17.5L14.5 10.6429"
-            stroke="#02031C"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </div>
+  <div class="flex items-center" @click="onClick">
+    <div class="button gap-2">
+      {{ $t('Create a Pool') }}
     </div>
-    <!-- <template #popper>
+    <div class="button_arrow">
+      <svg
+        class="arrow_anim"
+        width="10"
+        height="14"
+        viewBox="0 0 16 19"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M8 1.5V17.5M8 17.5L1.5 10.6429M8 17.5L14.5 10.6429"
+          stroke="#02031C"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+  </div>
+  <!-- <template #popper>
       <div
         class="compose_pool_dropdown w-[143px]  text-black "
       >
@@ -53,11 +53,12 @@ import { ref } from 'vue'
 import router from '@/router'
 import { useDevice } from '@/composables/adaptive/useDevice'
 import { Dropdown } from 'floating-vue'
-import Toast from '@/UI/Toast.vue';
+import Toast from '@/UI/Toast.vue'
 import { notify } from '@/composables/notify'
 
-
-const currentChainId = JSON.parse(localStorage.getItem('ethereumNetwork')).chainId
+const currentChainId = JSON.parse(
+  localStorage.getItem('ethereumNetwork'),
+)?.chainId
 
 function wrongChainCall() {
   notify(
@@ -66,34 +67,35 @@ function wrongChainCall() {
     'Please connect to one of the available chains',
   )
   window.ethereum.request({
-    method: "wallet_addEthereumChain",
-    params: [{
-        chainId: "0x38",
-        rpcUrls: ["https://bsc-dataseed.binance.org/"],
-        chainName: "BNB Chain",
+    method: 'wallet_addEthereumChain',
+    params: [
+      {
+        chainId: '0x38',
+        rpcUrls: ['https://bsc-dataseed.binance.org/'],
+        chainName: 'BNB Chain',
         nativeCurrency: {
-            name: "BNB",
-            symbol: "BNB",
-            decimals: 18
+          name: 'BNB',
+          symbol: 'BNB',
+          decimals: 18,
         },
-        blockExplorerUrls: ["https://bscscan.com/"]
-    }]
-});
+        blockExplorerUrls: ['https://bscscan.com/'],
+      },
+    ],
+  })
 }
 
 const onClick = () => {
   console.log('currentChainId', currentChainId)
 
-  if(currentChainId === 56) {
+  if (currentChainId === 56) {
     router.push('/pools/compose')
-  }else {
+  } else {
     wrongChainCall()
   }
-  
 }
-const onClickConcentratedPool = () => {
-  router.push('/pools/concentrated_pool')
-}
+// const onClickConcentratedPool = () => {
+//   router.push('/pools/concentrated_pool')
+// }
 </script>
 <style lang="scss" scoped>
 .manage-pools {
@@ -168,18 +170,17 @@ const onClickConcentratedPool = () => {
 .arrow_anim {
   rotate: -90deg;
   animation: float 2s ease-in-out infinite;
-
 }
 
 @keyframes float {
-	0% {
-		transform: translatey(0px);
-	}
-	50% {
-		transform: translatey(-2px);
-	}
-	100% {
-		transform: translatey(0px);
-	}
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-2px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
 }
 </style>

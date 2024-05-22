@@ -21,7 +21,6 @@
       />
     </div>
   </div>
-
 </template>
 <script setup>
 import VChart from 'vue-echarts'
@@ -551,10 +550,9 @@ const optionObj = ref({
       data: dates,
       axisLine: { lineStyle: { color: '#8392A5' } },
       axisLabel: {
-      fontFamily: 'Roboto mono',
-      fontWeight: '700',
-      
-    },
+        fontFamily: 'Roboto mono',
+        fontWeight: '700',
+      },
     },
   ],
   yAxis: [
@@ -713,7 +711,10 @@ function getFilteredData() {
           }
         }
         if (filter_code == 'Average APR') {
-          result_item[filter_code] = item[`Profits${postfix.value}`] * 365 / item[`TVL${postfix.value}`]['All Chains'] * 100
+          result_item[filter_code] =
+            ((item[`Profits${postfix.value}`] * 365) /
+              item[`TVL${postfix.value}`]['All Chains']) *
+            100
         }
         if (filter_code == 'Volatility Index') {
           result_item[filter_code] = item[filter_code]
