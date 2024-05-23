@@ -8,6 +8,7 @@ import { GetSwapTokenPrices } from '@/composables/admin/swap/useSwapTokenPrices'
 import { GetTokens } from '@/composables/tokens/useTokenSymbols'
 import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
 import { getTokensData } from '@/composables/data/tokensData'
+import { getPortfolioBalance } from '@/composables/data/portfolioData'
 
 /**
  * Replace W char in token symbol (W stands for wrapped usually)
@@ -33,29 +34,46 @@ export function replaceFirstCharIfW(inputStr, newChar) {
  */
 export async function GetPossibleComposeTokens(network, enablePrices = false) {
   if (!networkId.value) return {}
-  let tokens = await getTokensData(network)
   const mmProvider = await InitializeMetamask()
   if (!mmProvider) return []
   let account = await mmProvider.getSigner().getAddress()
-  let balancesPromises = tokens.map(async (t) => {
-    return {
-      token: t.address,
-      balance: await useBalance(t.address, mmProvider, account),
-    }
-  })
-  let balancesMapping = await Promise.all(balancesPromises)
+  const account_balances = await getPortfolioBalance(network, account)
 
-  tokens.forEach(async (t) => {
+  account_balances.tokens.forEach(async (t) => {
     let icon = getTokenEntity(t.symbol, 'short').icon
-    t.price = t.totalBalanceUSD / t.totalBalanceNotional
+    t.price = t.usdAmount / t.amount
     t.value = 0
     t.img = icon
-    let found_balance = balancesMapping.find((bm) => bm['token'] == t.address)
-    t.balance = parseFloat(found_balance.balance)
-    t.userBalance = found_balance.balance
+    t.balance = parseFloat(t.amount)
+    t.userBalance = t.amount
   })
-  return tokens
+  return account_balances.tokens
 }
+// export async function GetPossibleComposeTokens(network, enablePrices = false) {
+//   if (!networkId.value) return {}
+//   let tokens = await getTokensData(network)
+//   const mmProvider = await InitializeMetamask()
+//   if (!mmProvider) return []
+//   let account = await mmProvider.getSigner().getAddress()
+//   let balancesPromises = tokens.map(async (t) => {
+//     return {
+//       token: t.address,
+//       balance: await useBalance(t.address, mmProvider, account),
+//     }
+//   })
+//   let balancesMapping = await Promise.all(balancesPromises)
+
+//   tokens.forEach(async (t) => {
+//     let icon = getTokenEntity(t.symbol, 'short').icon
+//     t.price = t.totalBalanceUSD / t.totalBalanceNotional
+//     t.value = 0
+//     t.img = icon
+//     let found_balance = balancesMapping.find((bm) => bm['token'] == t.address)
+//     t.balance = parseFloat(found_balance.balance)
+//     t.userBalance = found_balance.balance
+//   })
+//   return tokens
+// }
 
 export const COMMON_TOKENS = [
   'Binance Bridged USDT  BNB Smart Chain ',

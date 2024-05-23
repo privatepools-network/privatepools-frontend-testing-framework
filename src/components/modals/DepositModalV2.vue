@@ -128,7 +128,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('potential_weekly_yield') }}</div>
           <div class="d-flex gap-1 font-['Roboto_Mono',_monospace] text-[13px]">
-            ${{ weeklyYield }}
+            %{{ weeklyYield }}
           </div>
         </div>
       </div>
