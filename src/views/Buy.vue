@@ -18,24 +18,17 @@
 
       <div class="buy_container_section_1">
         <div style="margin-top: -60px">
-          <div
-            style="
-              color: white;
-              font-size: clamp(24px, 0.8vw, 40px);
-              font-weight: 700;
-            "
-            class="my-4"
-          >
+          <div class="my-4 text-black dark:!text-white font-medium text-3xl">
             {{ $t('trade_ppn_tokens') }}
           </div>
-          <div class="buy_token_container bg-white dark:!bg-[#171717]">
+          <div class="buy_token_container bg-white dark:!bg-[#22222224]">
             <div class="d-flex">
               <div
                 @click="selectedTab = 'Buy'"
                 :class="
                   selectedTab === 'Sell'
-                    ? 'buy_tab dark:!text-[#5e6673] text-black dark:!bg-[#2b3139] bg-[#CBCBCB]'
-                    : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#171717]'
+                    ? 'buy_tab dark:!text-[#5e6673] text-black dark:!bg-[#02031C] bg-[#CBCBCB]'
+                    : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#00E0FF]'
                 "
               >
                 {{ $t('buy') }}
@@ -44,8 +37,8 @@
                 @click="selectedTab = 'Sell'"
                 :class="
                   selectedTab === 'Buy'
-                    ? 'buy_tab dark:!text-[#eaecef] text-black dark:!bg-[#2b3139] bg-[#CBCBCB]'
-                    : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#171717]'
+                    ? 'buy_tab dark:!text-[#eaecef] text-black dark:!bg-[#02031C] bg-[#CBCBCB]'
+                    : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#00E0FF]'
                 "
               >
                 {{ $t('sell') }}
@@ -257,7 +250,7 @@
               @changeTimeline="changeTimeline"
             />
           </div>
-          <div>
+          <div style="backdrop-filter: blur(10px)">
             <apexchart
               type="area"
               height="350"
@@ -269,11 +262,11 @@
       </div>
 
       <div
-        class="mt-[160px] mb-5 dark:!text-white text-black text-3xl font-bold"
+        class="mt-[160px] mb-4 dark:!text-white text-black text-3xl font-normal"
       >
         {{ $t('private_pool_network_token') }}
       </div>
-      <div class="d-flex gap-5">
+      <div class="flex gap-5">
         <div
           class="buy_balance_container w-full dark:!bg-[#22222224] bg-white dark:!text-white text-black"
         >
@@ -503,7 +496,7 @@ const series = computed(() => [
 
 const chartOptions = computed(() => ({
   chart: {
-    height: 250,
+    // height: 250,
     type: 'area',
     toolbar: false,
   },
@@ -745,7 +738,7 @@ async function onToken1Blur() {
   box-shadow: 0px 4px 4px 0px #00000040;
   border-radius: 16px;
   padding: 30px;
-
+  backdrop-filter: blur(10px);
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 400;
   line-height: 22px;
@@ -772,9 +765,11 @@ async function onToken1Blur() {
 }
 
 .buy_token_container {
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-
-  border-radius: 20px;
+  border: 1px solid #FFFFFF0D;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  
 }
 
 .buy_tab {

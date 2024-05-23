@@ -475,9 +475,9 @@
                 </svg>
               </div>
             </a>
-            <a :href="`/pools/details/${txHash}/BNB/info`" class="text-decoration-none">
+            <a :href="`/portfolio`" class="text-decoration-none">
               <div class="compose_pool_connect_wallet">
-                View Pool
+                Portfolio
               </div>
             </a>
           </div>

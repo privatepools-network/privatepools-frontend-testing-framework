@@ -781,12 +781,7 @@ const chartOptions0 = computed(() => {
     grid: {
       borderColor: 'rgba(255, 255, 255, 0.11)',
     },
-    responsive: [
-      {
-        breakpoint: 1400,
-        options: {},
-      },
-    ],
+
   }
 })
 
@@ -848,12 +843,7 @@ const chartOptions1 = computed(() => {
     grid: {
       show: false,
     },
-    responsive: [
-      {
-        breakpoint: 1400,
-        options: {},
-      },
-    ],
+ 
   }
 })
 const chartOptionsCLPool1 = computed(() => {
@@ -1054,11 +1044,7 @@ const chartOptions2 = computed(() => {
     grid: {
       show: false,
     },
-    responsive: [
-      {
-        breakpoint: 1400,
-      },
-    ],
+ 
   }
 })
 

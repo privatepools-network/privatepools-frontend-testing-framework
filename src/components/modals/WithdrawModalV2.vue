@@ -128,12 +128,12 @@
             ${{ usdSummary }}
           </div>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
+        <!-- <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('value_loss') }}</div>
           <div class="d-flex gap-1 font-['Roboto_Mono',_monospace] text-[13px]">
             {{ priceImpact }}%
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 

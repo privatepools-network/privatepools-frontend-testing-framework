@@ -568,7 +568,7 @@ import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
 import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
-
+import PoolsDetailsDiagrams from '@/components/PoolsDetailsDiagrams/index.vue'
 
 const settingsStore = useSettings();
 
@@ -587,9 +587,9 @@ use([
   MarkPointComponent,
 ])
 
-const PoolsDetailsDiagrams = defineAsyncComponent(() =>
-  import('@/components/PoolsDetailsDiagrams/index.vue'),
-)
+// const PoolsDetailsDiagrams = defineAsyncComponent(() =>
+//   import('@/components/PoolsDetailsDiagrams/index.vue'),
+// )
 
 const selectedOverallTab = ref(t('overall_view'))
 
