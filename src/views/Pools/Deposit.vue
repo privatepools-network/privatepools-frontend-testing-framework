@@ -145,19 +145,11 @@
                             padding: 8px;
                             border-bottom: 1px solid rgba(163, 164, 165, 0.2);
                           ">
-                          <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div class="w-25 fw-bold font-['Roboto_Mono',_monospace]">
                               {{ currencySelected.symbol
                               }}{{
-                                parseFloat(
-                                  lineNumbers.reduce(
-                                    (sum, current, index) =>
-                                      sum +
-                                      (current / 1000) *
-                                      lastTokenPrices[tokens[index]],
-                                    0,
-                                  ),
-                                ).toFixed(3)
+                               fiatTotal
                               }}
                             </div>
                             <div class="optimize bg-[#FFFFFF] hover:!bg-blue-500 text-black font-semibold border-0"
@@ -444,10 +436,15 @@ const fiatAmountMap = computed(() => {
   return {}
 })
 const fiatTotal = computed(() =>
-  Object.values(fiatAmountMap.value).reduce(
-    (total, amount) => bnum(total).plus(amount).toString(),
-    '0',
-  ),
+  parseFloat(
+    lineNumbers.value.reduce(
+      (sum, current, index) =>
+        sum +
+        (current / 1000) *
+        lastTokenPrices.value[tokens.value[index]],
+      0,
+    ),
+  ).toFixed(3)
 )
 
 const priceImpactFormatted = computed(() =>
@@ -525,11 +522,8 @@ function OnOptimizeClick() {
 }
 
 const totalWeeklyYield = computed(() =>
-  weeklyYieldForAPR(`${pool.value.apr.total}`),
+  pool.value['30dAPR']
 )
-function weeklyYieldForAPR(apr) {
-  return bnum(apr).times(fiatTotal.value).div(52).toString()
-}
 
 function onTokenInput(event, tokenIndex) {
   let result_value = event.target.value

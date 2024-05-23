@@ -54,3 +54,6 @@ Thumbs.db
 cases.txt
 .vercel
 .env*.local
+
+.vercel
+.env*.local
