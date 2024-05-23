@@ -1,6 +1,8 @@
 <template>
   <div class="track_chart_card bg-white dark:!bg-[#22222224]">
     <div class="d-flex justify-content-end"></div>
+    {{ console.log('allChartData', allChartData) }}
+    {{ console.log('dataAvgApr', dataAvgApr) }}
     <div v-if="filteredData.length === 0" class="chart_inside">
       <LoaderPulse />
     </div>
@@ -711,10 +713,11 @@ function getFilteredData() {
           }
         }
         if (filter_code == 'Average APR') {
+         
           result_item[filter_code] =
-            ((item[`Profits${postfix.value}`] * 365) /
-              item[`TVL${postfix.value}`]['All Chains']) *
-            100
+          Number.isFinite(((item[`Profits${postfix.value}`] * 365) /
+              item[`TVL${postfix.value}`]['All Chains']) * 100) ? ((item[`Profits${postfix.value}`] * 365) /
+              item[`TVL${postfix.value}`]['All Chains']) * 100 : 0
         }
         if (filter_code == 'Volatility Index') {
           result_item[filter_code] = item[filter_code]

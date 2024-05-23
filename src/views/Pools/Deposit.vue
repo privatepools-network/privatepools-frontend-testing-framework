@@ -136,14 +136,14 @@
                         ">
                         <td class="w-25 fw-bold" style="
                             border-right: 1px solid rgba(163, 164, 165, 0.2);
-                            border-bottom: 1px solid rgba(163, 164, 165, 0.2);
+                            /* border-bottom: 1px solid rgba(163, 164, 165, 0.2); */
                             padding: 8px;
                           ">
                           {{ $t('total') }}
                         </td>
                         <td style="
                             padding: 8px;
-                            border-bottom: 1px solid rgba(163, 164, 165, 0.2);
+                            /* border-bottom: 1px solid rgba(163, 164, 165, 0.2); */
                           ">
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="w-25 fw-bold font-['Roboto_Mono',_monospace]">
@@ -167,7 +167,7 @@
                           </div>
                         </td>
                       </tr>
-                      <tr>
+                      <!-- <tr>
                         <td style="
                             border-right: 1px solid rgba(163, 164, 165, 0.2);
                             padding: 8px;
@@ -203,7 +203,7 @@
                             </div>
                           </div>
                         </td>
-                      </tr>
+                      </tr> -->
                     </table>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="my-5 text-black dark:!text-white font-bold text-3xl">
+  <div class="my-4 text-black dark:!text-white font-medium text-3xl">
     {{ $t('how_to_buy') }}
   </div>
   <div class="d-flex gap-3 justify-content-center">
