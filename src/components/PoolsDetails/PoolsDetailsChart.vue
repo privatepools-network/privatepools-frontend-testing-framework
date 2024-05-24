@@ -570,7 +570,7 @@ const convertFromNumber = (str) => {
     number /= 1e3
   }
 
-  const result = number + suffix
+  const result = number.toFixed(2).replace(/(\.0+|0+)$/, '') + suffix
   return result
 }
 

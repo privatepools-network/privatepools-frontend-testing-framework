@@ -5,6 +5,7 @@ tests/e2e/reports/
 
 # local env files
 .env.local
+.env.old
 .env
 .env.*.local
 
@@ -52,6 +53,9 @@ Thumbs.db
 .env*.local
 
 cases.txt
+.vercel
+.env*.local
+
 .vercel
 .env*.local
 

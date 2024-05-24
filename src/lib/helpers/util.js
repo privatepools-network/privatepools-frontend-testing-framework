@@ -122,6 +122,7 @@ import DOGE from '@/assets/images/tokens/DOGE.png'
 import PPN from '@/assets/images/tokens/PPN.png'
 import GMRX from '@/assets/images/tokens/GMRX.png'
 import UNI from '@/assets/images/tokens/UNI.png'
+import NEAR from '@/assets/images/tokens/NEAR.png'
 import BOOM from '@/assets/images/tokens/BOOM.png'
 
 const tokenHT = [
@@ -435,6 +436,12 @@ const tokenHT = [
     name: 'UNI',
     short: 'UNI',
     icon: UNI,
+  },
+  {
+    key: 'NEAR',
+    name: 'NEAR',
+    short: 'NEAR',
+    icon: NEAR,
   },
   {
     key: 'BOOM',
