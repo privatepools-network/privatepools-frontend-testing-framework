@@ -50,7 +50,7 @@
             <div class="deposit_text dark:!text-white text-black my-1">
               <div v-if="approveStep !== 5" class="flex items-center gap-2 py-2"
                 @click="approveStep !== 0 ? approveStep-- : ''">
-                <img :src="arrow_back" class="w-2 cursor-pointer"  v-if="approveStep !== 0"/>
+                <img :src="arrow_back" class="w-2 cursor-pointer" v-if="approveStep !== 0" />
                 <div class="text-[14px] text-white">Add Liquidity</div>
               </div>
             </div>
@@ -67,7 +67,7 @@
                       font-size: clamp(10px, 0.8vw, 14px);
                       font-weight: 500;
                       text-align: right;
-                    " type="number" placeholder="0" @input="(e) => onCurrencyInput(e)" />
+                    " type="tel" :placeholder="0" @input="(e) => onCurrencyInput(e)" />
                 </div>
               </div>
 
@@ -145,11 +145,11 @@
                             padding: 8px;
                             /* border-bottom: 1px solid rgba(163, 164, 165, 0.2); */
                           ">
-                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex justify-content-between align-items-center">
                             <div class="w-25 fw-bold font-['Roboto_Mono',_monospace]">
                               {{ currencySelected.symbol
                               }}{{
-                               fiatTotal
+                                fiatTotal
                               }}
                             </div>
                             <div class="optimize bg-[#FFFFFF] hover:!bg-blue-500 text-black font-semibold border-0"
@@ -389,11 +389,11 @@ const maxBalances = computed(() => {
     if (iterator != leastBalanceIndex.value) {
       let toOptimizeUsdAmount = leastBalanceValue.value / pool.value.tokens[leastBalanceIndex.value].weight * pool.value.tokens[iterator].weight
       result[key] = toOptimizeUsdAmount / lastTokenPrices.value[key]
-      iterator++
     }
     else {
       result[key] = leastBalanceValue.value / lastTokenPrices.value[key]
     }
+    iterator++
   }
   return result
 })
@@ -579,9 +579,9 @@ function RemainingBalance(token, index) {
 }
 
 function onCurrencyInput(e) {
-  let possibleAmount = ((e.target.value * pool.value.tokens[leastBalanceIndex.value].weight) / lastTokenPrices.value[tokens.value[leastBalanceIndex.value]])
+  let possibleAmount = e.target.value / lastTokenPrices.value[tokens.value[leastBalanceIndex.value]] * pool.value.tokens[leastBalanceIndex.value].weight
   lineNumbers.value[leastBalanceIndex.value] =
-    balances.value[pool.value.tokens[0]] <= possibleAmount ? possibleAmount * 1000 : balances.value[pool.value.tokens[leastBalanceIndex.value]]
+    parseFloat(balances.value[pool.value.tokens[leastBalanceIndex.value].address]) >= possibleAmount ? possibleAmount * 1000 : balances.value[pool.value.tokens[leastBalanceIndex.value].address] * 1000
   lastDepositChanged.value = leastBalanceIndex.value
   OnOptimizeClick()
 }
