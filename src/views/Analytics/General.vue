@@ -127,6 +127,7 @@ import { InitializeMetamask } from '@/lib/utils/metamask'
 import { sumFields } from '@/lib/utils'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
+import router from '@/router'
 
 const settingsStore = useSettings()
 
@@ -190,6 +191,9 @@ function changeCumulativeMode() {
 }
 
 ///////////////////////////!
+
+
+
 
 const filteredData = computed(() =>
   allData.value.chart && allData.value.chart.length > 0

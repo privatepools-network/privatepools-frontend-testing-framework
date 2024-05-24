@@ -8,7 +8,7 @@
           opportunities.
         </div>
         <div class="flex gap-2 w-100">
-          <a href="https://twitter.com/D3_firm" target="_blank">
+          <a href="https://x.com/PrivatePoolDeFi" target="_blank">
             <div class="link_logo">
               <img :src="twitterIcon" />
             </div>

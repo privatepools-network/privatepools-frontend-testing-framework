@@ -124,6 +124,8 @@ import PoolRow from '../Pool/PoolRow.vue'
 import { defineProps, ref } from 'vue'
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
+import router from '@/router'
+import { DisplayChain, networkId } from '@/composables/useNetwork'
 
 // const perPage = ref(25)
 // const currentPage = ref(1)
@@ -153,6 +155,22 @@ const headers = [
   'APR',
   t('actions'),
 ]
+
+
+function goToPool(args) {
+  console.log('args', args)
+  console.log('all_pools!!!', props.all_pools)
+  console.log('props.all_pools.value[args.index].id', props.all_pools[args.index].id)
+  router.push({
+    name: 'Pool Details',
+    params: {
+      id: props.all_pools[args.index].id,
+      onMountedActivity: args.onMountedActivity,
+      chainSelected: DisplayChain[networkId.value],
+    },
+  })
+}
+
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
