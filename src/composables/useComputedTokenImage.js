@@ -24,6 +24,7 @@ import ldo from '../assets/images/tokens/LDO.png'
 import boom from '../assets/images/tokens/BOOM.png'
 import uni from '../assets/images/tokens/UNI.png'
 import ppn from '../assets/images/tokens/PPN.png'
+import near from '../assets/images/tokens/NEAR.png'
 
 export default function computedTokenImage(token) {
   if (token.symbol === 'WBTC' || token === 'WBTC') {
@@ -128,5 +129,8 @@ export default function computedTokenImage(token) {
   }
   if (token.symbol === 'PPN' || token === 'PPN') {
     return ppn
+  }
+  if (token.symbol === 'NEAR' || token === 'NEAR') {
+    return near
   }
 }

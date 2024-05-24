@@ -323,6 +323,7 @@ async function connectWallet() {
       window.ethereum.on('accountsChanged', function (accounts) {
         emit('setAddress', accounts[0])
         localStorage.setItem('account', accounts[0])
+        window.location.reload()
       })
     })
     .catch((err) => {
@@ -339,6 +340,8 @@ async function handleChainChanged() {
   let provider = new ethers.providers.Web3Provider(window.ethereum)
   const newNetwork = await provider.getNetwork()
   setNetworkId(newNetwork.chainId)
+  const network = await provider.getNetwork()
+  localStorage.setItem('ethereumNetwork', JSON.stringify(network))
   console.log('newNetwork.chainId!!!', newNetwork.chainId)
   window.location.reload()
 }

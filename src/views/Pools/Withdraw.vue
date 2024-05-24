@@ -77,6 +77,7 @@
                           .join('-')
                       }}
                     </div>
+              
                     <input v-if="
                       pool && poolShare.balance && !isNaN(poolShare.balance)
                     " class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]" style="
@@ -119,7 +120,7 @@
                         (usdPoolShareValue =
                           ((poolShare.balance * pool.lpPrice) / 100) *
                           value)
-                        " :tooltips="false" :min="0" :max="100" :step="1" :value="80" lazy="false" />
+                        " :tooltips="false" :min="0" :max="95" :step="1" :value="80" lazy="false" />
                     </div>
                   </div>
                 </div>
@@ -290,7 +291,7 @@ const allTokens = computed(() =>
     : {},
 )
 
-const lineNumberPercent = ref(100)
+const lineNumberPercent = ref(0)
 
 const allOption = computed(() => ({
   name: 'All',
