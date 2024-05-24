@@ -99,7 +99,7 @@
                           ).toFixed(4)
                         }}</span><span class="fw-bold bg-transparent font-['Roboto_Mono',_monospace] pl-1"
                           style="cursor: pointer" @click="() => {
-                              lineNumberPercent = 100
+                              lineNumberPercent = 95
                               usdPoolShareValue =
                                 poolShare.balance * pool.lpPrice
                             }
