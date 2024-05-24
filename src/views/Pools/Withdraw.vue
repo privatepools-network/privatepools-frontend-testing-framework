@@ -425,7 +425,7 @@ function getTokenWithdrawAmount(token, slippage = false, decimals = null) {
     }
   }
   if (isNaN(return_value)) return_value = 0
-  return toFixedDown((parseFloat(return_value) / 100) * lineNumberPercent.value, decimals ?? 8)
+  return ((parseFloat(return_value) / 100) * lineNumberPercent.value).toFixed(decimals ?? 8)
 }
 
 function minusSlippageScaled(amount, decimals) {
