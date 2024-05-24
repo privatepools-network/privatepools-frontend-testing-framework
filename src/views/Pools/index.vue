@@ -7,32 +7,24 @@
 
     <div class="d-flex justify-content-between mt-3 mb-4 flex-wrap">
       <div class="flex gap-4">
-        <PoolFilters
-          :hidePools="hidePools"
-          :optionsPoolType="optionsPoolType"
-          :optionsPoolAttribute="optionsPoolAttribute"
-          :optionsTokens="optionsTokens"
-        />
-
+        <PoolFilters :hidePools="hidePools" :optionsPoolType="optionsPoolType"
+          :optionsPoolAttribute="optionsPoolAttribute" :optionsTokens="optionsTokens" />
+      
         <div class="flex items-center gap-2">
           <label class="inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              class="sr-only peer"
-              :value="hidePools"
-              @click="hidePools = !hidePools"
-              :checked="hidePools"
-            />
+            <input type="checkbox" class="sr-only peer" :value="hidePools" @click="hidePools = !hidePools"
+              :checked="hidePools" />
             <div
-              class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800/50 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ABDFF]"
-            ></div>
+              class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800/50 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ABDFF]">
+            </div>
           </label>
-          <div
-            class="dark:!text-white text-black"
-            style="font-size: clamp(12px, 0.8vw, 16px)"
-          >
+          <div class="dark:!text-white text-black" style="font-size: clamp(12px, 0.8vw, 16px)">
             {{ $t('staked_only') }}
           </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <input type="checkbox" id="hideSmall" value="hideSmall" v-model="hideSmallPools" />
+        <label for="hideSmall">Hide small pools</label>
         </div>
       </div>
 
@@ -43,43 +35,24 @@
 
     <div class="pools-rows">
       <div class="pools-row pools-row_header">
-        <div
-          class="pools-row__col"
-          :class="
-            // Table headers positioning by header names
-            headCaptionIndex === 0 || headCaptionIndex === 1
-              ? 'justify-content-start'
-              : 'justify-content-center'
-          "
-          v-for="(headCaption, headCaptionIndex) in headers"
-          :key="headCaption"
-        >
+        <div class="pools-row__col" :class="
+          // Table headers positioning by header names
+          headCaptionIndex === 0 || headCaptionIndex === 1
+            ? 'justify-content-start'
+            : 'justify-content-center'
+          " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
           <div class="file-table-header-cell">
-            <div
-              class="d-flex align-items-center gap-1"
-              :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
-              style="cursor: pointer; height: 20px"
-            >
-              <div
-                v-if="headCaption === t('tokens')"
-                :class="'head_caption_text text-black dark:!text-white'"
-              >
-                <svg
-                  width="24"
-                  height="15"
-                  viewBox="0 0 24 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+            <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+              style="cursor: pointer; height: 20px">
+              <div v-if="headCaption === t('tokens')" :class="'head_caption_text text-black dark:!text-white'">
+                <svg width="24" height="15" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_1_2449)">
                     <path
                       d="M7.5 14.5C11.366 14.5 14.5 11.366 14.5 7.5C14.5 3.63401 11.366 0.5 7.5 0.5C3.63401 0.5 0.5 3.63401 0.5 7.5C0.5 11.366 3.63401 14.5 7.5 14.5Z"
-                      stroke="white"
-                    />
+                      stroke="white" />
                     <path
                       d="M16.5 14.5C20.366 14.5 23.5 11.366 23.5 7.5C23.5 3.63401 20.366 0.5 16.5 0.5C12.634 0.5 9.5 3.63401 9.5 7.5C9.5 11.366 12.634 14.5 16.5 14.5Z"
-                      stroke="white"
-                    />
+                      stroke="white" />
                   </g>
                   <defs>
                     <clipPath id="clip0_1_2449">
@@ -88,87 +61,56 @@
                   </defs>
                 </svg>
               </div>
-              <div
-                v-else-if="headCaption === t('volume')"
-                :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'"
-              >
-                <div
-                  class="flex items-center gap-1"
-                  @click="
-                    ascendFilterBy = `${t('volume')}_${filterByTimeVolume}`
-                  "
-                >
-                  <img
-                    :src="filterArrow"
-                    :class="
-                      ascendFilterBy === `${t('volume')}_${filterByTimeVolume}`
-                        ? 'rotate-180'
-                        : ''
-                    "
-                  />
+              <div v-else-if="headCaption === t('volume')"
+                :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'">
+                <div class="flex items-center gap-1" @click="
+                  ascendFilterBy = `${t('volume')}_${filterByTimeVolume}`
+                  ">
+                  <img :src="filterArrow" :class="ascendFilterBy === `${t('volume')}_${filterByTimeVolume}`
+                    ? 'rotate-180'
+                    : ''
+                    " />
                   {{ headCaption }} ({{ filterByTimeVolume }})
                 </div>
-                <img
-                  :src="filterSVG"
-                  @click="
-                    filterByTimeVolume === '24H'
-                      ? (filterByTimeVolume = '7D')
-                      : filterByTimeVolume === '7D'
+                <img :src="filterSVG" @click="
+                  filterByTimeVolume === '24H'
+                    ? (filterByTimeVolume = '7D')
+                    : filterByTimeVolume === '7D'
                       ? (filterByTimeVolume = '30D')
                       : filterByTimeVolume === '30D'
-                      ? (filterByTimeVolume = 'ALL')
-                      : filterByTimeVolume === 'ALL'
-                      ? (filterByTimeVolume = '24H')
-                      : (filterByTimeVolume = '24H')
-                  "
-                />
+                        ? (filterByTimeVolume = 'ALL')
+                        : filterByTimeVolume === 'ALL'
+                          ? (filterByTimeVolume = '24H')
+                          : (filterByTimeVolume = '24H')
+                  " />
               </div>
-              <div
-                v-else-if="headCaption === 'APR'"
-                :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'"
-              >
-                <div
-                  class="flex items-center gap-1"
-                  @click="ascendFilterBy = `APR ${filterByTimeAPR}`"
-                >
-                  <img
-                    :src="filterArrow"
-                    :class="
-                      ascendFilterBy === `APR ${filterByTimeAPR}`
-                        ? 'rotate-180'
-                        : ''
-                    "
-                  />
+              <div v-else-if="headCaption === 'APR'"
+                :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'">
+                <div class="flex items-center gap-1" @click="ascendFilterBy = `APR ${filterByTimeAPR}`">
+                  <img :src="filterArrow" :class="ascendFilterBy === `APR ${filterByTimeAPR}`
+                    ? 'rotate-180'
+                    : ''
+                    " />
                   {{ headCaption }} ({{ filterByTimeAPR }})
                 </div>
-                <img
-                  :src="filterSVG"
-                  @click="
-                    filterByTimeAPR === '24H'
-                      ? (filterByTimeAPR = '7D')
-                      : filterByTimeAPR === '7D'
+                <img :src="filterSVG" @click="
+                  filterByTimeAPR === '24H'
+                    ? (filterByTimeAPR = '7D')
+                    : filterByTimeAPR === '7D'
                       ? (filterByTimeAPR = '30D')
                       : filterByTimeAPR === '30D'
-                      ? (filterByTimeAPR = 'ALL')
-                      : filterByTimeAPR === 'ALL'
-                      ? (filterByTimeAPR = '24H')
-                      : (filterByTimeAPR = '24H')
-                  "
-                />
+                        ? (filterByTimeAPR = 'ALL')
+                        : filterByTimeAPR === 'ALL'
+                          ? (filterByTimeAPR = '24H')
+                          : (filterByTimeAPR = '24H')
+                  " />
               </div>
-              <div
-                v-else
-                :class="'head_caption_text flex items-center gap-1 text-black dark:!text-white'"
-                @click="ascendFilterBy = headCaption"
-              >
-                <img
-                  :class="ascendFilterBy === headCaption ? 'rotate-180' : ''"
-                  v-if="
-                    !headCaption.includes(t('composition')) &&
-                    !headCaption.includes(t('actions'))
-                  "
-                  :src="filterArrow"
-                />
+              <div v-else :class="'head_caption_text flex items-center gap-1 text-black dark:!text-white'"
+                @click="ascendFilterBy = headCaption">
+                <img :class="ascendFilterBy === headCaption ? 'rotate-180' : ''" v-if="
+                  !headCaption.includes(t('composition')) &&
+                  !headCaption.includes(t('actions'))
+                " :src="filterArrow" />
                 {{ headCaption }}
               </div>
             </div>
@@ -176,10 +118,7 @@
         </div>
       </div>
 
-      <div
-        v-if="user_staked_pools.length === 0 && hidePools"
-        class="my-5 text-center text-black dark:!text-white"
-      >
+      <div v-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
         <div>{{ $t('no_results') }}</div>
         <div>{{ $t('choose_a_pool') }}</div>
       </div>
@@ -187,31 +126,17 @@
         <LoaderPulse />
       </div>
       {{ console.log('all_pools', all_pools) }}
-      <PoolRow
-        v-for="(pool, index) in all_pools
-          
-          .slice(0, sliceNumber)
-          .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
-        :key="pool.name"
-        :pool="pool"
-        :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
-        :userPools="user_staked_pools"
-        :inactive="isPoolInactive(pool)"
-        :index="index"
-        @goToPoolWithdraw="goToPoolWithdraw"
-        @goToCLPool="goToCLPool"
-        @goToPool="goToPool"
-        @goToPoolDeposit="goToPoolDeposit"
-        @goToPoolManage="goToPoolManage"
-        @goToCL="goToCL"
-        :isActions="true"
-      />
+      <PoolRow v-for="(pool, index) in all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
 
-      <div
-        v-if="sliceNumber < all_pools.length"
-        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
-        class="load_more text-black dark:!text-white"
-      >
+        .slice(0, sliceNumber)
+        .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))" :key="pool.name" :pool="pool"
+        :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }" :userPools="user_staked_pools"
+        :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
+        @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"
+        :isActions="true" />
+
+      <div v-if="sliceNumber < all_pools.length" @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more text-black dark:!text-white">
         {{ $t('load_more') }}
         <img :src="arrow_bottom" />
       </div>
@@ -276,6 +201,9 @@ const headers = [
 ]
 
 const route = useRoute()
+
+const minimalTVL = ref(10)
+const hideSmallPools = ref(false)
 
 const optionsTokens = ref([])
 const optionsPoolType = ref([
