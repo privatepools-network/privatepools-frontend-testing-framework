@@ -330,7 +330,7 @@
               </div>
             </div>
           </div>
-          <!-- <div class="d-flex" style="height: 100px">
+          <div class="d-flex" style="height: 100px">
             <div class="vr" style="border: 1px solid #383838"></div>
           </div>
           <div class="details-el__col">
@@ -351,7 +351,7 @@
                 {{ $t('harvest') }}
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </CCollapse>
