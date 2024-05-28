@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center w-full">
       <div class="flex flex-col">
         <img :src="PrivatePoolsLogo" width="140" class="mb-6" />
-        <div class="text-black dark:!text-[#DCEEF680] mb-8 w-1/2">
+        <div class="text-black dark:!text-[#DCEEF680] mb-8 w-4/5 md:w-1/2">
           A new ecosystem, purpose built to generate yield from Arbitrage
           opportunities.
         </div>
@@ -33,7 +33,7 @@
 
       <div>
         <div
-          class="flex flex-col mt-4 gap-2 footer_text text-black dark:!text-white"
+          class="flex flex-col mt-0 md:mt-4 gap-2 footer_text text-black dark:!text-white"
         >
           <a
             href="https://docsend.com/v/qh6sz/private-pools-network-one-page"
@@ -114,13 +114,13 @@
       </div>
     </div>
     <div class="flex justify-between mt-9 w-full">
-      <div class="font-['Syne',_sans-serif] text-black dark:!text-white">
+      <div class="font-['Syne',_sans-serif] text-[12px] md:text-[14px] text-black dark:!text-white">
         © {{ new Date().getFullYear() }} Private Pools Network
       </div>
 
       <a href="https://d3.dev" class="text-decoration-none" target="_blank">
         <div
-          class="font-['Syne',_sans-serif] text-black dark:!text-white flex gap-1"
+          class="font-['Syne',_sans-serif] text-[12px] md:text-[14px] text-black dark:!text-white flex gap-1"
         >
           Powered by D3
           <svg
@@ -208,6 +208,9 @@ import twitterIcon from '@/assets/icons/Footer/twitter.svg'
   width: 100%;
   padding: 30px 80px;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  @media (max-width:768px) {
+    padding: 20px;
+  }
 }
 
 .link_logo {

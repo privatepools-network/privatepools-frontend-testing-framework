@@ -9,14 +9,21 @@
     ref="headRef"
   >
     <CContainer fluid class="header_container">
-      <HeaderNavigation :address="address" />
-
+      <HeaderNavigation :address="address" @toggleNavigation="toggleNavigation"/>
+      
       <HeaderSearchbar
+      v-if="width > 768"
         :selectOptions="selectOptions"
         :handleInput="handleInput"
         :searchInput="searchInput"
       />
-
+      <div v-else>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M17.9417 17.0583L14.7408 13.8575C15.8108 12.5883 16.4583 10.9525 16.4583 9.16667C16.4583 5.14583 13.1875 1.875 9.16667 1.875C5.14583 1.875 1.875 5.14583 1.875 9.16667C1.875 13.1875 5.14583 16.4583 9.16667 16.4583C10.9525 16.4583 12.5883 15.8108 13.8575 14.7408L17.0583 17.9417C17.18 18.0633 17.34 18.125 17.5 18.125C17.66 18.125 17.82 18.0642 17.9417 17.9417C18.1858 17.6983 18.1858 17.3025 17.9417 17.0583ZM3.125 9.16667C3.125 5.835 5.835 3.125 9.16667 3.125C12.4983 3.125 15.2083 5.835 15.2083 9.16667C15.2083 12.4983 12.4983 15.2083 9.16667 15.2083C5.835 15.2083 3.125 12.4983 3.125 9.16667Z"
+          fill="#9B9B9B" />
+      </svg>
+      </div>
       <div v-if="!address">
         <div class="connect_wallet" @click="$emit('toggleSidebar')">
           <!-- <svg
@@ -50,6 +57,7 @@
         </div>
       </div>
     </CContainer>
+    <SidebarMobile :sidebarVisible="sidebarVisible" @toggleNavigation="toggleNavigation"/>
   </CHeader>
 </template>
 
@@ -80,13 +88,27 @@ import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
 import { useDark } from '@vueuse/core'
 import { getHeaderData } from '@/composables/data/headerData'
+import { useDevice } from '@/composables/adaptive/useDevice'
+import MobileNavigation from '@/components/Header/MobileNavigation.vue'
+import SidebarMobile from './SidebarMobile.vue'
 const isDark = useDark()
+const { width } = useDevice()
 
 const emit = defineEmits(['toggleSidebar', 'setAddress'])
 const props = defineProps(['address'])
 const topTradedTokens = ref([])
 const topPools = ref([])
 const visibleOptions = ref(null)
+
+
+const sidebarVisible = ref(false);
+  
+  function toggleNavigation() {
+    sidebarVisible.value =!sidebarVisible.value;
+  }
+
+
+
 const tokensOptions = computed(() => {
   let result = []
   result.push({

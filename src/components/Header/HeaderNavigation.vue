@@ -1,9 +1,18 @@
 <template>
+
   <div class="d-flex align-items-center gap-4 !text-black dark:!text-[#DCEEF6]">
-    <div @click="router.push('/pools')" :class="'navigation_text'">
+    <div
+      v-if="width > 768"
+      @click="router.push('/pools')"
+      :class="'navigation_text'"
+    >
       <img :src="PrivatePoolsLogo" width="140" />
     </div>
+    <div v-else>
+      <img :src="logo" alt="D3" class="w-7" @click="$emit('toggleNavigation')" />
+    </div>
     <div
+      v-if="width > 768"
       @click="router.push('/pools')"
       :class="
         router.currentRoute.value.path === '/pools'
@@ -13,7 +22,7 @@
     >
       {{ $t('pools') }}
     </div>
- 
+
     <!-- <div
       @click="router.push('/buy')"
       :class="
@@ -26,6 +35,7 @@
     </div> -->
 
     <div
+      v-if="width > 768"
       @click="router.push('/general')"
       :class="
         router.currentRoute.value.path === '/general'
@@ -36,10 +46,8 @@
       {{ $t('Analytics') }}
     </div>
 
- 
-
     <div
-      v-if="address"
+      v-if="address && width > 768"
       @click="router.push('/portfolio')"
       :class="
         router.currentRoute.value.path === '/portfolio'
@@ -165,7 +173,7 @@
   </div>
 </template>
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 import router from '@/router'
 import { Dropdown } from 'floating-vue'
 import PrivatePoolsLogo from '@/assets/icons/PrivatePoolsLogo.svg'
@@ -173,7 +181,15 @@ import discordIcon from '@/assets/icons/Footer/discord.svg'
 import telegramIcon from '@/assets/icons/Footer/telegram.svg'
 import mediumIcon from '@/assets/icons/Footer/medium.svg'
 import twitterIcon from '@/assets/icons/Footer/twitter.svg'
+import { useDevice } from '@/composables/adaptive/useDevice'
+import logo from '@/assets/images/d3v.png'
+import SidebarMobile from '../SidebarMobile.vue'
+
+
 defineProps(['address'])
+defineEmits(['toggleNavigation'])
+
+const { width } = useDevice()
 </script>
 <style lang="scss" scoped>
 .navigation_text {
