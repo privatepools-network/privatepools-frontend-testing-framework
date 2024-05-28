@@ -45,7 +45,7 @@
             {{ `in ${userPools.length} pool(s)` }}
           </div>
         </div>
-        <div class="rewards_button_dropdown" @click="() => claimRewards(rewards)">{{ $t('Claim rewards') }}</div>
+        <!-- <div class="rewards_button_dropdown" @click="() => claimRewards(rewards)">{{ $t('Claim rewards') }}</div> -->
       </div>
     </template>
   </Dropdown>
