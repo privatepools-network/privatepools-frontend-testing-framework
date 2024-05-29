@@ -39,15 +39,15 @@
         </div>
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
       </div>
-      <!--  <div class="flex justify-between items-center mt-3">
+       <div class="flex justify-between items-center mt-3">
         <div>
         <SectionsTabs :filterEye="false" :selectedTab="selectedOverallTab"
             :tabsOptions="[t('overall_view'), t('my_view')]" @changeTab="changeSelectedOverallTab" />
         </div>
-        <div class="rewards_button">
+        <!-- <div class="rewards_button">
           {{ $t('rewards') }}
-        </div>
-      </div>  -->
+        </div> -->
+      </div> 
     </CRow>
     <div style="height: 34px" class="mb-5" v-else>
       <ThreeDots style="margin-left: 20px; margin-top: 10px"></ThreeDots>

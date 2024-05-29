@@ -330,10 +330,10 @@
               </div>
             </div>
           </div>
-          <!-- <div class="d-flex" style="height: 100px">
+          <div class="d-flex" style="height: 100px">
             <div class="vr" style="border: 1px solid #383838"></div>
           </div>
-          <div class="details-el__col">
+          <!-- <div class="details-el__col">
             <div
               class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
             >
