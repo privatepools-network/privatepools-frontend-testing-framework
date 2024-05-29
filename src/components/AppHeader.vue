@@ -56,7 +56,7 @@
         v-else-if="address && address !== ''"
         class="d-flex align-items-center gap-2"
       >
-        <RewardsDropdown />
+        <!-- <RewardsDropdown /> -->
         <!-- <TokenDropdown /> -->
 
         <div
