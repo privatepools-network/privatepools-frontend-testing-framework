@@ -6,7 +6,7 @@
     </div> -->
 
     <div class="d-flex justify-content-between mt-3 mb-5 flex-wrap">
-      <div class="flex gap-4">
+      <div class="flex gap-4 flex-wrap">
         <PoolFilters
           :hidePools="hidePools"
           :optionsPoolType="optionsPoolType"

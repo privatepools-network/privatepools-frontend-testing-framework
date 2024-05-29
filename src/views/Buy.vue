@@ -28,7 +28,7 @@
                 :class="
                   selectedTab === 'Sell'
                     ? 'buy_tab dark:!text-[#5e6673] text-black dark:!bg-[#02031C] bg-[#CBCBCB]'
-                    : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#00E0FF]'
+                    : 'buy_tab_active dark:!text-[#02031C] text-black bg-white dark:!bg-[#00E0FF]'
                 "
               >
                 {{ $t('buy') }}
@@ -38,7 +38,7 @@
                 :class="
                   selectedTab === 'Buy'
                     ? 'buy_tab dark:!text-[#eaecef] text-black dark:!bg-[#02031C] bg-[#CBCBCB]'
-                    : 'buy_tab_active dark:!text-white text-black bg-white dark:!bg-[#00E0FF]'
+                    : 'buy_tab_active dark:!text-[#02031C] text-black bg-white dark:!bg-[#00E0FF]'
                 "
               >
                 {{ $t('sell') }}
@@ -590,7 +590,13 @@ function tokenSelectModalClose() {
   tokenSelectModal.value = false
 }
 function tokenSelectModalOpen() {
+  window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
   tokenSelectModal.value = true
+
 }
 const notSelectedPossibleComposeTokens = ref([])
 
@@ -844,8 +850,8 @@ async function onToken1Blur() {
 
   // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
-  border: 1px solid #ffffff0d;
-  border-radius: 16px;
+  border: 1px solid #DCEEF633;
+  border-radius: 30px;
   padding: 15px;
   display: flex;
   gap: 10px;
@@ -862,15 +868,17 @@ async function onToken1Blur() {
   cursor: pointer;
   margin-top: 45px;
   margin-bottom: 5px;
-  border-radius: 4px;
+  border-radius: 100px;
+  box-shadow: 0px 2px 4px -1px #0000000D;
 
-  font-size: 12px;
-  font-weight: 600;
+
+  font-size: 14px;
+  font-weight: 500;
   line-height: 24px;
-  color: #ffffff;
+  color: #02031C;
   text-align: center;
   padding: 6px;
-  background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
+  background: #00E0FF;
   box-shadow: 0px 4px 8.899999618530273px 0px #00aae01a;
 
   &:hover {

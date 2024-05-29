@@ -1,187 +1,164 @@
 <template>
   <div id="sidemenu">
     <transition name="translateX">
-      <nav v-show="navOpen">
-        <div class="sidemenu__wrapper">
-            <div class="d-flex mb-3 gap-2 sidemenu__line">
-          <img :src="logo" alt="D3" height="40px" />
-          <div class="">
-            <div class="sidemenu__title">D3</div>
-            <div class="sidemenu__title__wallet">{{ computedAddress }}</div>
-          </div>
-        </div>
-          <ul class="sidemenu__list">
-            <li class="sidemenu__item">
-              <a
-                href="/dashboard"
-                :class="
-                  route.name === 'Dashboard' ? 'sidemenu__item__active' : ''
-                "
-                ><img :src="dashboard" /> Dashboard</a
-              >
-            </li>
-            <li class="sidemenu__item d-flex align-items-center gap-2">
-              <a @click="visibleTrack = !visibleTrack; visibleAdmin = false"
-                ><img :src="track" /> Track</a
-              >
-              <img
-                :src="arrow_up"
-                :class="!visibleTrack ? 'toggle-down' : 'toggle-up'"
+      <nav v-show="sidebarVisible">
+        <div class="sidemenu__wrapper bg-[#02031C]">
+          <div class="flex justify-between">
+            <img :src="PrivatePoolsLogo" width="180" />
+            <svg
+              @click="$emit('toggleNavigation')"
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15.8371 1.9978L2 15.824"
+                stroke="#00E0FF"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
+              <path
+                d="M2.17712 2.17529L16 15.9873"
+                stroke="#00E0FF"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="d-flex my-3 gap-2 sidemenu__line"></div>
+          <ul class="sidemenu__list">
+            <li
+              class="font-['Syne',_sans-serif] font-semibold text-lg text-white mb-1"
+            >
+              App
             </li>
-            <CCollapse :visible="visibleTrack">
-              <div style="color: rgba(204, 204, 204, 1)">
-                <div style="margin-left: 20px">
-                  <li class="sidemenu__item">
-                    <a
-                      href="/track/trades"
-                      :class="
-                        route.name === 'Track Trades'
-                          ? 'sidemenu__item__active'
-                          : ''
-                      "
-                      >Track Trades</a
-                    >
-                  </li>
-                  <!-- <li class="sidemenu__item">
-                    <a
-                      href="/track/opportunities"
-                      :class="
-                        route.name === 'Track Opportunities'
-                          ? 'sidemenu__item__active'
-                          : ''
-                      "
-                      >Missed Opportunities</a
-                    >
-                  </li> -->
-                  <li class="sidemenu__item">
-                    <a
-                      href="/track/tracking_info"
-                      :class="
-                        route.name === 'Tracking Info'
-                          ? 'sidemenu__item__active'
-                          : ''
-                      "
-                      >Track Info</a
-                    >
-                  </li>
-                </div>
-              </div>
-            </CCollapse>
             <li class="sidemenu__item">
               <a
                 href="/pools"
-                :class="
-                  route.name === 'Manage Pools' ? 'sidemenu__item__active' : ''
-                "
-                ><img :src="manage" /> Manage Pools</a
+                :class="route.name === 'Manage Pools' ? 'sidemenu__item__active' : ''"
+                >Pools</a
               >
             </li>
-            <!-- <li class="sidemenu__item">
+
+            <li class="sidemenu__item">
               <a
                 href="/portfolio"
                 :class="
-                  route.name === 'portfolio' ? 'sidemenu__item__active' : ''
+                  route.name === 'Portfolio' ? 'sidemenu__item__active' : ''
                 "
-                ><img :src="portfolio" /> My Portfolio</a
+                >Portfolio</a
               >
             </li>
-            <li class="sidemenu__item d-flex align-items-center gap-2">
-              <a @click="visibleAdmin = !visibleAdmin; visibleTrack = false"
-                ><img :src="admin" />Admin</a
-              >
-              <img
-                :src="arrow_up"
-                :class="!visibleAdmin ? 'toggle-down' : 'toggle-up'"
-              />
-            </li> -->
-            <CCollapse :visible="visibleAdmin">
-              <div style="color: rgba(204, 204, 204, 1)">
-                <div style="margin-left: 20px">
-                  <!-- <li class="sidemenu__item">
-                    <a
-                      href="/admin/bot"
-                      :class="
-                        route.name === 'Manage Bot'
-                          ? 'sidemenu__item__active'
-                          : ''
-                      "
-                      >Manage Bot</a>
-                  </li> -->
-                  <!-- <li class="sidemenu__item">
-                    <a
-                      href=F"/admin/tokens"
-                      :class="
-                        route.name === 'Manage Tokens'
-                          ? 'sidemenu__item__active'
-                          : ''
-                      "
-                      >Manage Tokens</a
-                    >
-                  </li>
-                  <li class="sidemenu__item">
-                    <a
-                      href="/admin/1inch"
-                      :class="
-                        route.name === 'Manage 1INCH'
-                          ? 'sidemenu__item__active'
-                          : ''
-                      "
-                      >Manage 1INCH</a
-                    >
-                  </li>
-                  <li class="sidemenu__item">
-                    <a
-                      href="/admin/firebird"
-                      :class="
-                        route.name === 'Manage Firebird'
-                          ? 'sidemenu__item__active'
-                          : ''
-                      "
-                      >Manage Firebird</a
-                    >
-                  </li>
-                  <li class="sidemenu__item">
-                    <a
-                      href="/admin/swap"
-                      :class="
-                        route.name === 'Swap'
-                          ? 'sidemenu__item__active'
-                          : ''
-                      "
-                      >Swap</a
-                    >
-                  </li> -->
-                </div>
-              </div>
-            </CCollapse>
 
+            <li class="sidemenu__item">
+              <a
+                href="/buy"
+                :class="route.name === 'Buy' ? 'sidemenu__item__active' : ''"
+                >Buy PPN</a
+              >
+            </li>
+            <li class="sidemenu__item">
+              <a
+                href="/general"
+                :class="
+                  route.name === 'General' ? 'sidemenu__item__active' : ''
+                "
+                >General Analytics</a
+              >
+            </li>
+            <li class="sidemenu__item">
+              <a
+                href="/user_analytics"
+                :class="
+                  route.name === 'UserAnalytics' ? 'sidemenu__item__active' : ''
+                "
+                >User Analytics</a
+              >
+            </li>
+            <li class="sidemenu__item">
+              <a
+                href="/referrals"
+                :class="
+                  route.name === 'Referrals' ? 'sidemenu__item__active' : ''
+                "
+                >Referrals</a
+              >
+            </li>
           </ul>
+
+          <div class="d-flex my-3 gap-2 sidemenu__line"></div>
+          <ul class="sidemenu__list">
+            <li
+              class="font-['Syne',_sans-serif] font-semibold text-lg text-white mb-1"
+            >
+              Protocol
+            </li>
+            <li class="sidemenu__item">
+              <a target="_blank" href="https://medium.com/@privatepoolnetwork"
+                >Blog</a
+              >
+            </li>
+            <li class="sidemenu__item">
+              <a target="_blank" href="https://privatepools.network/"
+                >Documentation</a
+              >
+            </li>
+          </ul>
+
+          <div class="d-flex my-3 gap-2 sidemenu__line"></div>
+          <ul class="sidemenu__list">
+            <li
+              class="font-['Syne',_sans-serif] font-semibold text-lg text-white mb-1"
+            >
+            Need help?
+            </li>
+            <li class="sidemenu__item">
+              <a target="_blank" href="mailto:team@d3vs.xyz?subject=Contact"
+                >Contact us</a
+              >
+            </li>
+          </ul>
+
+          <div class="flex gap-2 my-2 w-100">
+          <a href="https://x.com/PrivatePoolDeFi" target="_blank">
+            <div class="link_logo">
+              <img :src="twitterIcon" />
+            </div>
+          </a>
+          <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
+            <div class="link_logo">
+              <img :src="discordIcon" />
+            </div>
+          </a>
+          <a href="https://medium.com/@D3_Innovations" target="_blank">
+            <div class="link_logo">
+              <img :src="mediumIcon" />
+            </div>
+          </a>
+          <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
+            <div class="link_logo">
+              <img :src="telegramIcon" />
+            </div>
+          </a>
+        </div>
+
           <div class="my-2 sidemenu__line"></div>
           <ul class="sidemenu__list">
             <li class="sidemenu__item">
-              <a
-                
-               
-                ><img :src="help" />Help</a
-              >
+              <a @click="$emit('toggleNavigation')"><img :src="back" />Back</a>
             </li>
-            <li class="sidemenu__item">
-              <a
-                
-              @click="$emit('closeNav')"
-               
-                ><img :src="back" />Back</a
-              >
-            </li>
-            </ul>
+          </ul>
         </div>
       </nav>
     </transition>
   </div>
 </template>
 <script setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 import logo from '@/assets/images/d3v.png'
 import dashboard from '@/assets/icons/sidebarMobile/dashboard.svg'
 import back from '@/assets/icons/sidebarMobile/back.svg'
@@ -192,14 +169,18 @@ import track from '@/assets/icons/sidebarMobile/track.svg'
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import { useRoute } from 'vue-router'
 import help from '@/assets/icons/sidebarMobile/help.svg'
+import PrivatePoolsLogo from '@/assets/icons/PrivatePoolsLogo.svg'
+import telegramIcon from '@/assets/icons/Footer/telegram.svg'
 
-defineProps(['navOpen', 'computedAddress'])
+import discordIcon from '@/assets/icons/Footer/discord.svg'
+import mediumIcon from '@/assets/icons/Footer/medium.svg'
+import twitterIcon from '@/assets/icons/Footer/twitter.svg'
+
+defineProps(['sidebarVisible'])
+defineEmits(['toggleNavigation'])
 
 const route = useRoute()
-// console.log('route', route.name)
-const visibleTrack = ref(false)
-const visibleAdmin = ref(false)
-
+console.log('route', route.name)
 </script>
 <style lang="scss">
 .toggle-down {
@@ -215,11 +196,10 @@ const visibleAdmin = ref(false)
 .sidemenu__line {
   border-width: 0px 0px 1px 0px;
   border-style: solid;
-  border-image: linear-gradient(to left, #00C9FF 0%, rgba(126, 246, 178, 0)) 1;
+  border-image: linear-gradient(to left, #00c9ff 0%, rgba(126, 246, 178, 0)) 1;
 }
 
 #sidemenu {
-  font-family: Lato;
   font-size: 16px;
   font-weight: 600;
   line-height: 22px;
@@ -227,7 +207,7 @@ const visibleAdmin = ref(false)
   nav {
     width: 100%;
     height: 100%;
-    background: rgba(2, 18, 10, 1);
+    background: #02031c;
     position: fixed;
     top: 0;
     left: 0;
@@ -250,6 +230,7 @@ const visibleAdmin = ref(false)
     &__wrapper {
       margin-top: 20px;
       padding: 50px 30px;
+      height: 100vh;
     }
 
     &__list {
@@ -261,19 +242,19 @@ const visibleAdmin = ref(false)
 
     &__item {
       &__active {
-        color: #00C9FF !important;
+        color: #00c9ff !important;
       }
       a {
         text-decoration: none;
-        
+
         font-size: 14px;
         font-weight: 500;
         line-height: 14px;
         letter-spacing: 0em;
 
-        padding: 10px 0px;
+        padding: 5px 0px;
         display: block;
-        color: white;
+        color: #868686;
         transition: 0.4s ease;
 
         display: flex;
@@ -281,7 +262,7 @@ const visibleAdmin = ref(false)
         gap: 5px;
 
         &:hover {
-          color: #3fdfaf;
+          color: #00c9ff;
         }
       }
     }
@@ -305,5 +286,26 @@ const visibleAdmin = ref(false)
   transition: 0.5s ease;
 
   opacity: 0;
+}
+
+
+.link_logo {
+  width: 44px;
+  height: 44px;
+  background: #ffffff0d;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background: #00c8ff5b;
+  }
+}
+
+.link_logo:hover svg path {
+  fill: #00c9ff;
 }
 </style>
