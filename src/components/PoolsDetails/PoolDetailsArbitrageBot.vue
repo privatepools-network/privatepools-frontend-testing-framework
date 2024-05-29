@@ -552,7 +552,27 @@ function GetTokenPrice(address) {
     font-size: clamp(9px, 0.7vw, clamp(10px, 0.8vw, 14px));
   }
 }
-
+@media (max-width: $xl) {
+  .timeline_container {
+    width: fit-content;
+    display: flex;
+    position: static;
+    z-index: 30;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  .track_chart_card {
+    border-radius: 0px 0px 20px 20px  !important;
+  }
+  .arbitrage_bot_card {
+    width: 100%;
+    font-size: 12px;
+    border-width: 1px 1px 0px 1px;
+    border-radius: 20px 20px 0px 0px;
+    padding: 20px 20px 10px 20px;
+  }
+}
 .pair_avatars_manage_pool {
   width: 22px;
   margin-right: -2px;

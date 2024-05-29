@@ -124,6 +124,7 @@ const onClick = () => {
   font-size: 12px;
   display: inline-block;
   cursor: pointer;
+
 }
 
 .button_arrow {

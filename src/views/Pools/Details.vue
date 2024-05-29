@@ -62,9 +62,9 @@
         </div>
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
         <div class="flex justify-between items-center">
-        <div class="rewards_button">
+        <!-- <div class="rewards_button">
           {{ $t('rewards') }}
-        </div>
+        </div> -->
       </div>
       </div>
    

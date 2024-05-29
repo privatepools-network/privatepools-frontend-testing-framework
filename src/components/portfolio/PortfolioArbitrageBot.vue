@@ -360,11 +360,12 @@ const visibleTotalGas = ref(true)
     margin-top: 0;
     margin-bottom: 20px;
   }
-
+  .track_chart_card {
+    border-radius: 0px 0px 20px 20px  !important;
+  }
   .arbitrage_bot_card {
     width: 100%;
     font-size: 12px;
-    border: 1px solid rgba(163, 164, 165, 0.3);
     border-width: 1px 1px 0px 1px;
     border-radius: 20px 20px 0px 0px;
     padding: 20px 20px 10px 20px;

@@ -22,7 +22,8 @@
       />
 
       <div v-if="!address" class="flex items-center gap-4">
-        <div v-if="width < 768">
+        <!-- Search without connection don't have sense pools will be broken -->
+        <!-- <div v-if="width < 768">
           <svg
             width="20"
             height="20"
@@ -35,7 +36,7 @@
               fill="#9B9B9B"
             />
           </svg>
-        </div>
+        </div> -->
         <div class="connect_wallet" @click="$emit('toggleSidebar')">
           <!-- <svg
           class="blink-1"
@@ -56,23 +57,72 @@
         v-else-if="address && address !== ''"
         class="d-flex align-items-center gap-2"
       >
-        <!-- <RewardsDropdown /> -->
+        <div v-if="width < 768" @click="toggleSearhbarMobile" class="mobile_container">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17.9417 17.0583L14.7408 13.8575C15.8108 12.5883 16.4583 10.9525 16.4583 9.16667C16.4583 5.14583 13.1875 1.875 9.16667 1.875C5.14583 1.875 1.875 5.14583 1.875 9.16667C1.875 13.1875 5.14583 16.4583 9.16667 16.4583C10.9525 16.4583 12.5883 15.8108 13.8575 14.7408L17.0583 17.9417C17.18 18.0633 17.34 18.125 17.5 18.125C17.66 18.125 17.82 18.0642 17.9417 17.9417C18.1858 17.6983 18.1858 17.3025 17.9417 17.0583ZM3.125 9.16667C3.125 5.835 5.835 3.125 9.16667 3.125C12.4983 3.125 15.2083 5.835 15.2083 9.16667C15.2083 12.4983 12.4983 15.2083 9.16667 15.2083C5.835 15.2083 3.125 12.4983 3.125 9.16667Z"
+              fill="#9B9B9B"
+            />
+          </svg>
+        </div>
+        <RewardsDropdown />
         <!-- <TokenDropdown /> -->
 
         <div
+          v-if="width > 768"
           class="wallet_address dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white"
           @click="$emit('toggleSidebar')"
         >
           <span class="pulse_green"></span>
           {{ computedAddress }}
         </div>
+        <div
+          v-else
+          class="mobile_wallet_container"
+          @click="$emit('toggleSidebar')"
+        >
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M5.41667 6.77087C4.62654 6.77087 3.86878 7.08475 3.31008 7.64345C2.75138 8.20215 2.4375 8.95992 2.4375 9.75004V19.5C2.4375 20.2902 2.75138 21.0479 3.31008 21.6066C3.86878 22.1653 4.62654 22.4792 5.41667 22.4792H20.5833C21.3735 22.4792 22.1312 22.1653 22.6899 21.6066C23.2486 21.0479 23.5625 20.2902 23.5625 19.5V9.75004C23.5625 8.95992 23.2486 8.20215 22.6899 7.64345C22.1312 7.08475 21.3735 6.77087 20.5833 6.77087H5.41667ZM17.875 13.2709C17.5159 13.2709 17.1714 13.4135 16.9175 13.6675C16.6635 13.9215 16.5208 14.2659 16.5208 14.625C16.5208 14.9842 16.6635 15.3286 16.9175 15.5826C17.1714 15.8365 17.5159 15.9792 17.875 15.9792C18.2341 15.9792 18.5786 15.8365 18.8325 15.5826C19.0865 15.3286 19.2292 14.9842 19.2292 14.625C19.2292 14.2659 19.0865 13.9215 18.8325 13.6675C18.5786 13.4135 18.2341 13.2709 17.875 13.2709Z"
+              fill="#00DC3E"
+            />
+            <path
+              d="M17.8588 3.32477C18.1795 3.2393 18.5156 3.22866 18.8411 3.29369C19.1666 3.35872 19.4729 3.49768 19.7362 3.69983C19.9994 3.90198 20.2128 4.16193 20.3597 4.45961C20.5065 4.75729 20.5831 5.08474 20.5833 5.41669H9.75L17.8588 3.32477Z"
+              fill="#00DC3E"
+            />
+          </svg>
+        </div>
       </div>
+   
     </CContainer>
+   
     <SidebarMobile
       :sidebarVisible="sidebarVisible"
       @toggleNavigation="toggleNavigation"
     />
+    <SearchbarMobile
+      :searchbarVisible="searchbarVisible"
+      @toggleSearhbarMobile="toggleSearhbarMobile"
+      :selectOptions="selectOptions"
+      :handleInput="handleInput"
+      :searchInput="searchInput"
+    />
   </CHeader>
+ 
 </template>
 
 <script setup>
@@ -105,6 +155,8 @@ import { getHeaderData } from '@/composables/data/headerData'
 import { useDevice } from '@/composables/adaptive/useDevice'
 import MobileNavigation from '@/components/Header/MobileNavigation.vue'
 import SidebarMobile from './SidebarMobile.vue'
+import SearchbarMobile from './SearchbarMobile.vue'
+
 const isDark = useDark()
 const { width } = useDevice()
 
@@ -115,9 +167,13 @@ const topPools = ref([])
 const visibleOptions = ref(null)
 
 const sidebarVisible = ref(false)
+const searchbarVisible = ref(false)
 
 function toggleNavigation() {
   sidebarVisible.value = !sidebarVisible.value
+}
+function toggleSearhbarMobile() {
+  searchbarVisible.value = !searchbarVisible.value
 }
 
 const tokensOptions = computed(() => {
@@ -834,6 +890,9 @@ const computedAddress = computed(() =>
   @media (max-width: 1300px) {
     width: 370px;
   }
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 
   &:hover {
     // border: 1px solid #00c8ffb7;
@@ -868,6 +927,10 @@ const computedAddress = computed(() =>
   // color: white;
   // -webkit-backdrop-filter: blur(50px);
   // backdrop-filter: blur(50px);
+  @media (max-width:768px) {
+    max-height: 500px !important;
+    
+  }
 }
 
 /* Scrollbar */
@@ -968,5 +1031,24 @@ input[readonly] {
 .pair_avatars_manage_pool {
   width: 38px;
   margin-right: -18px;
+}
+
+.mobile_container {
+  background: #02031C;
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mobile_wallet_container {
+  background: #00dc3e33;
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
