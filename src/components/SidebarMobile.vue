@@ -231,6 +231,7 @@ console.log('route', route.name)
       margin-top: 20px;
       padding: 50px 30px;
       height: 100vh;
+      overflow-y: auto;
     }
 
     &__list {
