@@ -280,7 +280,7 @@
 
         <div
           v-else
-          class="d-flex gap-4 align-items-center liquidity_button_container text-black dark:!text-white"
+          class="flex md:items-center items-start gap-4 md:flex-row flex-col liquidity_button_container text-black dark:!text-white"
         >
           <div class="details-el__col">
             <div
@@ -333,9 +333,40 @@
             </div>
           </div>
 
-          <div class="d-flex" style="height: 100px">
+          <div class="flex h-[100px]" v-if="width > 768">
             <div class="vr" style="border: 1px solid #383838"></div>
           </div>
+          <svg
+            v-else
+            width="356"
+            height="2"
+            viewBox="0 0 356 2"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="-0.000976562"
+              y1="1.01147"
+              x2="356"
+              y2="1.01147"
+              stroke="url(#paint0_linear_820_14698)"
+              stroke-opacity="0.22"
+              stroke-dasharray="8 8"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_820_14698"
+                x1="-0.000976563"
+                y1="2.01147"
+                x2="356"
+                y2="2.01147"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#F9F9F9" stop-opacity="0.12" />
+                <stop offset="1" stop-color="white" />
+              </linearGradient>
+            </defs>
+          </svg>
           <div class="details-el__col">
             <div
               :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'green'"
@@ -389,9 +420,40 @@
               </div>
             </div>
           </div>
-          <div class="d-flex" style="height: 100px">
+          <div class="flex h-[100px]" v-if="width > 768">
             <div class="vr" style="border: 1px solid #383838"></div>
           </div>
+          <svg
+            v-else
+            width="356"
+            height="2"
+            viewBox="0 0 356 2"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="-0.000976562"
+              y1="1.01147"
+              x2="356"
+              y2="1.01147"
+              stroke="url(#paint0_linear_820_14698)"
+              stroke-opacity="0.22"
+              stroke-dasharray="8 8"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_820_14698"
+                x1="-0.000976563"
+                y1="2.01147"
+                x2="356"
+                y2="2.01147"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#F9F9F9" stop-opacity="0.12" />
+                <stop offset="1" stop-color="white" />
+              </linearGradient>
+            </defs>
+          </svg>
           <!-- <div class="details-el__col">
             <div
               class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D] ">
@@ -438,7 +500,9 @@ import { notify } from '@/composables/notify'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import CounterAnimation from '@/UI/CounterAnimation.vue'
+import { useDevice } from '@/composables/adaptive/useDevice'
 
+const { width } = useDevice()
 const settingsStore = useSettings()
 const currentChainId = JSON.parse(
   localStorage.getItem('ethereumNetwork'),
@@ -640,98 +704,7 @@ const visibleDetails = ref(false)
   }
 }
 
-.details {
-  &-el {
-    display: flex;
-    align-items: center;
-    padding: 24px 32px;
-    // background: linear-gradient(
-    //   0deg,
-    //   rgba(43, 43, 43, 33%),
-    //   rgba(43, 43, 43, 11.5%)
-    // );
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(49, 56, 61, 0.81);
-    color: #fff;
 
-    @media all and (max-width: $md) {
-      width: 150%;
-    }
-
-    &__col {
-      display: flex;
-      flex-direction: column;
-
-      &:last-child {
-        .details-el__value {
-          font-weight: 400;
-          // color: #fff;
-        }
-      }
-    }
-
-    &__activity {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      // color: #8f8f8f;
-      cursor: pointer;
-
-      &:hover {
-        color: #03a6e9;
-
-        & svg path {
-          stroke: #03a6e9;
-        }
-      }
-    }
-
-    &__circle {
-      width: 10px;
-      height: 10px;
-      border-radius: 5px;
-      margin-right: 8px;
-      animation: blink 2s infinite;
-    }
-
-    @keyframes blink {
-      0% {
-        opacity: 0.5;
-      }
-
-      50% {
-        opacity: 1;
-      }
-
-      100% {
-        opacity: 0.5;
-      }
-    }
-
-    &__title,
-    &__value {
-      font-size: clamp(10px, 1vw, 14px);
-      font-weight: 600;
-
-      @media (max-width: $xxl) {
-        // font-size: 10px;
-        font-weight: 400;
-      }
-    }
-
-    &__value {
-      color: #00c9ff;
-      margin-left: 5px;
-      cursor: pointer;
-
-      &:hover {
-        color: #01b45e !important;
-      }
-    }
-  }
-}
 
 .chip_token {
   border-radius: 16px;
@@ -758,11 +731,7 @@ const visibleDetails = ref(false)
   }
 }
 
-.liquidity_button_container {
-  // background: #171717;
-  padding: 10px 20px;
-  border-radius: 20px;
-}
+
 
 .liquidity_button {
   border-radius: 100px;

@@ -1,7 +1,7 @@
 <template>
   <CContainer class="diagrams-container">
-    <CRow class="diagram-row">
-      <CCol xl="4">
+    <CRow class="diagram-row !mx-0">
+      <CCol xl="4" class="md:mb-0 mb-4">
         <div
           v-if="
             assetsPerformanceData[assetsPerformanceRangeOption] &&
@@ -228,7 +228,7 @@
           <LoaderPulse />
         </div>
       </CCol> -->
-      <CCol xl="4">
+      <CCol xl="4" class="md:mb-0 mb-4">
         <div
           v-if="
             tradesData[tradeRangeOption] && tradesTimestamps[tradeRangeOption]
@@ -368,7 +368,7 @@
         </div>
       </CCol>
 
-      <CCol xl="4" v-if="router.currentRoute.value.path.includes('CLdetails')">
+      <CCol xl="4" class="md:mb-0 mb-4" v-if="router.currentRoute.value.path.includes('CLdetails')">
         <div
           v-if="
             profitsData[profitRangeOption] &&
@@ -477,7 +477,7 @@
           <LoaderPulse />
         </div>
       </CCol>
-      <CCol v-else xl="4">
+      <CCol v-else class="md:mb-0 mb-4" xl="4">
         <div
           v-if="
             profitsData[profitRangeOption] &&
@@ -1146,6 +1146,7 @@ const chartOptionsCLPool2 = computed(() => {
 .diagrams-container {
   padding-left: 0;
   padding-right: 0;
+
 }
 
 .diagrams_title {

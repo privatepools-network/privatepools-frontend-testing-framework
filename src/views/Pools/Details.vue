@@ -62,12 +62,11 @@
         </div>
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
         <div class="flex justify-between items-center">
-        <!-- <div class="rewards_button">
+          <!-- <div class="rewards_button">
           {{ $t('rewards') }}
         </div> -->
+        </div>
       </div>
-      </div>
-   
     </CRow>
     <!-- <div style="height: 34px" class="mb-5" v-else>
       <ThreeDots style="margin-left: 20px; margin-top: 10px"></ThreeDots>
@@ -173,11 +172,10 @@
         </VTooltip>
       </div>
 
-      <div class="d-flex">
+      <div class="flex md:flex-row flex-col md:gap-0 gap-5">
         <div
-          class="pool-section dark:!bg-[#22222224] !bg-[white]"
+          class="pool-section dark:!bg-[#22222224] !bg-[white] md:!w-[70%] !w-full md:flex-row flex-col"
           v-if="pool && poolActivity"
-          style="width: 70%"
         >
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
@@ -514,7 +512,6 @@
 
         <div
           class="diagram-section dark:!bg-[#22222224] !bg-[white]"
-          style="width: 28%"
           v-if="
             pool &&
             pool.tokens &&
@@ -600,7 +597,6 @@
         <div
           class="diagram-section dark:!bg-[#22222224] !bg-[white]"
           v-else
-          style="width: 28%; height: 330px"
         >
           <LoaderPulse></LoaderPulse>
         </div>
@@ -1870,7 +1866,7 @@ function changeToDepositView() {
 }
 
 .diagram-section {
-  width: fit-content;
+  width: 28%;
   height: auto;
   margin-left: 22px;
   flex-direction: column;
@@ -1880,6 +1876,10 @@ function changeToDepositView() {
   box-shadow: 0px 4px 4px 0px #00000040;
   border: 1px solid #ffffff0d;
 
+  @media (max-width:768px) {
+    width: 100%;
+    margin-left: 0px;
+  }
   /* padding: 8px 12px 16px 12px; */
 
   .caption {
@@ -2106,7 +2106,10 @@ function changeToDepositView() {
   flex-direction: row;
   display: flex;
   align-items: center;
-  flex-wrap: nowrap;
+@media (max-width:768px) {
+  flex-wrap: wrap;
+  gap: 5px;
+}
 }
 
 .big-chip {
@@ -2141,6 +2144,9 @@ function changeToDepositView() {
 
   &:not(:first-child) {
     margin-left: 12px;
+    @media (max-width:768px) {
+      margin-left: 0px;
+    }
   }
 }
 
