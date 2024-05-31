@@ -227,7 +227,7 @@
             </div>
           </div>
         </div>
-        <div class="chart_container" style="width: 65%">
+        <div class="chart_container">
           <div
             class="d-flex justify-content-between dark:!text-white text-black"
           >
@@ -272,7 +272,7 @@
         >
           <div class="text-lg font-bold">$PPN {{ $t('token') }}</div>
           <div class="d-flex justify-content-between mt-3">
-            <div class="d-flex justify-content-between w-100 gap-3">
+            <div class="flex justify-between w-full md:flex-row flex-col gap-3">
               <div>
                 <div
                   class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1"
@@ -729,12 +729,21 @@ async function onToken1Blur() {
     padding-left: 100px;
     padding-right: 100px;
   }
+  @media (max-width: $md) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 
   &_section_1 {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     margin-top: 160px;
     gap: 30px;
+
+    @media (max-width:768px) {
+      flex-direction: column;
+    }
   }
 }
 
@@ -857,6 +866,9 @@ async function onToken1Blur() {
   gap: 10px;
   align-items: center;
 
+  @media (max-width:768px) {
+    gap: 0px;
+    }
   &:hover {
     // background: #003e4f;
     cursor: pointer;
@@ -890,8 +902,12 @@ async function onToken1Blur() {
 .chart_container {
   font-size: clamp(16px, 0.8vw, 22px);
   font-weight: 700;
+  width: 65%;
   letter-spacing: 0em;
   color: #eaecef;
+  @media (max-width:768px) {
+    width: 100%;
+  }
 }
 
 .ppn_token_desc {

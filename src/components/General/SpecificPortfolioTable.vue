@@ -376,7 +376,7 @@ const headers = [
         rgba(255, 255, 255, 2%),
         rgba(255, 255, 255, 0%));
     box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-
+    backdrop-filter: blur(10px);
     margin-bottom: 30px;
 
     @media all and (max-width: $lg) {

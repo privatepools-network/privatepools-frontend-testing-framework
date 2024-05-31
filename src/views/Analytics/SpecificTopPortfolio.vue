@@ -47,7 +47,7 @@
                 </clipPath>
               </defs>
             </svg>
-            0x73262550fd593b2cc60072fa09159d993b88a71f
+            0x73262550fd593...
             <svg
               width="17"
               height="16"
@@ -97,7 +97,7 @@
         
         </div>
       </CRow>
-      <div class="w-100 d-flex justify-content-between">
+      <div class="w-full flex justify-between md:flex-row flex-col md:gap-0 gap-4">
       <div
         class="d-flex specific_container bg-white dark:!bg-[#22222224]"
         v-for="(item, i) in specificPortfolioStats"
@@ -174,7 +174,10 @@ const specificPortfolioStats = ref([
   padding: 8px 16px;
   border-radius: 16px;
   width: 23%;
-  
+  backdrop-filter: blur(10px);
+  @media (max-width:768px) {
+    width: 100%;
+  }
 }
 
 .center_container {
@@ -185,7 +188,9 @@ const specificPortfolioStats = ref([
   padding: 2.5%;
   border-radius: 16px;
   backdrop-filter: blur(10px);
-
+  @media (max-width: 768px) {
+    margin: 0%;
+  }
 }
 
 .caption-row {

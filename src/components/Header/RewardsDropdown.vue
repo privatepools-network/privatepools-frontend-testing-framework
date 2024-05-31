@@ -79,19 +79,14 @@
           >
             {{ $t('total_staked') }}
           </div>
-          <div class="flex"><CurrencySymbol />{{ userTotalStaked }}</div>
-          <div
-            class="text-[10px] font-['Syne',_sans-serif] text-black dark:!text-[#626262]"
-          >
+          <div class="flex">
+            <CurrencySymbol />{{ userTotalStaked }}
+          </div>
+          <div class="text-[10px] font-['Syne',_sans-serif] text-black dark:!text-[#626262]">
             {{ `in ${userPools.length} pool(s)` }}
           </div>
         </div>
-        <div
-          class="rewards_button_dropdown"
-          @click="() => claimRewards(rewards)"
-        >
-          {{ $t('Claim rewards') }}
-        </div>
+        <div class="rewards_button_dropdown" @click="() => claimRewards(rewardsData)">{{ $t('Claim rewards') }}</div>
       </div>
     </template>
   </Dropdown>
@@ -106,8 +101,9 @@ import { ethers } from 'ethers'
 import { getHeaderData } from '@/composables/data/headerData'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import rewards_abi from '@/lib/abi/Rewards.json'
-import { claimRewards } from '@/composables/portfolio/useRewards'
-import { getUserPools, getRewards } from '@/composables/data/portfolioData'
+import { claimRewards } from "@/composables/portfolio/useRewards"
+import { getUserPools } from '@/composables/data/portfolioData';
+import { getRewards } from '@/composables/data/rewardsData';
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import { useDevice } from '@/composables/adaptive/useDevice'
@@ -132,11 +128,8 @@ const currencyDecimals = computed(() =>
 const openRewardsDropdown = ref(false)
 
 const rewards = ref([])
-const totalRewards = computed(() =>
-  rewards.value
-    .reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0)
-    .toFixed(currencyDecimals.value),
-)
+const rewardsData = ref({})
+const totalRewards = computed(() => rewards.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
 const userPools = ref([])
 const userTotalStaked = computed(() =>
   userPools.value

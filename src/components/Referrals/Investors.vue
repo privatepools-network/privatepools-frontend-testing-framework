@@ -55,7 +55,7 @@
     </div>
   </div>
   <div v-else>
-    <div class="w-100 d-flex justify-content-center gap-3 mt-5">
+    <div class="w-full flex justify-center gap-3 mt-5 md:flex-row flex-col">
       <div
         class="d-flex specific_container dark:!bg-[#22222224] bg-white"
         v-for="(item, i) in specificPortfolioStats"
@@ -135,7 +135,9 @@ const specificPortfolioStats = ref([
   padding: 2.5%;
   border-radius: 16px;
   backdrop-filter: blur(10px);
-
+  @media (max-width: $md) {
+    margin: 0%
+  }
 }
 .search-input {
   width: 100%;
@@ -186,6 +188,10 @@ const specificPortfolioStats = ref([
   padding: 8px 16px;
   border-radius: 16px;
   width: 23%;
+  backdrop-filter: blur(10px);
+  @media (max-width:768px) {
+    width: 100%;
+  }
 }
 
 .text_header {

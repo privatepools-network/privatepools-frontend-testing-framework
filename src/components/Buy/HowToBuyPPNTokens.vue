@@ -2,7 +2,7 @@
   <div class="my-4 text-black dark:!text-white font-medium text-3xl">
     {{ $t('how_to_buy') }}
   </div>
-  <div class="d-flex gap-3 justify-content-center">
+  <div class="flex gap-3 justify-center md:flex-row flex-col">
     <div
       v-for="(item, i) in howToBuyCards"
       :key="`${i}-how-to`"
@@ -56,5 +56,9 @@ const howToBuyCards = ref([
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @media (max-width:768px) {
+    width: 100%;
+  }
 }
 </style>
