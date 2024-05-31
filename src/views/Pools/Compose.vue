@@ -974,7 +974,7 @@ async function CreateNewPool() {
     provider,
     tokensData.value.map((t) => `${t.weight}${t.symbol}`).join('-'),
     tokensData.value.map((t) => `${t.weight}${t.symbol}`).join('-'),
-    '1',
+    '0',
     tokensData.value,
   )
   if (tx && !tx.error) {

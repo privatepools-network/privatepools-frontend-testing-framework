@@ -3,7 +3,7 @@
     <div class="button_drop dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white p-2 flex">
       <img :src="rewards_icon" />
 
-      <CurrencySymbol/>{{ totalRewards }}
+      <CurrencySymbol />{{ totalRewards }}
     </div>
     <template #popper>
       <div class="header__popup bg-white dark:!bg-[#02031C]">
@@ -24,7 +24,7 @@
             </svg>
           </div>
           <div class="flex items-center gap-1">
-            <CurrencySymbol/>{{ totalRewards }}
+            <CurrencySymbol />{{ totalRewards }}
             <img :src="rewards_icon" width="16" />
           </div>
           <div v-if="openRewardsDropdown" class="flex flex-col gap-1" v-for="item, i in rewards" :key="`${i}-rewards`">
@@ -40,12 +40,14 @@
           <div class="text-[12px] font-['Syne',_sans-serif] text-black dark:!text-[#626262]">
             {{ $t('total_staked') }}
           </div>
-          <div class="flex"><CurrencySymbol/>{{ userTotalStaked }}</div>
+          <div class="flex">
+            <CurrencySymbol />{{ userTotalStaked }}
+          </div>
           <div class="text-[10px] font-['Syne',_sans-serif] text-black dark:!text-[#626262]">
             {{ `in ${userPools.length} pool(s)` }}
           </div>
         </div>
-        <div class="rewards_button_dropdown" @click="() => claimRewards(rewards)">{{ $t('Claim rewards') }}</div>
+        <div class="rewards_button_dropdown" @click="() => claimRewards(rewardsData)">{{ $t('Claim rewards') }}</div>
       </div>
     </template>
   </Dropdown>
@@ -61,7 +63,8 @@ import { getHeaderData } from "@/composables/data/headerData"
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import rewards_abi from '@/lib/abi/Rewards.json'
 import { claimRewards } from "@/composables/portfolio/useRewards"
-import { getUserPools, getRewards } from '@/composables/data/portfolioData';
+import { getUserPools } from '@/composables/data/portfolioData';
+import { getRewards } from '@/composables/data/rewardsData';
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 
@@ -78,6 +81,7 @@ const currencyDecimals = computed(() =>
 const openRewardsDropdown = ref(false)
 
 const rewards = ref([])
+const rewardsData = ref({})
 const totalRewards = computed(() => rewards.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
 const userPools = ref([])
 const userTotalStaked = computed(() => userPools.value.reduce((sum, pool) => sum + pool[`shareBalance${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
@@ -86,7 +90,9 @@ onMounted(async () => {
   if (mmProvider) {
     const address = await mmProvider.getSigner().getAddress()
     userPools.value = await getUserPools(56, address)
-    rewards.value = await getRewards(56)
+    rewardsData.value= await getRewards(56)
+    console.log("REWARDS - ",  rewardsData.value.formatted_rewards)
+    rewards.value =  rewardsData.value.formatted_rewards
   }
 })
 

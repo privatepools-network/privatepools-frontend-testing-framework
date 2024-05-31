@@ -185,12 +185,12 @@ export async function getUserPools(network, userAddress) {
     )
   ).data
 }
-export async function getRewards(network) {
-  try {
-    const response = await axios.get(`${BACKEND_URL[network]}/rewards`)
-    return response.data
-  } catch (e) {
-    console.error('[SERVER ERROR]', e)
-  }
-  return (await axios.get(`${REDUNDANT_BACKEND_URL[network]}/rewards`)).data
-}
+// export async function getRewards(network) {
+//   try {
+//     const response = await axios.get(`${BACKEND_URL[network]}/rewards`)
+//     return response.data
+//   } catch (e) {
+//     console.error('[SERVER ERROR]', e)
+//   }
+//   return (await axios.get(`${REDUNDANT_BACKEND_URL[network]}/rewards`)).data
+// }
