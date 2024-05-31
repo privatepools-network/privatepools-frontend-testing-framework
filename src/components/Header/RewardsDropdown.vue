@@ -148,7 +148,9 @@ onMounted(async () => {
   if (mmProvider) {
     const address = await mmProvider.getSigner().getAddress()
     userPools.value = await getUserPools(56, address)
-    rewards.value = await getRewards(56)
+    rewardsData.value= await getRewards(56)
+    console.log("REWARDS - ",  rewardsData.value.formatted_rewards)
+    rewards.value =  rewardsData.value.formatted_rewards
   }
 })
 </script>
