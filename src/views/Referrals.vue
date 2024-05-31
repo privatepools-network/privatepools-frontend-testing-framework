@@ -70,5 +70,9 @@ function codeEditModalOpen() {
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 500;
   width: 38%;
+  @media (max-width:768px) {
+    width: 100%;
+    margin-bottom: 20px !important;
+  }
 }
 </style>
