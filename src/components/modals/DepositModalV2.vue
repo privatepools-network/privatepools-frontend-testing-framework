@@ -66,7 +66,7 @@
               }}%)
             </div> -->
           </div>
-          <div>
+          <div v-if="width > 768">
             <svg
               width="40"
               height="40"
@@ -218,10 +218,12 @@ import ProgressLoader from '@/UI/ProgressLoader.vue'
 import successSound from '@/assets/sounds/success_sound.mp3'
 import errorSound from '@/assets/sounds/error_sound.mp3'
 import { useSound } from '@vueuse/sound'
+import { useDevice } from '@/composables/adaptive/useDevice'
 
 
 const playSuccess = useSound(successSound, { volume: 1 })
 const playError = useSound(errorSound, { volume: 1 })
+const { width } = useDevice()
 
 
 const mmActive = ref(false)

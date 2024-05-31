@@ -11,46 +11,84 @@
 </Modal> -->
     <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="flex md:items-center items-start justify-between">
           <div class="caption-row">
-            <div class="caption dark:!text-white text-black"
-              style="font-size: clamp(10px, 0.9vw, 16px); font-weight: 700">
+            <div
+              class="caption dark:!text-white text-black"
+              style="font-size: clamp(10px, 0.9vw, 16px); font-weight: 700"
+            >
               {{
                 pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/')
               }}
             </div>
 
-            <div v-for="(poolToken, poolTokenIndex) in pool?.tokens" :key="`pool-token-${poolTokenIndex}`"
-              class="big-chip dark:!bg-[#00000024] bg-white">
-              <CAvatar :src="getTokenEntity(poolToken.symbol, 'short').icon" class="big-chip__image" />
-              <div class="big-chip__text dark:!text-white text-black">
-                {{ poolToken.symbol }}
-              </div>
-              <div class="big-chip__text dark:!text-white text-black">
-                {{ poolToken.weight * 100 }}%
+            <div class="flex flex-wrap">
+              <div
+                v-for="(poolToken, poolTokenIndex) in pool?.tokens"
+                :key="`pool-token-${poolTokenIndex}`"
+                class="big-chip dark:!bg-[#00000024] bg-white"
+              >
+                <CAvatar
+                  :src="getTokenEntity(poolToken.symbol, 'short').icon"
+                  class="big-chip__image"
+                />
+                <div class="big-chip__text dark:!text-white text-black">
+                  {{ poolToken.symbol }}
+                </div>
+                <div class="big-chip__text dark:!text-white text-black">
+                  {{ poolToken.weight * 100 }}%
+                </div>
               </div>
             </div>
           </div>
           <div class="back_button" @click="router.go(-1)">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M6 6L18 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6L6 18"
+                stroke="#FFFFFF"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M6 6L18 18"
+                stroke="#FFFFFF"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </div>
         </div>
       </CRow>
 
       <!-- Loader -->
-      <div v-if="Object.keys(balances).length === 0" class="my-24 flex justify-center items-center">
+      <div
+        v-if="Object.keys(balances).length === 0"
+        class="my-24 flex justify-center items-center"
+      >
         <BigLogoLoader />
       </div>
       <div v-else>
-        <div class="flex justify-center gap-5">
+        <div class="flex justify-center md:flex-row flex-col gap-5">
           <div class="deposit_choose dark:!bg-[#00000024] bg-white">
             <div class="deposit_text dark:!text-white text-black my-1">
-              <div v-if="approveStep !== 5" class="flex items-center gap-2 py-2"
-                @click="approveStep !== 0 ? approveStep-- : ''">
-                <img :src="arrow_back" class="w-2 cursor-pointer" v-if="approveStep !== 0" />
+              <div
+                v-if="approveStep !== 5"
+                class="flex items-center gap-2 py-2"
+                @click="approveStep !== 0 ? approveStep-- : ''"
+              >
+                <img
+                  :src="arrow_back"
+                  class="w-2 cursor-pointer"
+                  v-if="approveStep !== 0"
+                />
                 <div class="text-[14px] text-white">Add Liquidity</div>
               </div>
             </div>
@@ -59,49 +97,90 @@
                 {{ chainSelected }}
               </div>
 
-              <div class="d-flex justify-content-between dark:!bg-[#00000024] bg-white currency_container">
-                <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)
-                  " />
+              <div
+                class="d-flex justify-content-between dark:!bg-[#00000024] bg-white currency_container"
+              >
+                <CurrencySelector
+                  @updateCurrency="
+                    (newCurrency) => (currencySelected = newCurrency)
+                  "
+                />
                 <div>
-                  <input class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]" style="
+                  <input
+                    class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
+                    style="
                       font-size: clamp(10px, 0.8vw, 14px);
                       font-weight: 500;
                       text-align: right;
-                    " type="tel" :placeholder="0" @input="(e) => onCurrencyInput(e)" />
+                    "
+                    type="tel"
+                    :placeholder="0"
+                    @input="(e) => onCurrencyInput(e)"
+                  />
                 </div>
               </div>
 
-              <div class="d-flex flex-column gap-2" v-if="
-                balances != {} &&
-                lastTokenPrices != {} &&
-                lineNumbers.length > 0
-              ">
-                <div class="modal_stake_token dark:!bg-[#15151524] bg-white" v-for="(token, tokenIndex) in pool?.tokens"
-                  :key="`deposit-token-${token.address}`">
+              <div
+                class="d-flex flex-column gap-2"
+                v-if="
+                  balances != {} &&
+                  lastTokenPrices != {} &&
+                  lineNumbers.length > 0
+                "
+              >
+                <div
+                  class="modal_stake_token dark:!bg-[#15151524] bg-white"
+                  v-for="(token, tokenIndex) in pool?.tokens"
+                  :key="`deposit-token-${token.address}`"
+                >
                   <div>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
                       <div
-                        class="modal_stake_token_inner_name dark:!text-white text-black dark:!bg-[#4c4c4c24] bg-white">
-                        <img :src="getTokenEntity(token.symbol, 'short').icon" width="20" />
+                        class="modal_stake_token_inner_name dark:!text-white text-black dark:!bg-[#4c4c4c24] bg-white"
+                      >
+                        <img
+                          :src="getTokenEntity(token.symbol, 'short').icon"
+                          width="20"
+                        />
                         {{ token.symbol }} {{ token.weight * 100 }}%
                       </div>
-                      <input class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]" style="
+                      <input
+                        class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
+                        style="
                           font-size: clamp(10px, 0.8vw, 14px);
                           font-weight: 500;
                           text-align: right;
-                        " :value="lineNumbers[tokenIndex] > 0
-                          ? lineNumbers[tokenIndex] / 1000
-                          : lineNumbers[tokenIndex]
-                          " @input="(e) => onTokenInput(e, tokenIndex)" type="number" />
+                        "
+                        :value="
+                          lineNumbers[tokenIndex] > 0
+                            ? lineNumbers[tokenIndex] / 1000
+                            : lineNumbers[tokenIndex]
+                        "
+                        @input="(e) => onTokenInput(e, tokenIndex)"
+                        type="number"
+                      />
                     </div>
                     <div>
-                      <div class="modal_balance_slider dark:!text-white text-black">
-                        <div class="value-label font-['Roboto_Mono',_monospace]" ref="inputRefLabel">
+                      <div
+                        class="modal_balance_slider dark:!text-white text-black"
+                      >
+                        <div
+                          class="value-label font-['Roboto_Mono',_monospace]"
+                          ref="inputRefLabel"
+                        >
                           {{ $t('balance') }}:
-                          <span class="fw-bold font-['Roboto_Mono',_monospace]">{{ RemainingBalance(token, tokenIndex)
-                            }}</span><span @click="() => OnMaxClick(tokenIndex, token.address)"
-                            class="fw-bold bg-transparent pl-1" style="cursor: pointer">
-                            {{ $t('max') }}</span>
+                          <span
+                            class="fw-bold font-['Roboto_Mono',_monospace]"
+                            >{{ RemainingBalance(token, tokenIndex) }}</span
+                          ><span
+                            @click="() => OnMaxClick(tokenIndex, token.address)"
+                            class="fw-bold bg-transparent pl-1"
+                            style="cursor: pointer"
+                          >
+                            {{ $t('max') }}</span
+                          >
                         </div>
                         <div class="font-['Roboto_Mono',_monospace]">
                           {{ currencySelected.symbol
@@ -114,9 +193,17 @@
                         </div>
                       </div>
                       <div class="mt-2">
-                        <Slider @change="(value) => OnSliderValueChange(tokenIndex, value)
-                          " :tooltips="false" :min="0" :max="maxBalances[token.address] * 1000" :step="1"
-                          v-model="lineNumbers[tokenIndex]" lazy="false" />
+                        <Slider
+                          @change="
+                            (value) => OnSliderValueChange(tokenIndex, value)
+                          "
+                          :tooltips="false"
+                          :min="0"
+                          :max="maxBalances[token.address] * 1000"
+                          :step="1"
+                          v-model="lineNumbers[tokenIndex]"
+                          lazy="false"
+                        />
                       </div>
                     </div>
                   </div>
@@ -124,36 +211,49 @@
 
                 <div>
                   <div class="modal_total_container mt-4">
-                    <table style="
+                    <table
+                      style="
                         width: 100%;
                         border-collapse: separate;
                         border-spacing: 0;
                         overflow: hidden;
-                      " class="dark:!text-white text-black">
-                      <tr style="
+                      "
+                      class="dark:!text-white text-black"
+                    >
+                      <tr
+                        style="
                           border: 1px solid rgba(163, 164, 165, 0.2);
                           border-top-left-radius: 15px;
-                        ">
-                        <td class="w-25 fw-bold" style="
+                        "
+                      >
+                        <td
+                          class="w-25 fw-bold"
+                          style="
                             border-right: 1px solid rgba(163, 164, 165, 0.2);
                             /* border-bottom: 1px solid rgba(163, 164, 165, 0.2); */
                             padding: 8px;
-                          ">
+                          "
+                        >
                           {{ $t('total') }}
                         </td>
-                        <td style="
+                        <td
+                          style="
                             padding: 8px;
                             /* border-bottom: 1px solid rgba(163, 164, 165, 0.2); */
-                          ">
-                          <div class="d-flex justify-content-between align-items-center">
-                            <div class="w-25 fw-bold font-['Roboto_Mono',_monospace]">
-                              {{ currencySelected.symbol
-                              }}{{
-                                fiatTotal
-                              }}
+                          "
+                        >
+                          <div
+                            class="d-flex justify-content-between align-items-center"
+                          >
+                            <div
+                              class="w-25 fw-bold font-['Roboto_Mono',_monospace]"
+                            >
+                              {{ currencySelected.symbol }}{{ fiatTotal }}
                             </div>
-                            <div class="optimize bg-[#FFFFFF] hover:!bg-blue-500 text-black font-semibold border-0"
-                              @click="OnAllMaxClick">
+                            <div
+                              class="optimize bg-[#FFFFFF] hover:!bg-blue-500 text-black font-semibold border-0"
+                              @click="OnAllMaxClick"
+                            >
                               {{ $t('max') }}
                             </div>
                           </div>
@@ -202,34 +302,60 @@
               </div>
             </div>
             <div v-else-if="approveStep > 0 && approveStep < 5">
-              <DepositModalV2 :pool="pool" :visibleDepositModal="visibleDepositModal"
-                @changeVisibleDepositOpen="changeVisibleDepositClose" :total="lineNumbers.reduce(
-                  (sum, current, index) =>
-                    sum + (current / 1000) * lastTokenPrices[tokens[index]],
-                  0,
-                )
-                  " :account="account" :valueLoss="priceImpactFormatted" :bptOut="bptOut"
-                :weeklyYield="totalWeeklyYield" :fiatTotal="fiatTotal" :tokens="pool?.tokens?.map((t, i) => ({
-                  ...t,
-                  depositAmount: formattedLineNumbers[i],
-                  usdAmount:
-                    formattedLineNumbers[i] * lastTokenPrices[t.address],
-                }))
-                  " :approveStep="approveStep" @changeApproveStep="changeApproveStep" @explode="explode"
-                @addedTXHash="addedTXHash" />
+              <DepositModalV2
+                :pool="pool"
+                :visibleDepositModal="visibleDepositModal"
+                @changeVisibleDepositOpen="changeVisibleDepositClose"
+                :total="
+                  lineNumbers.reduce(
+                    (sum, current, index) =>
+                      sum + (current / 1000) * lastTokenPrices[tokens[index]],
+                    0,
+                  )
+                "
+                :account="account"
+                :valueLoss="priceImpactFormatted"
+                :bptOut="bptOut"
+                :weeklyYield="totalWeeklyYield"
+                :fiatTotal="fiatTotal"
+                :tokens="
+                  pool?.tokens?.map((t, i) => ({
+                    ...t,
+                    depositAmount: formattedLineNumbers[i],
+                    usdAmount:
+                      formattedLineNumbers[i] * lastTokenPrices[t.address],
+                  }))
+                "
+                :approveStep="approveStep"
+                @changeApproveStep="changeApproveStep"
+                @explode="explode"
+                @addedTXHash="addedTXHash"
+              />
             </div>
             <div v-else-if="approveStep === 5">
               <div class="py-4 flex flex-col items-center justify-center mb-5">
-                <ConfettiExplosion v-if="confettiVisible" :particleSize="8" :duration="5000"
-                  :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']" />
+                <ConfettiExplosion
+                  v-if="confettiVisible"
+                  :particleSize="8"
+                  :duration="5000"
+                  :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']"
+                />
                 <div class="text-[20px] text-white font-medium mb-3">
                   Liquidity added!
                 </div>
-                <svg @click="explode" class="mb-3" width="74" height="74" viewBox="0 0 74 74" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  @click="explode"
+                  class="mb-3"
+                  width="74"
+                  height="74"
+                  viewBox="0 0 74 74"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M36.9987 0.333008C16.7587 0.333008 0.332031 16.7597 0.332031 36.9997C0.332031 57.2397 16.7587 73.6663 36.9987 73.6663C57.2387 73.6663 73.6654 57.2397 73.6654 36.9997C73.6654 16.7597 57.2387 0.333008 36.9987 0.333008ZM27.062 52.7297L13.8987 39.5663C13.5592 39.2269 13.29 38.8239 13.1062 38.3803C12.9225 37.9368 12.828 37.4614 12.828 36.9813C12.828 36.5013 12.9225 36.0259 13.1062 35.5824C13.29 35.1388 13.5592 34.7358 13.8987 34.3963C14.2382 34.0569 14.6412 33.7876 15.0847 33.6039C15.5282 33.4202 16.0036 33.3256 16.4837 33.3256C16.9638 33.3256 17.4392 33.4202 17.8827 33.6039C18.3262 33.7876 18.7292 34.0569 19.0687 34.3963L29.6654 44.9563L54.892 19.7297C55.5776 19.0441 56.5075 18.6589 57.477 18.6589C58.4466 18.6589 59.3764 19.0441 60.062 19.7297C60.7476 20.4153 61.1328 21.3451 61.1328 22.3147C61.1328 23.2842 60.7476 24.2141 60.062 24.8997L32.232 52.7297C31.8928 53.0696 31.4899 53.3393 31.0463 53.5233C30.6028 53.7073 30.1272 53.802 29.647 53.802C29.1668 53.802 28.6913 53.7073 28.2477 53.5233C27.8042 53.3393 27.4012 53.0696 27.062 52.7297Z"
-                    fill="#00E0FF" />
+                    fill="#00E0FF"
+                  />
                 </svg>
                 <div class="text-[15px] text-[#888888] font-medium">
                   Successfully added liquidity.
@@ -237,18 +363,42 @@
               </div>
 
               <div class="flex justify-evenly mb-3">
-                <a :href="`https://bscscan.com/tx/${txHash}`" class="text-decoration-none" target="_blank">
+                <a
+                  :href="`https://bscscan.com/tx/${txHash}`"
+                  class="text-decoration-none"
+                  target="_blank"
+                >
                   <div class="compose_pool_connect_wallet flex items-center">
                     Receipt
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <g clip-path="url(#clip0_558_15327)">
                         <path
                           d="M10.5 7.58333V11.0833C10.5 11.3928 10.3771 11.6895 10.1583 11.9083C9.9395 12.1271 9.64275 12.25 9.33333 12.25H2.91667C2.60725 12.25 2.3105 12.1271 2.09171 11.9083C1.87292 11.6895 1.75 11.3928 1.75 11.0833V4.66667C1.75 4.35725 1.87292 4.0605 2.09171 3.84171C2.3105 3.62292 2.60725 3.5 2.91667 3.5H6.41667"
-                          stroke="#05061B" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M8.75 1.75H12.25V5.25" stroke="#05061B" stroke-width="1.16667" stroke-linecap="round"
-                          stroke-linejoin="round" />
-                        <path d="M5.83203 8.16667L12.2487 1.75" stroke="#05061B" stroke-width="1.16667"
-                          stroke-linecap="round" stroke-linejoin="round" />
+                          stroke="#05061B"
+                          stroke-width="1.16667"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M8.75 1.75H12.25V5.25"
+                          stroke="#05061B"
+                          stroke-width="1.16667"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M5.83203 8.16667L12.2487 1.75"
+                          stroke="#05061B"
+                          stroke-width="1.16667"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
                       </g>
                       <defs>
                         <clipPath id="clip0_558_15327">
@@ -258,40 +408,51 @@
                     </svg>
                   </div>
                 </a>
-                <a :href="`/pools/details/${poolId}/BNB/info`" class="text-decoration-none">
+                <a
+                  :href="`/pools/details/${poolId}/BNB/info`"
+                  class="text-decoration-none"
+                >
                   <div class="compose_pool_connect_wallet">View Pool</div>
                 </a>
               </div>
             </div>
 
-            <div class="compose_pool_connect_wallet" v-if="approveStep === 0" @click="approveStep = 1">
+            <div
+              class="compose_pool_connect_wallet"
+              v-if="approveStep === 0"
+              @click="approveStep = 1"
+            >
               {{ $t('preview') }}
             </div>
           </div>
 
           <!-- WALLET IN SEPARATE COMPONENT -->
-          <div style="
-              border-radius: 16px;
-
-              font-size: clamp(10px, 0.8vw, 14px);
-              height: fit-content;
-              width: 250px;
-              box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-              border: 1px solid #ffffff0d;
-            " class="dark:!text-white text-black dark:!bg-[#00000024] bg-white">
+          <div
+            class="dark:!text-white text-black dark:!bg-[#00000024] bg-white wallet_deposit"
+          >
             <div class="fw-bold p-3" style="border-bottom: 1px solid #4f4f4f57">
               {{ $t('my_wallet') }}
             </div>
-            <div class="d-flex flex-column p-2 dark:!text-[#dddddd] text-black"
-              style="font-size: clamp(10px, 0.8vw, 14px)" v-if="
+            <div
+              class="d-flex flex-column p-2 dark:!text-[#dddddd] text-black"
+              style="font-size: clamp(10px, 0.8vw, 14px)"
+              v-if="
                 balances != {} &&
                 lastTokenPrices != {} &&
                 lineNumbers.length > 0
-              ">
-              <div class="d-flex justify-content-between align-items-center" v-for="(token, index) in pool?.tokens"
-                :key="`wallet-${index}`">
+              "
+            >
+              <div
+                class="d-flex justify-content-between align-items-center"
+                v-for="(token, index) in pool?.tokens"
+                :key="`wallet-${index}`"
+              >
                 <div>
-                  <img :src="getTokenEntity(token.symbol, 'short').icon" width="23" class="p-1" />
+                  <img
+                    :src="getTokenEntity(token.symbol, 'short').icon"
+                    width="23"
+                    class="p-1"
+                  />
                 </div>
                 <div class="font-['Roboto_Mono',_monospace]">
                   {{ parseFloat(balances[token.address]).toFixed(2) }} ({{
@@ -324,7 +485,7 @@ import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
 import arrow_back from '@/assets/icons/arrow/arrow_back.svg'
-import ConfettiExplosion from "vue-confetti-explosion";
+import ConfettiExplosion from 'vue-confetti-explosion'
 
 import useInvestFormMath from '@/composables/math/investMath/useInvestMath'
 import { bnum } from '@/lib/utils'
@@ -332,19 +493,17 @@ import router from '@/router'
 import Modal from '@/UI/Modal.vue'
 import { getSinglePoolDetails } from '@/composables/data/detailsData'
 
-
 const poolId = router.currentRoute.value.params['id']
 const pool = ref(null)
 const approveStep = ref(0)
 
-
-const confettiVisible = ref(false);
+const confettiVisible = ref(false)
 
 const explode = async () => {
-  confettiVisible.value = false;
-  await nextTick();
-  confettiVisible.value = true;
-};
+  confettiVisible.value = false
+  await nextTick()
+  confettiVisible.value = true
+}
 
 function changeApproveStep(step) {
   approveStep.value = step
@@ -354,9 +513,6 @@ const currencySelected = ref({ name: 'USD', code: 'USD', symbol: '$' })
 const lineNumbers = ref([])
 const balances = ref({})
 
-
-
-
 const allLastTokenPrices = ref({})
 const lastTokenPrices = computed(
   () => allLastTokenPrices.value[currencySelected.value.code],
@@ -364,7 +520,9 @@ const lastTokenPrices = computed(
 
 const usdValues = computed(() => {
   if (lineNumbers.value.length > 0) {
-    return pool.value.tokens.map((t) => balances.value[t.address] * lastTokenPrices.value[t.address])
+    return pool.value.tokens.map(
+      (t) => balances.value[t.address] * lastTokenPrices.value[t.address],
+    )
   }
   return []
 })
@@ -377,7 +535,6 @@ const leastBalanceIndex = computed(() => {
 const leastBalanceValue = computed(() => {
   if (usdValues.value.length > 0) {
     return usdValues.value[leastBalanceIndex.value]
-
   }
   return 0
 })
@@ -385,12 +542,14 @@ const leastBalanceValue = computed(() => {
 const maxBalances = computed(() => {
   const result = {}
   let iterator = 0
-  for (const [key,] of Object.entries(balances.value)) {
+  for (const [key] of Object.entries(balances.value)) {
     if (iterator != leastBalanceIndex.value) {
-      let toOptimizeUsdAmount = leastBalanceValue.value / pool.value.tokens[leastBalanceIndex.value].weight * pool.value.tokens[iterator].weight
+      let toOptimizeUsdAmount =
+        (leastBalanceValue.value /
+          pool.value.tokens[leastBalanceIndex.value].weight) *
+        pool.value.tokens[iterator].weight
       result[key] = toOptimizeUsdAmount / lastTokenPrices.value[key]
-    }
-    else {
+    } else {
       result[key] = leastBalanceValue.value / lastTokenPrices.value[key]
     }
     iterator++
@@ -403,7 +562,6 @@ const txHash = ref('')
 function addedTXHash(hash) {
   txHash.value = hash
 }
-
 
 const formattedLineNumbers = computed(() =>
   lineNumbers.value.map((ln) => ln / 1000),
@@ -439,12 +597,10 @@ const fiatTotal = computed(() =>
   parseFloat(
     lineNumbers.value.reduce(
       (sum, current, index) =>
-        sum +
-        (current / 1000) *
-        lastTokenPrices.value[tokens.value[index]],
+        sum + (current / 1000) * lastTokenPrices.value[tokens.value[index]],
       0,
     ),
-  ).toFixed(3)
+  ).toFixed(3),
 )
 
 const priceImpactFormatted = computed(() =>
@@ -494,36 +650,36 @@ function OnMaxClick(index, address) {
   OnSliderValueChange(index, balances.value[address] * 1000)
 }
 
-
 // WETH-60/USDT-40
 
 // 600$ worth of WETH
 // 1000$ / 100 * 40
-
 
 // 60-40 = +20%
 
 function OnOptimizeClick() {
   if (lastDepositChanged.value == -1) return
   let token = tokens.value[lastDepositChanged.value]
-  let usdAmount = (lineNumbers.value[lastDepositChanged.value] / 1000) *
+  let usdAmount =
+    (lineNumbers.value[lastDepositChanged.value] / 1000) *
     lastTokenPrices.value[token]
   usdAmount = Math.min(usdAmount, leastBalanceValue.value)
   for (let i = 0; i < lineNumbers.value.length; i++) {
     // let toOptimize = pool.value.tokens[i]
-    // let weightDiff = toOptimize.weight / pool.value.tokens[lastDepositChanged.value].weight 
+    // let weightDiff = toOptimize.weight / pool.value.tokens[lastDepositChanged.value].weight
     // let sumDiff = usdAmount * weightDiff
     // let toOptimizeUsdAmount = usdAmount + sumDiff
     // let newValue = toOptimizeUsdAmount / lastTokenPrices.value[tokens.value[i]]
-    let toOptimizeUsdAmount = usdAmount / pool.value.tokens[lastDepositChanged.value].weight * pool.value.tokens[i].weight
-    let newValue = toOptimizeUsdAmount / lastTokenPrices.value[pool.value.tokens[i].address]
+    let toOptimizeUsdAmount =
+      (usdAmount / pool.value.tokens[lastDepositChanged.value].weight) *
+      pool.value.tokens[i].weight
+    let newValue =
+      toOptimizeUsdAmount / lastTokenPrices.value[pool.value.tokens[i].address]
     lineNumbers.value[i] = newValue * 1000
   }
 }
 
-const totalWeeklyYield = computed(() =>
-  pool.value['30dAPR']
-)
+const totalWeeklyYield = computed(() => pool.value['30dAPR'])
 
 function onTokenInput(event, tokenIndex) {
   let result_value = event.target.value
@@ -579,9 +735,17 @@ function RemainingBalance(token, index) {
 }
 
 function onCurrencyInput(e) {
-  let possibleAmount = e.target.value / lastTokenPrices.value[tokens.value[leastBalanceIndex.value]] * pool.value.tokens[leastBalanceIndex.value].weight
+  let possibleAmount =
+    (e.target.value /
+      lastTokenPrices.value[tokens.value[leastBalanceIndex.value]]) *
+    pool.value.tokens[leastBalanceIndex.value].weight
   lineNumbers.value[leastBalanceIndex.value] =
-    parseFloat(balances.value[pool.value.tokens[leastBalanceIndex.value].address]) >= possibleAmount ? possibleAmount * 1000 : balances.value[pool.value.tokens[leastBalanceIndex.value].address] * 1000
+    parseFloat(
+      balances.value[pool.value.tokens[leastBalanceIndex.value].address],
+    ) >= possibleAmount
+      ? possibleAmount * 1000
+      : balances.value[pool.value.tokens[leastBalanceIndex.value].address] *
+        1000
   lastDepositChanged.value = leastBalanceIndex.value
   OnOptimizeClick()
 }
@@ -595,6 +759,9 @@ function onCurrencyInput(e) {
   padding: 2.5%;
   border-radius: 16px;
   backdrop-filter: blur(10px);
+  @media (max-width: 768px) {
+    margin: 0%;
+  }
 }
 
 .caption-row {
@@ -602,6 +769,11 @@ function onCurrencyInput(e) {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: start;
+    width: 90%;
+  }
 }
 
 .big-chip {
@@ -620,6 +792,9 @@ function onCurrencyInput(e) {
 
   &__image {
     width: 1.4vw;
+    @media (max-width: 768px) {
+      width: 15px;
+    }
   }
 
   &__text {
@@ -670,6 +845,21 @@ function onCurrencyInput(e) {
   // background: #00000024;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.wallet_deposit {
+  border-radius: 16px;
+  font-size: clamp(10px, 0.8vw, 14px);
+  height: fit-content;
+  width: 250px;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+  border: 1px solid #ffffff0d;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 .token-input {

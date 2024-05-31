@@ -6,7 +6,7 @@
     <Tabs :selectedTab="actSelectedPeriodOfData" :tabsOptions="periodsOfData" @changeTab="changeActPeriodOfData">
     </Tabs>
   </div>
-  <CRow id="pool-activity-row" class="table-wrapper">
+  <CRow id="pool-activity-row" class="table-wrapper !mx-0">
     <div v-if="activities.length === 0" class="!bg-[white] dark:!bg-[#fff0]  backdrop-blur-md h-[500px]">
       <LoaderPulse />
     </div>
@@ -256,6 +256,10 @@ function changeActPeriodOfData(_new) {
   &__header {
     display: flex;
     margin-bottom: 18px;
+    @media (max-width: $md) {
+      flex-direction: column;
+      gap: 10px;
+    }
   }
 
   &-body-light {

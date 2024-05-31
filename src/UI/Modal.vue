@@ -141,6 +141,9 @@ onMounted(() => {
   @media (max-width: 1400px) {
     transform: scale(0.8);
   }
+  @media (max-width: 768px) {
+    transform: scale(1);
+  }
 
 }
 </style>

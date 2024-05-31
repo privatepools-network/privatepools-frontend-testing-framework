@@ -2,7 +2,7 @@
   <div>
     <CRow
       id="pool-activity-row"
-      class="table-wrapper"
+      class="table-wrapper !mx-0"
       style="
         border-radius: 15.289px;
         background: #22222224;
