@@ -1,5 +1,5 @@
 <template>
-  <Drawer :is-open="sidebarWalletOpen" :speed="500" @close="closeSidebar">
+  <Drawer :is-open="sidebarWalletOpen"  @close="closeSidebar">
     <div style="height: 100%">
       <ConnectedSidebar
         @setAddress="(addr) => (address = addr)"
@@ -33,7 +33,7 @@
           v-if="currentParticles === 'on'"
           color="#00E0FF"
           type="cobweb"
-          :num="80"
+          :num="width > 768 ? 80 : 30"
           :bg="false"
           class="!pointer-events-none"
         />
@@ -47,11 +47,8 @@
           @toggleSidebar="toggleSidebar"
         />
         <div
-          class="body flex-grow-1 px-1 px-md-3 pt-1"
-          style="
-            padding-left: 2.5rem !important;
-            padding-right: 2.5rem !important;
-          "
+          class="body flex-grow-1 px-md-3 pt-1 md:px-[2.5rem] px-1"
+        
         >
           <router-view />
         </div>
@@ -76,7 +73,9 @@ import AppFooter from '@/components/AppFooter.vue'
 import { ParticlesBg } from 'particles-bg-vue'
 import { useSettings } from '@/store/settings'
 import { storeToRefs } from 'pinia'
+import { useDevice } from '@/composables/adaptive/useDevice'
 const settingsStore = useSettings()
+const { width } = useDevice()
 
 const { currentParticles } = storeToRefs(settingsStore)
 

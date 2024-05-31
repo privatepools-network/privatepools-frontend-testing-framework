@@ -5,8 +5,11 @@
       <Title :title="'Private Pools'" />
     </div> -->
 
-    <div class="d-flex justify-content-between mt-3 mb-5 flex-wrap">
-      <div class="flex gap-4 flex-wrap">
+    <div class="flex md:flex-row flex-col justify-between mt-3 mb-5 flex-wrap">
+      <div class="mb-3" v-if="width <= 768">
+        <ComposePoolDropdown />
+      </div>
+      <div class="flex gap-4 flex-wrap md:flex-row flex-col">
         <PoolFilters
           :hidePools="hidePools"
           :optionsPoolType="optionsPoolType"
@@ -14,49 +17,52 @@
           :optionsTokens="optionsTokens"
         />
 
-        <div class="flex items-center gap-2">
-          <label class="inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              class="sr-only peer"
-              :value="hidePools"
-              @click="hidePools = !hidePools"
-              :checked="hidePools"
-            />
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                class="sr-only peer"
+                :value="hidePools"
+                @click="hidePools = !hidePools"
+                :checked="hidePools"
+              />
+              <div
+                class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800/50 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ABDFF]"
+              ></div>
+            </label>
             <div
-              class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800/50 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ABDFF]"
-            ></div>
-          </label>
-          <div
-            class="dark:!text-white text-black"
-            style="font-size: clamp(12px, 0.8vw, 16px)"
-          >
-            {{ $t('staked_only') }}
+              class="dark:!text-white text-black"
+              style="font-size: clamp(12px, 0.8vw, 16px)"
+            >
+              {{ $t('staked_only') }}
+            </div>
+          </div>
+
+          <div class="flex items-center">
+            <input
+              id="default-checkbox"
+              type="checkbox"
+              v-model="hideSmallPools"
+              class="w-4 h-4 text-[#00e0ff] bg-gray-100 border-gray-300 rounded focus:ring-[#00e0ff] dark:focus:ring-[#00e0ff] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              for="default-checkbox"
+              class="ms-2 dark:!text-white text-black"
+              style="font-size: clamp(12px, 0.8vw, 16px)"
+              >Hide small pools</label
+            >
           </div>
         </div>
-        <div class="flex items-center">
-          <input
-            id="default-checkbox"
-            type="checkbox"
-            v-model="hideSmallPools"
-            class="w-4 h-4 text-[#00e0ff] bg-gray-100 border-gray-300 rounded focus:ring-[#00e0ff] dark:focus:ring-[#00e0ff] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label
-            for="default-checkbox"
-                class="ms-2 dark:!text-white text-black"
-            style="font-size: clamp(12px, 0.8vw, 16px)"
-            >Hide small pools</label
-          >
-        </div>
-      
       </div>
 
-      <ComposePoolDropdown />
+      <ComposePoolDropdown v-if="width > 768" />
 
       <!-- {{ console.log('hidePools', hidePools) }} -->
     </div>
 
     <div class="pools-rows">
+      <!-- Headers Desktop -->
       <div class="pools-row pools-row_header">
         <div
           class="pools-row__col"
@@ -204,9 +210,9 @@
       {{ console.log('all_pools', all_pools) }}
       <PoolRow
         v-for="(pool, index) in all_pools
-          
 
-          .slice(0, sliceNumber).filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+          .slice(0, sliceNumber)
+          .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
           .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
         :key="pool.name"
         :pool="pool"
@@ -222,9 +228,14 @@
         @goToCL="goToCL"
         :isActions="true"
       />
+      <!-- <PoolsMobileTable v-else/> -->
 
       <div
-        v-if="sliceNumber < all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL).length"
+        v-if="
+          sliceNumber <
+          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+            .length
+        "
         @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
         class="load_more text-black dark:!text-white"
       >
@@ -249,6 +260,7 @@ import { ethers } from 'ethers'
 import { GetPoolSwapsData } from '@/composables/pools/charts/usePoolSwapsData'
 import { GetPoolHistoricValues } from '@/composables/pools/charts/usePoolHistoricValues'
 import PoolRow from '@/components/Pool/PoolRow.vue'
+import PoolsMobileTable from '@/components/Pool/PoolsMobileTable.vue'
 import MainCard from '@/UI/MainCard.vue'
 import filterSVG from '@/assets/icons/filter.svg'
 import { GetHistoricalTvl } from '@/composables/pools/snapshots/usePoolHistoricalTvl'
@@ -271,8 +283,10 @@ import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 import { getPoolsData } from '@/composables/data/poolsData'
 import { t } from 'i18next'
 import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
+import { useDevice } from '@/composables/adaptive/useDevice'
 
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
+const { width } = useDevice()
 
 const sliceNumber = ref(10)
 
@@ -625,6 +639,9 @@ const all_pools = computed(() => {
 
     @media all and (max-width: $lg) {
       overflow-x: auto;
+    }
+    @media (max-width: 768px) {
+      border: 0px;
     }
   }
 }

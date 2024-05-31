@@ -348,7 +348,7 @@
                 <div style="cursor: pointer"><img :src="calendar" /></div>
               </template>
             </VueDatePicker>
-            <Dropdown :distance="4" :placement="'bottom-center'">
+            <!-- <Dropdown :distance="4" :placement="'bottom-center'">
               <div style="cursor: pointer">
                 <img :src="riskMetricsIcon" />
               </div>
@@ -372,7 +372,7 @@
                   </p>
                 </div>
               </template>
-            </Dropdown>
+            </Dropdown> -->
           </div>
         </div>
         <div v-if="riskMetrics.length > 0" v-for="item in riskMetrics" :key="item" style="padding: 0px 8px">
