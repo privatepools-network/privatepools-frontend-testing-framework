@@ -86,7 +86,7 @@ import PortfolioBalance from '@/components/portfolio/PortfolioBalance.vue'
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import { getPortfolioData, getPortfolioBalance } from '@/composables/data/portfolioData'
-import { getRewards } from '@/composables/data/rewardsData';
+import { getRewards } from '@/composables/data/portfolioData';
 import { t } from 'i18next'
 import SectionsTabs from '@/UI/SectionsTabs'
 
@@ -470,9 +470,9 @@ onMounted(async () => {
   if (mmProvider) {
     account.value = await mmProvider.getSigner().getAddress()//await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'// 
     if (process.env.VUE_APP_LOCAL_API) {
-      const [_portfolio, _rewards, _balance] = await Promise.all([getPortfolioData(56, account.value), getRewards(account.value), getPortfolioBalance(56, account.value)])
+      const [_portfolio, _rewards, _balance] = await Promise.all([getPortfolioData(56, account.value), getRewards(56), getPortfolioBalance(56, account.value)])
       portfolioData.value = _portfolio
-      rewardsData.value = _rewards.formatted_rewards
+      rewardsData.value = _rewards
       historicalPrices.value = portfolioData.value.historicalPrices
       historical_tvl.value = portfolioData.value.statistics.tvls
       balanceData.value = await _balance
