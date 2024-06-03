@@ -36,7 +36,7 @@
                   {{ poolToken.symbol }}
                 </div>
                 <div class="big-chip__text dark:!text-white text-black">
-                  {{ poolToken.weight * 100 }}%
+                  {{ (poolToken.weight * 100).toFixed(0) }}%
                 </div>
               </div>
             </div>
@@ -144,7 +144,7 @@
                           :src="getTokenEntity(token.symbol, 'short').icon"
                           width="20"
                         />
-                        {{ token.symbol }} {{ token.weight * 100 }}%
+                        {{ token.symbol }} {{ (token.weight * 100).toFixed(0) }}%
                       </div>
                       <input
                         class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
