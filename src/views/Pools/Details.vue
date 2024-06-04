@@ -125,15 +125,11 @@
             <img :src="info" class="info_icon" />
           </div>
           <template #popper>
-            <div
-            class="tooltip_container"
-            >
+            <div class="tooltip_container">
               <div style="font-size: clamp(10px, 0.9vw, 16px)">
                 {{ $t('information') }}
               </div>
-              <div
-              class="tooltip_container_text"
-              >
+              <div class="tooltip_container_text">
                 <div>
                   <b>Creation Date:</b> Indicates when the pool was established.
                 </div>

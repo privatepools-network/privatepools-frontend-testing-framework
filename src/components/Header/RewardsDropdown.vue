@@ -4,7 +4,9 @@
       class="button_drop dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white p-2 flex"
     >
       <img :src="rewards_icon" />
-      <div v-if="width > 768" class="flex items-center"><CurrencySymbol />{{ totalRewards }}</div>
+      <div v-if="width > 768" class="flex items-center">
+        <CurrencySymbol />{{ totalRewards }}
+      </div>
     </div>
     <template #popper>
       <div class="header__popup bg-white dark:!bg-[#02031C]">
@@ -79,14 +81,19 @@
           >
             {{ $t('total_staked') }}
           </div>
-          <div class="flex">
-            <CurrencySymbol />{{ userTotalStaked }}
-          </div>
-          <div class="text-[10px] font-['Syne',_sans-serif] text-black dark:!text-[#626262]">
+          <div class="flex"><CurrencySymbol />{{ userTotalStaked }}</div>
+          <div
+            class="text-[10px] font-['Syne',_sans-serif] text-black dark:!text-[#626262]"
+          >
             {{ `in ${userPools.length} pool(s)` }}
           </div>
         </div>
-        <div class="rewards_button_dropdown" @click="() => claimRewards(rewardsData)">{{ $t('Claim rewards') }}</div>
+        <div
+          class="rewards_button_dropdown"
+          @click="() => claimRewards(rewardsData)"
+        >
+          {{ $t('Claim rewards') }}
+        </div>
       </div>
     </template>
   </Dropdown>
@@ -129,7 +136,11 @@ const openRewardsDropdown = ref(false)
 
 const rewards = ref([])
 const rewardsData = ref({})
-const totalRewards = computed(() => rewards.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
+const totalRewards = computed(() =>
+  rewards.value
+    .reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0)
+    .toFixed(currencyDecimals.value),
+)
 const userPools = ref([])
 const userTotalStaked = computed(() =>
   userPools.value
@@ -141,9 +152,9 @@ onMounted(async () => {
   if (mmProvider) {
     const address = await mmProvider.getSigner().getAddress()
     userPools.value = await getUserPools(56, address)
-    rewardsData.value= await getRewards(address)
-    console.log("REWARDS - ",  rewardsData.value.formatted_rewards)
-    rewards.value =  rewardsData.value.formatted_rewards
+    rewardsData.value = await getRewards(address)
+    console.log('REWARDS - ', rewardsData.value.formatted_rewards)
+    rewards.value = rewardsData.value.formatted_rewards
   }
 })
 </script>
@@ -201,7 +212,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 8px;
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     border: 0px;
   }
   &:hover {

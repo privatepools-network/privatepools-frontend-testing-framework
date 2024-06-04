@@ -24,7 +24,6 @@
   <main class="main_containter bg-[#DCEEF6] dark:!bg-[#02031C]">
     <div class="bottom-left-icon">
       <div
-        
         class="bug_button dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white"
       >
         <img :src="shield_bug" /> <span v-if="width > 768">Bug Report</span>
@@ -158,7 +157,6 @@ watch(address, () => {
   }
 }
 
-
 .bottom-left-icon {
   position: fixed;
   bottom: 330px; /* Adjust based on your preference */
@@ -183,7 +181,7 @@ watch(address, () => {
   align-items: center;
   gap: 8px;
 
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     height: 100%;
     padding: 8px;
   }

@@ -671,9 +671,7 @@
                       width: 300px;
                     "
                   >
-                    <div
-                    class="tooltip_container_text"
-                    >
+                    <div class="tooltip_container_text">
                       {{ $t('you_must_approve_to_add_tokens') }}
                     </div>
                   </div>
