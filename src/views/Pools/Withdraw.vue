@@ -376,7 +376,7 @@ import useWithdrawMath from '@/composables/math/withdrawMath/useWithdrawMath'
 import { usePoolActionBalances } from '@/composables/balances/usePoolActionBalances'
 import { GetPoolShares } from '@/composables/pools/usePoolShares'
 import useDecimals from '@/composables/useDecimals'
-import { bnum, groupBy } from '@/lib/utils'
+import { bnum, groupBy, trim_decimal_overflow } from '@/lib/utils'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import BigNumber from 'bignumber.js'
 import { getJsonRpcProvider } from '@/composables/useProvider'
@@ -541,7 +541,7 @@ function getTokenWithdrawAmount(token, slippage = false, decimals = null) {
         ]
       : 0
     if (slippage && decimals) {
-      let amount = parseUnits(return_value, decimals).toString()
+      let amount = parseUnits(trim_decimal_overflow(return_value,decimals), decimals).toString()
       amount = minusSlippageScaled(amount, decimals)
 
       return_value = formatUnits(amount, decimals)

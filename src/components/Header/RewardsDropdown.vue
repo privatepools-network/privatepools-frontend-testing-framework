@@ -107,7 +107,9 @@ import { getHeaderData } from '@/composables/data/headerData'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import rewards_abi from '@/lib/abi/Rewards.json'
 import { claimRewards } from '@/composables/portfolio/useRewards'
-import { getUserPools, getRewards } from '@/composables/data/portfolioData'
+import { getUserPools } from '@/composables/data/portfolioData'
+import { getRewards } from '@/composables/data/rewardsData'
+
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import { useDevice } from '@/composables/adaptive/useDevice'
@@ -138,6 +140,7 @@ const totalRewards = computed(() =>
     .toFixed(currencyDecimals.value),
 )
 const userPools = ref([])
+const rewardsData = ref({})
 const userTotalStaked = computed(() =>
   userPools.value
     .reduce((sum, pool) => sum + pool[`shareBalance${postfix_raw.value}`], 0)
@@ -148,7 +151,7 @@ onMounted(async () => {
   if (mmProvider) {
     const address = await mmProvider.getSigner().getAddress()
     userPools.value = await getUserPools(56, address)
-    rewardsData.value= await getRewards(56)
+    rewardsData.value= await getRewards(address)
     console.log("REWARDS - ",  rewardsData.value.formatted_rewards)
     rewards.value =  rewardsData.value.formatted_rewards
   }

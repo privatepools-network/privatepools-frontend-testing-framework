@@ -650,7 +650,7 @@ export function groupTimestampsByMonthWithIndexes(timestamps) {
 }
 
 export function calculateAverage(array) {
-  if(array.length == 0){
+  if (array.length == 0) {
     return 0
   }
   let sum = array.reduce((acc, current) => acc + current, 0)
@@ -1120,4 +1120,14 @@ export function removeDuplicates(arr, key) {
     }
     return false
   })
+}
+
+export function trim_decimal_overflow(n, decimals) {
+  n += ''
+
+  if (n.indexOf('.') === -1) return n
+
+  const arr = n.split('.')
+  const fraction = arr[1].substr(0, decimals)
+  return arr[0] + '.' + fraction
 }
