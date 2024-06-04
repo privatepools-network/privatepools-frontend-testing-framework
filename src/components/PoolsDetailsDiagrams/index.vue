@@ -16,7 +16,7 @@
               <div class="diagrams_title">
                 {{ $t('Assets Performance') }}
               </div>
-              <VTooltip :distance="0" :placement="'right'">
+              <VTooltip :distance="0" :placement="'top'">
                 <div style="cursor: help">
                   <svg
                     class="info_icon"
@@ -42,28 +42,11 @@
                   </svg>
                 </div>
                 <template #popper>
-                  <div
-                    style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    "
-                  >
+                  <div class="tooltip_container">
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
                       {{ $t('information') }}
                     </h6>
-                    <div
-                      style="
-                        display: flex;
-                        flex-direction: column;
-                        font-size: clamp(10px, 0.8vw, 14px);
-                      "
-                    >
+                    <div class="tooltip_container_text">
                       <div>
                         This chart offers a historical perspective on the values
                         of assets deposited in the pool. It allows you to track
@@ -127,7 +110,7 @@
           >
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">Pool {{ $t('distribution') }}</div>
-              <VTooltip :distance="0" :placement="'right'">
+              <VTooltip :distance="0" :placement="'top'">
                 <div style="cursor: help">
                   <svg
                     class="info_icon"
@@ -154,26 +137,13 @@
                 </div>
                 <template #popper>
                   <div
-                    style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    "
+class="tooltip_container"
                   >
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
                       {{ $t('information') }}
                     </h6>
                     <div
-                      style="
-                        display: flex;
-                        flex-direction: column;
-                        font-size: clamp(10px, 0.8vw, 14px);
-                      "
+                    class="tooltip_container_text"
                     >
                       <div>
                         This bar chart visually presents the number of trades
@@ -240,7 +210,7 @@
           >
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">{{ $t('trades') }}</div>
-              <VTooltip :distance="0" :placement="'right'">
+              <VTooltip :distance="0" :placement="'top'">
                 <div style="cursor: help">
                   <svg
                     class="info_icon"
@@ -266,28 +236,11 @@
                   </svg>
                 </div>
                 <template #popper>
-                  <div
-                    style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    "
-                  >
+                  <div class="tooltip_container">
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
                       {{ $t('information') }}
                     </h6>
-                    <div
-                      style="
-                        display: flex;
-                        flex-direction: column;
-                        font-size: clamp(10px, 0.8vw, 14px);
-                      "
-                    >
+                    <div class="tooltip_container_text">
                       <div>
                         This bar chart visually presents the number of trades
                         executed by this pool during a specific time frame. It
@@ -368,7 +321,11 @@
         </div>
       </CCol>
 
-      <CCol xl="4" class="md:mb-0 mb-4" v-if="router.currentRoute.value.path.includes('CLdetails')">
+      <CCol
+        xl="4"
+        class="md:mb-0 mb-4"
+        v-if="router.currentRoute.value.path.includes('CLdetails')"
+      >
         <div
           v-if="
             profitsData[profitRangeOption] &&
@@ -382,7 +339,7 @@
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">{{ $t('ranges_traded') }}</div>
 
-              <VTooltip :distance="0" :placement="'right'">
+              <VTooltip :distance="0" :placement="'top'">
                 <div style="cursor: help">
                   <svg
                     class="info_icon"
@@ -408,28 +365,11 @@
                   </svg>
                 </div>
                 <template #popper>
-                  <div
-                    style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    "
-                  >
+                  <div class="tooltip_container">
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
                       {{ $t('information') }}
                     </h6>
-                    <div
-                      style="
-                        display: flex;
-                        flex-direction: column;
-                        font-size: clamp(10px, 0.8vw, 14px);
-                      "
-                    >
+                    <div class="tooltip_container_text">
                       <div>
                         This bar chart visually represents the profit generated
                         by this pool over a specified period. It provides a
@@ -491,7 +431,7 @@
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">{{ $t('profit_generated') }}</div>
 
-              <VTooltip :distance="0" :placement="'right'">
+              <VTooltip :distance="0" :placement="'top'">
                 <div style="cursor: help">
                   <svg
                     class="info_icon"
@@ -517,28 +457,11 @@
                   </svg>
                 </div>
                 <template #popper>
-                  <div
-                    style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 400px;
-                    "
-                  >
+                  <div class="tooltip_container">
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
                       {{ $t('information ') }}
                     </h6>
-                    <div
-                      style="
-                        display: flex;
-                        flex-direction: column;
-                        font-size: clamp(10px, 0.8vw, 14px);
-                      "
-                    >
+                    <div class="tooltip_container_text">
                       <div>
                         This bar chart visually represents the profit generated
                         by this pool over a specified period. It provides a
@@ -683,7 +606,9 @@ const chartOptions0 = computed(() => {
         show: false,
       },
     },
-    colors: router.currentRoute.value.path.includes('CLdetails') ?  ['#FB800F', '#803D00', '#F07E07', '#FF9B40'] : ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
+    colors: router.currentRoute.value.path.includes('CLdetails')
+      ? ['#FB800F', '#803D00', '#F07E07', '#FF9B40']
+      : ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
     dataLabels: {
       enabled: false,
     },
@@ -781,7 +706,6 @@ const chartOptions0 = computed(() => {
     grid: {
       borderColor: 'rgba(255, 255, 255, 0.11)',
     },
-
   }
 })
 
@@ -843,7 +767,6 @@ const chartOptions1 = computed(() => {
     grid: {
       show: false,
     },
- 
   }
 })
 const chartOptionsCLPool1 = computed(() => {
@@ -1037,14 +960,13 @@ const chartOptions2 = computed(() => {
               getTokenEntity(key, 'short').icon
             } width="10"/> ${formatBigNumber(value, 3)} <br>`
           }
-          return `<div style="margin-left:-60px">${result_str}</div> <br> ${props.symbol}${val}`
+          return `<div style="margin-left:-60px;">${result_str}</div> <br> ${props.symbol}${val}`
         },
       },
     },
     grid: {
       show: false,
     },
- 
   }
 })
 
@@ -1146,7 +1068,6 @@ const chartOptionsCLPool2 = computed(() => {
 .diagrams-container {
   padding-left: 0;
   padding-right: 0;
-
 }
 
 .diagrams_title {
@@ -1177,12 +1098,11 @@ const chartOptionsCLPool2 = computed(() => {
 }
 
 :deep(.apexcharts-tooltip) {
-  background: linear-gradient(
-    rgba(89, 89, 89, 1),
-    rgba(73, 73, 73, 0.45)
-  ) !important;
+  background: #02031c7e !important;
+  backdrop-filter: blur(10px);
+  padding: 10px;
+  border-radius: 11px;
   color: white;
-  backdrop-filter: blur(3px);
 }
 
 .pool_disturb_actions {

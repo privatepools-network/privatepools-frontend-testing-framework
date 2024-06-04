@@ -7,7 +7,7 @@
             <div class="font-medium text-sm text-black dark:!text-white">
               ROI
             </div>
-            <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
+            <VTooltip style="margin-top: -3px" :distance="0" :placement="'top'">
               <div style="cursor: help">
                 <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
@@ -25,22 +25,10 @@
                 </svg>
               </div>
               <template #popper>
-                <div style="
-                    background: linear-gradient(
-                      rgba(89, 89, 89, 0.75),
-                      rgba(73, 73, 73, 0.15)
-                    );
-                    backdrop-filter: blur(10px);
-                    padding: 10px;
-                    border-radius: 4px;
-                    width: 400px;
-                  ">
+                <div class="tooltip_container"
+                  >
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">ROI</div>
-                  <div style="
-                      display: flex;
-                      flex-direction: column;
-                      font-size: clamp(10px, 0.8vw, 14px);
-                    ">
+                  <div class="tooltip_container_text">
                     <div><b>Average ROI:</b> Mean Return on Investment.</div>
                     <div><b>VS USD</b> ROI compared to US Dollar.</div>
                     <div>
@@ -100,7 +88,7 @@
             <div class="font-medium text-sm text-black dark:!text-white">
               APR
             </div>
-            <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
+            <VTooltip style="margin-top: -3px" :distance="0" :placement="'top'">
               <div style="cursor: help">
                 <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
@@ -118,22 +106,9 @@
                 </svg>
               </div>
               <template #popper>
-                <div style="
-                    background: linear-gradient(
-                      rgba(89, 89, 89, 0.75),
-                      rgba(73, 73, 73, 0.15)
-                    );
-                    backdrop-filter: blur(10px);
-                    padding: 10px;
-                    border-radius: 4px;
-                    width: 400px;
-                  ">
+                <div class="tooltip_container">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">APR</div>
-                  <div style="
-                      display: flex;
-                      flex-direction: column;
-                      font-size: clamp(10px, 0.8vw, 14px);
-                    ">
+                  <div class="tooltip_container_text">
                     <div><b>Average APR:</b> Mean annualized return.</div>
                     <div><b>VS USD</b> APR comparison against US Dollar.</div>
                     <div>
@@ -195,7 +170,7 @@
             <div class="font-medium text-sm text-black dark:!text-white">
               {{ $t('drawdowns') }}
             </div>
-            <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
+            <VTooltip style="margin-top: -3px" :distance="0" :placement="'top'">
               <div style="cursor: help">
                 <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
@@ -213,24 +188,11 @@
                 </svg>
               </div>
               <template #popper>
-                <div style="
-                    background: linear-gradient(
-                      rgba(89, 89, 89, 0.75),
-                      rgba(73, 73, 73, 0.15)
-                    );
-                    backdrop-filter: blur(10px);
-                    padding: 10px;
-                    border-radius: 4px;
-                    width: 400px;
-                  ">
+                <div class="tooltip_container">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">
                     {{ $t('drawdowns') }}
                   </div>
-                  <div style="
-                      display: flex;
-                      flex-direction: column;
-                      font-size: clamp(10px, 0.8vw, 14px);
-                    ">
+                  <div class="tooltip_container_text">
                     <div>
                       <b>Maximum Drawdown:</b> Peak-to-trough loss magnitude.
                     </div>
@@ -288,7 +250,7 @@
             <div class="font-medium text-sm text-black dark:!text-white">
               {{ $t('risk_metrics') }}
             </div>
-            <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
+            <VTooltip style="margin-top: -3px" :distance="0" :placement="'top'">
               <div style="cursor: help">
                 <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
@@ -306,24 +268,11 @@
                 </svg>
               </div>
               <template #popper>
-                <div style="
-                    background: linear-gradient(
-                      rgba(89, 89, 89, 0.75),
-                      rgba(73, 73, 73, 0.15)
-                    );
-                    backdrop-filter: blur(10px);
-                    padding: 10px;
-                    border-radius: 4px;
-                    width: 400px;
-                  ">
+                <div class="tooltip_container">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">
                     {{ $t('risk_metrics') }}
                   </div>
-                  <div style="
-                      display: flex;
-                      flex-direction: column;
-                      font-size: clamp(10px, 0.8vw, 14px);
-                    ">
+                  <div class="tooltip_container_text">
                     <div>
                       <b>Sharpe Ratio:</b> Assesses excess return per unit of
                       risk.
@@ -403,7 +352,7 @@
             <div class="font-medium text-sm text-black dark:!text-white">
               {{ $t('profits') }}
             </div>
-            <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
+            <VTooltip style="margin-top: -3px" :distance="0" :placement="'top'">
               <div style="cursor: help">
                 <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
@@ -421,22 +370,9 @@
                 </svg>
               </div>
               <template #popper>
-                <div style="
-                    background: linear-gradient(
-                      rgba(89, 89, 89, 0.75),
-                      rgba(73, 73, 73, 0.15)
-                    );
-                    backdrop-filter: blur(10px);
-                    padding: 10px;
-                    border-radius: 4px;
-                    width: 400px;
-                  ">
+                <div class="tooltip_container">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">{{ $t('profits') }}</div>
-                  <div style="
-                      display: flex;
-                      flex-direction: column;
-                      font-size: clamp(10px, 0.8vw, 14px);
-                    ">
+                  <div class="tooltip_container_text">
                     <div>
                       <b>Average Profit per Trade:</b> The mean earnings across
                       individual trades.
@@ -495,7 +431,7 @@
               </div>
             </div>
           </div>
-          <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
+          <VTooltip style="margin-top: -3px" :distance="0" :placement="'top'">
             <div style="cursor: help">
               <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
@@ -513,24 +449,11 @@
               </svg>
             </div>
             <template #popper>
-              <div style="
-                  background: linear-gradient(
-                    rgba(89, 89, 89, 0.75),
-                    rgba(73, 73, 73, 0.15)
-                  );
-                  backdrop-filter: blur(10px);
-                  padding: 10px;
-                  border-radius: 4px;
-                  width: 400px;
-                ">
+              <div class="tooltip_container">
                 <div style="font-size: clamp(10px, 0.9vw, 16px)">
                   {{ $t('assets_breakdown') }}
                 </div>
-                <div style="
-                    display: flex;
-                    flex-direction: column;
-                    font-size: clamp(10px, 0.8vw, 14px);
-                  ">
+                <div class="tooltip_container_text">
                   <div>
                     This pie chart illustrates the distribution of assets,
                     categorized by type. Each segment represents a different
@@ -568,7 +491,7 @@
               </div>
             </div>
           </div>
-          <VTooltip style="margin-top: -3px" :distance="0" :placement="'right'">
+          <VTooltip style="margin-top: -3px" :distance="0" :placement="'top'">
             <div style="cursor: help">
               <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
@@ -586,24 +509,11 @@
               </svg>
             </div>
             <template #popper>
-              <div style="
-                  background: linear-gradient(
-                    rgba(89, 89, 89, 0.75),
-                    rgba(73, 73, 73, 0.15)
-                  );
-                  backdrop-filter: blur(10px);
-                  padding: 10px;
-                  border-radius: 4px;
-                  width: 400px;
-                ">
+              <div class="tooltip_container">
                 <div style="font-size: clamp(10px, 0.9vw, 16px)">
                   {{ $t('assets_breakdown') }}
                 </div>
-                <div style="
-                    display: flex;
-                    flex-direction: column;
-                    font-size: clamp(10px, 0.8vw, 14px);
-                  ">
+                <div class="tooltip_container_text">
                   <div>
                     This pie chart illustrates the distribution of assets,
                     categorized by type. Each segment represents a different
