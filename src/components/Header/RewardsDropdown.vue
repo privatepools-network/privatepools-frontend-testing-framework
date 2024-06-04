@@ -131,7 +131,6 @@ const rewards = ref([])
 const rewardsData = ref({})
 const totalRewards = computed(() => rewards.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
 const userPools = ref([])
-const rewardsData = ref({})
 const userTotalStaked = computed(() =>
   userPools.value
     .reduce((sum, pool) => sum + pool[`shareBalance${postfix_raw.value}`], 0)
