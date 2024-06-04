@@ -672,11 +672,7 @@
                     "
                   >
                     <div
-                      style="
-                        display: flex;
-                        flex-direction: column;
-                        font-size: clamp(10px, 0.8vw, 14px);
-                      "
+                    class="tooltip_container_text"
                     >
                       {{ $t('you_must_approve_to_add_tokens') }}
                     </div>

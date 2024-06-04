@@ -104,7 +104,6 @@ import rewards_abi from '@/lib/abi/Rewards.json'
 import { claimRewards } from '@/composables/portfolio/useRewards'
 import { getUserPools } from '@/composables/data/portfolioData'
 import { getRewards } from '@/composables/data/rewardsData'
-
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import { useDevice } from '@/composables/adaptive/useDevice'

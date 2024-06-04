@@ -117,32 +117,19 @@
     >
       <div class="d-flex align-items-center gap-1">
         <Title :title="'Pool Statistics'"> </Title>
-        <VTooltip :distance="0" :placement="'right'">
+        <VTooltip :distance="0" :placement="'top'">
           <div style="cursor: help">
             <img :src="info" class="info_icon" />
           </div>
           <template #popper>
             <div
-              style="
-                background: linear-gradient(
-                  rgba(89, 89, 89, 0.75),
-                  rgba(73, 73, 73, 0.15)
-                );
-                backdrop-filter: blur(10px);
-                padding: 10px;
-                border-radius: 4px;
-                width: 400px;
-              "
+              class="tooltip_container"
             >
               <div style="font-size: clamp(10px, 0.9vw, 16px)">
                 {{ $t('information') }}
               </div>
               <div
-                style="
-                  display: flex;
-                  flex-direction: column;
-                  font-size: clamp(10px, 0.8vw, 14px);
-                "
+              class="tooltip_container_text"
               >
                 <div>
                   <b>Creation Date:</b> Indicates when the pool was established.
@@ -515,7 +502,7 @@
                 </div>
               </div>
             </div>
-            <VTooltip :distance="0" :placement="'right'">
+            <VTooltip :distance="0" :placement="'top'">
               <div style="cursor: help">
                 <svg
                   class="info_icon"
@@ -541,26 +528,9 @@
                 </svg>
               </div>
               <template #popper>
-                <div
-                  style="
-                    background: linear-gradient(
-                      rgba(89, 89, 89, 0.75),
-                      rgba(73, 73, 73, 0.15)
-                    );
-                    backdrop-filter: blur(10px);
-                    padding: 10px;
-                    border-radius: 4px;
-                    width: 400px;
-                  "
-                >
+                <div class="tooltip_container">
                   <h6>{{ $t('information') }}</h6>
-                  <div
-                    style="
-                      display: flex;
-                      flex-direction: column;
-                      font-size: 13px;
-                    "
-                  >
+                  <div class="tooltip_container_text">
                     <div>
                       This pie chart illustrates the percentage breakdown of
                       assets within this pool. It provides a visual
@@ -581,10 +551,7 @@
             />
           </div>
         </div>
-        <div
-          class="diagram-section dark:!bg-[#22222224] !bg-[white]"
-          v-else
-        >
+        <div class="diagram-section dark:!bg-[#22222224] !bg-[white]" v-else>
           <LoaderPulse></LoaderPulse>
         </div>
       </div>
@@ -1911,7 +1878,7 @@ watch(visibleWithdrawModal, (newValue) => {
   box-shadow: 0px 4px 4px 0px #00000040;
   border: 1px solid #ffffff0d;
 
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     width: 100%;
     margin-left: 0px;
   }
@@ -2138,10 +2105,10 @@ watch(visibleWithdrawModal, (newValue) => {
   flex-direction: row;
   display: flex;
   align-items: center;
-  @media (max-width:768px) {
-  flex-wrap: wrap;
-  gap: 5px;
-}
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
 }
 
 .big-chip {
@@ -2173,7 +2140,7 @@ watch(visibleWithdrawModal, (newValue) => {
 
   &:not(:first-child) {
     margin-left: 12px;
-    @media (max-width:768px) {
+    @media (max-width: 768px) {
       margin-left: 0px;
     }
   }
