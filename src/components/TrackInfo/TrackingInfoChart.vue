@@ -16,7 +16,7 @@
       />
       <img :src="logo" alt="D3" class="chart-logo" height="40px" />
       <VChart
-        class="chart"
+        class="chart mt-4"
         :option="optionObj"
         @legendselectchanged="legendSelectedChange"
         :autoresize="true"
@@ -65,8 +65,10 @@ import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import { strictCheckChartOffsetConditions } from '@/composables/chartLogic/strictCheckChartOffsetConditions'
 import { checkGridByKeys } from '@/composables/chartLogic/checkGridByKeys'
+import { useDevice } from '@/composables/adaptive/useDevice'
 
 const settingsStore = useSettings()
+const { width } = useDevice()
 
 const { currentCurrency } = storeToRefs(settingsStore)
 
@@ -512,7 +514,7 @@ const optionObj = ref({
     top: -5,
     left: 10,
     bottom: 30,
-    width: '50%',
+    width: width.value > 768 ? '50%' : '100%',
     inactiveColor: '#777',
     textStyle: {
       color: '#ccc',
@@ -580,15 +582,15 @@ const optionObj = ref({
         },
       },
     },
-    yAxisInstance('Volume', showVolume, 0, '#FA5173'),
-    yAxisInstance('Revenue / Profits', showRevenueProfits, 60, '#01B47E'),
-    yAxisInstance('Trades / Gas Fees', showTradesGasFees, 120, '#77aaff'),
-    yAxisInstance('APR / Volatility Index', showAPRVolatility, 180, '#FFD700'),
+    yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
+    yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
+    yAxisInstance('Trades / Gas Fees', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
+    yAxisInstance('APR / Volatility Index', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
   ],
   grid: [
     {
-      left: '5%',
-      right: currentGridToRight,
+      left: width.value > 768 ? '5%' : '9%',
+      right: width.value > 768 ? currentGridToRight : 0,
       top: 120,
       bottom: 155,
     },
@@ -604,7 +606,7 @@ const optionObj = ref({
       show: true,
       xAxisIndex: 0,
       type: 'slider',
-      bottom: 70,
+      bottom:  width.value > 768 ? 70 : 90,
       start: 0,
       end: 100,
       selectedDataBackground: {
@@ -1020,9 +1022,9 @@ function getDefaultChainsMapValue() {
   }
 }
 
-@media (max-width: $sm) {
+@media (max-width: $md) {
   .timeline_container {
-    width: 100%;
+    width: fit-content;
   }
 
   .chart {

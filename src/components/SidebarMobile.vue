@@ -146,12 +146,12 @@
           </a>
         </div>
 
-          <div class="my-2 sidemenu__line"></div>
+          <!-- <div class="my-2 sidemenu__line"></div>
           <ul class="sidemenu__list">
             <li class="sidemenu__item">
               <a @click="$emit('toggleNavigation')"><img :src="back" />Back</a>
             </li>
-          </ul>
+          </ul> -->
         </div>
       </nav>
     </transition>

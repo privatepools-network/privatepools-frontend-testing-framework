@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex gap-1 flex-wrap justify-content-between">
-    <div class="d-flex gap-4">
+  <div class="flex md:gap-1 gap-4  justify-between md:overflow-hidden overflow-y-auto">
+    <div class="flex gap-4 ">
       <div class="overview_big_container bg-[#FFFFFF24] dark:!bg-[#22222224]" v-for="(item, i) in bigContainerMock"
         :key="`${i}-big-container`">
         {{ console.log('generalOverviewLoader', generalOverviewLoader) }}
@@ -241,6 +241,9 @@ const smallContainerMock = computed(() =>
   @media (min-width: 1950px) {
     width: 10.5vw;
   }
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 .overview_small_container {
@@ -254,6 +257,9 @@ const smallContainerMock = computed(() =>
 
   @media (min-width: 1950px) {
     width: 10.5vw;
+  }
+  @media (max-width: 768px) {
+    width: 100%;
   }
 }
 

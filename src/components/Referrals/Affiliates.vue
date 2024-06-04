@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w-100 d-flex justify-content-center gap-3 mt-5">
+    <div class="w-full flex justify-center gap-3 mt-5 md:flex-row flex-col">
       <div
         class="d-flex specific_container dark:!bg-[#22222224] bg-white"
         v-for="(item, i) in specificPortfolioStats"
@@ -37,8 +37,8 @@
             margin-right: -20px;
           "
         />
-        <div>
-          <CTable borderless>
+        <div  class="overflow-x-auto">
+          <CTable borderless class="overflow-x-auto">
             <CTableHead>
               <CTableRow>
                 <CTableHeaderCell
@@ -122,6 +122,7 @@ const specificPortfolioStats = ref([
   box-shadow: 0px 4px 4px 0px #00000040;
   padding: 20px;
   margin: 40px;
+  backdrop-filter: blur(10px);
 
   @media (max-width: 1300px) {
     margin-top: 30px;
@@ -137,6 +138,10 @@ const specificPortfolioStats = ref([
   padding: 8px 16px;
   border-radius: 16px;
   width: 23%;
+  backdrop-filter: blur(10px);
+  @media (max-width:768px) {
+    width: 100%;
+  }
 }
 
 .text_header {
@@ -179,6 +184,12 @@ const specificPortfolioStats = ref([
   &:hover {
     filter: drop-shadow(0 0 0.7rem #00c9ff);
     background: #00e0ff;
+  }
+}
+
+.table > :not(caption) > * > * {
+  @media (max-width:768px) {
+    padding: 0.5rem 1.5rem !important;
   }
 }
 </style>

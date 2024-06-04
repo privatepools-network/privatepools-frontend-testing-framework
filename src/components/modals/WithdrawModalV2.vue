@@ -27,7 +27,7 @@
           <div class="d-flex flex-column align-items-start text-white">
             <div class="text-[13px]">
               {{ (poolShare.balance * lineNumberPercent).toFixed(2) }}
-              {{ pool.tokens.map((t) => `${t.weight}%${t.symbol}`).join('/') }}
+              {{ pool.tokens.map((t) => `${parseFloat(t.weight).toFixed(0)}%${t.symbol}`).join('/') }}
             </div>
             <div class="font-['Roboto_Mono',_monospace] text-[13px]">
               ${{ usdSummary }} ({{
