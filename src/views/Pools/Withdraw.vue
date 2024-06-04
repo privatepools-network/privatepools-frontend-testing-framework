@@ -36,7 +36,7 @@
                   {{ poolToken.symbol }}
                 </div>
                 <div class="big-chip__text dark:!text-white text-black">
-                  {{ poolToken.weight * 100 }}%
+                  {{ (poolToken.weight * 100).toFixed(0) }}%
                 </div>
               </div>
             </div>
@@ -129,7 +129,7 @@
 
                       {{
                         pool?.tokens
-                          .map((t) => `${t.weight * 100}${t.symbol}`)
+                          .map((t) => `${(t.weight * 100).toFixed(0)}${t.symbol}`)
                           .join('-')
                       }}
                     </div>
@@ -249,7 +249,7 @@
                             class="d-flex flex-column dark:!text-white text-black"
                           >
                             <div style="font-size: 12px">
-                              {{ token.symbol }} {{ token.weight * 100 }}%
+                              {{ token.symbol }} {{ (token.weight * 100).toFixed(0) }}%
                             </div>
                             <div
                               style="font-size: 10px"
@@ -376,7 +376,7 @@ import useWithdrawMath from '@/composables/math/withdrawMath/useWithdrawMath'
 import { usePoolActionBalances } from '@/composables/balances/usePoolActionBalances'
 import { GetPoolShares } from '@/composables/pools/usePoolShares'
 import useDecimals from '@/composables/useDecimals'
-import { bnum, groupBy } from '@/lib/utils'
+import { bnum, groupBy, trim_decimal_overflow } from '@/lib/utils'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import BigNumber from 'bignumber.js'
 import { getJsonRpcProvider } from '@/composables/useProvider'
@@ -541,7 +541,7 @@ function getTokenWithdrawAmount(token, slippage = false, decimals = null) {
         ]
       : 0
     if (slippage && decimals) {
-      let amount = parseUnits(return_value, decimals).toString()
+      let amount = parseUnits(trim_decimal_overflow(return_value,decimals), decimals).toString()
       amount = minusSlippageScaled(amount, decimals)
 
       return_value = formatUnits(amount, decimals)

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex md:gap-1 gap-4 flex-wrap justify-between md:flex-row flex-col">
-    <div class="flex gap-4 md:flex-row flex-col">
+  <div class="flex md:gap-1 gap-4  justify-between md:overflow-hidden overflow-y-auto">
+    <div class="flex gap-4 ">
       <div class="overview_big_container bg-[#FFFFFF24] dark:!bg-[#22222224]" v-for="(item, i) in bigContainerMock"
         :key="`${i}-big-container`">
         {{ console.log('generalOverviewLoader', generalOverviewLoader) }}

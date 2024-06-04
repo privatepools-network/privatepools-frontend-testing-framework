@@ -1121,3 +1121,13 @@ export function removeDuplicates(arr, key) {
     return false
   })
 }
+
+export function trim_decimal_overflow(n, decimals) {
+  n += ''
+
+  if (n.indexOf('.') === -1) return n
+
+  const arr = n.split('.')
+  const fraction = arr[1].substr(0, decimals)
+  return arr[0] + '.' + fraction
+}

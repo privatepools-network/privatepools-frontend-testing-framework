@@ -56,7 +56,7 @@
               {{ (total / pool.lpPrice).toFixed(2) }}
               {{
                 pool.tokens
-                  .map((t) => `${t.weight * 100}%${t.symbol}`)
+                  .map((t) => `${parseFloat(t.weight * 100).toFixed(0)}%${t.symbol}`)
                   .join('/')
               }}
             </div>
