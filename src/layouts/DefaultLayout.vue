@@ -21,15 +21,16 @@
       />
     </div>
   </Drawer>
-  <main class="main_containter bg-[#DCEEF6] dark:!bg-[#02031C]">
-    <div class="bottom-left-icon">
-      <div
-        class="bug_button dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white"
-      >
-        <img :src="shield_bug" /> <span v-if="width > 768">Bug Report</span>
-      </div>
+  <div class="bottom-left-icon">
+    <a href="https://form.jotform.com/241475777122460" class="text-decoration-none" target="_blank">
+    <div
+      class="bug_button dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white"
+    >
+      <img :src="shield_bug" /> <span class="bug_button_text">Bug Report</span>
     </div>
-
+  </a>
+  </div>
+  <main class="main_containter bg-[#DCEEF6] dark:!bg-[#02031C]">
     <div class="app_container">
       <div class="background">
         <div class="particles">
@@ -159,32 +160,47 @@ watch(address, () => {
 
 .bottom-left-icon {
   position: fixed;
-  bottom: 330px; /* Adjust based on your preference */
+  bottom: 80px; /* Adjust based on your preference */
   right: 20px; /* Adjust based on your preference */
   z-index: 1000; /* Ensure it's above other content */
 }
 
 .bug_button {
-  height: 40px;
+  height: 100%;
+  padding: 8px;
 
   border: 1px solid #2abdff;
 
   border-radius: 100px;
-  padding: 8px 25px;
   font-size: clamp(10px, 0.8vw, 15px);
   font-weight: 600;
   line-height: 18px;
   letter-spacing: 0em;
   text-align: center;
-
+  transition: all;
   display: flex;
   align-items: center;
   gap: 8px;
 
-  @media (max-width: 768px) {
-    height: 100%;
-    padding: 8px;
+  &:hover {
+    height: 40px;
+    padding: 8px 25px;
   }
+  &:hover &_text {
+    display: block;
+  }
+
+  &_text {
+    display: none;
+    // &:hover {
+    //   display: block;
+    // }
+  }
+
+  // @media (max-width: 768px) {
+  //   height: 100%;
+  //   padding: 8px;
+  // }
 
   &:hover {
     background: #2abcff36;
