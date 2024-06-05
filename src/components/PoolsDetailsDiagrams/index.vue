@@ -42,15 +42,11 @@
                   </svg>
                 </div>
                 <template #popper>
-                  <div
-                    class="tooltip_container"
-                  >
+                  <div class="tooltip_container">
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
                       {{ $t('information') }}
                     </h6>
-                    <div
-                    class="tooltip_container_text"
-                    >
+                    <div class="tooltip_container_text">
                       <div>
                         This chart offers a historical perspective on the values
                         of assets deposited in the pool. It allows you to track
@@ -240,15 +236,11 @@ class="tooltip_container"
                   </svg>
                 </div>
                 <template #popper>
-                  <div
-class="tooltip_container"
-                  >
+                  <div class="tooltip_container">
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
                       {{ $t('information') }}
                     </h6>
-                    <div
-                    class="tooltip_container_text"
-                    >
+                    <div class="tooltip_container_text">
                       <div>
                         This bar chart visually presents the number of trades
                         executed by this pool during a specific time frame. It
@@ -329,7 +321,11 @@ class="tooltip_container"
         </div>
       </CCol>
 
-      <CCol xl="4" class="md:mb-0 mb-4" v-if="router.currentRoute.value.path.includes('CLdetails')">
+      <CCol
+        xl="4"
+        class="md:mb-0 mb-4"
+        v-if="router.currentRoute.value.path.includes('CLdetails')"
+      >
         <div
           v-if="
             profitsData[profitRangeOption] &&
@@ -369,15 +365,11 @@ class="tooltip_container"
                   </svg>
                 </div>
                 <template #popper>
-                  <div
-class="tooltip_container"
-                  >
+                  <div class="tooltip_container">
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
                       {{ $t('information') }}
                     </h6>
-                    <div
-                    class="tooltip_container_text"
-                    >
+                    <div class="tooltip_container_text">
                       <div>
                         This bar chart visually represents the profit generated
                         by this pool over a specified period. It provides a
@@ -465,15 +457,11 @@ class="tooltip_container"
                   </svg>
                 </div>
                 <template #popper>
-                  <div
-class="tooltip_container"
-                  >
+                  <div class="tooltip_container">
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
                       {{ $t('information ') }}
                     </h6>
-                    <div
-                    class="tooltip_container_text"
-                    >
+                    <div class="tooltip_container_text">
                       <div>
                         This bar chart visually represents the profit generated
                         by this pool over a specified period. It provides a
@@ -618,7 +606,9 @@ const chartOptions0 = computed(() => {
         show: false,
       },
     },
-    colors: router.currentRoute.value.path.includes('CLdetails') ?  ['#FB800F', '#803D00', '#F07E07', '#FF9B40'] : ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
+    colors: router.currentRoute.value.path.includes('CLdetails')
+      ? ['#FB800F', '#803D00', '#F07E07', '#FF9B40']
+      : ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
     dataLabels: {
       enabled: false,
     },
@@ -716,7 +706,6 @@ const chartOptions0 = computed(() => {
     grid: {
       borderColor: 'rgba(255, 255, 255, 0.11)',
     },
-
   }
 })
 
@@ -778,7 +767,6 @@ const chartOptions1 = computed(() => {
     grid: {
       show: false,
     },
- 
   }
 })
 const chartOptionsCLPool1 = computed(() => {
@@ -979,7 +967,6 @@ const chartOptions2 = computed(() => {
     grid: {
       show: false,
     },
- 
   }
 })
 
@@ -1081,7 +1068,6 @@ const chartOptionsCLPool2 = computed(() => {
 .diagrams-container {
   padding-left: 0;
   padding-right: 0;
-
 }
 
 .diagrams_title {

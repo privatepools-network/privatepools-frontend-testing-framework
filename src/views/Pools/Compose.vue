@@ -660,20 +660,9 @@
                 />
                 <template #popper>
                   <div
-                    style="
-                      background: linear-gradient(
-                        rgba(89, 89, 89, 0.75),
-                        rgba(73, 73, 73, 0.15)
-                      );
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 4px;
-                      width: 300px;
-                    "
+                    class="tooltip_container"
                   >
-                    <div
-                    class="tooltip_container_text"
-                    >
+                    <div class="tooltip_container_text">
                       {{ $t('you_must_approve_to_add_tokens') }}
                     </div>
                   </div>
@@ -849,26 +838,13 @@
                 <img :src="info" class="info_icon" />
                 <template #popper>
                   <div
-                    style="
-                      background: #02031c;
-                      backdrop-filter: blur(10px);
-                      padding: 10px;
-                      border-radius: 11px;
-                      width: 200px;
-                      border: 0.5px solid #dceef60d;
-                      box-shadow: 0px 4px 8.9px 0px #02031cb5;
-                    "
+                  class="tooltip_container"
                   >
                     <h6 style="font-size: clamp(10px, 0.9vw, 16px)">
                       {{ $t('information') }}
                     </h6>
                     <div
-                      style="
-                        display: flex;
-                        flex-direction: column;
-                        font-size: clamp(10px, 0.8vw, 14px);
-                        font-family: 'Syne', sans-serif;
-                      "
+                    class="tooltip_container_text"
                     >
                       <div>Balance available on the selected tokens</div>
                     </div>
