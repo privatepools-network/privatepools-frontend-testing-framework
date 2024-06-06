@@ -19,7 +19,12 @@ const playError = useSound(errorSound, { volume: 1 })
  * @param {string} wallet_address - wallet address from which we will approve the tokens
  * @returns {Promise<boolean>} results of the transactions was it successful or not
  */
-export async function useApproveTokens(tokens, amounts, wallet_address) {
+export async function useApproveTokens(
+  tokens,
+  amounts,
+  wallet_address,
+  depositMethod,
+) {
   const approveTokensPending = toast.loading(Toast, {
     data: {
       header_text: 'Approve pending',
@@ -37,17 +42,15 @@ export async function useApproveTokens(tokens, amounts, wallet_address) {
   let provider = await InitializeMetamask()
   if (!provider) return
   let config = configService.getNetworkConfig(networkId.value)
-  let vault_addr = config.addresses.vault
+  let to_addr =
+    depositMethod === 'zap' ? config.addresses.zap : config.addresses.vault
   for (let i = 0; i < tokens.length; i++) {
     const tokenContract = new ethers.Contract(
       tokens[i],
       ABI_ERC20,
       provider.getSigner(),
     )
-    let approval_amount = await tokenContract.allowance(
-      wallet_address,
-      vault_addr,
-    )
+    let approval_amount = await tokenContract.allowance(wallet_address, to_addr)
     try {
       let decimals = await tokenContract.decimals()
       let amount = ethers.utils.parseUnits(
@@ -55,7 +58,7 @@ export async function useApproveTokens(tokens, amounts, wallet_address) {
         decimals,
       )
       if (amount.gt(approval_amount)) {
-        const tx = await tokenContract.approve(vault_addr, amount)
+        const tx = await tokenContract.approve(to_addr, amount)
         await tx.wait() // Wait for the transaction to be mined
         console.log('Transaction Hash:', tx.hash)
       }

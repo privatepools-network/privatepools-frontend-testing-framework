@@ -56,7 +56,10 @@
               {{ (total / pool.lpPrice).toFixed(2) }}
               {{
                 pool.tokens
-                  .map((t) => `${parseFloat(t.weight * 100).toFixed(0)}%${t.symbol}`)
+                  .map(
+                    (t) =>
+                      `${parseFloat(t.weight * 100).toFixed(0)}%${t.symbol}`,
+                  )
                   .join('/')
               }}
             </div>
@@ -146,7 +149,9 @@
         />
 
         <div class="w-12 mt-1">
-          <ProgressLoader v-if="mmActive && approveStep === 4 || approveStep === 2" />
+          <ProgressLoader
+            v-if="(mmActive && approveStep === 4) || approveStep === 2"
+          />
           <span v-else class="progress_loader_still"></span>
         </div>
 
@@ -171,14 +176,12 @@
     </div>
     <div
       class="compose_pool_connect_wallet"
-      @click="OnPreviewClick(); approveStep = 4
-      "
+      @click="OnPreviewClick(), (approveStep = 4)"
       v-else-if="approveStep === 3"
     >
       {{ $t('add_liquidity') }}
     </div>
     <div class="compose_pool_connect_wallet" v-else-if="approveStep === 4">
-     
       Adding Liquidty <span v-if="mmActive" class="button_loader pl-2"></span>
     </div>
     <div
@@ -220,11 +223,9 @@ import errorSound from '@/assets/sounds/error_sound.mp3'
 import { useSound } from '@vueuse/sound'
 import { useDevice } from '@/composables/adaptive/useDevice'
 
-
 const playSuccess = useSound(successSound, { volume: 1 })
 const playError = useSound(errorSound, { volume: 1 })
 const { width } = useDevice()
-
 
 const mmActive = ref(false)
 
@@ -276,8 +277,14 @@ const props = defineProps([
   'fiatTotal',
   'weeklyYield',
   'approveStep',
+  'depositMethod',
 ])
-const emit = defineEmits(['changeVisibleDepositClose', 'changeApproveStep', 'explode', 'addedTXHash'])
+const emit = defineEmits([
+  'changeVisibleDepositClose',
+  'changeApproveStep',
+  'explode',
+  'addedTXHash',
+])
 console.log('PROPS - ', props)
 const depositFinished = ref(false)
 
@@ -294,6 +301,7 @@ async function OnPreviewClick() {
       tokenAddresses,
       props.tokens.map((t) => t.depositAmount),
       props.account,
+      props.depositMethod,
     )
     if (!success) {
       emit('changeApproveStep', 1)
@@ -333,10 +341,9 @@ async function OnPreviewClick() {
     }/tx/${tx.hash}`
 
     // props.approveStep = 5
-    
+
     emit('changeApproveStep', 5)
     emit('explode')
-
 
     if (tx.error) {
       console.log('!!!', tx.error)
@@ -376,7 +383,7 @@ async function OnPreviewClick() {
         tx_link: `${conf.explorer}/tx/${tx.hash}`,
         speedUp: '',
       },
-      
+
       closeOnClick: false,
       autoClose: 10000,
       closeButton: false,
@@ -387,11 +394,8 @@ async function OnPreviewClick() {
     mmActive.value = false
     emit('changeVisibleDepositClose')
     depositFinished.value = true
-
- 
   }
 }
-
 </script>
 <style lang="scss" scoped>
 .modal_body_header {
