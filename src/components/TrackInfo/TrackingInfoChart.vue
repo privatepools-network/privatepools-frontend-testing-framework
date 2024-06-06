@@ -670,7 +670,7 @@ function getFilteredData() {
       d.Blockchain == '',
   )
   let timestamps = chart_data.map((v) => v.timestamp)
-  let indexes = TimelineFilters[currentTimeline.value.name](timestamps)
+  let indexes = TimelineFilters[currentTimeline.value.name](timestamps,chart_data.map((v) => v.Date))
   indexes = indexes.sort((a, b) => a - b)
   let selectedFilters = preFiltersList.value.filter((v) => v.selected)
   let selectedCumulableCodes = selectedFilters
