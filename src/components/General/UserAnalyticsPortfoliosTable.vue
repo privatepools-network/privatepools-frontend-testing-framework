@@ -4,7 +4,7 @@
       id="pool-activity-row"
       class="table-wrapper !mx-0"
       style="
-        border-radius: 15.289px;
+        border-radius: 16px;
         background: #22222224;
         box-shadow: 0px 4px 4px 0px #00000040;
         border: 1px solid #ffffff0d;

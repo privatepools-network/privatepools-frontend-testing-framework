@@ -63,7 +63,7 @@
 
     <!-- v-if="width > 768"  -->
     <div 
- 
+      v-if="width > 768"
       class="pools-rows"
       >
       <!-- Headers Desktop -->
@@ -247,7 +247,7 @@
         <img :src="arrow_bottom" />
       </div>
     </div>
-    <!-- <div v-else>
+    <div v-else>
       <div
         v-if="user_staked_pools.length === 0 && hidePools"
         class="my-5 text-center text-black dark:!text-white"
@@ -292,7 +292,7 @@
         <img :src="arrow_bottom" />
       </div>
       </div>
-    </div> -->
+    </div>
   </MainCard>
 </template>
 
