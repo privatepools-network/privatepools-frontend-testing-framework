@@ -3,23 +3,15 @@
     <div class="title text-black dark:!text-white my-3">
       {{ $t('Ecosystem Overview') }}
     </div>
-    <GeneralOverview
-      :overview="allData.overview"
-      :generalOverviewLoader="generalOverviewLoader"
-    />
+    <GeneralOverview :overview="allData.overview" :generalOverviewLoader="generalOverviewLoader" />
     <div class="title text-black dark:!text-white mt-5 mb-3">
       {{ $t('analytics_chart') }}
     </div>
 
     <div class="track_info_container">
-      <GeneralBotCard
-        :currencySelected="currencySelected"
-        :chainSelected="chainSelected"
-        :allTableData="allPoolsTableData"
-        :tokensData="tokensData"
-        :poolSwapsData="poolSwapsData"
-        :chains_data="allData.analytics"
-      />
+      <GeneralBotCard :currencySelected="currencySelected" :chainSelected="chainSelected"
+        :allTableData="allPoolsTableData" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
+        :chains_data="allData.analytics" />
 
       {{ console.log('filteredData', filteredData) }}
       <!-- Test chart -->
@@ -34,10 +26,7 @@
         :changeTimeline="changeTimeline"
         :changeCumulativeMode="changeCumulativeMode"
       /> -->
-      <TrackingInfoChart 
-        :chartData="allData.chart" 
-        :chainSelected="chainSelected"
-        />
+      <TrackingInfoChart :chartData="allData.chart" :chainSelected="chainSelected" />
     </div>
 
     <div class="mt-5 mb-3 flex justify-between items-center">
@@ -50,16 +39,12 @@
       </div>
     </div>
     {{ console.log('user_staked_pools!!!', user_staked_pools) }}
-    <GeneralPerformanceTable
-      :user_staked_pools="user_staked_pools"
-      :all_pools="
-        selectedTopPerformanceFilter === t('all')
-          ? allData?.topPerformancePools
-          : allData?.topPerformancePools?.filter(
-              (el) => el.LiquidityType === selectedTopPerformanceFilter,
-            )
-      "
-    />
+    <GeneralPerformanceTable :user_staked_pools="user_staked_pools" :all_pools="selectedTopPerformanceFilter === t('all')
+        ? allData?.topPerformancePools
+        : allData?.topPerformancePools?.filter(
+          (el) => el.LiquidityType === selectedTopPerformanceFilter,
+        )
+      " />
     <div class="mt-5 mb-3 title text-black dark:!text-white">
       {{ $t('top_trading_tokens') }}
     </div>
@@ -69,11 +54,8 @@
       {{ $t('private_pools_activity') }}
     </div>
 
-    <PrivatePoolsTable
-      :clActivity="clActivity"
-      :wpActivity="joinExits"
-      :all_activities="allData.activities ? allData.activities : []"
-    />
+    <PrivatePoolsTable :clActivity="clActivity" :wpActivity="joinExits"
+      :all_activities="allData.activities ? allData.activities : []" />
   </MainCard>
   {{ console.log('dates', dates) }}
 </template>
@@ -633,7 +615,7 @@ function getFilteredData() {
       d.Blockchain == '',
   )
   let timestamps = chart_data.map((v) => v.timestamp)
-  let indexes = TimelineFilters[currentTimeline.value.name](timestamps)
+  let indexes = TimelineFilters[currentTimeline.value.name](timestamps, chart_data.map((v) => v.Date))
   indexes = indexes.sort((a, b) => a - b)
   let selectedFilters = preFiltersList.value.filter((v) => v.selected)
   let selectedCumulableCodes = selectedFilters
