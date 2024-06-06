@@ -1,11 +1,8 @@
 <template>
   <div>
     <div class="w-full flex justify-center gap-3 mt-5 md:flex-row flex-col">
-      <div
-        class="d-flex specific_container dark:!bg-[#22222224] bg-white"
-        v-for="(item, i) in specificPortfolioStats"
-        :key="`${i}-specific-stats`"
-      >
+      <div class="d-flex specific_container dark:!bg-[#22222224] bg-white" v-for="(item, i) in specificPortfolioStats"
+        :key="`${i}-specific-stats`">
         <div class="d-flex align-items-center flex-column gap-2 w-100">
           <div class="text_header !text-black dark:!text-white">
             {{ item.name }}
@@ -23,53 +20,35 @@
           <div class="text_header !text-black dark:!text-white">
             My Referral Codes
           </div>
-          <div
-            class="referrals_button w-auto"
-            @click="$emit('codeEditModalOpen')"
-          >
+          <div class="referrals_button w-auto" @click="$emit('codeEditModalOpen')">
             + Create
           </div>
         </div>
-        <hr
-          style="
+        <hr style="
             border-bottom: 1px solid #ffffff0d;
             margin-left: -20px;
             margin-right: -20px;
-          "
-        />
-        <div  class="overflow-x-auto">
+          " />
+        <div class="overflow-x-auto">
           <CTable borderless class="overflow-x-auto">
             <CTableHead>
               <CTableRow>
-                <CTableHeaderCell
-                  class="text-black dark:!text-white font-normal"
-                  scope="col"
-                  v-for="(header, i) in headers"
-                  :key="`${i}-col`"
-                  >{{ header }}</CTableHeaderCell
-                >
+                <CTableHeaderCell class="text-black dark:!text-white font-normal" scope="col"
+                  v-for="(header, i) in headers" :key="`${i}-col`">{{ header }}</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
             <CTableBody>
               <CTableRow>
                 <CTableHeaderCell scope="row">
-                  <div
-                    class="d-flex align-items-center gap-1 !text-black dark:!text-white"
-                  >
-                    MyCode
+                  <div class="d-flex align-items-center gap-1 !text-black dark:!text-white">
+                    {{ referralCode ?? "MyCode" }}
                     <img :src="copyCodeIcon" />
                     <img :src="twitterIcon" />
                   </div>
                 </CTableHeaderCell>
-                <CTableDataCell class="!text-black dark:!text-white"
-                  >$0.00</CTableDataCell
-                >
-                <CTableDataCell class="!text-black dark:!text-white"
-                  >0</CTableDataCell
-                >
-                <CTableDataCell class="!text-black dark:!text-white"
-                  >$0.00</CTableDataCell
-                >
+                <CTableDataCell class="!text-black dark:!text-white">$0.00</CTableDataCell>
+                <CTableDataCell class="!text-black dark:!text-white">0</CTableDataCell>
+                <CTableDataCell class="!text-black dark:!text-white">$0.00</CTableDataCell>
               </CTableRow>
             </CTableBody>
           </CTable>
@@ -80,11 +59,15 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, defineProps } from 'vue'
 import copyCodeIcon from '@/assets/icons/Referrals/copyCode.svg'
 import twitterIcon from '@/assets/icons/Referrals/twitter.svg'
 
+defineProps(['referralCode'])
+
 defineEmits(['codeEditModalOpen'])
+
+
 
 const headers = ref([
   'Referral Code',
@@ -139,6 +122,7 @@ const specificPortfolioStats = ref([
   border-radius: 16px;
   width: 23%;
   backdrop-filter: blur(10px);
+
   @media (max-width:768px) {
     width: 100%;
   }
@@ -146,7 +130,7 @@ const specificPortfolioStats = ref([
 
 .text_header {
   margin-top: 7px;
-  
+
   font-size: clamp(14px, 0.8vw, 20px);
   font-weight: 400;
   line-height: 20px;
@@ -155,9 +139,10 @@ const specificPortfolioStats = ref([
 
   // color: #ffffff;
 }
+
 .text_value {
   margin-top: 5px;
-  
+
   font-size: clamp(14px, 0.8vw, 20px);
   font-weight: 700;
   line-height: 28px;
@@ -171,7 +156,7 @@ const specificPortfolioStats = ref([
   cursor: pointer;
   margin-top: 5px;
   border-radius: 4px;
-  
+
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
@@ -187,7 +172,7 @@ const specificPortfolioStats = ref([
   }
 }
 
-.table > :not(caption) > * > * {
+.table> :not(caption)>*>* {
   @media (max-width:768px) {
     padding: 0.5rem 1.5rem !important;
   }
