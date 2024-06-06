@@ -70,7 +70,8 @@
         </div>
 
         <div class="pools-row__col text-black dark:!text-white">
-          <div class="pools-row__info">
+          <div class="pools-row__info  flex items-center flex-col">
+            <div class="pools-row__value flex items-center">Volume</div>
             <div class="pools-row__value">
               <div class="flex items-center font-['Roboto_Mono',_monospace]">
                 <CounterAnimation
@@ -102,7 +103,8 @@
         </div>
 
         <div class="pools-row__col text-black dark:!text-white">
-          <div class="pools-row__info">
+          <div class="pools-row__info  flex items-center flex-col">
+            <div class="pools-row__value flex items-center">APR</div>
             <div class="pools-row__value flex items-center">
               <CounterAnimation
                 :currency="''"

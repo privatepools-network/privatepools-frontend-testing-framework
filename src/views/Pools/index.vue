@@ -279,6 +279,18 @@
         @goToCL="goToCL"
         :isActions="true"
       />
+      <div
+        v-if="
+          sliceNumber <
+          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+            .length
+        "
+        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more text-black dark:!text-white"
+      >
+        {{ $t('load_more') }}
+        <img :src="arrow_bottom" />
+      </div>
       </div>
     </div> -->
   </MainCard>
