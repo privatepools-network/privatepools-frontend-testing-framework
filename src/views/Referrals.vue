@@ -1,10 +1,10 @@
 <template>
- <Modal v-if="codeEditModal" @close="codeEditModalClose">
+  <Modal v-if="codeEditModal" @close="codeEditModalClose">
 
     <template #body>
-      <ReferralsCodeGenerateModal />
+      <ReferralsCodeGenerateModal @setReferralCode="(code) => referralCode = code" />
     </template>
- 
+
   </Modal>
 
   <MainCard>
@@ -14,19 +14,15 @@
       information, please read the <a href="">referral program details.</a>
     </div>
     <div class="d-flex justify-content-center">
-      <Tabs
-        :filterEye="false"
-        :selectedTab="selectedTab"
-        :tabsOptions="['Investors', 'Affiliates']"
-        @changeTab="changeSelectedTab"
-      />
+      <Tabs :filterEye="false" :selectedTab="selectedTab" :tabsOptions="['Investors', 'Affiliates']"
+        @changeTab="changeSelectedTab" />
     </div>
 
     <div v-if="selectedTab === 'Investors'">
       <Investors />
     </div>
     <div class="mt-5" v-else>
-      <Affiliates @codeEditModalOpen="codeEditModalOpen"/>
+      <Affiliates :referralCode="referralCode" @codeEditModalOpen="codeEditModalOpen" />
     </div>
   </MainCard>
 </template>
@@ -34,13 +30,24 @@
 <script setup>
 import Tabs from '@/UI/Tabs.vue'
 import MainCard from '@/UI/MainCard.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Investors from '@/components/Referrals/Investors.vue'
 import Affiliates from '@/components/Referrals/Affiliates.vue'
 import ReferralsCodeGenerateModal from '@/components/modals/ReferralsCodeGenerateModal.vue'
 import Modal from '@/UI/Modal.vue'
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import { getReferralCode } from "@/composables/data/referralData"
 
 const selectedTab = ref('Investors')
+const referralCode = ref(null)
+onMounted(async () => {
+  const mmProvider = await InitializeMetamask()
+  if (mmProvider) {
+    const address = await mmProvider.getSigner().getAddress()
+    referralCode.value = await getReferralCode(address)
+  }
+})
+
 
 function changeSelectedTab(_new) {
   selectedTab.value = _new
@@ -70,6 +77,7 @@ function codeEditModalOpen() {
   font-size: clamp(10px, 0.8vw, 14px);
   font-weight: 500;
   width: 38%;
+
   @media (max-width:768px) {
     width: 100%;
     margin-bottom: 20px !important;

@@ -1,9 +1,7 @@
 <template>
   <div class="modal_body_inside">
     <div>
-      <div
-        class="modal_body_header d-flex justify-content-end align-items-start"
-      ></div>
+      <div class="modal_body_header d-flex justify-content-end align-items-start"></div>
     </div>
     <div class="d-flex justify-content-center flex-column align-items-center">
       <div class="text-black dark:!text-white text-[18px] font-bold">
@@ -13,25 +11,43 @@
         Create a referral code now, share it and start earning!
       </div>
       <div class="w-100 my-3">
-        <input
-          type="text"
-          placeholder="Enter referral code"
-          aria-label="Search by name, symbol or address"
-          class="search-input !text-black dark:!text-white"
-        />
+        <input v-model="referral_code" type="text" placeholder="Enter referral code"
+          aria-label="Search by name, symbol or address" class="search-input !text-black dark:!text-white" />
       </div>
-      <div class="referrals_button">Generate code</div>
+      <div class="referrals_button" @click="generate">Generate code</div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, defineEmits } from "vue"
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import { generateReferralCode } from "@/composables/data/referralData"
+
+const emits = defineEmits(['setReferralCode'])
+
+
+
+const referral_code = ref("")
+
+async function generate() {
+  const mmProvider = await InitializeMetamask()
+  if (mmProvider) {
+    const address = await mmProvider.getSigner().getAddress()
+    const data = await generateReferralCode(address, referral_code.value)
+    if (data.success) {
+      emits('setReferralCode', data.referral_code)
+    }
+  }
+}
+
+
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
 
 .modal_body_header {
-  
+
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;
@@ -46,6 +62,7 @@
   border: 1px solid #00e0ff;
   border-radius: 16px;
   padding: 8px 12px;
+
   @media (max-width: $xxl) {
     font-size: 10px;
     // padding: 0px 12px;
@@ -66,7 +83,7 @@
   cursor: pointer;
   margin-top: 5px;
   border-radius: 16px;
-  
+
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
@@ -81,6 +98,7 @@
     background: #00e0ff;
   }
 }
+
 .modal_total_container {
   border: 1px solid rgba(163, 164, 165, 0.2);
   border-radius: 15px;
