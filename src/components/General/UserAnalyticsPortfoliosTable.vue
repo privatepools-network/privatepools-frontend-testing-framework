@@ -183,9 +183,12 @@
     </CRow>
     <div v-else class="mobile_table_container">
       <LeaderboardMobileTable
-      
+      :user_in_top="user_in_top"
+      :account="account"
+      :user_info="user_info"
       :filteredActivities="filteredActivities"
- 
+      :type="'portfolios'"
+      @changeToSpecificPortfolio="changeToSpecificPortfolio"
     />
     </div>
   </div>
@@ -193,7 +196,7 @@
 <script setup>
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 import Table from '@/UI/Table'
-import { ref, defineEmits, onMounted, computed } from 'vue'
+import { ref, defineEmits, defineProps, onMounted, computed } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import Pagination from '@/components/Pool/Pagination.vue'
 import firstPlace from '@/assets/icons/generalIcons/firstPlace.svg'
@@ -206,6 +209,7 @@ import { InitializeMetamask } from '@/lib/utils/metamask'
 import { useDevice } from '@/composables/adaptive/useDevice'
 import LeaderboardMobileTable from '@/components/General/LeaderboardMobileTable.vue'
 
+defineProps(['changeToSpecificPortfolio'])
 defineEmits('changeToSpecificPortfolio')
 const { width } = useDevice()
 

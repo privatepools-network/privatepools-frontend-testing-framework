@@ -33,6 +33,7 @@
         Top Portfolios
       </div>
       <UserAnalyticsPortfoliosTable
+        :changeToSpecificPortfolio="changeToSpecificPortfolio"
         @changeToSpecificPortfolio="changeToSpecificPortfolio"
       />
 
