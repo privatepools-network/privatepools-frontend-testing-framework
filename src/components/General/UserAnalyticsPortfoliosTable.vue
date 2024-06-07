@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CRow
+    <CRow v-if="width > 768"
       id="pool-activity-row"
       class="table-wrapper !mx-0"
       style="
@@ -287,14 +287,13 @@
         </div>
       </Table>
     </CRow>
-    <!-- <Pagination
-      :perPage="perPage"
-      :pools="poolActivity"
-      :currentPage="currentPage"
-      @changePage="changePage"
-      @changePerPage="changePerPage"
-      :perPageOptions="[25, 50, 100]"
-    ></Pagination> -->
+    <div v-else class="mobile_table_container">
+      <LeaderboardMobileTable
+      
+      :filteredActivities="filteredActivities"
+ 
+    />
+    </div>
   </div>
 </template>
 <script setup>
@@ -306,8 +305,11 @@ import Pagination from '@/components/Pool/Pagination.vue'
 import firstPlace from '@/assets/icons/generalIcons/firstPlace.svg'
 import secondPlace from '@/assets/icons/generalIcons/secondPlace.svg'
 import thirdPlace from '@/assets/icons/generalIcons/thirdPlace.svg'
+import { useDevice } from '@/composables/adaptive/useDevice'
+import LeaderboardMobileTable from '@/components/General/LeaderboardMobileTable.vue'
 
 defineEmits('changeToSpecificPortfolio')
+const { width } = useDevice()
 
 const perPage = ref(25)
 const currentPage = ref(1)
