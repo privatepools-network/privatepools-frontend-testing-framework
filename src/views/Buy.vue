@@ -404,7 +404,7 @@ import {
 import { useUniswapPPNHistory } from '@/composables/concentrated-liquidity/useUniswapPPNHistory'
 import Modal from '@/UI/Modal.vue'
 import {
-  buyPPNToken,
+  swapPPNToken,
   getAmountOut,
 } from '@/composables/poolActions/swap/weighted/swap'
 import { SwapType } from '@wavelength/sdk'
@@ -591,12 +591,11 @@ function tokenSelectModalClose() {
 }
 function tokenSelectModalOpen() {
   window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      })
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
   tokenSelectModal.value = true
-
 }
 const notSelectedPossibleComposeTokens = ref([])
 
@@ -652,7 +651,7 @@ async function buyClick() {
     //   provider.getSigner(),
     //   selectedTab.value == 'Buy' ? 'in' : 'out',
     // )
-    await buyPPNToken(
+    await swapPPNToken(
       convertedTokenCurrency.value,
       convertedTokenPPN.value,
       selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
@@ -741,7 +740,7 @@ async function onToken1Blur() {
     margin-top: 160px;
     gap: 30px;
 
-    @media (max-width:768px) {
+    @media (max-width: 768px) {
       flex-direction: column;
     }
   }
@@ -780,11 +779,10 @@ async function onToken1Blur() {
 }
 
 .buy_token_container {
-  border: 1px solid #FFFFFF0D;
+  border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 4px 0px #00000040;
   backdrop-filter: blur(10px);
   border-radius: 24px;
-  
 }
 
 .buy_tab {
@@ -859,16 +857,16 @@ async function onToken1Blur() {
 
   // background: #22222224;
   box-shadow: 0px 4px 4px 0px #00000040;
-  border: 1px solid #DCEEF633;
+  border: 1px solid #dceef633;
   border-radius: 30px;
   padding: 15px;
   display: flex;
   gap: 10px;
   align-items: center;
 
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     gap: 0px;
-    }
+  }
   &:hover {
     // background: #003e4f;
     cursor: pointer;
@@ -881,16 +879,15 @@ async function onToken1Blur() {
   margin-top: 45px;
   margin-bottom: 5px;
   border-radius: 100px;
-  box-shadow: 0px 2px 4px -1px #0000000D;
-
+  box-shadow: 0px 2px 4px -1px #0000000d;
 
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
-  color: #02031C;
+  color: #02031c;
   text-align: center;
   padding: 6px;
-  background: #00E0FF;
+  background: #00e0ff;
   box-shadow: 0px 4px 8.899999618530273px 0px #00aae01a;
 
   &:hover {
@@ -905,7 +902,7 @@ async function onToken1Blur() {
   width: 65%;
   letter-spacing: 0em;
   color: #eaecef;
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
 }
