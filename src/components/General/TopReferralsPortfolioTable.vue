@@ -268,6 +268,14 @@
       :type="'referrals'"
     />
   </div>
+  <Pagination
+      :perPage="perPage"
+      :pools="filteredActivities"
+      :currentPage="currentPage"
+      @changePage="changePage"
+      @changePerPage="changePerPage"
+      :perPageOptions="[25, 50, 100]"
+    ></Pagination>
   </div>
 </template>
 <script setup>
