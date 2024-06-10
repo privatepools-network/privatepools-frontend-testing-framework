@@ -183,6 +183,15 @@
         :filteredActivities="filteredActivities" :type="'portfolios'"
         @changeToSpecificPortfolio="changeToSpecificPortfolio" />
     </div>
+    {{console.log('filteredActivities', filteredActivities)}}
+      <Pagination
+      :perPage="perPage"
+      :pools="filteredActivities"
+      :currentPage="currentPage"
+      @changePage="changePage"
+      @changePerPage="changePerPage"
+      :perPageOptions="[25, 50, 100]"
+    ></Pagination>
   </div>
 </template>
 <script setup>
@@ -198,21 +207,36 @@ import thirdPlace from '@/assets/icons/generalIcons/thirdPlace.svg'
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import { InitializeMetamask } from '@/lib/utils/metamask'
-const { allPortfolios } = toRefs(props)
 import { useDevice } from '@/composables/adaptive/useDevice'
 import LeaderboardMobileTable from '@/components/General/LeaderboardMobileTable.vue'
 
 const props = defineProps(['allPortfolios', 'changeToSpecificPortfolio'])
+const { allPortfolios } = toRefs(props)
+
 defineEmits('changeToSpecificPortfolio')
 const { width } = useDevice()
 
 const perPage = ref(25)
 const currentPage = ref(1)
 
-const filteredActivities = computed(() => allPortfolios.value)
-const account = ref('')
-const user_info = computed(() => allPortfolios.value.find((item) => item['Wallet'].toLowerCase() == account.value.toLowerCase()) ?? { Wallet: account.value, Place: allPortfolios.value.length + 1, Profit: 0, 'Number of Pools': 0, 'Gas Fees': 0, 'Traded Volume': 0 })
-const user_in_top = computed(() => filteredActivities.value.map((item) => item['Wallet'].toLowerCase()).includes(account.value.toLowerCase()))
+const filteredActivities = computed(() => {
+  const start = (currentPage.value - 1) * perPage.value;
+  const end = start + perPage.value;
+  return allPortfolios.value.slice(start, end);
+});
+
+const account = ref('');
+const user_info = computed(() => {
+  const portfolio = allPortfolios.value.find(
+    (item) => item['Wallet'].toLowerCase() === account.value.toLowerCase()
+  )?? { Wallet: account.value, Place: allPortfolios.value.length + 1, Profit: 0, 'Number of Pools': 0, 'Gas Fees': 0, 'Traded Volume': 0 };
+  return portfolio;
+});
+
+const user_in_top = computed(() => {
+  return filteredActivities.value.map((item) => item['Wallet'].toLowerCase()).includes(account.value.toLowerCase());
+});
+
 onMounted(async () => {
   const mmProvider = await InitializeMetamask()
   if (mmProvider) {
@@ -221,6 +245,8 @@ onMounted(async () => {
   }
 
 })
+
+
 
 function changePage(args) {
   if (args.isEquating == false) {
