@@ -159,19 +159,6 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "newVault",
-        "type": "address"
-      }
-    ],
-    "name": "setVault",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "newOwner",
         "type": "address"
       }
@@ -179,19 +166,6 @@
     "name": "transferOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "vault",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -207,9 +181,9 @@
         "type": "address"
       },
       {
-        "internalType": "bytes32",
-        "name": "poolId",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
       },
       {
         "internalType": "contract IAsset[]",
