@@ -15,6 +15,8 @@ export async function getTopPortfolios() {
     Place: i + 1,
     Wallet: item.user,
     Profit: item.profit,
+    PNL: item.pnl,
+    'Total Deposited': item.totalDeposited,
     'Number of Pools': item.poolsNumber,
     'Traded Volume': item.volume,
     'Gas Fees': item.fee,
