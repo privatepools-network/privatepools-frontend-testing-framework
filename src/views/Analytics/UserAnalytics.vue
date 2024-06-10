@@ -28,7 +28,7 @@
         Top Portfolios
       </div>
       <UserAnalyticsPortfoliosTable :allPortfolios="allPortfolios"
-        @changeToSpecificPortfolio="changeToSpecificPortfolio" />
+        @changeToSpecificPortfolio="changeToSpecificPortfolio" :changeToSpecificPortfolio="changeToSpecificPortfolio" />
 
       <div class="mt-5 mb-3 flex items-center gap-1 text-black dark:!text-white text-[18px] font-bold">
         Top Referrals

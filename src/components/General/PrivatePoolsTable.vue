@@ -1,116 +1,387 @@
 <template>
   <div class="table__header">
-    <Tabs style="margin-right: 15px" :selectedTab="activitiesModes[english_names.indexOf(activitiesSelectedMode)]"
-      :tabsOptions="activitiesModes" @changeTab="changeActivitiesMode"></Tabs>
+    <Tabs
+      style="margin-right: 15px"
+      class="w-fit"
+      :selectedTab="
+        activitiesModes[english_names.indexOf(activitiesSelectedMode)]
+      "
+      :tabsOptions="activitiesModes"
+      @changeTab="changeActivitiesMode"
+    ></Tabs>
 
-    <Tabs :selectedTab="actSelectedPeriodOfData" :tabsOptions="periodsOfData" @changeTab="changeActPeriodOfData">
+    <Tabs
+      class="w-fit"
+      :selectedTab="actSelectedPeriodOfData"
+      :tabsOptions="periodsOfData"
+      @changeTab="changeActPeriodOfData"
+    >
     </Tabs>
   </div>
   <CRow id="pool-activity-row" class="table-wrapper !mx-0">
-    <div v-if="activities.length === 0" class="!bg-[white] dark:!bg-[#fff0]  backdrop-blur-md h-[500px]">
+    <div
+      v-if="activities.length === 0"
+      class="!bg-[white] dark:!bg-[#fff0] backdrop-blur-md h-[500px]"
+    >
       <LoaderPulse />
     </div>
-    <Table v-else-if="activities.length !== 0"
-      :headers="activitiesSelectedMode === 'Trade' || activitiesSelectedMode === 'All' ? [t('actions'), t('details'), t('value'), t('profits'), t('time')] 
-      : [t('actions'), t('details'), t('value'), t('time')]">
-      <CTableBody v-if="activities" class="text-black dark:!text-white"
-        :class="isDark ? 'table-body' : 'table-body-light'">
-        <CTableRow v-for="(item, i) in activities.slice(0, sliceNumber)" :key="i" class="table-row">
-          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
-            <div class="actions-cell">
-              <img v-if="item['Actions'] === 'Deposit'" :src="DepositIcon" />
-              <img v-if="item['Actions'] === 'Withdraw'" :src="WithdrawIcon" />
-              <img v-if="item['Actions'] === 'Trade'" :src="SwapIcon" />
-              <div class="actions-cell__text text-black dark:!text-white">
-                {{ item['Actions'] }}
+    <div v-else-if="activities.length !== 0">
+      <Table
+        v-if="width > 768"
+        :headers="
+          activitiesSelectedMode === 'Trade' || activitiesSelectedMode === 'All'
+            ? [t('actions'), t('details'), t('value'), t('profits'), t('time')]
+            : [t('actions'), t('details'), t('value'), t('time')]
+        "
+      >
+        <CTableBody
+          v-if="activities"
+          class="text-black dark:!text-white"
+          :class="isDark ? 'table-body' : 'table-body-light'"
+        >
+          <CTableRow
+            v-for="(item, i) in activities.slice(0, sliceNumber)"
+            :key="i"
+            class="table-row"
+          >
+            <CTableDataCell
+              scope="row"
+              class="text-black dark:!text-white table-cell"
+            >
+              <div class="actions-cell">
+                <img v-if="item['Actions'] === 'Deposit'" :src="DepositIcon" />
+                <img
+                  v-if="item['Actions'] === 'Withdraw'"
+                  :src="WithdrawIcon"
+                />
+                <img v-if="item['Actions'] === 'Trade'" :src="SwapIcon" />
+                <div class="actions-cell__text text-black dark:!text-white">
+                  {{ item['Actions'] }}
+                </div>
               </div>
-            </div>
-          </CTableDataCell>
-          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
-            <div class="details-cell">
-              <div v-for="(tokenEntry, tokenIndex) in item['Details']" class="details-cell__token-entity"
-                :key="`activity-token-key-${tokenIndex}`">
-                <div v-for="(tokenInfo, tokenInfoIndex) in Object.entries(
-                  tokenEntry,
-                )" :class="tokenInfo[0] !== 'action'
-                      ? 'details-cell__token-entity'
-                      : ''
-                    " :key="`activity-token-info-key-${tokenInfoIndex}`">
-                  <div v-if="tokenInfo[0] !== 'action'" class="d-flex align-items-center">
-                    <img :src="getTokenEntity(tokenInfo[0], 'short').icon" class="details-cell__token-entity__icon" />
-                    <div class="details-cell__token-entity__token-name font-['Roboto_Mono',_monospace]">
-                      {{ trimZeros(tokenInfo[1]) }}
-                    </div>
-                    <div v-if="
-                      tokenEntry.action === 'Swap' && tokenInfoIndex === 1
-                    " style="margin-left: 10px">
-                      <img :src="swapArrowIcon" />
+            </CTableDataCell>
+            <CTableDataCell
+              scope="row"
+              class="text-black dark:!text-white table-cell"
+            >
+              <div class="details-cell">
+                <div
+                  v-for="(tokenEntry, tokenIndex) in item['Details']"
+                  class="details-cell__token-entity"
+                  :key="`activity-token-key-${tokenIndex}`"
+                >
+                  <div
+                    v-for="(tokenInfo, tokenInfoIndex) in Object.entries(
+                      tokenEntry,
+                    )"
+                    :class="
+                      tokenInfo[0] !== 'action'
+                        ? 'details-cell__token-entity'
+                        : ''
+                    "
+                    :key="`activity-token-info-key-${tokenInfoIndex}`"
+                  >
+                    <div
+                      v-if="tokenInfo[0] !== 'action'"
+                      class="d-flex align-items-center"
+                    >
+                      <img
+                        :src="getTokenEntity(tokenInfo[0], 'short').icon"
+                        class="details-cell__token-entity__icon"
+                      />
+                      <div
+                        class="details-cell__token-entity__token-name font-['Roboto_Mono',_monospace]"
+                      >
+                        {{ trimZeros(tokenInfo[1]) }}
+                      </div>
+                      <div
+                        v-if="
+                          tokenEntry.action === 'Swap' && tokenInfoIndex === 1
+                        "
+                        style="margin-left: 10px"
+                      >
+                        <img :src="swapArrowIcon" />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </CTableDataCell>
+            </CTableDataCell>
 
+            <CTableDataCell
+              scope="row"
+              class="text-black dark:!text-white table-cell"
+            >
+              <div class="font-['Roboto_Mono',_monospace] flex items-center">
+                <!-- {{ console.log('111111', item['Value']) }} -->
+                <CurrencySymbol />{{
+                  item[
+                    `Value${
+                      currentCurrency == 'USD' ? '' : '_' + currentCurrency
+                    }`
+                  ] === '-'
+                    ? '-'
+                    : trimZeros(
+                        item[
+                          `Value${
+                            currentCurrency == 'USD'
+                              ? ''
+                              : '_' + currentCurrency
+                          }`
+                        ],
+                      )
+                }}
+              </div>
+            </CTableDataCell>
 
+            <CTableDataCell
+              v-if="
+                activitiesSelectedMode === 'Trade' ||
+                activitiesSelectedMode === 'All'
+              "
+              scope="row"
+              class="text-black dark:!text-white table-cell"
+            >
+              <div class="font-['Roboto_Mono',_monospace] flex items-center">
+                <CurrencySymbol />{{
+                  item[
+                    `Profits${
+                      currentCurrency == 'USD' ? '' : '_' + currentCurrency
+                    }`
+                  ] === undefined
+                    ? '-'
+                    : trimZeros(
+                        parseFloat(
+                          item[
+                            `Profits${
+                              currentCurrency == 'USD'
+                                ? ''
+                                : '_' + currentCurrency
+                            }`
+                          ],
+                        ).toFixed(currencyDecimals),
+                      )
+                }}
+              </div>
+            </CTableDataCell>
 
-          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell ">
-            <div class="font-['Roboto_Mono',_monospace] flex items-center">
-              {{ console.log('111111',  item['Value']) }}
-              <CurrencySymbol />{{
-                item[`Value${currentCurrency == "USD" ? "" : "_" +
-                currentCurrency}`] === '-' ? '-' :
-                trimZeros(item[`Value${currentCurrency == "USD" ? "" : "_" + currentCurrency}`]) }}
-            </div>
-          </CTableDataCell>
+            <CTableDataCell
+              scope="row"
+              class="text-black dark:!text-white table-cell"
+            >
+              <div class="time-cell">
+                <a
+                  target="_blank"
+                  :href="`${
+                    configService.getNetworkConfig(item.chainId).explorer
+                  }/tx/${item.Tx}`"
+                  class="flex items-center gap-1 text-black dark:!text-white"
+                >
+                  {{ moment.unix(item['timestamp']).format('L, LTS') }}
+                  <div class="w-[14px] h-[14px]">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10.5068 7.58333V11.0833C10.5068 11.3928 10.3839 11.6895 10.1651 11.9083C9.94633 12.1271 9.64959 12.25 9.34017 12.25H2.9235C2.61408 12.25 2.31734 12.1271 2.09854 11.9083C1.87975 11.6895 1.75684 11.3928 1.75684 11.0833V4.66667C1.75684 4.35725 1.87975 4.0605 2.09854 3.84171C2.31734 3.62292 2.61408 3.5 2.9235 3.5H6.4235"
+                        stroke="#00e0ff"
+                        stroke-width="1.16667"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M8.75684 1.75H12.2568V5.25"
+                        stroke="#00e0ff"
+                        stroke-width="1.16667"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M5.83984 8.16667L12.2565 1.75"
+                        stroke="#00e0ff"
+                        stroke-width="1.16667"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </a>
+              </div>
+            </CTableDataCell>
+          </CTableRow>
+          <div
+            v-if="sliceNumber < activities.length"
+            @click="activities.slice(0, (sliceNumber = sliceNumber + 5))"
+            class="load_more text-black dark:!text-white"
+          >
+            {{ $t('load_more') }}
+            <img :src="arrow_bottom" class="!border-b-0 !p-0" />
+          </div>
+        </CTableBody>
+      </Table>
 
-
-
-          <CTableDataCell v-if="activitiesSelectedMode === 'Trade' || activitiesSelectedMode === 'All'" scope="row"
-            class="text-black dark:!text-white table-cell ">
-            <div class="font-['Roboto_Mono',_monospace] flex  items-center">
-              <CurrencySymbol />{{
-              item[`Profits${currentCurrency == "USD" ? "" : "_" +
-                currentCurrency}`] === undefined ? '-' :
-              trimZeros(parseFloat(item[`Profits${currentCurrency == "USD" ? "" : "_" +
-                currentCurrency}`]).toFixed(currencyDecimals)) }}
-            </div>
-          </CTableDataCell>
-
-
-
-          <CTableDataCell scope="row" class="text-black dark:!text-white table-cell">
-            <div class="time-cell">
-              <a target="_blank" :href="`${configService.getNetworkConfig(item.chainId).explorer
-                }/tx/${item.Tx}`" class="flex items-center gap-1 text-black dark:!text-white">
-                {{ moment.unix(item['timestamp']).format('L, LTS') }}
-                <div class="w-[14px] h-[14px]">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M10.5068 7.58333V11.0833C10.5068 11.3928 10.3839 11.6895 10.1651 11.9083C9.94633 12.1271 9.64959 12.25 9.34017 12.25H2.9235C2.61408 12.25 2.31734 12.1271 2.09854 11.9083C1.87975 11.6895 1.75684 11.3928 1.75684 11.0833V4.66667C1.75684 4.35725 1.87975 4.0605 2.09854 3.84171C2.31734 3.62292 2.61408 3.5 2.9235 3.5H6.4235"
-                      stroke="#00e0ff" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M8.75684 1.75H12.2568V5.25" stroke="#00e0ff" stroke-width="1.16667" stroke-linecap="round"
-                      stroke-linejoin="round" />
-                    <path d="M5.83984 8.16667L12.2565 1.75" stroke="#00e0ff" stroke-width="1.16667"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
+      <div v-else>
+        <div v-for="(item, i) in activities.slice(0, sliceNumber)" :key="i">
+          <div class="mobile_pool_activity">
+            <div class="flex justify-between">
+              <div class="flex items-center">
+                <img v-if="item['Actions'] === 'Deposit'" :src="DepositIcon" />
+                <img
+                  v-if="item['Actions'] === 'Withdraw'"
+                  :src="WithdrawIcon"
+                />
+                <img v-if="item['Actions'] === 'Trade'" :src="SwapIcon" />
+                <div class="actions-cell__text text-black dark:!text-white">
+                  {{ item['Actions'] }}
                 </div>
-              </a>
+              </div>
+
+              <div
+                class="text-black dark:!text-white text-xs font-['Roboto_Mono',_monospace] flex items-center"
+              >
+                <CurrencySymbol />{{
+                  item[
+                    `Profits${
+                      currentCurrency == 'USD' ? '' : '_' + currentCurrency
+                    }`
+                  ] === undefined
+                    ? '-'
+                    : trimZeros(
+                        parseFloat(
+                          item[
+                            `Profits${
+                              currentCurrency == 'USD'
+                                ? ''
+                                : '_' + currentCurrency
+                            }`
+                          ],
+                        ).toFixed(currencyDecimals),
+                      )
+                }}
+              </div>
             </div>
-          </CTableDataCell>
-        </CTableRow>
-        <div v-if="sliceNumber < activities.length" @click="activities.slice(0, (sliceNumber = sliceNumber + 5))"
-          class="load_more text-black dark:!text-white">
-          {{ $t('load_more') }}
-          <img :src="arrow_bottom" class="!border-b-0 !p-0" />
+            <div class="flex justify-between items-end mt-4">
+              <div
+                class="text-black dark:!text-white flex flex-wrap w-[70%] gap-1"
+              >
+                <div
+                  v-for="(tokenEntry, tokenIndex) in item['Details']"
+                  class="flex flex-wrap gap-1"
+                  :key="`activity-token-key-${tokenIndex}`"
+                >
+                  <div
+                    class="bg-[#22222224] rounded-2xl text-xs"
+                    v-for="(tokenInfo, tokenInfoIndex) in Object.entries(
+                      tokenEntry,
+                    )"
+                    :class="
+                      tokenInfo[0] !== 'action'
+                        ? 'details-cell__token-entity'
+                        : ''
+                    "
+                    :key="`activity-token-info-key-${tokenInfoIndex}`"
+                  >
+                    <div
+                      v-if="tokenInfo[0] !== 'action'"
+                      class="d-flex align-items-center"
+                    >
+                      <img
+                        :src="getTokenEntity(tokenInfo[0], 'short').icon"
+                        class="details-cell__token-entity__icon"
+                      />
+                      <div
+                        class="details-cell__token-entity__token-name font-['Roboto_Mono',_monospace]"
+                      >
+                        {{ trimZeros(tokenInfo[1]) }}
+                      </div>
+                      <div
+                        v-if="
+                          tokenEntry.action === 'Swap' && tokenInfoIndex === 1
+                        "
+                        style="margin-left: 10px"
+                      >
+                        <img :src="swapArrowIcon" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-[10px] w-[25%]">
+                <a
+                  target="_blank"
+                  :href="`${
+                    configService.getNetworkConfig(item.chainId).explorer
+                  }/tx/${item.Tx}`"
+                  class="flex items-center text-decoration-none text-black dark:!text-white"
+                >
+                  {{ moment.unix(item['timestamp']).format('L, LTS') }}
+                  <div class="w-[10px] h-[10px]">
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10.5068 7.58333V11.0833C10.5068 11.3928 10.3839 11.6895 10.1651 11.9083C9.94633 12.1271 9.64959 12.25 9.34017 12.25H2.9235C2.61408 12.25 2.31734 12.1271 2.09854 11.9083C1.87975 11.6895 1.75684 11.3928 1.75684 11.0833V4.66667C1.75684 4.35725 1.87975 4.0605 2.09854 3.84171C2.31734 3.62292 2.61408 3.5 2.9235 3.5H6.4235"
+                        stroke="#00e0ff"
+                        stroke-width="1.16667"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M8.75684 1.75H12.2568V5.25"
+                        stroke="#00e0ff"
+                        stroke-width="1.16667"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M5.83984 8.16667L12.2565 1.75"
+                        stroke="#00e0ff"
+                        stroke-width="1.16667"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-      </CTableBody>
-    </Table>
-    <div v-else class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20">
-      <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
+        <div class="w-full flex justify-center mt-4">
+          <div
+            v-if="sliceNumber < activities.length"
+            @click="activities.slice(0, (sliceNumber = sliceNumber + 5))"
+            class="bg-[#00E0FF] dark:text-[#02031C] rounded-full font-semibold px-3 py-1 w-fit"
+          >
+            {{ $t('load_more') }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      v-else
+      class="d-flex flex-column gap-2 justify-content-center align-items-center h-100 py-20"
+    >
+      <div
+        class="text-black dark:!text-white"
+        style="font-size: 14px; text-align: center"
+      >
         No Activity yet
       </div>
-      <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
+      <div
+        class="text-black dark:!text-white"
+        style="font-size: 12px; text-align: center"
+      >
         Choose a pool to invest or create a pool to get started.
       </div>
       <div class="add_liq_btn_pools">
@@ -143,10 +414,14 @@ import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import router from '@/router'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
+import { useDevice } from '@/composables/adaptive/useDevice'
 const settingsStore = useSettings()
+const { width } = useDevice()
 
 const { currentCurrency } = storeToRefs(settingsStore)
-const currencyDecimals = computed(() => currentCurrency.value == "USD" ? 3 : 5)
+const currencyDecimals = computed(() =>
+  currentCurrency.value == 'USD' ? 3 : 5,
+)
 const isDark = useDark()
 
 const props = defineProps(['clActivity', 'wpActivity', 'all_activities'])
@@ -206,8 +481,14 @@ const periodsOfData = [
   },
 ]
 
-const english_names = router.currentRoute.value.path === '/portfolio' ? ['All', 'Deposit', "Withdraw",] : ['All', 'Deposit', "Trade", "Withdraw",]
-const activitiesModes = router.currentRoute.value.path === '/portfolio' ? [t('all'), t('deposit'), t('withdraw')] : [t('all'), t('deposit'), t('trade'), t('withdraw')]
+const english_names =
+  router.currentRoute.value.path === '/portfolio'
+    ? ['All', 'Deposit', 'Withdraw']
+    : ['All', 'Deposit', 'Trade', 'Withdraw']
+const activitiesModes =
+  router.currentRoute.value.path === '/portfolio'
+    ? [t('all'), t('deposit'), t('withdraw')]
+    : [t('all'), t('deposit'), t('trade'), t('withdraw')]
 
 const activitiesSelectedMode = ref(english_names[0])
 const actSelectedPeriodOfData = ref(periodsOfData[4])
@@ -322,10 +603,16 @@ function changeActPeriodOfData(_new) {
     width: 100%;
     overflow-x: auto;
     margin-bottom: 30px;
-    border-radius: 15.289px;
+    border-radius: 16px;
     background: #22222224;
     box-shadow: 0px 4px 4px 0px #00000040;
     border: 1px solid #ffffff0d;
+
+    @media (max-width: 768px) {
+      background: none;
+      border: none;
+      outline: none;
+    }
   }
 
   &-row {
@@ -407,5 +694,15 @@ function changeActPeriodOfData(_new) {
       }
     }
   }
+}
+
+.mobile_pool_activity {
+  background: #22222224;
+  border: 1px solid #ffffff0d;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  padding: 8px;
+  margin-bottom: 8px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="pools-rows">
+  <div v-if="width > 768" class="pools-rows">
     <div class="pools-row pools-row_header">
       <div class="pools-row__col !text-black dark:!text-white" v-for="(headCaption, headCaptionIndex) in headers"
         :key="headCaption">
@@ -71,233 +71,38 @@
       @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"
       :isActions="true" />
   </div>
+  <div v-else class="mobile_table_container">
+    <MobileAdvancedTable v-for="(pool, index) in all_pools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
+      :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
+      @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"
+      :isActions="true" />
+    <!-- <div
+        v-if="
+          sliceNumber <
+          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+            .length
+        "
+        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more text-black dark:!text-white"
+      >
+        {{ $t('load_more') }}
+        <img :src="arrow_bottom" />
+      </div> -->
+  </div>
 </template>
 <script setup>
+import MobileAdvancedTable from '@/UI/MobileAdvancedTable.vue';
 import PoolRow from '../Pool/PoolRow.vue';
 import { defineProps } from 'vue';
+import { useDevice } from '@/composables/adaptive/useDevice';
 defineProps(["portfolio_pools", 'user_staked_pools'])
-// import GeneralPoolRow from './GeneralPoolRow.vue';
-// const user_staked_pools = [
-//     {
-//         "id": "0x4fbc353def45f2c3d396b38d6feffe91d94cfa26",
-//         "label": "ETH / USDT",
-//         "img": "",
-//         "percentChange": "0",
-//         "price": "$13.16",
-//         "tvlToken0": 11.155263999999999,
-//         "tvlToken1": 1.9998014306351013
-//     },
-//     {
-//         "id": "0xdd411f1dd1f48689622fd7931292747ecf21e2c2",
-//         "label": "DAI / USDT",
-//         "img": "",
-//         "percentChange": "0",
-//         "price": "$1.66",
-//         "tvlToken0": 0.6614289990263649,
-//         "tvlToken1": 0.9999
-//     },
-//     {
-//         "id": "0xd81fd1a5972b8c87b800e572247cd6a977a008b9",
-//         "label": "DAI / DOGE",
-//         "img": "",
-//         "percentChange": "0",
-//         "price": "$7.78",
-//         "tvlToken0": 3.6992600038445027,
-//         "tvlToken1": 4.080071129939999
-//     },
-//     {
-//         "id": "0xa3b7ecc240f1fb49c3fa295ccfa698e8f164851a",
-//         "label": "ETH / USDC",
-//         "img": "",
-//         "percentChange": "0",
-//         "price": "$65.30",
-//         "tvlToken0": 39.739908040946794,
-//         "tvlToken1": 25.55595299543693
-//     },
-//     {
-//         "id": "0x631b9f9996c30ce37c2d57d1704fdc568429ef41",
-//         "label": "BTCB / WBNB",
-//         "img": "",
-//         "percentChange": "0",
-//         "price": "$914.96",
-//         "tvlToken0": 466.1625030538951,
-//         "tvlToken1": 448.79497027544363
-//     },
-//     {
-//         "id": "0xcde3e063c375cae742ed7b0cd43fe943b0d8296a",
-//         "label": "DAI / WBNB",
-//         "img": "",
-//         "percentChange": "0",
-//         "price": "$18.71",
-//         "tvlToken0": 7.666540002018327,
-//         "tvlToken1": 11.046600000000002
-//     }
-// ]
-// const all_pools = [
-//     {
-//         "id": "0x88e6378567c912e346e22e5de18ab417e5c8d9a3000100000000000000000007",
-//         "Pool Name": [
-//             [
-//                 "WMATIC",
-//                 "WBTC",
-//                 "AVAX",
-//                 "SOL"
-//             ]
-//         ],
-//         "Revenue": "103.639",
-//         "Fees": "3.565",
-//         "Trades": "25",
-//         "Volume": "5787.216",
-//         "TVL": "62337.19772",
-//         "Liquidity": "62337.19772",
-//         "APR": "5.093",
-//         "Profit": "100.074",
-//         "Blockchain": "Polygon",
-//         "Pool Weight": [
-//             [
-//                 {
-//                     "token": "WMATIC",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "WBTC",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "AVAX",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "SOL",
-//                     "weight": "0.25%"
-//                 }
-//             ]
-//         ],
-//         "LiquidityType": "WP",
-//         "ROI": "-",
-//         "address": "0x88e6378567c912e346e22e5de18ab417e5c8d9a3"
-//     },
-//     {
-//         "id": "0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24000100000000000000000014",
-//         "Pool Name": [
-//             [
-//                 "AVAX",
-//                 "SOL",
-//                 "BTCB",
-//                 "MATIC"
-//             ]
-//         ],
-//         "Revenue": "0.000",
-//         "Fees": "0.000",
-//         "Trades": "0",
-//         "Volume": "0.000",
-//         "TVL": "1409.60396",
-//         "Liquidity": "1409.60396",
-//         "APR": "0.000",
-//         "Profit": "0.000",
-//         "Blockchain": "Binance",
-//         "Pool Weight": [
-//             [
-//                 {
-//                     "token": "AVAX",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "SOL",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "BTCB",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "MATIC",
-//                     "weight": "0.25%"
-//                 }
-//             ]
-//         ],
-//         "LiquidityType": "WP",
-//         "ROI": "-",
-//         "address": "0xdb13210d52a2d9bbc12fd4444e05f74d5f906d24"
-//     },
-//     {
-//         "id": "0x68aba87382af2ec495c5b0694f0a7984988b5fc7000100000000000000000004",
-//         "Pool Name": [
-//             [
-//                 "WMATIC",
-//                 "LINK",
-//                 "WETH",
-//                 "LDO"
-//             ]
-//         ],
-//         "Revenue": "0.000",
-//         "Fees": "0.000",
-//         "Trades": "0",
-//         "Volume": "0.000",
-//         "TVL": "1206.57402",
-//         "Liquidity": "1206.57402",
-//         "APR": "0.000",
-//         "Profit": "0.000",
-//         "Blockchain": "Polygon",
-//         "Pool Weight": [
-//             [
-//                 {
-//                     "token": "WMATIC",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "LINK",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "WETH",
-//                     "weight": "0.25%"
-//                 },
-//                 {
-//                     "token": "LDO",
-//                     "weight": "0.25%"
-//                 }
-//             ]
-//         ],
-//         "LiquidityType": "WP",
-//         "ROI": "-",
-//         "address": "0x68aba87382af2ec495c5b0694f0a7984988b5fc7"
-//     },
-//     {
-//         "id": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e000200000000000000000012",
-//         "Pool Name": [
-//             [
-//                 "WETH",
-//                 "USDC"
-//             ]
-//         ],
-//         "Revenue": "0.000",
-//         "Fees": "0.000",
-//         "Trades": "0",
-//         "Volume": "0.000",
-//         "TVL": "547.23200",
-//         "Liquidity": "547.23200",
-//         "APR": "0.000",
-//         "Profit": "0.000",
-//         "Blockchain": "Binance",
-//         "Pool Weight": [
-//             [
-//                 {
-//                     "token": "WETH",
-//                     "weight": "0.5%"
-//                 },
-//                 {
-//                     "token": "USDC",
-//                     "weight": "0.5%"
-//                 }
-//             ]
-//         ],
-//         "LiquidityType": "WP",
-//         "ROI": "-",
-//         "address": "0x8fba8a1d6b6cbad7d87b4e6731e65d14dddfc98e"
-//     },
 
-// ]
+
+const { width } = useDevice()
+
+
+
+
 
 const headers = [
   'Tokens',

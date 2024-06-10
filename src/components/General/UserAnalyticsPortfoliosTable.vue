@@ -1,7 +1,7 @@
 <template>
   <div>
-    <CRow id="pool-activity-row" class="table-wrapper !mx-0" style="
-        border-radius: 15.289px;
+    <CRow v-if="width > 768" id="pool-activity-row" class="table-wrapper !mx-0" style="
+        border-radius: 16px;
         background: #22222224;
         box-shadow: 0px 4px 4px 0px #00000040;
         border: 1px solid #ffffff0d;
@@ -178,14 +178,11 @@
         </div>
       </Table>
     </CRow>
-    <!-- <Pagination
-      :perPage="perPage"
-      :pools="poolActivity"
-      :currentPage="currentPage"
-      @changePage="changePage"
-      @changePerPage="changePerPage"
-      :perPageOptions="[25, 50, 100]"
-    ></Pagination> -->
+    <div v-else class="mobile_table_container">
+      <LeaderboardMobileTable :user_in_top="user_in_top" :account="account" :user_info="user_info"
+        :filteredActivities="filteredActivities" :type="'portfolios'"
+        @changeToSpecificPortfolio="changeToSpecificPortfolio" />
+    </div>
   </div>
 </template>
 <script setup>
@@ -201,9 +198,13 @@ import thirdPlace from '@/assets/icons/generalIcons/thirdPlace.svg'
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import { InitializeMetamask } from '@/lib/utils/metamask'
-const props = defineProps(['allPortfolios'])
 const { allPortfolios } = toRefs(props)
+import { useDevice } from '@/composables/adaptive/useDevice'
+import LeaderboardMobileTable from '@/components/General/LeaderboardMobileTable.vue'
+
+const props = defineProps(['allPortfolios', 'changeToSpecificPortfolio'])
 defineEmits('changeToSpecificPortfolio')
+const { width } = useDevice()
 
 const perPage = ref(25)
 const currentPage = ref(1)

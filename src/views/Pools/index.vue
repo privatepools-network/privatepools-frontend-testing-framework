@@ -63,7 +63,7 @@
 
     <!-- v-if="width > 768"  -->
     <div 
- 
+      v-if="width > 768"
       class="pools-rows"
       >
       <!-- Headers Desktop -->
@@ -247,7 +247,7 @@
         <img :src="arrow_bottom" />
       </div>
     </div>
-    <!-- <div v-else>
+    <div v-else>
       <div
         v-if="user_staked_pools.length === 0 && hidePools"
         class="my-5 text-center text-black dark:!text-white"
@@ -279,8 +279,20 @@
         @goToCL="goToCL"
         :isActions="true"
       />
+      <div
+        v-if="
+          sliceNumber <
+          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+            .length
+        "
+        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more text-black dark:!text-white"
+      >
+        {{ $t('load_more') }}
+        <img :src="arrow_bottom" />
       </div>
-    </div> -->
+      </div>
+    </div>
   </MainCard>
 </template>
 
