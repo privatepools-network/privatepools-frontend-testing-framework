@@ -61,19 +61,10 @@ export async function useZapper(pool, srcToken, srcAmount) {
       }
     }
 
-    console.log({
-      decimalsAmount: decimalsAmount.toString(),
-      srcToken,
-      id: pool.id,
-      tokens: pool.tokens,
-      oneInchDescs,
-      oneInchDatas,
-    })
-
     const tx = await zapper.zap(
       decimalsAmount,
       srcToken,
-      pool.id,
+      pool.address,
       pool.tokens.map((t) => t.address),
       oneInchDescs,
       oneInchDatas,
