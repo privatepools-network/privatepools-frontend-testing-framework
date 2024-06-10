@@ -18,7 +18,7 @@
           style="margin-left: 12px; margin-right: 12px;">
           <CTableRow v-for="(item, i) in filteredActivities" :key="i"
             class="table-row bg-white dark:!bg-[#22222224] hover:!bg-[#66c5ff3d] dark:hover:!bg-[#4242421d]"
-            @click="$emit('changeToSpecificPortfolio')" style="cursor: pointer">
+            @click="$emit('changeToSpecificPortfolio', item.Wallet)" style="cursor: pointer">
             <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div class="actions-cell">
                 <img v-if="item['Place'] === 1" :src="firstPlace" style="margin-top: -5px" />
@@ -102,7 +102,7 @@
           <hr style="border: 1px solid #ffffff1f" class="my-3" />
           <CTableRow v-if="!user_in_top && account"
             class="table-row bg-white dark:!bg-[#22222224] hover:!bg-[#66c5ff3d] dark:hover:!bg-[#4242421d] mb-4"
-            @click="$emit('changeToSpecificPortfolio')" style="cursor: pointer">
+            @click="$emit('changeToSpecificPortfolio', user_info.Wallet)" style="cursor: pointer">
             <CTableDataCell scope="row" class="dark:!text-white text-black table-cell">
               <div class="actions-cell">
                 <div class="actions-cell__text dark:!text-white text-black">{{ user_info.Place }}</div>
@@ -191,21 +191,23 @@
 <script setup>
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 import Table from '@/UI/Table'
-import { ref, defineEmits, onMounted, computed } from 'vue'
+import { ref, defineEmits, onMounted, computed, toRefs, defineProps } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import Pagination from '@/components/Pool/Pagination.vue'
 import firstPlace from '@/assets/icons/generalIcons/firstPlace.svg'
 import secondPlace from '@/assets/icons/generalIcons/secondPlace.svg'
 import thirdPlace from '@/assets/icons/generalIcons/thirdPlace.svg'
-import { getTopPortfolios } from "@/composables/data/topPortfoliosData"
+
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import { InitializeMetamask } from '@/lib/utils/metamask'
+const props = defineProps(['allPortfolios'])
+const { allPortfolios } = toRefs(props)
 defineEmits('changeToSpecificPortfolio')
 
 const perPage = ref(25)
 const currentPage = ref(1)
-const allPortfolios = ref([])
+
 const filteredActivities = computed(() => allPortfolios.value)
 const account = ref('')
 const user_info = computed(() => allPortfolios.value.find((item) => item['Wallet'].toLowerCase() == account.value.toLowerCase()) ?? { Wallet: account.value, Place: allPortfolios.value.length + 1, Profit: 0, 'Number of Pools': 0, 'Gas Fees': 0, 'Traded Volume': 0 })
@@ -216,7 +218,7 @@ onMounted(async () => {
     const address = await mmProvider.getSigner().getAddress()
     account.value = address
   }
-  allPortfolios.value = await getTopPortfolios()
+
 })
 
 function changePage(args) {
@@ -231,48 +233,7 @@ function changePerPage(v1) {
   perPage.value = Number(v1)
   currentPage.value = 1
 }
-// const filteredActivities = [
-//   {
-//     Place: 1,
-//     Wallet: '0x73262550fd593b2cc60072fa09159d993b88a71f',
-//     Profit: '+$2,744.94',
-//     'Number of Pools': '10',
-//     'Traded Volume': '$2,744.94',
-//     GasFees: '-$2,744.94',
-//   },
-//   {
-//     Place: 2,
-//     Wallet: '0x73262550fd593b2cc60072fa09159d993b88a71f',
-//     Profit: '+$2,744.94',
-//     'Number of Pools': '10',
-//     'Traded Volume': '$2,744.94',
-//     GasFees: '-$2,744.94',
-//   },
-//   {
-//     Place: 3,
-//     Wallet: '0x73262550fd593b2cc60072fa09159d993b88a71f',
-//     Profit: '+$2,744.94',
-//     'Number of Pools': '10',
-//     'Traded Volume': '$2,744.94',
-//     GasFees: '-$2,744.94',
-//   },
-//   {
-//     Place: 4,
-//     Wallet: '0x73262550fd593b2cc60072fa09159d993b88a71f',
-//     Profit: '+$2,744.94',
-//     'Number of Pools': '10',
-//     'Traded Volume': '$2,744.94',
-//     GasFees: '-$2,744.94',
-//   },
-//   {
-//     Place: 5,
-//     Wallet: '0x73262550fd593b2cc60072fa09159d993b88a71f',
-//     Profit: '+$2,744.94',
-//     'Number of Pools': '10',
-//     'Traded Volume': '$2,744.94',
-//     GasFees: '-$2,744.94',
-//   },
-// ]
+
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
