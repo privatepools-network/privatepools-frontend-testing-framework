@@ -222,6 +222,7 @@ import successSound from '@/assets/sounds/success_sound.mp3'
 import errorSound from '@/assets/sounds/error_sound.mp3'
 import { useSound } from '@vueuse/sound'
 import { useDevice } from '@/composables/adaptive/useDevice'
+import { useZapper } from '@/composables/poolActions/deposit/useZapper'
 
 const playSuccess = useSound(successSound, { volume: 1 })
 const playError = useSound(errorSound, { volume: 1 })
@@ -326,13 +327,20 @@ async function OnPreviewClick() {
       theme: 'dark',
       closeOnClick: false,
     })
-    let tx = await useJoinPool(
-      props.pool,
-      Object.values(props.pool.tokens),
-      props.tokens.map((t) => t.depositAmount),
-      props.account,
-      props.bptOut,
-    )
+    let tx =
+      props.depositMethod === 'zap'
+        ? await useZapper(
+            props.pool,
+            props.tokens[0].address,
+            props.tokens[0].depositAmount,
+          )
+        : await useJoinPool(
+            props.pool,
+            Object.values(props.pool.tokens),
+            props.tokens.map((t) => t.depositAmount),
+            props.account,
+            props.bptOut,
+          )
 
     emit('addedTXHash', tx.hash)
 

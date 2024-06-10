@@ -41,7 +41,7 @@ export default {
     balancerHelpers: process.env.VUE_APP_BALANCER_HELPERS_ARBITRUM,
     batchRelayer: process.env.VUE_APP_BATCH_RELAYER_ARBITRUM,
     rewards: process.env.VUE_APP_REWARDS_CONTRACT_ARBITRUM,
-    zap: process.env.VUE_APP_ZAP_CONTRACT_ARBITRUM,
+    zapper: process.env.VUE_APP_ZAP_CONTRACT_ARBITRUM,
   },
   tokens: {
     usdt: {
