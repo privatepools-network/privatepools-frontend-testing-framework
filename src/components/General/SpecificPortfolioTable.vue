@@ -1,5 +1,5 @@
 <template>
-  <div class="pools-rows" >
+  <div v-if="width > 768" class="pools-rows" >
     <div class="pools-row pools-row_header">
       <div
         class="pools-row__col !text-black dark:!text-white"
@@ -114,10 +114,44 @@
         :isActions="true"
       />
   </div>
+  <div v-else class="mobile_table_container">
+      <MobileAdvancedTable
+      v-for="(pool, index) in all_pools.slice(0, sliceNumber)"
+        :key="pool.name"
+        :pool="pool"
+        :userPools="user_staked_pools"
+        :index="index"
+        @goToPoolWithdraw="goToPoolWithdraw"
+        @goToCLPool="goToCLPool"
+        @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit"
+        @goToPoolManage="goToPoolManage"
+        @goToCL="goToCL"
+        :isActions="true"
+      />
+      <!-- <div
+        v-if="
+          sliceNumber <
+          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+            .length
+        "
+        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more text-black dark:!text-white"
+      >
+        {{ $t('load_more') }}
+        <img :src="arrow_bottom" />
+      </div> -->
+      </div>
 </template>
 <script setup>
+import MobileAdvancedTable from '@/UI/MobileAdvancedTable.vue';
 import PoolRow from '../Pool/PoolRow.vue';
+import { useDevice } from '@/composables/adaptive/useDevice';
 // import GeneralPoolRow from './GeneralPoolRow.vue';
+
+const { width } = useDevice()
+
+
 const user_staked_pools = [
     {
         "id": "0x4fbc353def45f2c3d396b38d6feffe91d94cfa26",

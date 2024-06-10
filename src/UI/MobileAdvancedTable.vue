@@ -70,7 +70,8 @@
         </div>
 
         <div class="pools-row__col text-black dark:!text-white">
-          <div class="pools-row__info">
+          <div class="pools-row__info  flex items-center flex-col">
+            <div class="pools-row__value flex items-center">Volume</div>
             <div class="pools-row__value">
               <div class="flex items-center font-['Roboto_Mono',_monospace]">
                 <CounterAnimation
@@ -102,7 +103,8 @@
         </div>
 
         <div class="pools-row__col text-black dark:!text-white">
-          <div class="pools-row__info">
+          <div class="pools-row__info  flex items-center flex-col">
+            <div class="pools-row__value flex items-center">APR</div>
             <div class="pools-row__value flex items-center">
               <CounterAnimation
                 :currency="''"
@@ -117,7 +119,7 @@
                 "
               />%
 
-              <img :src="APRIcon" />
+              <!-- <img :src="APRIcon" /> -->
             </div>
           </div>
         </div>
@@ -222,7 +224,7 @@
         </div>
         <div
           v-if="!userStakedPool"
-          class="liquidity_button_container text-black dark:!text-white"
+          class="liquidity_button_container w-full text-black dark:!text-white"
         >
           <div
             class="liquidity_button_text flex items-center gap-1 !text-black dark:!text-white"
@@ -261,11 +263,44 @@
           >
             {{ $t('add_liquidity') }}
           </div>
+          <div class="w-full">
+          <svg
+          class="w-full"
+            width="356"
+            height="2"
+            viewBox="0 0 356 2"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="-0.000976562"
+              y1="1.01147"
+              x2="356"
+              y2="1.01147"
+              stroke="url(#paint0_linear_820_14698)"
+              stroke-opacity="0.22"
+              stroke-dasharray="8 8"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_820_14698"
+                x1="-0.000976563"
+                y1="2.01147"
+                x2="356"
+                y2="2.01147"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#F9F9F9" stop-opacity="0.12" />
+                <stop offset="1" stop-color="white" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
         </div>
 
         <div
           v-else
-          class="flex md:items-center items-start gap-4 md:flex-row flex-col liquidity_button_container text-black dark:!text-white"
+          class="flex md:items-center items-start gap-4 md:flex-row flex-col w-full liquidity_button_container text-black dark:!text-white"
         >
           <div class="details-el__col">
             <div
@@ -318,11 +353,10 @@
             </div>
           </div>
 
-          <div class="flex h-[100px]" v-if="width > 768">
-            <div class="vr" style="border: 1px solid #383838"></div>
-          </div>
+        
+          <div class="w-full">
           <svg
-            v-else
+          class="w-full"
             width="356"
             height="2"
             viewBox="0 0 356 2"
@@ -352,6 +386,7 @@
               </linearGradient>
             </defs>
           </svg>
+        </div>
           <div class="details-el__col">
             <div
               :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'green'"
@@ -405,11 +440,10 @@
               </div>
             </div>
           </div>
-          <div class="flex h-[100px]" v-if="width > 768">
-            <div class="vr" style="border: 1px solid #383838"></div>
-          </div>
+          <div class="w-full">
           <svg
-            v-else
+          class="w-full"
+            
             width="356"
             height="2"
             viewBox="0 0 356 2"
@@ -439,6 +473,7 @@
               </linearGradient>
             </defs>
           </svg>
+        </div>
           <!-- <div class="details-el__col">
             <div
               class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D] ">
@@ -688,13 +723,13 @@ const visibleDetails = ref(false)
   line-height: 21px;
   font-family: 'Syne', sans-serif;
   color: #ffffff;
-  width: 60vw;
+  width: 100%;
   padding: 10px;
   text-align: center;
 
-  @media (min-width: 1950px) {
-    width: 40vw;
-  }
+  // @media (min-width: 1950px) {
+  //   width: 40vw;
+  // }
 
   &_LP {
     background: #fb800f;

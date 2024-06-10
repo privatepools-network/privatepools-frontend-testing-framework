@@ -1,7 +1,10 @@
 <template>
   <div>
-    <CRow id="pool-activity-row" class="table-wrapper !mx-0" style="
-        border-radius: 15.289px;
+    <CRow v-if="width > 768"
+      id="pool-activity-row"
+      class="table-wrapper !mx-0"
+      style="
+        border-radius: 16px;
         background: #22222224;
         box-shadow: 0px 4px 4px 0px #00000040;
         border: 1px solid #ffffff0d;
@@ -178,20 +181,22 @@
         </div>
       </Table>
     </CRow>
-    <!-- <Pagination
-      :perPage="perPage"
-      :pools="poolActivity"
-      :currentPage="currentPage"
-      @changePage="changePage"
-      @changePerPage="changePerPage"
-      :perPageOptions="[25, 50, 100]"
-    ></Pagination> -->
+    <div v-else class="mobile_table_container">
+      <LeaderboardMobileTable
+      :user_in_top="user_in_top"
+      :account="account"
+      :user_info="user_info"
+      :filteredActivities="filteredActivities"
+      :type="'portfolios'"
+      @changeToSpecificPortfolio="changeToSpecificPortfolio"
+    />
+    </div>
   </div>
 </template>
 <script setup>
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 import Table from '@/UI/Table'
-import { ref, defineEmits, onMounted, computed } from 'vue'
+import { ref, defineEmits, defineProps, onMounted, computed } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import Pagination from '@/components/Pool/Pagination.vue'
 import firstPlace from '@/assets/icons/generalIcons/firstPlace.svg'
@@ -201,7 +206,12 @@ import { getTopPortfolios } from "@/composables/data/topPortfoliosData"
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import { InitializeMetamask } from '@/lib/utils/metamask'
+import { useDevice } from '@/composables/adaptive/useDevice'
+import LeaderboardMobileTable from '@/components/General/LeaderboardMobileTable.vue'
+
+defineProps(['changeToSpecificPortfolio'])
 defineEmits('changeToSpecificPortfolio')
+const { width } = useDevice()
 
 const perPage = ref(25)
 const currentPage = ref(1)
