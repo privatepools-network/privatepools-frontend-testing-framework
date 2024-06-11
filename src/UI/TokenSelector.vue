@@ -37,8 +37,11 @@
           style="width: 20px; height: 20px; margin-right: 5px"
           :src="getTokenEntity(item.symbol, 'short').icon"
         /><span class="text-white"> {{ item.name }}</span>
-        <span style="color: rgba(108, 114, 132, 1); margin-left: 2.5px"
-          >({{ item.symbol }})</span
+        <span class="dark:text-white font-['Syne',_sans-serif] text-[12px]">{{
+          item.symbol
+        }}</span>
+        <span class="dark:text-white font-['Syne',_sans-serif] text-[12px] ml-1"
+          >({{ item?.percentage?.toFixed(0) }}%)</span
         >
       </div>
     </div>
@@ -62,21 +65,24 @@ const isSelectorOpened = ref(false)
   position: relative;
   &-options {
     position: absolute;
-    background: rgb(15, 17, 19) !important;
+    background: #02031c !important;
+    // backdrop-filter: blur(10px);
     z-index: 100;
     border-radius: 10px;
-    padding: 10px;
+    // padding: 2px;
     max-height: 300px;
+    width: 140px;
     overflow-y: auto;
-    top: 45px;
+    top: 32px;
     &::-webkit-scrollbar {
       width: 0;
     }
     &__el {
       padding: 8px 8px;
+      font-size: 12px;
       cursor: pointer;
       &:hover {
-        background: rgb(27, 30, 33) !important;
+        background: #00e1ff48 !important;
       }
     }
   }
@@ -85,9 +91,12 @@ const isSelectorOpened = ref(false)
   display: flex;
   align-items: center;
   cursor: pointer;
+  border: 0.5px solid #00e0ff69;
+  padding: 4px 10px;
+  border-radius: 16px;
   &__icon {
-    height: 42px;
-    width: 42px;
+    height: 20px;
+    width: 20px;
     border-radius: 50%;
     background-color: #ffffffde;
 
@@ -102,7 +111,7 @@ const isSelectorOpened = ref(false)
   }
 
   &__selected-item-text {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 500;
     line-height: 16px;
     letter-spacing: 0em;
