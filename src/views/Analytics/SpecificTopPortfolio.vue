@@ -76,7 +76,7 @@
               ? 'text-success'
               : ''
               ">
-              <CurrencySymbol />{{ item.value.toFixed(3) }}
+              %{{ item.value.toFixed(3) }}
             </div>
           </div>
         </div>
