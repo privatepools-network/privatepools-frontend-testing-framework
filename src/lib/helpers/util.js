@@ -123,6 +123,7 @@ import PPN from '@/assets/images/tokens/PPN.png'
 import GMRX from '@/assets/images/tokens/GMRX.png'
 import UNI from '@/assets/images/tokens/UNI.png'
 import NEAR from '@/assets/images/tokens/NEAR.png'
+import FTM from '@/assets/images/tokens/FTM.png'
 import BOOM from '@/assets/images/tokens/BOOM.png'
 
 const tokenHT = [
@@ -442,6 +443,12 @@ const tokenHT = [
     name: 'NEAR',
     short: 'NEAR',
     icon: NEAR,
+  },
+  {
+    key: 'FTM',
+    name: 'FTM',
+    short: 'FTM',
+    icon: FTM,
   },
   {
     key: 'BOOM',
