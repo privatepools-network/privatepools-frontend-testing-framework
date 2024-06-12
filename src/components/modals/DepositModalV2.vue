@@ -176,7 +176,9 @@
     </div>
     <div
       class="compose_pool_connect_wallet"
-      @click="OnPreviewClick(), (approveStep = 4)"
+      @click="depositMethod === 'zap' ? $emit('zapperModalOpen') :
+      OnPreviewClick(), (approveStep = 4)
+      "
       v-else-if="approveStep === 3"
     >
       {{ $t('add_liquidity') }}
@@ -281,6 +283,7 @@ const props = defineProps([
   'depositMethod',
 ])
 const emit = defineEmits([
+  'zapperModalOpen',
   'changeVisibleDepositClose',
   'changeApproveStep',
   'explode',

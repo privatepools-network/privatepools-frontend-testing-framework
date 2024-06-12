@@ -1,14 +1,91 @@
 <template>
   <MainCard>
-    <!-- <Modal
-      v-if="visibleDepositModal"
-      @close="changeVisibleDepositClose"
-      size="xl"
-    >
+    <Modal v-if="zapperModal" @close="zapperModalClose">
       <template #body>
+        <div class="modal_body_inside">
+          <div class="!text-black dark:!text-white text-[18px] font-bold">
+            Zapper Trades
+          </div>
+          <div class="flex justify-center flex-col items-center">
+            <div
+              class="my-4 w-full border-[#00E0FF1F] border-[1px] bg-[#22222224] shadow-md rounded-2xl text-white"
+            >
+              <div
+                class="flex justify-between px-3"
+                style="border-bottom: 1px solid #00e0ff1f"
+              >
+                <div
+                  class="text-[13px] font-normal p-2 font-['Syne',_sans-serif]"
+                >
+                  Trades
+                </div>
+                <div
+                  class="text-[13px] font-normal p-2 font-['Syne',_sans-serif]"
+                >
+                  Slippage %
+                </div>
+              </div>
+              <div
+                class="flex justify-between items-center px-3"
+                v-for="(poolToken, poolTokenIndex) in pool?.tokens.filter(
+                  (item) => item?.symbol !== zapToken?.symbol,
+                )"
+                :key="`pool-token-${poolTokenIndex}`"
+              >
+                <div
+                  class="text-[13px] font-normal px-2 py-3 font-['Syne',_sans-serif]"
+                >
+                  <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                    
 
+                      <CAvatar
+                        :src="getTokenEntity(zapToken.symbol, 'short').icon"
+                        class="big-chip__image !w-8 !h-8"
+                      />
+                      <div class="big-chip__text !mr-1 dark:!text-white text-black">
+                        {{ parseFloat(zapToken.balance).toFixed(5) }}
+                      </div>
+                      <svg
+                        width="32"
+                        height="22"
+                        viewBox="0 0 32 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M29.5 11H2.5M29.5 11L20.5 2M29.5 11L20.5 20"
+                          stroke="#F8F8F8"
+                          stroke-width="4"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      <CAvatar
+                        :src="getTokenEntity(poolToken.symbol, 'short').icon"
+                        class="big-chip__image !w-8 !h-8"
+                      />
+               
+                      <div class="big-chip__text dark:!text-white text-black">
+                        {{ parseFloat(poolToken.balance).toFixed(5) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="text-[13px] font-normal p-2 font-['Syne',_sans-serif]"
+                >
+                  {{ slippageSelected }}
+                </div>
+              </div>
+            </div>
+
+            <div class="zapper_button">Accept Trade</div>
+          </div>
+        </div>
       </template>
-</Modal> -->
+    </Modal>
+
     <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
         <div class="flex md:items-center items-start justify-between">
@@ -274,11 +351,11 @@
                             >
                               Reset Default
                             </div>
-                            <div
+                            <!-- <div
                               class="bg-[#00E0FF] cursor-pointer rounded-2xl dark:text-[#05061B] py-1 px-3 font-medium"
                             >
                               Save
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                       </div>
@@ -589,6 +666,7 @@
             </div>
             <div v-else-if="approveStep > 0 && approveStep < 5">
               <DepositModalV2
+                @zapperModalOpen="zapperModalOpen"
                 :pool="pool"
                 :visibleDepositModal="visibleDepositModal"
                 @changeVisibleDepositOpen="changeVisibleDepositClose"
@@ -764,7 +842,7 @@
         </div>
       </div>
     </div>
-
+    {{ console.log('zapToken', zapToken) }}
     {{ console.log('approveStep', approveStep) }}
   </MainCard>
 </template>
@@ -791,6 +869,19 @@ import Modal from '@/UI/Modal.vue'
 import { getSinglePoolDetails } from '@/composables/data/detailsData'
 import TokenSelector from '@/UI/TokenSelector.vue'
 import { Dropdown } from 'floating-vue'
+
+const zapperModal = ref(false)
+function zapperModalOpen() {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+  zapperModal.value = true
+}
+function zapperModalClose() {
+  zapperModal.value = false
+}
 
 const poolId = router.currentRoute.value.params['id']
 const pool = ref(null)
@@ -1109,7 +1200,7 @@ function onCurrencyInput(e) {
     font-weight: 400;
     line-height: 14px;
     letter-spacing: 0em;
-    // color: #ffffff;
+    font-family: 'Roboto Mono', monospace;
 
     &:nth-child(2) {
       margin-left: 4px;
@@ -1265,5 +1356,27 @@ function onCurrencyInput(e) {
   padding: 13px 8px;
   color: #fff;
   position: relative;
+}
+
+.zapper_button {
+  width: 100%;
+  cursor: pointer;
+  margin-top: 5px;
+  border-radius: 30px;
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #02031c;
+  text-align: center;
+  padding: 6px;
+  background: #00e0ff;
+
+  box-shadow: 0px 4px 6px -1px #0000000d;
+
+  &:hover {
+    filter: drop-shadow(0 0 0.7rem #00c9ff);
+    background: #00e0ff;
+  }
 }
 </style>

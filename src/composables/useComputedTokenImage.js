@@ -25,6 +25,7 @@ import boom from '../assets/images/tokens/BOOM.png'
 import uni from '../assets/images/tokens/UNI.png'
 import ppn from '../assets/images/tokens/PPN.png'
 import near from '../assets/images/tokens/NEAR.png'
+import ftm from '../assets/images/tokens/FTM.png'
 
 export default function computedTokenImage(token) {
   if (token.symbol === 'WBTC' || token === 'WBTC') {
@@ -132,5 +133,8 @@ export default function computedTokenImage(token) {
   }
   if (token.symbol === 'NEAR' || token === 'NEAR') {
     return near
+  }
+  if (token.symbol === 'FTM' || token === 'FTM') {
+    return ftm
   }
 }
