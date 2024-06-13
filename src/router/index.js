@@ -8,7 +8,7 @@ const routes = [
     name: 'Home',
     component: DefaultLayout,
     redirect: '/pools',
-    children: [
+  children: [
       {
         path: '/general',
         name: 'General',

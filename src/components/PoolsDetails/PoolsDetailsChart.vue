@@ -288,6 +288,13 @@ const preFiltersList = computed(() =>
         selected: true,
         cumulable: false,
       },
+      {
+        title: 'Impermanent Loss',
+        code: 'Impermanent Loss',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
     ]
     : [
       {
@@ -447,6 +454,13 @@ const preFiltersList = computed(() =>
         cumulable: false,
       },
       {
+        title: 'Impermanent Loss',
+        code: 'Impermanent Loss',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
         title: 'Pool percentage',
         code: 'Pool percentage',
         isSolo: true,
@@ -465,6 +479,7 @@ const filters = ref({
   ['Profits']: true,
   ['Capital Gains']: true,
   ['Volatility Index']: true,
+  ['Impermanent Loss']: true,
   // ['PNL']: true,
   // ['ROI']: true,
   // ['Token Incentives']: true,
@@ -540,6 +555,11 @@ const dataAvgApr = computed(() => {
 const dataVolatilityIndexes = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Volatility Index').selected)
     return filteredData.value.map((v) => v['Volatility Index'])
+  return []
+})
+const dataImpermanentLosses = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Impermanent Loss').selected)
+    return filteredData.value.map((v) => v['Impermanent Loss'])
   return []
 })
 
@@ -689,15 +709,16 @@ function legendSelectedChange(e) {
     }
   }
 
-  if (e.name === 'Average APR' || e.name === 'Volatility Index') {
+  if (e.name === 'Average APR' || e.name === 'Volatility Index' || e.name === "Impermanent Loss") {
     if (
       e.selected['Average APR'] === false &&
-      e.selected['Volatility Index'] === false
+      e.selected['Volatility Index'] === false && e.selected['Impermanent Loss'] === false
     ) {
       showAPRVolatility.value = false
     } else if (
       e.selected['Average APR'] === true ||
-      e.selected['Volatility Index'] === true
+      e.selected['Volatility Index'] === true ||
+      e.selected['Impermanent Loss'] === true
     ) {
       showAPRVolatility.value = true
     }
@@ -742,6 +763,13 @@ const series = computed(() => [
     dataVolatilityIndexes.value,
     4,
     '#FFC374',
+  ),
+  seriesInstance(
+    'Impermanent Loss',
+    'line',
+    dataImpermanentLosses.value,
+    4,
+    'red',
   ),
   seriesInstance('Profits', 'bar', dataProfits.value, 2, '#00FF75'),
   seriesInstance('TVL', 'line', dataTVL.value, 0, '#F07E07'),
@@ -827,7 +855,7 @@ const optionObj = ref({
     yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
     yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
     yAxisInstance('Trades / Gas Fees', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance('APR / Volatility Index', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
+    yAxisInstance('APR / Volatility Index / Impermanent Loss', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
   ],
   grid: [
     {
@@ -979,7 +1007,7 @@ function getFilteredData() {
       if (filter_code == 'Average APR') {
         result_item[filter_code] = result_item[filter_code] = item[`Profits${postfix.value}`] * 365 / item[`TVL${postfix.value}`]['All Chains'] * 100
       }
-      if (filter_code == 'Volatility Index') {
+      if (filter_code == 'Volatility Index' || filter_code == "Impermanent Loss") {
         result_item[filter_code] = item[filter_code]
       }
     }
