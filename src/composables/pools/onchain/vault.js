@@ -83,18 +83,18 @@ export default class Vault {
     )
 
     poolMulticaller.call('totalSupply', poolAddress, 'totalSupply')
-    poolMulticaller.call('decimals', poolAddress, 'decimals')
-    poolMulticaller.call('swapFee', poolAddress, 'getSwapFeePercentage')
+    // poolMulticaller.call('decimals', poolAddress, 'decimals')
+    // poolMulticaller.call('swapFee', poolAddress, 'getSwapFeePercentage')
 
-    if (this.isWeightedLike(type)) {
-      poolMulticaller.call('weights', poolAddress, 'getNormalizedWeights', [])
+    poolMulticaller.call('weights', poolAddress, 'getNormalizedWeights', [])
+    // if (this.isWeightedLike(type)) {
 
-      if (this.isTradingHaltable(type)) {
-        poolMulticaller.call('swapEnabled', poolAddress, 'getSwapEnabled')
-      }
-    } else if (this.isStableLike(type)) {
-      poolMulticaller.call('amp', poolAddress, 'getAmplificationParameter')
-    }
+    //   // if (this.isTradingHaltable(type)) {
+    //   //   poolMulticaller.call('swapEnabled', poolAddress, 'getSwapEnabled')
+    //   // }
+    // } else if (this.isStableLike(type)) {
+    //   poolMulticaller.call('amp', poolAddress, 'getAmplificationParameter')
+    // }
 
     result = await poolMulticaller.execute(result)
 
@@ -175,9 +175,10 @@ export default class Vault {
       )
     }
 
-    poolData.totalSupply = formatUnits(rawData.totalSupply, rawData.decimals)
-    poolData.decimals = rawData.decimals
-    poolData.swapFee = formatUnits(rawData.swapFee, 18)
+    poolData.totalSupply = formatUnits(rawData.totalSupply, 18)
+    poolData.decimals = 18
+    if (rawData.swapFee) poolData.swapFee = formatUnits(rawData.swapFee, 18)
+    else poolData.swapFee = 0
 
     return poolData
   }
@@ -245,7 +246,9 @@ export default class Vault {
   normalizeWeights(weights, type, tokens) {
     if (this.isWeightedLike(type)) {
       // toNormalizedWeights returns weights as 18 decimal fixed point
-      return toNormalizedWeights(weights).map((w) => Number(formatUnits(w, 18)))
+      return toNormalizedWeights(weights).map((w) =>
+        Number(formatUnits((w * 100).toFixed(0), 18)),
+      )
     } else if (this.isStableLike(type)) {
       const tokensList = Object.values(tokens)
       return tokensList.map(() => 1 / tokensList.length)
