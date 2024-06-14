@@ -109,6 +109,29 @@ export default class Vault {
 
     return this.formatPoolData(result, type, tokens, poolAddress)
   }
+  async getPoolSupply(id, network) {
+    const poolAddress = getAddress(id.slice(0, 42))
+    let result = {}
+    let config = configService.getNetworkConfig(network)
+    let provider = new ethers.providers.JsonRpcProvider(config.rpc)
+    const vaultMultiCaller = new Multicaller(
+      network,
+      provider,
+      Vault__factory.abi,
+    )
+
+    const poolMulticaller = new Multicaller(
+      network,
+      provider,
+      this.service.allPoolABIs,
+    )
+
+    poolMulticaller.call('totalSupply', poolAddress, 'totalSupply')
+    poolMulticaller.call('decimals', poolAddress, 'decimals')
+    result = await poolMulticaller.execute(result)
+
+    return formatUnits(result.totalSupply, result.decimals)
+  }
 
   formatPoolData(rawData, type, tokens, poolAddress) {
     const poolData = {}

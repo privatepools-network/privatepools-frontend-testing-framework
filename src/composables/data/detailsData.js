@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { BACKEND_URL, REDUNDANT_BACKEND_URL } from '../pools/mappings'
+import { balancerContractsService } from '@/composables/pools/onchain/balancer-contract.service'
 export async function getDetailsData(network, poolId) {
   let url = `${BACKEND_URL[network]}`
   try {
@@ -65,18 +66,30 @@ async function getCLDetailsDataByUrl(base_url, poolId) {
 }
 
 export async function getSinglePoolDetails(network, poolId) {
+  let supply = await balancerContractsService.vault.getPoolSupply(
+    poolId,
+    network,
+  )
   let base_url = BACKEND_URL[network]
   try {
     const response = await axios.get(
       `${base_url}/data/details/${poolId}/general/`,
     )
-    return response.data
+
+    return {
+      ...response.data,
+      onchain: { ...response.data.onchain, totalSupply: supply },
+    }
   } catch (e) {
     console.error('[SERVER ERROR]', e)
   }
   base_url = REDUNDANT_BACKEND_URL[network]
 
-  return (await axios.get(`${base_url}/data/details/${poolId}/general/`)).data
+  let response = await axios.get(`${base_url}/data/details/${poolId}/general/`)
+  return {
+    ...response.data,
+    onchain: { ...response.data.onchain, totalSupply: supply },
+  }
 }
 export async function getCLSinglePoolDetails(network, poolId) {
   let base_url = BACKEND_URL[network]
