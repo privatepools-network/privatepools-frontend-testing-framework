@@ -27,9 +27,7 @@
               </div>
               <div
                 class="flex justify-between items-center px-3"
-                v-for="(poolToken, poolTokenIndex) in pool?.tokens.filter(
-                  (item) => item?.symbol !== zapToken?.symbol,
-                )"
+                v-for="(poolToken, poolTokenIndex) in tradeTokens"
                 :key="`pool-token-${poolTokenIndex}`"
               >
                 <div
@@ -37,14 +35,14 @@
                 >
                   <div class="flex flex-col">
                     <div class="flex items-center gap-2">
-                    
-
                       <CAvatar
                         :src="getTokenEntity(zapToken.symbol, 'short').icon"
                         class="big-chip__image !w-8 !h-8"
                       />
-                      <div class="big-chip__text !mr-1 dark:!text-white text-black">
-                        {{ parseFloat(zapToken.balance).toFixed(5) }}
+                      <div
+                        class="big-chip__text !mr-1 dark:!text-white text-black"
+                      >
+                        {{ parseFloat(fromAmounts[poolTokenIndex]).toFixed(5) }}
                       </div>
                       <svg
                         width="32"
@@ -62,12 +60,19 @@
                         />
                       </svg>
                       <CAvatar
-                        :src="getTokenEntity(poolToken.symbol, 'short').icon"
+                        :src="
+                          getTokenEntity(
+                            pool?.tokens.find(
+                              (item) => item.address === poolToken.dstToken,
+                            )?.symbol,
+                            'short',
+                          ).icon
+                        "
                         class="big-chip__image !w-8 !h-8"
                       />
-               
+
                       <div class="big-chip__text dark:!text-white text-black">
-                        {{ parseFloat(poolToken.balance).toFixed(5) }}
+                        {{ parseFloat(toAmounts[poolTokenIndex]).toFixed(5) }}
                       </div>
                     </div>
                   </div>
@@ -257,7 +262,9 @@
                           <div class="flex gap-3">
                             <div
                               class="flex flex-col items-center justify-start cursor-pointer"
-                              @click="slippageSelected = 'Auto'"
+                              @click="
+                                ;(slippageSelected = 'Auto'), (slippage = 1)
+                              "
                               :class="
                                 slippageSelected === 'Auto'
                                   ? 'text-[#00e0ff]'
@@ -269,7 +276,9 @@
                             </div>
                             <div
                               class="flex flex-col items-center justify-start cursor-pointer"
-                              @click="slippageSelected = 'High'"
+                              @click="
+                                ;(slippageSelected = 'High'), (slippage = 2)
+                              "
                               :class="
                                 slippageSelected === 'High'
                                   ? 'text-[#00e0ff]'
@@ -281,7 +290,9 @@
                             </div>
                             <div
                               class="flex flex-col items-center justify-start cursor-pointer"
-                              @click="slippageSelected = 'Medium'"
+                              @click="
+                                ;(slippageSelected = 'Medium'), (slippage = 0.5)
+                              "
                               :class="
                                 slippageSelected === 'Medium'
                                   ? 'text-[#00e0ff]'
@@ -293,7 +304,9 @@
                             </div>
                             <div
                               class="flex flex-col items-center justify-start cursor-pointer"
-                              @click="slippageSelected = 'Low'"
+                              @click="
+                                ;(slippageSelected = 'Low'), (slippage = 0.1)
+                              "
                               :class="
                                 slippageSelected === 'Low'
                                   ? 'text-[#00e0ff]'
@@ -340,6 +353,8 @@
                                   "
                                   type="number"
                                   :placeholder="'%'"
+                                  :value="slippage"
+                                  @input="(e) => (slippage = e.target.value)"
                                 />
                               </div>
                             </div>
@@ -842,8 +857,6 @@
         </div>
       </div>
     </div>
-    {{ console.log('zapToken', zapToken) }}
-    {{ console.log('approveStep', approveStep) }}
   </MainCard>
 </template>
 <script setup>
@@ -869,9 +882,29 @@ import Modal from '@/UI/Modal.vue'
 import { getSinglePoolDetails } from '@/composables/data/detailsData'
 import TokenSelector from '@/UI/TokenSelector.vue'
 import { Dropdown } from 'floating-vue'
+import { useTrades } from '@/composables/poolActions/deposit/useZapper'
 
 const zapperModal = ref(false)
-function zapperModalOpen() {
+const tradeTokens = ref([])
+const fromAmounts = ref([])
+const toAmounts = ref([])
+async function zapperModalOpen() {
+  const {
+    oneInchDatas,
+    oneInchDescs,
+    fromAmounts: amountsIn,
+    toAmounts: amountsOut,
+  } = await useTrades(
+    pool.value,
+    zapToken.value.address,
+    formattedLineNumbers.value[zapTokenIndex.value],
+    slippage.value,
+  )
+
+  tradeTokens.value = oneInchDescs
+  fromAmounts.value = amountsIn
+  toAmounts.value = amountsOut
+
   window.scrollTo({
     top: 0,
     left: 0,
@@ -888,6 +921,7 @@ const pool = ref(null)
 const approveStep = ref(0)
 const depositMethod = ref('zap')
 const slippageSelected = ref('Auto')
+const slippage = ref(1)
 
 const confettiVisible = ref(false)
 
