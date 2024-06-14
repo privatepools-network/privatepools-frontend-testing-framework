@@ -40,7 +40,7 @@ export async function useExitPool(
   tokensOut = tokens.map((t) => t.address)
   let params = new ExitParams({ pool: pool, config: config })
   let txParams = params.serialize(
-    account,
+    await provider.getSigner().getAddress(), //account,
     tokens.map((t) => t.amount),
     tokensOut,
     bptIn,
