@@ -1007,7 +1007,7 @@ const zapToken = ref()
 const zapTokenIndex = ref()
 
 onMounted(async () => {
-  pool.value = await getSinglePoolDetails(56, poolId)
+  pool.value = await getSinglePoolDetails(56, poolId, true)
   tokens.value = pool.value.tokens.map((t) => t.address)
   zapToken.value = pool.value.tokens[0]
   zapTokenIndex.value = 0

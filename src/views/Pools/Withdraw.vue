@@ -370,7 +370,7 @@ onBeforeMount(async () => {
 })
 
 async function init() {
-  pool.value = await getSinglePoolDetails(56, poolId)
+  pool.value = await getSinglePoolDetails(56, poolId, true)
   tokens.value = pool.value?.tokens.map((t) => t.address)
   const poolAddress = pool.value.address
   const {

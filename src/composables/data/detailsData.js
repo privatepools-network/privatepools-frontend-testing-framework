@@ -65,20 +65,29 @@ async function getCLDetailsDataByUrl(base_url, poolId) {
   }
 }
 
-export async function getSinglePoolDetails(network, poolId) {
-  let supply = await balancerContractsService.vault.getPoolSupply(
-    poolId,
-    network,
-  )
+export async function getSinglePoolDetails(
+  network,
+  poolId,
+  enableOnchain = false,
+) {
   let base_url = BACKEND_URL[network]
   try {
     const response = await axios.get(
       `${base_url}/data/details/${poolId}/general/`,
     )
 
+    let poolData = {}
+    if (enableOnchain) {
+      poolData = await balancerContractsService.vault.getPoolData(
+        poolId,
+        'weighted',
+        response.data.tokens,
+        network,
+      )
+    }
     return {
       ...response.data,
-      onchain: { ...response.data.onchain, totalSupply: supply },
+      onchain: { ...response.data.onchain, ...poolData },
     }
   } catch (e) {
     console.error('[SERVER ERROR]', e)
@@ -86,9 +95,18 @@ export async function getSinglePoolDetails(network, poolId) {
   base_url = REDUNDANT_BACKEND_URL[network]
 
   let response = await axios.get(`${base_url}/data/details/${poolId}/general/`)
+  let poolData = {}
+  if (enableOnchain) {
+    poolData = await balancerContractsService.vault.getPoolData(
+      poolId,
+      'weighted',
+      response.data.tokens,
+      network,
+    )
+  }
   return {
     ...response.data,
-    onchain: { ...response.data.onchain, totalSupply: supply },
+    onchain: { ...response.data.onchain, ...poolData },
   }
 }
 export async function getCLSinglePoolDetails(network, poolId) {

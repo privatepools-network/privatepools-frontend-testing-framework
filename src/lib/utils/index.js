@@ -1122,7 +1122,7 @@ export function removeDuplicates(arr, key) {
   })
 }
 
-export function trim_decimal_overflow(n, decimals) {
+export function trim_decimal_overflow(n, decimals=18) {
   n += ''
 
   if (n.indexOf('.') === -1) return n

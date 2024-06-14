@@ -3,7 +3,7 @@ import { encodeExitWeightedPool } from '@/lib/utils/balancer/weightedPoolEncodin
 import { parseUnits } from '@ethersproject/units'
 import { AddressZero } from '@ethersproject/constants'
 import usePoolParameters from '@/composables/pools/usePoolParameters'
-
+import { bnum, groupBy, trim_decimal_overflow } from '@/lib/utils'
 export default class ExitParams {
   pool
   config
@@ -24,7 +24,10 @@ export default class ExitParams {
 
   serialize(account, amountsOut, tokensOut, bptIn, exitTokenIndex, exactOut) {
     const parsedAmountsOut = this.parseAmounts(amountsOut)
-    const parsedBptIn = parseUnits(bptIn.toString(), this.pool.value.onchain.decimals)
+    const parsedBptIn = parseUnits(
+      trim_decimal_overflow(bptIn.toString(), this.pool.value.onchain.decimals-1),
+      this.pool.value.onchain.decimals,
+    )
     const assets = this.parseTokensOut(tokensOut)
     const txData = this.txData(
       parsedAmountsOut,
@@ -39,10 +42,11 @@ export default class ExitParams {
       account,
       {
         assets,
-        minAmountsOut: parsedAmountsOut.map((amount) =>
-          // This is a hack to get around rounding issues for MetaStable pools
-          // TODO: do this more elegantly
-          amount//.gt(0) ? amount.sub(1) : amount,
+        minAmountsOut: parsedAmountsOut.map(
+          (amount) =>
+            // This is a hack to get around rounding issues for MetaStable pools
+            // TODO: do this more elegantly
+            amount, //.gt(0) ? amount.sub(1) : amount,
         ),
         userData: txData,
         toInternalBalance: this.toInternalBalance,
@@ -53,7 +57,10 @@ export default class ExitParams {
   parseAmounts(amounts) {
     return amounts.map((amount, i) => {
       const token = this.pool.value.tokens[i]
-      return parseUnits(amount.toString(), token.decimals)
+      return parseUnits(
+        trim_decimal_overflow(amount.toString(), token.decimals),
+        token.decimals,
+      )
     })
   }
 
