@@ -390,7 +390,7 @@ async function init() {
     decimals: poolDecimals,
     balance: _balances[pool.value.address],
   }
-  account.value = '0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'//_account
+  account.value = _account
   lineNumbers.value = _lineNumbers
   lastTokenPrices.value = _lastTokenPrices['USD']
   poolShare.value = await GetPoolShares(pool.value.id, account.value)
