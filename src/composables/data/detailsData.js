@@ -80,7 +80,7 @@ export async function getSinglePoolDetails(
     if (enableOnchain) {
       poolData = await balancerContractsService.vault.getPoolData(
         poolId,
-        'weighted',
+        'Weighted',
         response.data.tokens,
         network,
       )
@@ -99,7 +99,7 @@ export async function getSinglePoolDetails(
   if (enableOnchain) {
     poolData = await balancerContractsService.vault.getPoolData(
       poolId,
-      'weighted',
+      'Weighted',
       response.data.tokens,
       network,
     )

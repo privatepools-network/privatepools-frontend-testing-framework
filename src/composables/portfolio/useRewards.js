@@ -1,8 +1,15 @@
-import { InitializeMetamask } from "@/lib/utils/metamask"
-import { ethers } from 'ethers';
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import { ethers } from 'ethers'
 import rewards_abi from '@/lib/abi/Rewards.json'
+import { useAutoCompound } from '../poolActions/deposit/useAutoCompound'
 export async function claimRewards(rewards) {
   try {
+    // DELETE LATER
+    await useAutoCompound({
+      '0x90924102c512f52ffa074f5ede35a72c5f0b43f9000100000000000000000001': {
+        '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c': '100000000000000',
+      },
+    })
     const mmProvider = await InitializeMetamask()
     if (mmProvider) {
       const rewardsContract = new ethers.Contract(
@@ -16,10 +23,9 @@ export async function claimRewards(rewards) {
         rewards.rewards[2],
       )
       let receipt = await tx.wait()
-      console.log("CLAIMED - ", receipt)
+      console.log('CLAIMED - ', receipt)
     }
-  }
-  catch (e) {
+  } catch (e) {
     console.error(e)
   }
 }
