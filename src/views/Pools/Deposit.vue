@@ -85,7 +85,7 @@
               </div>
             </div>
 
-            <div class="zapper_button">Accept Trade</div>
+            <div class="zapper_button" @click="onAcceptTrade">Accept Trade</div>
           </div>
         </div>
       </template>
@@ -882,10 +882,14 @@ import Modal from '@/UI/Modal.vue'
 import { getSinglePoolDetails } from '@/composables/data/detailsData'
 import TokenSelector from '@/UI/TokenSelector.vue'
 import { Dropdown } from 'floating-vue'
-import { useTrades } from '@/composables/poolActions/deposit/useZapper'
+import {
+  useTrades,
+  useZapper,
+} from '@/composables/poolActions/deposit/useZapper'
 
 const zapperModal = ref(false)
 const tradeTokens = ref([])
+const tradeDatas = ref([])
 const fromAmounts = ref([])
 const toAmounts = ref([])
 async function zapperModalOpen() {
@@ -901,6 +905,7 @@ async function zapperModalOpen() {
     slippage.value,
   )
 
+  tradeDatas.value = oneInchDatas
   tradeTokens.value = oneInchDescs
   fromAmounts.value = amountsIn
   toAmounts.value = amountsOut
@@ -914,6 +919,16 @@ async function zapperModalOpen() {
 }
 function zapperModalClose() {
   zapperModal.value = false
+}
+
+async function onAcceptTrade() {
+  await useZapper(
+    pool.value,
+    zapToken.value.address,
+    formattedLineNumbers.value[zapTokenIndex.value],
+    tradeDatas.value,
+    tradeTokens.value,
+  )
 }
 
 const poolId = router.currentRoute.value.params['id']
