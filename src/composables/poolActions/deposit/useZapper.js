@@ -8,7 +8,7 @@ import { InitializeMetamask } from '@/lib/utils/metamask'
 import axios from 'axios'
 import { BACKEND_URL } from '../../pools/mappings'
 
-export async function useZapper(pool, srcToken, srcAmount) {
+export async function useZapper(pool, srcToken, srcAmount, rawAmount = false) {
   try {
     const provider = await InitializeMetamask()
     if (!provider) return
@@ -25,15 +25,14 @@ export async function useZapper(pool, srcToken, srcAmount) {
     const oneInchDescs = []
 
     const decimals = await tokenContract.decimals()
-    const decimalsAmount = ethers.utils.parseUnits(
-      srcAmount.toString(),
-      decimals,
-    )
+    const decimalsAmount = rawAmount
+      ? srcAmount
+      : ethers.utils.parseUnits(srcAmount.toString(), decimals)
 
     const i1InchRouter = new ethers.utils.Interface(I1InchRouterAbi)
     for (let i = 0; i < pool.tokens.length; i++) {
       if (pool.tokens[i].address !== srcToken) {
-        const amount = pool.tokens[i].weight * decimalsAmount
+        const amount =  decimalsAmount.mul(ethers.BigNumber.from((pool.tokens[i].weight * 100).toFixed(0)))
 
         const { data: oneInchTxData } = await fetch1InchData(
           srcToken,

@@ -24,6 +24,7 @@ export async function useApproveTokens(
   amounts,
   wallet_address,
   depositMethod,
+  rawAmount = false,
 ) {
   const approveTokensPending = toast.loading(Toast, {
     data: {
@@ -53,10 +54,9 @@ export async function useApproveTokens(
     let approval_amount = await tokenContract.allowance(wallet_address, to_addr)
     try {
       let decimals = await tokenContract.decimals()
-      let amount = ethers.utils.parseUnits(
-        amounts[i].toFixed(decimals),
-        decimals,
-      )
+      let amount = rawAmount
+        ? amounts[i]
+        : ethers.utils.parseUnits(amounts[i].toFixed(decimals), decimals)
       if (amount.gt(approval_amount)) {
         const tx = await tokenContract.approve(to_addr, amount)
         await tx.wait() // Wait for the transaction to be mined

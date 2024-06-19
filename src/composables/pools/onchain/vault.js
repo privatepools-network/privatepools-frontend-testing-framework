@@ -66,48 +66,57 @@ export default class Vault {
   }
 
   async getPoolData(id, type, tokens, network) {
-    const poolAddress = getAddress(id.slice(0, 42))
-    let result = {}
-    let config = configService.getNetworkConfig(network)
-    let provider = new ethers.providers.JsonRpcProvider(config.rpc)
-    const vaultMultiCaller = new Multicaller(
-      network,
-      provider,
-      Vault__factory.abi,
-    )
+    try {
+      const poolAddress = getAddress(id.slice(0, 42))
+      let result = {}
+      let config = configService.getNetworkConfig(network)
+      let provider = new ethers.providers.JsonRpcProvider(
+        config.rpc,
+        ethers.providers.getNetwork(network),
+        { staticNetwork: true },
+      )
+      const vaultMultiCaller = new Multicaller(
+        network,
+        provider,
+        Vault__factory.abi,
+      )
 
-    const poolMulticaller = new Multicaller(
-      network,
-      provider,
-      this.service.allPoolABIs,
-    )
+      const poolMulticaller = new Multicaller(
+        network,
+        provider,
+        this.service.allPoolABIs,
+      )
 
-    poolMulticaller.call('totalSupply', poolAddress, 'totalSupply')
-    // poolMulticaller.call('decimals', poolAddress, 'decimals')
-    // poolMulticaller.call('swapFee', poolAddress, 'getSwapFeePercentage')
+      poolMulticaller.call('totalSupply', poolAddress, 'totalSupply')
+      // poolMulticaller.call('decimals', poolAddress, 'decimals')
+      // poolMulticaller.call('swapFee', poolAddress, 'getSwapFeePercentage')
 
-    poolMulticaller.call('weights', poolAddress, 'getNormalizedWeights', [])
-    // if (this.isWeightedLike(type)) {
+      poolMulticaller.call('weights', poolAddress, 'getNormalizedWeights', [])
+      // if (this.isWeightedLike(type)) {
 
-    //   // if (this.isTradingHaltable(type)) {
-    //   //   poolMulticaller.call('swapEnabled', poolAddress, 'getSwapEnabled')
-    //   // }
-    // } else if (this.isStableLike(type)) {
-    //   poolMulticaller.call('amp', poolAddress, 'getAmplificationParameter')
-    // }
+      //   // if (this.isTradingHaltable(type)) {
+      //   //   poolMulticaller.call('swapEnabled', poolAddress, 'getSwapEnabled')
+      //   // }
+      // } else if (this.isStableLike(type)) {
+      //   poolMulticaller.call('amp', poolAddress, 'getAmplificationParameter')
+      // }
 
-    result = await poolMulticaller.execute(result)
+      result = await poolMulticaller.execute(result)
 
-    vaultMultiCaller.call(
-      'poolTokens',
-      this.address(network),
-      'getPoolTokens',
-      [id],
-    )
+      vaultMultiCaller.call(
+        'poolTokens',
+        this.address(network),
+        'getPoolTokens',
+        [id],
+      )
 
-    result = await vaultMultiCaller.execute(result)
+      result = await vaultMultiCaller.execute(result)
 
-    return this.formatPoolData(result, type, tokens, poolAddress)
+      return this.formatPoolData(result, type, tokens, poolAddress)
+    } catch (e) {
+      console.error(e)
+      return {}
+    }
   }
   async getPoolSupply(id, network) {
     const poolAddress = getAddress(id.slice(0, 42))
@@ -178,7 +187,7 @@ export default class Vault {
     poolData.totalSupply = formatUnits(rawData.totalSupply, 18)
     poolData.decimals = 18
     if (rawData.swapFee) poolData.swapFee = formatUnits(rawData.swapFee, 18)
-    else poolData.swapFee = 0
+    else poolData.swapFee = "0"
 
     return poolData
   }
