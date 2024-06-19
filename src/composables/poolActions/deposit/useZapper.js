@@ -8,7 +8,14 @@ import { InitializeMetamask } from '@/lib/utils/metamask'
 import axios from 'axios'
 import { BACKEND_URL } from '../../pools/mappings'
 
-export async function useZapper(pool, srcToken, srcAmount) {
+export async function useZapper(
+  pool,
+  srcToken,
+  srcAmount,
+  oneInchDatas,
+  oneInchDescs,
+  rawAmount = false,
+) {
   try {
     const provider = await InitializeMetamask()
     if (!provider) return
@@ -21,45 +28,19 @@ export async function useZapper(pool, srcToken, srcAmount) {
       signer,
     )
 
-    const oneInchDatas = []
-    const oneInchDescs = []
-
     const decimals = await tokenContract.decimals()
-    const decimalsAmount = ethers.utils.parseUnits(
-      srcAmount.toString(),
-      decimals,
-    )
+    const decimalsAmount = rawAmount
+      ? srcAmount
+      : ethers.utils.parseUnits(srcAmount.toString(), decimals)
 
-    const i1InchRouter = new ethers.utils.Interface(I1InchRouterAbi)
-    for (let i = 0; i < pool.tokens.length; i++) {
-      if (pool.tokens[i].address !== srcToken) {
-        const amount = pool.tokens[i].weight * decimalsAmount
-
-        const { data: oneInchTxData } = await fetch1InchData(
-          srcToken,
-          pool.tokens[i].address,
-          amount.toString(),
-          config.addresses.zapper,
-        )
-        const decodedDatas = i1InchRouter.decodeFunctionData(
-          'swap',
-          oneInchTxData,
-        )
-        oneInchDatas.push(decodedDatas[3])
-
-        oneInchDescs.push({
-          srcToken,
-          dstToken: pool.tokens[i].address,
-          srcReceiver: config.addresses.oneInchExecutor,
-          dstReceiver: config.addresses.zapper,
-          amount: amount.toString(),
-          minReturnAmount: 1,
-          flags: 0,
-        })
-
-        if (i < pool.tokens.length - 1) await sleep(1000)
-      }
-    }
+    console.log({
+      decimalsAmount,
+      srcToken,
+      address: pool.address,
+      tokens: pool.tokens.map((t) => t.address),
+      oneInchDescs,
+      oneInchDatas,
+    })
 
     const tx = await zapper.zap(
       decimalsAmount,
