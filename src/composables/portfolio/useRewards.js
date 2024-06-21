@@ -7,7 +7,7 @@ export async function claimRewards(rewards) {
     // DELETE LATER
     await useAutoCompound({
       '0x90924102c512f52ffa074f5ede35a72c5f0b43f9000100000000000000000001': {
-        '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c': '100000000000000',
+        '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c': '10000000000000000',
       },
     })
     const mmProvider = await InitializeMetamask()
