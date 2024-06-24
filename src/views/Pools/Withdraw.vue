@@ -122,7 +122,7 @@
                       (usdPoolShareValue =
                         ((poolShare.balance * pool.lpPrice) / 100) *
                         value)
-                        " :tooltips="false" :min="0" :max="100" :step="1" :value="80" lazy="false" />
+                        " :tooltips="false" :min="0" :max="95" :step="1" :value="80" lazy="false" />
                     </div>
                   </div>
                 </div>
@@ -222,7 +222,10 @@
                 </div> -->
               </div>
             </div>
-            <button class="compose_pool_connect_wallet" :disabled="!poolShare || !poolShare.balance"
+            <!-- :disabled="!poolShare || !poolShare.balance" -->
+            {{ console.log('poolShare', poolShare) }}
+            <button class="compose_pool_connect_wallet" 
+           
               @click="changeVisibleDeposit">
               {{ $t('preview') }}
             </button>
