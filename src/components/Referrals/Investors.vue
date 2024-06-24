@@ -10,10 +10,10 @@
     v-if="investorsSteps < 5"
   >
     <div class="d-flex justify-content-center flex-column align-items-center">
-      <div class="text-black dark:!text-white text-base font-bold">
+      <div class="text-black dark:!text-white text-base font-bold font-['Syne',_sans-serif]">
         Enter Referral Code
       </div>
-      <div class="my-3 text-black dark:!text-white text-sm font-medium">
+      <div class="my-3 text-black dark:!text-white text-sm font-medium font-['Syne',_sans-serif]">
         Please input a referral code to benefit from fee discounts.
       </div>
       <div class="w-100 my-3">
@@ -131,7 +131,7 @@ const specificPortfolioStats = ref([
   // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  margin: 1% 30% 10% 30%;
+  margin: 1% 33% 10% 33%;
   padding: 2.5%;
   border-radius: 16px;
   backdrop-filter: blur(10px);
@@ -161,26 +161,7 @@ const specificPortfolioStats = ref([
   }
 }
 
-.referrals_button {
-  width: 100%;
-  cursor: pointer;
-  margin-top: 5px;
-  border-radius: 16px;
-  
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 24px;
-  color: #ffffff;
-  text-align: center;
-  padding: 6px;
-  background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
-  box-shadow: 0px 4px 8.899999618530273px 0px #00aae01a;
 
-  &:hover {
-    filter: drop-shadow(0 0 0.7rem #00c9ff);
-    background: #00e0ff;
-  }
-}
 
 .specific_container {
   box-shadow: 0px 4px 4px 0px #00000040;
