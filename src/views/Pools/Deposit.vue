@@ -76,33 +76,10 @@
                   <div class="text-[14px] text-white">Add Liquidity</div>
                 </div>
                 <div v-if="approveStep === 0" class="flex items-center gap-2">
-                  <div
-                    class="flex items-center bg-[#22222224] p-1 shadow-sm rounded-2xl"
-                  >
-                    <div
-                      :class="
-                        depositMethod == 'zap' && 'text-[#02031c] bg-[#00e0ff]'
-                      "
-                      class="px-2 py-1 text-[14px] rounded-full cursor-pointer"
-                      @click="depositMethod = 'zap'"
-                    >
-                      <span class="font-['Syne',_sans-serif] font-medium">
-                        Zap
-                      </span>
-                    </div>
-                    <div
-                      :class="
-                        depositMethod == 'manual' &&
-                        'text-[#02031c] bg-[#00e0ff]'
-                      "
-                      class="px-2 py-1 text-[14px] rounded-full cursor-pointer"
-                      @click="depositMethod = 'manual'"
-                    >
-                      <span class="font-['Syne',_sans-serif] font-medium">
-                        Manual
-                      </span>
-                    </div>
-                  </div>
+                  <DepositMethodToggle
+                    :deposit-method="depositMethod"
+                    @toggle="(value) => (depositMethod = value)"
+                  />
 
                   <Dropdown :distance="4" :placement="'bottom-left'">
                     <div class="cursor-pointer hover:text-[#00e0ff]">
@@ -773,6 +750,7 @@ import TokenSelector from '@/UI/TokenSelector.vue'
 import ZapperModal from '@/components/modals/ZapperModal.vue'
 import DepositModalV2 from '@/components/modals/DepositModalV2.vue'
 import BigLogoLoader from '@/components/loaders/BigLogoLoader.vue'
+import DepositMethodToggle from '@/components/Pool/Deposit/DepositMethodToggle.vue'
 import ArrowBackIcon from '@/assets/icons/arrow/arrow_back.svg'
 import CloseIcon from '@/assets/icons/arrow/close_modal_icon.svg'
 

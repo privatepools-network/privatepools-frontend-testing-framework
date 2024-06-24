@@ -1,5 +1,5 @@
 <template>
-  <Modal v-if="isOpen" @close="emit('onClose')">
+  <Modal v-if="isOpen" @close="$emit('onClose')">
     <template #body>
       <div>
         <div class="!text-black dark:!text-white text-[18px] font-bold">
@@ -57,7 +57,7 @@
             </div>
           </div>
 
-          <div class="zapper_button" @click="emit('onAcceptTrade')">
+          <div class="zapper_button" @click="$emit('onAcceptTrade')">
             Accept Trade
           </div>
         </div>
