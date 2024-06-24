@@ -1,95 +1,17 @@
 <template>
   <MainCard>
-    <Modal v-if="zapperModal" @close="zapperModalClose">
-      <template #body>
-        <div class="modal_body_inside">
-          <div class="!text-black dark:!text-white text-[18px] font-bold">
-            Zapper Trades
-          </div>
-          <div class="flex justify-center flex-col items-center">
-            <div
-              class="my-4 w-full border-[#00E0FF1F] border-[1px] bg-[#22222224] shadow-md rounded-2xl text-white"
-            >
-              <div
-                class="flex justify-between px-3"
-                style="border-bottom: 1px solid #00e0ff1f"
-              >
-                <div
-                  class="text-[13px] font-normal p-2 font-['Syne',_sans-serif]"
-                >
-                  Trades
-                </div>
-                <div
-                  class="text-[13px] font-normal p-2 font-['Syne',_sans-serif]"
-                >
-                  Slippage %
-                </div>
-              </div>
-              <div
-                class="flex justify-between items-center px-3"
-                v-for="(poolToken, poolTokenIndex) in tradeTokens"
-                :key="`pool-token-${poolTokenIndex}`"
-              >
-                <div
-                  class="text-[13px] font-normal px-2 py-3 font-['Syne',_sans-serif]"
-                >
-                  <div class="flex flex-col">
-                    <div class="flex items-center gap-2">
-                      <CAvatar
-                        :src="getTokenEntity(zapToken.symbol, 'short').icon"
-                        class="big-chip__image !w-8 !h-8"
-                      />
-                      <div
-                        class="big-chip__text !mr-1 dark:!text-white text-black"
-                      >
-                        {{ parseFloat(fromAmounts[poolTokenIndex]).toFixed(5) }}
-                      </div>
-                      <svg
-                        width="32"
-                        height="22"
-                        viewBox="0 0 32 22"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M29.5 11H2.5M29.5 11L20.5 2M29.5 11L20.5 20"
-                          stroke="#F8F8F8"
-                          stroke-width="4"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      <CAvatar
-                        :src="
-                          getTokenEntity(
-                            pool?.tokens.find(
-                              (item) => item.address === poolToken.dstToken,
-                            )?.symbol,
-                            'short',
-                          ).icon
-                        "
-                        class="big-chip__image !w-8 !h-8"
-                      />
-
-                      <div class="big-chip__text dark:!text-white text-black">
-                        {{ parseFloat(toAmounts[poolTokenIndex]).toFixed(5) }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="text-[13px] font-normal p-2 font-['Syne',_sans-serif]"
-                >
-                  {{ slippageSelected }}
-                </div>
-              </div>
-            </div>
-
-            <div class="zapper_button" @click="onAcceptTrade">Accept Trade</div>
-          </div>
-        </div>
-      </template>
-    </Modal>
+    <ZapperModal
+      :is-open="isZapperModalOpen"
+      :from-amounts="fromAmounts"
+      :to-amounts="toAmounts"
+      :trade-tokens="
+        pool?.tokens?.filter((token) => token.address !== zapToken.address)
+      "
+      :slippage-selected="slippageSelected"
+      :zap-token="zapToken"
+      @on-close="zapperModalClose"
+      @on-accept-trade="onAcceptTrade"
+    />
 
     <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
@@ -106,46 +28,25 @@
 
             <div class="flex flex-wrap">
               <div
-                v-for="(poolToken, poolTokenIndex) in pool?.tokens"
-                :key="`pool-token-${poolTokenIndex}`"
+                v-for="(token, index) in pool?.tokens"
+                :key="`pool-token-${index}`"
                 class="big-chip dark:!bg-[#00000024] bg-white"
               >
                 <CAvatar
-                  :src="getTokenEntity(poolToken.symbol, 'short').icon"
+                  :src="getTokenEntity(token.symbol, 'short').icon"
                   class="big-chip__image"
                 />
                 <div class="big-chip__text dark:!text-white text-black">
-                  {{ poolToken.symbol }}
+                  {{ token.symbol }}
                 </div>
                 <div class="big-chip__text dark:!text-white text-black">
-                  {{ (poolToken.weight * 100).toFixed(0) }}%
+                  {{ (token.weight * 100).toFixed(0) }}%
                 </div>
               </div>
             </div>
           </div>
           <div class="back_button" @click="router.go(-1)">
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 6L6 18"
-                stroke="#FFFFFF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M6 6L18 18"
-                stroke="#FFFFFF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <img :src="CloseIcon" />
           </div>
         </div>
       </CRow>
@@ -164,11 +65,11 @@
               <div
                 v-if="approveStep !== 5"
                 class="flex items-center justify-between p-2"
-                @click="approveStep !== 0 ? approveStep-- : ''"
+                @click="approveStep !== 0 && approveStep--"
               >
                 <div class="flex items-center gap-2">
                   <img
-                    :src="arrow_back"
+                    :src="ArrowBackIcon"
                     class="w-2 cursor-pointer"
                     v-if="approveStep !== 0"
                   />
@@ -180,27 +81,26 @@
                   >
                     <div
                       :class="
-                        depositMethod == 'zap'
-                          ? 'px-2 py-1 text-[14px] rounded-full cursor-pointer text-[#02031c] bg-[#00e0ff]'
-                          : 'px-2 py-1 text-[14px] rounded-full cursor-pointer'
+                        depositMethod == 'zap' && 'text-[#02031c] bg-[#00e0ff]'
                       "
+                      class="px-2 py-1 text-[14px] rounded-full cursor-pointer"
                       @click="depositMethod = 'zap'"
                     >
-                      <span class="font-['Syne',_sans-serif] font-medium"
-                        >Zap</span
-                      >
+                      <span class="font-['Syne',_sans-serif] font-medium">
+                        Zap
+                      </span>
                     </div>
                     <div
                       :class="
-                        depositMethod == 'manual'
-                          ? 'px-2 py-1 text-[14px] rounded-full cursor-pointer text-[#02031c] bg-[#00e0ff]'
-                          : 'px-2 py-1 text-[14px] rounded-full cursor-pointer'
+                        depositMethod == 'manual' &&
+                        'text-[#02031c] bg-[#00e0ff]'
                       "
+                      class="px-2 py-1 text-[14px] rounded-full cursor-pointer"
                       @click="depositMethod = 'manual'"
                     >
-                      <span class="font-['Syne',_sans-serif] font-medium"
-                        >Manual</span
-                      >
+                      <span class="font-['Syne',_sans-serif] font-medium">
+                        Manual
+                      </span>
                     </div>
                   </div>
 
@@ -422,7 +322,6 @@
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >
-                        {{ console.log('pool?.tokens', pool?.tokens) }}
                         <TokenSelector
                           :tokens="pool?.tokens"
                           :token-selected="zapToken"
@@ -860,78 +759,39 @@
   </MainCard>
 </template>
 <script setup>
-import MainCard from '@/UI/MainCard.vue'
-import DepositModalV2 from '@/components/modals/DepositModalV2.vue'
-import { getTokenEntity } from '@/lib/helpers/util'
-import BigLogoLoader from '@/components/loaders/BigLogoLoader.vue'
-import { nextTick, ref } from 'vue'
+import { onMounted, computed, nextTick, ref } from 'vue'
 import Slider from '@vueform/slider'
-import CurrencySelector from '@/UI/CurrencySelector.vue'
-import { onMounted, toRef, computed } from 'vue'
-import { usePoolActionBalances } from '@/composables/balances/usePoolActionBalances'
 import { toast } from 'vue3-toastify'
-import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
-import arrow_back from '@/assets/icons/arrow/arrow_back.svg'
 import ConfettiExplosion from 'vue-confetti-explosion'
-
-import useInvestFormMath from '@/composables/math/investMath/useInvestMath'
-import { bnum } from '@/lib/utils'
-import router from '@/router'
-import Modal from '@/UI/Modal.vue'
-import { getSinglePoolDetails } from '@/composables/data/detailsData'
-import TokenSelector from '@/UI/TokenSelector.vue'
 import { Dropdown } from 'floating-vue'
+
+import MainCard from '@/UI/MainCard.vue'
+import CurrencySelector from '@/UI/CurrencySelector.vue'
+import Toast from '@/UI/Toast.vue'
+import TokenSelector from '@/UI/TokenSelector.vue'
+import ZapperModal from '@/components/modals/ZapperModal.vue'
+import DepositModalV2 from '@/components/modals/DepositModalV2.vue'
+import BigLogoLoader from '@/components/loaders/BigLogoLoader.vue'
+import ArrowBackIcon from '@/assets/icons/arrow/arrow_back.svg'
+import CloseIcon from '@/assets/icons/arrow/close_modal_icon.svg'
+
+import router from '@/router'
+import { getTokenEntity } from '@/lib/helpers/util'
+import { usePoolActionBalances } from '@/composables/balances/usePoolActionBalances'
+import useInvestFormMath from '@/composables/math/investMath/useInvestMath'
+import { getSinglePoolDetails } from '@/composables/data/detailsData'
 import {
   useTrades,
   useZapper,
 } from '@/composables/poolActions/deposit/useZapper'
 
-const zapperModal = ref(false)
+const isZapperModalOpen = ref(false)
 const tradeTokens = ref([])
 const tradeDatas = ref([])
 const fromAmounts = ref([])
 const toAmounts = ref([])
-async function zapperModalOpen() {
-  const {
-    oneInchDatas,
-    oneInchDescs,
-    fromAmounts: amountsIn,
-    toAmounts: amountsOut,
-  } = await useTrades(
-    pool.value,
-    zapToken.value.address,
-    formattedLineNumbers.value[zapTokenIndex.value],
-    slippage.value,
-  )
 
-  tradeDatas.value = oneInchDatas
-  tradeTokens.value = oneInchDescs
-  fromAmounts.value = amountsIn
-  toAmounts.value = amountsOut
-
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'smooth',
-  })
-  zapperModal.value = true
-}
-function zapperModalClose() {
-  zapperModal.value = false
-}
-
-async function onAcceptTrade() {
-  await useZapper(
-    pool.value,
-    zapToken.value.address,
-    formattedLineNumbers.value[zapTokenIndex.value],
-    tradeDatas.value,
-    tradeTokens.value,
-  )
-}
-
-const poolId = router.currentRoute.value.params['id']
 const pool = ref(null)
 const approveStep = ref(0)
 const depositMethod = ref('zap')
@@ -940,21 +800,27 @@ const slippage = ref(1)
 
 const confettiVisible = ref(false)
 
-const explode = async () => {
-  confettiVisible.value = false
-  await nextTick()
-  confettiVisible.value = true
-}
-
-function changeApproveStep(step) {
-  approveStep.value = step
-}
 const tokens = ref([])
 const currencySelected = ref({ name: 'USD', code: 'USD', symbol: '$' })
 const lineNumbers = ref([])
 const balances = ref({})
 
 const allLastTokenPrices = ref({})
+
+const account = ref('')
+
+const zapToken = ref()
+const zapTokenIndex = ref()
+
+// hardcoded tx
+const txHash = ref('')
+
+const lastDepositChanged = ref(0)
+
+const visibleDepositModal = ref(false)
+
+const poolId = router.currentRoute.value.params['id']
+
 const lastTokenPrices = computed(
   () => allLastTokenPrices.value[currencySelected.value.code],
 )
@@ -997,22 +863,9 @@ const maxBalances = computed(() => {
   }
   return result
 })
-// hardcoded tx
-const txHash = ref('')
-
-function addedTXHash(hash) {
-  txHash.value = hash
-}
 
 const formattedLineNumbers = computed(() =>
   lineNumbers.value.map((ln) => ln / 1000),
-)
-const { priceImpact, fullAmounts, bptOut } = useInvestFormMath(
-  pool,
-  pool.value ? pool.value.tokens : [],
-  balances,
-  formattedLineNumbers,
-  true,
 )
 
 const amountMap = computed(() => {
@@ -1034,6 +887,7 @@ const fiatAmountMap = computed(() => {
   }
   return {}
 })
+
 const fiatTotal = computed(() =>
   parseFloat(
     lineNumbers.value.reduce(
@@ -1047,37 +901,79 @@ const fiatTotal = computed(() =>
 const priceImpactFormatted = computed(() =>
   priceImpact.value ? (priceImpact.value * 100).toFixed(1) : 0,
 )
+
+const totalWeeklyYield = computed(() => pool.value['30dAPR'])
+
+async function zapperModalOpen() {
+  const {
+    oneInchDatas,
+    oneInchDescs,
+    fromAmounts: amountsIn,
+    toAmounts: amountsOut,
+  } = await useTrades(
+    pool.value,
+    zapToken.value.address,
+    formattedLineNumbers.value[zapTokenIndex.value],
+    slippage.value,
+  )
+
+  tradeDatas.value = oneInchDatas
+  tradeTokens.value = oneInchDescs
+  fromAmounts.value = amountsIn
+  toAmounts.value = amountsOut
+
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+  isZapperModalOpen.value = true
+}
+
+function zapperModalClose() {
+  isZapperModalOpen.value = false
+}
+
+async function onAcceptTrade() {
+  await useZapper(
+    pool.value,
+    zapToken.value.address,
+    formattedLineNumbers.value[zapTokenIndex.value],
+    tradeDatas.value,
+    tradeTokens.value,
+  )
+}
+
+const explode = async () => {
+  confettiVisible.value = false
+  await nextTick()
+  confettiVisible.value = true
+}
+
+function changeApproveStep(step) {
+  approveStep.value = step
+}
+
+function addedTXHash(hash) {
+  txHash.value = hash
+}
+
+const { priceImpact, fullAmounts, bptOut } = useInvestFormMath(
+  pool,
+  pool.value ? pool.value.tokens : [],
+  balances,
+  formattedLineNumbers,
+  true,
+)
+
 // const totalWeeklyYield = computed(() =>
 //   weeklyYieldForAPR(`${pool.apr.total}`),
 // )
-const account = ref('')
-
-const zapToken = ref()
-const zapTokenIndex = ref()
-
-onMounted(async () => {
-  pool.value = await getSinglePoolDetails(56, poolId, true)
-  tokens.value = pool.value.tokens.map((t) => t.address)
-  zapToken.value = pool.value.tokens[0]
-  zapTokenIndex.value = 0
-  const {
-    balances: _balances,
-    account: _account,
-    lineNumbers: _lineNumbers,
-    lastTokenPrices: _lastTokenPrices,
-  } = await usePoolActionBalances(tokens.value, pool.value.tokens, 56)
-
-  balances.value = _balances
-  account.value = _account
-  lineNumbers.value = _lineNumbers
-  allLastTokenPrices.value = _lastTokenPrices
-})
 
 // function weeklyYieldForAPR(apr) {
 //   return bnum(apr).times(fiatTotal.value).div(52).toString()
 // }
 
-let lastDepositChanged = ref(0)
 function OnSliderValueChange(index, value) {
   if (balances.value[tokens.value[index].address] * 1000 < value) {
     lineNumbers.value[index] =
@@ -1126,8 +1022,6 @@ function OnOptimizeClick() {
   }
 }
 
-const totalWeeklyYield = computed(() => pool.value['30dAPR'])
-
 function onTokenInput(event, tokenIndex) {
   let result_value = event.target.value
   console.log(result_value)
@@ -1139,8 +1033,6 @@ function onTokenInput(event, tokenIndex) {
   }
   lineNumbers.value[tokenIndex] = result_value
 }
-
-const visibleDepositModal = ref(false)
 
 function changeVisibleDepositOpen() {
   // let areBiggerThanZero = true
@@ -1196,6 +1088,24 @@ function onCurrencyInput(e) {
   lastDepositChanged.value = leastBalanceIndex.value
   OnOptimizeClick()
 }
+
+onMounted(async () => {
+  pool.value = await getSinglePoolDetails(56, poolId, true)
+  tokens.value = pool.value.tokens.map((t) => t.address)
+  zapToken.value = pool.value.tokens[0]
+  zapTokenIndex.value = 0
+  const {
+    balances: _balances,
+    account: _account,
+    lineNumbers: _lineNumbers,
+    lastTokenPrices: _lastTokenPrices,
+  } = await usePoolActionBalances(tokens.value, pool.value.tokens, 56)
+
+  balances.value = _balances
+  account.value = _account
+  lineNumbers.value = _lineNumbers
+  allLastTokenPrices.value = _lastTokenPrices
+})
 </script>
 <style lang="scss" scoped>
 .center_container {
