@@ -181,12 +181,12 @@ const bigContainerMock = computed(() =>
       {
         icon: d3logo,
         name: 'PPN TVL',
-        value: props.overview[`PPNTVL${postfix.value}`],
+        value: props.overview[`PPNTVL${postfix.value}`] ?? 0,
         description: `PPN ${t('price')}`,
-        value_2: props.overview[`PPNPrice${postfix.value}`],
+        value_2: props.overview[`PPNPrice${postfix.value}`] ?? 0,
         chartLabels: props.overview.ppnChart.timestamps,
         chartData: props.overview.ppnChart.data,
-        percentage: props.overview.PPNPricePercentage,
+        percentage: props.overview.PPNPricePercentage ?? 0,
       },
       {
         icon: totalVolumeIcon,

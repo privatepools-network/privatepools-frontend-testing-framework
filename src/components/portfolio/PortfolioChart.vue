@@ -246,6 +246,13 @@ const timelines = [
   },
 ]
 const isCumulativeMode = ref(false)
+
+const days_count = {
+  [t('daily')]:1,
+  [t('weekly')]:7,
+  [t('monthly')]:30,
+}
+
 const currentTimeline = ref(timelines[0])
 
 function changeTimeline(tl) {
@@ -700,7 +707,8 @@ function getFilteredData() {
         result_item['Avg Gas Fee per Trade'] = avg_fee
       }
       else if (filter_code == "Average APR") {
-        result_item[filter_code] = item[`Profits${postfix.value}`] * 365 / item[`TVL${postfix.value}`]['All Chains'] * 100
+            result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
+
 
       }
     }
