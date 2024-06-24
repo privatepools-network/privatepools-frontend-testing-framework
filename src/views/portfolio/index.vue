@@ -8,6 +8,7 @@
           :rewardsData="rewardsData" />
 
         <div class="portfolio-chart">
+          
           <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
             :tokensData="tokensData" :chainSelected="chainSelected.name" :rewardsData="rewardsData" />
         </div>
