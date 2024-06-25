@@ -2,7 +2,8 @@
   <div class="my-4 text-black dark:!text-white font-medium text-3xl">
     {{ $t('how_to_buy') }}
   </div>
-  <div class="flex gap-3 justify-center md:flex-row flex-col">
+  <div class="flex md:gap-1 gap-4  justify-between md:overflow-hidden overflow-y-auto">
+    <div class="flex gap-4 ">
     <div
       v-for="(item, i) in howToBuyCards"
       :key="`${i}-how-to`"
@@ -16,6 +17,8 @@
         {{ item.desc }}
       </div>
     </div>
+    </div>
+ 
   </div>
 </template>
 <script setup>
@@ -58,7 +61,8 @@ const howToBuyCards = ref([
   gap: 20px;
 
   @media (max-width:768px) {
-    width: 100%;
+    width: 300px;
+    
   }
 }
 </style>

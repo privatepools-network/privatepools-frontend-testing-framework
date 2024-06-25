@@ -586,12 +586,12 @@ export function formatSimpleTimestamp(timestamp) {
   return formattedDate
 }
 
-export function groupTimestampsByDayWithIndexes(timestamps) {
+export function groupTimestampsByDayWithIndexes(timestamps, dates) {
   const groupedIndexes = {}
 
   for (let i = 0; i < timestamps.length; i++) {
     const date = new Date(timestamps[i])
-    const dayKey = date.toDateString()
+    const dayKey = dates[i]
 
     if (
       !groupedIndexes[dayKey] ||
@@ -604,7 +604,7 @@ export function groupTimestampsByDayWithIndexes(timestamps) {
   return Object.values(groupedIndexes)
 }
 
-export function groupTimestampsByWeekWithIndexes(timestamps) {
+export function groupTimestampsByWeekWithIndexes(timestamps, dates=null) {
   const groupedIndexes = {}
 
   for (let i = 0; i < timestamps.length; i++) {
@@ -627,7 +627,7 @@ export function groupTimestampsByWeekWithIndexes(timestamps) {
   return Object.values(groupedIndexes)
 }
 
-export function groupTimestampsByMonthWithIndexes(timestamps) {
+export function groupTimestampsByMonthWithIndexes(timestamps, dates=null) {
   const groupedIndexes = {}
 
   for (let i = 0; i < timestamps.length; i++) {
@@ -1122,7 +1122,7 @@ export function removeDuplicates(arr, key) {
   })
 }
 
-export function trim_decimal_overflow(n, decimals) {
+export function trim_decimal_overflow(n, decimals=18) {
   n += ''
 
   if (n.indexOf('.') === -1) return n

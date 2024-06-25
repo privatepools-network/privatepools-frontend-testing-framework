@@ -1,14 +1,96 @@
 <template>
   <MainCard>
-    <!-- <Modal
-      v-if="visibleDepositModal"
-      @close="changeVisibleDepositClose"
-      size="xl"
-    >
-      <template #body>         
+    <Modal v-if="zapperModal" @close="zapperModalClose">
+      <template #body>
+        <div class="modal_body_inside">
+          <div class="!text-black dark:!text-white text-[18px] font-bold">
+            Zapper Trades
+          </div>
+          <div class="flex justify-center flex-col items-center">
+            <div
+              class="my-4 w-full border-[#00E0FF1F] border-[1px] bg-[#22222224] shadow-md rounded-2xl text-white"
+            >
+              <div
+                class="flex justify-between px-3"
+                style="border-bottom: 1px solid #00e0ff1f"
+              >
+                <div
+                  class="text-[13px] font-normal p-2 font-['Syne',_sans-serif]"
+                >
+                  Trades
+                </div>
+                <div
+                  class="text-[13px] font-normal p-2 font-['Syne',_sans-serif]"
+                >
+                  Slippage %
+                </div>
+              </div>
+              <div
+                class="flex justify-between items-center px-3"
+                v-for="(poolToken, poolTokenIndex) in tradeTokens"
+                :key="`pool-token-${poolTokenIndex}`"
+              >
+                <div
+                  class="text-[13px] font-normal px-2 py-3 font-['Syne',_sans-serif]"
+                >
+                  <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                      <CAvatar
+                        :src="getTokenEntity(zapToken.symbol, 'short').icon"
+                        class="big-chip__image !w-8 !h-8"
+                      />
+                      <div
+                        class="big-chip__text !mr-1 dark:!text-white text-black"
+                      >
+                        {{ parseFloat(fromAmounts[poolTokenIndex]).toFixed(5) }}
+                      </div>
+                      <svg
+                        width="32"
+                        height="22"
+                        viewBox="0 0 32 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M29.5 11H2.5M29.5 11L20.5 2M29.5 11L20.5 20"
+                          stroke="#F8F8F8"
+                          stroke-width="4"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      <CAvatar
+                        :src="
+                          getTokenEntity(
+                            pool?.tokens.find(
+                              (item) => item.address === poolToken.dstToken,
+                            )?.symbol,
+                            'short',
+                          ).icon
+                        "
+                        class="big-chip__image !w-8 !h-8"
+                      />
 
+                      <div class="big-chip__text dark:!text-white text-black">
+                        {{ parseFloat(toAmounts[poolTokenIndex]).toFixed(5) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="text-[13px] font-normal p-2 font-['Syne',_sans-serif]"
+                >
+                  {{ slippageSelected }}
+                </div>
+              </div>
+            </div>
+
+            <div class="zapper_button" @click="onAcceptTrade">Accept Trade</div>
+          </div>
+        </div>
       </template>
-</Modal> -->
+    </Modal>
+
     <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
         <div class="flex md:items-center items-start justify-between">
@@ -81,15 +163,220 @@
             <div class="deposit_text dark:!text-white text-black my-1">
               <div
                 v-if="approveStep !== 5"
-                class="flex items-center gap-2 py-2"
+                class="flex items-center justify-between p-2"
                 @click="approveStep !== 0 ? approveStep-- : ''"
               >
-                <img
-                  :src="arrow_back"
-                  class="w-2 cursor-pointer"
-                  v-if="approveStep !== 0"
-                />
-                <div class="text-[14px] text-white">Add Liquidity</div>
+                <div class="flex items-center gap-2">
+                  <img
+                    :src="arrow_back"
+                    class="w-2 cursor-pointer"
+                    v-if="approveStep !== 0"
+                  />
+                  <div class="text-[14px] text-white">Add Liquidity</div>
+                </div>
+                <div v-if="approveStep === 0" class="flex items-center gap-2">
+                  <div
+                    class="flex items-center bg-[#22222224] p-1 shadow-sm rounded-2xl"
+                  >
+                    <div
+                      :class="
+                        depositMethod == 'zap'
+                          ? 'px-2 py-1 text-[14px] rounded-full cursor-pointer text-[#02031c] bg-[#00e0ff]'
+                          : 'px-2 py-1 text-[14px] rounded-full cursor-pointer'
+                      "
+                      @click="depositMethod = 'zap'"
+                    >
+                      <span class="font-['Syne',_sans-serif] font-medium"
+                        >Zap</span
+                      >
+                    </div>
+                    <div
+                      :class="
+                        depositMethod == 'manual'
+                          ? 'px-2 py-1 text-[14px] rounded-full cursor-pointer text-[#02031c] bg-[#00e0ff]'
+                          : 'px-2 py-1 text-[14px] rounded-full cursor-pointer'
+                      "
+                      @click="depositMethod = 'manual'"
+                    >
+                      <span class="font-['Syne',_sans-serif] font-medium"
+                        >Manual</span
+                      >
+                    </div>
+                  </div>
+
+                  <Dropdown :distance="4" :placement="'bottom-left'">
+                    <div class="cursor-pointer hover:text-[#00e0ff]">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14.5 11C14.5 11.4596 14.4095 11.9148 14.2336 12.3394C14.0577 12.764 13.7999 13.1499 13.4749 13.4749C13.1499 13.7999 12.764 14.0577 12.3394 14.2336C11.9148 14.4095 11.4596 14.5 11 14.5C10.5404 14.5 10.0852 14.4095 9.66061 14.2336C9.23597 14.0577 8.85013 13.7999 8.52513 13.4749C8.20012 13.1499 7.94231 12.764 7.76642 12.3394C7.59053 11.9148 7.5 11.4596 7.5 11C7.5 10.0717 7.86875 9.1815 8.52513 8.52513C9.1815 7.86875 10.0717 7.5 11 7.5C11.9283 7.5 12.8185 7.86875 13.4749 8.52513C14.1313 9.1815 14.5 10.0717 14.5 11Z"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M20.011 13.0973C20.533 12.9563 20.794 12.8853 20.897 12.7513C21 12.6163 21 12.4003 21 11.9673V10.0333C21 9.60032 21 9.38332 20.897 9.24932C20.794 9.11532 20.533 9.04433 20.011 8.90433C18.061 8.37832 16.84 6.33932 17.343 4.40132C17.482 3.86832 17.551 3.60132 17.485 3.44532C17.419 3.28932 17.229 3.18132 16.85 2.96632L15.125 1.98632C14.753 1.77632 14.567 1.67032 14.4 1.69232C14.233 1.71432 14.044 1.90232 13.667 2.27932C12.208 3.73432 9.794 3.73432 8.334 2.27932C7.957 1.90332 7.769 1.71532 7.602 1.69232C7.435 1.67032 7.249 1.77532 6.877 1.98732L5.152 2.96632C4.772 3.18132 4.582 3.28932 4.517 3.44632C4.451 3.60132 4.52 3.86832 4.658 4.40132C5.161 6.33932 3.94 8.37832 1.989 8.90433C1.467 9.04433 1.206 9.11432 1.103 9.24932C1 9.38432 1 9.60032 1 10.0333V11.9673C1 12.4003 1 12.6173 1.103 12.7513C1.206 12.8853 1.467 12.9563 1.989 13.0973C3.939 13.6233 5.16 15.6623 4.657 17.5993C4.518 18.1323 4.449 18.3993 4.515 18.5553C4.581 18.7113 4.771 18.8193 5.15 19.0353L6.875 20.0133C7.247 20.2253 7.433 20.3303 7.6 20.3083C7.767 20.2863 7.956 20.0983 8.333 19.7213C9.793 18.2643 12.209 18.2643 13.669 19.7213C14.046 20.0973 14.234 20.2853 14.401 20.3083C14.568 20.3303 14.754 20.2253 15.127 20.0133L16.851 19.0343C17.231 18.8193 17.421 18.7113 17.486 18.5543C17.551 18.3973 17.483 18.1323 17.345 17.5993C16.841 15.6623 18.061 13.6233 20.011 13.0973Z"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <template #popper>
+                      <div class="settings_popup bg-white dark:!bg-[#02031C]">
+                        <h4
+                          class="text-[12px] text-black dark:!text-[#626262] mb-[10px]"
+                        >
+                          {{ $t('Settings') }}
+                        </h4>
+
+                        <div class="mb-[10px]">
+                          <div
+                            class="text-[12px] flex items-center gap-1 dark:text-white"
+                          >
+                            Slippage Tolerance (%)
+                            <svg
+                              width="9"
+                              height="9"
+                              viewBox="0 0 9 9"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M4.5 8.25C2.42888 8.25 0.75 6.57113 0.75 4.5C0.75 2.42888 2.42888 0.75 4.5 0.75C6.57113 0.75 8.25 2.42888 8.25 4.5C8.25 6.57113 6.57113 8.25 4.5 8.25ZM4.125 5.625V6.375H4.875V5.625H4.125ZM4.875 5.00812C5.17638 4.91729 5.4351 4.72123 5.60406 4.45565C5.77302 4.19007 5.84096 3.87265 5.79553 3.56117C5.75009 3.2497 5.59429 2.96491 5.3565 2.75867C5.11872 2.55243 4.81477 2.43845 4.5 2.4375C4.19657 2.43748 3.9025 2.54256 3.6678 2.73487C3.4331 2.92719 3.27225 3.19486 3.21263 3.49237L3.94838 3.63975C3.96925 3.53529 4.01937 3.4389 4.09289 3.36181C4.16641 3.28471 4.2603 3.23008 4.36366 3.20426C4.46701 3.17845 4.57557 3.18252 4.67671 3.21599C4.77784 3.24946 4.86739 3.31096 4.93494 3.39334C5.00248 3.47572 5.04525 3.57558 5.05826 3.68132C5.07126 3.78705 5.05398 3.8943 5.00841 3.99059C4.96285 4.08689 4.89088 4.16826 4.80087 4.22525C4.71087 4.28224 4.60653 4.31249 4.5 4.3125C4.40054 4.3125 4.30516 4.35201 4.23484 4.42234C4.16451 4.49266 4.125 4.58804 4.125 4.6875V5.25H4.875V5.00812Z"
+                                fill="#F8F8F8"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                        <div
+                          class="bg-[#22222224] text-[12px] dark:text-white shadow-sm rounded-md"
+                        >
+                          <div class="flex gap-3">
+                            <div
+                              class="flex flex-col items-center justify-start cursor-pointer"
+                              @click="
+                                ;(slippageSelected = 'Auto'), (slippage = 1)
+                              "
+                              :class="
+                                slippageSelected === 'Auto'
+                                  ? 'text-[#00e0ff]'
+                                  : ''
+                              "
+                            >
+                              <div>Auto</div>
+                              <div>-</div>
+                            </div>
+                            <div
+                              class="flex flex-col items-center justify-start cursor-pointer"
+                              @click="
+                                ;(slippageSelected = 'High'), (slippage = 2)
+                              "
+                              :class="
+                                slippageSelected === 'High'
+                                  ? 'text-[#00e0ff]'
+                                  : ''
+                              "
+                            >
+                              <div>High</div>
+                              <div>2</div>
+                            </div>
+                            <div
+                              class="flex flex-col items-center justify-start cursor-pointer"
+                              @click="
+                                ;(slippageSelected = 'Medium'), (slippage = 0.5)
+                              "
+                              :class="
+                                slippageSelected === 'Medium'
+                                  ? 'text-[#00e0ff]'
+                                  : ''
+                              "
+                            >
+                              <div>Medium</div>
+                              <div>0.5</div>
+                            </div>
+                            <div
+                              class="flex flex-col items-center justify-start cursor-pointer"
+                              @click="
+                                ;(slippageSelected = 'Low'), (slippage = 0.1)
+                              "
+                              :class="
+                                slippageSelected === 'Low'
+                                  ? 'text-[#00e0ff]'
+                                  : ''
+                              "
+                            >
+                              <div>Low</div>
+                              <div>0.1</div>
+                            </div>
+                            <svg
+                              width="1"
+                              height="45"
+                              viewBox="0 0 1 25"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <line
+                                x1="0.900977"
+                                y1="25"
+                                x2="0.9"
+                                y2="3.90625e-06"
+                                stroke="white"
+                                stroke-width="0.2"
+                              />
+                            </svg>
+
+                            <div
+                              class="flex flex-col items-center justify-start cursor-pointer"
+                              @click="slippageSelected = 'Custom'"
+                              :class="
+                                slippageSelected === 'Custom'
+                                  ? 'text-[#00e0ff]'
+                                  : ''
+                              "
+                            >
+                              <div>Custom</div>
+                              <div>
+                                <input
+                                  class="token-input !p-0 w-[40px] h-[12px] dark:!text-[#A8A8A8] text-black"
+                                  style="
+                                    font-size: clamp(10px, 0.8vw, 14px);
+                                    font-weight: 500;
+                                    text-align: center;
+                                  "
+                                  type="number"
+                                  :placeholder="'%'"
+                                  :value="slippage"
+                                  @input="(e) => (slippage = e.target.value)"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="flex items-center mt-3 gap-1">
+                            <div
+                              class="bg-[#FFFFFF] cursor-pointer rounded-2xl dark:text-[#0F0F0F] py-1 px-3 font-medium"
+                              @click="slippageSelected = 'Auto'"
+                            >
+                              Reset Default
+                            </div>
+                            <!-- <div
+                              class="bg-[#00E0FF] cursor-pointer rounded-2xl dark:text-[#05061B] py-1 px-3 font-medium"
+                            >
+                              Save
+                            </div> -->
+                          </div>
+                        </div>
+                      </div>
+                    </template>
+                  </Dropdown>
+                </div>
               </div>
             </div>
             <div v-if="approveStep === 0">
@@ -99,6 +386,7 @@
 
               <div
                 class="d-flex justify-content-between dark:!bg-[#00000024] bg-white currency_container"
+                v-if="depositMethod !== 'zap'"
               >
                 <CurrencySelector
                   @updateCurrency="
@@ -128,87 +416,177 @@
                   lineNumbers.length > 0
                 "
               >
-                <div
-                  class="modal_stake_token dark:!bg-[#15151524] bg-white"
-                  v-for="(token, tokenIndex) in pool?.tokens"
-                  :key="`deposit-token-${token.address}`"
-                >
-                  <div>
-                    <div
-                      class="d-flex justify-content-between align-items-center"
-                    >
-                      <div
-                        class="modal_stake_token_inner_name dark:!text-white text-black dark:!bg-[#4c4c4c24] bg-white"
-                      >
-                        <img
-                          :src="getTokenEntity(token.symbol, 'short').icon"
-                          width="20"
-                        />
-                        {{ token.symbol }} {{ (token.weight * 100).toFixed(0) }}%
-                      </div>
-                      <input
-                        class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
-                        style="
-                          font-size: clamp(10px, 0.8vw, 14px);
-                          font-weight: 500;
-                          text-align: right;
-                        "
-                        :value="
-                          lineNumbers[tokenIndex] > 0
-                            ? lineNumbers[tokenIndex] / 1000
-                            : lineNumbers[tokenIndex]
-                        "
-                        @input="(e) => onTokenInput(e, tokenIndex)"
-                        type="number"
-                      />
-                    </div>
+                <div v-if="depositMethod == 'zap'">
+                  <div class="modal_stake_token dark:!bg-[#15151524] bg-white">
                     <div>
                       <div
-                        class="modal_balance_slider dark:!text-white text-black"
+                        class="d-flex justify-content-between align-items-center"
                       >
-                        <div
-                          class="value-label font-['Roboto_Mono',_monospace]"
-                          ref="inputRefLabel"
-                        >
-                          {{ $t('balance') }}:
-                          <span
-                            class="fw-bold font-['Roboto_Mono',_monospace]"
-                            >{{ RemainingBalance(token, tokenIndex) }}</span
-                          ><span
-                            @click="() => OnMaxClick(tokenIndex, token.address)"
-                            class="fw-bold bg-transparent pl-1"
-                            style="cursor: pointer"
-                          >
-                            {{ $t('max') }}</span
-                          >
-                        </div>
-                        <div class="font-['Roboto_Mono',_monospace]">
-                          {{ currencySelected.symbol
-                          }}{{
-                            (
-                              (lineNumbers[tokenIndex] / 1000) *
-                              lastTokenPrices[token.address]
-                            ).toFixed(3)
-                          }}
-                        </div>
-                      </div>
-                      <div class="mt-2">
-                        <Slider
-                          @change="
-                            (value) => OnSliderValueChange(tokenIndex, value)
+                        {{ console.log('pool?.tokens', pool?.tokens) }}
+                        <TokenSelector
+                          :tokens="pool?.tokens"
+                          :token-selected="zapToken"
+                          @update-token="
+                            (selectedToken, selectedIndex) => (
+                              (zapToken = selectedToken),
+                              (zapTokenIndex = selectedIndex)
+                            )
                           "
-                          :tooltips="false"
-                          :min="0"
-                          :max="maxBalances[token.address] * 1000"
-                          :step="1"
-                          v-model="lineNumbers[tokenIndex]"
-                          lazy="false"
                         />
+                        <input
+                          class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
+                          style="
+                            font-size: clamp(10px, 0.8vw, 14px);
+                            font-weight: 500;
+                            text-align: right;
+                          "
+                          :value="
+                            lineNumbers[zapTokenIndex] > 0
+                              ? lineNumbers[zapTokenIndex] / 1000
+                              : lineNumbers[zapTokenIndex]
+                          "
+                          @input="(e) => onTokenInput(e, zapTokenIndex)"
+                          type="number"
+                        />
+                      </div>
+                      <div>
+                        <div
+                          class="modal_balance_slider dark:!text-white text-black"
+                        >
+                          <div
+                            class="value-label font-['Roboto_Mono',_monospace]"
+                            ref="inputRefLabel"
+                          >
+                            {{ $t('balance') }}:
+                            <span
+                              class="fw-bold font-['Roboto_Mono',_monospace]"
+                              >{{
+                                RemainingBalance(zapToken, zapTokenIndex)
+                              }}</span
+                            ><span
+                              @click="
+                                () =>
+                                  OnMaxClick(zapTokenIndex, zapToken.address)
+                              "
+                              class="fw-bold bg-transparent pl-1"
+                              style="cursor: pointer"
+                            >
+                              {{ $t('max') }}</span
+                            >
+                          </div>
+                          <div class="font-['Roboto_Mono',_monospace]">
+                            {{ currencySelected.symbol
+                            }}{{
+                              (
+                                (lineNumbers[zapTokenIndex] / 1000) *
+                                lastTokenPrices[zapToken.address]
+                              ).toFixed(3)
+                            }}
+                          </div>
+                        </div>
+                        <div class="mt-2">
+                          <Slider
+                            @change="
+                              (value) =>
+                                OnSliderValueChange(zapTokenIndex, value)
+                            "
+                            :tooltips="false"
+                            :min="0"
+                            :max="maxBalances[zapToken.address] * 1000"
+                            :step="1"
+                            v-model="lineNumbers[zapTokenIndex]"
+                            lazy="false"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-
+                <div v-else-if="depositMethod == 'manual'">
+                  <div
+                    class="modal_stake_token dark:!bg-[#15151524] bg-white"
+                    v-for="(token, tokenIndex) in pool?.tokens"
+                    :key="`deposit-token-${token.address}`"
+                  >
+                    <div>
+                      <div
+                        class="d-flex justify-content-between align-items-center"
+                      >
+                        <div
+                          class="modal_stake_token_inner_name dark:!text-white text-black dark:!bg-[#4c4c4c24] bg-white"
+                        >
+                          <img
+                            :src="getTokenEntity(token.symbol, 'short').icon"
+                            width="20"
+                          />
+                          {{ token.symbol }}
+                          {{ (token.weight * 100).toFixed(0) }}%
+                        </div>
+                        <input
+                          class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
+                          style="
+                            font-size: clamp(10px, 0.8vw, 14px);
+                            font-weight: 500;
+                            text-align: right;
+                          "
+                          :value="
+                            lineNumbers[tokenIndex] > 0
+                              ? lineNumbers[tokenIndex] / 1000
+                              : lineNumbers[tokenIndex]
+                          "
+                          @input="(e) => onTokenInput(e, tokenIndex)"
+                          type="number"
+                        />
+                      </div>
+                      <div>
+                        <div
+                          class="modal_balance_slider dark:!text-white text-black"
+                        >
+                          <div
+                            class="value-label font-['Roboto_Mono',_monospace]"
+                            ref="inputRefLabel"
+                          >
+                            {{ $t('balance') }}:
+                            <span
+                              class="fw-bold font-['Roboto_Mono',_monospace]"
+                              >{{ RemainingBalance(token, tokenIndex) }}</span
+                            ><span
+                              @click="
+                                () => OnMaxClick(tokenIndex, token.address)
+                              "
+                              class="fw-bold bg-transparent pl-1"
+                              style="cursor: pointer"
+                            >
+                              {{ $t('max') }}</span
+                            >
+                          </div>
+                          <div class="font-['Roboto_Mono',_monospace]">
+                            {{ currencySelected.symbol
+                            }}{{
+                              (
+                                (lineNumbers[tokenIndex] / 1000) *
+                                lastTokenPrices[token.address]
+                              ).toFixed(3)
+                            }}
+                          </div>
+                        </div>
+                        <div class="mt-2">
+                          <Slider
+                            @change="
+                              (value) => OnSliderValueChange(tokenIndex, value)
+                            "
+                            :tooltips="false"
+                            :min="0"
+                            :max="maxBalances[token.address] * 1000"
+                            :step="1"
+                            v-model="lineNumbers[tokenIndex]"
+                            lazy="false"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div>
                   <div class="modal_total_container mt-4">
                     <table
@@ -303,6 +681,7 @@
             </div>
             <div v-else-if="approveStep > 0 && approveStep < 5">
               <DepositModalV2
+                @zapperModalOpen="zapperModalOpen"
                 :pool="pool"
                 :visibleDepositModal="visibleDepositModal"
                 @changeVisibleDepositOpen="changeVisibleDepositClose"
@@ -319,14 +698,25 @@
                 :weeklyYield="totalWeeklyYield"
                 :fiatTotal="fiatTotal"
                 :tokens="
-                  pool?.tokens?.map((t, i) => ({
-                    ...t,
-                    depositAmount: formattedLineNumbers[i],
-                    usdAmount:
-                      formattedLineNumbers[i] * lastTokenPrices[t.address],
-                  }))
+                  depositMethod === 'zap'
+                    ? [
+                        {
+                          ...zapToken,
+                          depositAmount: formattedLineNumbers[zapTokenIndex],
+                          usdAmount:
+                            formattedLineNumbers[zapTokenIndex] *
+                            lastTokenPrices[zapToken.address],
+                        },
+                      ]
+                    : pool?.tokens?.map((t, i) => ({
+                        ...t,
+                        depositAmount: formattedLineNumbers[i],
+                        usdAmount:
+                          formattedLineNumbers[i] * lastTokenPrices[t.address],
+                      }))
                 "
                 :approveStep="approveStep"
+                :depositMethod="depositMethod"
                 @changeApproveStep="changeApproveStep"
                 @explode="explode"
                 @addedTXHash="addedTXHash"
@@ -467,8 +857,6 @@
         </div>
       </div>
     </div>
-
-    {{ console.log('approveStep', approveStep) }}
   </MainCard>
 </template>
 <script setup>
@@ -492,10 +880,63 @@ import { bnum } from '@/lib/utils'
 import router from '@/router'
 import Modal from '@/UI/Modal.vue'
 import { getSinglePoolDetails } from '@/composables/data/detailsData'
+import TokenSelector from '@/UI/TokenSelector.vue'
+import { Dropdown } from 'floating-vue'
+import {
+  useTrades,
+  useZapper,
+} from '@/composables/poolActions/deposit/useZapper'
+
+const zapperModal = ref(false)
+const tradeTokens = ref([])
+const tradeDatas = ref([])
+const fromAmounts = ref([])
+const toAmounts = ref([])
+async function zapperModalOpen() {
+  const {
+    oneInchDatas,
+    oneInchDescs,
+    fromAmounts: amountsIn,
+    toAmounts: amountsOut,
+  } = await useTrades(
+    pool.value,
+    zapToken.value.address,
+    formattedLineNumbers.value[zapTokenIndex.value],
+    slippage.value,
+  )
+
+  tradeDatas.value = oneInchDatas
+  tradeTokens.value = oneInchDescs
+  fromAmounts.value = amountsIn
+  toAmounts.value = amountsOut
+
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+  zapperModal.value = true
+}
+function zapperModalClose() {
+  zapperModal.value = false
+}
+
+async function onAcceptTrade() {
+  await useZapper(
+    pool.value,
+    zapToken.value.address,
+    formattedLineNumbers.value[zapTokenIndex.value],
+    tradeDatas.value,
+    tradeTokens.value,
+  )
+}
 
 const poolId = router.currentRoute.value.params['id']
 const pool = ref(null)
 const approveStep = ref(0)
+const depositMethod = ref('zap')
+const slippageSelected = ref('Auto')
+const slippage = ref(1)
 
 const confettiVisible = ref(false)
 
@@ -610,9 +1051,15 @@ const priceImpactFormatted = computed(() =>
 //   weeklyYieldForAPR(`${pool.apr.total}`),
 // )
 const account = ref('')
+
+const zapToken = ref()
+const zapTokenIndex = ref()
+
 onMounted(async () => {
-  pool.value = await getSinglePoolDetails(56, poolId)
+  pool.value = await getSinglePoolDetails(56, poolId, true)
   tokens.value = pool.value.tokens.map((t) => t.address)
+  zapToken.value = pool.value.tokens[0]
+  zapTokenIndex.value = 0
   const {
     balances: _balances,
     account: _account,
@@ -802,7 +1249,7 @@ function onCurrencyInput(e) {
     font-weight: 400;
     line-height: 14px;
     letter-spacing: 0em;
-    // color: #ffffff;
+    font-family: 'Roboto Mono', monospace;
 
     &:nth-child(2) {
       margin-left: 4px;
@@ -944,5 +1391,41 @@ function onCurrencyInput(e) {
   border-radius: 20px;
   padding: 0px 34px 0 8px !important;
   min-height: 10px;
+}
+
+.settings_popup {
+  // width: 200px;
+  border-radius: 16px;
+  box-shadow: 0px 4px 8.9px 0px #02031cb5;
+
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  border: 0.5px solid #dceef60d;
+  padding: 13px 8px;
+  color: #fff;
+  position: relative;
+}
+
+.zapper_button {
+  width: 100%;
+  cursor: pointer;
+  margin-top: 5px;
+  border-radius: 30px;
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #02031c;
+  text-align: center;
+  padding: 6px;
+  background: #00e0ff;
+
+  box-shadow: 0px 4px 6px -1px #0000000d;
+
+  &:hover {
+    filter: drop-shadow(0 0 0.7rem #00c9ff);
+    background: #00e0ff;
+  }
 }
 </style>

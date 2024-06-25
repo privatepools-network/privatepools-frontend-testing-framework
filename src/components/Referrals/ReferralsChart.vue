@@ -1,6 +1,6 @@
 <template>
   <div class="pools_chart_container">
-    <PortfolioArbitrageBot :networks_data="networks_data" :chainSelected="chainSelected" :rewardsData="rewardsData" />
+    <ReferralsChartCard :networks_data="networks_data" />
 
     <div class="track_chart_card bg-[white] dark:!bg-[#22222224]">
       {{ console.log('all_chart_data', all_chart_data) }}
@@ -56,7 +56,7 @@ import VChart from 'vue-echarts'
 import { CanvasRenderer } from 'echarts/renderers'
 import { use } from 'echarts/core'
 import logo from '@/assets/images/d3v.png'
-import PortfolioArbitrageBot from '@/components/portfolio/PortfolioArbitrageBot.vue'
+import ReferralsChartCard from '@/components/Referrals/ReferralsChartCard.vue'
 import { FormatTrackingInfoChart } from '@/lib/formatter/trackingInfoChartFormatter'
 import {
   sumFields,
@@ -97,20 +97,20 @@ const { currentCurrency } = storeToRefs(settingsStore)
 
 const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
 
-const props = defineProps(['networks_data', 'chainSelected', 'all_chart_data', 'rewardsData'])
-const { networks_data, chainSelected, rewardsData } = toRefs(props)
+const props = defineProps(['networks_data','all_chart_data'])
+const { networks_data, rewardsData } = toRefs(props)
 
 const allChartData = ref([])
 const filteredData = computed(() => getFilteredData())
 console.log('filteredData', filteredData)
 const filters = ref({
   TVL: true,
-  PNL: true,
-  Rewards: true,
-  'Average APR': true,
-  ROI: true,
+  'Profits Generated': true,
+  'New Referred Wallets': true,
+  'Referred Wallets': true,
+  'Referrer APR': true,
   'Staked Liquidity': true,
-  Volume: true,
+  'TVL Referred': true,
   'Trades': true,
   'Capital Gains': true,
 })
@@ -122,76 +122,37 @@ const preFiltersList = ref([
     cumulable: false,
     isSolo: true,
   },
+
   {
-    title: 'Staked Liquidity',
-    code: 'TVL_ETH',
-    selected: true,
-    cumulable: false,
-    isSolo: true,
-  },
-  {
-    title: 'Staked Liquidity',
-    code: 'TVL_BTC',
-    selected: true,
-    cumulable: false,
-    isSolo: true,
-  },
-  {
-    title: 'PNL',
+    title: 'Profits Generated',
     code: 'PNL',
     selected: true,
     cumulable: true,
     isSolo: true,
   },
+
   {
-    title: 'PNL',
-    code: 'PNL_ETH',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
-    title: 'PNL',
-    code: 'PNL_BTC',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
-    title: 'Average APR',
+    title: 'Referred Wallets',
     code: 'Average APR',
     selected: true,
     cumulable: false,
     isSolo: true,
   },
   {
-    title: 'Rewards',
+    title: 'New Referred Wallets',
     code: 'Rewards',
     selected: true,
     cumulable: true,
     isSolo: true,
   },
   {
-    title: 'Volume',
+    title: 'TVL Referred',
     code: 'Volume',
     selected: true,
     cumulable: true,
     isSolo: true,
   },
-  {
-    title: 'Volume',
-    code: 'Volume_ETH',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
-    title: 'Volume',
-    code: 'Volume_BTC',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
+
   {
     title: 'Number of Trades',
     code: 'Trades',
@@ -200,7 +161,7 @@ const preFiltersList = ref([
     isSolo: true,
   },
   {
-    title: 'ROI',
+    title: 'Referrer APR',
     code: 'ROI',
     selected: true,
     cumulable: false,
@@ -213,20 +174,7 @@ const preFiltersList = ref([
     cumulable: false,
     isSolo: true,
   },
-  {
-    title: 'Capital Gains',
-    code: 'Capital Gains_ETH',
-    selected: true,
-    cumulable: false,
-    isSolo: true,
-  },
-  {
-    title: 'Capital Gains',
-    code: 'Capital Gains_BTC',
-    selected: true,
-    cumulable: false,
-    isSolo: true,
-  },
+
 ])
 
 const filterKeys = computed(() => Object.keys(filters.value))
@@ -418,40 +366,29 @@ function legendSelectedChange(e) {
     filters.value[key] = value
   }
 
-  if (e.name === 'Volume') {
+  if (e.name === 'TVL Referred') {
     showVolume.value = !showVolume.value
-    // if (showVolume.value === true) {
-    //   currentGridToRight.value = currentGridToRight.value + 55
-    // } else {
-    //   currentGridToRight.value = currentGridToRight.value - 55
-    // }
+  }
+  if (e.name === 'Referrer APR') {
+    showRevenueProfits.value = !showRevenueProfits.value
+ 
+  }
+  if (e.name === 'Profits Generated') {
+    showTradesGasFees.value = !showTradesGasFees.value
+ 
   }
 
-  if (e.name === 'Capital Gains' || e.name === 'ROI') {
-    if (e.selected['Capital Gains'] === false && e.selected.ROI === false) {
-      showRevenueProfits.value = false
-    } else if (e.selected['Capital Gains'] === true || e.selected.ROI === true) {
-      showRevenueProfits.value = true
-    }
-  }
 
-  if (e.name === 'PNL' || e.name === 'Trades') {
-    if (e.selected['PNL'] === false && e.selected.Trades === false) {
-      showTradesGasFees.value = false
-    } else if (e.selected['PNL'] === true || e.selected.Trades === true) {
-      showTradesGasFees.value = true
-    }
-  }
 
-  if (e.name === 'Average APR' || e.name === 'Rewards') {
+  if (e.name === 'Referred Wallets' || e.name === 'New Referred Wallets') {
     if (
-      e.selected['Average APR'] === false &&
-      e.selected['Rewards'] === false
+      e.selected['Referred Wallets'] === false &&
+      e.selected['New Referred Wallets'] === false
     ) {
       showAPRVolatility.value = false
     } else if (
-      e.selected['Average APR'] === true ||
-      e.selected['Rewards'] === true
+      e.selected['Referred Wallets'] === true ||
+      e.selected['New Referred Wallets'] === true
     ) {
       showAPRVolatility.value = true
     }
@@ -484,14 +421,14 @@ function legendSelectedChange(e) {
 
 
 const series = computed(() => [
-  seriesInstance('Capital Gains', 'bar', dataCapitalGains.value, 2, '#01B47E'),
-  seriesInstance('PNL', 'bar', dataPNL.value, 3, '#87F1FF'),
-  seriesInstance('Average APR', 'line', dataAvgApr.value, 4, '#FFD700'),
-  seriesInstance('Volume', 'bar', dataVolumes.value, 1, '#FA5173'),
-  seriesInstance('Trades', 'bar', dataTrades.value, 3, '#77aaff'),
-  seriesInstance('Rewards', 'line', dataRewards.value, 4, '#FFC374'),
-  seriesInstance('ROI', 'bar', dataROI.value, 2, '#00FF75'),
-  seriesInstance('Staked Liquidity', 'line', dataTVL.value, 0, '#F07E07'),
+  // seriesInstance('Capital Gains', 'bar', dataCapitalGains.value, 2, '#01B47E'),
+  seriesInstance('Profits Generated', 'bar', dataPNL.value, 3, '#00E0FF'),
+  seriesInstance('Referred Wallets', 'bar', dataAvgApr.value, 4, '#FF9B40'),
+  seriesInstance('TVL Referred', 'bar', dataVolumes.value, 1, '#FF00B8'),
+  // seriesInstance('Trades', 'bar', dataTrades.value, 3, '#77aaff'),
+  seriesInstance('New Referred Wallets', 'bar', dataRewards.value, 4, '#F0DA0F'),
+  seriesInstance('Referrer APR', 'line', dataROI.value, 2, '#FFC925'),
+  // seriesInstance('Staked Liquidity', 'line', dataTVL.value, 0, '#F07E07'),
 ])
 
 
@@ -574,10 +511,10 @@ const optionObj = ref({
         },
       },
     },
-    yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
-    yAxisInstance('Capital Gains / ROI', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
-    yAxisInstance('Trades / PNL', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance('APR / Rewards', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
+    yAxisInstance('TVL Referred', width.value > 768 ? showVolume : false, 0, '#FF00B8'),
+    yAxisInstance('Referrer APR', width.value > 768 ? showRevenueProfits : false, 60, '#FFC925'),
+    yAxisInstance('Profits Generated', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
+    yAxisInstance('Referred Wallets / New Referred Wallets', width.value > 768 ? showAPRVolatility : false, 180, '#FF9B40'),
   ],
   grid: [
     {

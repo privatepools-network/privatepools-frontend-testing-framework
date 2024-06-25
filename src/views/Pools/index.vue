@@ -61,7 +61,11 @@
       <!-- {{ console.log('hidePools', hidePools) }} -->
     </div>
 
-    <div class="pools-rows">
+    <!-- v-if="width > 768"  -->
+    <div 
+      v-if="width > 768"
+      class="pools-rows"
+      >
       <!-- Headers Desktop -->
       <div class="pools-row pools-row_header">
         <div
@@ -243,6 +247,52 @@
         <img :src="arrow_bottom" />
       </div>
     </div>
+    <div v-else>
+      <div
+        v-if="user_staked_pools.length === 0 && hidePools"
+        class="my-5 text-center text-black dark:!text-white"
+      >
+        <div>{{ $t('no_results') }}</div>
+        <div>{{ $t('choose_a_pool') }}</div>
+      </div>
+      <div v-else-if="all_pools.length === 0" class="my-5">
+        <LoaderPulse />
+      </div>
+      <div v-else class="mobile_table_container">
+      <MobileAdvancedTable
+        
+        v-for="(pool, index) in all_pools
+          .slice(0, sliceNumber)
+          .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+          .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
+        :key="pool.name"
+        :pool="pool"
+        :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
+        :userPools="user_staked_pools"
+        :inactive="isPoolInactive(pool)"
+        :index="index"
+        @goToPoolWithdraw="goToPoolWithdraw"
+        @goToCLPool="goToCLPool"
+        @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit"
+        @goToPoolManage="goToPoolManage"
+        @goToCL="goToCL"
+        :isActions="true"
+      />
+      <div
+        v-if="
+          sliceNumber <
+          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+            .length
+        "
+        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more text-black dark:!text-white"
+      >
+        {{ $t('load_more') }}
+        <img :src="arrow_bottom" />
+      </div>
+      </div>
+    </div>
   </MainCard>
 </template>
 
@@ -260,7 +310,7 @@ import { ethers } from 'ethers'
 import { GetPoolSwapsData } from '@/composables/pools/charts/usePoolSwapsData'
 import { GetPoolHistoricValues } from '@/composables/pools/charts/usePoolHistoricValues'
 import PoolRow from '@/components/Pool/PoolRow.vue'
-import PoolsMobileTable from '@/components/Pool/PoolsMobileTable.vue'
+import MobileAdvancedTable from '@/UI/MobileAdvancedTable.vue'
 import MainCard from '@/UI/MainCard.vue'
 import filterSVG from '@/assets/icons/filter.svg'
 import { GetHistoricalTvl } from '@/composables/pools/snapshots/usePoolHistoricalTvl'

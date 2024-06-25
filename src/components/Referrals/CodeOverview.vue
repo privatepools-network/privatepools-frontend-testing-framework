@@ -13,9 +13,10 @@
               </div>
               <div class="text_value text-black dark:!text-white">
                 {{
-                  item.name.includes('APR')
-                    ? `${parseFloat(item.value).toFixed(3)}%`
-                    : parseFloat(item.value).toFixed(3)
+                  typeof item.value === 'string' ? item.value :
+                  item.name.includes('Referral Tier')
+                    ? `${parseFloat(item.value).toFixed(1)}%`
+                    : `$${parseFloat(item.value)}`
                 }}
               </div>
             </div>
@@ -30,9 +31,10 @@
             </div>
             <div class="text_value text-black dark:!text-white flex items-center gap-1">
               {{
-                item.name.includes('APR')
-                  ? `${parseFloat(item.value_2).toFixed(3)}%`
-                  : parseFloat(item.value_2).toFixed(3)
+                typeof item.value_2 === 'string' ? item.value_2 :
+                item.name.includes('Referral Tier')
+                  ? `${parseFloat(item.value_2).toFixed(1)}%`
+                  : `$${parseFloat(item.value_2)}`
               }}
               <div class="flex items-center text-[8px] text-[#8E8E8E]">
                 <svg :class="parseFloat(item.value_2) > 0
@@ -54,51 +56,11 @@
                     </clipPath>
                   </defs>
                 </svg>
-                {{ item.percentage.toFixed(2) }}%
+                {{ item?.percentage?.toFixed(2) }}%
               </div>
             </div>
           </div>
-          <div class="mt-5">
-            <CChart type="line" style="height: 70px; filter: drop-shadow(0 0 0.5rem #00c9ff)" :data="{
-              labels: item.chartLabels,
-              datasets: [
-                {
-                  label: 'Profit',
-                  backgroundColor: '#03F5AE00',
-                  borderColor: '#03ACF599',
-                  data: item.chartData,
-                  fill: true,
-                  pointRadius: 1,
-                  pointHitRadius: 2,
-                },
-              ],
-            }" :options="{
-              plugins: {
-                legend: {
-                  display: false,
-                },
-                tooltip: {
-                  enabled: true,
-                },
-              },
-
-              maintainAspectRatio: false,
-              scales: {
-                x: {
-                  display: false,
-                },
-                y: {
-                  display: false,
-                },
-              },
-              elements: {
-                line: {
-                  borderWidth: 2,
-                  tension: 0.4,
-                },
-              },
-            }" />
-          </div>
+     
         </div>
       </div>
     </div>
@@ -113,6 +75,7 @@
             </div>
             <div class="text_value text-black dark:!text-white">
               {{
+                typeof item.value === 'string' ? item.value :
                 parseFloat(item.value)
                   .toFixed(3)
                   .replace(/(\.0+|0+)$/, '')
@@ -130,16 +93,12 @@
 <script setup>
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 
-import { CChart } from '@coreui/vue-chartjs'
-import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
-import totalUsers from '@/assets/icons/generalIcons/totalUsers.svg'
-import DepositedLiquidity from '@/assets/icons/generalIcons/DepositedLiquidity.svg'
-import FeesIcon from '@/assets/icons/generalIcons/Fees.svg'
-import RealizedProfit from '@/assets/icons/generalIcons/realizedProfit.svg'
+import poolsIcon from '@/assets/icons/generalIcons/poolsIcon.svg'
+import walletIcon from '@/assets/icons/generalIcons/walletIcon.svg'
+import moneyIcon from '@/assets/icons/generalIcons/moneyIcon.svg'
 import TotalProfitsIcon from '@/assets/icons/generalIcons/TotalProfits.svg'
 import averageAPRIcon from '@/assets/icons/generalIcons/averageAPR.svg'
-import totalVolumeIcon from '@/assets/icons/generalIcons/totalVolume.svg'
-import { useDark } from '@vueuse/core'
+import myCodeIcon from '@/assets/icons/generalIcons/myCodeIcon.svg'
 import d3logo from '@/assets/images/d3v.png'
 import { defineProps, computed } from 'vue'
 import { t } from 'i18next'
@@ -151,82 +110,67 @@ import { useSettings } from '@/store/settings'
 const settingsStore = useSettings();
 
 const { currentCurrency } = storeToRefs(settingsStore)
-const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
-const isDark = useDark()
+// const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
+// const isDark = useDark()
 
-const props = defineProps(['overview', 'generalOverviewLoader'])
+// const props = defineProps(['overview'])
 const bigContainerMock = computed(() =>
-  props.overview
-    ? [
+ [
       {
         icon: TotalProfitsIcon,
-        name: t('total_profits'),
-        value: props.overview[`totalProfits${postfix.value}`],
-        description: `24H ${t('profits')}`,
-        value_2: props.overview[`profits24H${postfix.value}`],
-        chartLabels: props.overview.profitChart.timestamps,
-        chartData: props.overview.profitChart.data,
-        percentage: props.overview.profitPercentage,
+        name: 'Referral Tier',
+        value: 'Tier 1',
+        description: `Revenue Share`,
+        value_2: 0.1,
+
       },
       {
         icon: averageAPRIcon,
-        name: `${t('average')} APR`,
-        value: props.overview.avgAPR,
-        description: '24H APR',
-        value_2: props.overview.APR24H,
-        chartLabels: props.overview.aprChart.timestamps,
-        chartData: props.overview.aprChart.data,
-        percentage: props.overview.APRPercentage,
+        name: 'TVL Referred',
+        value: 2545,
+        description: `TVL 24H`,
+        value_2: 545,
+        percentage: 5.15
+
       },
       {
-        icon: d3logo,
-        name: 'PPN TVL',
-        value: props.overview[`PPNTVL${postfix.value}`] ?? 0,
-        description: `PPN ${t('price')}`,
-        value_2: props.overview[`PPNPrice${postfix.value}`] ?? 0,
-        chartLabels: props.overview.ppnChart.timestamps,
-        chartData: props.overview.ppnChart.data,
-        percentage: props.overview.PPNPricePercentage ?? 0,
+        icon: moneyIcon,
+        name: 'Total Returns',
+        value: 235.56,
+        description: `Returns 24H `,
+        value_2: 35.5,
+        percentage: 5.15
+
       },
       {
-        icon: totalVolumeIcon,
-        name: 'Total Volume',
-        value: props.overview[`totalVolume${postfix.value}`],
-        description: `24h ${t('volume')}`,
-        value_2: props.overview[`volume24H${postfix.value}`],
-        chartLabels: props.overview.volumeChart.timestamps,
-        chartData: props.overview.volumeChart.data,
-        percentage: props.overview.volumePercentage,
+        icon: walletIcon,
+        name: 'Total Referred Wallets',
+        value: '14',
+        description: `Returns 24H `,
+        value_2: '7',
+        percentage: 50.15
+
       },
+
     ]
-    : [],
+   
 )
 
 const smallContainerMock = computed(() =>
-  props.overview
-    ? [
+ [
       {
-        icon: totalUsers,
-        name: t('total_users'),
-        value: props.overview.totalUsers,
+        icon: myCodeIcon,
+        name: 'My Code',
+        value: 'Code2',
       },
       {
-        icon: DepositedLiquidity,
-        name: 'TVL',
-        value: props.overview[`TVL${postfix.value}`],
+        icon: poolsIcon,
+        name: 'Number of Pools',
+        value: 20,
       },
-      {
-        icon: FeesIcon,
-        name: `24H ${t('trades')}`,
-        value: props.overview.trades24H,
-      },
-      {
-        icon: RealizedProfit,
-        name: `24H ${t('volume')}`,
-        value: props.overview[`volume24H${postfix.value}`],
-      },
+
     ]
-    : [],
+    
 )
 </script>
 <style lang="scss" scoped>

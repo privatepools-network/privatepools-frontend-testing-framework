@@ -56,7 +56,10 @@
               {{ (total / pool.lpPrice).toFixed(2) }}
               {{
                 pool.tokens
-                  .map((t) => `${parseFloat(t.weight * 100).toFixed(0)}%${t.symbol}`)
+                  .map(
+                    (t) =>
+                      `${parseFloat(t.weight * 100).toFixed(0)}%${t.symbol}`,
+                  )
                   .join('/')
               }}
             </div>
@@ -146,7 +149,9 @@
         />
 
         <div class="w-12 mt-1">
-          <ProgressLoader v-if="mmActive && approveStep === 4 || approveStep === 2" />
+          <ProgressLoader
+            v-if="(mmActive && approveStep === 4) || approveStep === 2"
+          />
           <span v-else class="progress_loader_still"></span>
         </div>
 
@@ -171,14 +176,14 @@
     </div>
     <div
       class="compose_pool_connect_wallet"
-      @click="OnPreviewClick(); approveStep = 4
+      @click="depositMethod === 'zap' ? $emit('zapperModalOpen') :
+      OnPreviewClick(), (approveStep = 4)
       "
       v-else-if="approveStep === 3"
     >
       {{ $t('add_liquidity') }}
     </div>
     <div class="compose_pool_connect_wallet" v-else-if="approveStep === 4">
-     
       Adding Liquidty <span v-if="mmActive" class="button_loader pl-2"></span>
     </div>
     <div
@@ -219,12 +224,11 @@ import successSound from '@/assets/sounds/success_sound.mp3'
 import errorSound from '@/assets/sounds/error_sound.mp3'
 import { useSound } from '@vueuse/sound'
 import { useDevice } from '@/composables/adaptive/useDevice'
-
+import { useZapper } from '@/composables/poolActions/deposit/useZapper'
 
 const playSuccess = useSound(successSound, { volume: 1 })
 const playError = useSound(errorSound, { volume: 1 })
 const { width } = useDevice()
-
 
 const mmActive = ref(false)
 
@@ -276,8 +280,15 @@ const props = defineProps([
   'fiatTotal',
   'weeklyYield',
   'approveStep',
+  'depositMethod',
 ])
-const emit = defineEmits(['changeVisibleDepositClose', 'changeApproveStep', 'explode', 'addedTXHash'])
+const emit = defineEmits([
+  'zapperModalOpen',
+  'changeVisibleDepositClose',
+  'changeApproveStep',
+  'explode',
+  'addedTXHash',
+])
 console.log('PROPS - ', props)
 const depositFinished = ref(false)
 
@@ -294,6 +305,7 @@ async function OnPreviewClick() {
       tokenAddresses,
       props.tokens.map((t) => t.depositAmount),
       props.account,
+      props.depositMethod,
     )
     if (!success) {
       emit('changeApproveStep', 1)
@@ -318,13 +330,20 @@ async function OnPreviewClick() {
       theme: 'dark',
       closeOnClick: false,
     })
-    let tx = await useJoinPool(
-      props.pool,
-      Object.values(props.pool.tokens),
-      props.tokens.map((t) => t.depositAmount),
-      props.account,
-      props.bptOut,
-    )
+    let tx =
+      props.depositMethod === 'zap'
+        ? await useZapper(
+            props.pool,
+            props.tokens[0].address,
+            props.tokens[0].depositAmount,
+          )
+        : await useJoinPool(
+            props.pool,
+            Object.values(props.pool.tokens),
+            props.tokens.map((t) => t.depositAmount),
+            props.account,
+            props.bptOut,
+          )
 
     emit('addedTXHash', tx.hash)
 
@@ -333,10 +352,9 @@ async function OnPreviewClick() {
     }/tx/${tx.hash}`
 
     // props.approveStep = 5
-    
+
     emit('changeApproveStep', 5)
     emit('explode')
-
 
     if (tx.error) {
       console.log('!!!', tx.error)
@@ -376,7 +394,7 @@ async function OnPreviewClick() {
         tx_link: `${conf.explorer}/tx/${tx.hash}`,
         speedUp: '',
       },
-      
+
       closeOnClick: false,
       autoClose: 10000,
       closeButton: false,
@@ -387,11 +405,8 @@ async function OnPreviewClick() {
     mmActive.value = false
     emit('changeVisibleDepositClose')
     depositFinished.value = true
-
- 
   }
 }
-
 </script>
 <style lang="scss" scoped>
 .modal_body_header {

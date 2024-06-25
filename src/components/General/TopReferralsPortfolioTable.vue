@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CRow
+    <CRow v-if="width > 768"
       id="pool-activity-row"
       class="table-wrapper !mx-0"
       style="
@@ -259,31 +259,60 @@
         </div>
       </Table>
     </CRow>
-    <!-- <Pagination
+    <div v-else class="mobile_table_container">
+      <LeaderboardMobileTable
+      :user_in_top="user_in_top"
+      :account="account"
+      :user_info="user_info"
+      :filteredActivities="filteredActivitiesMock"
+      :type="'referrals'"
+    />
+  </div>
+  <Pagination
       :perPage="perPage"
-      :pools="poolActivity"
+      :pools="filteredActivities"
       :currentPage="currentPage"
       @changePage="changePage"
       @changePerPage="changePerPage"
       :perPageOptions="[25, 50, 100]"
-    ></Pagination> -->
+    ></Pagination>
   </div>
 </template>
 <script setup>
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 import Table from '@/UI/Table'
-import { ref, defineEmits, computed } from 'vue'
+import { ref, defineEmits, computed, onMounted } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import firstPlace from '@/assets/icons/generalIcons/firstPlace.svg'
 import secondPlace from '@/assets/icons/generalIcons/secondPlace.svg'
 import thirdPlace from '@/assets/icons/generalIcons/thirdPlace.svg'
 import router from '@/router'
 import Pagination from '../Pool/Pagination.vue'
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import { getTopPortfolios } from '@/composables/data/topPortfoliosData'
+import LeaderboardMobileTable from './LeaderboardMobileTable.vue'
+import { useDevice } from '@/composables/adaptive/useDevice'
 
 defineEmits('changeToSpecificPortfolio')
+const { width } = useDevice()
 
 const perPage = ref(25)
 const currentPage = ref(1)
+
+
+const allPortfolios = ref([])
+const filteredActivitiesMock = computed(() => allPortfolios.value)
+const account = ref('')
+const user_info = computed(() => allPortfolios.value.find((item) => item['Wallet'].toLowerCase() == account.value.toLowerCase()) ?? { Wallet: account.value, Place: allPortfolios.value.length + 1, Profit: 0, 'Number of Pools': 0, 'Gas Fees': 0, 'Traded Volume': 0 })
+const user_in_top = computed(() => filteredActivitiesMock.value.map((item) => item['Wallet'].toLowerCase()).includes(account.value.toLowerCase()))
+onMounted(async () => {
+  const mmProvider = await InitializeMetamask()
+  if (mmProvider) {
+    const address = await mmProvider.getSigner().getAddress()
+    account.value = address
+  }
+  allPortfolios.value = await getTopPortfolios()
+})
 
 function changePage(args) {
   if (args.isEquating == false) {

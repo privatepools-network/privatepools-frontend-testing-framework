@@ -1,5 +1,5 @@
 <template>
-  <div class="pools-rows">
+  <div v-if="width > 768" class="pools-rows">
     <div class="pools-row pools-row_header">
       <div
         class="pools-row__col text-black dark:!text-white"
@@ -95,14 +95,19 @@
       :isActions="true"
     />
   </div>
-  <!-- <Pagination
-      :perPage="perPage"
-      :pools="all_tokens"
-      :currentPage="currentPage"
-      @changePage="changePage"
-      @changePerPage="changePerPage"
-      :perPageOptions="[25, 50, 100]"
-    ></Pagination> -->
+  <div v-else>
+    <LoaderPulse v-if="!all_tokens" />
+    <div v-else-if="all_tokens && all_tokens.length > 0" class="mobile_table_container">
+    <MobileTable
+      v-for="(pool, index) in all_tokens.toSorted((a, b) => b[ascendFilterBy.toLowerCase()] - a[ascendFilterBy.toLowerCase()])"
+      :poolsLength="all_tokens.length"
+      :key="pool.name"
+      :pool="pool"
+      :index="index"
+      :isActions="true"
+    />
+  </div>
+  </div>
 </template>
 <script setup>
 import { t } from 'i18next'
@@ -110,6 +115,10 @@ import Pagination from '../Pool/Pagination.vue'
 import TopTradingTokensPoolRow from './TopTradingTokensPoolRow.vue'
 import { defineProps, ref } from 'vue'
 import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
+import { useDevice } from '@/composables/adaptive/useDevice'
+import MobileTable from '@/UI/MobileTable.vue'
+
+const { width } = useDevice()
 
 const ascendFilterBy = ref('TVL')
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="pools-rows">
+  <div v-if="width > 768" class="pools-rows">
     <div class="pools-row pools-row_header">
       <div
         class="pools-row__col !text-black dark:!text-white"
@@ -64,7 +64,10 @@
               </svg>
             </div>
 
-            <div :class="'head_caption_text flex items-center'"  @click="ascendFilterBy = headCaption">
+            <div
+              :class="'head_caption_text flex items-center'"
+              @click="ascendFilterBy = headCaption"
+            >
               <img
                 v-if="
                   !headCaption.includes(t('tokens')) &&
@@ -73,7 +76,6 @@
                 "
                 :src="filterArrow"
                 :class="ascendFilterBy === headCaption ? 'rotate-180' : ''"
-               
               />
               {{ headCaption }}
             </div>
@@ -107,7 +109,44 @@
       No pools of this type
     </div>
   </div>
-
+  <div v-else>
+    <div v-if="!all_pools" class="my-5">
+      <LoaderPulse />
+    </div>
+    <div v-else-if="all_pools && all_pools.length > 0" class="mobile_table_container">
+      <MobileAdvancedTable
+      v-for="(pool, index) in all_pools
+        .slice(0, sliceNumber)
+        .toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy])"
+      :key="pool.name"
+      :pool="pool"
+      :userPools="user_staked_pools"
+      :index="index"
+      @goToPoolWithdraw="goToPoolWithdraw"
+      @goToPool="goToPool"
+      @goToPoolDeposit="goToPoolDeposit"
+      @goToPoolManage="goToPoolManage"
+      @goToCL="goToCL"
+      :isActions="true"
+      />
+      <div
+        v-if="
+          sliceNumber <
+          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+            .length
+        "
+        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+        class="load_more text-black dark:!text-white"
+      >
+        {{ $t('load_more') }}
+        <img :src="arrow_bottom" />
+      </div>
+    </div>
+    <div v-else class="my-5 text-center text-black dark:!text-white">
+      <div>{{ $t('no_results') }}</div>
+      <div>{{ $t('choose_a_pool') }}</div>
+    </div>
+  </div>
   <!-- <Pagination
       :perPage="perPage"
       :pools="all_pools"
@@ -126,6 +165,10 @@ import LoaderPulse from '../loaders/LoaderPulse.vue'
 import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
 import router from '@/router'
 import { DisplayChain, networkId } from '@/composables/useNetwork'
+import { useDevice } from '@/composables/adaptive/useDevice'
+import MobileAdvancedTable from '@/UI/MobileAdvancedTable.vue'
+
+const { width } = useDevice()
 
 // const perPage = ref(25)
 // const currentPage = ref(1)
@@ -156,11 +199,13 @@ const headers = [
   t('actions'),
 ]
 
-
 function goToPool(args) {
   console.log('args', args)
   console.log('all_pools!!!', props.all_pools)
-  console.log('props.all_pools.value[args.index].id', props.all_pools[args.index].id)
+  console.log(
+    'props.all_pools.value[args.index].id',
+    props.all_pools[args.index].id,
+  )
   router.push({
     name: 'Pool Details',
     params: {
@@ -170,7 +215,6 @@ function goToPool(args) {
     },
   })
 }
-
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
