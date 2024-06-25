@@ -348,7 +348,7 @@ const ascendFilterBy = ref('TVL')
 const headers = [
   t('tokens'),
   t('composition'),
-  'All Returns %',
+  // 'All Returns %',
   'TVL',
   t('volume'),
   'APR',

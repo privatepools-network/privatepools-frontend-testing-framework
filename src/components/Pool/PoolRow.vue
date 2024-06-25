@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <div class="pools-row__col text-black dark:!text-white">
+      <!-- <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value flex items-center">
             <CounterAnimation
@@ -64,7 +64,7 @@
             />%
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
