@@ -44,7 +44,7 @@ export async function GetPossibleComposeTokens(network, enablePrices = false) {
     t.price = t.usdAmount / t.amount
     t.value = 0
     t.img = icon
-    t.balance = parseFloat(t.amount)
+    t.balance = parseFloat(t.amount.toFixed(3))
     t.userBalance = t.amount
   })
   return account_balances.tokens

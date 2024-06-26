@@ -9,8 +9,15 @@
       "
       :slippage-selected="slippageSelected"
       :zap-token="zapToken"
-      @on-close="zapperModalClose"
+      @on-close="isZapperModalOpen = false"
       @on-accept-trade="onAcceptTrade"
+    />
+
+    <TokenSelectModal
+      :is-open="isTokenSelectModalOpen"
+      :possible-tokens="possibleTokens"
+      @close="isTokenSelectModalOpen = false"
+      @update-token="(token) => (zapToken = token)"
     />
 
     <div class="center_container dark:!bg-[#15151524] bg-white">
@@ -21,9 +28,7 @@
               class="caption dark:!text-white text-black"
               style="font-size: clamp(10px, 0.9vw, 16px); font-weight: 700"
             >
-              {{
-                pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/')
-              }}
+              {{ pool?.tokens?.map((item) => item.symbol).join('/') }}
             </div>
 
             <div class="flex flex-wrap">
@@ -61,7 +66,7 @@
       <div v-else>
         <div class="flex justify-center md:flex-row flex-col gap-5">
           <div class="deposit_choose dark:!bg-[#00000024] bg-white">
-            <div class="deposit_text dark:!text-white text-black my-1">
+            <div class="dark:!text-white text-black my-1">
               <div
                 v-if="approveStep !== 5"
                 class="flex items-center justify-between p-2"
@@ -85,46 +90,18 @@
                     :slippage-text="slippageSelected"
                     :slippage-value="slippage"
                     @change-slippage="
-                      (text, value) => {
-                        ;(slippageSelected = text),
-                          value !== '-'
-                            ? (slippage = value)
-                            : (slippage = undefined)
-                      }
+                      (text, value) => (
+                        (slippageSelected = text),
+                        value !== '-'
+                          ? (slippage = value)
+                          : (slippage = undefined)
+                      )
                     "
                   />
                 </div>
               </div>
             </div>
             <div v-if="approveStep === 0">
-              <div class="deposit_network_text dark:!text-white text-black">
-                {{ chainSelected }}
-              </div>
-
-              <div
-                class="d-flex justify-content-between dark:!bg-[#00000024] bg-white currency_container"
-                v-if="depositMethod !== 'zap'"
-              >
-                <CurrencySelector
-                  @updateCurrency="
-                    (newCurrency) => (currencySelected = newCurrency)
-                  "
-                />
-                <div>
-                  <input
-                    class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
-                    style="
-                      font-size: clamp(10px, 0.8vw, 14px);
-                      font-weight: 500;
-                      text-align: right;
-                    "
-                    type="tel"
-                    :placeholder="0"
-                    @input="(e) => onCurrencyInput(e)"
-                  />
-                </div>
-              </div>
-
               <div
                 class="d-flex flex-column gap-2"
                 v-if="
@@ -133,21 +110,118 @@
                   lineNumbers.length > 0
                 "
               >
-                <div v-if="depositMethod == 'zap'">
-                  <div class="modal_stake_token dark:!bg-[#15151524] bg-white">
+                <div
+                  v-if="depositMethod == 'zap'"
+                  class="modal_stake_token dark:!bg-[#15151524] bg-white mb-4"
+                >
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div
+                      @click="() => tokenSelectModalOpen()"
+                      class="d-flex flex-column gap-2"
+                    >
+                      <div
+                        class="text-[14px] mb-0 dark:!text-white text-black flex items-center gap-1"
+                      >
+                        <img
+                          :src="getTokenEntity(zapToken.symbol, 'short').icon"
+                          width="18"
+                        />
+                        <span style="margin-left: 5px">
+                          {{ zapToken.symbol }}
+                        </span>
+                        <img :src="ArrowDownIcon" />
+                      </div>
+                    </div>
+                    <input
+                      class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
+                      style="
+                        font-size: clamp(10px, 0.8vw, 14px);
+                        font-weight: 500;
+                        text-align: right;
+                      "
+                      :value="zapToken.value"
+                      @input="(e) => (zapToken.value = e.target.value)"
+                      type="number"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="modal_balance_slider dark:!text-white text-black"
+                    >
+                      <div
+                        class="value-label font-['Roboto_Mono',_monospace]"
+                        ref="inputRefLabel"
+                      >
+                        {{ $t('balance') }}:
+                        <span class="fw-bold font-['Roboto_Mono',_monospace]">
+                          {{ zapToken.balance - zapToken.value }}
+                        </span>
+                        <span
+                          @click="() => (zapToken.value = zapToken.balance)"
+                          class="fw-bold bg-transparent pl-1 cursor-pointer"
+                        >
+                          {{ $t('max') }}
+                        </span>
+                      </div>
+                      <div class="font-['Roboto_Mono',_monospace]">
+                        {{ currencySelected.symbol }}
+                        {{ (zapToken.value * zapToken.price).toFixed(3) }}
+                      </div>
+                    </div>
+                    <Slider
+                      class="mt-2"
+                      @change="(value) => (zapToken.value = value)"
+                      :tooltips="false"
+                      :min="0"
+                      :max="zapToken.balance"
+                      :step="zapToken.balance / 100"
+                      v-model="zapToken.value"
+                      lazy="false"
+                    />
+                  </div>
+                </div>
+                <div v-else>
+                  <div
+                    class="d-flex justify-content-between dark:!bg-[#00000024] bg-white currency_container"
+                  >
+                    <CurrencySelector
+                      @updateCurrency="
+                        (newCurrency) => (currencySelected = newCurrency)
+                      "
+                    />
+                    <input
+                      class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
+                      style="
+                        font-size: clamp(10px, 0.8vw, 14px);
+                        font-weight: 500;
+                        text-align: right;
+                      "
+                      type="tel"
+                      :placeholder="0"
+                      @input="(e) => onCurrencyInput(e)"
+                    />
+                  </div>
+
+                  <div
+                    class="modal_stake_token dark:!bg-[#15151524] bg-white mb-2"
+                    v-for="(token, tokenIndex) in pool?.tokens"
+                    :key="`deposit-token-${token.address}`"
+                  >
                     <div
                       class="d-flex justify-content-between align-items-center"
                     >
-                      <TokenSelector
-                        :tokens="pool?.tokens"
-                        :token-selected="zapToken"
-                        @update-token="
-                          (selectedToken, selectedIndex) => (
-                            (zapToken = selectedToken),
-                            (zapTokenIndex = selectedIndex)
-                          )
-                        "
-                      />
+                      <div
+                        class="modal_stake_token_inner_name dark:!text-white text-black dark:!bg-[#4c4c4c24] bg-white"
+                      >
+                        <img
+                          :src="getTokenEntity(token.symbol, 'short').icon"
+                          width="20"
+                        />
+                        {{ token.symbol }}
+                        {{ (token.weight * 100).toFixed(0) }}%
+                      </div>
                       <input
                         class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
                         style="
@@ -156,232 +230,76 @@
                           text-align: right;
                         "
                         :value="
-                          lineNumbers[zapTokenIndex] > 0
-                            ? lineNumbers[zapTokenIndex] / 1000
-                            : lineNumbers[zapTokenIndex]
+                          lineNumbers[tokenIndex] > 0
+                            ? lineNumbers[tokenIndex] / 1000
+                            : lineNumbers[tokenIndex]
                         "
-                        @input="(e) => onTokenInput(e, zapTokenIndex)"
+                        @input="(e) => onTokenInput(e, tokenIndex)"
                         type="number"
                       />
                     </div>
-                    <div>
-                      <div
-                        class="modal_balance_slider dark:!text-white text-black"
-                      >
-                        <div
-                          class="value-label font-['Roboto_Mono',_monospace]"
-                          ref="inputRefLabel"
-                        >
-                          {{ $t('balance') }}:
-                          <span class="fw-bold font-['Roboto_Mono',_monospace]">
-                            {{ RemainingBalance(zapToken, zapTokenIndex) }}
-                          </span>
-                          <span
-                            @click="
-                              () => OnMaxClick(zapTokenIndex, zapToken.address)
-                            "
-                            class="fw-bold bg-transparent pl-1"
-                            style="cursor: pointer"
-                          >
-                            {{ $t('max') }}
-                          </span>
-                        </div>
-                        <div class="font-['Roboto_Mono',_monospace]">
-                          {{ currencySelected.symbol }}
-                          {{
-                            (
-                              (lineNumbers[zapTokenIndex] / 1000) *
-                              lastTokenPrices[zapToken.address]
-                            ).toFixed(3)
-                          }}
-                        </div>
-                      </div>
-                      <div class="mt-2">
-                        <Slider
-                          @change="
-                            (value) => OnSliderValueChange(zapTokenIndex, value)
-                          "
-                          :tooltips="false"
-                          :min="0"
-                          :max="maxBalances[zapToken.address] * 1000"
-                          :step="1"
-                          v-model="lineNumbers[zapTokenIndex]"
-                          lazy="false"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div v-else-if="depositMethod == 'manual'">
-                  <div
-                    class="modal_stake_token dark:!bg-[#15151524] bg-white"
-                    v-for="(token, tokenIndex) in pool?.tokens"
-                    :key="`deposit-token-${token.address}`"
-                  >
-                    <div>
-                      <div
-                        class="d-flex justify-content-between align-items-center"
-                      >
-                        <div
-                          class="modal_stake_token_inner_name dark:!text-white text-black dark:!bg-[#4c4c4c24] bg-white"
-                        >
-                          <img
-                            :src="getTokenEntity(token.symbol, 'short').icon"
-                            width="20"
-                          />
-                          {{ token.symbol }}
-                          {{ (token.weight * 100).toFixed(0) }}%
-                        </div>
-                        <input
-                          class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]"
-                          style="
-                            font-size: clamp(10px, 0.8vw, 14px);
-                            font-weight: 500;
-                            text-align: right;
-                          "
-                          :value="
-                            lineNumbers[tokenIndex] > 0
-                              ? lineNumbers[tokenIndex] / 1000
-                              : lineNumbers[tokenIndex]
-                          "
-                          @input="(e) => onTokenInput(e, tokenIndex)"
-                          type="number"
-                        />
-                      </div>
-                      <div>
-                        <div
-                          class="modal_balance_slider dark:!text-white text-black"
-                        >
-                          <div
-                            class="value-label font-['Roboto_Mono',_monospace]"
-                            ref="inputRefLabel"
-                          >
-                            {{ $t('balance') }}:
-                            <span
-                              class="fw-bold font-['Roboto_Mono',_monospace]"
-                            >
-                              {{ RemainingBalance(token, tokenIndex) }}
-                            </span>
-                            <span
-                              @click="
-                                () => OnMaxClick(tokenIndex, token.address)
-                              "
-                              class="fw-bold bg-transparent pl-1"
-                              style="cursor: pointer"
-                            >
-                              {{ $t('max') }}
-                            </span>
-                          </div>
-                          <div class="font-['Roboto_Mono',_monospace]">
-                            {{ currencySelected.symbol }}
-                            {{
-                              (
-                                (lineNumbers[tokenIndex] / 1000) *
-                                lastTokenPrices[token.address]
-                              ).toFixed(3)
-                            }}
-                          </div>
-                        </div>
-                        <div class="mt-2">
-                          <Slider
-                            @change="
-                              (value) => OnSliderValueChange(tokenIndex, value)
-                            "
-                            :tooltips="false"
-                            :min="0"
-                            :max="maxBalances[token.address] * 1000"
-                            :step="1"
-                            v-model="lineNumbers[tokenIndex]"
-                            lazy="false"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div class="modal_total_container mt-4">
-                    <table
-                      style="
-                        width: 100%;
-                        border-collapse: separate;
-                        border-spacing: 0;
-                        overflow: hidden;
-                      "
-                      class="dark:!text-white text-black"
+                    <div
+                      class="modal_balance_slider dark:!text-white text-black"
                     >
-                      <tr
-                        style="
-                          border: 1px solid rgba(163, 164, 165, 0.2);
-                          border-top-left-radius: 15px;
-                        "
+                      <div
+                        class="value-label font-['Roboto_Mono',_monospace]"
+                        ref="inputRefLabel"
                       >
-                        <td
-                          class="w-25 fw-bold"
-                          style="
-                            border-right: 1px solid rgba(163, 164, 165, 0.2);
-                            /* border-bottom: 1px solid rgba(163, 164, 165, 0.2); */
-                            padding: 8px;
-                          "
+                        {{ $t('balance') }}:
+                        <span class="fw-bold font-['Roboto_Mono',_monospace]">
+                          {{ RemainingBalance(token, tokenIndex) }}
+                        </span>
+                        <span
+                          @click="() => OnMaxClick(tokenIndex, token.address)"
+                          class="fw-bold bg-transparent pl-1"
+                          style="cursor: pointer"
                         >
-                          {{ $t('total') }}
-                        </td>
-                        <td style="padding: 8px">
-                          <div
-                            class="d-flex justify-content-between align-items-center"
-                          >
-                            <div
-                              class="w-25 fw-bold font-['Roboto_Mono',_monospace]"
-                            >
-                              {{ currencySelected.symbol }}{{ fiatTotal }}
-                            </div>
-                            <div
-                              class="optimize bg-[#FFFFFF] hover:!bg-blue-500 text-black font-semibold border-0"
-                              @click="OnAllMaxClick"
-                            >
-                              {{ $t('max') }}
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <!-- <tr>
-                        <td style="
-                            border-right: 1px solid rgba(163, 164, 165, 0.2);
-                            padding: 8px;
-                          " class="w-25">
-                          {{ $t('value_loss') }}
-                        </td>
-                        <td style="padding: 8px">
-                          <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-1">
-                              <div class="font-['Roboto_Mono',_monospace]">
-                                {{ priceImpactFormatted }}%
-                              </div>
-                              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_1904_24663)">
-                                  <path
-                                    d="M6.78125 11.4932C9.54267 11.4932 11.7812 9.25459 11.7812 6.49316C11.7812 3.73174 9.54267 1.49316 6.78125 1.49316C4.01983 1.49316 1.78125 3.73174 1.78125 6.49316C1.78125 9.25459 4.01983 11.4932 6.78125 11.4932Z"
-                                    stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                                  <path d="M6.78125 8.49316V6.49316" stroke="white" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                  <path d="M6.78125 4.49316H6.78625" stroke="white" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                </g>
-                                <defs>
-                                  <clipPath id="clip0_1904_24663">
-                                    <rect width="12" height="12" fill="white" transform="translate(0.78125 0.493164)" />
-                                  </clipPath>
-                                </defs>
-                              </svg>
-                            </div>
-                            <div class="optimize dark:!bg-[#02031C]" @click="OnOptimizeClick">
-                              {{ $t('optimize') }}
-                            </div>
-                          </div>
-                        </td>
-                      </tr> -->
-                    </table>
+                          {{ $t('max') }}
+                        </span>
+                      </div>
+                      <div class="font-['Roboto_Mono',_monospace]">
+                        {{ currencySelected.symbol }}
+                        {{
+                          (
+                            (lineNumbers[tokenIndex] / 1000) *
+                            lastTokenPrices[token.address]
+                          ).toFixed(3)
+                        }}
+                      </div>
+                    </div>
+                    <Slider
+                      class="mt-2"
+                      @change="
+                        (value) => OnSliderValueChange(tokenIndex, value)
+                      "
+                      :tooltips="false"
+                      :min="0"
+                      :max="maxBalances[token.address] * 1000"
+                      :step="1"
+                      v-model="lineNumbers[tokenIndex]"
+                      lazy="false"
+                    />
+                  </div>
+
+                  <div
+                    class="flex border-1 border-[#a3a4a533] rounded-2xl dark:!text-white text-black text-xs fw-bold align-items-center mt-4 divide-x divide-[#a3a4a533]"
+                  >
+                    <div class="w-25 p-2">
+                      {{ $t('total') }}
+                    </div>
+                    <div
+                      class="w-full p-2 flex justify-content-between align-items-center"
+                    >
+                      <div class="w-25 font-['Roboto_Mono',_monospace]">
+                        {{ currencySelected.symbol }}{{ fiatTotal }}
+                      </div>
+                      <button
+                        class="bg-[#FFFFFF] hover:bg-blue-500 text-black text-[10px] font-semibold border-none outline-none rounded-full px-2 py-1"
+                        @click="OnAllMaxClick"
+                      >
+                        {{ $t('max') }}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -406,15 +324,7 @@
                 :fiatTotal="fiatTotal"
                 :tokens="
                   depositMethod === 'zap'
-                    ? [
-                        {
-                          ...zapToken,
-                          depositAmount: formattedLineNumbers[zapTokenIndex],
-                          usdAmount:
-                            formattedLineNumbers[zapTokenIndex] *
-                            lastTokenPrices[zapToken.address],
-                        },
-                      ]
+                    ? [{ ...zapToken, depositAmount: zapToken.value }]
                     : pool?.tokens?.map((t, i) => ({
                         ...t,
                         depositAmount: formattedLineNumbers[i],
@@ -544,13 +454,11 @@
                 v-for="(token, index) in pool?.tokens"
                 :key="`wallet-${index}`"
               >
-                <div>
-                  <img
-                    :src="getTokenEntity(token.symbol, 'short').icon"
-                    width="23"
-                    class="p-1"
-                  />
-                </div>
+                <img
+                  :src="getTokenEntity(token.symbol, 'short').icon"
+                  width="23"
+                  class="p-1"
+                />
                 <div class="font-['Roboto_Mono',_monospace]">
                   {{ parseFloat(balances[token.address]).toFixed(2) }} ({{
                     (
@@ -567,22 +475,23 @@
   </MainCard>
 </template>
 <script setup>
-import { onMounted, computed, nextTick, ref } from 'vue'
+import { onMounted, computed, nextTick, ref, watch } from 'vue'
 import Slider from '@vueform/slider'
 import { toast } from 'vue3-toastify'
-import 'vue3-toastify/dist/index.css'
 import ConfettiExplosion from 'vue-confetti-explosion'
+import 'vue3-toastify/dist/index.css'
 
 import MainCard from '@/UI/MainCard.vue'
 import CurrencySelector from '@/UI/CurrencySelector.vue'
 import Toast from '@/UI/Toast.vue'
-import TokenSelector from '@/UI/TokenSelector.vue'
 import ZapperModal from '@/components/modals/ZapperModal.vue'
 import DepositModalV2 from '@/components/modals/DepositModalV2.vue'
+import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
 import BigLogoLoader from '@/components/loaders/BigLogoLoader.vue'
 import DepositMethodToggle from '@/components/Pool/Deposit/DepositMethodToggle.vue'
 import DepositSlippageDropdown from '@/components/Pool/Deposit/DepositSlippageDropdown.vue'
 import ArrowBackIcon from '@/assets/icons/arrow/arrow_back.svg'
+import ArrowDownIcon from '@/assets/icons/arrow/arrow_down.svg'
 import CloseIcon from '@/assets/icons/arrow/close_modal_icon.svg'
 
 import router from '@/router'
@@ -594,6 +503,7 @@ import {
   useTrades,
   useZapper,
 } from '@/composables/poolActions/deposit/useZapper'
+import { useFetchTokens } from '@/composables/tokens/useFetchTokens'
 
 const isZapperModalOpen = ref(false)
 const tradeTokens = ref([])
@@ -618,7 +528,7 @@ const allLastTokenPrices = ref({})
 
 const account = ref('')
 
-const zapToken = ref()
+const zapToken = ref({ symbol: 'WBNB', depositAmount: 0, value: 0 })
 const zapTokenIndex = ref()
 
 // hardcoded tx
@@ -629,6 +539,8 @@ const lastDepositChanged = ref(0)
 const visibleDepositModal = ref(false)
 
 const poolId = router.currentRoute.value.params['id']
+
+const isTokenSelectModalOpen = ref(false)
 
 const lastTokenPrices = computed(
   () => allLastTokenPrices.value[currencySelected.value.code],
@@ -642,6 +554,7 @@ const usdValues = computed(() => {
   }
   return []
 })
+
 const leastBalanceIndex = computed(() => {
   const minValue = Math.min(...usdValues.value)
   let index = usdValues.value.indexOf(minValue)
@@ -713,6 +626,25 @@ const priceImpactFormatted = computed(() =>
 
 const totalWeeklyYield = computed(() => pool.value['30dAPR'])
 
+const { tokens: possibleTokens } = useFetchTokens(56)
+
+const { priceImpact, fullAmounts, bptOut } = useInvestFormMath(
+  pool,
+  pool.value ? pool.value.tokens : [],
+  balances,
+  formattedLineNumbers,
+  true,
+)
+
+function tokenSelectModalOpen() {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+  isTokenSelectModalOpen.value = true
+}
+
 async function zapperModalOpen() {
   const {
     oneInchDatas,
@@ -739,10 +671,6 @@ async function zapperModalOpen() {
   isZapperModalOpen.value = true
 }
 
-function zapperModalClose() {
-  isZapperModalOpen.value = false
-}
-
 async function onAcceptTrade() {
   await useZapper(
     pool.value,
@@ -767,14 +695,6 @@ function addedTXHash(hash) {
   txHash.value = hash
 }
 
-const { priceImpact, fullAmounts, bptOut } = useInvestFormMath(
-  pool,
-  pool.value ? pool.value.tokens : [],
-  balances,
-  formattedLineNumbers,
-  true,
-)
-
 // const totalWeeklyYield = computed(() =>
 //   weeklyYieldForAPR(`${pool.apr.total}`),
 // )
@@ -798,6 +718,7 @@ function OnAllMaxClick() {
     OnMaxClick(i, tokens.value[i])
   }
 }
+
 function OnMaxClick(index, address) {
   OnSliderValueChange(index, balances.value[address] * 1000)
 }
@@ -833,7 +754,6 @@ function OnOptimizeClick() {
 
 function onTokenInput(event, tokenIndex) {
   let result_value = event.target.value
-  console.log(result_value)
   if (parseFloat(result_value) != 0) {
     result_value = parseFloat(event.target.value) * 1000
   }
@@ -901,8 +821,6 @@ function onCurrencyInput(e) {
 onMounted(async () => {
   pool.value = await getSinglePoolDetails(56, poolId, true)
   tokens.value = pool.value.tokens.map((t) => t.address)
-  zapToken.value = pool.value.tokens[0]
-  zapTokenIndex.value = 0
   const {
     balances: _balances,
     account: _account,
@@ -914,6 +832,7 @@ onMounted(async () => {
   account.value = _account
   lineNumbers.value = _lineNumbers
   allLastTokenPrices.value = _lastTokenPrices
+  zapToken.value = possibleTokens.value[0] || zapToken.value
 })
 </script>
 <style lang="scss" scoped>
@@ -1034,19 +953,6 @@ onMounted(async () => {
   outline: none;
 }
 
-.deposit_network_text {
-  font-size: 9px;
-  font-weight: 400;
-  line-height: 16px;
-  letter-spacing: 0em;
-  // color: #b6b6b6;
-}
-
-.deposit_text {
-  font-size: clamp(11px, 0.8vw, 15px);
-  // color: white;
-}
-
 .modal_stake_token {
   padding: 15px;
   border-radius: 16px;
@@ -1072,25 +978,6 @@ onMounted(async () => {
   // color: white;
   font-size: clamp(10px, 0.8vw, 14px);
   padding: 4px 12px;
-}
-
-.modal_total_container {
-  border: 1px solid rgba(163, 164, 165, 0.2);
-  border-radius: 15px;
-  font-size: clamp(10px, 0.8vw, 14px);
-}
-
-.optimize {
-  border: 1px solid #00e0ff;
-  font-size: 10px;
-  color: #00e0ff;
-  padding: 4px 7px;
-  border-radius: 16px;
-
-  &:hover {
-    background: #22222271;
-    cursor: pointer;
-  }
 }
 
 :deep(.multiselect__option) {
