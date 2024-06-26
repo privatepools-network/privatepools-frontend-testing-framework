@@ -142,7 +142,13 @@
                         text-align: right;
                       "
                       :value="zapToken.value"
-                      @input="(e) => (zapToken.value = e.target.value)"
+                      @input="
+                        (e) =>
+                          (zapToken.value =
+                            e.target.value > zapToken.balance
+                              ? zapToken.balance
+                              : e.target.value)
+                      "
                       type="number"
                     />
                   </div>
@@ -156,7 +162,11 @@
                       >
                         {{ $t('balance') }}:
                         <span class="fw-bold font-['Roboto_Mono',_monospace]">
-                          {{ zapToken.balance - zapToken.value }}
+                          {{
+                            zapToken.value >= zapToken.balance
+                              ? 0
+                              : zapToken.balance - zapToken.value
+                          }}
                         </span>
                         <span
                           @click="() => (zapToken.value = zapToken.balance)"
@@ -172,7 +182,6 @@
                     </div>
                     <Slider
                       class="mt-2"
-                      @change="(value) => (zapToken.value = value)"
                       :tooltips="false"
                       :min="0"
                       :max="zapToken.balance"
@@ -324,7 +333,13 @@
                 :fiatTotal="fiatTotal"
                 :tokens="
                   depositMethod === 'zap'
-                    ? [{ ...zapToken, depositAmount: zapToken.value }]
+                    ? [
+                        {
+                          ...zapToken,
+                          depositAmount: parseFloat(zapToken.value),
+                          usdAmount: zapToken.value * zapToken.price,
+                        },
+                      ]
                     : pool?.tokens?.map((t, i) => ({
                         ...t,
                         depositAmount: formattedLineNumbers[i],
@@ -500,7 +515,6 @@ const allLastTokenPrices = ref({})
 const account = ref('')
 
 const zapToken = ref({ symbol: 'WBNB', depositAmount: 0, value: 0 })
-const zapTokenIndex = ref(0)
 
 // hardcoded tx
 const txHash = ref('')
@@ -625,7 +639,7 @@ async function zapperModalOpen() {
   } = await useTrades(
     pool.value,
     zapToken.value.address,
-    formattedLineNumbers.value[zapTokenIndex.value],
+    zapToken.value.value,
     slippage.value,
   )
 
@@ -646,7 +660,7 @@ async function onAcceptTrade() {
   await useZapper(
     pool.value,
     zapToken.value.address,
-    formattedLineNumbers.value[zapTokenIndex.value],
+    zapToken.value.value,
     tradeDatas.value,
     tradeTokens.value,
   )

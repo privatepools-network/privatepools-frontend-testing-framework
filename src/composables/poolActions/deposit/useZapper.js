@@ -33,15 +33,6 @@ export async function useZapper(
       ? srcAmount
       : ethers.utils.parseUnits(srcAmount.toString(), decimals)
 
-    console.log({
-      decimalsAmount,
-      srcToken,
-      address: pool.address,
-      tokens: pool.tokens.map((t) => t.address),
-      oneInchDescs,
-      oneInchDatas,
-    })
-
     const tx = await zapper.zap(
       decimalsAmount,
       srcToken,
