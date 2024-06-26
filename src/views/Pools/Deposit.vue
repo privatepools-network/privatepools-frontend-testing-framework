@@ -177,8 +177,8 @@
                       :min="0"
                       :max="zapToken.balance"
                       :step="zapToken.balance / 100"
+                      :lazy="false"
                       v-model="zapToken.value"
-                      lazy="false"
                     />
                   </div>
                 </div>
@@ -276,8 +276,8 @@
                       :min="0"
                       :max="maxBalances[token.address] * 1000"
                       :step="1"
+                      :lazy="false"
                       v-model="lineNumbers[tokenIndex]"
-                      lazy="false"
                     />
                   </div>
 
@@ -447,8 +447,8 @@
 <script setup>
 import { onMounted, computed, nextTick, ref } from 'vue'
 import Slider from '@vueform/slider'
-import { toast } from 'vue3-toastify'
 import ConfettiExplosion from 'vue-confetti-explosion'
+import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
 import MainCard from '@/UI/MainCard.vue'
@@ -500,7 +500,7 @@ const allLastTokenPrices = ref({})
 const account = ref('')
 
 const zapToken = ref({ symbol: 'WBNB', depositAmount: 0, value: 0 })
-const zapTokenIndex = ref()
+const zapTokenIndex = ref(0)
 
 // hardcoded tx
 const txHash = ref('')
