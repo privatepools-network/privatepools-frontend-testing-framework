@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="flex">
-        <div class="pools-row__col text-black dark:!text-white">
+        <!-- <div class="pools-row__col text-black dark:!text-white">
           <div class="pools-row__info flex items-center flex-col">
             <div class="pools-row__value flex items-center">Returns</div>
             <div class="pools-row__value flex items-center">
@@ -46,7 +46,7 @@
               />%
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="pools-row__col text-black dark:!text-white">
           <div class="pools-row__info flex items-center flex-col">

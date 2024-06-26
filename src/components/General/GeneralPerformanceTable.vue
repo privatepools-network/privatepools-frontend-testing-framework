@@ -192,7 +192,7 @@ const props = defineProps(['all_pools', 'user_staked_pools'])
 const headers = [
   t('tokens'),
   t('composition'),
-  'All Returns %',
+  // 'All Returns %',
   'TVL',
   `${t('volume')}`,
   'APR',

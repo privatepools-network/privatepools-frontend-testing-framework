@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <SpecificTopPortfolio
+    v-if="specificTopPortfolioOpen"
+    @changeToSpecificPortfolio="changeToSpecificPortfolio"
+    :allPortfolios="allRefs"
+    :selectedAddress="selectedAddress"
+  />
+  <div v-else>
     <div
       class="center_container bg-white dark:!bg-[#15151524] mt-5"
       v-if="affiliateSteps < 5"
@@ -70,20 +76,48 @@
       </div>
       <div class="text-[18px] font-bold text-black dark:!text-white mb-3 mt-14">
         Referred Wallets Performance
-    </div>
+      </div>
+      <ReferralsTable
+        :allRefs="allRefs"
+        @changeToSpecificPortfolio="changeToSpecificPortfolio"
+        :changeToSpecificPortfolio="changeToSpecificPortfolio"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, defineEmits, defineProps } from 'vue'
+import { ref, defineEmits, defineProps, onMounted } from 'vue'
 import ReferralsChart from '@/components/Referrals/ReferralsChart.vue'
 import twitterIcon from '@/assets/icons/Referrals/twitter.svg'
 import CodeOverview from '@/components/Referrals/CodeOverview.vue'
+import ReferralsTable from '@/components/Referrals/ReferralsTable.vue'
+import { getTopPortfolios } from '@/composables/data/topPortfoliosData'
+import SpecificTopPortfolio from '@/views/Analytics/SpecificTopPortfolio.vue'
 
 defineProps(['referralCode', 'affiliateSteps'])
 
 defineEmits(['codeEditModalOpen', 'affiliateStepsChange'])
+
+const allRefs = ref([])
+const selectedAddress = ref("")
+
+const specificTopPortfolioOpen = ref(false)
+
+function changeToSpecificPortfolio(wallet) {
+  selectedAddress.value = wallet
+  console.log('ADDRESS - ', selectedAddress.value)
+  specificTopPortfolioOpen.value = !specificTopPortfolioOpen.value
+  window.scroll({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+}
+
+onMounted(async () => {
+  allRefs.value = await getTopPortfolios()
+})
 
 const refChartMOCKdata = ref([
   {
