@@ -61,7 +61,13 @@ export async function useZapper(
   }
 }
 
-export async function useTrades(pool, srcToken, srcAmount, slippage = 1) {
+export async function useTrades(
+  pool,
+  srcToken,
+  srcAmount,
+  slippage = 1,
+  rawAmount = false,
+) {
   try {
     const provider = await InitializeMetamask()
     if (!provider) return
@@ -70,7 +76,7 @@ export async function useTrades(pool, srcToken, srcAmount, slippage = 1) {
 
     const tokenContract = new ethers.Contract(srcToken, ERC20Abi, signer)
     const decimals = await tokenContract.decimals()
-    const decimalsAmount = ethers.utils.parseUnits(
+    const decimalsAmount =  rawAmount ? srcAmount :ethers.utils.parseUnits(
       srcAmount.toString(),
       decimals,
     )

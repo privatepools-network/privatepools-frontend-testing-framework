@@ -339,20 +339,20 @@ export function CalculateSortinoRatio(
  * @return {Treasury} US Treasury for this timestamp.
  **/
 function FindTreasury(treasury_yields, timestamp) {
-  // let date = new Date(timestamp)
-  // console.log('treasury_yields', treasury_yields)
-  // let found = treasury_yields.find(
-  //   (t) =>
-  //     parseFloat(t.record_calendar_month) == date.getMonth() + 1 &&
-  //     parseFloat(t.record_calendar_year) == date.getFullYear(),
-  // )
-  // if (!found)
-  //   found = treasury_yields.find(
-  //     (t) =>
-  //       parseFloat(t.record_calendar_month) == date.getMonth() && // get treasury from previous month
-  //       parseFloat(t.record_calendar_year) == date.getFullYear(),
-  //   )
-  return 0
+  let date = new Date(timestamp)
+  console.log('treasury_yields', treasury_yields)
+  let found = treasury_yields.find(
+    (t) =>
+      parseFloat(t.record_calendar_month) == date.getMonth() + 1 &&
+      parseFloat(t.record_calendar_year) == date.getFullYear(),
+  )
+  if (!found)
+    found = treasury_yields.find(
+      (t) =>
+        parseFloat(t.record_calendar_month) == date.getMonth() && // get treasury from previous month
+        parseFloat(t.record_calendar_year) == date.getFullYear(),
+    )
+  return found
 }
 
 /**

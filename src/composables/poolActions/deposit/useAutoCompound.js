@@ -1,6 +1,6 @@
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import { useApproveTokens } from './useApproveTokens'
-import { useZapper } from './useZapper'
+import { useZapper, useTrades } from './useZapper'
 import { ethers } from 'ethers'
 import { getPoolsData } from '@/composables/data/poolsData'
 
@@ -19,10 +19,20 @@ export async function useAutoCompound(params) {
           'zap',
           true,
         )
+        const { oneInchDatas, oneInchDescs } = await useTrades(
+          pools.table.find((item) => item.id == key),
+          tkey,
+          ethers.BigNumber.from(tvalue),
+          1,
+          true,
+        )
         await useZapper(
           pools.table.find((item) => item.id == key),
           tkey,
           ethers.BigNumber.from(tvalue),
+          oneInchDatas,
+          oneInchDescs,
+          true,
         )
       } catch (e) {
         console.error('[AUTO_COMPOUND_ERROR]', e)
