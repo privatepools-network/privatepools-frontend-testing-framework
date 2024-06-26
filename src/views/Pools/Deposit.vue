@@ -433,49 +433,19 @@
             </div>
           </div>
 
-          <!-- WALLET IN SEPARATE COMPONENT -->
-          <div
-            class="dark:!text-white text-black dark:!bg-[#00000024] bg-white wallet_deposit"
-          >
-            <div class="fw-bold p-3" style="border-bottom: 1px solid #4f4f4f57">
-              {{ $t('my_wallet') }}
-            </div>
-            <div
-              class="d-flex flex-column p-2 dark:!text-[#dddddd] text-black"
-              style="font-size: clamp(10px, 0.8vw, 14px)"
-              v-if="
-                balances != {} &&
-                lastTokenPrices != {} &&
-                lineNumbers.length > 0
-              "
-            >
-              <div
-                class="d-flex justify-content-between align-items-center"
-                v-for="(token, index) in pool?.tokens"
-                :key="`wallet-${index}`"
-              >
-                <img
-                  :src="getTokenEntity(token.symbol, 'short').icon"
-                  width="23"
-                  class="p-1"
-                />
-                <div class="font-['Roboto_Mono',_monospace]">
-                  {{ parseFloat(balances[token.address]).toFixed(2) }} ({{
-                    (
-                      balances[token.address] * lastTokenPrices[token.address]
-                    ).toFixed(2)
-                  }}$)
-                </div>
-              </div>
-            </div>
-          </div>
+          <WalletInfo
+            :tokens="pool?.tokens"
+            :balances="balances"
+            :line-numbers="lineNumbers"
+            :last-token-prices="lastTokenPrices"
+          />
         </div>
       </div>
     </div>
   </MainCard>
 </template>
 <script setup>
-import { onMounted, computed, nextTick, ref, watch } from 'vue'
+import { onMounted, computed, nextTick, ref } from 'vue'
 import Slider from '@vueform/slider'
 import { toast } from 'vue3-toastify'
 import ConfettiExplosion from 'vue-confetti-explosion'
@@ -490,6 +460,7 @@ import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
 import BigLogoLoader from '@/components/loaders/BigLogoLoader.vue'
 import DepositMethodToggle from '@/components/Pool/Deposit/DepositMethodToggle.vue'
 import DepositSlippageDropdown from '@/components/Pool/Deposit/DepositSlippageDropdown.vue'
+import WalletInfo from '@/components/Pool/Deposit/WalletInfo.vue'
 import ArrowBackIcon from '@/assets/icons/arrow/arrow_back.svg'
 import ArrowDownIcon from '@/assets/icons/arrow/arrow_down.svg'
 import CloseIcon from '@/assets/icons/arrow/close_modal_icon.svg'
@@ -930,18 +901,6 @@ onMounted(async () => {
   // background: #00000024;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-}
-
-.wallet_deposit {
-  border-radius: 16px;
-  font-size: clamp(10px, 0.8vw, 14px);
-  height: fit-content;
-  width: 250px;
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  border: 1px solid #ffffff0d;
   @media (max-width: 768px) {
     width: 100%;
   }
