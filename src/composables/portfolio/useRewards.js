@@ -5,11 +5,11 @@ import { useAutoCompound } from '../poolActions/deposit/useAutoCompound'
 export async function claimRewards(rewards) {
   try {
     // DELETE LATER
-    await useAutoCompound({
-      '0x90924102c512f52ffa074f5ede35a72c5f0b43f9000100000000000000000001': {
-        '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c': '10000000000000000',
-      },
-    })
+    // await useAutoCompound({
+    //   '0x90924102c512f52ffa074f5ede35a72c5f0b43f9000100000000000000000001': {
+    //     '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c': '10000000000000000',
+    //   },
+    // })
     const mmProvider = await InitializeMetamask()
     if (mmProvider) {
       const rewardsContract = new ethers.Contract(
@@ -17,10 +17,11 @@ export async function claimRewards(rewards) {
         rewards_abi,
         mmProvider.getSigner(),
       )
+      console.log(rewards)
       let tx = await rewardsContract.claim(
-        rewards.proof,
-        rewards.rewards[1],
-        rewards.rewards[2],
+        rewards.rewards.proofs,
+        rewards.rewards.value[1],
+        rewards.rewards.value[2],
       )
       let receipt = await tx.wait()
       console.log('CLAIMED - ', receipt)

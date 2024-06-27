@@ -950,7 +950,7 @@ async function CreateNewPool() {
   account.value = await provider.getSigner().getAddress()
   let tx = await poolCreateService.createWeightedPool(
     provider,
-    tokensData.value.map((t) => `${t.weight}${t.symbol}`).join('-'),
+    tokensData.value.map((t) => `WLP-${t.weight}${t.symbol}`).join('-'),
     tokensData.value.map((t) => `${t.weight}${t.symbol}`).join('-'),
     '0',
     tokensData.value,
