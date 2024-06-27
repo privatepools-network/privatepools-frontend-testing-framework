@@ -186,7 +186,7 @@ const tokensOptions = computed(() => {
   })
   result.push(
     ...topTradedTokens.value.map((item) => ({
-      id: `${item.name} ${item.symbol}`,
+      id: `${item.name} ${item.symbol} ${item.address}`,
       label: item.name,
       img: item.symbol,
       price: `${item.price.toFixed(2)}$`,
@@ -202,7 +202,7 @@ const tokensOptions = computed(() => {
   })
   result.push(
     ...topPools.value.map((item) => ({
-      id: `${item.tokens.map((token) => token.symbol).join('/')} ${item.type}`,
+      id: `${item.tokens.map((token) => token.symbol).join('/')} ${item.type} ${item.address}`,
       poolId: item.id,
       chainId: item.chainId,
       type: item.type,
@@ -281,7 +281,8 @@ function checkInputSearchItem(_search, item) {
 
   let result =
     (item.desc && item.desc.toLowerCase().includes(_search)) ||
-    (item.label && item.label.toLowerCase().includes(_search))
+    (item.label && item.label.toLowerCase().includes(_search)) ||
+    (item.id && item.id.toLowerCase().includes(_search)) 
   return result
 }
 
