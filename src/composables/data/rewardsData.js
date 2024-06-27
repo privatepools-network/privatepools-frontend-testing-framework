@@ -3,7 +3,7 @@ import { getHeaderData } from './headerData'
 import { ethers } from 'ethers'
 export async function getRewards(user) {
   // DELETE LATER
-  //user = '0x4bde150b69408dafbe4833f0d7b9689246a6597b'
+  //user = '0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'
   const url = `${
     process.env.VUE_APP_REWARDS_BACKEND_BINANCE
   }/rewards/${user.toLowerCase()}`
@@ -24,7 +24,10 @@ export async function getRewards(user) {
   const search_tokens_data = await getHeaderData(56)
 
   return {
-    formatted_rewards: formatRewards(rewards_data, search_tokens_data.search.tokens),
+    formatted_rewards: formatRewards(
+      rewards_data,
+      search_tokens_data.search.tokens,
+    ),
     rewards: rewards_data,
     tokens: search_tokens_data.search.tokens,
   }
@@ -34,7 +37,9 @@ function formatRewards(rewards, search_tokens) {
   const formatted_rewards = []
   for (let i = 0; i < rewards.value[1].length; i++) {
     const token_address = rewards.value[1][i]
-    const tokenInfo = search_tokens.find((t) => t.address.toLowerCase() == token_address.toLowerCase())
+    const tokenInfo = search_tokens.find(
+      (t) => t.address.toLowerCase() == token_address.toLowerCase(),
+    )
     if (!tokenInfo) {
       console.error('NOT FOUND ', token_address)
       continue
