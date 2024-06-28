@@ -22,12 +22,15 @@ export async function getRewards(user) {
     ).data
   }
   const search_tokens_data = await getHeaderData(56)
-
+  const formatted_rewards = formatRewards(
+    rewards_data,
+    search_tokens_data.search.tokens,
+  )
+  if (formatted_rewards.length == 0) {
+    console.log(`ACCOUNT ${user} HAS NO REWARDS`)
+  }
   return {
-    formatted_rewards: formatRewards(
-      rewards_data,
-      search_tokens_data.search.tokens,
-    ),
+    formatted_rewards,
     rewards: rewards_data,
     tokens: search_tokens_data.search.tokens,
   }
@@ -35,6 +38,9 @@ export async function getRewards(user) {
 
 function formatRewards(rewards, search_tokens) {
   const formatted_rewards = []
+  if (!rewards.value || rewards.value.length < 2) {
+    return formatted_rewards
+  }
   for (let i = 0; i < rewards.value[1].length; i++) {
     const token_address = rewards.value[1][i]
     const tokenInfo = search_tokens.find(
