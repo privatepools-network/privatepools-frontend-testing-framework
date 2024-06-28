@@ -33,15 +33,6 @@ export async function useZapper(
       ? srcAmount
       : ethers.utils.parseUnits(srcAmount.toString(), decimals)
 
-    console.log({
-      decimalsAmount,
-      srcToken,
-      address: pool.address,
-      tokens: pool.tokens.map((t) => t.address),
-      oneInchDescs,
-      oneInchDatas,
-    })
-
     const tx = await zapper.zap(
       decimalsAmount,
       srcToken,
@@ -73,13 +64,20 @@ export async function useTrades(
     if (!provider) return
     const signer = provider.getSigner()
     const config = configService.getNetworkConfig(networkId.value)
+    const zapper = new ethers.Contract(
+      config.addresses.zapper,
+      ZapperAbi,
+      signer,
+    )
+    const fee =
+      (srcAmount * (await zapper.fee())) / (await zapper.FEE_MULTIPLIER())
+    srcAmount -= fee
 
     const tokenContract = new ethers.Contract(srcToken, ERC20Abi, signer)
     const decimals = await tokenContract.decimals()
-    const decimalsAmount =  rawAmount ? srcAmount :ethers.utils.parseUnits(
-      srcAmount.toString(),
-      decimals,
-    )
+    const decimalsAmount = rawAmount
+      ? srcAmount
+      : ethers.utils.parseUnits(srcAmount.toString(), decimals)
 
     const oneInchDatas = []
     const oneInchDescs = []

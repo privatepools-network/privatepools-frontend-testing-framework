@@ -138,7 +138,6 @@
     </div>
 
     <div class="my-3 d-flex justify-content-center position-relative">
-      {{ console.log('approveStep', approveStep) }}
       <!-- There should be iteration by length of every token that need approve - ApproveStep I guess will be index -->
       <div class="d-flex gap-1">
         <Step
@@ -176,8 +175,9 @@
     </div>
     <div
       class="compose_pool_connect_wallet"
-      @click="depositMethod === 'zap' ? $emit('zapperModalOpen') :
-      OnPreviewClick(), (approveStep = 4)
+      @click="
+        depositMethod === 'zap' ? $emit('zapperModalOpen') : OnPreviewClick(),
+          $emit('changeApproveStep', 4)
       "
       v-else-if="approveStep === 3"
     >
@@ -201,30 +201,23 @@
 </template>
 
 <script setup>
-import close_modal_icon from '@/assets/icons/arrow/close_modal_icon.svg'
-import { getTokenEntity } from '@/lib/helpers/util'
 import { defineProps, defineEmits, ref, watch } from 'vue'
-import metamask from '@/assets/icons/approveTokenSteps/metamask.svg'
-// import ConfirmationReceipt from '@/UI/ConfirmationReceipt.vue'
-// import { GetDisplayStringError } from "@/lib/utils/balancer/helpers/displayError"
-import { formatNotificationDate } from '@/lib/utils'
-import { useJoinPool } from '@/composables/poolActions/deposit/useJoinPool'
-import { configService } from '@/services/config/config.service'
-import { networkId, DisplayNetwork } from '@/composables/useNetwork'
-import { useApproveTokens } from '@/composables/poolActions/deposit/useApproveTokens'
+import { useSound } from '@vueuse/sound'
 import { toast } from 'vue3-toastify'
-import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
-import checked_step_img from '@/assets/icons/CLIcons/checked_step.svg'
 
-import { t } from 'i18next'
+import Toast from '@/UI/Toast.vue'
 import Step from '@/UI/Step.vue'
 import ProgressLoader from '@/UI/ProgressLoader.vue'
+import { useJoinPool } from '@/composables/poolActions/deposit/useJoinPool'
+import { useApproveTokens } from '@/composables/poolActions/deposit/useApproveTokens'
+import { useDevice } from '@/composables/adaptive/useDevice'
+import { networkId } from '@/composables/useNetwork'
+import { configService } from '@/services/config/config.service'
+import { getTokenEntity } from '@/lib/helpers/util'
+import { formatNotificationDate } from '@/lib/utils'
 import successSound from '@/assets/sounds/success_sound.mp3'
 import errorSound from '@/assets/sounds/error_sound.mp3'
-import { useSound } from '@vueuse/sound'
-import { useDevice } from '@/composables/adaptive/useDevice'
-import { useZapper } from '@/composables/poolActions/deposit/useZapper'
 
 const playSuccess = useSound(successSound, { volume: 1 })
 const playError = useSound(errorSound, { volume: 1 })
@@ -289,13 +282,15 @@ const emit = defineEmits([
   'explode',
   'addedTXHash',
 ])
-console.log('PROPS - ', props)
+
+watch([props.tokens], () => {
+  console.log('props.tokens', props.tokens)
+})
+
 const depositFinished = ref(false)
 
 const txLink = ref('')
 async function OnPreviewClick() {
-  console.log('props.approveStep', props.approveStep)
-
   if (props.approveStep === 1) {
     // props.approveStep = 2
     emit('changeApproveStep', 2)
@@ -312,7 +307,6 @@ async function OnPreviewClick() {
       return
     }
 
-    console.log('success', success)
     mmActive.value = false
     emit('changeApproveStep', 3)
   } else {
@@ -330,20 +324,13 @@ async function OnPreviewClick() {
       theme: 'dark',
       closeOnClick: false,
     })
-    let tx =
-      props.depositMethod === 'zap'
-        ? await useZapper(
-            props.pool,
-            props.tokens[0].address,
-            props.tokens[0].depositAmount,
-          )
-        : await useJoinPool(
-            props.pool,
-            Object.values(props.pool.tokens),
-            props.tokens.map((t) => t.depositAmount),
-            props.account,
-            props.bptOut,
-          )
+    let tx = await useJoinPool(
+      props.pool,
+      Object.values(props.pool.tokens),
+      props.tokens.map((t) => t.depositAmount),
+      props.account,
+      props.bptOut,
+    )
 
     emit('addedTXHash', tx.hash)
 
@@ -357,7 +344,6 @@ async function OnPreviewClick() {
     emit('explode')
 
     if (tx.error) {
-      console.log('!!!', tx.error)
       // props.approveStep = 3
       emit('changeApproveStep', 3)
       setTimeout(() => {

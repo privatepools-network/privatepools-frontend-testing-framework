@@ -33,7 +33,7 @@ export function replaceFirstCharIfW(inputStr, newChar) {
  * @returns {Promise<import('@/composables/tokens/useTokenSymbols').Token[]>} - array of possible tokens for pool composing
  */
 export async function GetPossibleComposeTokens(network, enablePrices = false) {
-  if (!networkId.value) return {}
+  if (!networkId.value) return []
   const mmProvider = await InitializeMetamask()
   if (!mmProvider) return []
   let account = await mmProvider.getSigner().getAddress()
@@ -44,7 +44,7 @@ export async function GetPossibleComposeTokens(network, enablePrices = false) {
     t.price = t.usdAmount / t.amount
     t.value = 0
     t.img = icon
-    t.balance = parseFloat(t.amount)
+    t.balance = parseFloat(t.amount.toFixed(3))
     t.userBalance = t.amount
   })
   return account_balances.tokens

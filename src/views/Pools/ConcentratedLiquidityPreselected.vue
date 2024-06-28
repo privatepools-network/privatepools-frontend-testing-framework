@@ -1,22 +1,52 @@
 <template>
   <MainCard>
-    <TokenSelectModal :tokenSelectModal="tokenSelectModal" @tokenSelectModalOpen="tokenSelectModalOpen"
-      :pairIndex="pairIndex" @updateToken="updateToken" :possibleComposeTokens="notSelectedPossibleComposeTokens"
-      @addToken="onAddToken" />
+    <TokenSelectModal
+      :tokenSelectModal="tokenSelectModal"
+      @tokenSelectModalOpen="tokenSelectModalOpen"
+      :pairIndex="pairIndex"
+      @updateToken="updateToken"
+      :possibleComposeTokens="notSelectedPossibleComposeTokens"
+      @addToken="onAddToken"
+    />
 
     <div class="center_container">
       <div class="d-flex justify-content-end w-100 mb-4">
         <div class="back_button" @click="router.push('/pools')">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M6 6L18 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6L6 18"
+              stroke="#FFFFFF"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M6 6L18 18"
+              stroke="#FFFFFF"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </div>
       </div>
       <div class="d-flex gap-5">
         <div class="w-50">
-          <div style="font-size: 20px; color: #EBEBEF; font-weight: 700; text-transform: uppercase;"
-            class="compose_text text-uppercase fw-bolder">
+          <div
+            style="
+              font-size: 20px;
+              color: #ebebef;
+              font-weight: 700;
+              text-transform: uppercase;
+            "
+            class="compose_text text-uppercase fw-bolder"
+          >
             CL Add Liquidity
           </div>
           <div class="compose_text text-secondary" style="font-size: 12px">
@@ -47,10 +77,16 @@
             <div v-if="concentratedLiquidityStep === 1">
               <div class="compose_text fw-light mt-3">Fee Tier</div>
               <div class="fee_tier_container">
-                <div :class="tier.selected
-      ? 'fee_tier_container_card fee_tier_container_card__selected'
-      : 'fee_tier_container_card'
-      " v-for="(tier, i) in fee_tiers" :key="`tiers-${i}`" @click="selectTier(i)">
+                <div
+                  :class="
+                    tier.selected
+                      ? 'fee_tier_container_card fee_tier_container_card__selected'
+                      : 'fee_tier_container_card'
+                  "
+                  v-for="(tier, i) in fee_tiers"
+                  :key="`tiers-${i}`"
+                  @click="selectTier(i)"
+                >
                   <div style="color: #c1c8ce">{{ tier.percent }}</div>
                   <div style="color: #858c90">{{ tier.name }}</div>
                 </div>
@@ -61,15 +97,24 @@
               <div class="d-flex gap-3 justify-content-between">
                 <!-- Min per separate comp -->
                 <div class="price_range_card">
-                  <div class="d-flex justify-content-center w-100 position-relative">
-                    <div class="d-flex flex-column justify-content-center align-items-center gap-3 p-4">
+                  <div
+                    class="d-flex justify-content-center w-100 position-relative"
+                  >
+                    <div
+                      class="d-flex flex-column justify-content-center align-items-center gap-3 p-4"
+                    >
                       <div style="color: #c1c8ce">Min per</div>
-                      <div style="
+                      <div
+                        style="
                           font-size: 20px;
                           font-weight: 600;
                           color: #c1c8ce;
-                        ">
-                        <input v-if="!fullRangeSelected" type="number" style="
+                        "
+                      >
+                        <input
+                          v-if="!fullRangeSelected"
+                          type="number"
+                          style="
                             background: none;
                             border: none;
                             outline: none;
@@ -77,8 +122,15 @@
                             color: #c1c8ce;
                             font-weight: 600;
                             font-size: 20px;
-                          " v-model="priceRange1" @blur="adjustTokenPrices" />
-                        <input v-else disabled type="number" style="
+                          "
+                          v-model="priceRange1"
+                          @blur="adjustTokenPrices"
+                        />
+                        <input
+                          v-else
+                          disabled
+                          type="number"
+                          style="
                             background: none;
                             border: none;
                             outline: none;
@@ -86,37 +138,45 @@
                             color: #c1c8ce;
                             font-weight: 600;
                             font-size: 20px;
-                          " value="0" />
+                          "
+                          value="0"
+                        />
                       </div>
-                      <div style="
+                      <div
+                        style="
                           font-size: 12px;
                           font-weight: 400;
                           color: #858c90;
-                        ">
+                        "
+                      >
                         ≈ = ${{
-      !fullRangeSelected
-        ? ((pairToken1.price || 0) * priceRange1).toFixed(2)
-        : 0
-    }}
+                          !fullRangeSelected
+                            ? ((pairToken1.price || 0) * priceRange1).toFixed(2)
+                            : 0
+                        }}
                       </div>
                     </div>
-                    <div style="
+                    <div
+                      style="
                         position: absolute;
                         left: 15px;
                         top: 5px;
                         color: #858c90;
-                      ">
+                      "
+                    >
                       {{
-        !fullRangeSelected
-          ? calculatePercentageDifference(
-            relativePrice,
-            priceRange1,
-          ).toFixed(2)
-          : 0
-      }}%
+                        !fullRangeSelected
+                          ? calculatePercentageDifference(
+                              relativePrice,
+                              priceRange1,
+                            ).toFixed(2)
+                          : 0
+                      }}%
                     </div>
                     <!--TODO: implement decrement/increment logic based on next tick position-->
-                    <div v-if="concentratedLiquidityStep === 2" style="
+                    <div
+                      v-if="concentratedLiquidityStep === 2"
+                      style="
                         position: absolute;
                         top: 0;
                         right: 0;
@@ -128,16 +188,41 @@
                         align-items: center;
                         justify-content: space-between;
                         border-radius: 0px 6px 6px 0px;
-                      " class="p-4">
-                      <div @click="incrementPriceRange(true)" style="cursor: pointer">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z"
-                            fill="#F8F8F8" />
+                      "
+                      class="p-4"
+                    >
+                      <div
+                        @click="incrementPriceRange(true)"
+                        style="cursor: pointer"
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z"
+                            fill="#F8F8F8"
+                          />
                         </svg>
                       </div>
-                      <div @click="decrementPriceRange(true)" style="cursor: pointer">
-                        <svg width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M14 1.99805H8H6H0V-0.00195312H6H8H14V1.99805Z" fill="#F8F8F8" />
+                      <div
+                        @click="decrementPriceRange(true)"
+                        style="cursor: pointer"
+                      >
+                        <svg
+                          width="14"
+                          height="2"
+                          viewBox="0 0 14 2"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M14 1.99805H8H6H0V-0.00195312H6H8H14V1.99805Z"
+                            fill="#F8F8F8"
+                          />
                         </svg>
                       </div>
                     </div>
@@ -145,15 +230,24 @@
                 </div>
                 <!-- Max per separate comp -->
                 <div class="price_range_card">
-                  <div class="d-flex justify-content-center w-100 position-relative">
-                    <div class="d-flex flex-column justify-content-center align-items-center gap-3 p-4">
+                  <div
+                    class="d-flex justify-content-center w-100 position-relative"
+                  >
+                    <div
+                      class="d-flex flex-column justify-content-center align-items-center gap-3 p-4"
+                    >
                       <div style="color: #c1c8ce">Max per</div>
-                      <div style="
+                      <div
+                        style="
                           font-size: 20px;
                           font-weight: 600;
                           color: #c1c8ce;
-                        ">
-                        <input type="number" v-if="!fullRangeSelected" style="
+                        "
+                      >
+                        <input
+                          type="number"
+                          v-if="!fullRangeSelected"
+                          style="
                             background: none;
                             border: none;
                             outline: none;
@@ -161,8 +255,15 @@
                             color: #c1c8ce;
                             font-weight: 600;
                             font-size: 20px;
-                          " v-model="priceRange2" @blur="adjustTokenPrices" />
-                        <input v-else disabled type="text" style="
+                          "
+                          v-model="priceRange2"
+                          @blur="adjustTokenPrices"
+                        />
+                        <input
+                          v-else
+                          disabled
+                          type="text"
+                          style="
                             background: none;
                             border: none;
                             outline: none;
@@ -170,36 +271,44 @@
                             color: #c1c8ce;
                             font-weight: 600;
                             font-size: 20px;
-                          " value="∞" />
+                          "
+                          value="∞"
+                        />
                       </div>
-                      <div style="
+                      <div
+                        style="
                           font-size: 12px;
                           font-weight: 400;
                           color: #858c90;
-                        ">
+                        "
+                      >
                         ≈ = ${{
-      !fullRangeSelected
-        ? ((pairToken1.price || 0) * priceRange2).toFixed(2)
-        : '∞'
-    }}
+                          !fullRangeSelected
+                            ? ((pairToken1.price || 0) * priceRange2).toFixed(2)
+                            : '∞'
+                        }}
                       </div>
                     </div>
-                    <div style="
+                    <div
+                      style="
                         position: absolute;
                         left: 15px;
                         top: 5px;
                         color: #858c90;
-                      ">
+                      "
+                    >
                       {{
-        !fullRangeSelected
-          ? calculatePercentageDifference(
-            relativePrice,
-            priceRange2,
-          ).toFixed(2)
-          : '∞'
-      }}%
+                        !fullRangeSelected
+                          ? calculatePercentageDifference(
+                              relativePrice,
+                              priceRange2,
+                            ).toFixed(2)
+                          : '∞'
+                      }}%
                     </div>
-                    <div v-if="concentratedLiquidityStep === 2" style="
+                    <div
+                      v-if="concentratedLiquidityStep === 2"
+                      style="
                         position: absolute;
                         top: 0;
                         right: 0;
@@ -211,16 +320,41 @@
                         align-items: center;
                         justify-content: space-between;
                         border-radius: 0px 6px 6px 0px;
-                      " class="p-4">
-                      <div @click="incrementPriceRange(false)" style="cursor: pointer">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z"
-                            fill="#F8F8F8" />
+                      "
+                      class="p-4"
+                    >
+                      <div
+                        @click="incrementPriceRange(false)"
+                        style="cursor: pointer"
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M14 7.99805H8V13.998H6V7.99805H0V5.99805H6V-0.00195312H8V5.99805H14V7.99805Z"
+                            fill="#F8F8F8"
+                          />
                         </svg>
                       </div>
-                      <div @click="decrementPriceRange(false)" style="cursor: pointer">
-                        <svg width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M14 1.99805H8H6H0V-0.00195312H6H8H14V1.99805Z" fill="#F8F8F8" />
+                      <div
+                        @click="decrementPriceRange(false)"
+                        style="cursor: pointer"
+                      >
+                        <svg
+                          width="14"
+                          height="2"
+                          viewBox="0 0 14 2"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M14 1.99805H8H6H0V-0.00195312H6H8H14V1.99805Z"
+                            fill="#F8F8F8"
+                          />
                         </svg>
                       </div>
                     </div>
@@ -228,19 +362,34 @@
                 </div>
               </div>
               <div class="compose_text fw-light mt-3 mb-3">Range Type:</div>
-              <div v-if="concentratedLiquidityStep === 2" class="fee_tier_container">
-                <div :class="type.selected
-      ? 'fee_tier_container_card fee_tier_container_card__selected'
-      : 'fee_tier_container_card'
-      " v-for="(type, i) in range_types" :key="`tiers-${i}`" @click="selectRange(type)">
+              <div
+                v-if="concentratedLiquidityStep === 2"
+                class="fee_tier_container"
+              >
+                <div
+                  :class="
+                    type.selected
+                      ? 'fee_tier_container_card fee_tier_container_card__selected'
+                      : 'fee_tier_container_card'
+                  "
+                  v-for="(type, i) in range_types"
+                  :key="`tiers-${i}`"
+                  @click="selectRange(type)"
+                >
                   <div style="color: #858c90">{{ type.name }}</div>
-                  <div style="color: #c1c8ce; font-size: clamp(6px, 0.6vw, 10px);">{{ type.percent }}</div>
+                  <div
+                    style="color: #c1c8ce; font-size: clamp(6px, 0.6vw, 10px)"
+                  >
+                    {{ type.percent }}
+                  </div>
 
-                  <hr style="
+                  <hr
+                    style="
                       border: 1px solid #ffffff1c;
                       width: 100%;
                       margin: 10px -10px;
-                    " />
+                    "
+                  />
                   <div style="color: #858c90">{{ type.APR }}</div>
                 </div>
               </div>
@@ -250,13 +399,17 @@
               <div class="d-flex flex-column gap-4 position-relative">
                 <!-- Add liquidity to singe comp on refactor week -->
 
-                <div class="d-flex" style="
+                <div
+                  class="d-flex"
+                  style="
                     background: #22222224;
                     box-shadow: 0px 4px 4px 0px #00000040;
 
                     border-radius: 16px;
-                  ">
-                  <div style="
+                  "
+                >
+                  <div
+                    style="
                       width: 30%;
                       background: #22222224;
                       box-shadow: 0px 4px 4px 0px #00000040;
@@ -268,16 +421,24 @@
                       display: flex;
                       align-items: flex-end;
                       justify-content: space-between;
-                    ">
-                    <div class="d-flex flex-column justify-content-around h-100">
+                    "
+                  >
+                    <div
+                      class="d-flex flex-column justify-content-around h-100"
+                    >
                       <div class="d-flex align-items-center gap-2">
-                        <img :src="pairToken1.img || pairToken1.logoURI" width="24" />
+                        <img
+                          :src="pairToken1.img || pairToken1.logoURI"
+                          width="24"
+                        />
 
-                        <h4 style="
+                        <h4
+                          style="
                             font-size: 21px;
                             margin-bottom: 0;
                             color: white;
-                          ">
+                          "
+                        >
                           {{ pairToken1.symbol }}
                         </h4>
                       </div>
@@ -286,13 +447,18 @@
                         {{ (pairToken1.balance || 0) - depositAmount1 }}
                       </div>
                     </div>
-                    <div class="max_button" @click="depositAmount1 = pairToken1.balance">
+                    <div
+                      class="max_button"
+                      @click="depositAmount1 = pairToken1.balance"
+                    >
                       Max
                     </div>
                   </div>
                   <div>
                     <div class="d-flex flex-column gap-2 p-3">
-                      <input type="number" style="
+                      <input
+                        type="number"
+                        style="
                           background: none;
                           border: none;
                           outline: none;
@@ -300,22 +466,29 @@
                           color: #c1c8ce;
                           font-weight: 600;
                           font-size: 20px;
-                        " v-model="depositAmount1" @blur="updateDepositAmount2" />
+                        "
+                        v-model="depositAmount1"
+                        @blur="updateDepositAmount2"
+                      />
                       <div style="color: #858c90; font-size: 12px">
                         ≈${{
-      (depositAmount1 * (pairToken1.price || 0)).toFixed(2)
-    }}
+                          (depositAmount1 * (pairToken1.price || 0)).toFixed(2)
+                        }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="d-flex" style="
+                <div
+                  class="d-flex"
+                  style="
                     background: #22222224;
                     box-shadow: 0px 4px 4px 0px #00000040;
 
                     border-radius: 16px;
-                  ">
-                  <div style="
+                  "
+                >
+                  <div
+                    style="
                       width: 30%;
                       background: #22222224;
                       box-shadow: 0px 4px 4px 0px #00000040;
@@ -327,16 +500,24 @@
                       display: flex;
                       align-items: flex-end;
                       justify-content: space-between;
-                    ">
-                    <div class="d-flex flex-column justify-content-around h-100">
+                    "
+                  >
+                    <div
+                      class="d-flex flex-column justify-content-around h-100"
+                    >
                       <div class="d-flex align-items-center gap-2">
-                        <img :src="pairToken2.img || pairToken2.logoURI" width="24" />
+                        <img
+                          :src="pairToken2.img || pairToken2.logoURI"
+                          width="24"
+                        />
 
-                        <h4 style="
+                        <h4
+                          style="
                             font-size: 21px;
                             margin-bottom: 0;
                             color: white;
-                          ">
+                          "
+                        >
                           {{ pairToken2.symbol }}
                         </h4>
                       </div>
@@ -345,13 +526,18 @@
                         {{ (pairToken2.balance || 0) - depositAmount2 }}
                       </div>
                     </div>
-                    <div class="max_button" @click="depositAmount2 = pairToken2.balance">
+                    <div
+                      class="max_button"
+                      @click="depositAmount2 = pairToken2.balance"
+                    >
                       Max
                     </div>
                   </div>
                   <div>
                     <div class="d-flex flex-column gap-2 p-3">
-                      <input type="number" style="
+                      <input
+                        type="number"
+                        style="
                           background: none;
                           border: none;
                           outline: none;
@@ -359,101 +545,185 @@
                           color: #c1c8ce;
                           font-weight: 600;
                           font-size: 20px;
-                        " v-model="depositAmount2" @blur="updateDepositAmount1" />
+                        "
+                        v-model="depositAmount2"
+                        @blur="updateDepositAmount1"
+                      />
                       <div style="color: #858c90; font-size: 12px">
                         ≈${{
-      (depositAmount2 * (pairToken2.price || 0)).toFixed(2)
-    }}
+                          (depositAmount2 * (pairToken2.price || 0)).toFixed(2)
+                        }}
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="add_liquidity_button bg-[#00E0FF] rounded-full">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <g clip-path="url(#clip0_1807_18018)">
                       <g clip-path="url(#clip1_1807_18018)">
                         <g clip-path="url(#clip2_1807_18018)">
                           <path
                             d="M6.58 0.000427246C6.42536 0.000427246 6.3 0.125787 6.3 0.280427V6.30043H0.28C0.12536 6.30043 0 6.42579 0 6.58043V7.42043C0 7.57506 0.12536 7.70043 0.28 7.70043H6.3V13.7204C6.3 13.8751 6.42536 14.0004 6.58 14.0004H7.42C7.57463 14.0004 7.7 13.8751 7.7 13.7204V7.70043H13.72C13.8746 7.70043 14 7.57506 14 7.42043V6.58043C14 6.42579 13.8746 6.30043 13.72 6.30043H7.7V0.280427C7.7 0.125787 7.57463 0.000427246 7.42 0.000427246H6.58Z"
-                            fill="#EBEBEC" />
+                            fill="#EBEBEC"
+                          />
                         </g>
                       </g>
                     </g>
                     <defs>
                       <clipPath id="clip0_1807_18018">
-                        <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
+                        <rect
+                          width="14"
+                          height="14"
+                          fill="white"
+                          transform="translate(0 0.000427246)"
+                        />
                       </clipPath>
                       <clipPath id="clip1_1807_18018">
-                        <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
+                        <rect
+                          width="14"
+                          height="14"
+                          fill="white"
+                          transform="translate(0 0.000427246)"
+                        />
                       </clipPath>
                       <clipPath id="clip2_1807_18018">
-                        <rect width="14" height="14" fill="white" transform="translate(0 0.000427246)" />
+                        <rect
+                          width="14"
+                          height="14"
+                          fill="white"
+                          transform="translate(0 0.000427246)"
+                        />
                       </clipPath>
                     </defs>
                   </svg>
                 </div>
               </div>
             </div>
-            <div class="compose_text fw-light mt-5 d-flex justify-content-between">
+            <div
+              class="compose_text fw-light mt-5 d-flex justify-content-between"
+            >
               <div>Slippage:</div>
               <div>0.5%</div>
             </div>
 
-            <div class="my-3 d-flex justify-content-center position-relative" v-if="concentratedLiquidityStep === 3 ||
-      concentratedLiquidityStep === 4 ||
-      concentratedLiquidityStep === 5
-      ">
+            <div
+              class="my-3 d-flex justify-content-center position-relative"
+              v-if="
+                concentratedLiquidityStep === 3 ||
+                concentratedLiquidityStep === 4 ||
+                concentratedLiquidityStep === 5
+              "
+            >
               <div class="d-flex gap-2">
                 <!-- First step marker -->
                 <div class="position-relative">
-                  <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="15" cy="15" r="14.5" :stroke="concentratedLiquidityStep === 3 ||
-      concentratedLiquidityStep === 4 ||
-      concentratedLiquidityStep === 5
-      ? '#00C9FF'
-      : 'white'
-      " />
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 30 30"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="15"
+                      cy="15"
+                      r="14.5"
+                      :stroke="
+                        concentratedLiquidityStep === 3 ||
+                        concentratedLiquidityStep === 4 ||
+                        concentratedLiquidityStep === 5
+                          ? '#00C9FF'
+                          : 'white'
+                      "
+                    />
                   </svg>
-                  <div v-if="concentratedLiquidityStep === 3" :class="concentratedLiquidityStep === 3
-      ? 'step_number step_number_active'
-      : 'step_number'
-      ">
+                  <div
+                    v-if="concentratedLiquidityStep === 3"
+                    :class="
+                      concentratedLiquidityStep === 3
+                        ? 'step_number step_number_active'
+                        : 'step_number'
+                    "
+                  >
                     1
                   </div>
-                  <div v-else-if="concentratedLiquidityStep === 4" class="step_number">
+                  <div
+                    v-else-if="concentratedLiquidityStep === 4"
+                    class="step_number"
+                  >
                     <img :src="metamask" width="20" />
                   </div>
-                  <div v-else-if="concentratedLiquidityStep === 5" class="step_number">
-                    <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4.97 10.583L0 5.613L0.714 4.9L4.97 9.156L14.126 0L14.839 0.713L4.97 10.583Z"
-                        fill="#00C9FF" />
+                  <div
+                    v-else-if="concentratedLiquidityStep === 5"
+                    class="step_number"
+                  >
+                    <svg
+                      width="15"
+                      height="11"
+                      viewBox="0 0 15 11"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.97 10.583L0 5.613L0.714 4.9L4.97 9.156L14.126 0L14.839 0.713L4.97 10.583Z"
+                        fill="#00C9FF"
+                      />
                     </svg>
                   </div>
                 </div>
 
                 <!-- Second step marker -->
                 <div class="position-relative">
-                  <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="15" cy="15" r="14.5" :stroke="concentratedLiquidityStep === 5 ? '#00C9FF' : 'white'
-      " />
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 30 30"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="15"
+                      cy="15"
+                      r="14.5"
+                      :stroke="
+                        concentratedLiquidityStep === 5 ? '#00C9FF' : 'white'
+                      "
+                    />
                   </svg>
-                  <div :class="concentratedLiquidityStep === 5
-      ? 'step_number step_number_active'
-      : 'step_number'
-      ">
+                  <div
+                    :class="
+                      concentratedLiquidityStep === 5
+                        ? 'step_number step_number_active'
+                        : 'step_number'
+                    "
+                  >
                     2
                   </div>
                 </div>
               </div>
             </div>
 
-            <button v-if="!tokensInitialized" :class="!tokensInitialized
-      ? 'concentrated_button concentrated_button_disabled'
-      : 'concentrated_button'
-      ">
+            <button
+              v-if="!tokensInitialized"
+              :class="
+                !tokensInitialized
+                  ? 'concentrated_button concentrated_button_disabled'
+                  : 'concentrated_button'
+              "
+            >
               Add liquidity
             </button>
-            <button v-else-if="tokensInitialized" :class="'concentrated_button'" @click="mintPosition">
+            <button
+              v-else-if="tokensInitialized"
+              :class="'concentrated_button'"
+              @click="mintPosition"
+            >
               Add liquidity
             </button>
             <!-- <button v-else-if="concentratedLiquidityStep === 3" :class="'concentrated_button'"
@@ -471,9 +741,17 @@
         </div>
 
         <div class="w-50">
-          <ChartAndPoolInfo :token0="pairToken1" :token1="pairToken2" :minPriceRange="priceRange1"
-            :maxPriceRange="priceRange2" :price="relativePrice" :concentratedLiquidityStep="concentratedLiquidityStep"
-            :poolInfo="poolInfo" :tvl="poolTvl" :poolApr="poolApr" />
+          <ChartAndPoolInfo
+            :token0="pairToken1"
+            :token1="pairToken2"
+            :minPriceRange="priceRange1"
+            :maxPriceRange="priceRange2"
+            :price="relativePrice"
+            :concentratedLiquidityStep="concentratedLiquidityStep"
+            :poolInfo="poolInfo"
+            :tvl="poolTvl"
+            :poolApr="poolApr"
+          />
         </div>
       </div>
     </div>
@@ -525,12 +803,12 @@ const tokenSelectModal = ref(false)
 const pairIndex = ref(1)
 
 const pairToken1 = ref({
-  img: "",
+  img: '',
   symbol: 'DAI',
 })
 
 const pairToken2 = ref({
-  img: "",
+  img: '',
   symbol: 'DOGE',
 })
 const feeAmount = computed(() => FEE_AMOUNTS[feeTier.value])
@@ -631,10 +909,11 @@ const range_types = ref([
   },
 ])
 
-
 async function onAddToken(value) {
   let address = value.toLowerCase()
-  let isAlreadyIn = notSelectedPossibleComposeTokens.value.find((item) => item.id == address)
+  let isAlreadyIn = notSelectedPossibleComposeTokens.value.find(
+    (item) => item.id == address,
+  )
   if (isAlreadyIn) return
   if (ethers.utils.isAddress(address)) {
     let network_id = networkId.value
@@ -704,7 +983,6 @@ function selectRange(rng) {
 
 const notSelectedPossibleComposeTokens = ref([])
 
-
 function updateToken(token, index) {
   if (index == 1) {
     pairToken1.value = token
@@ -713,7 +991,11 @@ function updateToken(token, index) {
     pairToken2.value = token
   }
   if (pairToken1.value.address && pairToken2.value.address) {
-    if (ethers.BigNumber.from(pairToken1.value.address).gt(pairToken2.value.address)) {
+    if (
+      ethers.BigNumber.from(pairToken1.value.address).gt(
+        pairToken2.value.address,
+      )
+    ) {
       let temp = pairToken2.value
       pairToken2.value = pairToken1.value
       pairToken1.value = temp
@@ -853,7 +1135,7 @@ async function mintPosition() {
       priceRange1.value,
       priceRange2.value,
       relativePrice.value,
-      concentratedLiquidityStep
+      concentratedLiquidityStep,
     )
     concentratedLiquidityStep.value = 3
   } catch (e) {
@@ -922,7 +1204,7 @@ onMounted(async () => {
   trades.value = await fetchDataAndMerge()
 })
 
-watch((networkId), async () => {
+watch(networkId, async () => {
   if (networkId.value) {
     notSelectedPossibleComposeTokens.value = await fetchUniswapTokens(
       networkId.value,
@@ -941,7 +1223,6 @@ watch((networkId), async () => {
   padding: 2.5%;
   border-radius: 16px;
   backdrop-filter: blur(10px);
-
 }
 
 .compose_text {
@@ -1006,7 +1287,7 @@ watch((networkId), async () => {
     flex-direction: column;
     padding: 15px 5px;
     background: #2f303230;
-    
+
     font-size: clamp(8px, 0.7vw, 12px);
     font-weight: 400;
     line-height: 18px;
@@ -1035,10 +1316,6 @@ watch((networkId), async () => {
   cursor: pointer;
 }
 
-
-
-
-
 .back_button {
   width: 32px;
   height: 32px;
@@ -1051,7 +1328,4 @@ watch((networkId), async () => {
   align-items: center;
   cursor: pointer;
 }
-
-
-
 </style>

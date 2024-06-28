@@ -1,18 +1,20 @@
 <template>
-  <div class="modal_body_inside">
-    <div>
+  <Modal v-if="isOpen" @close="$emit('close')">
+    <template #body>
       <div
         class="modal_body_header d-flex justify-content-between align-items-start mb-1"
       >
-        <p style="font-size: 20px" class="dark:!text-white text-black">{{ $t('token_search') }}</p>
+        <p style="font-size: 20px" class="dark:!text-white text-black">
+          {{ $t('token_search') }}
+        </p>
       </div>
-
 
       <label
         for="search"
         class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-        >{{ $t('search') }}</label
       >
+        {{ $t('search') }}
+      </label>
       <div class="relative">
         <div
           class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
@@ -36,25 +38,23 @@
         <input
           type="search"
           id="search"
-          class="block w-full ps-10 text-sm text-gray-900  border-gray-300 rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-[#02031c] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class="block w-full ps-10 text-sm text-gray-900 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-[#02031c] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           :placeholder="t('search_by_name_symbol_address')"
           aria-label="Search by name, symbol or address"
           v-model="filterName"
-          v-on:keyup.enter="emit('addToken', filterName)"
         />
       </div>
 
       <div class="mt-3">
-        <div class="dark:!text-white text-black text-base">{{ $t('common_tokens') }}</div>
+        <div class="dark:!text-white text-black text-base">
+          {{ $t('common_tokens') }}
+        </div>
         <div class="d-flex flex-wrap gap-3">
           <div
             class="common_token text-black dark:!text-white d-flex gap-2"
             v-for="token in commonTokens"
             :key="token.symbol"
-            @click="
-              emit('updateToken', { ...token }, props.pairIndex),
-                emit('tokenSelectModalClose')
-            "
+            @click="$emit('updateToken', { ...token }), $emit('close')"
           >
             <img
               :src="getTokenEntity(token.symbol, 'short').icon || token.logoURI"
@@ -64,20 +64,20 @@
           </div>
         </div>
       </div>
-      {{console.log('filteredPossibleTokens', filteredPossibleTokens)}}
+
       <div class="mt-3 tokens_container">
-        <div class="flex items-center justify-center h-full" v-if="filteredPossibleTokens.length === 0">
-          <LoaderPulse/>
+        <div
+          class="flex items-center justify-center h-full"
+          v-if="filteredPossibleTokens.length === 0"
+        >
+          <LoaderPulse />
         </div>
         <div
           v-else
           v-for="(token, index) in filteredPossibleTokens"
           :key="`tokens-key-${index}`"
           class="flex items-center justify-between p-3 gap-3 token_card"
-          @click="
-            emit('updateToken', { ...token }, props.pairIndex),
-              emit('tokenSelectModalClose')
-          "
+          @click="$emit('updateToken', token), $emit('close')"
         >
           <div class="d-flex align-items-center">
             <img
@@ -86,51 +86,62 @@
               class="p-2"
             />
             <div class="d-flex flex-column">
-              <div class="modal_body_header text-black dark:!text-white">{{ token.symbol }}</div>
-              <div class="modal_body_header text-black dark:!text-white">{{ token.name }}</div>
+              <div class="modal_body_header text-black dark:!text-white">
+                {{ token.symbol }}
+              </div>
+              <div class="modal_body_header text-black dark:!text-white">
+                {{ token.name }}
+              </div>
             </div>
           </div>
-          <div class="d-flex flex-column align-items-end text-black dark:!text-white">
-            <div>{{ parseFloat(token.balance).toFixed(3) }} {{ token.symbol }}</div>
+          <div
+            class="d-flex flex-column align-items-end text-black dark:!text-white"
+          >
+            <div>
+              {{ parseFloat(token.balance).toFixed(3) }} {{ token.symbol }}
+            </div>
             <div>${{ parseFloat(token.balance * token.price).toFixed(3) }}</div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- {{ console.log('possibleComposeTokens', possibleComposeTokens) }} -->
+    </template>
+  </Modal>
 </template>
 
 <script setup>
-import Search from '@/assets/images/search.png'
 import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
+import { t } from 'i18next'
+
+import Modal from '@/UI/Modal.vue'
+import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import { getTokenEntity } from '@/lib/helpers/util'
-import { COMMON_TOKENS } from "@/composables/poolActions/compose/usePossibleComposeTokens"
-import { t } from 'i18next';
-import LoaderPulse from '../loaders/LoaderPulse.vue';
-const props = defineProps([
-  'tokenSelectModal',
-  'possibleComposeTokens',
-  'pairIndex',
-])
-const { possibleComposeTokens } = toRefs(props)
-const emit = defineEmits(['updateToken', 'addToken', 'tokenSelectModalClose'])
+import { COMMON_TOKENS } from '@/composables/poolActions/compose/usePossibleComposeTokens'
+
+const props = defineProps(['isOpen', 'possibleTokens'])
+const { possibleTokens } = toRefs(props)
+
+const emit = defineEmits(['updateToken', 'close'])
+
 const filterName = ref('')
 
 const filteredPossibleTokens = computed(() =>
-  possibleComposeTokens.value.filter(
-    (t) =>
-      filterName.value == '' ||
-      t.symbol.toLowerCase().includes(filterName.value.toLowerCase()) ||
-      t.address.toLowerCase().includes(filterName.value.toLowerCase()),
-  ).slice(0, 50)
+  possibleTokens.value
+    .filter(
+      (t) =>
+        filterName.value == '' ||
+        t.symbol.toLowerCase().includes(filterName.value.toLowerCase()) ||
+        t.address.toLowerCase().includes(filterName.value.toLowerCase()),
+    )
+    .slice(0, 50),
 )
 
 const commonTokens = computed(() => {
-  console.log("POSSIBLE TOKENS - ", possibleComposeTokens.value)
-  return possibleComposeTokens.value.filter((item) => COMMON_TOKENS.includes(item.name)).slice(0, 8)
+  return possibleTokens.value
+    .filter((item) => COMMON_TOKENS.includes(item.name))
+    .slice(0, 8)
 })
 </script>
+
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
 
@@ -141,16 +152,11 @@ const commonTokens = computed(() => {
 }
 
 .modal_body_header {
-  
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;
   letter-spacing: -0.5px;
   // color: white;
-}
-
-.modal_body_inside {
-  // padding: 0px 110px;
 }
 
 .modal_balance_slider {
@@ -348,8 +354,8 @@ const commonTokens = computed(() => {
 
 .common_token {
   border-radius: 10px;
-  background: #2F303230;
-  
+  background: #2f303230;
+
   font-size: 14px;
   font-weight: 500;
   line-height: 28px;
@@ -361,4 +367,3 @@ const commonTokens = computed(() => {
   }
 }
 </style>
-@/composables/math/investMath/useInvestMath@/composables/poolActions/deposit/useApproveTokens
