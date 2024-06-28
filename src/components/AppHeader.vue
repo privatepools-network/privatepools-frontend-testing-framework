@@ -1,6 +1,6 @@
 <template>
   <CHeader
-    position="static"
+    position="sticky"
     :class="
       isHeaderBg
         ? `header_main ${isDark ? 'header_main_bg' : 'header_main_bg-white'} `
@@ -57,7 +57,11 @@
         v-else-if="address && address !== ''"
         class="d-flex align-items-center gap-2"
       >
-        <div v-if="width < 768" @click="toggleSearhbarMobile" class="mobile_container">
+        <div
+          v-if="width < 768"
+          @click="toggleSearhbarMobile"
+          class="mobile_container"
+        >
           <svg
             width="20"
             height="20"
@@ -107,9 +111,8 @@
           </svg>
         </div>
       </div>
-   
     </CContainer>
-   
+
     <SidebarMobile
       :sidebarVisible="sidebarVisible"
       @toggleNavigation="toggleNavigation"
@@ -122,7 +125,6 @@
       :searchInput="searchInput"
     />
   </CHeader>
- 
 </template>
 
 <script setup>
@@ -928,9 +930,8 @@ const computedAddress = computed(() =>
   // color: white;
   // -webkit-backdrop-filter: blur(50px);
   // backdrop-filter: blur(50px);
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     max-height: 500px !important;
-    
   }
 }
 
@@ -1035,7 +1036,7 @@ input[readonly] {
 }
 
 .mobile_container {
-  background: #02031C;
+  background: #02031c;
   border-radius: 100%;
   width: 40px;
   height: 40px;

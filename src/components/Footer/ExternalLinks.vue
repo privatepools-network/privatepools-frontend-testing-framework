@@ -10,7 +10,7 @@
             <div
               class="flex items-center gap-1 font-['Syne',_sans-serif] uppercase footer_text_svg"
             >
-              {{ $t('Docs') }}
+              {{ $t('docs') }}
               <svg
                 width="14"
                 height="14"
@@ -35,7 +35,7 @@
             <div
               class="flex items-center gap-1 font-['Syne',_sans-serif] uppercase footer_text_svg"
             >
-              {{ $t('Pitch deck') }}
+              Pitch deck
               <svg
                 width="14"
                 height="14"
@@ -60,7 +60,7 @@
             <div
               class="flex items-center gap-1 font-['Syne',_sans-serif] uppercase footer_text_svg"
             >
-              {{ $t('whitepaper') }}
+              whitepaper
               <svg
                 width="14"
                 height="14"
