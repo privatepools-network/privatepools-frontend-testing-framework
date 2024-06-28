@@ -8,7 +8,7 @@ const routes = [
     name: 'Home',
     component: DefaultLayout,
     redirect: '/pools',
-  children: [
+    children: [
       {
         path: '/general',
         name: 'General',
@@ -71,6 +71,11 @@ const routes = [
         path: '/pools/:id/:chainSelected/withdraw',
         name: 'Pool Withdraw',
         component: () => import('@/views/Pools/Withdraw.vue'),
+      },
+      {
+        path: '/pools/:id/:chainSelected/compound',
+        name: 'Pool Compound',
+        component: () => import('@/views/Pools/Compound.vue'),
       },
 
       {

@@ -1,6 +1,8 @@
 <template>
   <div class="compose_steps dark:!bg-[#DCEEF605] bg-white">
-    <div class="compose_text dark:!text-white text-black">{{ $t('create_wp_steps') }}</div>
+    <div class="compose_text dark:!text-white text-black">
+      {{ isCompounder ? 'Compound your Rewards!' : $t('create_wp_steps') }}
+    </div>
     <!-- Comment -->
     <hr class="compose_hr" />
     <div>
@@ -10,7 +12,7 @@
           <img :src="step1Img" v-else />
 
           <div :class="activeStep === 1 ? 'step_text active' : 'step_text'">
-            {{ $t('choose_tokens_&_weights') }}
+            {{isCompounder ?  'Claim Rewards' : $t('choose_tokens_&_weights')  }}
           </div>
         </div>
         <div class="d-flex align-items-start gap-2">
@@ -18,7 +20,7 @@
           <img :src="step2Img" v-else />
 
           <div :class="activeStep === 2 ? 'step_text active' : 'step_text'">
-            {{ $t('confirm_pool_creation') }}
+            {{isCompounder ? 'Approve tokens' : $t('confirm_pool_creation') }}
           </div>
         </div>
         <div class="d-flex align-items-start gap-2">
@@ -26,7 +28,7 @@
           <img :src="step3Img" v-else />
 
           <div :class="activeStep === 3 ? 'step_text active' : 'step_text'">
-            {{ $t('add_initial_liquidity') }}
+            {{isCompounder ? 'Deposit Tokens into the Pool' : $t('add_initial_liquidity') }}
           </div>
         </div>
         <!-- <div class="d-flex align-items-end gap-2">
@@ -37,10 +39,6 @@
             {{ $t('swap_tokens') }}
           </div>
         </div> -->
-
-
-
-
       </div>
     </div>
   </div>
@@ -56,8 +54,7 @@ import step3activeImg from '@/assets/steps/step3active.svg'
 import step4activeImg from '@/assets/steps/step4active.svg'
 import step4Img from '@/assets/steps/step4.svg'
 
-
-defineProps(['activeStep'])
+defineProps(['activeStep', 'isCompounder'])
 </script>
 <style lang="scss" scoped>
 .compose_steps {
@@ -66,9 +63,8 @@ defineProps(['activeStep'])
   height: fit-content;
   border-radius: 16px;
   // background: #DCEEF605;
-  border: 1px solid #FFFFFF0D;
-  box-shadow: 0px 4px 8.899999618530273px 0px #000000B5;
-
+  border: 1px solid #ffffff0d;
+  box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
 }
 
 .compose_text {
@@ -77,7 +73,7 @@ defineProps(['activeStep'])
 }
 
 .compose_hr {
-  border-bottom: 1px solid #00C9FF57;
+  border-bottom: 1px solid #00c9ff57;
   margin: 0px;
   margin-top: 5px;
   margin-right: -10px;
@@ -95,7 +91,7 @@ defineProps(['activeStep'])
   color: #94a3b8;
 
   &.active {
-    color: #00C9FF;
+    color: #00c9ff;
   }
 }
 </style>

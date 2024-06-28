@@ -62,6 +62,13 @@
         </div>
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
         <div class="flex justify-between items-center">
+          <div class="rewards_button" @click="changeToCompoundView">
+          {{ $t('Compounder') }} 
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.25 4.25H8.75V5.75H7.25V4.25ZM7.25 7.25H8.75V11.75H7.25V7.25ZM8 0.5C3.86 0.5 0.5 3.86 0.5 8C0.5 12.14 3.86 15.5 8 15.5C12.14 15.5 15.5 12.14 15.5 8C15.5 3.86 12.14 0.5 8 0.5ZM8 14C4.6925 14 2 11.3075 2 8C2 4.6925 4.6925 2 8 2C11.3075 2 14 4.6925 14 8C14 11.3075 11.3075 14 8 14Z" fill="#02031C"/>
+</svg>
+
+        </div>
           <!-- <div class="rewards_button">
           {{ $t('rewards') }}
         </div> -->
@@ -1493,6 +1500,20 @@ function changeToWithdrawView() {
   }, 1200)
   visibleWithdrawComponent.value = !visibleWithdrawComponent.value
 }
+function changeToCompoundView() {
+  router.push({
+    name: 'Pool Compound',
+    params: {
+      id: router.currentRoute.value.params['id'],
+      chainSelected: router.currentRoute.value.params['chainSelected'],
+    },
+  })
+  poolsLoader.value = true
+  setTimeout(() => {
+    poolsLoader.value = false
+  }, 1200)
+  visibleWithdrawComponent.value = !visibleWithdrawComponent.value
+}
 function changeToDepositView() {
   router.push({
     name: 'Pool Deposit',
@@ -2262,6 +2283,9 @@ function changeToDepositView() {
   line-height: 24px;
   border-radius: 16px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 
   &:hover {
     filter: drop-shadow(0 0 0.3rem #00c9ff);
