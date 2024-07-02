@@ -88,6 +88,11 @@ const routes = [
         name: 'Buy',
         component: () => import('@/views/Buy.vue'),
       },
+      {
+        path: '/protocol_disclaimer',
+        name: 'Protocol Disclaimer',
+        component: () => import('@/views/ProtocolDisclaimer.vue'),
+      },
       // {
       //   path: '/portfolio/investments/details/:id',
       //   name: 'Investment Details',

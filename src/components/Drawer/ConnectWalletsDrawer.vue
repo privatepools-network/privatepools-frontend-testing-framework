@@ -15,9 +15,9 @@
         <div><img :src="metamask" width="40" /></div>
         <div class="wallet_text">MetaMask</div>
       </div>
-      <div class="wallet_bottom_text">
-        {{ $t('by_connecting_wallet') }} <a class="wallet_link">{{ $t('and_consent_to_its') }}</a> 
-        <a class="wallet_link">{{ $t('privacy_policy') }}</a>
+      <div class="wallet_bottom_text text-white">
+        By connecting a wallet, you acknowledge that you have read and understand the Private Pools Network
+        <a class="wallet_link" href="/protocol_disclaimer">{{ $t('Protocol Disclaimer') }}</a>.
       </div>
     </div>
   </div>
@@ -155,7 +155,7 @@ async function handleChainChanged() {
 .wallet_link {
   cursor: pointer;
   text-decoration: underline;
-  color: #747474;
+  color: #00E0FF;
 
 }
 </style>
