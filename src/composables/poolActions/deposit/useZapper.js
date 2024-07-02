@@ -8,6 +8,9 @@ import { InitializeMetamask } from '@/lib/utils/metamask'
 import axios from 'axios'
 import { BACKEND_URL } from '../../pools/mappings'
 
+const LPT_SLIPPAGE = 0.02
+const ONE_INCH_SLIPPAGE = 0.1
+
 export async function useZapper(
   pool,
   srcToken,
@@ -90,17 +93,14 @@ export async function useTrades(
         const amount = pool.tokens[i].weight * decimalsAmount
         fromAmounts.push(pool.tokens[i].weight * srcAmount)
 
-        const oneInchTxData = await fetch1InchData(
+        const { data, toAmount } = await fetch1InchData(
           srcToken,
           pool.tokens[i].address,
           amount.toString(),
           config.addresses.zapper,
           slippage,
         )
-        const decodedDatas = i1InchRouter.decodeFunctionData(
-          'swap',
-          oneInchTxData.data,
-        )
+        const decodedDatas = i1InchRouter.decodeFunctionData('swap', data)
         oneInchDatas.push(decodedDatas[3])
 
         oneInchDescs.push({
@@ -109,14 +109,11 @@ export async function useTrades(
           srcReceiver: config.addresses.oneInchExecutor,
           dstReceiver: config.addresses.zapper,
           amount: amount.toString(),
-          minReturnAmount: 1,
+          minReturnAmount: (toAmount * (1 - ONE_INCH_SLIPPAGE)).toFixed(0),
           flags: 0,
         })
         toAmounts.push(
-          ethers.utils.formatUnits(
-            oneInchTxData.toAmount,
-            pool.tokens[i].decimals,
-          ),
+          ethers.utils.formatUnits(toAmount, pool.tokens[i].decimals),
         )
 
         if (i < pool.tokens.length - 1) await sleep(1000)
