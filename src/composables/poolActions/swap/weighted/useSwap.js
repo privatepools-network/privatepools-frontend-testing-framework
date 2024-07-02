@@ -5,10 +5,12 @@ import binance from '@/lib/config/binance'
 import ABI_PPNBuyer from '@/lib/abi/PPNBuyer.json'
 import ABI_Vault from '@/lib/abi/VaultAbi.json'
 import ABI_ERC20 from '@/lib/abi/ERC20.json'
+import { ref, watch } from 'vue'
+import { SorManager } from '@/lib/utils/balancer/helpers/sor/sorManager'
 
 const ppnBuyerAddress = '0x939EDCA8F050C1965082aF99ff1b53106E55682D'
 const ppnPoolId =
-  '0x9458b32c812f14632a7cf9fe287ec2f99071828a000200000000000000000010'
+  '0x6ed6da3cb4310efe95a315aacd934c5637d85407000200000000000000000009'
 
 export async function swapPPNToken(token1, token2, amount, signer, method) {
   try {
@@ -143,4 +145,19 @@ export async function getAmountOut(
   } catch (error) {
     console.log(error)
   }
+}
+
+export const useSwap = (tokenIn, tokenOut, amountIn, swapType, signer) => {
+  const amountOut = ref(0)
+  const isPossible = ref(0)
+
+  const fetchGetAmountOut = () => {
+    const sorManager = new SorManager()
+  }
+
+  watch(() => {
+    fetchGetAmountOut()
+  })
+
+  return { amountOut, isPossible }
 }

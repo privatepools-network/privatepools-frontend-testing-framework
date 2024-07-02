@@ -1,18 +1,12 @@
 <template>
-  <Modal v-if="tokenSelectModal" @close="tokenSelectModalClose" size="lg">
-    <template #body>
-      <TokenSelectModal
-        :tokenSelectModal="tokenSelectModal"
-        @tokenSelectModalClose="tokenSelectModalClose"
-        :pairIndex="pairIndex"
-        @updateToken="updateToken"
-        :possibleComposeTokens="notSelectedPossibleComposeTokens"
-        @addToken="onAddToken"
-      />
-    </template>
-  </Modal>
-
   <MainCard>
+    <TokenSelectModal
+      :is-open="isTokenSelectModalOpen"
+      :possible-tokens="possibleTokens"
+      @close="isTokenSelectModalOpen = false"
+      @updateToken="(value) => (tokenCurrency = value)"
+    />
+
     <div class="buy_container">
       <HowToBuyPPNTokens />
 
@@ -384,32 +378,26 @@
 </template>
 
 <script setup>
-import Tabs from '@/UI/Tabs.vue'
-import { InitializeMetamask } from '@/lib/utils/metamask'
-import MainCard from '../UI/MainCard.vue'
 import { ref, onMounted, computed } from 'vue'
-import { getTokenEntity } from '@/lib/helpers/util'
-import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
-import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
+import { Token } from '@uniswap/sdk-core'
+import { SwapType } from '@wavelength/sdk'
+
+import MainCard from '@/UI/MainCard.vue'
 import ChartTimeline from '@/UI/ChartTimeline.vue'
+import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
 import HowToBuyPPNTokens from '@/components/Buy/HowToBuyPPNTokens.vue'
+import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import { getTokenEntity } from '@/lib/helpers/util'
 import useBalance from '@/composables/useBalance'
 import useDecimals from '@/composables/useDecimals'
-import { Token } from '@uniswap/sdk-core'
-import {
-  GetCLPoolInfo,
-  quoteCL,
-  SwapCLTokens,
-} from '@/composables/poolActions/swap/cl/swap'
-import { useUniswapPPNHistory } from '@/composables/concentrated-liquidity/useUniswapPPNHistory'
-import Modal from '@/UI/Modal.vue'
 import {
   swapPPNToken,
   getAmountOut,
-} from '@/composables/poolActions/swap/weighted/swap'
-import { SwapType } from '@wavelength/sdk'
+} from '@/composables/poolActions/swap/weighted/useSwap'
 import { useVaultPPNHistory } from '@/composables/weighted/useVaultPPNHistory'
 import { usePPNInfo } from '@/composables/weighted/usePPNInfo'
+import { useFetchTokens } from '@/composables/tokens/useFetchTokens'
 
 const tokenPPN = ref({
   address: '0xC687E90f6a0a7e01d3fd03df2aABCeA7f323A845',
@@ -585,19 +573,18 @@ const selectedTab = ref('Buy')
 //   selectedTab.value = _new
 // }
 
-const tokenSelectModal = ref(false)
-function tokenSelectModalClose() {
-  tokenSelectModal.value = false
-}
+const isTokenSelectModalOpen = ref(false)
+
 function tokenSelectModalOpen() {
   window.scrollTo({
     top: 0,
     left: 0,
     behavior: 'smooth',
   })
-  tokenSelectModal.value = true
+  isTokenSelectModalOpen.value = true
 }
-const notSelectedPossibleComposeTokens = ref([])
+
+const { tokens: possibleTokens } = useFetchTokens(56)
 
 const address = ref(null)
 
@@ -637,7 +624,6 @@ onMounted(async () => {
           timelineData[timelineData.length - 2]) /
           timelineData[timelineData.length - 2]) *
         100
-  console.log('DATA - ', chartData.value)
 })
 
 async function buyClick() {
