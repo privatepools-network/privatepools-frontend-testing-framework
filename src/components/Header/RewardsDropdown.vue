@@ -49,7 +49,7 @@
             <CurrencySymbol />{{ totalRewards }}
             <img :src="rewards_icon" width="16" />
           </div>
-          <div
+          <!-- <div
             v-if="openRewardsDropdown"
             class="flex flex-col gap-1"
             v-for="(item, i) in rewards"
@@ -71,7 +71,7 @@
                 ({{ item[`${postfix_raw_lower}Value`] }})
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <div
           class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white"
@@ -89,58 +89,70 @@
           </div>
         </div>
 
-
-        <div
+        <!-- <div
           class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white"
         >
           <div
             class="text-[12px] font-['Syne',_sans-serif] text-black dark:!text-[#626262] flex items-center gap-1"
           >
-            {{ $t('Auto Compounder') }} 
+            {{ $t('Auto Compounder') }}
             <VTooltip :distance="0" :placement="'top'">
-          <div style="cursor: help">
-            <svg width="12" height="12" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M3.66699 3.6596C3.66699 3.5712 3.70211 3.48641 3.76462 3.4239C3.82714 3.36139 3.91192 3.32627 4.00033 3.32627C4.08873 3.32627 4.17352 3.36139 4.23603 3.4239C4.29854 3.48641 4.33366 3.5712 4.33366 3.6596V5.6596C4.33366 5.74801 4.29854 5.83279 4.23603 5.8953C4.17352 5.95782 4.08873 5.99293 4.00033 5.99293C3.91192 5.99293 3.82714 5.95782 3.76462 5.8953C3.70211 5.83279 3.66699 5.74801 3.66699 5.6596V3.6596ZM4.00033 2.0166C3.91192 2.0166 3.82714 2.05172 3.76462 2.11423C3.70211 2.17674 3.66699 2.26153 3.66699 2.34993C3.66699 2.43834 3.70211 2.52312 3.76462 2.58564C3.82714 2.64815 3.91192 2.68327 4.00033 2.68327C4.08873 2.68327 4.17352 2.64815 4.23603 2.58564C4.29854 2.52312 4.33366 2.43834 4.33366 2.34993C4.33366 2.26153 4.29854 2.17674 4.23603 2.11423C4.17352 2.05172 4.08873 2.0166 4.00033 2.0166Z" fill="#626262"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M4.00033 0.666504C2.15933 0.666504 0.666992 2.15884 0.666992 3.99984C0.666992 5.84084 2.15933 7.33317 4.00033 7.33317C5.84133 7.33317 7.33366 5.84084 7.33366 3.99984C7.33366 2.15884 5.84133 0.666504 4.00033 0.666504ZM1.33366 3.99984C1.33366 4.70708 1.61461 5.38536 2.11471 5.88546C2.6148 6.38555 3.29308 6.6665 4.00033 6.6665C4.70757 6.6665 5.38585 6.38555 5.88594 5.88546C6.38604 5.38536 6.66699 4.70708 6.66699 3.99984C6.66699 3.29259 6.38604 2.61432 5.88594 2.11422C5.38585 1.61412 4.70757 1.33317 4.00033 1.33317C3.29308 1.33317 2.6148 1.61412 2.11471 2.11422C1.61461 2.61432 1.33366 3.29259 1.33366 3.99984Z" fill="#626262"/>
-</svg>
-
-          </div>
-          <template #popper>
-            <div class="tooltip_container">
-              <div style="font-size: clamp(10px, 0.9vw, 16px)">
-                {{ $t('information') }}
+              <div style="cursor: help">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 8 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.66699 3.6596C3.66699 3.5712 3.70211 3.48641 3.76462 3.4239C3.82714 3.36139 3.91192 3.32627 4.00033 3.32627C4.08873 3.32627 4.17352 3.36139 4.23603 3.4239C4.29854 3.48641 4.33366 3.5712 4.33366 3.6596V5.6596C4.33366 5.74801 4.29854 5.83279 4.23603 5.8953C4.17352 5.95782 4.08873 5.99293 4.00033 5.99293C3.91192 5.99293 3.82714 5.95782 3.76462 5.8953C3.70211 5.83279 3.66699 5.74801 3.66699 5.6596V3.6596ZM4.00033 2.0166C3.91192 2.0166 3.82714 2.05172 3.76462 2.11423C3.70211 2.17674 3.66699 2.26153 3.66699 2.34993C3.66699 2.43834 3.70211 2.52312 3.76462 2.58564C3.82714 2.64815 3.91192 2.68327 4.00033 2.68327C4.08873 2.68327 4.17352 2.64815 4.23603 2.58564C4.29854 2.52312 4.33366 2.43834 4.33366 2.34993C4.33366 2.26153 4.29854 2.17674 4.23603 2.11423C4.17352 2.05172 4.08873 2.0166 4.00033 2.0166Z"
+                    fill="#626262"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M4.00033 0.666504C2.15933 0.666504 0.666992 2.15884 0.666992 3.99984C0.666992 5.84084 2.15933 7.33317 4.00033 7.33317C5.84133 7.33317 7.33366 5.84084 7.33366 3.99984C7.33366 2.15884 5.84133 0.666504 4.00033 0.666504ZM1.33366 3.99984C1.33366 4.70708 1.61461 5.38536 2.11471 5.88546C2.6148 6.38555 3.29308 6.6665 4.00033 6.6665C4.70757 6.6665 5.38585 6.38555 5.88594 5.88546C6.38604 5.38536 6.66699 4.70708 6.66699 3.99984C6.66699 3.29259 6.38604 2.61432 5.88594 2.11422C5.38585 1.61412 4.70757 1.33317 4.00033 1.33317C3.29308 1.33317 2.6148 1.61412 2.11471 2.11422C1.61461 2.61432 1.33366 3.29259 1.33366 3.99984Z"
+                    fill="#626262"
+                  />
+                </svg>
               </div>
-              <div class="tooltip_container_text">
-                The auto-compounder is a feature designed to maximize your earnings by automatically reinvesting your rewards on a daily basis.
-              </div>
-            </div>
-          </template>
-        </VTooltip>
+              <template #popper>
+                <div class="tooltip_container">
+                  <div style="font-size: clamp(10px, 0.9vw, 16px)">
+                    {{ $t('information') }}
+                  </div>
+                  <div class="tooltip_container_text">
+                    The auto-compounder is a feature designed to maximize your
+                    earnings by automatically reinvesting your rewards on a
+                    daily basis.
+                  </div>
+                </div>
+              </template>
+            </VTooltip>
           </div>
           <div class="flex">
             <div class="flex items-center gap-2">
-            <label class="inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                class="sr-only peer"
-                :value="autoCompounderState"
-                @click="autoCompounderState = !autoCompounderState"
-                :checked="autoCompounderState"
-              />
-              <div
-                class="relative w-7 h-4 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800/50 dark:bg-[#282828] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ABDFF]"
-              ></div>
-            </label>
-           
-          </div>
-
+              <label class="inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  class="sr-only peer"
+                  :value="autoCompounderState"
+                  @click="autoCompounderState = !autoCompounderState"
+                  :checked="autoCompounderState"
+                />
+                <div
+                  class="relative w-7 h-4 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800/50 dark:bg-[#282828] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ABDFF]"
+                ></div>
+              </label>
+            </div>
           </div>
           <div
             class="text-[10px] font-['Syne',_sans-serif] text-black dark:!text-[#626262]"
           >
-             Available in 2 pool(s)
+            Available in 2 pool(s)
           </div>
-        </div>
+        </div> -->
         <div
           class="rewards_button_dropdown"
           @click="() => claimRewards(rewardsData)"
@@ -148,7 +160,6 @@
           {{ $t('Claim rewards') }}
         </div>
       </div>
-
     </template>
   </Dropdown>
 </template>

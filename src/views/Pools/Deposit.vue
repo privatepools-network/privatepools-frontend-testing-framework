@@ -81,12 +81,12 @@
                   <div class="text-[14px] text-white">Add Liquidity</div>
                 </div>
                 <div v-if="approveStep === 0" class="flex items-center gap-2">
-                  <DepositMethodToggle
+                  <!-- <DepositMethodToggle
                     :deposit-method="depositMethod"
                     @toggle="(value) => (depositMethod = value)"
-                  />
+                  /> -->
 
-                  <DepositSlippageDropdown
+                  <!-- <DepositSlippageDropdown
                     :slippage-text="slippageSelected"
                     :slippage-value="slippage"
                     @change-slippage="
@@ -97,7 +97,7 @@
                           : (slippage = undefined)
                       )
                     "
-                  />
+                  /> -->
                 </div>
               </div>
             </div>
@@ -499,7 +499,7 @@ const toAmounts = ref([])
 
 const pool = ref(null)
 const approveStep = ref(0)
-const depositMethod = ref('zap')
+const depositMethod = ref('manual')
 const slippageSelected = ref('Auto')
 const slippage = ref()
 

@@ -15,7 +15,11 @@
 
 
         <SectionsTabs :filterEye="true" style="margin-bottom: 44px"
-          :tabsOptions="[t('investments'), t('statistics'), t('financial_statement')]" :selectedTab="activeTab"
+          :tabsOptions="[
+            t('investments'),
+            //  t('statistics'), 
+            //  t('financial_statement')
+             ]" :selectedTab="activeTab"
           @changeTab="changeActiveTab" />
 
         <div class="portfolio-statistics" v-if="activeTab == t('statistics')">

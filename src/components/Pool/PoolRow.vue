@@ -454,7 +454,7 @@
               </linearGradient>
             </defs>
           </svg>
-          <!-- <div class="details-el__col">
+          <div class="details-el__col">
             <div
               class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D] ">
               {{ $t('rewards') }}
@@ -469,12 +469,12 @@
 
                 </div>
               </div>
-              <div class="actions_button text-black dark:!text-white">
-                {{ $t('harvest') }}
+              <div class="actions_button text-black dark:!text-[#00E0FF]">
+                {{ $t('Claim') }}
               </div>
             </div>
-          </div> -->
-          <div class="details-el__col">
+          </div>
+          <!-- <div class="details-el__col">
             <div
               class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
             >
@@ -502,7 +502,7 @@
                 {{ $t('Compound') }}
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </CCollapse>
@@ -846,9 +846,9 @@ const visibleDetails = ref(false)
   // color: #ffffff;
   box-shadow: 0px 4px 8.9px 0px #79797933;
   margin-left: 20px;
-  padding: 6px 10px;
+  padding: 6px 20px;
   border-radius: 20px;
-  border: 1px solid #dceef6;
+  border: 1px solid #00E0FF;
   text-transform: uppercase;
 
   &:hover {

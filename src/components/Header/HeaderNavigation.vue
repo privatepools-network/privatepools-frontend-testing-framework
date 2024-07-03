@@ -23,7 +23,7 @@
       {{ $t('pools') }}
     </div>
 
-    <div
+    <!-- <div
     v-if="width > 768"
       @click="router.push('/buy')"
       :class="
@@ -33,18 +33,6 @@
       "
     >
       {{ $t('buy') }}
-    </div>
-
-    <!-- <div
-      v-if="width > 768"
-      @click="router.push('/general')"
-      :class="
-        router.currentRoute.value.path === '/general'
-          ? 'navigation_text_selected navigation_text'
-          : 'navigation_text'
-      "
-    >
-      {{ $t('Analytics') }}
     </div> -->
 
     <div
@@ -58,6 +46,20 @@
     >
       {{ $t('portfolio') }}
     </div>
+
+    <div
+      v-if="width > 768"
+      @click="router.push('/general')"
+      :class="
+        router.currentRoute.value.path === '/general'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+      "
+    >
+      {{ $t('Analytics') }}
+    </div>
+
+  
     <Dropdown :distance="10" v-if="width > 768">
       <div class="arrow_header">
         <svg
@@ -78,7 +80,7 @@
       </div>
       <template #popper>
         <div class="popup bg-white dark:!bg-[#02031C]" style="width: 200px">
-          <div class="popup_headers">App</div>
+          <!-- <div class="popup_headers">App</div>
           <a
             href="/general"
             :class="
@@ -108,7 +110,7 @@
             "
           >
             {{ $t('referrals') }}
-          </a>
+          </a> -->
           <div class="popup_headers">Protocol</div>
           <a
             href="https://medium.com/@D3_Innovations"

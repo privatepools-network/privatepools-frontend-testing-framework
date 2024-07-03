@@ -61,7 +61,7 @@
           </div>
         </div>
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center gap-2">
           <div class="rewards_button" @click="changeToCompoundView">
           {{ $t('Compounder') }} 
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -69,9 +69,9 @@
 </svg>
 
         </div>
-          <!-- <div class="rewards_button">
+          <div class="rewards_button">
           {{ $t('rewards') }}
-        </div> -->
+        </div>
         </div>
       </div>
     </CRow>
@@ -103,8 +103,8 @@
         :selectedTab="selectedTab"
         :tabsOptions="[
           t('pool_info'),
-          t('financial_statement'),
-          t('statistics'),
+          // t('financial_statement'),
+          // t('statistics'),
           // 'Pairs & Tokens',
         ]"
         @changeTab="changeSelectedTab"
