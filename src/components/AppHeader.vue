@@ -83,7 +83,24 @@
           class="wallet_address dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white"
           @click="$emit('toggleSidebar')"
         >
-          <span class="pulse_green"></span>
+        <VTooltip :distance="0" :placement="'top'">
+          <div style="cursor: help">
+            <span class="pulse_green"></span>
+          </div>
+          <template #popper>
+            <div class="tooltip_container">
+              <div style="font-size: clamp(10px, 0.9vw, 16px)" class="flex items-center gap-2">
+                {{ $t('Trading engine Status') }} <span class="pulse_green"></span>
+              </div>
+              <div class="tooltip_container_text">
+                Everything is functioning normally. The trading engine is operational.
+                <!-- Bad status text -->
+                <!-- The trading engine is currently unavailable. We are aware of the issue and are  actively working to restore service. We apologize for any inconvenience  and appreciate your patience. -->
+              </div>
+            </div>
+          </template>
+        </VTooltip>
+          
           {{ computedAddress }}
         </div>
         <div

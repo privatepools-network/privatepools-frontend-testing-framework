@@ -225,6 +225,7 @@
         :inactive="isPoolInactive(pool)"
         :index="index"
         @goToPoolWithdraw="goToPoolWithdraw"
+        @goToPoolCompound="goToPoolCompound"
         @goToCLPool="goToCLPool"
         @goToPool="goToPool"
         @goToPoolDeposit="goToPoolDeposit"
@@ -467,6 +468,8 @@ function goToPoolManage(args) {
     })
   }
 }
+
+
 function goToPoolWithdraw(args) {
   router.push({
     name: 'Pool Withdraw',
@@ -477,6 +480,18 @@ function goToPoolWithdraw(args) {
     },
   })
 }
+
+function goToPoolCompound(args) {
+  router.push({
+    name: 'Pool Compound',
+    params: {
+      id: all_pools.value[args.index].id,
+      onMountedActivity: args.onMountedActivity,
+      chainSelected: DisplayChain[networkId.value],
+    },
+  })
+}
+
 function goToPool(args) {
   router.push({
     name: 'Pool Details',

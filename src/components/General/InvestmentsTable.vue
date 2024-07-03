@@ -46,7 +46,11 @@
     <LoaderPulse v-if="!all_pools" />
     <InvestmentsPoolRow v-else-if="all_pools && all_pools.length > 0"
       v-for="(pool, index) in sortedPools.slice(0, sliceNumber)"
-      :key="pool.name" :pool="pool" :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool" @goToPool="goToPool"
+      :key="pool.name" :pool="pool" :userPools="user_staked_pools" :index="index" 
+      @goToPoolWithdraw="goToPoolWithdraw" 
+      @goToPoolCompound="goToPoolCompound" 
+      @goToCLPool="goToCLPool" 
+      @goToPool="goToPool"
       @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
     <div v-else class="p-10 flex justify-center items-center dark:!text-white text-black">
       No pools of this type
@@ -194,6 +198,8 @@ function goToPoolManage(args) {
     })
   }
 }
+
+
 function goToPoolWithdraw(args) {
   router.push({
     name: 'Pool Withdraw',
@@ -204,6 +210,19 @@ function goToPoolWithdraw(args) {
     },
   })
 }
+
+function goToPoolCompound(args) {
+  router.push({
+    name: 'Pool Compound',
+    params: {
+      id: sortedPools.value[args.index].id,
+      onMountedActivity: args.onMountedActivity,
+      chainSelected: DisplayChain[networkId.value],
+    },
+  })
+}
+
+
 function goToPool(args) {
   router.push({
     name: 'Pool Details',
