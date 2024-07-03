@@ -7,6 +7,8 @@ import { networkId } from '../../useNetwork'
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import axios from 'axios'
 import { BACKEND_URL } from '../../pools/mappings'
+import * as SDK from '@georgeroman/balancer-v2-pools'
+import { bnum } from '@/lib/utils'
 
 const LPT_SLIPPAGE = 0.02
 const ONE_INCH_SLIPPAGE = 0.1
@@ -15,6 +17,7 @@ export async function useZapper(
   pool,
   srcToken,
   srcAmount,
+  amounts,
   oneInchDatas,
   oneInchDescs,
   rawAmount = false,
@@ -36,6 +39,16 @@ export async function useZapper(
       ? srcAmount
       : ethers.utils.parseUnits(srcAmount.toString(), decimals)
 
+    const minimumLPT = SDK.WeightedMath._calcBptOutGivenExactTokensIn(
+      pool.tokens.map((t) => t.balance),
+      pool.tokens.map((t) => t.weight),
+      amounts,
+      bnum(pool.totalLiquidity.toString()),
+      bnum(this.calc.poolSwapFee.toString()),
+    )
+      .times(1 - LPT_SLIPPAGE)
+      .toFixed(0)
+
     const tx = await zapper.zap(
       decimalsAmount,
       srcToken,
@@ -43,6 +56,7 @@ export async function useZapper(
       pool.tokens.map((t) => t.address),
       oneInchDescs,
       oneInchDatas,
+      minimumLPT,
     )
 
     return tx
@@ -86,11 +100,14 @@ export async function useTrades(
     const oneInchDescs = []
     const toAmounts = []
     const fromAmounts = []
+    const amounts = []
 
     const i1InchRouter = new ethers.utils.Interface(I1InchRouterAbi)
     for (let i = 0; i < pool.tokens.length; i++) {
+      const amount = pool.tokens[i].weight * decimalsAmount
+
       if (pool.tokens[i].address !== srcToken) {
-        const amount = pool.tokens[i].weight * decimalsAmount
+        amounts.push
         fromAmounts.push(pool.tokens[i].weight * srcAmount)
 
         const { data, toAmount } = await fetch1InchData(
@@ -100,6 +117,7 @@ export async function useTrades(
           config.addresses.zapper,
           slippage,
         )
+
         const decodedDatas = i1InchRouter.decodeFunctionData('swap', data)
         oneInchDatas.push(decodedDatas[3])
 
@@ -115,12 +133,15 @@ export async function useTrades(
         toAmounts.push(
           ethers.utils.formatUnits(toAmount, pool.tokens[i].decimals),
         )
+        amounts.push(toAmounts[i])
 
         if (i < pool.tokens.length - 1) await sleep(1000)
+      } else {
+        amounts.push(amount)
       }
     }
 
-    return { oneInchDatas, oneInchDescs, fromAmounts, toAmounts }
+    return { oneInchDatas, oneInchDescs, fromAmounts, toAmounts, amounts }
   } catch (error) {
     console.log('Error useTrades - ', error)
     return error
