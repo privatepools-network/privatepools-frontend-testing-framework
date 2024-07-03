@@ -38,11 +38,11 @@ export async function getRewards(user) {
 
 function formatRewards(rewards, search_tokens) {
   const formatted_rewards = []
-  if (!rewards.value || rewards.value.length < 2) {
+  if (!rewards.value || rewards.value.length < 3) {
     return formatted_rewards
   }
-  for (let i = 0; i < rewards.value[1].length; i++) {
-    const token_address = rewards.value[1][i]
+  for (let i = 0; i < rewards.value[2].length; i++) {
+    const token_address = rewards.value[2][i]
     const tokenInfo = search_tokens.find(
       (t) => t.address.toLowerCase() == token_address.toLowerCase(),
     )
@@ -51,7 +51,7 @@ function formatRewards(rewards, search_tokens) {
       continue
     }
     const displayAmount = ethers.utils.formatUnits(
-      rewards.value[2][i],
+      rewards.value[3][i],
       tokenInfo.decimals,
     )
     formatted_rewards.push({
@@ -63,6 +63,7 @@ function formatRewards(rewards, search_tokens) {
       rewardBTC: displayAmount * tokenInfo.price_BTC,
       symbol: tokenInfo.symbol,
       value: displayAmount,
+      pool: rewards.value[1],
     })
   }
   return formatted_rewards

@@ -1,25 +1,13 @@
 <template>
-  <CHeader
-    position="sticky"
-    :class="
-      isHeaderBg
-        ? `header_main ${isDark ? 'header_main_bg' : 'header_main_bg-white'} `
-        : 'header_main'
-    "
-    ref="headRef"
-  >
+  <CHeader position="sticky" :class="isHeaderBg
+      ? `header_main ${isDark ? 'header_main_bg' : 'header_main_bg-white'} `
+      : 'header_main'
+    " ref="headRef">
     <CContainer fluid class="header_container">
-      <HeaderNavigation
-        :address="address"
-        @toggleNavigation="toggleNavigation"
-      />
+      <HeaderNavigation :address="address" @toggleNavigation="toggleNavigation" />
 
-      <HeaderSearchbar
-        v-if="width > 768"
-        :selectOptions="selectOptions"
-        :handleInput="handleInput"
-        :searchInput="searchInput"
-      />
+      <HeaderSearchbar v-if="width > 768" :selectOptions="selectOptions" :handleInput="handleInput"
+        :searchInput="searchInput" />
 
       <div v-if="!address" class="flex items-center gap-4">
         <!-- Search without connection don't have sense pools will be broken -->
@@ -53,94 +41,55 @@
           {{ $t('connect') }}
         </div>
       </div>
-      <div
-        v-else-if="address && address !== ''"
-        class="d-flex align-items-center gap-2"
-      >
-        <div
-          v-if="width < 768"
-          @click="toggleSearhbarMobile"
-          class="mobile_container"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+      <div v-else-if="address && address !== ''" class="d-flex align-items-center gap-2">
+        <div v-if="width < 768" @click="toggleSearhbarMobile" class="mobile_container">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M17.9417 17.0583L14.7408 13.8575C15.8108 12.5883 16.4583 10.9525 16.4583 9.16667C16.4583 5.14583 13.1875 1.875 9.16667 1.875C5.14583 1.875 1.875 5.14583 1.875 9.16667C1.875 13.1875 5.14583 16.4583 9.16667 16.4583C10.9525 16.4583 12.5883 15.8108 13.8575 14.7408L17.0583 17.9417C17.18 18.0633 17.34 18.125 17.5 18.125C17.66 18.125 17.82 18.0642 17.9417 17.9417C18.1858 17.6983 18.1858 17.3025 17.9417 17.0583ZM3.125 9.16667C3.125 5.835 5.835 3.125 9.16667 3.125C12.4983 3.125 15.2083 5.835 15.2083 9.16667C15.2083 12.4983 12.4983 15.2083 9.16667 15.2083C5.835 15.2083 3.125 12.4983 3.125 9.16667Z"
-              fill="#9B9B9B"
-            />
+              fill="#9B9B9B" />
           </svg>
         </div>
         <RewardsDropdown />
         <!-- <TokenDropdown /> -->
 
-        <div
-          v-if="width > 768"
-          class="wallet_address dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white"
-          @click="$emit('toggleSidebar')"
-        >
-        <VTooltip :distance="0" :placement="'top'">
-          <div style="cursor: help">
-            <span class="pulse_green"></span>
-          </div>
-          <template #popper>
-            <div class="tooltip_container">
-              <div style="font-size: clamp(10px, 0.9vw, 16px)" class="flex items-center gap-2">
-                {{ $t('Trading engine Status') }} <span class="pulse_green"></span>
-              </div>
-              <div class="tooltip_container_text">
-                Everything is functioning normally. The trading engine is operational.
-                <!-- Bad status text -->
-                <!-- The trading engine is currently unavailable. We are aware of the issue and are  actively working to restore service. We apologize for any inconvenience  and appreciate your patience. -->
-              </div>
+        <div v-if="width > 768" class="wallet_address dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white"
+          @click="$emit('toggleSidebar')">
+          <VTooltip :distance="0" :placement="'top'">
+            <div style="cursor: help">
+              <span :class="status ? 'pulse_green' : 'pulse_orange'"></span>
             </div>
-          </template>
-        </VTooltip>
-          
+            <template #popper>
+              <div class="tooltip_container">
+                <div style="font-size: clamp(10px, 0.9vw, 16px)" class="flex items-center gap-2">
+                  {{ $t('Trading engine Status') }} <span :class="status ? 'pulse_green' : 'pulse_orange'"></span>
+                </div>
+                <div class="tooltip_container_text">
+                  <p v-if="status">Everything is functioning normally. The trading engine is operational.</p>
+                  <p v-else>The trading engine is currently unavailable. We are aware of the issue and are actively
+                    working to restore service. We apologize for any inconvenience and appreciate your patience.</p>
+                </div>
+              </div>
+            </template>
+          </VTooltip>
+
           {{ computedAddress }}
         </div>
-        <div
-          v-else
-          class="mobile_wallet_container"
-          @click="$emit('toggleSidebar')"
-        >
-          <svg
-            width="26"
-            height="26"
-            viewBox="0 0 26 26"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+        <div v-else class="mobile_wallet_container" @click="$emit('toggleSidebar')">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
               d="M5.41667 6.77087C4.62654 6.77087 3.86878 7.08475 3.31008 7.64345C2.75138 8.20215 2.4375 8.95992 2.4375 9.75004V19.5C2.4375 20.2902 2.75138 21.0479 3.31008 21.6066C3.86878 22.1653 4.62654 22.4792 5.41667 22.4792H20.5833C21.3735 22.4792 22.1312 22.1653 22.6899 21.6066C23.2486 21.0479 23.5625 20.2902 23.5625 19.5V9.75004C23.5625 8.95992 23.2486 8.20215 22.6899 7.64345C22.1312 7.08475 21.3735 6.77087 20.5833 6.77087H5.41667ZM17.875 13.2709C17.5159 13.2709 17.1714 13.4135 16.9175 13.6675C16.6635 13.9215 16.5208 14.2659 16.5208 14.625C16.5208 14.9842 16.6635 15.3286 16.9175 15.5826C17.1714 15.8365 17.5159 15.9792 17.875 15.9792C18.2341 15.9792 18.5786 15.8365 18.8325 15.5826C19.0865 15.3286 19.2292 14.9842 19.2292 14.625C19.2292 14.2659 19.0865 13.9215 18.8325 13.6675C18.5786 13.4135 18.2341 13.2709 17.875 13.2709Z"
-              fill="#00DC3E"
-            />
+              fill="#00DC3E" />
             <path
               d="M17.8588 3.32477C18.1795 3.2393 18.5156 3.22866 18.8411 3.29369C19.1666 3.35872 19.4729 3.49768 19.7362 3.69983C19.9994 3.90198 20.2128 4.16193 20.3597 4.45961C20.5065 4.75729 20.5831 5.08474 20.5833 5.41669H9.75L17.8588 3.32477Z"
-              fill="#00DC3E"
-            />
+              fill="#00DC3E" />
           </svg>
         </div>
       </div>
     </CContainer>
 
-    <SidebarMobile
-      :sidebarVisible="sidebarVisible"
-      @toggleNavigation="toggleNavigation"
-    />
-    <SearchbarMobile
-      :searchbarVisible="searchbarVisible"
-      @toggleSearhbarMobile="toggleSearhbarMobile"
-      :selectOptions="selectOptions"
-      :handleInput="handleInput"
-      :searchInput="searchInput"
-    />
+    <SidebarMobile :sidebarVisible="sidebarVisible" @toggleNavigation="toggleNavigation" />
+    <SearchbarMobile :searchbarVisible="searchbarVisible" @toggleSearhbarMobile="toggleSearhbarMobile"
+      :selectOptions="selectOptions" :handleInput="handleInput" :searchInput="searchInput" />
   </CHeader>
 </template>
 
@@ -171,6 +120,7 @@ import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
 import { useDark } from '@vueuse/core'
 import { getHeaderData } from '@/composables/data/headerData'
+import { getStatus } from '@/composables/data/statusData'
 import { useDevice } from '@/composables/adaptive/useDevice'
 import MobileNavigation from '@/components/Header/MobileNavigation.vue'
 import SidebarMobile from './SidebarMobile.vue'
@@ -264,7 +214,7 @@ const networks = [
 ].filter((n) => n != undefined)
 
 const headRef = ref(null) // obtain the reference
-
+const status = ref(false);
 onMounted(async () => {
   window.addEventListener('scroll', () => {
     var curr = window.pageYOffset
@@ -275,6 +225,7 @@ onMounted(async () => {
       isHeaderBg.value = false
     }
   })
+  status.value = await getStatus();
   const data = await getHeaderData(56)
   topTradedTokens.value = data.search.tokens
   topPools.value = data.search.pools
@@ -286,10 +237,10 @@ function handleInput(event) {
   let _search = searchInput.value.toLowerCase()
   visibleOptions.value = searchInput.value
     ? [
-        ...tokensOptions.value.filter((item) =>
-          checkInputSearchItem(_search, item),
-        ),
-      ]
+      ...tokensOptions.value.filter((item) =>
+        checkInputSearchItem(_search, item),
+      ),
+    ]
     : [...visibleOptionsComputed.value]
 }
 
@@ -299,7 +250,7 @@ function checkInputSearchItem(_search, item) {
   let result =
     (item.desc && item.desc.toLowerCase().includes(_search)) ||
     (item.label && item.label.toLowerCase().includes(_search)) ||
-    (item.id && item.id.toLowerCase().includes(_search)) 
+    (item.id && item.id.toLowerCase().includes(_search))
   return result
 }
 
@@ -355,30 +306,30 @@ const networksList = ref(
   [
     process.env.VUE_APP_KEY_ARBITRUM
       ? {
-          name: 'Arbitrum',
-          chainId: '0xa4b1',
-          decimalChainId: 42161,
-          image: arbitrum_network,
-          current: false,
-        }
+        name: 'Arbitrum',
+        chainId: '0xa4b1',
+        decimalChainId: 42161,
+        image: arbitrum_network,
+        current: false,
+      }
       : undefined,
     process.env.VUE_APP_KEY_BINANCE
       ? {
-          name: 'Binance',
-          chainId: '0x38',
-          decimalChainId: 56,
-          image: binance_network,
-          current: false,
-        }
+        name: 'Binance',
+        chainId: '0x38',
+        decimalChainId: 56,
+        image: binance_network,
+        current: false,
+      }
       : undefined,
     process.env.VUE_APP_KEY_POLYGON
       ? {
-          name: 'Polygon',
-          chainId: '0x89',
-          decimalChainId: 137,
-          image: polygon_network,
-          current: false,
-        }
+        name: 'Polygon',
+        chainId: '0x89',
+        decimalChainId: 137,
+        image: polygon_network,
+        current: false,
+      }
       : undefined,
   ].filter((item) => item != undefined),
 )
@@ -458,8 +409,8 @@ async function handleChainChanged() {
 const computedAddress = computed(() =>
   props.address
     ? props.address.substring(0, 6) +
-      '....' +
-      props.address.substring(props.address.length - 4)
+    '....' +
+    props.address.substring(props.address.length - 4)
     : '',
 )
 </script>
@@ -477,17 +428,16 @@ const computedAddress = computed(() =>
   margin-bottom: 10px;
   background: #0c0c0cbe;
   backdrop-filter: blur(10px);
+
   &_bg {
     background: #0c0c0c3d;
     backdrop-filter: blur(10px);
   }
 
   &_bg-white {
-    background: linear-gradient(
-      356.2deg,
-      rgba(221, 221, 221, 0.955) 0%,
-      #ffffff 105.42%
-    ) !important;
+    background: linear-gradient(356.2deg,
+        rgba(221, 221, 221, 0.955) 0%,
+        #ffffff 105.42%) !important;
     // -webkit-backdrop-filter: blur(60px);
     // backdrop-filter: blur(60px);
   }
@@ -526,11 +476,9 @@ const computedAddress = computed(() =>
     box-shadow: 0px 8px 10px 0px #00000033;
     box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(
-      50% 50% at 26.04% 40.42%,
-      rgba(0, 201, 255, 0.13) 0%,
-      rgba(0, 201, 255, 0) 100%
-    );
+    background: radial-gradient(50% 50% at 26.04% 40.42%,
+        rgba(0, 201, 255, 0.13) 0%,
+        rgba(0, 201, 255, 0) 100%);
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
@@ -547,11 +495,9 @@ const computedAddress = computed(() =>
     box-shadow: 0px 8px 10px 0px #00000033;
     box-shadow: 0px 6px 30px 0px #0000001f;
     box-shadow: 0px 16px 24px 0px #00000024;
-    background: radial-gradient(
-      50% 50% at 26.04% 40.42%,
-      rgba(0, 201, 255, 0.13) 0%,
-      rgba(0, 201, 255, 0) 100%
-    );
+    background: radial-gradient(50% 50% at 26.04% 40.42%,
+        rgba(0, 201, 255, 0.13) 0%,
+        rgba(0, 201, 255, 0) 100%);
     background-color: #1f1f1f;
     color: #fff;
     font-size: 14px;
@@ -613,16 +559,14 @@ const computedAddress = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(
-          from 180deg at 51.95% 49.81%,
-          rgba(0, 255, 178, 0) -2.11deg,
-          rgba(1, 180, 126, 0) 131.45deg,
-          #7ef6b2 175.58deg,
-          rgba(51, 255, 96, 0) 252.32deg,
-          rgba(8, 182, 129, 0) 310.85deg,
-          rgba(0, 255, 178, 0) 357.89deg,
-          rgba(1, 180, 126, 0) 491.45deg
-        );
+        background: conic-gradient(from 180deg at 51.95% 49.81%,
+            rgba(0, 255, 178, 0) -2.11deg,
+            rgba(1, 180, 126, 0) 131.45deg,
+            #7ef6b2 175.58deg,
+            rgba(51, 255, 96, 0) 252.32deg,
+            rgba(8, 182, 129, 0) 310.85deg,
+            rgba(0, 255, 178, 0) 357.89deg,
+            rgba(1, 180, 126, 0) 491.45deg);
       }
 
       &:after {
@@ -671,15 +615,13 @@ const computedAddress = computed(() =>
         top: -1px;
         bottom: -1px;
         border-radius: 20px;
-        background: conic-gradient(
-          from 180deg at 51.95% 49.81%,
-          rgba(1, 180, 126, 0) 0deg,
-          #7ef6b2 148.33deg,
-          rgba(8, 182, 129, 0) 225.21deg,
-          rgba(51, 255, 96, 0) 268.33deg,
-          rgba(0, 255, 178, 0) 357.89deg,
-          rgba(1, 180, 126, 0) 360deg
-        );
+        background: conic-gradient(from 180deg at 51.95% 49.81%,
+            rgba(1, 180, 126, 0) 0deg,
+            #7ef6b2 148.33deg,
+            rgba(8, 182, 129, 0) 225.21deg,
+            rgba(51, 255, 96, 0) 268.33deg,
+            rgba(0, 255, 178, 0) 357.89deg,
+            rgba(1, 180, 126, 0) 360deg);
       }
 
       &:after {
@@ -695,15 +637,13 @@ const computedAddress = computed(() =>
 
       &:hover {
         &:before {
-          background: conic-gradient(
-            from 180deg at 51.95% 49.81%,
-            rgba(1, 180, 126, 0) 0deg,
-            #c6ffdf 148.33deg,
-            rgba(8, 182, 129, 0) 225.21deg,
-            rgba(51, 255, 96, 0) 268.33deg,
-            rgba(0, 255, 178, 0) 357.89deg,
-            rgba(1, 180, 126, 0) 360deg
-          );
+          background: conic-gradient(from 180deg at 51.95% 49.81%,
+              rgba(1, 180, 126, 0) 0deg,
+              #c6ffdf 148.33deg,
+              rgba(8, 182, 129, 0) 225.21deg,
+              rgba(51, 255, 96, 0) 268.33deg,
+              rgba(0, 255, 178, 0) 357.89deg,
+              rgba(1, 180, 126, 0) 360deg);
         }
       }
     }
@@ -740,16 +680,14 @@ const computedAddress = computed(() =>
     top: -1px;
     bottom: -1px;
     border-radius: 20px;
-    background: conic-gradient(
-      from 180deg at 51.95% 49.81%,
-      rgba(0, 255, 178, 0) -2.11deg,
-      rgba(1, 180, 126, 0) 131.45deg,
-      #7ef6b2 175.58deg,
-      rgba(51, 255, 96, 0) 252.32deg,
-      rgba(8, 182, 129, 0) 310.85deg,
-      rgba(0, 255, 178, 0) 357.89deg,
-      rgba(1, 180, 126, 0) 491.45deg
-    );
+    background: conic-gradient(from 180deg at 51.95% 49.81%,
+        rgba(0, 255, 178, 0) -2.11deg,
+        rgba(1, 180, 126, 0) 131.45deg,
+        #7ef6b2 175.58deg,
+        rgba(51, 255, 96, 0) 252.32deg,
+        rgba(8, 182, 129, 0) 310.85deg,
+        rgba(0, 255, 178, 0) 357.89deg,
+        rgba(1, 180, 126, 0) 491.45deg);
   }
 
   &:after {
@@ -765,16 +703,14 @@ const computedAddress = computed(() =>
 
   &:hover {
     &:before {
-      background: conic-gradient(
-        from 180deg at 51.95% 49.81%,
-        rgba(0, 255, 178, 0) -2.11deg,
-        rgba(1, 180, 126, 0) 131.45deg,
-        #c7e7d4 175.58deg,
-        rgba(51, 255, 96, 0) 252.32deg,
-        rgba(8, 182, 129, 0) 310.85deg,
-        rgba(0, 255, 178, 0) 357.89deg,
-        rgba(1, 180, 126, 0) 491.45deg
-      );
+      background: conic-gradient(from 180deg at 51.95% 49.81%,
+          rgba(0, 255, 178, 0) -2.11deg,
+          rgba(1, 180, 126, 0) 131.45deg,
+          #c7e7d4 175.58deg,
+          rgba(51, 255, 96, 0) 252.32deg,
+          rgba(8, 182, 129, 0) 310.85deg,
+          rgba(0, 255, 178, 0) 357.89deg,
+          rgba(1, 180, 126, 0) 491.45deg);
     }
   }
 }
@@ -803,15 +739,13 @@ const computedAddress = computed(() =>
     top: 1px;
     bottom: -1px;
     border-radius: 5px;
-    background: conic-gradient(
-      from 180deg at 51.95% 49.81%,
-      rgba(1, 180, 126, 0) 0deg,
-      #7ef6b2 118.33deg,
-      rgba(51, 255, 96, 0) 270.21deg,
-      rgba(8, 182, 129, 0) 311.46deg,
-      rgba(0, 255, 178, 0) 357.89deg,
-      rgba(1, 180, 126, 0) 360deg
-    );
+    background: conic-gradient(from 180deg at 51.95% 49.81%,
+        rgba(1, 180, 126, 0) 0deg,
+        #7ef6b2 118.33deg,
+        rgba(51, 255, 96, 0) 270.21deg,
+        rgba(8, 182, 129, 0) 311.46deg,
+        rgba(0, 255, 178, 0) 357.89deg,
+        rgba(1, 180, 126, 0) 360deg);
   }
 
   &:after {
@@ -910,6 +844,7 @@ const computedAddress = computed(() =>
   @media (max-width: 1300px) {
     width: 370px;
   }
+
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -935,15 +870,18 @@ const computedAddress = computed(() =>
   background: transparent;
   // color: white;
 }
+
 .vue-input input::placeholder {
   background: transparent;
   color: transparent;
 }
+
 .vue-dropdown {
   // background: #171717;
   background: linear-gradient(356.2deg, #02031c, #000000 105.42%);
 
   border: 1px solid #222222c9;
+
   // color: white;
   // -webkit-backdrop-filter: blur(50px);
   // backdrop-filter: blur(50px);
@@ -1061,6 +999,7 @@ input[readonly] {
   justify-content: center;
   align-items: center;
 }
+
 .mobile_wallet_container {
   background: #00dc3e33;
   border-radius: 100%;
