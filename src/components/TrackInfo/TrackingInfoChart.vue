@@ -70,7 +70,7 @@ import { useDevice } from '@/composables/adaptive/useDevice'
 const settingsStore = useSettings()
 const { width } = useDevice()
 
-const { currentCurrency } = storeToRefs(settingsStore)
+const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
 
 const postfix = computed(() =>
   currentCurrency.value == 'USD' ? '' : `_${currentCurrency.value}`,
@@ -112,77 +112,7 @@ const ChainRelatedFields = [
 const chainsMap = ref(getDefaultChainsMapValue())
 
 const preFiltersList = ref([
-  {
-    title: 'Revenue',
-    code: 'Revenue',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
-    title: 'Revenue',
-    code: 'Revenue_ETH',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
-    title: 'Revenue',
-    code: 'Revenue_BTC',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
-    title: 'Gas Fees',
-    code: 'Gas Fees',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
-    title: 'Gas Fees',
-    code: 'Gas Fees_ETH',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
-    title: 'Gas Fees',
-    code: 'Gas Fees_BTC',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
-    title: 'Trades',
-    code: 'Trades',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
-    title: 'Volume',
-    code: 'Volume',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
-    title: 'Volume',
-    code: 'Volume_ETH',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
-    title: 'Volume',
-    code: 'Volume_BTC',
-    isSolo: true,
-    selected: true,
-    cumulable: true,
-  },
-  {
+{
     title: 'TVL',
     code: 'TVL',
     isSolo: true,
@@ -203,6 +133,77 @@ const preFiltersList = ref([
     selected: true,
     cumulable: false,
   },
+  {
+    title: 'Revenue',
+    code: 'Revenue',
+    isSolo: true,
+    selected: currentVersion.value === 'pro' ? true : false,
+    cumulable: true,
+  },
+  {
+    title: 'Revenue',
+    code: 'Revenue_ETH',
+    isSolo: true,
+    selected: currentVersion.value === 'pro' ? true : false,
+    cumulable: true,
+  },
+  {
+    title: 'Revenue',
+    code: 'Revenue_BTC',
+    isSolo: true,
+    selected: currentVersion.value === 'pro' ? true : false,
+    cumulable: true,
+  },
+  {
+    title: 'Gas Fees',
+    code: 'Gas Fees',
+    isSolo: true,
+    selected: currentVersion.value === 'pro' ? true : false,
+    cumulable: true,
+  },
+  {
+    title: 'Gas Fees',
+    code: 'Gas Fees_ETH',
+    isSolo: true,
+    selected: currentVersion.value === 'pro' ? true : false,
+    cumulable: true,
+  },
+  {
+    title: 'Gas Fees',
+    code: 'Gas Fees_BTC',
+    isSolo: true,
+    selected: currentVersion.value === 'pro' ? true : false,
+    cumulable: true,
+  },
+  {
+    title: 'Trades',
+    code: 'Trades',
+    isSolo: true,
+    selected: currentVersion.value === 'pro' ? true : false,
+    cumulable: true,
+  },
+  {
+    title: 'Volume',
+    code: 'Volume',
+    isSolo: true,
+    selected: currentVersion.value === 'pro' ? true : false,
+    cumulable: true,
+  },
+  {
+    title: 'Volume',
+    code: 'Volume_ETH',
+    isSolo: true,
+    selected: currentVersion.value === 'pro' ? true : false,
+    cumulable: true,
+  },
+  {
+    title: 'Volume',
+    code: 'Volume_BTC',
+    isSolo: true,
+    selected: currentVersion.value === 'pro' ? true : false,
+    cumulable: true,
+  },
+ 
 
   {
     title: 'Average APR',
@@ -237,21 +238,21 @@ const preFiltersList = ref([
     title: 'Token Incentives',
     code: 'Token Incentives',
     isSolo: true,
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
   },
   {
     title: 'Volatility Index',
     code: 'Volatility Index',
     isSolo: true,
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
   },
   {
     title: 'Impermanent Loss',
     code: 'Impermanent Loss',
     isSolo: true,
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
   },
 ])
@@ -335,16 +336,20 @@ function changeTimeline(tl) {
   currentTimeline.value = tl
 }
 
-const filters = ref({
-  Revenue: true,
-  ['Gas Fees']: false,
-  ['Trades']: true,
-  Volume: true,
+const filters = ref(currentVersion.value === 'pro' ? {
   TVL: true,
   ['Average APR']: true,
-  ['Profits']: false,
+  ['Profits']: true,
+  Revenue: false,
+  ['Gas Fees']: false,
+  ['Trades']: false,
+  Volume: false,
   ['Volatility Index']: false,
   ['Impermanent Loss']: false,
+} : {
+  TVL: true,
+  ['Average APR']: true,
+  ['Profits']: true,
 })
 
 // const yAxisOffset = ref({
@@ -356,9 +361,9 @@ const filters = ref({
 
 const currentGridToRight = ref(240)
 
-const showVolume = ref(true)
+const showVolume = ref(currentVersion.value === 'pro' ? true : false)
 const showRevenueProfits = ref(true)
-const showTradesGasFees = ref(true)
+const showTradesGasFees = ref(currentVersion.value === 'pro' ? true : false)
 const showAPRVolatility = ref(true)
 
 function yAxisInstance(name, show, offset, color) {
@@ -610,10 +615,10 @@ const optionObj = ref({
         },
       },
     },
-    yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
-    yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
+    yAxisInstance('Volume', width.value > 768 ? showVolume : false,  0, '#FA5173'),
+    yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, currentVersion.value === 'pro' ? 60 : 0, '#01B47E'),
     yAxisInstance('Trades / Gas Fees', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance('APR / Volatility Index / Impermanent Loss', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
+    yAxisInstance('APR / Volatility Index / Impermanent Loss', width.value > 768 ? showAPRVolatility : false, currentVersion.value === 'pro' ? 180 : 60, '#FFD700'),
   ],
   grid: [
     {

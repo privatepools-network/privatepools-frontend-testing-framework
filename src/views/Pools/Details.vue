@@ -101,11 +101,13 @@
       <SectionsTabs
         :filterEye="true"
         :selectedTab="selectedTab"
-        :tabsOptions="[
+        :tabsOptions="currentVersion === 'pro' ? [
           t('pool_info'),
-          // t('financial_statement'),
-          // t('statistics'),
+          t('financial_statement'),
+          t('statistics'),
           // 'Pairs & Tokens',
+        ] : [
+        t('pool_info'),
         ]"
         @changeTab="changeSelectedTab"
       />
@@ -752,7 +754,7 @@ import PoolsDetailsDiagrams from '@/components/PoolsDetailsDiagrams/index.vue'
 
 const settingsStore = useSettings()
 
-const { currentCurrency } = storeToRefs(settingsStore)
+const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
 const postfix = computed(() =>
   currentCurrency.value == 'USD' ? '' : `_${currentCurrency.value}`,
 )

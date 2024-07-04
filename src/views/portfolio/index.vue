@@ -3,48 +3,93 @@
     <CRow class="d-flex align-items-center">
       {{ console.log('account!!!!', account) }}
       <div class="portfolio mt-4">
-        <PortfolioBalance :account="account" :performers="performers" :balanceUsd="balanceData.total ?? 0"
-          :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0"
-          :rewardsData="rewardsData" />
+        <PortfolioBalance
+          :account="account"
+          :performers="performers"
+          :balanceUsd="balanceData.total ?? 0"
+          :balance_ETH="balanceData.total_ETH ?? 0"
+          :balance_BTC="balanceData.total_BTC ?? 0"
+          :rewardsData="rewardsData"
+        />
 
         <div class="portfolio-chart">
-          
-          <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
-            :tokensData="tokensData" :chainSelected="chainSelected.name" :rewardsData="rewardsData" />
+          <PortfolioChart
+            :all_chart_data="portfolioData.chart"
+            :networks_data="portfolioData.cardStats"
+            :tokensData="tokensData"
+            :chainSelected="chainSelected.name"
+            :rewardsData="rewardsData"
+          />
         </div>
 
-
-        <SectionsTabs :filterEye="true" style="margin-bottom: 44px"
-          :tabsOptions="[
-            t('investments'),
-            //  t('statistics'), 
-            //  t('financial_statement')
-             ]" :selectedTab="activeTab"
-          @changeTab="changeActiveTab" />
+        <SectionsTabs
+          :filterEye="true"
+          style="margin-bottom: 44px"
+          :tabsOptions="
+            currentVersion === 'pro'
+              ? [
+                  t('investments'),
+                  t('financial_statement'),
+                  t('statistics'),
+                  // 'Pairs & Tokens',
+                ]
+              : [t('investments')]
+          "
+          :selectedTab="activeTab"
+          @changeTab="changeActiveTab"
+        />
 
         <div class="portfolio-statistics" v-if="activeTab == t('statistics')">
-          <PortfolioStatistics :historical_tvl="historical_tvl"
-            :tokensData="portfolioData && portfolioData.pools ? portfolioData.pools.flatMap((p) => p.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))) : []"
-            :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :chartData="portfolioData.chart"
+          <PortfolioStatistics
+            :historical_tvl="historical_tvl"
+            :tokensData="
+              portfolioData && portfolioData.pools
+                ? portfolioData.pools.flatMap((p) =>
+                    p.tokens.map((t) => ({
+                      ...t,
+                      Blockchain: chainSelected.name,
+                    })),
+                  )
+                : []
+            "
+            :poolSwapsData="poolSwapsData"
+            :chainSelected="chainSelected"
+            :chartData="portfolioData.chart"
             :historicalPrices="historicalPrices"
-            :userFirstTimestamp="historical_tvl.length > 0 ? historical_tvl[historical_tvl.length - 1].timestamp * 1000 : Date.now()"
-            :tokenPairs="chainPairs" :statistics="portfolioData.statistics">
+            :userFirstTimestamp="
+              historical_tvl.length > 0
+                ? historical_tvl[historical_tvl.length - 1].timestamp * 1000
+                : Date.now()
+            "
+            :tokenPairs="chainPairs"
+            :statistics="portfolioData.statistics"
+          >
           </PortfolioStatistics>
         </div>
-        <div class="portfolio-financial-statement" v-else-if="activeTab == t('financial_statement')">
-          <PoolDetailsFinancialStatement :all_data="portfolioData.financialStatement" :poolSwapsData="poolSwapsData"
-            :chainSelected="chainSelected" :historical_tvl="historical_tvl" :historicalPrices="historicalPrices"
-            :symbol="currencySymbol" :decimals="currencyDecimals">
+        <div
+          class="portfolio-financial-statement"
+          v-else-if="activeTab == t('financial_statement')"
+        >
+          <PoolDetailsFinancialStatement
+            :all_data="portfolioData.financialStatement"
+            :poolSwapsData="poolSwapsData"
+            :chainSelected="chainSelected"
+            :historical_tvl="historical_tvl"
+            :historicalPrices="historicalPrices"
+            :symbol="currencySymbol"
+            :decimals="currencyDecimals"
+          >
           </PoolDetailsFinancialStatement>
-
         </div>
         <div class="portfolio-table" v-else-if="activeTab == t('investments')">
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
             {{ $t('investments') }}
           </div>
 
-          <InvestmentsTable :user_staked_pools="selectedInvestmentData" :all_pools="selectedInvestmentData" />
-
+          <InvestmentsTable
+            :user_staked_pools="selectedInvestmentData"
+            :all_pools="selectedInvestmentData"
+          />
         </div>
 
         <div class="portfolio-table mt-5" v-if="activeTab == t('investments')">
@@ -52,7 +97,11 @@
             {{ $t('portfolio_activity') }}
           </div>
 
-          <PrivatePoolsTable :all_activities="portfolioData.activity ? portfolioData.activity.slice(0, 25) : []" />
+          <PrivatePoolsTable
+            :all_activities="
+              portfolioData.activity ? portfolioData.activity.slice(0, 25) : []
+            "
+          />
         </div>
       </div>
     </CRow>
@@ -90,8 +139,11 @@ import { GetUserUniswapPools } from '@/composables/wallet/useWalletPools'
 import PortfolioBalance from '@/components/portfolio/PortfolioBalance.vue'
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
-import { getPortfolioData, getPortfolioBalance } from '@/composables/data/portfolioData'
-import { getRewards } from '@/composables/data/portfolioData';
+import {
+  getPortfolioData,
+  getPortfolioBalance,
+} from '@/composables/data/portfolioData'
+import { getRewards } from '@/composables/data/portfolioData'
 import { t } from 'i18next'
 import SectionsTabs from '@/UI/SectionsTabs'
 
@@ -100,13 +152,12 @@ import { useSettings } from '@/store/settings'
 
 const settingsStore = useSettings()
 
-const { currentCurrency } = storeToRefs(settingsStore)
+const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
 
-const currencySymbol = computed(() => currentCurrency.value == "USD" ? "$" : currentCurrency.value)
-const currencyDecimals = computed(() =>
-  currentCurrency == 'USD' ? 2 : 5,
+const currencySymbol = computed(() =>
+  currentCurrency.value == 'USD' ? '$' : currentCurrency.value,
 )
-
+const currencyDecimals = computed(() => (currentCurrency == 'USD' ? 2 : 5))
 
 const NetworkUnsupported = ref(false)
 const networksSupported = ref(false)
@@ -127,9 +178,6 @@ const pairs = ref(null)
 const activities = ref(null)
 const hideSmallerThan10Pools = ref(false)
 
-
-
-
 const investementModes = ['Pools']
 
 const investmentDataMap = {
@@ -146,14 +194,16 @@ const selectedInvestmentData = computed(() => {
     }
     let formatted = data.map((item) => excludeKeysFromObject(item, ['id']))
     return formatted
-  }
-  else {
-    let data = selectedInvestmentsMode.value == "Pools" ? portfolioData.value.pools : portfolioData.value.pairs
+  } else {
+    let data =
+      selectedInvestmentsMode.value == 'Pools'
+        ? portfolioData.value.pools
+        : portfolioData.value.pairs
     if (!data) return []
     if (hideSmallerThan10Pools.value) {
       data = data.filter((el) => el.TVL.fullAmount > 10)
     }
-    console.log("INVESTMENTS DATA ", data)
+    console.log('INVESTMENTS DATA ', data)
     return data
   }
 })
@@ -213,10 +263,9 @@ const performers = computed(() => {
       best,
       worst,
     }
-  }
-  else {
-    const pools = portfolioData.value.all_pools;
-    console.log("POOLS ", pools)
+  } else {
+    const pools = portfolioData.value.all_pools
+    console.log('POOLS ', pools)
     if (!pools || pools.length == 0) {
       return {}
     }
@@ -225,17 +274,23 @@ const performers = computed(() => {
     const last_index = pools.length - 1
     let best = {
       diff: pools[0].Profit - median_profit,
-      percent_diff: calculatePercentageDifference(median_profit, pools[0].Profit),
+      percent_diff: calculatePercentageDifference(
+        median_profit,
+        pools[0].Profit,
+      ),
       id: pools[0].id,
       tokens: pools[0]['Pool Name'][0],
     }
     let worst = {
       diff: pools[last_index].Profit - median_profit,
-      percent_diff: calculatePercentageDifference(median_profit, pools[last_index].Profit),
+      percent_diff: calculatePercentageDifference(
+        median_profit,
+        pools[last_index].Profit,
+      ),
       id: pools[last_index].id,
       tokens: pools[last_index]['Pool Name'][0],
     }
-    console.log("BEST - ", best)
+    console.log('BEST - ', best)
     return {
       best,
       worst,
@@ -332,7 +387,6 @@ const isCorrectNetwork = computed(() =>
 
 const account = ref('')
 
-
 watch(networkId, async () => {
   const mmProvider = await InitializeMetamask()
   let previous_account = account.value
@@ -347,10 +401,6 @@ watch(networkId, async () => {
   // hardcoded for testing
   //account.value = '0xb51027d05ffbf77b38be6e66978b2c5b6467f615'
 })
-
-
-
-
 
 function onDatatableHeaderClick(caption) {
   let data = investmentDataMap[selectedInvestmentsMode.value]
@@ -402,7 +452,7 @@ function changeActiveTab(_new) {
   activeTab.value = _new
 }
 
-watch((activeTab), () => {
+watch(activeTab, () => {
   console.log(activeTab.value)
 })
 const tokensData = ref([])
@@ -444,7 +494,6 @@ const historical_tvl = ref([])
 const poolSwapsData = ref([])
 const chainPairs = ref([])
 
-
 const portfolioData = ref({})
 const balanceData = ref({})
 const rewardsData = ref([])
@@ -473,15 +522,19 @@ onMounted(async () => {
   }
   const mmProvider = await InitializeMetamask()
   if (mmProvider) {
-    account.value = await mmProvider.getSigner().getAddress()//await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'// 
+    account.value = await mmProvider.getSigner().getAddress() //await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'//
     if (process.env.VUE_APP_LOCAL_API) {
-      const [_portfolio, _rewards, _balance] = await Promise.all([getPortfolioData(56, account.value), getRewards(56), getPortfolioBalance(56, account.value)])
+      const [_portfolio, _rewards, _balance] = await Promise.all([
+        getPortfolioData(56, account.value),
+        getRewards(56),
+        getPortfolioBalance(56, account.value),
+      ])
       portfolioData.value = _portfolio
       rewardsData.value = _rewards
       historicalPrices.value = portfolioData.value.historicalPrices
       historical_tvl.value = portfolioData.value.statistics.tvls
       balanceData.value = await _balance
-      console.log("PORTFOLIO DATA - ", portfolioData.value)
+      console.log('PORTFOLIO DATA - ', portfolioData.value)
     }
   }
   //await InitInvestments()
@@ -775,7 +828,6 @@ onMounted(async () => {
         padding: 2px 6px;
         background: #1a1d1e;
         border-radius: 5px;
-
       }
     }
   }
