@@ -2,13 +2,13 @@
   <MainCard>
     <Modal v-if="tokenSelectModal" @close="tokenSelectModalClose" size="xl">
       <template #body>
-        <TokenSelectModal :tokenSelectModal="tokenSelectModal" @tokenSelectModalClose="tokenSelectModalClose"
+        <TokenSelectModal :isOpen="tokenSelectModal" :tokenSelectModal="tokenSelectModal" @close="tokenSelectModalClose"
           :pairIndex="pairIndex" @updateToken="(token) =>
           (tokensData[tokenSelectIndex] = {
             ...token,
             weight: tokensData[tokenSelectIndex].weight,
           })
-            " :possibleComposeTokens="notSelectedPossibleComposeTokens" @addToken="onAddToken" />
+            " :possibleTokens="notSelectedPossibleComposeTokens" @addToken="onAddToken" />
       </template>
     </Modal>
 

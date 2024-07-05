@@ -47,7 +47,7 @@ export async function GetPossibleComposeTokens(network, enablePrices = false) {
     t.balance = parseFloat(t.amount.toFixed(3))
     t.userBalance = t.amount
   })
-  return account_balances.tokens
+  return account_balances.tokens.filter((item) => item.symbol != undefined)
 }
 // export async function GetPossibleComposeTokens(network, enablePrices = false) {
 //   if (!networkId.value) return {}
