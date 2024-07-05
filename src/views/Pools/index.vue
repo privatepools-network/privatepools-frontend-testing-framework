@@ -271,7 +271,7 @@ const rewardsData = ref([])
 async function InitUserStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
-    let address = '0x759eE62a73A8A0690a0E20Fc489D3F462B4385c0' //await mmProvider.getSigner().getAddress() //'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
+    let address = await mmProvider.getSigner().getAddress() //'0x759eE62a73A8A0690a0E20Fc489D3F462B4385c0' //' //
     user_staked_pools.value = await useWalletPools(address, 56, false)
     rewardsData.value = await getPoolsRewards(address)
     console.log("POOLS REWARDS DATA ", rewardsData.value)
