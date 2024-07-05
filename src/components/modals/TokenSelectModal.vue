@@ -1,6 +1,6 @@
 <template>
-  <Modal v-if="isOpen" @close="$emit('close')">
-    <template #body>
+  <div class="modal_body_inside">
+    <div>
       <div
         class="modal_body_header d-flex justify-content-between align-items-start mb-1"
       >
@@ -104,8 +104,8 @@
           </div>
         </div>
       </div>
-    </template>
-  </Modal>
+    </div>
+  </div>
 </template>
 
 <script setup>
