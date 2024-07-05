@@ -3,11 +3,7 @@
     <Modal v-if="tokenSelectModal" @close="tokenSelectModalClose" size="xl">
       <template #body>
         <TokenSelectModal :isOpen="tokenSelectModal" :tokenSelectModal="tokenSelectModal" @close="tokenSelectModalClose"
-          :pairIndex="pairIndex" @updateToken="(token) =>
-          (tokensData[tokenSelectIndex] = {
-            ...token,
-            weight: tokensData[tokenSelectIndex].weight,
-          })
+          :pairIndex="pairIndex" @updateToken="(token) => onUpdateTokenPriceSet(token)
             " :possibleTokens="notSelectedPossibleComposeTokens" @addToken="onAddToken" />
       </template>
     </Modal>
@@ -162,12 +158,7 @@
             </div>
 
             <div class="mt-3">
-              <button class="add_token_btn" @click="
-                tokensData.push({
-                  ...notSelectedPossibleComposeTokens[0],
-                  weight: 0,
-                })
-                ">
+              <button class="add_token_btn" @click="() => onAddTokenPriceSet()">
                 {{ $t('add_token') }}
               </button>
             </div>
@@ -238,7 +229,7 @@
                       {{ $t('balance') }}:
                       <span class="fw-bold" v-if="lineNumbers.length > 0">{{
                         RemainingBalance(token, tokenIndex)
-                      }}</span><span @click="() => OnMaxClick(tokenIndex)" class="fw-bold bg-transparent"
+                        }}</span><span @click="() => OnMaxClick(tokenIndex)" class="fw-bold bg-transparent"
                         style="cursor: pointer">
                         {{ $t('max') }}</span>
                     </div>
@@ -567,6 +558,7 @@ import useBalance from '@/composables/useBalance'
 import erc20abi from '@/lib/abi/ERC20.json'
 import { GetFilteredTokenPrices } from '@/composables/useTokenPrices'
 import { SingleSwap } from '@/composables/admin/swap/useSingleSwap'
+import { getSinglePrice } from '@/composables/data/pricesData'
 import {
   generatePairCombinations,
   stringToColor,
@@ -640,7 +632,7 @@ const leastBalanceValue = computed(() => {
 const maxBalances = computed(() => {
   const result = {}
   for (let i = 0; i < tokensData.value.length; i++) {
-    if(tokensData.value[i].price == 0){
+    if (tokensData.value[i].price == 0) {
       result[tokensData.value[i].address] = tokensData.value[i].balance
       continue
     }
@@ -680,6 +672,25 @@ const notify = () => {
     },
   })
 }
+
+async function onUpdateTokenPriceSet(token) {
+  tokensData.value[tokenSelectIndex.value] = {
+    ...token,
+    weight: tokensData.value[tokenSelectIndex.value].weight,
+    price: token.price > 0 ? token.price : await getSinglePrice(56, token.symbol)
+  }
+}
+
+async function onAddTokenPriceSet() {
+  tokensData.value.push({
+    ...notSelectedPossibleComposeTokens.value[0],
+    weight: 0,
+    price: tokensData.value[0].price > 0 ? tokensData.value[0].price : await getSinglePrice(tokensData.value[0].symbol)
+
+  })
+}
+
+
 function SetErrorTxPopup(subtext) {
   popupType.value = 'error'
   popupText.value = 'Error happened!'
@@ -716,7 +727,7 @@ function OptimizeValue() {
     let toOptimizeUsdAmount =
       (usdAmount / tokensData.value[lastDepositChanged.value].weight) *
       tokensData.value[i].weight
-    let newValue = toOptimizeUsdAmount / (tokensData.value[i].price ?tokensData.value[i].price :  1)
+    let newValue = toOptimizeUsdAmount / (tokensData.value[i].price ? tokensData.value[i].price : 1)
     lineNumbers.value[i] = newValue * 1000
   }
 }
@@ -797,7 +808,7 @@ const tokensData = ref(
 const totalFiat = computed(() =>
   lineNumbers.value.reduce(
     (sum, current, index) =>
-      sum + (current / 1000) * (tokensData.value[index].price > 0 ? tokensData.value[index].price:  0),
+      sum + (current / 1000) * (tokensData.value[index].price > 0 ? tokensData.value[index].price : 0),
     0,
   ),
 )

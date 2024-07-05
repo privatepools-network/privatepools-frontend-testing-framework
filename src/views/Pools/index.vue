@@ -10,48 +10,28 @@
         <ComposePoolDropdown />
       </div>
       <div class="flex gap-4 flex-wrap md:flex-row flex-col">
-        <PoolFilters
-          :hidePools="hidePools"
-          :optionsPoolType="optionsPoolType"
-          :optionsPoolAttribute="optionsPoolAttribute"
-          :optionsTokens="optionsTokens"
-        />
+        <PoolFilters :hidePools="hidePools" :optionsPoolType="optionsPoolType"
+          :optionsPoolAttribute="optionsPoolAttribute" :optionsTokens="optionsTokens" />
 
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-2">
             <label class="inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                class="sr-only peer"
-                :value="hidePools"
-                @click="hidePools = !hidePools"
-                :checked="hidePools"
-              />
+              <input type="checkbox" class="sr-only peer" :value="hidePools" @click="hidePools = !hidePools"
+                :checked="hidePools" />
               <div
-                class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800/50 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ABDFF]"
-              ></div>
+                class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800/50 dark:bg-[#D1D1D6] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#2ABDFF]">
+              </div>
             </label>
-            <div
-              class="dark:!text-white text-black"
-              style="font-size: clamp(12px, 0.8vw, 16px)"
-            >
+            <div class="dark:!text-white text-black" style="font-size: clamp(12px, 0.8vw, 16px)">
               {{ $t('staked_only') }}
             </div>
           </div>
 
           <div class="flex items-center">
-            <input
-              id="default-checkbox"
-              type="checkbox"
-              v-model="hideSmallPools"
-              class="w-4 h-4 text-[#00e0ff] bg-gray-100 border-gray-300 rounded focus:ring-[#00e0ff] dark:focus:ring-[#00e0ff] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              for="default-checkbox"
-              class="ms-2 dark:!text-white text-black"
-              style="font-size: clamp(12px, 0.8vw, 16px)"
-              >Hide small pools</label
-            >
+            <input id="default-checkbox" type="checkbox" v-model="hideSmallPools"
+              class="w-4 h-4 text-[#00e0ff] bg-gray-100 border-gray-300 rounded focus:ring-[#00e0ff] dark:focus:ring-[#00e0ff] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+            <label for="default-checkbox" class="ms-2 dark:!text-white text-black"
+              style="font-size: clamp(12px, 0.8vw, 16px)">Hide small pools</label>
           </div>
         </div>
       </div>
@@ -62,49 +42,27 @@
     </div>
 
     <!-- v-if="width > 768"  -->
-    <div 
-      v-if="width > 768"
-      class="pools-rows"
-      >
+    <div v-if="width > 768" class="pools-rows">
       <!-- Headers Desktop -->
       <div class="pools-row pools-row_header">
-        <div
-          class="pools-row__col"
-          :class="
-            // Table headers positioning by header names
-            headCaptionIndex === 0 || headCaptionIndex === 1
-              ? 'justify-content-start'
-              : 'justify-content-center'
-          "
-          v-for="(headCaption, headCaptionIndex) in headers"
-          :key="headCaption"
-        >
+        <div class="pools-row__col" :class="
+          // Table headers positioning by header names
+          headCaptionIndex === 0 || headCaptionIndex === 1
+            ? 'justify-content-start'
+            : 'justify-content-center'
+          " v-for="(headCaption, headCaptionIndex) in headers" :key="headCaption">
           <div class="file-table-header-cell">
-            <div
-              class="d-flex align-items-center gap-1"
-              :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
-              style="cursor: pointer; height: 20px"
-            >
-              <div
-                v-if="headCaption === t('tokens')"
-                :class="'head_caption_text text-black dark:!text-white'"
-              >
-                <svg
-                  width="24"
-                  height="15"
-                  viewBox="0 0 24 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+            <div class="d-flex align-items-center gap-1" :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+              style="cursor: pointer; height: 20px">
+              <div v-if="headCaption === t('tokens')" :class="'head_caption_text text-black dark:!text-white'">
+                <svg width="24" height="15" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_1_2449)">
                     <path
                       d="M7.5 14.5C11.366 14.5 14.5 11.366 14.5 7.5C14.5 3.63401 11.366 0.5 7.5 0.5C3.63401 0.5 0.5 3.63401 0.5 7.5C0.5 11.366 3.63401 14.5 7.5 14.5Z"
-                      stroke="white"
-                    />
+                      stroke="white" />
                     <path
                       d="M16.5 14.5C20.366 14.5 23.5 11.366 23.5 7.5C23.5 3.63401 20.366 0.5 16.5 0.5C12.634 0.5 9.5 3.63401 9.5 7.5C9.5 11.366 12.634 14.5 16.5 14.5Z"
-                      stroke="white"
-                    />
+                      stroke="white" />
                   </g>
                   <defs>
                     <clipPath id="clip0_1_2449">
@@ -113,87 +71,56 @@
                   </defs>
                 </svg>
               </div>
-              <div
-                v-else-if="headCaption === t('volume')"
-                :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'"
-              >
-                <div
-                  class="flex items-center gap-1"
-                  @click="
-                    ascendFilterBy = `${t('volume')}_${filterByTimeVolume}`
-                  "
-                >
-                  <img
-                    :src="filterArrow"
-                    :class="
-                      ascendFilterBy === `${t('volume')}_${filterByTimeVolume}`
-                        ? 'rotate-180'
-                        : ''
-                    "
-                  />
+              <div v-else-if="headCaption === t('volume')"
+                :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'">
+                <div class="flex items-center gap-1" @click="
+                  ascendFilterBy = `${t('volume')}_${filterByTimeVolume}`
+                  ">
+                  <img :src="filterArrow" :class="ascendFilterBy === `${t('volume')}_${filterByTimeVolume}`
+                      ? 'rotate-180'
+                      : ''
+                    " />
                   {{ headCaption }} ({{ filterByTimeVolume }})
                 </div>
-                <img
-                  :src="filterSVG"
-                  @click="
-                    filterByTimeVolume === '24H'
-                      ? (filterByTimeVolume = '7D')
-                      : filterByTimeVolume === '7D'
+                <img :src="filterSVG" @click="
+                  filterByTimeVolume === '24H'
+                    ? (filterByTimeVolume = '7D')
+                    : filterByTimeVolume === '7D'
                       ? (filterByTimeVolume = '30D')
                       : filterByTimeVolume === '30D'
-                      ? (filterByTimeVolume = 'ALL')
-                      : filterByTimeVolume === 'ALL'
-                      ? (filterByTimeVolume = '24H')
-                      : (filterByTimeVolume = '24H')
-                  "
-                />
+                        ? (filterByTimeVolume = 'ALL')
+                        : filterByTimeVolume === 'ALL'
+                          ? (filterByTimeVolume = '24H')
+                          : (filterByTimeVolume = '24H')
+                  " />
               </div>
-              <div
-                v-else-if="headCaption === 'APR'"
-                :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'"
-              >
-                <div
-                  class="flex items-center gap-1"
-                  @click="ascendFilterBy = `APR ${filterByTimeAPR}`"
-                >
-                  <img
-                    :src="filterArrow"
-                    :class="
-                      ascendFilterBy === `APR ${filterByTimeAPR}`
-                        ? 'rotate-180'
-                        : ''
-                    "
-                  />
+              <div v-else-if="headCaption === 'APR'"
+                :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'">
+                <div class="flex items-center gap-1" @click="ascendFilterBy = `APR ${filterByTimeAPR}`">
+                  <img :src="filterArrow" :class="ascendFilterBy === `APR ${filterByTimeAPR}`
+                      ? 'rotate-180'
+                      : ''
+                    " />
                   {{ headCaption }} ({{ filterByTimeAPR }})
                 </div>
-                <img
-                  :src="filterSVG"
-                  @click="
-                    filterByTimeAPR === '24H'
-                      ? (filterByTimeAPR = '7D')
-                      : filterByTimeAPR === '7D'
+                <img :src="filterSVG" @click="
+                  filterByTimeAPR === '24H'
+                    ? (filterByTimeAPR = '7D')
+                    : filterByTimeAPR === '7D'
                       ? (filterByTimeAPR = '30D')
                       : filterByTimeAPR === '30D'
-                      ? (filterByTimeAPR = 'ALL')
-                      : filterByTimeAPR === 'ALL'
-                      ? (filterByTimeAPR = '24H')
-                      : (filterByTimeAPR = '24H')
-                  "
-                />
+                        ? (filterByTimeAPR = 'ALL')
+                        : filterByTimeAPR === 'ALL'
+                          ? (filterByTimeAPR = '24H')
+                          : (filterByTimeAPR = '24H')
+                  " />
               </div>
-              <div
-                v-else
-                :class="'head_caption_text flex items-center gap-1 text-black dark:!text-white'"
-                @click="ascendFilterBy = headCaption"
-              >
-                <img
-                  :class="ascendFilterBy === headCaption ? 'rotate-180' : ''"
-                  v-if="
-                    !headCaption.includes(t('composition')) &&
-                    !headCaption.includes(t('actions'))
-                  "
-                  :src="filterArrow"
-                />
+              <div v-else :class="'head_caption_text flex items-center gap-1 text-black dark:!text-white'"
+                @click="ascendFilterBy = headCaption">
+                <img :class="ascendFilterBy === headCaption ? 'rotate-180' : ''" v-if="
+                  !headCaption.includes(t('composition')) &&
+                  !headCaption.includes(t('actions'))
+                " :src="filterArrow" />
                 {{ headCaption }}
               </div>
             </div>
@@ -201,10 +128,7 @@
         </div>
       </div>
 
-      <div
-        v-if="user_staked_pools.length === 0 && hidePools"
-        class="my-5 text-center text-black dark:!text-white"
-      >
+      <div v-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
         <div>{{ $t('no_results') }}</div>
         <div>{{ $t('choose_a_pool') }}</div>
       </div>
@@ -212,47 +136,29 @@
         <LoaderPulse />
       </div>
       {{ console.log('all_pools', all_pools) }}
-      <PoolRow
-        v-for="(pool, index) in all_pools
+      <PoolRow v-for="(pool, index) in all_pools
 
-          .slice(0, sliceNumber)
-          .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
-          .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
-        :key="pool.name"
-        :pool="pool"
-        :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
-        :userPools="user_staked_pools"
-        :inactive="isPoolInactive(pool)"
-        :index="index"
-        @goToPoolWithdraw="goToPoolWithdraw"
-        @goToPoolCompound="goToPoolCompound"
-        @goToCLPool="goToCLPool"
-        @goToPool="goToPool"
-        @goToPoolDeposit="goToPoolDeposit"
-        @goToPoolManage="goToPoolManage"
-        @goToCL="goToCL"
-        :isActions="true"
-      />
+        .slice(0, sliceNumber)
+        .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+        .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))" :key="pool.name" :pool="pool"
+        :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }" :userPools="user_staked_pools"
+        :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw"
+        :rewardsData="rewardsData"
+        @goToPoolCompound="goToPoolCompound" @goToCLPool="goToCLPool" @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
       <!-- <PoolsMobileTable v-else/> -->
 
-      <div
-        v-if="
-          sliceNumber <
-          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
-            .length
-        "
-        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
-        class="load_more text-black dark:!text-white"
-      >
+      <div v-if="
+        sliceNumber <
+        all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+          .length
+      " @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
         {{ $t('load_more') }}
         <img :src="arrow_bottom" />
       </div>
     </div>
     <div v-else>
-      <div
-        v-if="user_staked_pools.length === 0 && hidePools"
-        class="my-5 text-center text-black dark:!text-white"
-      >
+      <div v-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
         <div>{{ $t('no_results') }}</div>
         <div>{{ $t('choose_a_pool') }}</div>
       </div>
@@ -260,38 +166,22 @@
         <LoaderPulse />
       </div>
       <div v-else class="mobile_table_container">
-      <MobileAdvancedTable
-        
-        v-for="(pool, index) in all_pools
+        <MobileAdvancedTable v-for="(pool, index) in all_pools
           .slice(0, sliceNumber)
           .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
-          .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
-        :key="pool.name"
-        :pool="pool"
-        :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
-        :userPools="user_staked_pools"
-        :inactive="isPoolInactive(pool)"
-        :index="index"
-        @goToPoolWithdraw="goToPoolWithdraw"
-        @goToCLPool="goToCLPool"
-        @goToPool="goToPool"
-        @goToPoolDeposit="goToPoolDeposit"
-        @goToPoolManage="goToPoolManage"
-        @goToCL="goToCL"
-        :isActions="true"
-      />
-      <div
-        v-if="
+          .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))" :key="pool.name" :pool="pool"
+          :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }" :userPools="user_staked_pools"
+          :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
+          @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"
+          :isActions="true" />
+        <div v-if="
           sliceNumber <
           all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
             .length
-        "
-        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
-        class="load_more text-black dark:!text-white"
-      >
-        {{ $t('load_more') }}
-        <img :src="arrow_bottom" />
-      </div>
+        " @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
+          {{ $t('load_more') }}
+          <img :src="arrow_bottom" />
+        </div>
       </div>
     </div>
   </MainCard>
@@ -335,7 +225,7 @@ import { getPoolsData } from '@/composables/data/poolsData'
 import { t } from 'i18next'
 import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
 import { useDevice } from '@/composables/adaptive/useDevice'
-
+import { getPoolsRewards } from "@/composables/data/rewardsData"
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 const { width } = useDevice()
 
@@ -377,12 +267,14 @@ watch(chainSelected, () => {
 watch(networkId, async () => {
   await InitUserStakedPools()
 })
-
+const rewardsData = ref([])
 async function InitUserStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
-    let address = await mmProvider.getSigner().getAddress() //'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
+    let address = '0x759eE62a73A8A0690a0E20Fc489D3F462B4385c0' //await mmProvider.getSigner().getAddress() //'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
     user_staked_pools.value = await useWalletPools(address, 56, false)
+    rewardsData.value = await getPoolsRewards(address)
+    console.log("POOLS REWARDS DATA ", rewardsData.value)
     console.log(all_pools.value)
     console.log(user_staked_pools.value)
     console.log(
@@ -705,6 +597,7 @@ const all_pools = computed(() => {
     @media all and (max-width: $lg) {
       overflow-x: auto;
     }
+
     @media (max-width: 768px) {
       border: 0px;
     }

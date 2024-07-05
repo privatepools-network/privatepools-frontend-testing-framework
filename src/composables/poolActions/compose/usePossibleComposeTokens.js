@@ -9,7 +9,7 @@ import { GetTokens } from '@/composables/tokens/useTokenSymbols'
 import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
 import { getTokensData } from '@/composables/data/tokensData'
 import { getPortfolioBalance } from '@/composables/data/portfolioData'
-
+import wl_tokens from '../../../assets/wl/tokenslist.json'
 /**
  * Replace W char in token symbol (W stands for wrapped usually)
  * @function replaceFirstCharIfW
@@ -47,7 +47,23 @@ export async function GetPossibleComposeTokens(network, enablePrices = false) {
     t.balance = parseFloat(t.amount.toFixed(3))
     t.userBalance = t.amount
   })
-  return account_balances.tokens.filter((item) => item.symbol != undefined)
+  const symbols = account_balances.tokens.map((item) => item.symbol)
+  const wl_values = Object.entries(wl_tokens)
+  return [
+    ...account_balances.tokens,
+    ...wl_values
+      .filter((item) => !symbols.includes(item[1]))
+      .map((item) => ({
+        symbol: item[1],
+        address: item[0],
+        id: item[0],
+        balance: 0,
+        userBalance: 0,
+        value: 0,
+        price: 0,
+        img: getTokenEntity(item[1], 'short').icon,
+      })),
+  ]
 }
 // export async function GetPossibleComposeTokens(network, enablePrices = false) {
 //   if (!networkId.value) return {}

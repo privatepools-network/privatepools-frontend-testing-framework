@@ -469,7 +469,7 @@
 
                 </div>
               </div>
-              <div class="actions_button text-black dark:!text-[#00E0FF]">
+              <div class="actions_button text-black dark:!text-[#00E0FF]" @click="claimRewards(rewardsData[pool.id])">
                 {{ $t('Claim') }}
               </div>
             </div>
@@ -530,7 +530,7 @@ import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import CounterAnimation from '@/UI/CounterAnimation.vue'
 import { useDevice } from '@/composables/adaptive/useDevice'
-
+import { claimRewards } from "@/composables/portfolio/useRewards"
 const { width } = useDevice()
 const settingsStore = useSettings()
 const currentChainId = JSON.parse(

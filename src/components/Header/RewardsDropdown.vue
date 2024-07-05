@@ -16,7 +16,7 @@
         <div
           class="rewards_inside bg-[white] dark:!bg-[#22222224] text-black dark:!text-white"
         >
-          <div
+          <!-- <div
             class="text-[12px] font-['Syne',_sans-serif] text-black dark:!text-[#626262] flex items-center justify-between"
           >
             {{ $t('pending_rewards') }}
@@ -44,7 +44,7 @@
                 stroke-linejoin="round"
               />
             </svg>
-          </div>
+          </div> -->
           <div class="flex items-center gap-1">
             <CurrencySymbol />{{ totalRewards }}
             <img :src="rewards_icon" width="16" />
