@@ -95,7 +95,7 @@ import { useDevice } from '@/composables/adaptive/useDevice'
 const settingsStore = useSettings()
 const { width } = useDevice()
 
-const { currentCurrency } = storeToRefs(settingsStore)
+const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
 use([
   CanvasRenderer,
   CandlestickChart,
@@ -146,6 +146,27 @@ const filteredData = computed(() =>
 const preFiltersList = computed(() =>
   props.selectedOverallTab === t('overall_view')
     ? [
+    {
+        title: 'TVL',
+        code: 'TVL',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'TVL',
+        code: 'TVL_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'TVL',
+        code: 'TVL_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
       {
         title: 'Revenue',
         code: 'Revenue',
@@ -216,27 +237,7 @@ const preFiltersList = computed(() =>
         selected: true,
         cumulable: true,
       },
-      {
-        title: 'TVL',
-        code: 'TVL',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
-        title: 'TVL',
-        code: 'TVL_ETH',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
-        title: 'TVL',
-        code: 'TVL_BTC',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
+   
 
       {
         title: 'Average APR',
@@ -285,14 +286,14 @@ const preFiltersList = computed(() =>
         title: 'Volatility Index',
         code: 'Volatility Index',
         isSolo: true,
-        selected: true,
+        selected: currentVersion.value === 'pro' ? true : false,
         cumulable: false,
       },
       {
         title: 'Impermanent Loss',
         code: 'Impermanent Loss',
         isSolo: true,
-        selected: true,
+        selected: currentVersion.value === 'pro' ? true : false,
         cumulable: false,
       },
     ]
@@ -418,75 +419,53 @@ const preFiltersList = computed(() =>
         selected: true,
         cumulable: false,
       },
-      {
-        title: 'Capital Gains',
-        code: 'Capital Gains',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
-        title: 'PNL',
-        code: 'PNL',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
-        title: 'ROI',
-        code: 'ROI',
-        isSolo: true,
-        selected: true,
-        cumulable: true,
-      },
-      {
-        title: 'Token Incentives',
-        code: 'Token Incentives',
-        isSolo: true,
-        selected: true,
-        cumulable: true,
-      },
+     
       {
         title: 'Volatility Index',
         code: 'Volatility Index',
         isSolo: true,
-        selected: true,
+        selected: currentVersion.value === 'pro' ? true : false,
         cumulable: false,
       },
       {
         title: 'Impermanent Loss',
         code: 'Impermanent Loss',
         isSolo: true,
-        selected: true,
+        selected: currentVersion.value === 'pro' ? true : false,
         cumulable: false,
       },
-      {
-        title: 'Pool percentage',
-        code: 'Pool percentage',
-        isSolo: true,
-        selected: true,
-        cumulable: true,
-      },
+      
     ],
 )
-const filters = ref({
+console.log('currentVersion', currentVersion.value)
+const filters = ref(currentVersion.value === 'pro' ? {
+  TVL: true,
   Revenue: true,
   ['Gas Fees']: true,
   ['Trades']: true,
   Volume: true,
-  TVL: true,
   ['Average APR']: true,
   ['Profits']: true,
-  ['Capital Gains']: true,
-  ['Volatility Index']: true,
-  ['Impermanent Loss']: true,
+  ['Capital Gains']: false,
+  ['Volatility Index']: false,
+  ['Impermanent Loss']: false,
   // ['PNL']: true,
   // ['ROI']: true,
   // ['Token Incentives']: true,
   // ['Pool Percentage']: true,
   // ['Rewards']: true,
   // ['Staked Liquidity']: true,
-})
+} :
+{
+  TVL: true,
+  Revenue: true,
+  ['Gas Fees']: true,
+  ['Trades']: true,
+  Volume: true,
+  ['Average APR']: true,
+  ['Profits']: true,
+}
+)
 // const assets = computed(() =>
 //   pool.value ? Array.from(new Set(pool.value.tokens.map((t) => t.symbol))) : [],
 // )

@@ -93,7 +93,7 @@ import { useDevice } from '@/composables/adaptive/useDevice'
 const settingsStore = useSettings();
 const { width } = useDevice()
 
-const { currentCurrency } = storeToRefs(settingsStore)
+const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
 
 const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
 
@@ -103,17 +103,26 @@ const { networks_data, chainSelected, rewardsData } = toRefs(props)
 const allChartData = ref([])
 const filteredData = computed(() => getFilteredData())
 console.log('filteredData', filteredData)
-const filters = ref({
+const filters = ref(currentVersion.value === 'pro' ? {
+  'Staked Liquidity': true,
   TVL: true,
   PNL: true,
-  Rewards: true,
   'Average APR': true,
-  ROI: true,
-  'Staked Liquidity': true,
   Volume: true,
   'Trades': true,
-  'Capital Gains': true,
-})
+  ROI: false,
+  Rewards: false,
+  'Capital Gains': false,
+} :
+{
+  'Staked Liquidity': true,
+  TVL: true,
+  PNL: true,
+  'Average APR': true,
+  Volume: true,
+  'Trades': true,
+}
+)
 const preFiltersList = ref([
   {
     title: 'Staked Liquidity',
@@ -139,21 +148,21 @@ const preFiltersList = ref([
   {
     title: 'PNL',
     code: 'PNL',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
   {
     title: 'PNL',
     code: 'PNL_ETH',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
   {
     title: 'PNL',
     code: 'PNL_BTC',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
@@ -167,7 +176,7 @@ const preFiltersList = ref([
   {
     title: 'Rewards',
     code: 'Rewards',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
@@ -202,28 +211,28 @@ const preFiltersList = ref([
   {
     title: 'ROI',
     code: 'ROI',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
     isSolo: true,
   },
   {
     title: 'Capital Gains',
     code: 'Capital Gains',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
     isSolo: true,
   },
   {
     title: 'Capital Gains',
     code: 'Capital Gains_ETH',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
     isSolo: true,
   },
   {
     title: 'Capital Gains',
     code: 'Capital Gains_BTC',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
     isSolo: true,
   },
@@ -333,7 +342,7 @@ const convertFromNumber = (str) => {
 const currentGridToRight = ref(240)
 
 const showVolume = ref(true)
-const showRevenueProfits = ref(true)
+const showRevenueProfits = ref(currentVersion.value === 'pro' ? true : false)
 const showTradesGasFees = ref(true)
 const showAPRVolatility = ref(true)
 
@@ -576,8 +585,8 @@ const optionObj = ref({
     },
     yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
     yAxisInstance('Capital Gains / ROI', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
-    yAxisInstance('Trades / PNL', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance('APR / Rewards', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
+    yAxisInstance('Trades / PNL', width.value > 768 ? showTradesGasFees : false, currentVersion.value === 'pro' ? 120 : 60 , '#77aaff'),
+    yAxisInstance('APR / Rewards', width.value > 768 ? showAPRVolatility : false, currentVersion.value === 'pro' ?  180 : 120, '#FFD700'),
   ],
   grid: [
     {

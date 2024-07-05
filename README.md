@@ -1,4 +1,4 @@
-# privatepools-frontend mvp
+# privatepools-frontend shared mvp
 
 ## Overviews
 
