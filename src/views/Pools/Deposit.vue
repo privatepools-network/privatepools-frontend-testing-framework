@@ -12,13 +12,16 @@
       @on-close="isZapperModalOpen = false"
       @on-accept-trade="onAcceptTrade"
     />
-
-    <TokenSelectModal
-      :is-open="isTokenSelectModalOpen"
-      :possible-tokens="possibleTokens"
-      @close="isTokenSelectModalOpen = false"
-      @update-token="(token) => (zapToken = token)"
-    />
+    <Modal v-if="isTokenSelectModalOpen" @close="isTokenSelectModalOpen = false" size="xl">
+      <template #body>
+        <TokenSelectModal
+          :is-open="isTokenSelectModalOpen"
+          :possible-tokens="possibleTokens"
+          @close="isTokenSelectModalOpen = false"
+          @update-token="(token) => (zapToken = token)"
+        />
+      </template>
+    </Modal>
 
     <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
