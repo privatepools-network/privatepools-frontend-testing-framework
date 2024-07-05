@@ -1,25 +1,19 @@
 <template>
   <div>
-    <div
-      class=" fixed inset-0 z-40"
-    />
+    <div class="fixed inset-0 z-40" />
     <div
       ref="modalRef"
       class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[1000] w-full md:inset-0 h-modal md:h-full justify-center items-start flex"
-      
-      style="backdrop-filter: blur(5px);"
+      style="backdrop-filter: blur(5px)"
       tabindex="0"
       @click.self="clickOutside"
       @keyup.esc="closeWithEsc"
-   
     >
-      <div
-        :class="`${modalSizeClasses[size]}`"
-        class="fixed p-4 w-full"
-       
-      >
+      <div :class="`${modalSizeClasses[size]}`" class="fixed p-4 w-full">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:!bg-[#02031c] z-[1000] modal_scale">
+        <div
+          class="relative bg-white rounded-lg shadow dark:!bg-[#02031c] z-[1000] modal_scale"
+        >
           <!-- Modal header -->
           <div
             :class="
@@ -118,6 +112,12 @@ function closeWithEsc() {
 }
 const modalRef = ref(null)
 onMounted(() => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+
   if (modalRef.value) {
     modalRef.value.focus()
   }
@@ -144,6 +144,5 @@ onMounted(() => {
   @media (max-width: 768px) {
     transform: scale(1);
   }
-
 }
 </style>

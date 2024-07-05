@@ -4,7 +4,7 @@
       :is-open="isTokenSelectModalOpen"
       :possible-tokens="possibleTokens"
       @close="isTokenSelectModalOpen = false"
-      @updateToken="(value) => (tokenCurrency = value)"
+      @updateToken="onTokenSelect"
     />
 
     <div class="buy_container">
@@ -80,7 +80,7 @@
                   />
                 </div>
                 <div
-                  @click="() => tokenSelectModalOpen()"
+                  @click="() => (isTokenSelectModalOpen = true)"
                   class="d-flex flex-column gap-2"
                 >
                   <div style="color: #7d7d7d; font-size: 12px">
@@ -215,7 +215,7 @@
                   </div>
                 </div>
               </div>
-              <div class="referrals_button" @click="buyClick()">
+              <div class="referrals_button" @click="onBuyClick()">
                 {{ selectedTab === 'Sell' ? $t('sell') : $t('buy') }}
               </div>
             </div>
@@ -241,7 +241,7 @@
             <ChartTimeline
               :currentTimeline="currentTimeline"
               :timelines="timelines"
-              @changeTimeline="changeTimeline"
+              @changeTimeline="(value) => (currentTimeline = value)"
             />
           </div>
           <div style="backdrop-filter: blur(10px)">
@@ -378,7 +378,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { Token } from '@uniswap/sdk-core'
 import { SwapType } from '@wavelength/sdk'
 
@@ -389,15 +389,10 @@ import HowToBuyPPNTokens from '@/components/Buy/HowToBuyPPNTokens.vue'
 import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import { getTokenEntity } from '@/lib/helpers/util'
-import useBalance from '@/composables/useBalance'
-import useDecimals from '@/composables/useDecimals'
-import {
-  swapPPNToken,
-  getAmountOut,
-} from '@/composables/poolActions/swap/weighted/useSwap'
 import { useVaultPPNHistory } from '@/composables/weighted/useVaultPPNHistory'
-import { usePPNInfo } from '@/composables/weighted/usePPNInfo'
+import { usePPNInfo } from '@/composables/ppn/usePPNInfo'
 import { useFetchTokens } from '@/composables/tokens/useFetchTokens'
+import { notify } from '@/composables/notify'
 
 const tokenPPN = ref({
   address: '0xC687E90f6a0a7e01d3fd03df2aABCeA7f323A845',
@@ -405,12 +400,6 @@ const tokenPPN = ref({
   balance: 0,
   decimals: 18,
 })
-// const tokenPPN = ref({
-//   address: "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
-//   symbol: "DAI",
-//   balance: 0,
-//   decimals: 18
-// })
 const tokenCurrency = ref({
   address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
   symbol: 'WBNB',
@@ -418,31 +407,12 @@ const tokenCurrency = ref({
   decimals: 18,
 })
 
-const convertedTokenPPN = computed(
-  () =>
-    new Token(
-      56,
-      tokenPPN.value.address,
-      tokenPPN.value.decimals,
-      tokenPPN.value.symbol,
-      tokenPPN.value.symbol,
-    ),
-)
-const convertedTokenCurrency = computed(
-  () =>
-    new Token(
-      56,
-      tokenCurrency.value.address,
-      tokenCurrency.value.decimals,
-      tokenCurrency.value.symbol,
-      tokenCurrency.value.symbol,
-    ),
-)
-
 const token0Amount = ref(0)
 const token1Amount = ref(0)
 
-const poolInfo = ref(null)
+const token0InitialAmount = ref(0)
+const token1InitialAmount = ref(0)
+
 const chartData = ref(null)
 const priceChange = ref(0)
 const ppnInfo = ref({
@@ -468,10 +438,6 @@ const timelines = [
 ]
 
 const currentTimeline = ref(timelines[1])
-
-function changeTimeline(tl) {
-  currentTimeline.value = tl
-}
 
 const series = computed(() => [
   {
@@ -533,7 +499,6 @@ const chartOptions = computed(() => ({
     backgroundColor: 'rgba(89, 89, 89, 1), rgba(73, 73, 73, 0.45)',
     // eslint-disable-next-line
     custom({ series, dataPointIndex, w }) {
-      console.log(w)
       return (
         '<div style="backdrop-filter: blur(10px); background: linear-gradient(rgba(89, 89, 89, 1), rgba(73, 73, 73, 0.45)); color:white; padding: 10px;">' +
         '<div style="display:flex; flex-direction:column; font-size: clamp(10px, 0.8vw, 14px)">' +
@@ -569,85 +534,32 @@ const chartOptions = computed(() => ({
 
 const selectedTab = ref('Buy')
 
-// function changeSelectedTab(_new) {
-//   selectedTab.value = _new
-// }
-
 const isTokenSelectModalOpen = ref(false)
 
-function tokenSelectModalOpen() {
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'smooth',
-  })
-  isTokenSelectModalOpen.value = true
-}
-
 const { tokens: possibleTokens } = useFetchTokens(56)
+const { tokens: ppnTokens, fetchAmountOut } = usePPNInfo()
 
-const address = ref(null)
-
-onMounted(async () => {
-  const provider = await InitializeMetamask()
-  if (provider) {
-    const signer = provider.getSigner()
-    address.value = await signer.getAddress()
-    const [balance0, balance1] = await Promise.all([
-      useBalance(tokenPPN.value.address, provider, address.value),
-      useBalance(tokenCurrency.value.address, provider, address.value),
-    ])
-    tokenPPN.value.balance = parseFloat(balance0)
-    tokenCurrency.value.balance = parseFloat(balance1)
-    const [decimals1, decimals2] = await Promise.all([
-      useDecimals(tokenPPN.value.address, signer),
-      useDecimals(tokenCurrency.value.address, signer),
-    ])
-    tokenPPN.value.decimals = decimals1
-    tokenCurrency.value.decimals = decimals2
-    // poolInfo.value = await GetCLPoolInfo(
-    //   convertedTokenPPN.value,
-    //   convertedTokenCurrency.value,
-    //   500,
-    //   signer,
-    // )
-  }
-  // chartData.value = await useUniswapPPNHistory(56)
-  chartData.value = await useVaultPPNHistory(56)
-  ppnInfo.value = await usePPNInfo()
-  // calcuate price change
-  const timelineData = chartData.value[currentTimeline.value.name].data
-  priceChange.value =
-    timelineData[timelineData.length - 2] === 0
-      ? timelineData[timelineData.length - 1] * 100
-      : ((timelineData[timelineData.length - 1] -
-          timelineData[timelineData.length - 2]) /
-          timelineData[timelineData.length - 2]) *
-        100
-})
-
-async function buyClick() {
-  const provider = await InitializeMetamask()
-  if (provider) {
-    // await SwapCLTokens(
-    //   convertedTokenPPN.value,
-    //   convertedTokenCurrency.value,
-    //   poolInfo.value,
-    //   selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
-    //   provider.getSigner(),
-    //   selectedTab.value == 'Buy' ? 'in' : 'out',
-    // )
-    await swapPPNToken(
-      convertedTokenCurrency.value,
-      convertedTokenPPN.value,
-      selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
-      provider.getSigner(),
-    )
+function onTokenSelect(token) {
+  if (ppnTokens.value.some((item) => item.address === token.address)) {
+    tokenCurrency.value = token
+    isTokenSelectModalOpen.value = false
+  } else {
+    isTokenSelectModalOpen.value = true
+    notify('error', 'Wrong Token', 'There is not a pool for the token')
   }
 }
 
-const token0InitialAmount = ref(0)
-const token1InitialAmount = ref(0)
+async function onBuyClick() {
+  // const provider = await InitializeMetamask()
+  // if (provider) {
+  //   await swapPPNToken(
+  //     convertedTokenCurrency.value,
+  //     convertedTokenPPN.value,
+  //     selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
+  //     provider.getSigner(),
+  //   )
+  // }
+}
 
 function onToken0Focus() {
   token0InitialAmount.value = token0Amount.value
@@ -662,43 +574,40 @@ async function onToken0Blur() {
   if (token0InitialAmount.value == token0Amount.value || !provider) {
     return
   }
-  // const secondAmount = await quoteCL(
-  //   convertedTokenPPN.value,
-  //   convertedTokenCurrency.value,
-  //   poolInfo.value,
-  //   token0Amount.value,
-  //   'in',
-  // )
-  const secondAmount = await getAmountOut(
-    convertedTokenCurrency.value,
-    convertedTokenPPN.value,
-    token0Amount.value,
-    provider.getSigner(),
-    SwapType.SwapExactIn,
+
+  token1Amount.value = await fetchAmountOut(
+    tokenCurrency,
+    tokenPPN,
+    token0Amount,
   )
-  token1Amount.value = secondAmount
 }
+
 async function onToken1Blur() {
   const provider = await InitializeMetamask()
   if (token1InitialAmount.value == token1Amount.value || !provider) {
     return
   }
-  // const secondAmount = await quoteCL(
-  //   convertedTokenPPN.value,
-  //   convertedTokenCurrency.value,
-  //   poolInfo.value,
-  //   token1Amount.value,
-  //   'out',
-  // )
-  const secondAmount = await getAmountOut(
-    convertedTokenCurrency.value,
-    convertedTokenPPN.value,
-    token1Amount.value,
-    provider.getSigner(),
-    SwapType.SwapExactOut,
+
+  token0Amount.value = await fetchAmountOut(
+    tokenPPN,
+    tokenCurrency,
+    token1Amount,
   )
-  token0Amount.value = secondAmount
 }
+
+onMounted(async () => {
+  chartData.value = await useVaultPPNHistory(56)
+  // ppnInfo.value = await usePPNInfo()
+  // calcuate price change
+  const timelineData = chartData.value[currentTimeline.value.name].data
+  priceChange.value =
+    timelineData[timelineData.length - 2] === 0
+      ? timelineData[timelineData.length - 1] * 100
+      : ((timelineData[timelineData.length - 1] -
+          timelineData[timelineData.length - 2]) /
+          timelineData[timelineData.length - 2]) *
+        100
+})
 </script>
 <style lang="scss" scoped>
 @import '../styles/_variables.scss';

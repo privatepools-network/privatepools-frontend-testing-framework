@@ -1,11 +1,14 @@
+import { ref, watch } from 'vue'
 import { SwapType, getLimitsForSlippage } from '@balancer-labs/sdk'
 import { ethers } from 'ethers'
+
+import * as SDK from '@georgeroman/balancer-v2-pools'
+import { weightedBPTForTokensZeroPriceImpact as _bptForTokensZeroPriceImpact } from '@wavelength/sor2'
 
 import binance from '@/lib/config/binance'
 import ABI_PPNBuyer from '@/lib/abi/PPNBuyer.json'
 import ABI_Vault from '@/lib/abi/VaultAbi.json'
 import ABI_ERC20 from '@/lib/abi/ERC20.json'
-import { ref, watch } from 'vue'
 import { SorManager } from '@/lib/utils/balancer/helpers/sor/sorManager'
 
 const ppnBuyerAddress = '0x939EDCA8F050C1965082aF99ff1b53106E55682D'
@@ -151,9 +154,7 @@ export const useSwap = (tokenIn, tokenOut, amountIn, swapType, signer) => {
   const amountOut = ref(0)
   const isPossible = ref(0)
 
-  const fetchGetAmountOut = () => {
-    const sorManager = new SorManager()
-  }
+  const fetchGetAmountOut = () => {}
 
   watch(() => {
     fetchGetAmountOut()

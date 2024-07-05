@@ -17,7 +17,9 @@
       :is-open="isTokenSelectModalOpen"
       :possible-tokens="possibleTokens"
       @close="isTokenSelectModalOpen = false"
-      @update-token="(token) => (zapToken = token)"
+      @update-token="
+        (token) => ((zapToken = token), (isTokenSelectModalOpen = false))
+      "
     />
 
     <div class="center_container dark:!bg-[#15151524] bg-white">
@@ -118,7 +120,7 @@
                     class="d-flex justify-content-between align-items-center"
                   >
                     <div
-                      @click="() => tokenSelectModalOpen()"
+                      @click="isTokenSelectModalOpen = true"
                       class="d-flex flex-column gap-2"
                     >
                       <div
@@ -621,15 +623,6 @@ const { priceImpact, fullAmounts, bptOut } = useInvestFormMath(
   true,
 )
 
-function tokenSelectModalOpen() {
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'smooth',
-  })
-  isTokenSelectModalOpen.value = true
-}
-
 async function zapperModalOpen() {
   const {
     oneInchDatas,
@@ -648,11 +641,6 @@ async function zapperModalOpen() {
   fromAmounts.value = amountsIn
   toAmounts.value = amountsOut
 
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'smooth',
-  })
   isZapperModalOpen.value = true
 }
 

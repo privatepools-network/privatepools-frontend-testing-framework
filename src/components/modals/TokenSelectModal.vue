@@ -54,7 +54,7 @@
             class="common_token text-black dark:!text-white d-flex gap-2"
             v-for="token in commonTokens"
             :key="token.symbol"
-            @click="$emit('updateToken', { ...token }), $emit('close')"
+            @click="$emit('updateToken', token)"
           >
             <img
               :src="getTokenEntity(token.symbol, 'short').icon || token.logoURI"
@@ -77,7 +77,7 @@
           v-for="(token, index) in filteredPossibleTokens"
           :key="`tokens-key-${index}`"
           class="flex items-center justify-between p-3 gap-3 token_card"
-          @click="$emit('updateToken', token), $emit('close')"
+          @click="$emit('updateToken', token)"
         >
           <div class="d-flex align-items-center">
             <img
