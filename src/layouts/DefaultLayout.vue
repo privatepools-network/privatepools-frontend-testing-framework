@@ -30,7 +30,7 @@
     </div>
   </a>
   </div>
-  <main class="main_containter bg-[#DCEEF6] dark:!bg-[#02031C]">
+  <main class="main_containter">
     <div class="app_container">
       <div class="background">
         <div class="particles">
@@ -135,6 +135,7 @@ watch(address, () => {
 
 .main_containter {
   background-size: cover;
+  background: radial-gradient(117.92% 188.68% at 100% 0%, #00859A 0%, #02031C 60%, #000000 100%);
 
   backdrop-filter: blur(136px);
   position: relative;

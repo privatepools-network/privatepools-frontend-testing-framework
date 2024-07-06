@@ -3,7 +3,6 @@
     <PortfolioArbitrageBot :networks_data="networks_data" :chainSelected="chainSelected" :rewardsData="rewardsData" />
 
     <div class="track_chart_card bg-[white] dark:!bg-[#22222224]">
-      {{ console.log('all_chart_data', all_chart_data) }}
       <div v-if="all_chart_data === undefined" class="chart_inside">
         <LoaderPulse />
       </div>
@@ -102,25 +101,22 @@ const { networks_data, chainSelected, rewardsData } = toRefs(props)
 
 const allChartData = ref([])
 const filteredData = computed(() => getFilteredData())
-console.log('filteredData', filteredData)
 const filters = ref(currentVersion.value === 'pro' ? {
   'Staked Liquidity': true,
-  TVL: true,
-  PNL: true,
-  'Average APR': true,
-  Volume: true,
-  'Trades': true,
+  PNL: false,
+  'Average APR': false,
+  Volume: false,
+  'Trades': false,
   ROI: false,
   Rewards: false,
   'Capital Gains': false,
 } :
 {
   'Staked Liquidity': true,
-  TVL: true,
-  PNL: true,
-  'Average APR': true,
-  Volume: true,
-  'Trades': true,
+  PNL: false,
+  'Average APR': false,
+  Volume: false,
+  'Trades': false,
 }
 )
 const preFiltersList = ref([
@@ -148,21 +144,21 @@ const preFiltersList = ref([
   {
     title: 'PNL',
     code: 'PNL',
-    selected: currentVersion.value === 'pro' ? true : false,
+    selected: true,
     cumulable: true,
     isSolo: true,
   },
   {
     title: 'PNL',
     code: 'PNL_ETH',
-    selected: currentVersion.value === 'pro' ? true : false,
+    selected: true,
     cumulable: true,
     isSolo: true,
   },
   {
     title: 'PNL',
     code: 'PNL_BTC',
-    selected: currentVersion.value === 'pro' ? true : false,
+    selected: true,
     cumulable: true,
     isSolo: true,
   },
@@ -312,6 +308,8 @@ const dataTrades = computed(() => {
     return filteredData.value.map((v) => v['Trades'])
   return []
 })
+
+
 const dataTVL = computed(() => {
   if (filteredData.value.length > 0 && filteredData.value[0].TVL)
     return filteredData.value.map((v) => v[`TVL${postfix.value}`]['User Liquidity'])
@@ -339,12 +337,12 @@ const convertFromNumber = (str) => {
 
 
 
-const currentGridToRight = ref(240)
+const currentGridToRight = ref(40)
 
-const showVolume = ref(true)
-const showRevenueProfits = ref(currentVersion.value === 'pro' ? true : false)
-const showTradesGasFees = ref(true)
-const showAPRVolatility = ref(true)
+const showVolume = ref(false)
+const showRevenueProfits = ref(false)
+const showTradesGasFees = ref(false)
+const showAPRVolatility = ref(false)
 
 function yAxisInstance(name, show, offset, color) {
   return {
@@ -420,9 +418,7 @@ function seriesInstance(name, type, data, yAxisIndex, color) {
 }
 
 function legendSelectedChange(e) {
-  console.log('EEEE', e)
-  console.log('currentGridToRight', currentGridToRight.value)
-  console.log('optionObj.value.yAxis', optionObj.value.yAxis)
+
   for (const [key, value] of Object.entries(e.selected)) {
     filters.value[key] = value
   }
@@ -668,7 +664,7 @@ const TimelineFilters = {
 function getFilteredData() {
   let result = []
   let chart_data = []
-  console.log("BEFORE - ", props.all_chart_data)
+  // console.log("BEFORE - ", props.all_chart_data)
   if (!process.env.VUE_APP_LOCAL_API)
     chart_data = [...allChartData.value]
   else if (props.all_chart_data)
@@ -725,7 +721,7 @@ function getFilteredData() {
     result.push(result_item)
   }
 
-  console.log("RESULT CHART ", result)
+  // console.log("RESULT CHART ", result)
 
   return result
 }

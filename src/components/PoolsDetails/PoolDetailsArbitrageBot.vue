@@ -240,41 +240,7 @@
           </div>
         </CCollapse>
       </div>
-      <div style="cursor: pointer" class="visible_head h-24 text-black dark:!text-white mt-4">
-        <div class="d-flex align-items-center gap-2" style="margin-left: -10px">
-          <div></div>
-          <div class="text-black dark:!text-white font-bold w-full">
-          <!-- <div
-              class="d-flex align-items-center justify-content-between visible_head text-black dark:!text-white font-normal font-['Roboto_Mono',_monospace]">
-              <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
-                {{ $t('my_rewards') }}
-              </div>
-              <div v-if="pool" class="text-black text-[13px] dark:!text-white flex items-center font-['Roboto_Mono',_monospace]">
-                <CurrencySymbol />0
-                
-              </div>
-              <div v-else>
-                <ThreeDots></ThreeDots>
-              </div>
-            </div> --> 
-            <!-- <div
-              class="d-flex align-items-center justify-content-between font-normal text-black dark:!text-white visible_head mt-3">
-              <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
-                {{ $t('my_balance') }}
-              </div>
-              <div  class="text-black text-[13px] dark:!text-white flex items-center font-['Roboto_Mono',_monospace]">
-           
-                <CounterAnimation
-                    :currency="''"
-                    :value="userBalance"
-                    :decimal-places="currencyDecimals"
-                  />
-              </div>
-            
-            </div> -->
-          </div>
-        </div>
-      </div>
+
     </div>
 
     <div class="d-flex justify-content-between w-100 gap-3 mt-4">

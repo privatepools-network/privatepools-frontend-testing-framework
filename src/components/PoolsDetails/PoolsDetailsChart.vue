@@ -269,20 +269,6 @@ const preFiltersList = computed(() =>
         cumulable: true,
       },
       {
-        title: 'Capital Gains',
-        code: 'Capital Gains',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
-        title: 'PNL',
-        code: 'PNL',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
         title: 'Volatility Index',
         code: 'Volatility Index',
         isSolo: true,
@@ -440,12 +426,12 @@ const preFiltersList = computed(() =>
 console.log('currentVersion', currentVersion.value)
 const filters = ref(currentVersion.value === 'pro' ? {
   TVL: true,
-  Revenue: true,
-  ['Gas Fees']: true,
-  ['Trades']: true,
-  Volume: true,
-  ['Average APR']: true,
-  ['Profits']: true,
+  Revenue: false,
+  ['Gas Fees']: false,
+  ['Trades']: false,
+  Volume: false,
+  ['Average APR']: false,
+  ['Profits']: false,
   ['Capital Gains']: false,
   ['Volatility Index']: false,
   ['Impermanent Loss']: false,
@@ -458,12 +444,12 @@ const filters = ref(currentVersion.value === 'pro' ? {
 } :
 {
   TVL: true,
-  Revenue: true,
-  ['Gas Fees']: true,
-  ['Trades']: true,
-  Volume: true,
-  ['Average APR']: true,
-  ['Profits']: true,
+  Revenue: false,
+  ['Gas Fees']: false,
+  ['Trades']: false,
+  Volume: false,
+  ['Average APR']: false,
+  ['Profits']: false,
 }
 )
 // const assets = computed(() =>
@@ -579,12 +565,12 @@ const convertFromNumber = (str) => {
   return result
 }
 
-const currentGridToRight = ref(240)
+const currentGridToRight = ref(40)
 
-const showVolume = ref(true)
-const showRevenueProfits = ref(true)
-const showTradesGasFees = ref(true)
-const showAPRVolatility = ref(true)
+const showVolume = ref(false)
+const showRevenueProfits = ref(false)
+const showTradesGasFees = ref(false)
+const showAPRVolatility = ref(false)
 
 function yAxisInstance(name, show, offset, color) {
   return {
@@ -694,8 +680,8 @@ function legendSelectedChange(e) {
 
   if (e.name === 'Average APR' || e.name === 'Volatility Index' || e.name === "Impermanent Loss") {
     if (
-      e.selected['Average APR'] === false &&
-      e.selected['Volatility Index'] === false && e.selected['Impermanent Loss'] === false
+      currentVersion.value === 'pro' ? e.selected['Average APR'] === false &&
+      e.selected['Volatility Index'] === false && e.selected['Impermanent Loss'] === false : e.selected['Average APR'] === false
     ) {
       showAPRVolatility.value = false
     } else if (
@@ -838,7 +824,7 @@ const optionObj = ref({
     yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
     yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
     yAxisInstance('Trades / Gas Fees', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance('APR / Volatility Index / Impermanent Loss', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
+    yAxisInstance(currentVersion.value === 'pro' ? 'APR / Volatility Index / Impermanent Loss' : 'APR', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
   ],
   grid: [
     {

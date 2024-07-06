@@ -52,7 +52,7 @@
         <RewardsDropdown />
         <!-- <TokenDropdown /> -->
 
-        <div v-if="width > 768" class="wallet_address dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white"
+        <div v-if="width > 768" class="wallet_address  text-black dark:!text-white"
           @click="$emit('toggleSidebar')">
           <VTooltip :distance="0" :placement="'top'">
             <div style="cursor: help">

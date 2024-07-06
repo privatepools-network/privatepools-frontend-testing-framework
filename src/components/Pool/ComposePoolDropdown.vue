@@ -56,10 +56,6 @@ import { Dropdown } from 'floating-vue'
 import Toast from '@/UI/Toast.vue'
 import { notify } from '@/composables/notify'
 
-const currentChainId = JSON.parse(
-  localStorage.getItem('ethereumNetwork'),
-)?.chainId
-
 function wrongChainCall() {
   notify(
     'error',
@@ -85,6 +81,10 @@ function wrongChainCall() {
 }
 
 const onClick = () => {
+  const currentChainId = JSON.parse(
+    localStorage.getItem('ethereumNetwork'),
+  )?.chainId
+
   console.log('currentChainId', currentChainId)
 
   if (currentChainId === 56) {
@@ -124,7 +124,6 @@ const onClick = () => {
   font-size: 12px;
   display: inline-block;
   cursor: pointer;
-
 }
 
 .button_arrow {

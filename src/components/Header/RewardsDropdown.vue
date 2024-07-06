@@ -1,7 +1,7 @@
 <template>
   <Dropdown :distance="4" :placement="'bottom-center'">
     <div
-      class="button_drop dark:!bg-[#02031C] bg-[#DCEEF6] text-black dark:!text-white p-2 flex"
+      class="button_drop  text-black dark:!text-white p-2 flex"
     >
       <img :src="rewards_icon" />
       <div v-if="width > 768" class="flex items-center">

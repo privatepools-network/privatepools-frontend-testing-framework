@@ -10,7 +10,7 @@ export const useSettings = defineStore('settings', {
 
     currentLanguage: useLocalStorage('language', 'English'),
 
-    currentParticles: useLocalStorage('particles', 'on'),
+    currentParticles: useLocalStorage('particles', 'off'),
 
     currentVersion: useLocalStorage('version', 'lite'),
   }),
