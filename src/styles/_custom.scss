@@ -211,6 +211,44 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
+
+.liquidity_button {
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 21px;
+  font-family: 'Syne', sans-serif;
+  color: #02031C !important;
+  width: 60vw;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #02031C;
+  
+  @media (min-width: 1950px) {
+    width: 40vw;
+  }
+
+  &_LP {
+    background: #00E0FF;
+    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
+
+    &:hover {
+      cursor: pointer;
+      filter: drop-shadow(0 0 0.4rem #00E0FF);
+    }
+  }
+
+  &_WP {
+    background: #00E0FF;
+    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
+
+    &:hover {
+      cursor: pointer;
+      filter: drop-shadow(0 0 0.4rem #00E0FF);
+    }
+  }
+}
+
 .add_liq_btn_pools {
   display: flex;
   justify-content: center;

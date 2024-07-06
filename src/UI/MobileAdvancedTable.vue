@@ -716,41 +716,7 @@ const visibleDetails = ref(false)
   }
 }
 
-.liquidity_button {
-  border-radius: 100px;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 21px;
-  font-family: 'Syne', sans-serif;
-  color: #ffffff;
-  width: 100%;
-  padding: 10px;
-  text-align: center;
 
-  // @media (min-width: 1950px) {
-  //   width: 40vw;
-  // }
-
-  &_LP {
-    background: #fb800f;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #fb800f);
-    }
-  }
-
-  &_WP {
-    background: #00dc3e;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #00dc3e);
-    }
-  }
-}
 
 .liquidity_button_text {
   font-size: 12px;

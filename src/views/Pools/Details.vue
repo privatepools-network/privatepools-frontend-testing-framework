@@ -9,7 +9,7 @@
     <CRow class="mb-3 mt-4" v-if="pool && pool.tokens">
       <div class="mb-3 text-black dark:!text-white text-[20px] font-bold flex items-center gap-1">
         {{ $t('weighted_pool') }}
-        <div class="pool_type text-white" :class="'pool_type_WP'">WLP</div>
+        <!-- <div class="pool_type text-white" :class="'pool_type_WP'">WLP</div> -->
       </div>
       <div class="d-flex align-items-center" style="justify-content: space-between">
         <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">

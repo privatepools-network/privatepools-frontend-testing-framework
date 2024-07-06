@@ -24,10 +24,10 @@
               </span>
             </div>
           </div>
-          <div class="pool_type text-white" :class="pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
+          <!-- <div class="pool_type text-white" :class="pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
             ">
             {{ pool['LiquidityType'] === 'CL' ? 'CLP' : 'WLP' }}
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -183,9 +183,9 @@
               <div class="details-el__circle"></div>
             </div>
             <div v-else
-              class="details-el__title d-flex gap-1 align-items-center green w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]">
+              class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]">
               {{ $t('weighted_pool') }}
-              <div class="details-el__circle"></div>
+              <!-- <div class="details-el__circle"></div> -->
             </div>
 
             <div class="d-flex align-items-end justify-content-between mt-4">
@@ -232,7 +232,7 @@
             </defs>
           </svg>
           <div class="details-el__col">
-            <div :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'green'"
+            <div :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'blue'"
               class="details-el__title d-flex gap-1 align-items-center w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]">
               {{ $t('liquidity_added') }}
               <div class="details-el__circle"></div>
@@ -591,41 +591,7 @@ const visibleDetails = ref(false)
   }
 }
 
-.liquidity_button {
-  border-radius: 100px;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 21px;
-  font-family: 'Syne', sans-serif;
-  color: #ffffff;
-  width: 60vw;
-  padding: 10px;
-  text-align: center;
 
-  @media (min-width: 1950px) {
-    width: 40vw;
-  }
-
-  &_LP {
-    background: #fb800f;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #fb800f);
-    }
-  }
-
-  &_WP {
-    background: #00dc3e;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #00dc3e);
-    }
-  }
-}
 
 .liquidity_button_text {
   font-size: 12px;
@@ -655,11 +621,11 @@ const visibleDetails = ref(false)
 }
 
 .blue {
-  color: #03a6e9;
+  color: #00E0FF;
 
   .details-el__circle {
-    background: #03a6e9;
-    box-shadow: 0px 0px 10px 0px rgba(0, 209, 255, 0.5);
+    background: #00E0FF;
+    box-shadow: 0px 0px 10px 0px #00E0FF;
   }
 }
 
@@ -681,7 +647,7 @@ const visibleDetails = ref(false)
   margin-left: 20px;
   padding: 6px 20px;
   border-radius: 20px;
-  border: 1px solid #00E0FF;
+  border: 1px solid white;
   text-transform: uppercase;
 
   &:hover {

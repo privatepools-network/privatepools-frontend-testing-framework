@@ -94,7 +94,7 @@ const tokenEntities = computed(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-  margin-right: -2px;
+  margin-right: -7px !important;
   
 }
 
