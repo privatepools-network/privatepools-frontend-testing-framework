@@ -7,8 +7,12 @@ export async function getStatus() {
   } catch (e) {
     console.error('[SERVER ERROR]', e)
   }
-  const response = await axios.get(
-    `${process.env.VUE_APP_REDUNDANT_REWARDS_BACKEND_BINANCE}/status`,
-  )
-  return response.data.status
+  try {
+    const response = await axios.get(
+      `${process.env.VUE_APP_REDUNDANT_REWARDS_BACKEND_BINANCE}/status`,
+    )
+    return response.data.status
+  } catch (e) {
+    return false
+  }
 }

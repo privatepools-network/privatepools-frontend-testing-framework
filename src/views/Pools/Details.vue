@@ -1,39 +1,25 @@
 <template>
   <MainCard v-if="poolsLoader === true">
-    <div
-      class="d-flex justify-content-center align-items-center"
-      style="height: 80vh"
-    >
+    <div class="d-flex justify-content-center align-items-center" style="height: 80vh">
       <LoaderPulse></LoaderPulse>
     </div>
   </MainCard>
 
   <MainCard v-else-if="!visibleDepositComponent && !visibleWithdrawComponent">
     <CRow class="mb-3 mt-4" v-if="pool && pool.tokens">
-      <div
-        class="mb-3 text-black dark:!text-white text-[20px] font-bold flex items-center gap-1"
-      >
+      <div class="mb-3 text-black dark:!text-white text-[20px] font-bold flex items-center gap-1">
         {{ $t('weighted_pool') }}
         <div class="pool_type text-white" :class="'pool_type_WP'">WLP</div>
       </div>
-      <div
-        class="d-flex align-items-center"
-        style="justify-content: space-between"
-      >
+      <div class="d-flex align-items-center" style="justify-content: space-between">
         <!-- <div class="caption" style="font-size:clamp(10px, 0.9vw, 16px); font-weight: 700">
           {{ pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/') }}
         </div> -->
         {{ console.log('pool.tokens', pool.tokens) }}
         <div class="caption-row">
-          <div
-            v-for="(poolToken, poolTokenIndex) in pool.tokens"
-            :key="`pool-token-${poolTokenIndex}`"
-            class="big-chip dark:!bg-[#22222224] bg-white"
-          >
-            <CAvatar
-              :src="getTokenEntity(poolToken.symbol, 'short').icon"
-              class="big-chip__image"
-            />
+          <div v-for="(poolToken, poolTokenIndex) in pool.tokens" :key="`pool-token-${poolTokenIndex}`"
+            class="big-chip dark:!bg-[#22222224] bg-white">
+            <CAvatar :src="getTokenEntity(poolToken.symbol, 'short').icon" class="big-chip__image" />
             <div class="big-chip__text text-black dark:!text-white">
               {{ poolToken.symbol }}
             </div>
@@ -43,25 +29,16 @@
           </div>
           <div class="ml-2 z-50">
             <a target="_blank" :href="scannerLink">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M13.9942 12.4373V8.16327C13.9942 7.94752 13.8192 7.77259 13.6035 7.77259H12.828C12.6122 7.77259 12.4373 7.94752 12.4373 8.16327V12.4373H1.55685V1.55685H5.8309C6.04665 1.55685 6.22157 1.38192 6.22157 1.16618V0.390671C6.22157 0.174927 6.04665 0 5.8309 0H1.55685C0.693878 0 0 0.693878 0 1.55685V12.4431C0 12.8561 0.164025 13.252 0.455991 13.544C0.747957 13.836 1.14395 14 1.55685 14H12.4431C12.8561 14 13.252 13.836 13.544 13.544C13.836 13.252 14 12.8561 14 12.4431L13.9942 12.4373ZM13.6152 0.180758L13.8251 0.390671C13.93 0.489796 13.9942 0.629738 13.9942 0.781341V5.83673C13.9942 6.05248 13.8192 6.22741 13.6035 6.22741H12.828C12.7244 6.22741 12.625 6.18625 12.5517 6.11298C12.4785 6.03972 12.4373 5.94035 12.4373 5.83673V2.66472L5.87755 9.21866C5.72595 9.37026 5.48105 9.37026 5.32945 9.21866L4.78717 8.67638C4.75114 8.64042 4.72255 8.59771 4.70304 8.55068C4.68353 8.50365 4.67349 8.45324 4.67349 8.40233C4.67349 8.35142 4.68353 8.30101 4.70304 8.25398C4.72255 8.20696 4.75114 8.16424 4.78717 8.12828L11.3411 1.55685H8.16327C8.05965 1.55685 7.96028 1.51569 7.88702 1.44243C7.81375 1.36916 7.77259 1.26979 7.77259 1.16618V0.390671C7.77259 0.174927 7.94752 0 8.16327 0H13.2187C13.3703 0.0058309 13.5102 0.0699708 13.6152 0.180758Z"
-                  fill="#DCEEF6"
-                />
+                  fill="#DCEEF6" />
               </svg>
             </a>
           </div>
         </div>
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
-        <div class="flex justify-between items-center gap-2">
+        <!-- <div class="flex justify-between items-center gap-2">
           <div class="rewards_button" @click="changeToCompoundView">
           {{ $t('Compounder') }} 
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +49,7 @@
           <div class="rewards_button">
           {{ $t('rewards') }}
         </div>
-        </div>
+        </div> -->
       </div>
     </CRow>
     <!-- <div style="height: 34px" class="mb-5" v-else>
@@ -80,42 +57,24 @@
     </div> -->
 
     <CRow class="mb-5" v-if="render">
-      <PoolsDetailsChart
-        :selectedOverallTab="selectedOverallTab"
-        :changeToDepositView="changeToDepositView"
-        :changeToWithdrawView="changeToWithdrawView"
-        :poolTokenPrices="tokenPrices"
-        :tokenPrices="historicalPrices"
-        :pool="pool"
-        :swapsData="poolSwapsData"
-        :chainSelected="chainSelected.chain"
-        :all_chart_data="poolChartData"
-        :historical_tvl="historical_tvl"
-        :symbol="currencySymbol"
-        :currencySelected="currencySelected"
-        :userBalance="balance"
-      />
+      <PoolsDetailsChart :selectedOverallTab="selectedOverallTab" :changeToDepositView="changeToDepositView"
+        :changeToWithdrawView="changeToWithdrawView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices"
+        :pool="pool" :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="poolChartData"
+        :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected"
+        :userBalance="balance" :rewardsData="rewardsData"/>
     </CRow>
 
     <div style="display: inline-block; margin-bottom: 24px">
-      <SectionsTabs
-        :filterEye="true"
-        :selectedTab="selectedTab"
-        :tabsOptions="currentVersion === 'pro' ? [
-          t('pool_info'),
-          t('financial_statement'),
-          t('statistics'),
-          // 'Pairs & Tokens',
-        ] : [
+      <SectionsTabs :filterEye="true" :selectedTab="selectedTab" :tabsOptions="currentVersion === 'pro' ? [
         t('pool_info'),
-        ]"
-        @changeTab="changeSelectedTab"
-      />
+        t('financial_statement'),
+        t('statistics'),
+        // 'Pairs & Tokens',
+      ] : [
+        t('pool_info'),
+      ]" @changeTab="changeSelectedTab" />
     </div>
-    <div
-      style="display: flex; flex-direction: column"
-      v-if="selectedTab == t('pool_info')"
-    >
+    <div style="display: flex; flex-direction: column" v-if="selectedTab == t('pool_info')">
       <!--      <div class="mb-2" style="-->
       <!--        -->
       <!--        color: white;-->
@@ -165,26 +124,18 @@
       </div>
 
       <div class="flex md:flex-row flex-col md:gap-0 gap-5">
-        <div
-          class="pool-section dark:!bg-[#22222224] !bg-[white] md:!w-[70%] !w-full md:flex-row flex-col"
-          v-if="pool && poolActivity"
-        >
+        <div class="pool-section dark:!bg-[#22222224] !bg-[white] md:!w-[70%] !w-full md:flex-row flex-col"
+          v-if="pool && poolActivity">
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div
-                class="subsection__item__caption text-[black] dark:!text-white"
-              >
+              <div class="subsection__item__caption text-[black] dark:!text-white">
                 {{ $t('pool_creation') }}
               </div>
               <div class="subsection__item__content">
-                <div
-                  class="subsection__item__content__left text-[black] dark:!text-white"
-                >
+                <div class="subsection__item__content__left text-[black] dark:!text-white">
                   {{ $t('created') }}
                 </div>
-                <div
-                  class="subsection__item__content__right text-[black] dark:!text-white"
-                >
+                <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single">
                     {{ pool.createdTimeDate }}
                   </div>
@@ -195,20 +146,14 @@
               </div>
             </div>
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div
-                class="subsection__item__caption text-[black] dark:!text-white"
-              >
+              <div class="subsection__item__caption text-[black] dark:!text-white">
                 24h {{ $t('profit') }}
               </div>
               <div class="subsection__item__content">
-                <div
-                  class="subsection__item__content__left text-[black] dark:!text-white"
-                >
+                <div class="subsection__item__content__left text-[black] dark:!text-white">
                   {{ $t('ATH') }}
                 </div>
-                <div
-                  class="subsection__item__content__right text-[black] dark:!text-white"
-                >
+                <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
                     <div class="amount flex items-center">
                       <CurrencySymbol />{{
@@ -225,9 +170,7 @@
                       {{ formatBigNumber(profitInfo.highestPercent) }}%
                     </div> -->
                   </div>
-                  <div
-                    class="subsection__item__content__right__bottom --bright"
-                  >
+                  <div class="subsection__item__content__right__bottom --bright">
                     {{ pool.profit24h.highestTime }} ({{
                       pool.profit24h.highestTimeAgo
                     }})
@@ -235,14 +178,10 @@
                 </div>
               </div>
               <div class="subsection__item__content">
-                <div
-                  class="subsection__item__content__left text-[black] dark:!text-white"
-                >
+                <div class="subsection__item__content__left text-[black] dark:!text-white">
                   {{ $t('ATL') }}
                 </div>
-                <div
-                  class="subsection__item__content__right text-[black] dark:!text-white"
-                >
+                <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top paired">
                     <div class="amount flex items-center">
                       <CurrencySymbol />{{
@@ -259,9 +198,7 @@
                       {{ formatBigNumber(profitInfo.lowestPercent) }}%
                     </div> -->
                   </div>
-                  <div
-                    class="subsection__item__content__right__bottom --bright"
-                  >
+                  <div class="subsection__item__content__right__bottom --bright">
                     {{ pool.profit24h.lowestTime }} ({{
                       pool.profit24h.lowestTimeAgo
                     }})
@@ -272,23 +209,15 @@
           </div>
           <div class="subsection">
             <div class="subsection__item dark:!bg-[#22222224] !bg-[white]">
-              <div
-                class="subsection__item__caption text-[black] dark:!text-white"
-              >
+              <div class="subsection__item__caption text-[black] dark:!text-white">
                 {{ $t('lifetime_stats') }}
               </div>
               <div class="subsection__item__content">
-                <div
-                  class="subsection__item__content__left text-[black] dark:!text-white"
-                >
+                <div class="subsection__item__content__left text-[black] dark:!text-white">
                   {{ $t('volume') }}
                 </div>
-                <div
-                  class="subsection__item__content__right text-[black] dark:!text-white"
-                >
-                  <div
-                    class="subsection__item__content__right__top single flex items-center"
-                  >
+                <div class="subsection__item__content__right text-[black] dark:!text-white">
+                  <div class="subsection__item__content__right__top single flex items-center">
                     <CurrencySymbol />{{
                       formatBigNumber(
                         currentCurrency == 'USD'
@@ -301,17 +230,11 @@
                 </div>
               </div>
               <div class="subsection__item__content">
-                <div
-                  class="subsection__item__content__left text-[black] dark:!text-white"
-                >
+                <div class="subsection__item__content__left text-[black] dark:!text-white">
                   {{ $t('fees') }}
                 </div>
-                <div
-                  class="subsection__item__content__right text-[black] dark:!text-white"
-                >
-                  <div
-                    class="subsection__item__content__right__top single flex items-center"
-                  >
+                <div class="subsection__item__content__right text-[black] dark:!text-white">
+                  <div class="subsection__item__content__right__top single flex items-center">
                     <CurrencySymbol />{{
                       formatBigNumber(
                         currentCurrency == 'USD'
@@ -324,14 +247,10 @@
                 </div>
               </div>
               <div class="subsection__item__content">
-                <div
-                  class="subsection__item__content__left text-[black] dark:!text-white"
-                >
+                <div class="subsection__item__content__left text-[black] dark:!text-white">
                   {{ $t('trades') }}
                 </div>
-                <div
-                  class="subsection__item__content__right text-[black] dark:!text-white"
-                >
+                <div class="subsection__item__content__right text-[black] dark:!text-white">
                   <div class="subsection__item__content__right__top single">
                     {{ pool.TotalTrades }}
                   </div>
@@ -339,16 +258,12 @@
               </div>
             </div>
             <div class="investors-number dark:!bg-[#22222224] !bg-[white]">
-              <div
-                class="investors-number__text text-[black] dark:!text-white"
-                style="padding-right: 20%; white-space: nowrap"
-              >
+              <div class="investors-number__text text-[black] dark:!text-white"
+                style="padding-right: 20%; white-space: nowrap">
                 LP {{ $t('symbol') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
-                <div
-                  style="font-size: clamp(10px, 0.8vw, 14px); font-weight: 700"
-                >
+                <div style="font-size: clamp(10px, 0.8vw, 14px); font-weight: 700">
                   {{
                     pool?.tokens
                       ?.map((tokenEntity) => tokenEntity.symbol)
@@ -361,10 +276,8 @@
               <div class="investors-number__text text-[black] dark:!text-white">
                 {{ $t('number_of_investors') }}
               </div>
-              <div
-                class="investors-number__text text-[black] dark:!text-white"
-                style="font-size: clamp(10px, 0.8vw, 14px)"
-              >
+              <div class="investors-number__text text-[black] dark:!text-white"
+                style="font-size: clamp(10px, 0.8vw, 14px)">
                 {{ pool.holdersCount }}
               </div>
             </div>
@@ -376,10 +289,7 @@
                 Factory Contract
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
-                <div
-                  class="d-flex align-items-center gap-1"
-                  style="color: #0082a5"
-                >
+                <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
                       pool?.factory?.substring(0, 6) +
@@ -387,12 +297,8 @@
                       pool?.factory?.substring(pool?.factory?.length - 4)
                     }}
                   </div>
-                  <a
-                    target="_blank"
-                    :href="`${
-                      configService.getNetworkConfig(networkId).explorer
-                    }/address/${pool.factory}`"
-                  >
+                  <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
+                    }/address/${pool.factory}`">
                     <img :src="link" />
                   </a>
                 </div>
@@ -404,10 +310,7 @@
                 Pool Contract
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
-                <div
-                  class="d-flex align-items-center gap-1"
-                  style="color: #0082a5"
-                >
+                <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
                       pool?.id?.substring(0, 6) +
@@ -422,21 +325,15 @@
               </div>
             </div>
 
-            <div
-              class="investors-number dark:!bg-[#22222224] !bg-[white]"
-              v-if="
-                networkId &&
-                configService.getNetworkConfig(networkId).addresses.vault
-              "
-            >
+            <div class="investors-number dark:!bg-[#22222224] !bg-[white]" v-if="
+              networkId &&
+              configService.getNetworkConfig(networkId).addresses.vault
+            ">
               <div class="investors-number__text text-[black] dark:!text-white">
                 Vault
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
-                <div
-                  class="d-flex align-items-center gap-1"
-                  style="color: #0082a5"
-                >
+                <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
                       configService
@@ -451,14 +348,9 @@
                         )
                     }}
                   </div>
-                  <a
-                    target="_blank"
-                    :href="`${
-                      configService.getNetworkConfig(networkId).explorer
-                    }/address/${
-                      configService.getNetworkConfig(networkId).addresses.vault
-                    }`"
-                  >
+                  <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
+                    }/address/${configService.getNetworkConfig(networkId).addresses.vault
+                    }`">
                     <img :src="link" />
                   </a>
                 </div>
@@ -470,10 +362,7 @@
                 Pool {{ $t('owner') }}
               </div>
               <div class="investors-number__text text-[black] dark:!text-white">
-                <div
-                  class="d-flex align-items-center gap-1"
-                  style="color: #0082a5"
-                >
+                <div class="d-flex align-items-center gap-1" style="color: #0082a5">
                   <div>
                     {{
                       pool?.owner?.substring(0, 6) +
@@ -481,12 +370,8 @@
                       pool?.owner?.substring(pool?.owner?.length - 4)
                     }}
                   </div>
-                  <a
-                    target="_blank"
-                    :href="`${
-                      configService.getNetworkConfig(networkId).explorer
-                    }/address/${pool.owner}`"
-                  >
+                  <a target="_blank" :href="`${configService.getNetworkConfig(networkId).explorer
+                    }/address/${pool.owner}`">
                     <img :src="link" />
                   </a>
                 </div>
@@ -494,45 +379,28 @@
             </div>
           </div>
         </div>
-        <div
-          class="pool-section dark:!bg-[#22222224] !bg-[white]"
-          v-else
-          style="height: 330px; width: 70%"
-        >
+        <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-else style="height: 330px; width: 70%">
           <LoaderPulse></LoaderPulse>
         </div>
 
-        <div
-          class="diagram-section dark:!bg-[#22222224] !bg-[white]"
-          v-if="
-            pool &&
-            pool.tokens &&
-            pool.id == router.currentRoute.value.params['id']
-          "
-        >
-          <div
-            class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white]"
-            style="padding: 8px; border-radius: 20px 20px 0px 0px"
-          >
+        <div class="diagram-section dark:!bg-[#22222224] !bg-[white]" v-if="
+          pool &&
+          pool.tokens &&
+          pool.id == router.currentRoute.value.params['id']
+        ">
+          <div class="d-flex align-items-center justify-content-between dark:!bg-[#22222224] !bg-[white]"
+            style="padding: 8px; border-radius: 20px 20px 0px 0px">
             <div class="d-flex align-items-center gap-2">
               <div class="d-flex gap-2 text-[black] dark:!text-white">
-                <div
-                  style="font-weight: 500; font-size: clamp(10px, 0.8vw, 14px)"
-                >
+                <div style="font-weight: 500; font-size: clamp(10px, 0.8vw, 14px)">
                   {{ $t('assets_breakdown') }}
                 </div>
               </div>
             </div>
             <VTooltip :distance="0" :placement="'top'">
               <div style="cursor: help">
-                <svg
-                  class="info_icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -543,9 +411,7 @@
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                    class="dark:!fill-white fill-black"
-                  />
+        12 20Z" class="dark:!fill-white fill-black" />
                 </svg>
               </div>
               <template #popper>
@@ -561,12 +427,7 @@
             </VTooltip>
           </div>
           <div class="diagram-container dark:!bg-[#22222224] !bg-[white]">
-            <apexchart
-              :options="dynamicDonut"
-              :series="dynamicDonut['series']"
-              :height="270"
-              :width="375"
-            />
+            <apexchart :options="dynamicDonut" :series="dynamicDonut['series']" :height="270" :width="375" />
           </div>
         </div>
         <div class="diagram-section dark:!bg-[#22222224] !bg-[white]" v-else>
@@ -574,59 +435,35 @@
         </div>
       </div>
 
-      <div
-        class="mb-2 text-[black] dark:!text-white"
-        style="
+      <div class="mb-2 text-[black] dark:!text-white" style="
           margin-top: 40px;
 
           font-size: clamp(10px, 0.9vw, 16px);
           font-weight: 700;
           line-height: 28px;
           letter-spacing: 0em;
-        "
-      >
+        ">
         {{ $t('pool_analytics') }}
       </div>
 
       <CRow id="pool-stats-row">
-        <PoolsDetailsDiagrams
-          v-if="
-            diagrams_data ||
-            (assetsPerformance && poolTradesData && poolProfitsData)
-          "
-          :tradesData="
-            diagrams_data.trades.tradesData ?? poolTradesData.tradesData
-          "
-          :tradesTimestamps="
-            diagrams_data.trades.tradesTimestamps ??
-            poolTradesData.tradesTimestamps
-          "
-          :profitsData="
-            diagrams_data.profits[`profitsData${postfix}`] ??
-            poolProfitsData.profitsData
-          "
-          :profitsTimestamps="
-            diagrams_data.profits.profitsTimestamps ??
-            poolProfitsData.profitsTimestamps
-          "
-          :symbol="currencySymbol"
-          :decimals="currencyDecimals"
-          :assetsPerformanceData="
-            diagrams_data.assetsPerformance[
+        <PoolsDetailsDiagrams v-if="
+          diagrams_data ||
+          (assetsPerformance && poolTradesData && poolProfitsData)
+        " :tradesData="diagrams_data.trades.tradesData ?? poolTradesData.tradesData
+          " :tradesTimestamps="diagrams_data.trades.tradesTimestamps ??
+              poolTradesData.tradesTimestamps
+              " :profitsData="diagrams_data.profits[`profitsData${postfix}`] ??
+              poolProfitsData.profitsData
+              " :profitsTimestamps="diagrams_data.profits.profitsTimestamps ??
+              poolProfitsData.profitsTimestamps
+              " :symbol="currencySymbol" :decimals="currencyDecimals" :assetsPerformanceData="diagrams_data.assetsPerformance[
               `assetsPerformanceData${postfix}`
             ] ?? assetsPerformance.assetsPerformanceData
-          "
-          :assetsPerformanceTimestamps="
-            diagrams_data.assetsPerformance.assetsPerformanceTimestamps ??
-            assetsPerformance.assetsPerformanceTimestamps
-          "
-          :tokens="pool.tokens"
-        />
-        <div
-          class="pool-section dark:!bg-[#22222224] !bg-[white]"
-          v-else
-          style="height: 330px; width: 70%"
-        >
+              " :assetsPerformanceTimestamps="diagrams_data.assetsPerformance.assetsPerformanceTimestamps ??
+              assetsPerformance.assetsPerformanceTimestamps
+              " :tokens="pool.tokens" />
+        <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-else style="height: 330px; width: 70%">
           <LoaderPulse></LoaderPulse>
         </div>
       </CRow>
@@ -634,39 +471,20 @@
       <PrivatePoolsTable :all_activities="poolActivity" />
     </div>
 
-    <PoolDetailsFinancialStatement
-      v-else-if="
-        selectedTab == t('financial_statement') && financialStatementData
-      "
-      :all_data="financialStatementData"
-      :poolSwapsData="poolSwapsData"
-      :chainSelected="chainSelected"
-      :historical_tvl="historical_tvl"
-      :historicalPrices="historicalPrices"
-      :poolId="poolId"
-      :symbol="currencySymbol"
-      :decimals="currencyDecimals"
-    >
+    <PoolDetailsFinancialStatement v-else-if="
+      selectedTab == t('financial_statement') && financialStatementData
+    " :all_data="financialStatementData" :poolSwapsData="poolSwapsData" :chainSelected="chainSelected"
+      :historical_tvl="historical_tvl" :historicalPrices="historicalPrices" :poolId="poolId" :symbol="currencySymbol"
+      :decimals="currencyDecimals">
     </PoolDetailsFinancialStatement>
 
-    <PortfolioStatistics
-      v-else-if="selectedTab == t('statistics') && pool"
-      :historical_tvl="historical_tvl"
-      :tokensData="
-        pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
-      "
-      :poolSwapsData="poolSwapsData"
-      :chainSelected="chainSelected"
-      :historicalPrices="historicalPrices"
-      :userFirstTimestamp="
-        historical_tvl.length > 0
-          ? historical_tvl[historical_tvl.length - 1].timestamp * 1000
-          : Date.now()
-      "
-      :tokenPairs="chainPairs"
-      :chartData="poolChartData"
-      :statistics="poolStatistics"
-    >
+    <PortfolioStatistics v-else-if="selectedTab == t('statistics') && pool" :historical_tvl="historical_tvl"
+      :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
+        " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historicalPrices="historicalPrices"
+      :userFirstTimestamp="historical_tvl.length > 0
+        ? historical_tvl[historical_tvl.length - 1].timestamp * 1000
+        : Date.now()
+        " :tokenPairs="chainPairs" :chartData="poolChartData" :statistics="poolStatistics">
     </PortfolioStatistics>
 
     <!-- {{ console.log('pool!!!', pool) }} -->
@@ -751,7 +569,7 @@ import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import PoolsDetailsDiagrams from '@/components/PoolsDetailsDiagrams/index.vue'
-
+import { getRewards } from "@/composables/data/rewardsData"
 const settingsStore = useSettings()
 
 const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
@@ -840,9 +658,8 @@ const tokenPrices = ref(null)
 const historical_tvl = ref([])
 
 const scannerLink = computed(() => {
-  return `${
-    process.env.VUE_APP_EXPLORER_BINANCE
-  }/address/${pool.value?.id?.substring(0, 42)}`
+  return `${process.env.VUE_APP_EXPLORER_BINANCE
+    }/address/${pool.value?.id?.substring(0, 42)}`
 })
 
 const current_pool_token_prices = ref({})
@@ -850,6 +667,7 @@ const diagrams_data = ref(null)
 const financialStatementData = ref(null)
 const poolStatistics = ref(null)
 const poolChartData = ref(null)
+const rewardsData = ref(null)
 onMounted(async () => {
   if (!process.env.VUE_APP_LOCAL_API) {
     pool.value = await GetSinglePool(
@@ -869,7 +687,11 @@ onMounted(async () => {
     pool.value = data.general
     poolActivity.value = data.general.activities
     historical_tvl.value = data.statistics.tvls
-    console.log('TVLS - ', historical_tvl.value)
+    const provider = await InitializeMetamask()
+    if (provider) {
+      const address = await provider.getSigner().getAddress()
+      rewardsData.value = await getRewards(address, pool.value.id)
+    }
     historicalPrices.value = data.historical_prices
   }
 })
@@ -1164,7 +986,7 @@ const filteredActivities = computed(() => {
     let activities = poolActivityData.value.filter(function (item) {
       return (
         new Date() - actSelectedPeriodOfData.value.number <=
-          item.timestamp * 1000 && item.Actions == activitiesSelectedMode.value
+        item.timestamp * 1000 && item.Actions == activitiesSelectedMode.value
       )
     })
     return activities
@@ -1184,11 +1006,11 @@ const tokenWeights = computed(() =>
 const diagramsData = computed(() =>
   !process.env.VUE_APP_LOCAL_API && poolActivity.value && historicalPrices.value
     ? UseDiagramsData(
-        poolSwapsData.value,
-        historicalData.value.historicalBalances,
-        pool.value.tokens,
-        historicalPrices.value,
-      )
+      poolSwapsData.value,
+      historicalData.value.historicalBalances,
+      pool.value.tokens,
+      historicalPrices.value,
+    )
     : null,
 )
 const poolSwapsData = ref([])
@@ -1291,9 +1113,8 @@ const dynamicDonut = computed(() => {
   let balances = pool.value.tokens.map(
     (t) =>
       t[
-        `balance${
-          currentCurrency.value == 'USD' ? 'Usd' : currentCurrency.value
-        }`
+      `balance${currentCurrency.value == 'USD' ? 'Usd' : currentCurrency.value
+      }`
       ] ??
       (historicalPrices.value
         ? t.balance * current_pool_token_prices.value[t.symbol]
@@ -1866,6 +1687,7 @@ function changeToDepositView() {
     width: 100%;
     margin-left: 0px;
   }
+
   /* padding: 8px 12px 16px 12px; */
 
   .caption {
@@ -2092,6 +1914,7 @@ function changeToDepositView() {
   flex-direction: row;
   display: flex;
   align-items: center;
+
   @media (max-width: 768px) {
     flex-wrap: wrap;
     gap: 5px;
@@ -2130,6 +1953,7 @@ function changeToDepositView() {
 
   &:not(:first-child) {
     margin-left: 12px;
+
     @media (max-width: 768px) {
       margin-left: 0px;
     }
@@ -2191,6 +2015,7 @@ function changeToDepositView() {
 }
 
 @keyframes mulShdSpin {
+
   0%,
   100% {
     box-shadow: 0em -2.6em 0em 0em #ffffff,

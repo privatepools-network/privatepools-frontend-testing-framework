@@ -4,7 +4,7 @@
       :chart_data="all_chart_data" :tokenPrices="poolTokenPrices" :currencySelected="currencySelected"
       :cryptocomparePrices="tokenPrices" :swapsData="swapsData" :pool="pool"
       :historical_tvl="FormatHistoricalTvl(historical_tvl)" :chainSelected="chainSelectedName"
-      :userBalance="userBalance" />
+      :userBalance="userBalance" :rewardsData="rewardsData"/>
 
     <div class="track_chart_card bg-white dark:!bg-[#22222224]">
       <div v-if="dataRevenues.length == 0" class="chart_inside">
@@ -124,6 +124,7 @@ const props = defineProps([
   'currencySelected',
   'selectedOverallTab',
   'userBalance',
+  'rewardsData'
 ])
 const {
   historical_tvl,
@@ -134,6 +135,7 @@ const {
   chainSelected,
   all_chart_data,
   userBalance,
+  rewardsData
 } = toRefs(props)
 const chainSelectedName = computed(() => DisplayNetwork[chainSelected.value])
 
