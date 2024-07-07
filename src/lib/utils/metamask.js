@@ -39,7 +39,6 @@ export async function addTokenToMetamask(address, symbol) {
         type: 'ERC20', // Initially only supports ERC20, but eventually more!
         options: {
           address: address, // The address that the token is at.
-          symbol: address.slice(0, 10), // A ticker symbol or shorthand, up to 5 chars.
           decimals: 18, // The number of decimals in the token
         },
       },
