@@ -54,7 +54,7 @@
               />
             </svg>
           </div> -->
-          <div class="rewards_button">
+          <div class="rewards_button" @click="claimRewards(rewardsData)">
             {{ $t('rewards') }}
           </div>
         </div>
@@ -585,6 +585,7 @@ import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import PoolsDetailsDiagrams from '@/components/PoolsDetailsDiagrams/index.vue'
 import { getRewards } from "@/composables/data/rewardsData"
+import { claimRewards } from "@/composables/portfolio/useRewards"
 const settingsStore = useSettings()
 
 const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
@@ -705,7 +706,7 @@ onMounted(async () => {
     const provider = await InitializeMetamask()
     if (provider) {
       const address = await provider.getSigner().getAddress()
-      rewardsData.value = await getRewards(address, pool.value.id)
+      rewardsData.value = await getRewards(address, pool.value.address)
     }
     historicalPrices.value = data.historical_prices
   }

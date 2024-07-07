@@ -17,12 +17,17 @@ export async function claimRewards(rewards) {
         rewards_abi,
         mmProvider.getSigner(),
       )
-      console.log(rewards)
+      const value = rewards.rewards.proofs.proofs
+        ? rewards.rewards.proofs.value
+        : rewards.rewards.value
+      const proofs = rewards.rewards.proofs.proofs
+        ? rewards.rewards.proofs.proofs
+        : rewards.rewards.proofs
       let tx = await rewardsContract.claim(
-        rewards.rewards.proofs,
-        rewards.rewards.value[1],
-        rewards.rewards.value[2],
-        rewards.rewards.value[3],
+        proofs,
+        value[1],
+        value[2],
+        value[3],
       )
       let receipt = await tx.wait()
       console.log('CLAIMED - ', receipt)

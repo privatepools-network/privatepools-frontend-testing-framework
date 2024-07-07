@@ -3,82 +3,45 @@
     <CRow class="d-flex align-items-center">
       {{ console.log('account!!!!', account) }}
       <div class="portfolio mt-4">
-        <PortfolioBalance
-          :account="account"
-          :performers="performers"
-          :balanceUsd="balanceData.total ?? 0"
-          :balance_ETH="balanceData.total_ETH ?? 0"
-          :balance_BTC="balanceData.total_BTC ?? 0"
-          :rewardsData="rewardsData"
-        />
+        <PortfolioBalance :account="account" :performers="performers" :balanceUsd="balanceData.total ?? 0"
+          :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0"
+          :rewardsData="rewardsData" />
 
         <div class="portfolio-chart">
-          <PortfolioChart
-            :all_chart_data="portfolioData.chart"
-            :networks_data="portfolioData.cardStats"
-            :tokensData="tokensData"
-            :chainSelected="chainSelected.name"
-            :rewardsData="rewardsData"
-          />
+          <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
+            :tokensData="tokensData" :chainSelected="chainSelected.name" :rewardsData="rewardsData" />
         </div>
 
-        <SectionsTabs
-          :filterEye="true"
-          style="margin-bottom: 44px"
-          :tabsOptions="
-            currentVersion === 'pro'
-              ? [
-                  t('investments'),
-                  t('financial_statement'),
-                  t('statistics'),
-                  // 'Pairs & Tokens',
-                ]
-              : [t('investments')]
-          "
-          :selectedTab="activeTab"
-          @changeTab="changeActiveTab"
-        />
+        <SectionsTabs :filterEye="true" style="margin-bottom: 44px" :tabsOptions="currentVersion === 'pro'
+            ? [
+              t('investments'),
+              t('financial_statement'),
+              t('statistics'),
+              // 'Pairs & Tokens',
+            ]
+            : [t('investments')]
+          " :selectedTab="activeTab" @changeTab="changeActiveTab" />
 
         <div class="portfolio-statistics" v-if="activeTab == t('statistics')">
-          <PortfolioStatistics
-            :historical_tvl="historical_tvl"
-            :tokensData="
-              portfolioData && portfolioData.pools
-                ? portfolioData.pools.flatMap((p) =>
-                    p.tokens.map((t) => ({
-                      ...t,
-                      Blockchain: chainSelected.name,
-                    })),
-                  )
-                : []
-            "
-            :poolSwapsData="poolSwapsData"
-            :chainSelected="chainSelected"
-            :chartData="portfolioData.chart"
-            :historicalPrices="historicalPrices"
-            :userFirstTimestamp="
-              historical_tvl.length > 0
+          <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="portfolioData && portfolioData.pools
+              ? portfolioData.pools.flatMap((p) =>
+                p.tokens.map((t) => ({
+                  ...t,
+                  Blockchain: chainSelected.name,
+                })),
+              )
+              : []
+            " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :chartData="portfolioData.chart"
+            :historicalPrices="historicalPrices" :userFirstTimestamp="historical_tvl.length > 0
                 ? historical_tvl[historical_tvl.length - 1].timestamp * 1000
                 : Date.now()
-            "
-            :tokenPairs="chainPairs"
-            :statistics="portfolioData.statistics"
-          >
+              " :tokenPairs="chainPairs" :statistics="portfolioData.statistics">
           </PortfolioStatistics>
         </div>
-        <div
-          class="portfolio-financial-statement"
-          v-else-if="activeTab == t('financial_statement')"
-        >
-          <PoolDetailsFinancialStatement
-            :all_data="portfolioData.financialStatement"
-            :poolSwapsData="poolSwapsData"
-            :chainSelected="chainSelected"
-            :historical_tvl="historical_tvl"
-            :historicalPrices="historicalPrices"
-            :symbol="currencySymbol"
-            :decimals="currencyDecimals"
-          >
+        <div class="portfolio-financial-statement" v-else-if="activeTab == t('financial_statement')">
+          <PoolDetailsFinancialStatement :all_data="portfolioData.financialStatement" :poolSwapsData="poolSwapsData"
+            :chainSelected="chainSelected" :historical_tvl="historical_tvl" :historicalPrices="historicalPrices"
+            :symbol="currencySymbol" :decimals="currencyDecimals">
           </PoolDetailsFinancialStatement>
         </div>
         <div class="portfolio-table" v-else-if="activeTab == t('investments')">
@@ -86,10 +49,7 @@
             {{ $t('investments') }}
           </div>
 
-          <InvestmentsTable
-            :user_staked_pools="selectedInvestmentData"
-            :all_pools="selectedInvestmentData"
-          />
+          <InvestmentsTable :user_staked_pools="selectedInvestmentData" :all_pools="selectedInvestmentData" />
         </div>
 
         <div class="portfolio-table mt-5" v-if="activeTab == t('investments')">
@@ -97,11 +57,8 @@
             {{ $t('portfolio_activity') }}
           </div>
 
-          <PrivatePoolsTable
-            :all_activities="
-              portfolioData.activity ? portfolioData.activity.slice(0, 25) : []
-            "
-          />
+          <PrivatePoolsTable :all_activities="portfolioData.activity ? portfolioData.activity.slice(0, 25) : []
+            " />
         </div>
       </div>
     </CRow>
@@ -143,7 +100,7 @@ import {
   getPortfolioData,
   getPortfolioBalance,
 } from '@/composables/data/portfolioData'
-import { getRewards } from '@/composables/data/portfolioData'
+import { getRewards } from '@/composables/data/rewardsData'
 import { t } from 'i18next'
 import SectionsTabs from '@/UI/SectionsTabs'
 
@@ -526,7 +483,7 @@ onMounted(async () => {
     if (process.env.VUE_APP_LOCAL_API) {
       const [_portfolio, _rewards, _balance] = await Promise.all([
         getPortfolioData(56, account.value),
-        getRewards(56),
+        getRewards(account.value),
         getPortfolioBalance(56, account.value),
       ])
       portfolioData.value = _portfolio

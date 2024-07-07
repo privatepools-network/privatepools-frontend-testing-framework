@@ -294,12 +294,12 @@
             <div class="d-flex align-items-end justify-content-between mt-4 gap-3">
               <div class="d-flex flex-column gap-2">
                 <div class="text-[18px] font-[700]">
-                  ${{ total_rewards }}
+                  ${{ total_rewards.toFixed(5) }}
 
                 </div>
               </div>
-              <div v-if="rewardsData[pool.id] != null" class="actions_button text-black dark:!text-[#00E0FF]"
-                @click="claimRewards(rewardsData[pool.id])">
+              <div v-if="rewardsData[pool.address] != null" class="actions_button text-black dark:!text-[#00E0FF]"
+                @click="claimRewards(rewardsData[pool.address])">
                 {{ $t('Claim') }}
               </div>
             </div>
@@ -413,7 +413,7 @@ const userStakedPool = computed(() =>
   userPools.value.find((item) => item.id == pool.value.id),
 )
 
-const total_rewards = computed(() => rewardsData.value[pool.value.id] ? rewardsData.value[pool.value.id].formatted_rewards.reduce((sum, value) => sum + value.rewardUsd, 0) : 0)
+const total_rewards = computed(() => rewardsData.value && rewardsData.value[pool.value.address] ? rewardsData.value[pool.value.address].formatted_rewards.reduce((sum, value) => sum + value.rewardUsd, 0) : 0)
 const lp_name = computed(() => pool.value['Pool Name'][0].join('-'))
 const etherscan_link = computed(() => {
   return configService.getNetworkConfig(

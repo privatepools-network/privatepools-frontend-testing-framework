@@ -44,7 +44,7 @@
         : allData?.topPerformancePools?.filter(
           (el) => el.LiquidityType === selectedTopPerformanceFilter,
         )
-      " />
+      " :rewardsData="rewardsData" />
     <div class="mt-5 mb-3 title text-black dark:!text-white">
       {{ $t('top_trading_tokens') }}
     </div>
@@ -110,7 +110,7 @@ import { sumFields } from '@/lib/utils'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import router from '@/router'
-
+import { getPoolsRewards } from "@/composables/data/rewardsData"
 const settingsStore = useSettings()
 
 const { currentCurrency } = storeToRefs(settingsStore)
@@ -678,6 +678,8 @@ function getFilteredData() {
   return result
 }
 
+const rewardsData = ref(null)
+
 onBeforeMount(async () => {
   generalOverviewLoader.value = true
   if (!process.env.VUE_APP_LOCAL_API) {
@@ -695,7 +697,7 @@ watch(networkId, async () => {
     let mmProvider = await InitializeMetamask()
     if (mmProvider) {
       let address = await mmProvider.getSigner().getAddress() //'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
-
+      rewardsData.value = await getPoolsRewards(address)
       user_staked_pools.value = await useWalletPools(address, 56, false)
     }
   }
