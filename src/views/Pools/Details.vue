@@ -441,11 +441,11 @@
               </template>
             </VTooltip>
           </div>
-          <div class="diagram-container dark:!bg-[#22222224] !bg-[white]">
+          <div class="diagram-container">
             <apexchart :options="dynamicDonut" :series="dynamicDonut['series']" :height="270" :width="375" />
           </div>
         </div>
-        <div class="diagram-section dark:!bg-[#22222224] !bg-[white]" v-else>
+        <div class="diagram-section  dark:!bg-[#22222224] !bg-[white]" v-else>
           <LoaderPulse></LoaderPulse>
         </div>
       </div>
@@ -1217,7 +1217,7 @@ const dynamicDonut = computed(() => {
       custom({ series, seriesIndex, dataPointIndex, w }) {
         // console.log("!!!", w.config.series[seriesIndex])
         return (
-          '<div style="background: linear-gradient(rgba(89, 89, 89, 1), rgba(73, 73, 73, 0.45)); padding: 10px;">' +
+          '<div >' +
           '<div  style="opacity:50%; font-size:clamp(10px, 0.9vw, 16px)">' +
           w.config.labels[seriesIndex] +
           '</div>' +
@@ -2132,6 +2132,14 @@ function changeToDepositView() {
   &:hover {
     filter: drop-shadow(0 0 0.3rem #00c9ff);
   }
+}
+
+:deep(.apexcharts-tooltip) {
+  background: #02031c7e !important;
+  backdrop-filter: blur(10px);
+  padding: 10px;
+  border-radius: 11px;
+  color: white;
 }
 </style>
 <style src="@vueform/slider/themes/default.css"></style>

@@ -131,7 +131,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('potential_weekly_yield') }}</div>
           <div class="d-flex gap-1 font-['Roboto_Mono',_monospace] text-[13px]">
-            %{{ weeklyYield }}
+            %{{ parseFloat(weeklyYield).toFixed(2) }}
           </div>
         </div>
       </div>
@@ -373,7 +373,7 @@ async function OnPreviewClick() {
     toast.update(ConfirmToastPending, {
       render: Toast,
       data: {
-        header_text: 'Approve confirmed',
+        header_text: 'Deposit confirmed',
         toast_text: `${parseFloat(props.fiatTotal).toFixed(
           4,
         )} USD - ${formatNotificationDate(new Date().getTime())}`,

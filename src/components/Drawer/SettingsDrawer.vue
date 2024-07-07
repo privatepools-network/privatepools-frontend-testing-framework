@@ -39,6 +39,7 @@
     <div class="d-flex flex-column justify-content-between h-100 gap-3 mt-3">
       <div v-if="settingsState === 'Main'">
         <div
+          
           class="settings_text text-black dark:!text-white flex items-center justify-between"
         >
           <div>{{ $t('hide_small_balances') }}</div>
@@ -61,7 +62,7 @@
           </div>
         </div>
         <!-- <ThemeToggler /> -->
-        <div
+        <!-- <div
           class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
           @click="settingsState = 'Language'"
         >
@@ -70,8 +71,9 @@
             {{ currentLanguage }}
             <img :src="arrow_right" />
           </div>
-        </div>
+        </div> -->
         <div
+        v-if="currentVersion === 'pro'"
           class="d-flex justify-content-between align-items-center settings_text text-black dark:!text-white"
           @click="settingsState = 'Currency'"
         >

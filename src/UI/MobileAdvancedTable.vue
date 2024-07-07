@@ -24,14 +24,14 @@
               flex-wrap: wrap;
             "
           >
-            <div
+            <!-- <div
               class="pool_type text-white"
               :class="
                 pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
               "
             >
               {{ pool['LiquidityType'] === 'CL' ? 'CLP' : 'WLP' }}
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -312,7 +312,7 @@
             </div>
             <div
               v-else
-              class="details-el__title d-flex gap-1 align-items-center green w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
+              class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
             >
               {{ $t('weighted_pool') }}
               <div class="details-el__circle"></div>
@@ -389,7 +389,7 @@
         </div>
           <div class="details-el__col">
             <div
-              :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'green'"
+              :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'blue'"
               class="details-el__title d-flex gap-1 align-items-center w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
             >
               {{ $t('liquidity_added') }}

@@ -755,7 +755,12 @@ const chartOptions1 = computed(() => {
         },
       },
     },
-
+    colors: ['#00e0ff'],
+    stroke: {
+      show: true,
+      width: 0,
+      colors: ['#00e0ff'],
+    },
     tooltip: {
       theme: false,
       y: {
@@ -769,96 +774,96 @@ const chartOptions1 = computed(() => {
     },
   }
 })
-const chartOptionsCLPool1 = computed(() => {
-  return {
-    ...tradesOptions.value,
-    dataLabels: {
-      enabled: false,
-    },
-    chart: {
-      height: 250,
-      offsetY: 15,
-      stacked: true,
-      type: 'bar',
-      toolbar: {
-        show: false,
-      },
-    },
-    colors: ['#46FF7A', '#FF9946'],
-    plotOptions: {
-      bar: {
-        horizontal: false,
-      },
-    },
-    xaxis: {
-      // categories: tradesTimestamps.value[tradeRangeOption.value],
-      categories: [
-        '0.998401',
-        '0.998091',
-        '0.9994',
-        '0.9999',
-        '1.0004',
-        '1.0009',
-        '1.001401',
-        '1.003401',
-      ],
-      axisTicks: {
-        show: false,
-      },
-      tooltip: {
-        enabled: false,
-      },
-      labels: {
-        show: true,
-        hideOverlappingLabels: true,
-        rotate: 0,
-        style: {
-          colors: '#777',
-          fontSize: '10px',
-          fontWeight: 400,
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        show: false,
-        rotate: 0,
-        rotateAlys: false,
-        hideOverlappingLabels: true,
-        style: {
-          colors: '#777',
-          fontSize: '10px',
-          fontWeight: 400,
-        },
-      },
-    },
-    legend: {
-      position: 'top',
-      horizontalAlign: 'right',
-      labels: {
-        colors: '#777',
-      },
-      fontSize: '10px',
+// const chartOptionsCLPool1 = computed(() => {
+//   return {
+//     ...tradesOptions.value,
+//     dataLabels: {
+//       enabled: false,
+//     },
+//     chart: {
+//       height: 250,
+//       offsetY: 15,
+//       stacked: true,
+//       type: 'bar',
+//       toolbar: {
+//         show: false,
+//       },
+//     },
+//     colors: ['#46FF7A', '#FF9946'],
+//     plotOptions: {
+//       bar: {
+//         horizontal: false,
+//       },
+//     },
+//     xaxis: {
+//       // categories: tradesTimestamps.value[tradeRangeOption.value],
+//       categories: [
+//         '0.998401',
+//         '0.998091',
+//         '0.9994',
+//         '0.9999',
+//         '1.0004',
+//         '1.0009',
+//         '1.001401',
+//         '1.003401',
+//       ],
+//       axisTicks: {
+//         show: false,
+//       },
+//       tooltip: {
+//         enabled: false,
+//       },
+//       labels: {
+//         show: true,
+//         hideOverlappingLabels: true,
+//         rotate: 0,
+//         style: {
+//           colors: '#777',
+//           fontSize: '10px',
+//           fontWeight: 400,
+//         },
+//       },
+//     },
+//     yaxis: {
+//       labels: {
+//         show: false,
+//         rotate: 0,
+//         rotateAlys: false,
+//         hideOverlappingLabels: true,
+//         style: {
+//           colors: '#777',
+//           fontSize: '10px',
+//           fontWeight: 400,
+//         },
+//       },
+//     },
+//     legend: {
+//       position: 'top',
+//       horizontalAlign: 'right',
+//       labels: {
+//         colors: '#777',
+//       },
+//       fontSize: '10px',
 
-      markers: {
-        width: 10,
-        height: 10,
-        radius: 100,
-      },
-    },
-    tooltip: {
-      theme: false,
-      y: {
-        formatter: (val, opt) => {
-          return `Amount: ${val} `
-        },
-      },
-    },
-    grid: {
-      show: false,
-    },
-  }
-})
+//       markers: {
+//         width: 10,
+//         height: 10,
+//         radius: 100,
+//       },
+//     },
+//     tooltip: {
+//       theme: false,
+//       y: {
+//         formatter: (val, opt) => {
+//           return `Amount: ${val} `
+//         },
+//       },
+//     },
+//     grid: {
+//       show: false,
+//     },
+//   }
+// })
 
 const chartOptions2 = computed(() => {
   return {
@@ -894,11 +899,11 @@ const chartOptions2 = computed(() => {
     dataLabels: {
       enabled: false,
     },
-    colors: ['#777'],
+    colors: ['#00e0ff'],
     stroke: {
       show: true,
       width: 0,
-      colors: ['#777'],
+      colors: ['#00e0ff'],
     },
     xaxis: {
       categories: profitsTimestamps.value[profitRangeOption.value],
@@ -956,9 +961,9 @@ const chartOptions2 = computed(() => {
             results[symbol] += item.value
           }
           for (const [key, value] of Object.entries(results)) {
-            result_str += `${key} <img src=${
-              getTokenEntity(key, 'short').icon
-            } width="10"/> ${formatBigNumber(value, 3)} <br>`
+            result_str += `<div style="display:flex; gap:5px">${key} 
+              <img src=${getTokenEntity(key, 'short').icon} width="20" height="20"/> 
+            ${formatBigNumber(value, 3)}</div> <br>`
           }
           return `<div style="margin-left:-60px;">${result_str}</div> <br> ${props.symbol}${val}`
         },

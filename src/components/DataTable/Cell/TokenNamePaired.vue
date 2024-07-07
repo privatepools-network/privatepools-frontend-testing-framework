@@ -26,7 +26,7 @@
       :title="tokenEntity.short"
     />
     <div class="flex items-center gap-1 pl-1" v-if="route.name === 'Portfolio' ">
-    <div class="pool_type text-white" :class="'pool_type_WP'">WLP</div>
+    <!-- <div class="pool_type text-white" :class="'pool_type_WP'">WLP</div> -->
    <!-- <div class="range_container"><span class="pulse_blue"></span> In range</div> --> 
   </div>
   </div>
@@ -87,7 +87,7 @@ const tokenEntities = computed(() => {
   margin-right: -2px;
 }
 .pair_avatars_manage_pool {
-  width: 32px;
+  width: 42px;
     background: white;
     border-radius: 100%;
     border: 2px solid white;

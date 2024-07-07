@@ -516,7 +516,7 @@ const visibleDetails = ref(false)
 
   .pair_avatars {
     @media (max-width: $xxl) {
-      width: 20px;
+      width: 35px;
     }
 
     &:not(:first-child) {

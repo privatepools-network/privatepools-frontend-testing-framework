@@ -158,49 +158,49 @@ const preFiltersList = ref([
     title: 'Gas Fees',
     code: 'Gas Fees',
     isSolo: true,
-    selected: currentVersion.value === 'pro' ? true : false,
+    selected: true,
     cumulable: true,
   },
   {
     title: 'Gas Fees',
     code: 'Gas Fees_ETH',
     isSolo: true,
-    selected: currentVersion.value === 'pro' ? true : false,
+    selected: true,
     cumulable: true,
   },
   {
     title: 'Gas Fees',
     code: 'Gas Fees_BTC',
     isSolo: true,
-    selected: currentVersion.value === 'pro' ? true : false,
+    selected: true,
     cumulable: true,
   },
   {
     title: 'Trades',
     code: 'Trades',
     isSolo: true,
-    selected: currentVersion.value === 'pro' ? true : false,
+    selected: true,
     cumulable: true,
   },
   {
     title: 'Volume',
     code: 'Volume',
     isSolo: true,
-    selected: currentVersion.value === 'pro' ? true : false,
+    selected: true,
     cumulable: true,
   },
   {
     title: 'Volume',
     code: 'Volume_ETH',
     isSolo: true,
-    selected: currentVersion.value === 'pro' ? true : false,
+    selected: true,
     cumulable: true,
   },
   {
     title: 'Volume',
     code: 'Volume_BTC',
     isSolo: true,
-    selected: currentVersion.value === 'pro' ? true : false,
+    selected: true,
     cumulable: true,
   },
  
@@ -348,6 +348,9 @@ const filters = ref(currentVersion.value === 'pro' ? {
   ['Impermanent Loss']: false,
 } : {
   TVL: true,
+  ['Gas Fees']: false,
+  ['Trades']: false,
+  Volume: false,
   ['Average APR']: false,
   ['Profits']: false,
 })
@@ -457,7 +460,13 @@ function legendSelectedChange(e) {
   }
 
   if (e.name === 'Revenue' || e.name === 'Profits') {
-    if (e.selected.Revenue === false && e.selected.Profits === false) {
+    if (
+      currentVersion.value === 'pro' ?
+      e.selected.Revenue === false &&
+      e.selected.Profits === false
+      : 
+      e.selected.Profits === false
+      ) {
       showRevenueProfits.value = false
     } else if (e.selected.Revenue === true || e.selected.Profits === true) {
       showRevenueProfits.value = true
@@ -474,9 +483,12 @@ function legendSelectedChange(e) {
 
   if (e.name === 'Average APR' || e.name === 'Volatility Index' || e.name === 'Impermanent Loss') {
     if (
+      currentVersion.value === 'pro' ?
       e.selected['Average APR'] === false &&
-      e.selected['Volatility Index'] === false&&
+      e.selected['Volatility Index'] === false &&
       e.selected['Impermanent Loss'] === false
+      :
+      e.selected['Average APR'] === false
     ) {
       showAPRVolatility.value = false
     } else if (
@@ -618,7 +630,7 @@ const optionObj = ref({
     yAxisInstance('Volume', width.value > 768 ? showVolume : false,  0, '#FA5173'),
     yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, currentVersion.value === 'pro' ? 60 : 0, '#01B47E'),
     yAxisInstance('Trades / Gas Fees', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance('APR / Volatility Index / Impermanent Loss', width.value > 768 ? showAPRVolatility : false, currentVersion.value === 'pro' ? 180 : 60, '#FFD700'),
+    yAxisInstance(currentVersion.value === 'pro' ? 'APR / Volatility Index / Impermanent Loss' : 'APR', width.value > 768 ? showAPRVolatility : false, currentVersion.value === 'pro' ? 180 : 60, '#FFD700'),
   ],
   grid: [
     {

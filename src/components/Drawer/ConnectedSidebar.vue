@@ -245,7 +245,16 @@
         </div>
       </div>
       <div v-else-if="sidebarTab === 'Pools'" class="h-100">
-        <div class="d-flex flex-column gap-2" v-if="addressPools.length > 0">
+        <div
+          class="flex justify-center items-center pt-24"
+          v-if="addressPools.length === 0"
+        >
+          <LoaderPulse />
+        </div>
+        <div
+          class="d-flex flex-column gap-2"
+          v-else-if="addressPools.length > 0"
+        >
           {{ console.log('addressPools', addressPools) }}
           <div
             v-for="(item, i) in addressPools"
@@ -398,123 +407,134 @@
         v-else-if="sidebarTab === 'Activity'"
         class="d-flex flex-column gap-2 overflow-auto activity_container"
       >
-        <div>
-          {{ console.log('addressActivity', addressActivity) }}
-          <div class="tab my-2" style="font-size: 12px">{{ $t('today') }}</div>
-          <div class="d-flex flex-column gap-2">
-            <a
-              :href="`${configService.getNetworkConfig(56).explorer}/tx/${
-                item.hash
-              }`"
-              target="_blank"
-              v-for="(item, i) in addressActivity.filter(
-                (el) => el.type == 'today',
-              )"
-              :key="`${i}-token`"
-              class="p-2 d-flex align-items-center justify-content-between gap-2"
-              style="text-decoration: none"
-            >
-              <div class="d-flex align-items-center gap-2">
-                <img :src="item.img" width="38" />
-                <div class="d-flex flex-column">
-                  <div class="text-black dark:!text-white text-[12px]">
-                    {{ item.label }}
-                  </div>
-                  <div class="text-black dark:!text-[#8e8e8e] text-[12px]">
-                    {{ item.desc }}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="d-flex flex-column align-items-end">
-                  <div
-                    class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
-                  >
-                    {{ item.time }}
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
+        <div
+          class="flex justify-center items-center pt-24"
+          v-if="addressActivity.length === 0"
+        >
+          <LoaderPulse />
         </div>
-        <div>
-          <div class="tab my-2" style="font-size: 12px">
-            {{ $t('this_week') }}
+        <div v-else>
+          <div>
+            {{ console.log('addressActivity', addressActivity) }}
+
+            <div class="tab my-2" style="font-size: 12px">
+              {{ $t('today') }}
+            </div>
+            <div class="d-flex flex-column gap-2">
+              <a
+                :href="`${configService.getNetworkConfig(56).explorer}/tx/${
+                  item.hash
+                }`"
+                target="_blank"
+                v-for="(item, i) in addressActivity.filter(
+                  (el) => el.type == 'today',
+                )"
+                :key="`${i}-token`"
+                class="p-2 d-flex align-items-center justify-content-between gap-2"
+                style="text-decoration: none"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <img :src="item.img" width="38" />
+                  <div class="d-flex flex-column">
+                    <div class="text-black dark:!text-white text-[12px]">
+                      {{ item.label }}
+                    </div>
+                    <div class="text-black dark:!text-[#8e8e8e] text-[12px]">
+                      {{ item.desc }}
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="d-flex flex-column align-items-end">
+                    <div
+                      class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
+                    >
+                      {{ item.time }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
-          <div class="d-flex flex-column gap-2">
-            <a
-              :href="`${configService.getNetworkConfig(56).explorer}/tx/${
-                item.hash
-              }`"
-              target="_blank"
-              v-for="(item, i) in addressActivity.filter(
-                (el) => el.type == 'week',
-              )"
-              :key="`${i}-token`"
-              class="p-2 d-flex align-items-center justify-content-between gap-2"
-              style="text-decoration: none"
-            >
-              <div class="d-flex align-items-center gap-2">
-                <img :src="item.img" width="38" />
-                <div class="d-flex flex-column">
-                  <div class="text-black dark:!text-white text-[12px]">
-                    {{ item.label }}
-                  </div>
-                  <div class="text-black dark:!text-[#8e8e8e] text-[10px]">
-                    {{ item.desc }}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="d-flex flex-column align-items-end">
-                  <div
-                    class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
-                  >
-                    {{ item.time }}
+          <div>
+            <div class="tab my-2" style="font-size: 12px">
+              {{ $t('this_week') }}
+            </div>
+            <div class="d-flex flex-column gap-2">
+              <a
+                :href="`${configService.getNetworkConfig(56).explorer}/tx/${
+                  item.hash
+                }`"
+                target="_blank"
+                v-for="(item, i) in addressActivity.filter(
+                  (el) => el.type == 'week',
+                )"
+                :key="`${i}-token`"
+                class="p-2 d-flex align-items-center justify-content-between gap-2"
+                style="text-decoration: none"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <img :src="item.img" width="38" />
+                  <div class="d-flex flex-column">
+                    <div class="text-black dark:!text-white text-[12px]">
+                      {{ item.label }}
+                    </div>
+                    <div class="text-black dark:!text-[#8e8e8e] text-[10px]">
+                      {{ item.desc }}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
+                <div>
+                  <div class="d-flex flex-column align-items-end">
+                    <div
+                      class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
+                    >
+                      {{ item.time }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
-        </div>
-        <div>
-          <div class="tab my-2" style="font-size: 12px">
-            {{ $t('this_month') }}
-          </div>
-          <div class="d-flex flex-column gap-2">
-            <a
-              v-for="(item, i) in addressActivity.filter(
-                (el) => el.type == 'month',
-              )"
-              :key="`${i}-token`"
-              target="_blank"
-              :href="`${configService.getNetworkConfig(56).explorer}/tx/${
-                item.hash
-              }`"
-              class="p-2 d-flex align-items-center justify-content-between gap-2"
-              style="text-decoration: none"
-            >
-              <div class="d-flex align-items-center gap-2">
-                <img :src="item.img" width="38" />
-                <div class="d-flex flex-column">
-                  <div class="text-black dark:!text-white text-[12px]">
-                    {{ item.label }}
-                  </div>
-                  <div class="text-black dark:!text-[#8e8e8e] text-[10px]">
-                    {{ item.desc }}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="d-flex flex-column align-items-end">
-                  <div
-                    class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
-                  >
-                    {{ item.time }}
+          <div>
+            <div class="tab my-2" style="font-size: 12px">
+              {{ $t('this_month') }}
+            </div>
+            <div class="d-flex flex-column gap-2">
+              <a
+                v-for="(item, i) in addressActivity.filter(
+                  (el) => el.type == 'month',
+                )"
+                :key="`${i}-token`"
+                target="_blank"
+                :href="`${configService.getNetworkConfig(56).explorer}/tx/${
+                  item.hash
+                }`"
+                class="p-2 d-flex align-items-center justify-content-between gap-2"
+                style="text-decoration: none"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <img :src="item.img" width="38" />
+                  <div class="d-flex flex-column">
+                    <div class="text-black dark:!text-white text-[12px]">
+                      {{ item.label }}
+                    </div>
+                    <div class="text-black dark:!text-[#8e8e8e] text-[10px]">
+                      {{ item.desc }}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
+                <div>
+                  <div class="d-flex flex-column align-items-end">
+                    <div
+                      class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
+                    >
+                      {{ item.time }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>

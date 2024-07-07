@@ -896,16 +896,16 @@ const optionObj = ref({
   ],
 })
 
-watch(props, () => {
-  console.log('props.selectedOverallTab', props.selectedOverallTab)
+// watch(props, () => {
+//   console.log('props.selectedOverallTab', props.selectedOverallTab)
 
-  // item.value = props.selectedOverallTab
-  if (chart.value) {
-    chart.value.setOption(optionObj.value, {
-      replaceMerge: ['series'],
-    })
-  }
-})
+//   // item.value = props.selectedOverallTab
+//   if (chart.value) {
+//     chart.value.setOption(optionObj.value, {
+//       replaceMerge: ['series'],
+//     })
+//   }
+// })
 
 const TimelineFilters = {
   // 'All-time': groupTimestampsByDayWithIndexes,

@@ -113,7 +113,6 @@ const filters = ref(currentVersion.value === 'pro' ? {
 } :
 {
   'Staked Liquidity': true,
-  PNL: false,
   'Average APR': false,
   Volume: false,
   'Trades': false,
@@ -144,21 +143,21 @@ const preFiltersList = ref([
   {
     title: 'PNL',
     code: 'PNL',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
   {
     title: 'PNL',
     code: 'PNL_ETH',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
   {
     title: 'PNL',
     code: 'PNL_BTC',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
@@ -441,7 +440,7 @@ function legendSelectedChange(e) {
   }
 
   if (e.name === 'PNL' || e.name === 'Trades') {
-    if (e.selected['PNL'] === false && e.selected.Trades === false) {
+    if (currentVersion.value === 'pro' ? e.selected['PNL'] === false && e.selected.Trades === false : e.selected.Trades === false) {
       showTradesGasFees.value = false
     } else if (e.selected['PNL'] === true || e.selected.Trades === true) {
       showTradesGasFees.value = true
@@ -450,8 +449,11 @@ function legendSelectedChange(e) {
 
   if (e.name === 'Average APR' || e.name === 'Rewards') {
     if (
+      currentVersion.value === 'pro' ? 
       e.selected['Average APR'] === false &&
       e.selected['Rewards'] === false
+      :
+      e.selected['Average APR'] === false
     ) {
       showAPRVolatility.value = false
     } else if (
@@ -581,8 +583,8 @@ const optionObj = ref({
     },
     yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
     yAxisInstance('Capital Gains / ROI', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
-    yAxisInstance('Trades / PNL', width.value > 768 ? showTradesGasFees : false, currentVersion.value === 'pro' ? 120 : 60 , '#77aaff'),
-    yAxisInstance('APR / Rewards', width.value > 768 ? showAPRVolatility : false, currentVersion.value === 'pro' ?  180 : 120, '#FFD700'),
+    yAxisInstance(currentVersion.value === 'pro' ? 'Trades / PNL' : 'Trades', width.value > 768 ? showTradesGasFees : false, currentVersion.value === 'pro' ? 120 : 60 , '#77aaff'),
+    yAxisInstance(currentVersion.value === 'pro' ? 'APR / Rewards' : 'APR', width.value > 768 ? showAPRVolatility : false, currentVersion.value === 'pro' ?  180 : 120, '#FFD700'),
   ],
   grid: [
     {

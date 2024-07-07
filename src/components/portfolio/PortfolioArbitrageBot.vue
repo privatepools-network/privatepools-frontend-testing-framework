@@ -36,7 +36,7 @@
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between"
                 v-for="pool in networks_data.breakdown" :key="pool.id">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif] flex items-center gap-1">{{ pool.id }}
-                  <div class="flex items-center gap-1"><img :src="computedTokenImage(token)" class="w-3 h-3"
+                  <div class="flex items-center gap-1 flex-wrap"><img :src="computedTokenImage(token)" class="w-3 h-3"
                       :key="`token-${i}`" v-for="token, i in pool.id.split('-')" /></div>
                 </div>
                 <div
