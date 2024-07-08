@@ -6,7 +6,7 @@ import { configService } from '@/services/config/config.service'
 import { networkId } from '../../useNetwork'
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import axios from 'axios'
-import { BACKEND_URL } from '../../pools/mappings'
+import { BACKEND_URL, REDUNDANT_BACKEND_URL } from '../../pools/mappings'
 
 export async function useZapper(
   pool,
@@ -151,12 +151,20 @@ const fetch1InchData = async (
       disableEstimate: true,
       compatibility: true,
     }
-
-    const baseUrl = `${BACKEND_URL[networkId.value]}`
-
-    const { data } = await axios.get(`${baseUrl}/1inch-swap`, {
-      params,
-    })
+    let data = null
+    try {
+      const baseUrl = `${BACKEND_URL[networkId.value]}`(
+        ({ data } = await axios.get(`${baseUrl}/1inch-swap`, {
+          params,
+        })),
+      )
+    } catch (e) {
+      const baseUrl = `${REDUNDANT_BACKEND_URL[networkId.value]}`(
+        ({ data } = await axios.get(`${baseUrl}/1inch-swap`, {
+          params,
+        })),
+      )
+    }
 
     return { data: data.tx.data, toAmount: data.toAmount }
   } catch (error) {

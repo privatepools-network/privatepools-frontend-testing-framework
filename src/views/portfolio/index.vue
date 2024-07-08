@@ -5,11 +5,12 @@
       <div class="portfolio mt-4">
         <PortfolioBalance :account="account" :performers="performers" :balanceUsd="balanceData.total ?? 0"
           :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0"
-          :rewardsData="rewardsData" />
+          :rewardsData="rewardsData['0x0000000000000000000000000000000000000000']" />
 
         <div class="portfolio-chart">
           <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
-            :tokensData="tokensData" :chainSelected="chainSelected.name" :rewardsData="rewardsData" />
+            :tokensData="tokensData" :chainSelected="chainSelected.name"
+            :rewardsData="rewardsData['0x0000000000000000000000000000000000000000']" />
         </div>
 
         <SectionsTabs :filterEye="true" style="margin-bottom: 44px" :tabsOptions="currentVersion === 'pro'
@@ -49,7 +50,8 @@
             {{ $t('investments') }}
           </div>
 
-          <InvestmentsTable :user_staked_pools="selectedInvestmentData" :all_pools="selectedInvestmentData" />
+          <InvestmentsTable :user_staked_pools="selectedInvestmentData" :all_pools="selectedInvestmentData"
+            :rewardsData="rewardsData" />
         </div>
 
         <div class="portfolio-table mt-5" v-if="activeTab == t('investments')">
@@ -95,12 +97,11 @@ import { GetActivePeriodsSwapsData } from '@/lib/formatter/portfolio/portfolioSw
 import { GetUserUniswapPools } from '@/composables/wallet/useWalletPools'
 import PortfolioBalance from '@/components/portfolio/PortfolioBalance.vue'
 import PrivatePoolsTable from '@/components/General/PrivatePoolsTable.vue'
-import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import {
   getPortfolioData,
   getPortfolioBalance,
 } from '@/composables/data/portfolioData'
-import { getRewards } from '@/composables/data/rewardsData'
+import { getPoolsRewards } from '@/composables/data/rewardsData'
 import { t } from 'i18next'
 import SectionsTabs from '@/UI/SectionsTabs'
 
@@ -483,7 +484,7 @@ onMounted(async () => {
     if (process.env.VUE_APP_LOCAL_API) {
       const [_portfolio, _rewards, _balance] = await Promise.all([
         getPortfolioData(56, account.value),
-        getRewards(account.value),
+        getPoolsRewards(account.value),
         getPortfolioBalance(56, account.value),
       ])
       portfolioData.value = _portfolio

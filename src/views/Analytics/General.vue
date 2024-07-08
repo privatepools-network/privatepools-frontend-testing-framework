@@ -40,10 +40,10 @@
     </div>
     {{ console.log('user_staked_pools!!!', user_staked_pools) }}
     <GeneralPerformanceTable :user_staked_pools="user_staked_pools" :all_pools="selectedTopPerformanceFilter === t('all')
-        ? allData?.topPerformancePools
-        : allData?.topPerformancePools?.filter(
-          (el) => el.LiquidityType === selectedTopPerformanceFilter,
-        )
+      ? allData?.topPerformancePools
+      : allData?.topPerformancePools?.filter(
+        (el) => el.LiquidityType === selectedTopPerformanceFilter,
+      )
       " :rewardsData="rewardsData" />
     <div class="mt-5 mb-3 title text-black dark:!text-white">
       {{ $t('top_trading_tokens') }}
@@ -690,9 +690,14 @@ onBeforeMount(async () => {
     generalOverviewLoader.value = false
     // historicalPrices.value = await GetHistoricalTokenPrices(allData.value.topTradingTokens.map((item) => item.symbol), true, 500, currency.value)
     console.log(allData.value)
+    await initStakedPools()
   }
 })
 watch(networkId, async () => {
+  await initStakedPools();
+})
+
+async function initStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
     if (mmProvider) {
@@ -701,7 +706,7 @@ watch(networkId, async () => {
       user_staked_pools.value = await useWalletPools(address, 56, false)
     }
   }
-})
+}
 
 watch(currency, async () => {
   allPoolsTableData.value = []

@@ -11,7 +11,7 @@ export async function getStatus() {
     const response = await axios.get(
       `${process.env.VUE_APP_REDUNDANT_REWARDS_BACKEND_BINANCE}/status`,
     )
-    return response.data.status
+    return response.data.success
   } catch (e) {
     return false
   }
