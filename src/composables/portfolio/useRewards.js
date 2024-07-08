@@ -22,6 +22,7 @@ export async function claimRewards(rewards) {
         rewards.rewards.proofs,
         rewards.rewards.value[1],
         rewards.rewards.value[2],
+        rewards.rewards.value[3],
       )
       let receipt = await tx.wait()
       console.log('CLAIMED - ', receipt)

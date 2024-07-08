@@ -415,6 +415,34 @@
               </div>
             </div>
           </div> -->
+          <div class="details-el__col">
+            <div
+              class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
+            >
+              {{ $t('Compounder') }}
+              <div class="details-el__circle"></div>
+            </div>
+
+            <div
+              class="d-flex align-items-end justify-content-between mt-4 gap-3"
+            >
+              <div class="d-flex flex-column gap-2">
+                <div class="text-[18px] font-[700]">$253.45</div>
+              </div>
+              <div
+                class="actions_button text-black dark:!text-white"
+                @click="
+                     $emit('goToPoolCompound', {
+                        index,
+                        onMountedActivity: 'compound',
+                      })
+                    
+                "
+              >
+                {{ $t('Compound') }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </CCollapse>

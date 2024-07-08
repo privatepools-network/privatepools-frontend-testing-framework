@@ -498,6 +498,7 @@ const tradeTokens = ref([])
 const tradeDatas = ref([])
 const fromAmounts = ref([])
 const toAmounts = ref([])
+const amounts = ref([])
 
 const pool = ref(null)
 const approveStep = ref(0)
@@ -629,6 +630,7 @@ async function zapperModalOpen() {
     oneInchDescs,
     fromAmounts: amountsIn,
     toAmounts: amountsOut,
+    amounts: amountsForLPT,
   } = await useTrades(
     pool.value,
     zapToken.value.address,
@@ -640,6 +642,7 @@ async function zapperModalOpen() {
   tradeTokens.value = oneInchDescs
   fromAmounts.value = amountsIn
   toAmounts.value = amountsOut
+  amounts.value = amountsForLPT
 
   isZapperModalOpen.value = true
 }
@@ -649,6 +652,7 @@ async function onAcceptTrade() {
     pool.value,
     zapToken.value.address,
     zapToken.value.value,
+    amounts.value,
     tradeDatas.value,
     tradeTokens.value,
   )

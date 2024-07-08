@@ -129,7 +129,10 @@ export default class CalculatorService {
       ratios.forEach((ratio, i) => {
         if (i !== index || type !== types[ratioType]) {
           const tokenAddress = this.tokenOf(types[ratioType], i)
-          const token = lowercaseKeys(this.allTokens.value)[tokenAddress]
+          let token = lowercaseKeys(this.allTokens.value)[tokenAddress]
+          if (token.length) {
+            token = token[0]
+          }
           amounts[types[ratioType]][i] = formatUnits(
             fixedDenormAmount.mul(ratio).div(fixedRatio),
             token.decimals,

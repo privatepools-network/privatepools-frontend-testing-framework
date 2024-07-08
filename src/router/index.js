@@ -72,6 +72,11 @@ const routes = [
         name: 'Pool Withdraw',
         component: () => import('@/views/Pools/Withdraw.vue'),
       },
+      {
+        path: '/pools/:id/:chainSelected/compound',
+        name: 'Pool Compound',
+        component: () => import('@/views/Pools/Compound.vue'),
+      },
 
       {
         path: '/referrals',
@@ -82,6 +87,11 @@ const routes = [
         path: '/buy',
         name: 'Buy',
         component: () => import('@/views/Buy.vue'),
+      },
+      {
+        path: '/protocol_disclaimer',
+        name: 'Protocol Disclaimer',
+        component: () => import('@/views/ProtocolDisclaimer.vue'),
       },
       // {
       //   path: '/portfolio/investments/details/:id',
