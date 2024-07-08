@@ -418,7 +418,7 @@
         </div>
       </div>
     </div>
-    <div class="stats_column_charts" style="gap: 30px">
+    <!-- <div class="stats_column_charts" style="gap: 30px">
       <div class="stats_column_inside">
         <div class="d-flex align-items-center justify-content-between dark:!bg-[#02031C] !bg-[white] p-2">
           <div class="d-flex align-items-center gap-2">
@@ -537,7 +537,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup>

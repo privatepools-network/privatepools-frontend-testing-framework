@@ -338,21 +338,22 @@ function changeTimeline(tl) {
 
 const filters = ref(currentVersion.value === 'pro' ? {
   TVL: true,
-  ['Average APR']: false,
-  ['Profits']: false,
+  ['Average APR']: true,
+  ['Profits']: true,
+  ['Trades']: true,
   Revenue: false,
   ['Gas Fees']: false,
-  ['Trades']: false,
   Volume: false,
   ['Volatility Index']: false,
   ['Impermanent Loss']: false,
 } : {
   TVL: true,
+  ['Trades']: true,
+  ['Average APR']: true,
+  ['Profits']: true,
   ['Gas Fees']: false,
-  ['Trades']: false,
   Volume: false,
-  ['Average APR']: false,
-  ['Profits']: false,
+
 })
 
 // const yAxisOffset = ref({
@@ -362,12 +363,12 @@ const filters = ref(currentVersion.value === 'pro' ? {
 //   APRVolatility: 180,
 // })
 
-const currentGridToRight = ref(40)
+const currentGridToRight = ref(currentVersion.value === 'pro' ? 240 : 180)
 
 const showVolume = ref(false)
-const showRevenueProfits = ref(false)
-const showTradesGasFees = ref(false)
-const showAPRVolatility = ref(false)
+const showRevenueProfits = ref(true)
+const showTradesGasFees = ref(true)
+const showAPRVolatility = ref(true)
 
 function yAxisInstance(name, show, offset, color) {
   return {

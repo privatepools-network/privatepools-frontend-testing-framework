@@ -168,7 +168,7 @@ watch(address, () => {
 
 .bug_button {
   height: 100%;
-  padding: 8px;
+  padding: 5px;
 
   border: 1px solid #2abdff;
 

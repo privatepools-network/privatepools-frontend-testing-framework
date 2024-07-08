@@ -13,7 +13,7 @@
       <div v-else-if="
         dataRevenues.length > 0 && selectedOverallTab === t('overall_view')
       " class="chart_inside">
-        <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
+        <ChartTimeline :chartData="filteredData" :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
           @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
         <img :src="logo" alt="D3" class="chart-logo" height="40px" />
         <VChart ref="chart" class="chart mt-4" :option="optionObj" @legendselectchanged="legendSelectedChange"
@@ -428,12 +428,12 @@ const preFiltersList = computed(() =>
 console.log('currentVersion', currentVersion.value)
 const filters = ref(currentVersion.value === 'pro' ? {
   TVL: true,
+  ['Average APR']: true,
+  ['Profits']: true,
+  ['Trades']: true,
   Revenue: false,
   ['Gas Fees']: false,
-  ['Trades']: false,
   Volume: false,
-  ['Average APR']: false,
-  ['Profits']: false,
   ['Capital Gains']: false,
   ['Volatility Index']: false,
   ['Impermanent Loss']: false,
@@ -446,12 +446,13 @@ const filters = ref(currentVersion.value === 'pro' ? {
 } :
 {
   TVL: true,
+  ['Average APR']: true,
+  ['Profits']: true,
+  ['Trades']: true,
   Revenue: false,
   ['Gas Fees']: false,
-  ['Trades']: false,
   Volume: false,
-  ['Average APR']: false,
-  ['Profits']: false,
+
 }
 )
 // const assets = computed(() =>
@@ -567,12 +568,12 @@ const convertFromNumber = (str) => {
   return result
 }
 
-const currentGridToRight = ref(40)
+const currentGridToRight = ref(240)
 
 const showVolume = ref(false)
-const showRevenueProfits = ref(false)
-const showTradesGasFees = ref(false)
-const showAPRVolatility = ref(false)
+const showRevenueProfits = ref(true)
+const showTradesGasFees = ref(true)
+const showAPRVolatility = ref(true)
 
 function yAxisInstance(name, show, offset, color) {
   return {

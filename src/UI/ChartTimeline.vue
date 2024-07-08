@@ -2,7 +2,7 @@
   <div class="timeline_container">
     <div class="flex items-center gap-2">
       <VTooltip :distance="0" :placement="'left'">
-        <div style="cursor: help">
+        <div style="cursor: help" v-if="$router.currentRoute.value.path.includes('/pool') && chartData.every(obj => obj.Trades === 0)">
           <svg
             width="16"
             height="16"
@@ -57,7 +57,7 @@
 </template>
 <script setup>
 import { defineProps, defineEmits } from 'vue'
-defineProps(['isCumulativeMode', 'currentTimeline', 'timelines'])
+defineProps(['isCumulativeMode', 'currentTimeline', 'timelines', 'chartData'])
 const emit = defineEmits(['changeTimeline', 'changeCumulativeMode'])
 </script>
 <style lang="scss" scoped>

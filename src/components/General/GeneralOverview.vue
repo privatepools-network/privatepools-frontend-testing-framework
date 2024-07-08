@@ -131,11 +131,11 @@
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 
 import { CChart } from '@coreui/vue-chartjs'
-import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
+import PPNTVL from '@/assets/icons/generalIcons/PPNTVL.svg'
 import totalUsers from '@/assets/icons/generalIcons/totalUsers.svg'
 import DepositedLiquidity from '@/assets/icons/generalIcons/DepositedLiquidity.svg'
 import FeesIcon from '@/assets/icons/generalIcons/Fees.svg'
-import RealizedProfit from '@/assets/icons/generalIcons/realizedProfit.svg'
+// import RealizedProfit from '@/assets/icons/generalIcons/realizedProfit.svg'
 import TotalProfitsIcon from '@/assets/icons/generalIcons/TotalProfits.svg'
 import averageAPRIcon from '@/assets/icons/generalIcons/averageAPR.svg'
 import totalVolumeIcon from '@/assets/icons/generalIcons/totalVolume.svg'
@@ -179,10 +179,10 @@ const bigContainerMock = computed(() =>
         percentage: props.overview.APRPercentage,
       },
       {
-        icon: d3logo,
-        name: 'PPN TVL',
+        icon: PPNTVL,
+        name: 'Total Trades',
         value: props.overview[`PPNTVL${postfix.value}`] ?? 0,
-        description: `PPN ${t('price')}`,
+        description: `24h Trades`,
         value_2: props.overview[`PPNPrice${postfix.value}`] ?? 0,
         chartLabels: props.overview.ppnChart.timestamps,
         chartData: props.overview.ppnChart.data,
@@ -217,11 +217,11 @@ const smallContainerMock = computed(() =>
       },
       {
         icon: FeesIcon,
-        name: `24H ${t('trades')}`,
+        name: `Gas Fees`,
         value: props.overview.trades24H,
       },
       {
-        icon: RealizedProfit,
+        icon: totalVolumeIcon,
         name: `24H ${t('volume')}`,
         value: props.overview[`volume24H${postfix.value}`],
       },
