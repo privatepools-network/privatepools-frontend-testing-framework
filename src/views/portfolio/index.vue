@@ -14,28 +14,28 @@
         </div>
 
         <SectionsTabs :filterEye="true" style="margin-bottom: 44px" :tabsOptions="currentVersion === 'pro'
-            ? [
-              t('investments'),
-              t('financial_statement'),
-              t('statistics'),
-              // 'Pairs & Tokens',
-            ]
-            : [t('investments')]
+          ? [
+            t('investments'),
+            t('financial_statement'),
+            t('statistics'),
+            // 'Pairs & Tokens',
+          ]
+          : [t('investments')]
           " :selectedTab="activeTab" @changeTab="changeActiveTab" />
 
         <div class="portfolio-statistics" v-if="activeTab == t('statistics')">
           <PortfolioStatistics :historical_tvl="historical_tvl" :tokensData="portfolioData && portfolioData.pools
-              ? portfolioData.pools.flatMap((p) =>
-                p.tokens.map((t) => ({
-                  ...t,
-                  Blockchain: chainSelected.name,
-                })),
-              )
-              : []
+            ? portfolioData.pools.flatMap((p) =>
+              p.tokens.map((t) => ({
+                ...t,
+                Blockchain: chainSelected.name,
+              })),
+            )
+            : []
             " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :chartData="portfolioData.chart"
             :historicalPrices="historicalPrices" :userFirstTimestamp="historical_tvl.length > 0
-                ? historical_tvl[historical_tvl.length - 1].timestamp * 1000
-                : Date.now()
+              ? historical_tvl[historical_tvl.length - 1].timestamp * 1000
+              : Date.now()
               " :tokenPairs="chainPairs" :statistics="portfolioData.statistics">
           </PortfolioStatistics>
         </div>
@@ -460,6 +460,9 @@ onMounted(async () => {
   if (window.ethereum !== undefined) {
     let provider = new ethers.providers.Web3Provider(window.ethereum)
     networksSupported.value = await provider.getNetwork()
+    window.ethereum.on('accountsChanged', async function (accounts) {
+      await InitPortfolio();
+    })
   }
 
   if (
@@ -478,6 +481,11 @@ onMounted(async () => {
   ) {
     NetworkUnsupported.value = true
   }
+  await InitPortfolio();
+  //await InitInvestments()
+})
+
+async function InitPortfolio() {
   const mmProvider = await InitializeMetamask()
   if (mmProvider) {
     account.value = await mmProvider.getSigner().getAddress() //await mmProvider.getSigner().getAddress()//'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54'//
@@ -495,8 +503,8 @@ onMounted(async () => {
       console.log('PORTFOLIO DATA - ', portfolioData.value)
     }
   }
-  //await InitInvestments()
-})
+}
+
 </script>
 <style lang="scss">
 @import '@/styles/_variables.scss';

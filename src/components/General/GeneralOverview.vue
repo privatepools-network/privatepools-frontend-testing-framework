@@ -181,9 +181,9 @@ const bigContainerMock = computed(() =>
       {
         icon: PPNTVL,
         name: 'Total Trades',
-        value: props.overview[`PPNTVL${postfix.value}`] ?? 0,
+        value: props.overview.totalTrades ?? 0,
         description: `24h Trades`,
-        value_2: props.overview[`PPNPrice${postfix.value}`] ?? 0,
+        value_2: props.overview.trades24H ?? 0,
         chartLabels: props.overview.ppnChart.timestamps,
         chartData: props.overview.ppnChart.data,
         percentage: props.overview.PPNPricePercentage ?? 0,
@@ -218,7 +218,7 @@ const smallContainerMock = computed(() =>
       {
         icon: FeesIcon,
         name: `Gas Fees`,
-        value: props.overview.trades24H,
+        value: props.overview[`totalGasFee${postfix.value}`],
       },
       {
         icon: totalVolumeIcon,
