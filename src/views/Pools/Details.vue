@@ -54,7 +54,8 @@
               />
             </svg>
           </div> -->
-          <div class="rewards_button" @click="claimRewards(rewardsData)">
+          {{ console.log('rewardsData', rewardsData) }}
+          <div class="rewards_button" :class="rewardsData?.formatted_rewards.length === 0 ? '!border-none !bg-gray-600 !drop-shadow-none' : ''" @click="rewardsData?.formatted_rewards.length === 0 ? '' : claimRewards(rewardsData)">
             {{ $t('rewards') }}
           </div>
         </div>

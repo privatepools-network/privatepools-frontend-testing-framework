@@ -7,9 +7,14 @@ import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
 import { formatNotificationDate } from '@/lib/utils'
 import { networkId } from '@/composables/useNetwork'
-
+import successSound from '@/assets/sounds/success_sound.mp3'
+import errorSound from '@/assets/sounds/error_sound.mp3'
 import 'vue3-toastify/dist/index.css'
+
 export async function claimRewards(rewards) {
+  const playSuccess = new Audio(successSound)
+  const playError = new Audio(errorSound)
+
   let ConfirmToastPending = null
   try {
     // DELETE LATER
@@ -48,7 +53,7 @@ export async function claimRewards(rewards) {
       let receipt = await tx.wait()
       console.log('CLAIMED - ', receipt)
       let conf = configService.getNetworkConfig(networkId.value)
-
+      playSuccess.play()
       toast.update(ConfirmToastPending, {
         render: Toast,
         data: {
@@ -93,6 +98,7 @@ export async function claimRewards(rewards) {
         closeOnClick: false,
       })
     }
+    playError.play()
     console.error(e)
   }
 }

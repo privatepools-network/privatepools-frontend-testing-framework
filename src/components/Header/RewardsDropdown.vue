@@ -155,7 +155,8 @@
         </div> -->
         <div
           class="rewards_button_dropdown"
-          @click="() => claimRewards(rewardsData)"
+          :class="totalRewards < 1.00 ? '!bg-gray-600 !drop-shadow-none' : ''"
+          @click="() => totalRewards < 1.00 ? '' : claimRewards(rewardsData)"
         >
           {{ $t('Claim rewards') }}
         </div>

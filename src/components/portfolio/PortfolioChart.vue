@@ -645,7 +645,7 @@ const optionObj = ref({
     yAxisInstance(
       currentVersion.value === 'pro' ? 'APR / Rewards' : 'APR',
       width.value > 768 ? showAPRVolatility : false,
-      currentVersion.value === 'pro' ? 180 : 120,
+      currentVersion.value === 'pro' ? 120 : 120,
       '#FFD700',
     ),
   ],

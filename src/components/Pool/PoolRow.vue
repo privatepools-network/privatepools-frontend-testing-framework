@@ -467,6 +467,7 @@
                   ${{ total_rewards.toFixed(5) }}
                 </div>
               </div>
+              {{ console.log('rewardsData[pool.address]', rewardsData[pool.address]) }}
               <div
                 v-if="rewardsData[pool.address] != null"
                 class="actions_button text-black dark:!text-[#00E0FF]"
