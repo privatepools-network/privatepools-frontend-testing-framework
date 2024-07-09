@@ -12,18 +12,47 @@ import ABI_ERC20 from '@/lib/abi/ERC20.json'
 
 const ppnAddr = '0xc687e90f6a0a7e01d3fd03df2aabcea7f323a845'
 const ppnBuyerAddress = '0x939EDCA8F050C1965082aF99ff1b53106E55682D'
-const ppnPoolId =
-  '0x6ed6da3cb4310efe95a315aacd934c5637d85407000200000000000000000009'
 
 export const usePPNInfo = () => {
   const tokens = ref([])
+  const ppnInfo = ref({
+    priceUsd: 0,
+    marketCap: 0,
+    totalVolume: 0,
+    circulatingSupply: 0,
+  })
 
   const chainId = toValue(networkId)
   const config = configService.getNetworkConfig(chainId)
   const provider = getJsonRpcProvider(chainId)
 
   const vault = new ethers.Contract(config.addresses.vault, ABI_Vault, provider)
-  const ppnBuyer = new ethers.Contract(ppnBuyerAddress, ABI_PPNBuyer, provider)
+
+  const fetchPPNInfo = async () => {
+    const query = `{
+      token(id: "${ppnAddr}") {
+        name
+        totalBalanceNotional
+        totalBalanceUSD
+        totalVolumeNotional
+        totalVolumeUSD
+        latestPrice {
+          priceUSD
+        }
+      }
+    }`
+
+    const data = await useGraphQLQuery(config.subgraph, query)
+
+    const marketInfo = {
+      priceUsd: data.token.latestPrice?.priceUSD || 0,
+      marketCap: data.token.totalBalanceUSD,
+      totalVolume: data.token.totalVolumeUSD,
+      circulatingSupply: data.token.totalBalanceNotional,
+    }
+
+    ppnInfo.value = marketInfo
+  }
 
   const fetchPPNPoolTokens = async () => {
     tokens.value = []
@@ -37,25 +66,23 @@ export const usePPNInfo = () => {
           name
           symbol
           decimals
+          balance
         }
       }
     }`
     const data = await useGraphQLQuery(config.subgraph, query)
 
-    if (data) {
-      data.pools.forEach((item) => {
-        tokens.value.concat(
-          item.tokens.filter((token) => token.address !== ppnAddr),
-        )
-      })
+    if (data && data.pools.length > 0) {
+      tokens.value = data.pools
     }
   }
 
-  const fetchAmountOut = async (token0, token1, amount) => {
-    const [tokenIn, tokenOut, amountIn] = [
+  const fetchAmountOut = async (token0, token1, amount, pool) => {
+    const [tokenIn, tokenOut, amountIn, poolId] = [
       toValue(token0),
       toValue(token1),
       toValue(amount),
+      toValue(pool),
     ]
 
     const amountoWei = ethers.utils.parseUnits(
@@ -64,7 +91,7 @@ export const usePPNInfo = () => {
     )
     const batchSwaps = [
       {
-        poolId: ppnPoolId,
+        poolId: poolId,
         assetInIndex: 0,
         assetOutIndex: 1,
         amount: amountoWei,
@@ -89,17 +116,16 @@ export const usePPNInfo = () => {
     return ethers.utils.formatUnits(delats[1].abs(), tokenOut.decimals)
   }
 
-  const approveToken = async (token, to, amount) => {
+  const approveToken = async (token, signer, to, amount) => {
     try {
-      const address = await provider.getSigner().getAddress()
-
       const tokenContract = new ethers.Contract(
         token.address,
         ABI_ERC20,
-        provider,
+        signer,
       )
 
-      const allowance = await tokenContract.allowance(address, to)
+      const wallet = await signer.getAddress()
+      const allowance = await tokenContract.allowance(wallet, to)
       if (allowance >= amount) return true
 
       const transaction = await tokenContract.approve(
@@ -114,19 +140,23 @@ export const usePPNInfo = () => {
     }
   }
 
-  const tradePPN = async (token0, token1, amount) => {
-    const [tokenIn, tokenOut, amountIn] = [
+  const tradePPN = async (token0, token1, amount, pool, signer) => {
+    const vault = new ethers.Contract(config.addresses.vault, ABI_Vault, signer)
+    const ppnBuyer = new ethers.Contract(ppnBuyerAddress, ABI_PPNBuyer, signer)
+
+    const [tokenIn, tokenOut, amountIn, poolId] = [
       toValue(token0),
       toValue(token1),
       toValue(amount),
+      toValue(pool),
     ]
 
-    if (await approveToken(tokenIn, ppnBuyerAddress, amountIn)) {
-      const wallet = await provider.getSigner().getAddress()
+    if (await approveToken(tokenIn, signer, ppnBuyerAddress, amountIn)) {
+      const wallet = await signer.getAddress()
 
       const batchSwaps = [
         {
-          poolId: ppnPoolId,
+          poolId: poolId,
           assetInIndex: 0,
           assetOutIndex: 1,
           amount: ethers.utils.parseUnits(amount.toString(), tokenIn.decimals),
@@ -171,5 +201,9 @@ export const usePPNInfo = () => {
     fetchPPNPoolTokens()
   })
 
-  return { tokens, fetchAmountOut }
+  watchEffect(() => {
+    fetchPPNInfo()
+  })
+
+  return { tokens, ppnInfo, fetchAmountOut, tradePPN }
 }
