@@ -796,6 +796,7 @@ onMounted(async () => {
   account.value = await (await InitializeMetamask()).getSigner().getAddress()
 })
 
+
 const createdPoolId = ref('')
 
 const poolCreationLink = ref('')
@@ -1111,7 +1112,22 @@ watch(activeStep, async () => {
       addresses,
     )
   }
+  if (activeStep.value === 3) {
+    // let addresses = tokensData.value.map((t) => t.address)
+    // await window.ethereum.request({
+    //   "method": "eth_subscribe",
+    //   "params": [
+    //     "logs",
+    //     { address: addresses, topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", null, account.value] }
+    //   ]
+    // });
+    // window.ethereum.on('message', handleBalanceChange)
+  }
 })
+
+async function handleBalanceChange(){
+  console.log("BALANCE CHANGED")
+}
 
 const MIN_USD_SWAP = 0.01
 const swaps = computed(() => {
