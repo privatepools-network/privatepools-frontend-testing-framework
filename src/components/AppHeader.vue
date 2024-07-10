@@ -878,7 +878,7 @@ const computedAddress = computed(() =>
 
 .vue-dropdown {
   // background: #171717;
-  background: linear-gradient(240.2deg, #00859a77, #02031C  65.42%);
+  background: linear-gradient(240.2deg, #007688, #02031C  65.42%);
 
   border: 1px solid #222222c9;
 

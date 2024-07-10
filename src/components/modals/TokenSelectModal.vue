@@ -64,7 +64,8 @@
           </div>
         </div>
       </div>
-
+      {{ console.log('filteredPossibleTokens', filteredPossibleTokens) }}
+      {{ console.log('filterName', filterName) }}
       <div class="mt-3 tokens_container">
         <div
           class="flex items-center justify-center h-full"
@@ -74,7 +75,7 @@
         </div>
         <div
           v-else
-          v-for="(token, index) in filteredPossibleTokens"
+          v-for="(token, index) in filterName === '' ? filteredPossibleTokens.filter((el) => el.img !== '') : filteredPossibleTokens"
           :key="`tokens-key-${index}`"
           class="flex items-center justify-between p-3 gap-3 token_card"
           @click="$emit('updateToken', token), $emit('close')"

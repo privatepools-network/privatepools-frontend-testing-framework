@@ -287,7 +287,7 @@ const dataTrades = computed(() => {
     return filteredData.value.map((v) => v['Trades'])
   return []
 })
-
+console.log('filteredData!!!', filteredData)
 const dataAvgApr = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Average APR').selected)
     return filteredData.value.map((v) => v['Average APR'])
@@ -761,7 +761,12 @@ function getFilteredData() {
           }
         }
         if (filter_code == 'Average APR') {
-         
+        //   console.log('result_item[filter_code]', result_item[filter_code])
+        //  if(result_item[filter_code] === undefined) {
+        //   result_item[filter_code] = 0
+        //  }else {
+        //   result_item[filter_code] = result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
+        //  }
           result_item[filter_code] = result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
 
         }
