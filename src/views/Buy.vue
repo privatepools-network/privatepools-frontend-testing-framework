@@ -1,11 +1,20 @@
 <template>
   <MainCard>
-    <TokenSelectModal
-      :is-open="isTokenSelectModalOpen"
-      :possible-tokens="possibleTokens"
+    <Modal
+      v-if="isTokenSelectModalOpen"
       @close="isTokenSelectModalOpen = false"
-      @updateToken="onTokenSelect"
-    />
+      size="lg"
+    >
+      <template #body>
+        <TokenSelectModal
+          :tokenSelectModal="isTokenSelectModalOpen"
+          @tokenSelectModalClose="isTokenSelectModalOpen = false"
+          :pairIndex="pairIndex"
+          @updateToken="onTokenSelect"
+          :possibleComposeTokens="possibleTokens"
+        />
+      </template>
+    </Modal>
 
     <div class="buy_container">
       <HowToBuyPPNTokens />
@@ -80,7 +89,7 @@
                   />
                 </div>
                 <div
-                  @click="isTokenSelectModalOpen = true"
+                  @click="onTokenSelectModalOpen"
                   class="d-flex flex-column gap-2"
                 >
                   <div style="color: #7d7d7d; font-size: 12px">
@@ -306,11 +315,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
-import { Token } from '@uniswap/sdk-core'
-import { SwapType } from '@wavelength/sdk'
+import { ref, onMounted, computed } from 'vue'
 
 import MainCard from '@/UI/MainCard.vue'
+import Modal from '@/UI/Modal.vue'
 import ChartTimeline from '@/UI/ChartTimeline.vue'
 import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
 import HowToBuyPPNTokens from '@/components/Buy/HowToBuyPPNTokens.vue'
@@ -465,12 +473,24 @@ const selectedTab = ref('Buy')
 
 const isTokenSelectModalOpen = ref(false)
 
+const pairIndex = ref(1)
+
 const isTrading = ref(false)
 
 const { tokens: possibleTokens } = useFetchTokens(56)
 const { tokens: ppnTokens, ppnInfo, fetchAmountOut, tradePPN } = usePPNInfo()
 
-function onTokenSelect(token) {
+function onTokenSelectModalOpen() {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+
+  isTokenSelectModalOpen.value = true
+}
+
+function onTokenSelect(token, index) {
   const pool = ppnTokens.value.find((pool) =>
     pool.tokens.some((item) => item.address === token.address),
   )
@@ -478,6 +498,7 @@ function onTokenSelect(token) {
     ppnPool.value = pool.id
     tokenCurrency.value = token
     isTokenSelectModalOpen.value = false
+    pairIndex.value = index
   } else {
     isTokenSelectModalOpen.value = true
     notify('error', 'Wrong Token', 'There is not a pool for the token')
