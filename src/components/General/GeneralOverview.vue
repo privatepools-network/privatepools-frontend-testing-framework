@@ -265,7 +265,7 @@ const smallContainerMock = computed(() =>
         },
         {
           icon: FeesIcon,
-          name: `Gas Fees`,
+          name: `Total Gas Fees`,
           value: props.overview[`totalGasFee${postfix.value}`],
         },
         {
