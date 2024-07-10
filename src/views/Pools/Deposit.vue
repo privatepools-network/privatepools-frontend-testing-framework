@@ -13,12 +13,23 @@
       @on-accept-trade="onAcceptTrade"
     />
 
-    <TokenSelectModal
-      :is-open="isTokenSelectModalOpen"
-      :possible-tokens="possibleTokens"
+    <Modal
+      v-if="isTokenSelectModalOpen"
       @close="isTokenSelectModalOpen = false"
-      @update-token="(token) => (zapToken = token)"
-    />
+      size="lg"
+    >
+      <template #body>
+        <TokenSelectModal
+          :tokenSelectModal="isTokenSelectModalOpen"
+          @tokenSelectModalClose="isTokenSelectModalOpen = false"
+          :pairIndex="pairIndex"
+          @updateToken="
+            (token, index) => ((zapToken = token), (pairIndex = index))
+          "
+          :possibleComposeTokens="possibleTokens"
+        />
+      </template>
+    </Modal>
 
     <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
@@ -118,8 +129,8 @@
                     class="d-flex justify-content-between align-items-center"
                   >
                     <div
-                      @click="() => tokenSelectModalOpen()"
-                      class="d-flex flex-column gap-2"
+                      @click="onTokenSelectModalOpen"
+                      class="d-flex flex-column gap-2 cursor-pointer"
                     >
                       <div
                         class="text-[14px] mb-0 dark:!text-white text-black flex items-center gap-1"
@@ -469,6 +480,7 @@ import 'vue3-toastify/dist/index.css'
 import MainCard from '@/UI/MainCard.vue'
 import CurrencySelector from '@/UI/CurrencySelector.vue'
 import Toast from '@/UI/Toast.vue'
+import Modal from '@/UI/Modal.vue'
 import ZapperModal from '@/components/modals/ZapperModal.vue'
 import DepositModalV2 from '@/components/modals/DepositModalV2.vue'
 import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
@@ -527,6 +539,7 @@ const visibleDepositModal = ref(false)
 const poolId = router.currentRoute.value.params['id']
 
 const isTokenSelectModalOpen = ref(false)
+const pairIndex = ref(1)
 
 const lastTokenPrices = computed(
   () => allLastTokenPrices.value[currencySelected.value.code],
@@ -622,15 +635,6 @@ const { priceImpact, fullAmounts, bptOut } = useInvestFormMath(
   true,
 )
 
-function tokenSelectModalOpen() {
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'smooth',
-  })
-  isTokenSelectModalOpen.value = true
-}
-
 async function zapperModalOpen() {
   const {
     oneInchDatas,
@@ -656,6 +660,7 @@ async function zapperModalOpen() {
     left: 0,
     behavior: 'smooth',
   })
+
   isZapperModalOpen.value = true
 }
 
@@ -668,6 +673,16 @@ async function onAcceptTrade() {
     tradeDatas.value,
     tradeTokens.value,
   )
+}
+
+function onTokenSelectModalOpen() {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+
+  isTokenSelectModalOpen.value = true
 }
 
 const explode = async () => {

@@ -1,18 +1,21 @@
 <template>
-  <Modal v-if="tokenSelectModal" @close="tokenSelectModalClose" size="lg">
-    <template #body>
-      <TokenSelectModal
-        :tokenSelectModal="tokenSelectModal"
-        @tokenSelectModalClose="tokenSelectModalClose"
-        :pairIndex="pairIndex"
-        @updateToken="updateToken"
-        :possibleComposeTokens="notSelectedPossibleComposeTokens"
-        @addToken="onAddToken"
-      />
-    </template>
-  </Modal>
-
   <MainCard>
+    <Modal
+      v-if="isTokenSelectModalOpen"
+      @close="isTokenSelectModalOpen = false"
+      size="lg"
+    >
+      <template #body>
+        <TokenSelectModal
+          :tokenSelectModal="isTokenSelectModalOpen"
+          @tokenSelectModalClose="isTokenSelectModalOpen = false"
+          :pairIndex="pairIndex"
+          @updateToken="onTokenSelect"
+          :possibleComposeTokens="possibleTokens"
+        />
+      </template>
+    </Modal>
+
     <div class="buy_container">
       <HowToBuyPPNTokens />
 
@@ -86,7 +89,7 @@
                   />
                 </div>
                 <div
-                  @click="() => tokenSelectModalOpen()"
+                  @click="onTokenSelectModalOpen"
                   class="d-flex flex-column gap-2"
                 >
                   <div style="color: #7d7d7d; font-size: 12px">
@@ -107,22 +110,10 @@
                       :src="getTokenEntity(tokenCurrency.symbol, 'short').icon"
                       width="18"
                     />
-                    <span style="margin-left: 5px">{{
-                      tokenCurrency.symbol
-                    }}</span>
-                    <svg
-                      style="margin-left: 10px"
-                      width="9"
-                      height="6"
-                      viewBox="0 0 9 6"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8.36011 0.0750122V1.95001L4.61011 5.92501L0.860107 1.95001V0.0750122H8.36011Z"
-                        fill="#848E9C"
-                      />
-                    </svg>
+                    <span style="margin-left: 5px">
+                      {{ tokenCurrency.symbol }}
+                    </span>
+                    <img :src="ArrowDownIcon" />
                   </div>
                   <div
                     v-else
@@ -174,10 +165,10 @@
                   />
                 </div>
                 <div
-                  @click="() => tokenSelectModalOpen()"
+                  @click="isTokenSelectModalOpen = true"
                   class="d-flex flex-column gap-2"
                 >
-                  <div style="color: #7d7d7d; font-size: 12px">
+                  <div class="text-[#7d7d7d] text-[12px]">
                     {{ $t('balance') }}:
                     {{
                       selectedTab === 'Sell'
@@ -195,22 +186,10 @@
                       :src="getTokenEntity(tokenCurrency.symbol, 'short').icon"
                       width="18"
                     />
-                    <span style="margin-left: 5px">{{
-                      tokenCurrency.symbol
-                    }}</span>
-                    <svg
-                      style="margin-left: 10px"
-                      width="9"
-                      height="6"
-                      viewBox="0 0 9 6"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8.36011 0.0750122V1.95001L4.61011 5.92501L0.860107 1.95001V0.0750122H8.36011Z"
-                        fill="#848E9C"
-                      />
-                    </svg>
+                    <span style="margin-left: 5px">
+                      {{ tokenCurrency.symbol }}
+                    </span>
+                    <img :src="ArrowDownIcon" />
                   </div>
                   <div
                     v-else
@@ -221,9 +200,13 @@
                   </div>
                 </div>
               </div>
-              <div class="referrals_button" @click="buyClick()">
+              <button
+                class="referrals_button flex flex-row items-center justify-center gap-1"
+                @click="() => onBuyClick()"
+              >
                 {{ selectedTab === 'Sell' ? $t('sell') : $t('buy') }}
-              </div>
+                <span v-if="isTrading" class="button_loader ml-0"></span>
+              </button>
             </div>
           </div>
         </div>
@@ -247,7 +230,7 @@
             <ChartTimeline
               :currentTimeline="currentTimeline"
               :timelines="timelines"
-              @changeTimeline="changeTimeline"
+              @changeTimeline="(value) => (currentTimeline = value)"
             />
           </div>
           <div style="backdrop-filter: blur(10px)">
@@ -256,7 +239,7 @@
               height="350"
               :options="chartOptions"
               :series="series"
-            ></apexchart>
+            />
           </div>
         </div>
       </div>
@@ -278,20 +261,7 @@
                   class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1"
                 >
                   PPN {{ $t('price') }}
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C"
-                    />
-                  </svg>
+                  <img :src="InformationIcon" />
                 </div>
                 <div class="text-lg font-semibold dark:!text-white text-black">
                   ${{ ppnInfo.priceUsd }}
@@ -303,20 +273,7 @@
                   class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1"
                 >
                   {{ $t('market_cap') }}
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C"
-                    />
-                  </svg>
+                  <img :src="InformationIcon" />
                 </div>
                 <div class="text-lg font-semibold dark:!text-white text-black">
                   ${{ ppnInfo.marketCap }}
@@ -328,20 +285,7 @@
                   class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1"
                 >
                   {{ $t('volume') }}
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C"
-                    />
-                  </svg>
+                  <img :src="InformationIcon" />
                 </div>
                 <div class="text-lg font-semibold dark:!text-white text-black">
                   ${{ ppnInfo.totalVolume }}
@@ -353,20 +297,7 @@
                   class="text-[10px] dark:!text-[#b7bdc6] text-black flex items-center gap-1"
                 >
                   {{ $t('circulating_supply') }}
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M8 15.5C8.98491 15.5 9.96018 15.306 10.8701 14.9291C11.7801 14.5522 12.6069 13.9997 13.3033 13.3033C13.9997 12.6069 14.5522 11.7801 14.9291 10.8701C15.306 9.96018 15.5 8.98491 15.5 8C15.5 7.01509 15.306 6.03982 14.9291 5.12987C14.5522 4.21993 13.9997 3.39314 13.3033 2.6967C12.6069 2.00026 11.7801 1.44781 10.8701 1.0709C9.96018 0.693993 8.98491 0.5 8 0.5C6.01088 0.5 4.10322 1.29018 2.6967 2.6967C1.29018 4.10322 0.5 6.01088 0.5 8C0.5 9.98912 1.29018 11.8968 2.6967 13.3033C4.10322 14.7098 6.01088 15.5 8 15.5ZM6.95833 5.08333V3H9.04167V5.08333H6.95833ZM6.95833 13V7.16667H9.04167V13H6.95833Z"
-                      fill="#848E9C"
-                    />
-                  </svg>
+                  <img :src="InformationIcon" />
                 </div>
                 <div class="text-lg font-semibold dark:!text-white text-black">
                   {{ ppnInfo.circulatingSupply }}
@@ -384,32 +315,23 @@
 </template>
 
 <script setup>
-import Tabs from '@/UI/Tabs.vue'
-import { InitializeMetamask } from '@/lib/utils/metamask'
-import MainCard from '../UI/MainCard.vue'
 import { ref, onMounted, computed } from 'vue'
-import { getTokenEntity } from '@/lib/helpers/util'
-import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
-import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
-import ChartTimeline from '@/UI/ChartTimeline.vue'
-import HowToBuyPPNTokens from '@/components/Buy/HowToBuyPPNTokens.vue'
-import useBalance from '@/composables/useBalance'
-import useDecimals from '@/composables/useDecimals'
-import { Token } from '@uniswap/sdk-core'
-import {
-  GetCLPoolInfo,
-  quoteCL,
-  SwapCLTokens,
-} from '@/composables/poolActions/swap/cl/swap'
-import { useUniswapPPNHistory } from '@/composables/concentrated-liquidity/useUniswapPPNHistory'
+
+import MainCard from '@/UI/MainCard.vue'
 import Modal from '@/UI/Modal.vue'
-import {
-  swapPPNToken,
-  getAmountOut,
-} from '@/composables/poolActions/swap/weighted/swap'
-import { SwapType } from '@wavelength/sdk'
+import ChartTimeline from '@/UI/ChartTimeline.vue'
+import TokenSelectModal from '@/components/modals/TokenSelectModal.vue'
+import HowToBuyPPNTokens from '@/components/Buy/HowToBuyPPNTokens.vue'
+import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
+import ArrowDownIcon from '@/assets/icons/arrow/arrow_down.svg'
+import InformationIcon from '@/assets/icons/information.svg'
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import { getTokenEntity } from '@/lib/helpers/util'
 import { useVaultPPNHistory } from '@/composables/weighted/useVaultPPNHistory'
-import { usePPNInfo } from '@/composables/weighted/usePPNInfo'
+import { usePPNInfo } from '@/composables/ppn/usePPNInfo'
+import { useFetchTokens } from '@/composables/tokens/useFetchTokens'
+import useBalance from '@/composables/useBalance'
+import { notify } from '@/composables/notify'
 
 const tokenPPN = ref({
   address: '0xC687E90f6a0a7e01d3fd03df2aABCeA7f323A845',
@@ -417,12 +339,6 @@ const tokenPPN = ref({
   balance: 0,
   decimals: 18,
 })
-// const tokenPPN = ref({
-//   address: "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
-//   symbol: "DAI",
-//   balance: 0,
-//   decimals: 18
-// })
 const tokenCurrency = ref({
   address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
   symbol: 'WBNB',
@@ -430,39 +346,18 @@ const tokenCurrency = ref({
   decimals: 18,
 })
 
-const convertedTokenPPN = computed(
-  () =>
-    new Token(
-      56,
-      tokenPPN.value.address,
-      tokenPPN.value.decimals,
-      tokenPPN.value.symbol,
-      tokenPPN.value.symbol,
-    ),
-)
-const convertedTokenCurrency = computed(
-  () =>
-    new Token(
-      56,
-      tokenCurrency.value.address,
-      tokenCurrency.value.decimals,
-      tokenCurrency.value.symbol,
-      tokenCurrency.value.symbol,
-    ),
-)
-
 const token0Amount = ref(0)
 const token1Amount = ref(0)
 
-const poolInfo = ref(null)
+const token0InitialAmount = ref(0)
+const token1InitialAmount = ref(0)
+
 const chartData = ref(null)
 const priceChange = ref(0)
-const ppnInfo = ref({
-  priceUsd: 0,
-  marketCap: 0,
-  totalVolume: 0,
-  circulatingSupply: 0,
-})
+
+const ppnPool = ref(
+  '0x6ed6da3cb4310efe95a315aacd934c5637d85407000200000000000000000009',
+)
 
 const timelines = [
   {
@@ -480,10 +375,6 @@ const timelines = [
 ]
 
 const currentTimeline = ref(timelines[1])
-
-function changeTimeline(tl) {
-  currentTimeline.value = tl
-}
 
 const series = computed(() => [
   {
@@ -545,7 +436,6 @@ const chartOptions = computed(() => ({
     backgroundColor: 'rgba(89, 89, 89, 1), rgba(73, 73, 73, 0.45)',
     // eslint-disable-next-line
     custom({ series, dataPointIndex, w }) {
-      console.log(w)
       return (
         '<div style="backdrop-filter: blur(10px); background: linear-gradient(rgba(89, 89, 89, 1), rgba(73, 73, 73, 0.45)); color:white; padding: 10px;">' +
         '<div style="display:flex; flex-direction:column; font-size: clamp(10px, 0.8vw, 14px)">' +
@@ -581,87 +471,58 @@ const chartOptions = computed(() => ({
 
 const selectedTab = ref('Buy')
 
-// function changeSelectedTab(_new) {
-//   selectedTab.value = _new
-// }
+const isTokenSelectModalOpen = ref(false)
 
-const tokenSelectModal = ref(false)
-function tokenSelectModalClose() {
-  tokenSelectModal.value = false
-}
-function tokenSelectModalOpen() {
+const pairIndex = ref(1)
+
+const isTrading = ref(false)
+
+const { tokens: possibleTokens } = useFetchTokens(56)
+const { tokens: ppnTokens, ppnInfo, fetchAmountOut, tradePPN } = usePPNInfo()
+
+function onTokenSelectModalOpen() {
   window.scrollTo({
     top: 0,
     left: 0,
     behavior: 'smooth',
   })
-  tokenSelectModal.value = true
+
+  isTokenSelectModalOpen.value = true
 }
-const notSelectedPossibleComposeTokens = ref([])
 
-const address = ref(null)
-
-onMounted(async () => {
-  const provider = await InitializeMetamask()
-  if (provider) {
-    const signer = provider.getSigner()
-    address.value = await signer.getAddress()
-    const [balance0, balance1] = await Promise.all([
-      useBalance(tokenPPN.value.address, provider, address.value),
-      useBalance(tokenCurrency.value.address, provider, address.value),
-    ])
-    tokenPPN.value.balance = parseFloat(balance0)
-    tokenCurrency.value.balance = parseFloat(balance1)
-    const [decimals1, decimals2] = await Promise.all([
-      useDecimals(tokenPPN.value.address, signer),
-      useDecimals(tokenCurrency.value.address, signer),
-    ])
-    tokenPPN.value.decimals = decimals1
-    tokenCurrency.value.decimals = decimals2
-    // poolInfo.value = await GetCLPoolInfo(
-    //   convertedTokenPPN.value,
-    //   convertedTokenCurrency.value,
-    //   500,
-    //   signer,
-    // )
-  }
-  // chartData.value = await useUniswapPPNHistory(56)
-  chartData.value = await useVaultPPNHistory(56)
-  ppnInfo.value = await usePPNInfo()
-  // calcuate price change
-  const timelineData = chartData.value[currentTimeline.value.name].data
-  priceChange.value =
-    timelineData[timelineData.length - 2] === 0
-      ? timelineData[timelineData.length - 1] * 100
-      : ((timelineData[timelineData.length - 1] -
-          timelineData[timelineData.length - 2]) /
-          timelineData[timelineData.length - 2]) *
-        100
-  console.log('DATA - ', chartData.value)
-})
-
-async function buyClick() {
-  const provider = await InitializeMetamask()
-  if (provider) {
-    // await SwapCLTokens(
-    //   convertedTokenPPN.value,
-    //   convertedTokenCurrency.value,
-    //   poolInfo.value,
-    //   selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
-    //   provider.getSigner(),
-    //   selectedTab.value == 'Buy' ? 'in' : 'out',
-    // )
-    await swapPPNToken(
-      convertedTokenCurrency.value,
-      convertedTokenPPN.value,
-      selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
-      provider.getSigner(),
-    )
+function onTokenSelect(token, index) {
+  const pool = ppnTokens.value.find((pool) =>
+    pool.tokens.some((item) => item.address === token.address),
+  )
+  if (pool) {
+    ppnPool.value = pool.id
+    tokenCurrency.value = token
+    isTokenSelectModalOpen.value = false
+    pairIndex.value = index
+  } else {
+    isTokenSelectModalOpen.value = true
+    notify('error', 'Wrong Token', 'There is not a pool for the token')
   }
 }
 
-const token0InitialAmount = ref(0)
-const token1InitialAmount = ref(0)
+async function onBuyClick() {
+  const provider = await InitializeMetamask()
+  if (token1InitialAmount.value == token1Amount.value || !provider) {
+    return
+  }
+  if (isTrading.value) return
+
+  isTrading.value = true
+  const signer = provider.getSigner()
+  await tradePPN(
+    tokenCurrency,
+    tokenPPN,
+    selectedTab.value == 'Buy' ? token0Amount.value : token1Amount.value,
+    ppnPool,
+    signer,
+  )
+  isTrading.value = false
+}
 
 function onToken0Focus() {
   token0InitialAmount.value = token0Amount.value
@@ -676,43 +537,53 @@ async function onToken0Blur() {
   if (token0InitialAmount.value == token0Amount.value || !provider) {
     return
   }
-  // const secondAmount = await quoteCL(
-  //   convertedTokenPPN.value,
-  //   convertedTokenCurrency.value,
-  //   poolInfo.value,
-  //   token0Amount.value,
-  //   'in',
-  // )
-  const secondAmount = await getAmountOut(
-    convertedTokenCurrency.value,
-    convertedTokenPPN.value,
-    token0Amount.value,
-    provider.getSigner(),
-    SwapType.SwapExactIn,
+
+  token1Amount.value = await fetchAmountOut(
+    tokenCurrency,
+    tokenPPN,
+    token0Amount,
+    ppnPool,
   )
-  token1Amount.value = secondAmount
 }
+
 async function onToken1Blur() {
   const provider = await InitializeMetamask()
   if (token1InitialAmount.value == token1Amount.value || !provider) {
     return
   }
-  // const secondAmount = await quoteCL(
-  //   convertedTokenPPN.value,
-  //   convertedTokenCurrency.value,
-  //   poolInfo.value,
-  //   token1Amount.value,
-  //   'out',
-  // )
-  const secondAmount = await getAmountOut(
-    convertedTokenCurrency.value,
-    convertedTokenPPN.value,
-    token1Amount.value,
-    provider.getSigner(),
-    SwapType.SwapExactOut,
+
+  token0Amount.value = await fetchAmountOut(
+    tokenPPN,
+    tokenCurrency,
+    token1Amount,
+    ppnPool,
   )
-  token0Amount.value = secondAmount
 }
+
+onMounted(async () => {
+  const provider = await InitializeMetamask()
+  if (provider) {
+    const signer = provider.getSigner()
+    const address = await signer.getAddress()
+    const [balance0, balance1] = await Promise.all([
+      useBalance(tokenPPN.value.address, provider, address),
+      useBalance(tokenCurrency.value.address, provider, address),
+    ])
+
+    tokenPPN.value.balance = parseFloat(balance0)
+    tokenCurrency.value.balance = parseFloat(balance1)
+  }
+  chartData.value = await useVaultPPNHistory(56)
+  // calcuate price change
+  const timelineData = chartData.value[currentTimeline.value.name].data
+  priceChange.value =
+    timelineData[timelineData.length - 2] === 0
+      ? timelineData[timelineData.length - 1] * 100
+      : ((timelineData[timelineData.length - 1] -
+          timelineData[timelineData.length - 2]) /
+          timelineData[timelineData.length - 2]) *
+        100
+})
 </script>
 <style lang="scss" scoped>
 @import '../styles/_variables.scss';
