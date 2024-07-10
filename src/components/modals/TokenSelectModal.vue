@@ -80,7 +80,7 @@
       class="flex items-center justify-between p-3 gap-3 token_card"
       @click="
         emit('updateToken', { ...token }, props.pairIndex),
-          emit('tokenSelectModalClose')
+        $router.currentRoute.value.path.includes('buy') ? '' : emit('tokenSelectModalClose')
       "
     >
       <div class="d-flex align-items-center">
