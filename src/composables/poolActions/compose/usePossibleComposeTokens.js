@@ -10,6 +10,7 @@ import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
 import { getTokensData } from '@/composables/data/tokensData'
 import { getPortfolioBalance } from '@/composables/data/portfolioData'
 import wl_tokens from '../../../assets/wl/tokenslist.json'
+import {ethers} from 'ethers'
 /**
  * Replace W char in token symbol (W stands for wrapped usually)
  * @function replaceFirstCharIfW
@@ -46,6 +47,9 @@ export async function GetPossibleComposeTokens(network, enablePrices = false) {
     t.img = icon
     t.balance = parseFloat(t.amount.toFixed(3))
     t.userBalance = t.amount
+    if (t.address == 'bsc') {
+      t.address = ethers.constants.AddressZero
+    }
   })
   const symbols = account_balances.tokens.map((item) => item.symbol)
   const wl_values = Object.entries(wl_tokens)

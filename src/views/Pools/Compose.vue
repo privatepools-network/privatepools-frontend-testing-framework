@@ -685,7 +685,7 @@ async function onAddTokenPriceSet() {
   tokensData.value.push({
     ...notSelectedPossibleComposeTokens.value[0],
     weight: 0,
-    price: tokensData.value[0].price > 0 ? tokensData.value[0].price : await getSinglePrice(tokensData.value[0].symbol)
+    price: notSelectedPossibleComposeTokens.value[0].price > 0 ? notSelectedPossibleComposeTokens.value[0].price : await getSinglePrice(notSelectedPossibleComposeTokens.value[0].symbol)
 
   })
 }
@@ -942,6 +942,10 @@ async function onStep1Click() {
   }
 }
 
+function checkBNBToken(symbol) {
+  return symbol == "BNB" ? "WBNB" : symbol
+}
+
 async function CreateNewPool() {
   let poolCreateService = new PoolCreatorService(networkId.value)
 
@@ -962,8 +966,8 @@ async function CreateNewPool() {
   account.value = await provider.getSigner().getAddress()
   let tx = await poolCreateService.createWeightedPool(
     provider,
-    tokensData.value.map((t) => `WLP-${t.weight}${t.symbol}`).join('-'),
-    tokensData.value.map((t) => `${t.weight}${t.symbol}`).join('-'),
+    tokensData.value.map((t) => `WLP-${t.weight}${checkBNBToken(t.symbol)}`).join('-'),
+    tokensData.value.map((t) => `${t.weight}${checkBNBToken(t.symbol)}`).join('-'),
     '0',
     tokensData.value,
   )
@@ -976,7 +980,7 @@ async function CreateNewPool() {
     poolCreationLink.value = `${configService.getNetworkConfig(networkId.value).explorer
       }/tx/${tx.hash}`
     lineNumbers.value = tokensData.value.map(() => 0)
-
+    console.log("CREATED POOL", _poolId)
     playSuccess.play()
     toast.update(CreateNewPoolPending, {
       render: Toast,
@@ -1113,20 +1117,31 @@ watch(activeStep, async () => {
     )
   }
   if (activeStep.value === 3) {
-    // let addresses = tokensData.value.map((t) => t.address)
-    // await window.ethereum.request({
-    //   "method": "eth_subscribe",
-    //   "params": [
-    //     "logs",
-    //     { address: addresses, topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", null, account.value] }
-    //   ]
-    // });
-    // window.ethereum.on('message', handleBalanceChange)
+    //let addresses = tokensData.value.map((t) => t.address)
+    let provider = await InitializeMetamask()
+    const topicSets = [
+      ethers.utils.id("Transfer(address,address,uint256)"),
+      null,
+      [
+        ethers.utils.hexZeroPad(account.value, 32), null
+      ],
+      [
+        null, ethers.utils.hexZeroPad(account.value, 32)
+      ]
+    ]
+    provider.on(topicSets, handleBalanceChange)
+
   }
 })
 
-async function handleBalanceChange(){
-  console.log("BALANCE CHANGED")
+async function handleBalanceChange() {
+  console.log("BALANCE CHANGE")
+  let provider = await InitializeMetamask()
+  for (let i = 0; i < tokensData.value.length; i++) {
+    let token_contract = new ethers.Contract(tokensData.value[i].address, erc20abi, provider)
+    const balance = await token_contract.balanceOf(account.value)
+    tokensData.value[i] = { ...tokensData.value[i], balance: ethers.utils.formatUnits(balance, tokensData.value[i].decimals) }
+  }
 }
 
 const MIN_USD_SWAP = 0.01

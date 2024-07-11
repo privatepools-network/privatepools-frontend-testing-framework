@@ -2,7 +2,7 @@ import axios from 'axios'
 export async function getStatus() {
   let lastStatusFetched = localStorage.getItem('lastStatusFetched')
   let lastStatus = localStorage.getItem('lastStatus')
-  if (lastStatusFetched && Date.now() - lastStatusFetched < 1000 * 60 * 5) {
+  if (lastStatusFetched && Date.now() - lastStatusFetched < 1000 * 60 * 10) {
     return lastStatus
   }
   const url = `${process.env.VUE_APP_STATUS_LINK}`

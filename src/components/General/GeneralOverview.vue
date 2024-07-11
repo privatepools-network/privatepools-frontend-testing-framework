@@ -1,13 +1,8 @@
 <template>
-  <div
-    class="flex md:gap-1 gap-4 justify-between md:overflow-hidden overflow-y-auto"
-  >
+  <div class="flex md:gap-1 gap-4 justify-between md:overflow-hidden overflow-y-auto">
     <div class="flex gap-4 lg:!w-[80%] w-auto">
-      <div
-        class="overview_big_container bg-[#FFFFFF24] dark:!bg-[#22222224]"
-        v-for="(item, i) in bigContainerMock"
-        :key="`${i}-big-container`"
-      >
+      <div class="overview_big_container bg-[#FFFFFF24] dark:!bg-[#22222224]" v-for="(item, i) in bigContainerMock"
+        :key="`${i}-big-container`">
         {{ console.log('generalOverviewLoader', generalOverviewLoader) }}
         <LoaderPulse v-if="generalOverviewLoader" />
         <div v-else>
@@ -20,9 +15,9 @@
                 {{
                   item.name.includes('APR')
                     ? `${parseFloat(item.value).toFixed(3)}%`
-                    : item.name.includes('Trades')
-                    ? parseFloat(item.value).toFixed(0)
-                    : parseFloat(item.value).toFixed(3)
+                    : item.name.includes('Total Trades')
+                      ? parseFloat(item.value).toFixed(0)
+                      : parseFloat(item.value).toFixed(3)
                 }}
               </div>
             </div>
@@ -35,41 +30,27 @@
             <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">
               {{ item.description }}
             </div>
-            <div
-              class="text_value text-black dark:!text-white flex items-center gap-1"
-            >
+            <div class="text_value text-black dark:!text-white flex items-center gap-1">
               {{
-                item.name.includes('APR')
+                item.description.includes('APR')
                   ? `${parseFloat(item.value_2).toFixed(3)}%`
-                  : item.name.includes('Trades')
-                  ? parseFloat(item.value).toFixed(0)
-                  : parseFloat(item.value_2).toFixed(3)
+                  : item.description.includes('24h Trades')
+                    ? parseFloat(item.value_2).toFixed(0)
+                    : parseFloat(item.value_2).toFixed(3)
               }}
               <div class="flex items-center text-[8px] text-[#8E8E8E]">
-                <svg
-                  :class="parseFloat(item.value_2) > 0 ? '' : 'rotate-180'"
-                  width="7"
-                  height="7"
-                  viewBox="0 0 7 7"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg :class="parseFloat(item.value_2) > 0 ? '' : 'rotate-180'" width="7" height="7" viewBox="0 0 7 7"
+                  fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_323_7059)">
                     <path
                       d="M5.443 3.82153C5.75076 4.35499 5.36579 5.02177 4.74993 5.02197L1.60356 5.02381C0.987104 5.0244 0.601444 4.35685 0.909706 3.82292L2.48448 1.09532C2.79275 0.561397 3.56369 0.561612 3.87141 1.09578L5.443 3.82153Z"
-                      :fill="
-                        parseFloat(item.value_2) > 0 ? '#40B66B' : '#D22B2B'
-                      "
-                    />
+                      :fill="parseFloat(item.value_2) > 0 ? '#40B66B' : '#D22B2B'
+                        " />
                   </g>
                   <defs>
                     <clipPath id="clip0_323_7059">
-                      <rect
-                        width="5.12436"
-                        height="5.12436"
-                        fill="white"
-                        transform="translate(4.43781 7) rotate(-150)"
-                      />
+                      <rect width="5.12436" height="5.12436" fill="white"
+                        transform="translate(4.43781 7) rotate(-150)" />
                     </clipPath>
                   </defs>
                 </svg>
@@ -79,15 +60,11 @@
           </div>
           <div class="mt-5 flex justify-center">
             {{ console.log('item', item) }}
-            <CChart
-              type="line"
-              style="
+            <CChart type="line" style="
                 height: 70px;
 
                 filter: drop-shadow(0 0 0.5rem #00c9ff);
-              "
-              class="lg:w-[12svw] w-full"
-              :data="{
+              " class="lg:w-[12svw] w-full" :data="{
                 // labels: moment
                 //   .unix(item.chartLabels * 1000)
                 //   .format('MMMM Do YYYY, h:mm:ss a'),
@@ -105,8 +82,7 @@
                     pointStyle: 'circle',
                   },
                 ],
-              }"
-              :options="{
+              }" :options="{
                 maintainAspectRatio: false,
                 responsive: true,
                 plugins: {
@@ -133,27 +109,21 @@
                     tension: 0.4,
                   },
                 },
-              }"
-            />
+              }" />
           </div>
         </div>
       </div>
     </div>
     <div class="flex gap-3 flex-col lg:w-[20%] w-full">
-      <div
-        class="overview_small_container bg-[#FFFFFF24] dark:!bg-[#22222224]"
-        v-for="(item, i) in smallContainerMock"
-        :key="`${i}-small`"
-      >
+      <div class="overview_small_container bg-[#FFFFFF24] dark:!bg-[#22222224]" v-for="(item, i) in smallContainerMock"
+        :key="`${i}-small`">
         <LoaderPulse v-if="generalOverviewLoader" />
         <div v-else class="flex justify-between items-center">
           <div>
             <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">
               {{ item.name }}
             </div>
-            <div
-              class="text_value flex items-center text-black dark:!text-white"
-            >
+            <div class="text_value flex items-center text-black dark:!text-white">
               <span>{{ item.name !== 'Total users' ? '$' : '' }}</span>
               {{
                 parseFloat(item.value)
@@ -202,78 +172,78 @@ const props = defineProps(['overview', 'generalOverviewLoader'])
 const bigContainerMock = computed(() =>
   props.overview
     ? [
-        {
-          icon: TotalProfitsIcon,
-          name: t('total_profits'),
-          value: props.overview[`totalProfits${postfix.value}`],
-          description: `24H ${t('profits')}`,
-          value_2: props.overview[`profits24H${postfix.value}`],
-          chartLabels: [0, 0, 0, 0, 0, 0, 0],
-          // chartLabels: props.overview.profitChart.timestamps,
-          // chartData: props.overview.profitChart.data,
-          chartData: [0, 0, 0, 0, 0, 0, 0],
-          percentage: props.overview.profitPercentage,
-        },
-        {
-          icon: averageAPRIcon,
-          name: `${t('average')} APR`,
-          value: props.overview.avgAPR,
-          description: '24H APR',
-          value_2: props.overview.APR24H,
-          chartLabels: props.overview.aprChart.timestamps,
-          chartData: props.overview.aprChart.data,
-          percentage: props.overview.APRPercentage,
-        },
-        {
-          icon: PPNTVL,
-          name: 'Total Trades',
-          value: props.overview.totalTrades ?? 0,
-          description: `24h Trades`,
-          value_2: props.overview.trades24H ?? 0,
-          chartLabels: props.overview.ppnChart.timestamps,
-          chartData: props.overview.ppnChart.data,
-          percentage: props.overview.PPNPricePercentage ?? 0,
-        },
-        {
-          icon: totalVolumeIcon,
-          name: 'Total Volume',
-          value: props.overview[`totalVolume${postfix.value}`],
-          description: `24h ${t('volume')}`,
-          value_2: props.overview[`volume24H${postfix.value}`],
-          // chartLabels: props.overview.volumeChart.timestamps,
-          chartLabels: [0, 0, 0, 0, 0, 0, 0],
-          // chartData: props.overview.volumeChart.data,
-          chartData: [0, 0, 0, 0, 0, 0, 0],
-          percentage: props.overview.volumePercentage,
-        },
-      ]
+      {
+        icon: TotalProfitsIcon,
+        name: t('total_profits'),
+        value: props.overview[`totalProfits${postfix.value}`],
+        description: `24H ${t('profits')}`,
+        value_2: props.overview[`profits24H${postfix.value}`],
+        chartLabels: [0, 0, 0, 0, 0, 0, 0],
+        // chartLabels: props.overview.profitChart.timestamps,
+        // chartData: props.overview.profitChart.data,
+        chartData: [0, 0, 0, 0, 0, 0, 0],
+        percentage: props.overview.profitPercentage,
+      },
+      {
+        icon: averageAPRIcon,
+        name: `${t('average')} APR`,
+        value: props.overview.avgAPR,
+        description: '24H APR',
+        value_2: props.overview.APR24H,
+        chartLabels: props.overview.aprChart.timestamps,
+        chartData: props.overview.aprChart.data,
+        percentage: props.overview.APRPercentage,
+      },
+      {
+        icon: PPNTVL,
+        name: 'Total Trades',
+        value: props.overview.totalTrades ?? 0,
+        description: `24h Trades`,
+        value_2: props.overview.trades24H ?? 0,
+        chartLabels: props.overview.ppnChart.timestamps,
+        chartData: props.overview.ppnChart.data,
+        percentage: props.overview.PPNPricePercentage ?? 0,
+      },
+      {
+        icon: totalVolumeIcon,
+        name: 'Total Volume',
+        value: props.overview[`totalVolume${postfix.value}`],
+        description: `24h ${t('volume')}`,
+        value_2: props.overview[`volume24H${postfix.value}`],
+        // chartLabels: props.overview.volumeChart.timestamps,
+        chartLabels: [0, 0, 0, 0, 0, 0, 0],
+        // chartData: props.overview.volumeChart.data,
+        chartData: [0, 0, 0, 0, 0, 0, 0],
+        percentage: props.overview.volumePercentage,
+      },
+    ]
     : [],
 )
 
 const smallContainerMock = computed(() =>
   props.overview
     ? [
-        {
-          icon: totalUsers,
-          name: t('total_users'),
-          value: props.overview.totalUsers,
-        },
-        {
-          icon: DepositedLiquidity,
-          name: 'TVL',
-          value: props.overview[`TVL${postfix.value}`],
-        },
-        {
-          icon: FeesIcon,
-          name: `Total Gas Fees`,
-          value: props.overview[`totalGasFee${postfix.value}`],
-        },
-        {
-          icon: totalVolumeIcon,
-          name: `24H ${t('volume')}`,
-          value: props.overview[`volume24H${postfix.value}`],
-        },
-      ]
+      {
+        icon: totalUsers,
+        name: t('total_users'),
+        value: props.overview.totalUsers,
+      },
+      {
+        icon: DepositedLiquidity,
+        name: 'TVL',
+        value: props.overview[`TVL${postfix.value}`],
+      },
+      {
+        icon: FeesIcon,
+        name: `Gas Fees`,
+        value: props.overview[`totalGasFee${postfix.value}`],
+      },
+      {
+        icon: totalVolumeIcon,
+        name: `24H ${t('volume')}`,
+        value: props.overview[`volume24H${postfix.value}`],
+      },
+    ]
     : [],
 )
 </script>
@@ -289,6 +259,7 @@ const smallContainerMock = computed(() =>
   @media (min-width: 1950px) {
     width: 10.5vw;
   }
+
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -306,6 +277,7 @@ const smallContainerMock = computed(() =>
   @media (min-width: 1950px) {
     width: 10.5vw;
   }
+
   @media (max-width: 768px) {
     width: 100%;
   }

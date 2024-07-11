@@ -176,7 +176,7 @@ import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import rewards_abi from '@/lib/abi/Rewards.json'
 import { claimRewards } from '@/composables/portfolio/useRewards'
 import { getUserPools } from '@/composables/data/portfolioData'
-import { getRewards } from '@/composables/data/rewardsData'
+import { getPoolsRewards } from '@/composables/data/rewardsData'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import { useDevice } from '@/composables/adaptive/useDevice'
@@ -221,9 +221,9 @@ onMounted(async () => {
   if (mmProvider) {
     const address = await mmProvider.getSigner().getAddress()
     userPools.value = await getUserPools(56, address)
-    rewardsData.value = await getRewards(address)
-    console.log('REWARDS - ', rewardsData.value.formatted_rewards)
-    rewards.value = rewardsData.value.formatted_rewards
+    rewardsData.value = await getPoolsRewards(address)
+    console.log('REWARDS - ', rewardsData.value)
+    rewards.value = Object.values(rewardsData.value).flatMap((item) => item.formatted_rewards)
   }
 })
 </script>
