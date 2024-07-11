@@ -211,40 +211,39 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-
 .liquidity_button {
   border-radius: 100px;
   font-size: 12px;
   font-weight: 700;
   line-height: 21px;
   font-family: 'Syne', sans-serif;
-  color: #02031C !important;
+  color: #02031c !important;
   width: 60vw;
   padding: 10px;
   text-align: center;
-  border: 1px solid #02031C;
-  
+  border: 1px solid #02031c;
+
   @media (min-width: 1950px) {
     width: 40vw;
   }
 
   &_LP {
-    background: #00E0FF;
+    background: #00e0ff;
     // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
 
     &:hover {
       cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #00E0FF);
+      filter: drop-shadow(0 0 0.4rem #00e0ff);
     }
   }
 
   &_WP {
-    background: #00E0FF;
+    background: #00e0ff;
     // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
 
     &:hover {
       cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #00E0FF);
+      filter: drop-shadow(0 0 0.4rem #00e0ff);
     }
   }
 }
@@ -387,9 +386,6 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-
-
-
 .tooltip_container {
   background: #02031c7e;
   backdrop-filter: blur(10px);
@@ -409,13 +405,71 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
+.terms_bg {
+  transition: opacity 0.3s ease-in-out 0s;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.terms_text {
+  @media (max-width:1600px) {
+    overflow: auto;
+    height: 48vh;
+  }
+  &::-webkit-scrollbar-track {
+    // -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 50px;
+    margin-left: 40px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 2px !important;
+    height: 6px !important;
+    border-radius: 50px;
+    padding: 50px;
+
+  }
+
+  &::-webkit-scrollbar-thumb {
+    // border: 2px solid #02120a;
+    padding: 1px;
+    background: #00C9FF;
+  }
+}
 
 .mobile_table_container {
-  background: #DCEEF605;
-  border: 1px solid #DCEEF633;
+  background: #dceef605;
+  border: 1px solid #dceef633;
   backdrop-filter: blur(10px);
   border-radius: 30px;
 }
+
+
+
+.signature_loader {
+  width: 148px;
+  height: 148px;
+  border: 2px solid #00c9ff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 
 
 //////////////////////////////////////!
 
@@ -1399,8 +1453,6 @@ body::-webkit-scrollbar-thumb {
     box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
   }
 }
-
-
 
 .pools-row {
   &_header {

@@ -178,8 +178,23 @@
         v-if="sidebarTab === 'Tokens'"
         class="flex flex-col gap-2 overflow-auto h-full activity_container"
       >
+      <div
+          class="flex justify-center items-center pt-24"
+          v-if="sidebarData?.userBalance?.tokens === null"
+        >
+          <LoaderPulse />
+        </div>
+      <div
+          v-else-if="sidebarData?.userBalance?.tokens.length === 0"
+          class="d-flex flex-column gap-2 justify-content-center align-items-center h-[100vh]"
+        >
+      
+          <div class="text-black dark:!text-white">
+            You don't have any tokens yet
+          </div>
+        </div>
         <div
-          v-if="sidebarData?.userBalance?.tokens != null"
+          v-else-if="sidebarData?.userBalance?.tokens != null"
           v-for="(item, i) in sidebarData?.userBalance?.tokens.filter(
             (item) => item.usdAmount !== 0 && item.symbol !== 'BOOM',
           )"
@@ -240,9 +255,7 @@
             </div>
           </div>
         </div>
-        <div v-else class="flex justify-center items-center pt-24">
-          <LoaderPulse />
-        </div>
+       
       </div>
       <div v-else-if="sidebarTab === 'Pools'" class="h-100">
         <div
@@ -409,13 +422,22 @@
       >
         <div
           class="flex justify-center items-center pt-24"
-          v-if="addressActivity.length === 0"
+          v-if="addressActivity === null"
         >
           <LoaderPulse />
         </div>
+        <div
+          v-else-if="addressActivity.length === 0"
+          class="d-flex flex-column gap-2 justify-content-center align-items-center h-[100vh]"
+        >
+      
+          <div class="text-black dark:!text-white">
+            {{ $t('No Activity yet') }}
+          </div>
+        </div>
         <div v-else>
           <div>
-            {{ console.log('addressActivity', addressActivity) }}
+            <!-- {{ console.log('addressActivity', addressActivity) }} -->
 
             <div class="tab my-2" style="font-size: 12px">
               {{ $t('today') }}
@@ -588,7 +610,7 @@ const sidebarData = ref({})
 
 const tokensOptions = ref([])
 const mockPools = ref([])
-const addressActivity = ref([])
+const addressActivity = ref(null)
 const addressPools = ref(null)
 
 const computedAddress = computed(() =>

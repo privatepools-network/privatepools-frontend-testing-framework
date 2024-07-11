@@ -58,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-5 flex justify-center">
+          <!-- <div class="mt-5 flex justify-center">
             {{ console.log('item', item) }}
             <CChart type="line" style="
                 height: 70px;
@@ -110,7 +110,7 @@
                   },
                 },
               }" />
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -233,16 +233,16 @@ const smallContainerMock = computed(() =>
         name: 'TVL',
         value: props.overview[`TVL${postfix.value}`],
       },
-      {
-        icon: FeesIcon,
-        name: `Gas Fees`,
-        value: props.overview[`totalGasFee${postfix.value}`],
-      },
-      {
-        icon: totalVolumeIcon,
-        name: `24H ${t('volume')}`,
-        value: props.overview[`volume24H${postfix.value}`],
-      },
+      // {
+      //   icon: FeesIcon,
+      //   name: `Gas Fees`,
+      //   value: props.overview[`totalGasFee${postfix.value}`],
+      // },
+      // {
+      //   icon: totalVolumeIcon,
+      //   name: `24H ${t('volume')}`,
+      //   value: props.overview[`volume24H${postfix.value}`],
+      // },
     ]
     : [],
 )
@@ -255,6 +255,7 @@ const smallContainerMock = computed(() =>
   padding: 20px 30px;
   width: 100%;
   box-shadow: 0px 4px 4px 0px #00000040;
+  margin-bottom: 5px;
 
   @media (min-width: 1950px) {
     width: 10.5vw;
@@ -269,11 +270,11 @@ const smallContainerMock = computed(() =>
   backdrop-filter: blur(10px);
   border: 1px solid #00e0ff61;
   border-radius: 30px;
-  padding: 10px 30px;
+  padding: 20px 30px;
   width: 100%;
   height: fit-content;
   box-shadow: 0px 4px 4px 0px #00000040;
-
+  margin-bottom: 5px;
   @media (min-width: 1950px) {
     width: 10.5vw;
   }

@@ -127,14 +127,14 @@
           </div>
         </div>
       </div>
-
-      <div v-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
+      <div v-if="all_pools.length === 0 && user_staked_pools === null" class="my-5">
+        <LoaderPulse />
+      </div>
+      <div v-else-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
         <div>{{ $t('no_results') }}</div>
         <div>{{ $t('choose_a_pool') }}</div>
       </div>
-      <div v-else-if="all_pools.length === 0" class="my-5">
-        <LoaderPulse />
-      </div>
+     
       {{ console.log('all_pools', all_pools) }}
       <PoolRow v-for="(pool, index) in all_pools
 
@@ -293,7 +293,7 @@ const poolSwapsData = ref([])
 const historicTvl = ref([])
 
 const pools = ref([])
-const user_staked_pools = ref([])
+const user_staked_pools = ref(null)
 const defaultPools = ref([])
 const cl_pools = ref([])
 const cl_snapshots = ref([])

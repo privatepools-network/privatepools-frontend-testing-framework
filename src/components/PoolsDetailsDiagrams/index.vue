@@ -267,7 +267,7 @@ class="tooltip_container"
                   {{ opt }}
                 </div>
               </div>
-              <div class="d-flex gap-2">
+              <!-- <div class="d-flex gap-2">
                 <div style="cursor: pointer" @click="tradesType = 'curve'">
                   <svg
                     width="15"
@@ -296,7 +296,7 @@ class="tooltip_container"
                     />
                   </svg>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
 
