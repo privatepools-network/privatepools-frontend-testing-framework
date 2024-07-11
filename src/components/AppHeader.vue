@@ -66,7 +66,7 @@
               fill="#9B9B9B" />
           </svg>
         </div>
-        <!-- <RewardsDropdown /> -->
+        <RewardsDropdown /> 
         <!-- <TokenDropdown /> -->
 
         <div v-if="width > 768" class="wallet_address  text-black dark:!text-white"
