@@ -264,7 +264,7 @@ const currencyDecimals = computed(() =>
 )
 const props = defineProps(['networks_data', 'chainSelected', 'rewardsData'])
 const { networks_data, chainSelected, rewardsData } = toRefs(props)
-const totalRewards = computed(() => rewardsData.value && rewardsData.value.formatted_rewards ? rewardsData.value.formatted_rewards.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value) : 0)
+const totalRewards = computed(() => rewardsData.value && rewardsData.value ? rewardsData.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value) : 0)
 const isNetworkDataReady = computed(
   () =>
     networks_data.value.length && networks_data.value.length > 0 &&

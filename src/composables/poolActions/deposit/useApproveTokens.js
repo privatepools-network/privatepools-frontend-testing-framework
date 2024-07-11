@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import ABI_ERC20 from '@/lib/abi/ERC20.json'
+import ABI_WBNB from '@/lib/abi/WBNB.json'
 import { configService } from '@/services/config/config.service'
 import { networkId } from '../../useNetwork'
 import { InitializeMetamask } from '@/lib/utils/metamask'
@@ -46,6 +47,28 @@ export async function useApproveTokens(
   let to_addr =
     depositMethod === 'zap' ? config.addresses.zapper : config.addresses.vault
   for (let i = 0; i < tokens.length; i++) {
+    if (tokens[i] == ethers.constants.AddressZero) {
+      const wbnb = new ethers.Contract(
+        '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+        ABI_WBNB,
+        provider.getSigner(),
+      )
+      try{
+
+        const tx = await wbnb.deposit({
+          value: rawAmount
+            ? amounts[i]
+            : ethers.utils.parseUnits(amounts[i].toFixed(18), 18),
+        })
+        console.log('DEPOSIT TO WBNB')
+        await tx.wait()
+        tokens[i] = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
+      }
+      catch(e){
+        console.error("ERROR DURING WBNB DEPOSIT")
+        return false
+      }
+    }
     const tokenContract = new ethers.Contract(
       tokens[i],
       ABI_ERC20,

@@ -7,7 +7,6 @@ import { InitializeMetamask } from '@/lib/utils/metamask'
 import { encodeJoinWeightedPool } from '@/lib/utils/balancer/weightedPoolEncoding'
 import { orderBy } from 'lodash'
 
-
 //Join Pool (bytes32, address, address, address[], uint256[], bytes, bool)
 
 /**
@@ -35,6 +34,16 @@ export async function useJoinPool(
     VaultAbi,
     provider.getSigner(),
   )
+  const bnbToken_index = tokens.findIndex(
+    (t) => t.address == ethers.constants.AddressZero,
+  )
+  if (bnbToken_index != -1) {
+    tokens[bnbToken_index] = {
+      ...tokens[bnbToken_index],
+      symbol: 'WBNB',
+      address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+    }
+  }
   tokens = tokens.map((t, i) => ({ ...t, amount: amounts[i] }))
   tokens = sortTokens(tokens)
   const addresses = tokens.map((t) => t.address)

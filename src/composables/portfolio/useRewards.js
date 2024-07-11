@@ -14,60 +14,72 @@ import 'vue3-toastify/dist/index.css'
 export async function claimRewards(rewards) {
   const playSuccess = new Audio(successSound)
   const playError = new Audio(errorSound)
-
   let ConfirmToastPending = null
   try {
-    // DELETE LATER
-    // await useAutoCompound({
-    //   '0x90924102c512f52ffa074f5ede35a72c5f0b43f9000100000000000000000001': {
-    //     '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c': '10000000000000000',
-    //   },
-    // })
+    if (!rewards.formatted_rewards) {
+      const zero_pool_rewards = rewards[ethers.constants.AddressZero]
+      if (zero_pool_rewards) {
+        rewards = [zero_pool_rewards]
+      } else {
+        rewards = Object.values(rewards)
+      }
+    } else {
+      rewards = [rewards]
+    }
+
     const mmProvider = await InitializeMetamask()
     if (mmProvider) {
-      ConfirmToastPending = toast.loading(Toast, {
-        data: {
-          header_text: 'Claim pending',
-          toast_text: `Claim confirming - ${formatNotificationDate(
-            new Date().getTime(),
-          )}`,
-          tx_link: '',
-          speedUp: '/',
-        },
-        position: toast.POSITION.TOP_RIGHT,
-        theme: 'dark',
-        closeOnClick: false,
-      })
       const rewardsContract = new ethers.Contract(
         process.env.VUE_APP_REWARDS_CONTRACT_BINANCE,
         rewards_abi,
         mmProvider.getSigner(),
       )
-      const value = rewards.rewards.proofs.proofs
-        ? rewards.rewards.proofs.value
-        : rewards.rewards.value
-      const proofs = rewards.rewards.proofs.proofs
-        ? rewards.rewards.proofs.proofs
-        : rewards.rewards.proofs
-      let tx = await rewardsContract.claim(proofs, value[1], value[2], value[3])
-      let receipt = await tx.wait()
-      console.log('CLAIMED - ', receipt)
-      let conf = configService.getNetworkConfig(networkId.value)
-      playSuccess.play()
-      toast.update(ConfirmToastPending, {
-        render: Toast,
-        data: {
-          header_text: 'Tokens successfully claimed',
-          toast_text: ``,
-          tx_link: `${conf.explorer}/tx/${tx.hash}`,
-          speedUp: '',
-        },
-        autoClose: 7000,
-        closeOnClick: false,
-        closeButton: false,
-        type: 'success',
-        isLoading: false,
-      })
+      for (let i = 0; i < rewards.length; i++) {
+        ConfirmToastPending = toast.loading(Toast, {
+          data: {
+            header_text: 'Claim pending',
+            toast_text: `Claim confirming - ${formatNotificationDate(
+              new Date().getTime(),
+            )}`,
+            tx_link: '',
+            speedUp: '/',
+          },
+          position: toast.POSITION.TOP_RIGHT,
+          theme: 'dark',
+          closeOnClick: false,
+        })
+
+        const value = rewards[i].rewards.proofs.proofs
+          ? rewards[i].rewards.proofs.value
+          : rewards[i].rewards.value
+        const proofs = rewards[i].rewards.proofs.proofs
+          ? rewards[i].rewards.proofs.proofs
+          : rewards[i].rewards.proofs
+        let tx = await rewardsContract.claim(
+          proofs,
+          value[1],
+          value[2],
+          value[3],
+        )
+        let receipt = await tx.wait()
+        console.log('CLAIMED - ', receipt)
+        let conf = configService.getNetworkConfig(networkId.value)
+        playSuccess.play()
+        toast.update(ConfirmToastPending, {
+          render: Toast,
+          data: {
+            header_text: 'Tokens successfully claimed',
+            toast_text: ``,
+            tx_link: `${conf.explorer}/tx/${tx.hash}`,
+            speedUp: '',
+          },
+          autoClose: 7000,
+          closeOnClick: false,
+          closeButton: false,
+          type: 'success',
+          isLoading: false,
+        })
+      }
     }
   } catch (e) {
     if (ConfirmToastPending) {

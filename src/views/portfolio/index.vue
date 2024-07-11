@@ -5,12 +5,12 @@
       <div class="portfolio mt-4">
         <PortfolioBalance :account="account" :performers="performers" :balanceUsd="balanceData.total ?? 0"
           :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0"
-          :rewardsData="rewardsData['0x0000000000000000000000000000000000000000']" />
+          :rewardsData="rewardsData ? Object.values(rewardsData).flatMap((item) => item.formatted_rewards): []" />
 
         <div class="portfolio-chart">
           <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
             :tokensData="tokensData" :chainSelected="chainSelected.name"
-            :rewardsData="rewardsData['0x0000000000000000000000000000000000000000']" />
+            :rewardsData="rewardsData ? Object.values(rewardsData).flatMap((item) => item.formatted_rewards) : []" />
         </div>
 
         <SectionsTabs :filterEye="true" style="margin-bottom: 44px" :tabsOptions="currentVersion === 'pro'
