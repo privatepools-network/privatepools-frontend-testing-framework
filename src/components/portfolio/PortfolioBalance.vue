@@ -206,7 +206,7 @@ const postfix_raw = computed(() => currentCurrency.value == "USD" ? "Usd" : `${c
 
 const props = defineProps(['account','performers', 'balanceUsd', 'balance_ETH', 'balance_BTC', 'rewardsData'])
 const { balanceUsd, rewardsData } = toRefs(props)
-const totalRewards = computed(() => rewardsData.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
+const totalRewards = computed(() => rewardsData.value.filter((item) => item.pool != "0x0000000000000000000000000000000000000000").reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
 const isBalanceHidden = ref(false)
 
 const currencyBalance = computed(() =>
