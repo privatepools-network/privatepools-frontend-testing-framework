@@ -206,7 +206,7 @@ const openRewardsDropdown = ref(false)
 const rewards = ref([])
 const rewardsData = ref({})
 const totalRewards = computed(() =>
-  rewards.value
+  rewards.value.filter((item) => item.pool != "0x0000000000000000000000000000000000000000")
     .reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0)
     .toFixed(currencyDecimals.value),
 )

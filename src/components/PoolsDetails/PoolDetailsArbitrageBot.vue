@@ -319,7 +319,7 @@ const {
   userBalance,
   rewardsData
 } = toRefs(props)
-const totalRewards = computed(() => rewardsData.value && rewardsData.value.formatted_rewards ? rewardsData.value.formatted_rewards.reduce((sum, value) => sum + value.rewardUsd, 0) : 0);
+const totalRewards = computed(() => rewardsData.value && rewardsData.value.formatted_rewards ? rewardsData.value.formatted_rewards.filter((item) => item.pool != "0x0000000000000000000000000000000000000000").reduce((sum, value) => sum + value.rewardUsd, 0) : 0);
 const currencyDecimals = computed(() =>
   currentCurrency.value == 'USD' ? 0 : 5,
 )
