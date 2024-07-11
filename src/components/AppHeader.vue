@@ -37,7 +37,24 @@
             <circle cx="16" cy="16" r="16" fill="#FF9B40" fill-opacity="0.2" />
             <circle cx="16" cy="16" r="6" fill="#FF9B40" />
           </svg> -->
-          <span class="pulse_orange"></span>
+          <VTooltip :distance="0" :placement="'top'">
+            <div style="cursor: help">
+              <span :class="status === null ? 'pulse_white' : status ? 'pulse_green' : 'pulse_orange'"></span>
+            </div>
+            <template #popper>
+              <div class="tooltip_container">
+                <div style="font-size: clamp(10px, 0.9vw, 16px)" class="flex items-center gap-2">
+                  {{ console.log('status', status) }}
+                  {{ $t('Trading engine Status') }} <span :class="status === null ? 'pulse_white' : status ? 'pulse_green' : 'pulse_orange'"></span>
+                </div>
+                <div class="tooltip_container_text mt-1">
+                  <p v-if="status">Everything is functioning normally. The trading engine is operational.</p>
+                  <p v-else>The trading engine is currently unavailable. We are aware of the issue and are actively
+                    working to restore service. We apologize for any inconvenience and appreciate your patience.</p>
+                </div>
+              </div>
+            </template>
+          </VTooltip>
           {{ $t('connect') }}
         </div>
       </div>
@@ -49,21 +66,22 @@
               fill="#9B9B9B" />
           </svg>
         </div>
-        <RewardsDropdown />
+        <!-- <RewardsDropdown /> -->
         <!-- <TokenDropdown /> -->
 
         <div v-if="width > 768" class="wallet_address  text-black dark:!text-white"
           @click="$emit('toggleSidebar')">
           <VTooltip :distance="0" :placement="'top'">
             <div style="cursor: help">
-              <span :class="status ? 'pulse_green' : 'pulse_orange'"></span>
+              <span :class="status === null ? 'pulse_white' : status ? 'pulse_green' : 'pulse_orange'"></span>
             </div>
             <template #popper>
               <div class="tooltip_container">
                 <div style="font-size: clamp(10px, 0.9vw, 16px)" class="flex items-center gap-2">
-                  {{ $t('Trading engine Status') }} <span :class="status ? 'pulse_green' : 'pulse_orange'"></span>
+                  {{ console.log('status', status) }}
+                  {{ $t('Trading engine Status') }} <span :class="status === null ? 'pulse_white' : status ? 'pulse_green' : 'pulse_orange'"></span>
                 </div>
-                <div class="tooltip_container_text">
+                <div class="tooltip_container_text mt-1">
                   <p v-if="status">Everything is functioning normally. The trading engine is operational.</p>
                   <p v-else>The trading engine is currently unavailable. We are aware of the issue and are actively
                     working to restore service. We apologize for any inconvenience and appreciate your patience.</p>
@@ -214,7 +232,7 @@ const networks = [
 ].filter((n) => n != undefined)
 
 const headRef = ref(null) // obtain the reference
-const status = ref(false);
+const status = ref(null);
 onMounted(async () => {
   window.addEventListener('scroll', () => {
     var curr = window.pageYOffset

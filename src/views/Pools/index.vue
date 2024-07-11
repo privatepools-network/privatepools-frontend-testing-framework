@@ -232,7 +232,7 @@ const { width } = useDevice()
 const sliceNumber = ref(10)
 
 const filterByTimeAPR = ref('24H')
-const filterByTimeVolume = ref('24H')
+const filterByTimeVolume = ref('30D')
 
 const ascendFilterBy = ref('TVL')
 
