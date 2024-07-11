@@ -131,7 +131,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('potential_weekly_yield') }}</div>
           <div class="d-flex gap-1 font-['Roboto_Mono',_monospace] text-[13px]">
-            %{{ parseFloat(weeklyYield).toFixed(2) }}
+            {{ parseFloat(weeklyYield).toFixed(2) }}%
           </div>
         </div>
       </div>

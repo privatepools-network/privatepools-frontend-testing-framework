@@ -83,10 +83,13 @@
           </div>
         </div>
       </div>
-      <!-- <div v-if="all_pools.length === 0" class="my-5">
+
+        {{ console.log('all_pools!!!', all_pools) }}
+      <div v-if="all_pools && all_pools.length === 0" class="my-5">
         <LoaderPulse />
-      </div> -->
-    <PoolRow v-if="all_pools && all_pools.length > 0" v-for="(pool, index) in all_pools
+      </div>
+ 
+    <PoolRow v-else-if="all_pools && all_pools.length > 0" v-for="(pool, index) in all_pools
       .slice(0, sliceNumber)
       .toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy])" :key="pool.name" :pool="pool"
       :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
@@ -176,12 +179,7 @@ const headers = [
 ]
 
 function goToPool(args) {
-  console.log('args', args)
-  console.log('all_pools!!!', props.all_pools)
-  console.log(
-    'props.all_pools.value[args.index].id',
-    props.all_pools[args.index].id,
-  )
+
   router.push({
     name: 'Pool Details',
     params: {
@@ -191,6 +189,95 @@ function goToPool(args) {
     },
   })
 }
+
+function goToPoolDeposit(args) {
+  if (props.all_pools[args.index].LiquidityType != 'CL') {
+    router.push({
+      name: 'Pool Deposit',
+      params: {
+        id: props.all_pools[args.index].id,
+        onMountedActivity: args.onMountedActivity,
+        chainSelected: DisplayChain[networkId.value],
+      },
+    })
+  } else {
+    router.push({
+      name: 'Concentrated liquidity',
+      query: {
+        tokens: props.all_pools[args.index].tokens.map((t) => t.id),
+        fee: props.all_pools[args.index].fee,
+      },
+    })
+  }
+}
+function goToPoolManage(args) {
+  console.log('args', args)
+  console.log('props.all_pools', props.all_pools)
+  console.log('props.DisplayChain[networkId.value]', DisplayChain[networkId.value])
+  if (props.all_pools[args.index].LiquidityType == 'WP') {
+    router.push({
+      name: 'Pool Deposit',
+      params: {
+        id: props.all_pools[args.index].id,
+        onMountedActivity: args.onMountedActivity,
+        chainSelected: DisplayChain[networkId.value],
+      },
+    })
+  } else {
+    router.push({
+      name: 'Concentrated liquidity Add',
+      params: {
+        onMountedActivity: 'deposit',
+        poolId: props.all_pools[args.index].id,
+      },
+    })
+  }
+}
+
+
+function goToPoolWithdraw(args) {
+  router.push({
+    name: 'Pool Withdraw',
+    params: {
+      id: props.all_pools[args.index].id,
+      onMountedActivity: args.onMountedActivity,
+      chainSelected: DisplayChain[networkId.value],
+    },
+  })
+}
+
+function goToPoolCompound(args) {
+  router.push({
+    name: 'Pool Compound',
+    params: {
+      id: props.all_pools[args.index].id,
+      onMountedActivity: args.onMountedActivity,
+      chainSelected: DisplayChain[networkId.value],
+    },
+  })
+}
+
+
+// function goToCLPool(args) {
+//   router.push({
+//     name: 'Pool CL Details',
+//     params: {
+//       id: props.all_pools[args.index].id,
+//       onMountedActivity: args.onMountedActivity,
+//       chainSelected: DisplayChain[networkId.value],
+//     },
+//   })
+// }
+
+// function goToCL(args) {
+//   router.push({
+//     name: 'Concentrated liquidity',
+//     query: {
+//       tokens: props.all_pools[args.index].tokens.map((t) => t.id),
+//       fee: props.all_pools[args.index].fee,
+//     },
+//   })
+// }
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';

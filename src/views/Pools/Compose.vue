@@ -408,8 +408,8 @@
                     "
                     :value="
                       lineNumbers[tokenIndex] > 0
-                        ? lineNumbers[tokenIndex] / 1000
-                        : lineNumbers[tokenIndex]
+                        ? (lineNumbers[tokenIndex] / 1000).toFixed(2)
+                        : lineNumbers[tokenIndex].toFixed(2)
                     "
                     @input="(e) => onTokenInput(e, tokenIndex)"
                     type="number"
