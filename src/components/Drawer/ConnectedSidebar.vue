@@ -247,7 +247,7 @@
       <div v-else-if="sidebarTab === 'Pools'" class="h-100">
         <div
           class="flex justify-center items-center pt-24"
-          v-if="addressPools.length === 0"
+          v-if="addressPools === null"
         >
           <LoaderPulse />
         </div>
@@ -370,7 +370,7 @@
           </div>
         </div>
         <div
-          v-else
+          v-else-if="addressPools.length === 0"
           class="d-flex flex-column gap-2 justify-content-center align-items-center h-100"
         >
           <svg
@@ -589,7 +589,7 @@ const sidebarData = ref({})
 const tokensOptions = ref([])
 const mockPools = ref([])
 const addressActivity = ref([])
-const addressPools = ref([])
+const addressPools = ref(null)
 
 const computedAddress = computed(() =>
   props.address

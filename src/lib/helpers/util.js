@@ -124,7 +124,7 @@ import GMRX from '@/assets/images/tokens/GMRX.png'
 import UNI from '@/assets/images/tokens/UNI.png'
 import NEAR from '@/assets/images/tokens/NEAR.png'
 import FTM from '@/assets/images/tokens/FTM.png'
-import BOOM from '@/assets/images/tokens/BOOM.png'
+import FDUSD from '@/assets/images/tokens/FDUSD.png'
 
 const tokenHT = [
   {
@@ -451,10 +451,10 @@ const tokenHT = [
     icon: FTM,
   },
   {
-    key: 'BOOM',
-    name: 'BOOM',
-    short: 'BOOM',
-    icon: BOOM,
+    key: 'FDUSD',
+    name: 'FDUSD',
+    short: 'FDUSD',
+    icon: FDUSD,
   },
 ]
 
