@@ -764,14 +764,13 @@
           </div>
         </div>
 
-        <div class="compose_chart dark:!bg-[#DCEEF605] bg-white">
+       <!-- Commenting out the pool summary box -->
+        <!-- <div class="compose_chart dark:!bg-[#DCEEF605] bg-white">
           <div class="compose_text dark:!text-white text-black">
             {{ $t('pool_summary') }}
           </div>
           <hr class="compose_hr" />
           <div class="chart_container">
-            <!-- <LoaderPulse v-if="data.series.length === 0" /> -->
-            {{ console.log('dynamicDonut.series', dynamicDonut.series[0]) }}
             <div v-if="dynamicDonut.series[0] !== 0">
               <apexchart
                 v-if="
@@ -800,12 +799,12 @@
                 <g>
                   <path
                     d="M146.838,484.584c10.271,10.395,23.804,15.6,37.347,15.6c13.329,0,26.667-5.046,36.897-15.155
-		c20.625-20.379,20.825-53.62,0.445-74.245l-41.688-42.191h423.78c88.963,0,161.34,72.376,161.34,161.339v4.32
-		c0,43.096-16.782,83.61-47.255,114.084c-20.503,20.502-20.503,53.744,0,74.246c10.251,10.251,23.688,15.377,37.123,15.377
-		c13.435,0,26.872-5.125,37.123-15.377c50.305-50.306,78.009-117.188,78.009-188.331v-4.32c0-71.142-27.704-138.026-78.009-188.331
-		c-50.306-50.305-117.189-78.009-188.331-78.009h-424.99l42.25-41.747c20.625-20.379,20.825-53.62,0.445-74.245
-		c-20.376-20.624-53.618-20.825-74.244-0.445L15.601,277.068c-9.905,9.787-15.517,23.107-15.6,37.03
-		c-0.084,13.924,5.367,27.31,15.154,37.215L146.838,484.584z"
+                    c20.625-20.379,20.825-53.62,0.445-74.245l-41.688-42.191h423.78c88.963,0,161.34,72.376,161.34,161.339v4.32
+                    c0,43.096-16.782,83.61-47.255,114.084c-20.503,20.502-20.503,53.744,0,74.246c10.251,10.251,23.688,15.377,37.123,15.377
+                    c13.435,0,26.872-5.125,37.123-15.377c50.305-50.306,78.009-117.188,78.009-188.331v-4.32c0-71.142-27.704-138.026-78.009-188.331
+                    c-50.306-50.305-117.189-78.009-188.331-78.009h-424.99l42.25-41.747c20.625-20.379,20.825-53.62,0.445-74.245
+                    c-20.376-20.624-53.618-20.825-74.244-0.445L15.601,277.068c-9.905,9.787-15.517,23.107-15.6,37.03
+                    c-0.084,13.924,5.367,27.31,15.154,37.215L146.838,484.584z"
                   />
                 </g>
               </svg>
@@ -819,7 +818,6 @@
               class="compose_text dark:!text-white text-black flex items-center gap-1"
             >
               {{ $t('in_your_wallet') }}
-
               <VTooltip :distance="0" :placement="'bottom'">
                 <img :src="info" class="info_icon" />
                 <template #popper>
@@ -846,7 +844,7 @@
               }}
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </MainCard>
@@ -1262,20 +1260,37 @@ async function onStep1Click() {
   }
 
   if (!isPoolReady.value) {
-    toast(Toast, {
-      closeOnClick: true,
-      theme: 'dark',
-      type: 'warning',
-      autoClose: 5000,
-      closeButton: true,
-      position: toast.POSITION.TOP_RIGHT,
-      data: {
-        header_text: 'Impossible to Create Pool!',
-        toast_text: 'Please add tokens and weights',
-        tx_link: '',
-        speedUp: '',
-      },
-    })
+    if (summarizedWeight.value !== 100) {
+      toast(Toast, {
+        closeOnClick: true,
+        theme: 'dark',
+        type: 'warning',
+        autoClose: 5000,
+        closeButton: true,
+        position: toast.POSITION.TOP_RIGHT,
+        data: {
+          header_text: 'Weights not summing to 100%',
+          toast_text: 'The weights of all tokens must sum to 100%',
+          tx_link: '',
+          speedUp: '',
+        },
+      })
+    } else {
+      toast(Toast, {
+        closeOnClick: true,
+        theme: 'dark',
+        type: 'warning',
+        autoClose: 5000,
+        closeButton: true,
+        position: toast.POSITION.TOP_RIGHT,
+        data: {
+          header_text: 'Impossible to Create Pool!',
+          toast_text: 'Please add tokens and weights',
+          tx_link: '',
+          speedUp: '',
+        },
+      })
+    }
   } else if (areWeightSmallerThanZero.value) {
     toast(Toast, {
       closeOnClick: true,
@@ -1695,16 +1710,17 @@ const dynamicDonut = computed(() => {
 
 <style lang="scss" scoped>
 .center_container {
-  // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  margin: 1% 10% 10% 10%;
+  margin: auto;
   padding: 2.5%;
   border-radius: 16px;
   backdrop-filter: blur(10px);
+  max-width: 900px;
 
   @media (max-width: 768px) {
     margin: 0%;
+    padding: 5%;
   }
 }
 

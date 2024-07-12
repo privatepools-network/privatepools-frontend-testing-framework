@@ -183,12 +183,12 @@
           class="details-el__col flex-column gap-3 font-['Syne',_sans-serif]"
         >
           {{ console.log('pool!!!', pool.tokens) }}
-          <div
+      <!--    <div
             class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]"
             @click="iterationByTokensForMetamask(pool.tokens)"
           >
             {{ $t('add') }} {{ lp_name }}
-          </div>
+          </div> -->
           <div
             class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]"
             @click="

@@ -90,7 +90,7 @@
             </li> -->
           </ul>
 
-          <div class="d-flex my-3 gap-2 sidemenu__line"></div>
+       <!--   <div class="d-flex my-3 gap-2 sidemenu__line"></div>
           <ul class="sidemenu__list">
             <li
               class="font-['Syne',_sans-serif] font-semibold text-lg text-white mb-1"
@@ -145,7 +145,7 @@
             </div>
           </a>
         </div>
-
+-->
           <!-- <div class="my-2 sidemenu__line"></div>
           <ul class="sidemenu__list">
             <li class="sidemenu__item">

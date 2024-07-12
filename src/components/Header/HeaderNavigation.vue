@@ -60,7 +60,7 @@
     </div>
 
   
-    <Dropdown :distance="10" v-if="width > 768">
+    <!-- <Dropdown :distance="10" v-if="width > 768">
       <div class="arrow_header">
         <svg
           width="9"
@@ -78,9 +78,10 @@
           />
         </svg>
       </div>
-      <template #popper>
+ <template #popper>
         <div class="popup bg-white dark:!bg-[#02031C]" style="width: 200px">
-          <!-- <div class="popup_headers">App</div>
+          
+         <div class="popup_headers">App</div>
           <a
             href="/general"
             :class="
@@ -110,7 +111,7 @@
             "
           >
             {{ $t('referrals') }}
-          </a> -->
+          </a> 
           <div class="popup_headers">Protocol</div>
           <a
             href="https://medium.com/@privatepoolnetwork"
@@ -158,8 +159,8 @@
             </a>
           </div>
         </div>
-      </template>
-    </Dropdown>
+      </template> 
+    </Dropdown>-->
 
     <!-- <div @click="router.push('/referrals')" :class="router.currentRoute.value.path === '/referrals'
           ? 'navigation_text_selected navigation_text'

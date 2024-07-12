@@ -115,10 +115,10 @@
     <CCollapse :visible="visibleDetails">
       <div class="details-el">
         <div class="details-el__col flex-column gap-3 font-['Syne',_sans-serif]">
-          <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]"
+          <!--<div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]"
             @click="addTokenToMetamask(pool.address, lp_name)">
             {{ $t('add') }} {{ lp_name }}
-          </div>
+          </div>-->
           <div class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]" @click="
               pool['LiquidityType'] === 'CL'
                 ? $emit('goToCLPool', { index, onMountedActivity: 'info' })

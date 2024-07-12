@@ -52,10 +52,7 @@
               You are responsible for conducting your own due diligence and
               understanding the risks before interacting with the platform. You
               should not use this platform unless you can afford to lose your
-              entire investment. You are responsible for conducting your own due
-              diligence and understanding the risks before interacting with the
-              platform. You should not use this platform unless you can afford
-              to lose your entire investment.
+              entire investment.
             </p>
           </div>
         </div>
