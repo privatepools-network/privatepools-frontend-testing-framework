@@ -1016,7 +1016,7 @@ async function onAddTokenPriceSet() {
     price:
       notSelectedPossibleComposeTokens.value[0].price > 0
         ? notSelectedPossibleComposeTokens.value[0].price
-        : await getSinglePrice(
+        : await getSinglePrice(56,
             notSelectedPossibleComposeTokens.value[0].symbol,
           ),
   })

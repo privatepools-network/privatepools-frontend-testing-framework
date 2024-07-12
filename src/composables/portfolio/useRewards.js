@@ -18,7 +18,7 @@ export async function claimRewards(rewards) {
   const playError = new Audio(errorSound)
   let ConfirmToastPending = null
   try {
-    const trades = await axios.get(`${BACKEND_URL[56]}/output`)
+    const trades = (await axios.get(`${BACKEND_URL[56]}/output`)).data
     let _trades = trades.filter(
       (item) => parseFloat(item.timestamp) >= Date.now() / 1000 - 5 * 60,
     )
@@ -101,7 +101,6 @@ export async function claimRewards(rewards) {
           type: 'success',
           isLoading: false,
         })
-        window.location.reload()
       }
     }
   } catch (e) {
@@ -136,6 +135,7 @@ export async function claimRewards(rewards) {
     playError.play()
     console.error(e)
   }
+  window.location.reload()
 }
 // export async function claimRewards(rewards) {
 //   try {
