@@ -292,7 +292,7 @@ const notify = () => {
     theme: 'dark',
     type: popupType.value,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     position: toast.POSITION.TOP_RIGHT,
     data: {
       header_text: popupText.value,

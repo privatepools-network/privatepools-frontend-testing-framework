@@ -97,7 +97,7 @@ export async function claimRewards(rewards) {
           },
           autoClose: 7000,
           closeOnClick: false,
-          closeButton: false,
+          closeButton: true,
           type: 'success',
           isLoading: false,
         })
@@ -116,7 +116,7 @@ export async function claimRewards(rewards) {
         },
         autoClose: 7000,
         closeOnClick: false,
-        closeButton: false,
+        closeButton: true,
         type: 'error',
         isLoading: false,
       })

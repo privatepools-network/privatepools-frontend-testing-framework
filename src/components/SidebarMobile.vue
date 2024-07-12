@@ -54,13 +54,13 @@
               >
             </li>
 
-            <li class="sidemenu__item">
+            <!-- <li class="sidemenu__item">
               <a
                 href="/buy"
                 :class="route.name === 'Buy' ? 'sidemenu__item__active' : ''"
                 >Buy PPN</a
               >
-            </li>
+            </li> -->
             <li class="sidemenu__item">
               <a
                 href="/general"
@@ -70,7 +70,7 @@
                 >General Analytics</a
               >
             </li>
-            <li class="sidemenu__item">
+            <!-- <li class="sidemenu__item">
               <a
                 href="/user_analytics"
                 :class="
@@ -78,8 +78,8 @@
                 "
                 >User Analytics</a
               >
-            </li>
-            <li class="sidemenu__item">
+            </li> -->
+            <!-- <li class="sidemenu__item">
               <a
                 href="/referrals"
                 :class="
@@ -87,7 +87,7 @@
                 "
                 >Referrals</a
               >
-            </li>
+            </li> -->
           </ul>
 
           <div class="d-flex my-3 gap-2 sidemenu__line"></div>

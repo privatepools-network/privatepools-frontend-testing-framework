@@ -232,7 +232,6 @@
             /></a>
           </div>
         </div>
-
         
         <div
           v-if="!userStakedPool"

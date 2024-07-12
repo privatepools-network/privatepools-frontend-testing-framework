@@ -109,7 +109,7 @@ export async function useApproveTokens(
 
         closeOnClick: false,
         autoClose: 5000,
-        closeButton: false,
+        closeButton: true,
         type: 'error',
         isLoading: false,
       })
@@ -130,7 +130,7 @@ export async function useApproveTokens(
 
     closeOnClick: false,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     type: 'success',
     isLoading: false,
   })

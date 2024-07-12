@@ -588,7 +588,7 @@ function changeVisibleDepositOpen() {
       theme: 'dark',
       type: 'warning',
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       position: toast.POSITION.TOP_RIGHT,
       data: {
         header_text: 'Impossible to Deposit!',

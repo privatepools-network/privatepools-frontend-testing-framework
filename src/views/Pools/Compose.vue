@@ -990,7 +990,7 @@ const notify = () => {
     theme: 'dark',
     type: popupType.value,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     position: toast.POSITION.TOP_RIGHT,
     data: {
       header_text: popupText.value,
@@ -1250,7 +1250,7 @@ async function onStep1Click() {
       theme: 'dark',
       type: 'info',
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       position: toast.POSITION.TOP_RIGHT,
       data: {
         header_text: 'BNB will be Wrapped to WBNB!',
@@ -1267,7 +1267,7 @@ async function onStep1Click() {
       theme: 'dark',
       type: 'warning',
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       position: toast.POSITION.TOP_RIGHT,
       data: {
         header_text: 'Impossible to Create Pool!',
@@ -1282,7 +1282,7 @@ async function onStep1Click() {
       theme: 'dark',
       type: 'warning',
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       position: toast.POSITION.TOP_RIGHT,
       data: {
         header_text: 'You have zero token weight!',
@@ -1358,7 +1358,7 @@ async function CreateNewPool() {
 
       closeOnClick: false,
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       type: 'success',
       isLoading: false,
     })
@@ -1378,7 +1378,7 @@ async function CreateNewPool() {
       },
       autoClose: 7000,
       closeOnClick: false,
-      closeButton: false,
+      closeButton: true,
       type: 'error',
       isLoading: false,
     })
@@ -1438,7 +1438,7 @@ async function JoinNewPool() {
 
       closeOnClick: false,
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       type: 'error',
       isLoading: false,
     })
@@ -1459,7 +1459,7 @@ async function JoinNewPool() {
 
     closeOnClick: false,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     type: 'success',
     isLoading: false,
   })

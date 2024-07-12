@@ -226,6 +226,9 @@ body::-webkit-scrollbar-thumb {
   @media (min-width: 1950px) {
     width: 40vw;
   }
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 
   &_LP {
     background: #00e0ff;

@@ -7,7 +7,7 @@ export const notify = (popupType, popupText, popupSubText) => {
     theme: 'dark',
     type: popupType,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     position: toast.POSITION.TOP_RIGHT,
     data: {
       header_text: popupText,
