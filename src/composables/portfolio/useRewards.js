@@ -101,7 +101,6 @@ export async function claimRewards(rewards) {
           type: 'success',
           isLoading: false,
         })
-        window.location.reload()
       }
     }
   } catch (e) {
@@ -136,6 +135,7 @@ export async function claimRewards(rewards) {
     playError.play()
     console.error(e)
   }
+  window.location.reload()
 }
 // export async function claimRewards(rewards) {
 //   try {

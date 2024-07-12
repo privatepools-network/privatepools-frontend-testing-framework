@@ -53,8 +53,18 @@ export async function useApproveTokens(
         ABI_WBNB,
         provider.getSigner(),
       )
-      try{
-
+      try {
+        toast.info(Toast, {
+          data: {
+            header_text: 'BNB will be wrapped to WBNB!',
+            toast_text: `In order to deposit BNB instead of WBNB you need to wrap it first.`,
+            tx_link: '',
+            speedUp: '/',
+          },
+          position: toast.POSITION.TOP_RIGHT,
+          theme: 'dark',
+          closeOnClick: true,
+        })
         const tx = await wbnb.deposit({
           value: rawAmount
             ? amounts[i]
@@ -63,9 +73,8 @@ export async function useApproveTokens(
         console.log('DEPOSIT TO WBNB')
         await tx.wait()
         tokens[i] = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
-      }
-      catch(e){
-        console.error("ERROR DURING WBNB DEPOSIT")
+      } catch (e) {
+        console.error('ERROR DURING WBNB DEPOSIT')
         return false
       }
     }
