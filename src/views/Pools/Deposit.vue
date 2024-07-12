@@ -146,7 +146,12 @@
                         {{ token.symbol.includes('BNB') ? (wbnbSelected ? 'WBNB' : 'BNB') : token.symbol }}
                         {{ (token.weight * 100).toFixed(0) }}%
                         <div v-if="token.symbol == 'WBNB'">
-                          <button @click="wbnbSelected = !wbnbSelected">Change</button>
+                          <svg @click="wbnbSelected = !wbnbSelected" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13 8H18V3" stroke="#F8F8F8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 8C15.163 4.667 12.33 3 9.5 3C6.67 3 4.17 4 2 6M6.5 11.5H1.5V16.5" stroke="#F8F8F8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1.5 11.5C4.337 14.833 7.17 16.5 10 16.5C12.83 16.5 15.33 15.5 17.5 13.5" stroke="#F8F8F8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
                         </div>
                       </div>
                       <input class="token-input dark:!text-[#A8A8A8] text-black font-['Roboto_Mono',_monospace]" style="

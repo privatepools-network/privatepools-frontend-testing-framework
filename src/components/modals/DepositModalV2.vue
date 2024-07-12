@@ -144,7 +144,7 @@
           :activeStep="approveStep - 1"
           :displayedActiveStep="1"
           :mmActive="mmActive"
-          :stepText="'Approve'"
+          :stepText="wbnbSelected ? 'Wrap &\n Approve' : 'Approve'"
         />
 
         <div class="w-12 mt-1">

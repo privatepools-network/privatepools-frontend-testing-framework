@@ -29,7 +29,7 @@
       {{  displayedActiveStep  }}
       </div>
     </div>
-    <div class="text-[12px] text-[#00E0FF] font-['Syne',_sans-serif]">{{ stepText }}</div>
+    <div class="text-[12px] text-center w-[40px] text-[#00E0FF] font-['Syne',_sans-serif]">{{ stepText }}</div>
   </div>
 </template>
 
