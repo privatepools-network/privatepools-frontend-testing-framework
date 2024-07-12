@@ -1,8 +1,6 @@
 <template>
   <Dropdown :distance="4" :placement="'bottom-center'">
-    <div
-      class="button_drop  text-black dark:!text-white p-2 flex"
-    >
+    <div class="button_drop text-black dark:!text-white p-2 flex">
       <img :src="rewards_icon" />
       <div v-if="width > 768" class="flex items-center">
         <CurrencySymbol />{{ totalRewards }}
@@ -155,8 +153,8 @@
         </div> -->
         <div
           class="rewards_button_dropdown"
-          :class="totalRewards < 0 ? '!bg-gray-600 !drop-shadow-none' : ''"
-          @click="() => totalRewards <= 0 ? '' : claimRewards(rewardsData)"
+          :class="totalRewards <= 0 ? '!bg-gray-600 !drop-shadow-none' : ''"
+          @click="() => (totalRewards <= 0 ? '' : claimRewards(rewardsData))"
         >
           {{ $t('Claim rewards') }}
         </div>
@@ -206,7 +204,8 @@ const openRewardsDropdown = ref(false)
 const rewards = ref([])
 const rewardsData = ref({})
 const totalRewards = computed(() =>
-  rewards.value.filter((item) => item.pool != "0x0000000000000000000000000000000000000000")
+  rewards.value
+    .filter((item) => item.pool != '0x0000000000000000000000000000000000000000')
     .reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0)
     .toFixed(currencyDecimals.value),
 )
@@ -223,7 +222,9 @@ onMounted(async () => {
     userPools.value = await getUserPools(56, address)
     rewardsData.value = await getPoolsRewards(address)
     console.log('REWARDS - ', rewardsData.value)
-    rewards.value = Object.values(rewardsData.value).flatMap((item) => item.formatted_rewards)
+    rewards.value = Object.values(rewardsData.value).flatMap(
+      (item) => item.formatted_rewards,
+    )
   }
 })
 </script>
