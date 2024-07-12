@@ -26,7 +26,7 @@ export async function claimRewards(rewards) {
       ConfirmToastPending = toast.warn(Toast, {
         data: {
           header_text: 'Claim rewards',
-          toast_text: `Claiming your rewards is not currently possible due to recent trade. Last trade happened at ${getShortHourString(
+          toast_text: `Claiming your rewards is currently unavailable due to a recent trade. Please wait 5 minutes from the last trade time. The last trade occurred at ${getShortHourString(
             _trades[_trades.length - 1].timestamp,
           )}`,
           tx_link: '',
