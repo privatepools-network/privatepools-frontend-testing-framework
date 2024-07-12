@@ -5,17 +5,39 @@ import { useAutoCompound } from '../poolActions/deposit/useAutoCompound'
 import { configService } from '@/services/config/config.service'
 import { toast } from 'vue3-toastify'
 import Toast from '@/UI/Toast.vue'
-import { formatNotificationDate } from '@/lib/utils'
+import { formatNotificationDate, getShortHourString } from '@/lib/utils'
 import { networkId } from '@/composables/useNetwork'
 import successSound from '@/assets/sounds/success_sound.mp3'
 import errorSound from '@/assets/sounds/error_sound.mp3'
 import 'vue3-toastify/dist/index.css'
+import { BACKEND_URL } from '../pools/mappings'
+import axios from 'axios'
 
 export async function claimRewards(rewards) {
   const playSuccess = new Audio(successSound)
   const playError = new Audio(errorSound)
   let ConfirmToastPending = null
   try {
+    const trades = await axios.get(`${BACKEND_URL[56]}/output`)
+    let _trades = trades.filter(
+      (item) => parseFloat(item.timestamp) >= Date.now() / 1000 - 5 * 60,
+    )
+    if (_trades.length > 0) {
+      ConfirmToastPending = toast.warn(Toast, {
+        data: {
+          header_text: 'Claim rewards',
+          toast_text: `Claiming your rewards is not currently possible due to recent trade. Last trade happened at ${getShortHourString(
+            _trades[_trades.length - 1].timestamp,
+          )}`,
+          tx_link: '',
+          speedUp: '/',
+        },
+        position: toast.POSITION.TOP_RIGHT,
+        theme: 'dark',
+        closeOnClick: false,
+      })
+      return
+    }
     if (!rewards.formatted_rewards) {
       const zero_pool_rewards = rewards[ethers.constants.AddressZero]
       if (zero_pool_rewards) {
@@ -79,6 +101,7 @@ export async function claimRewards(rewards) {
           type: 'success',
           isLoading: false,
         })
+        window.location.reload()
       }
     }
   } catch (e) {

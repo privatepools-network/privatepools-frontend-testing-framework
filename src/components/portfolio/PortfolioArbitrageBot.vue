@@ -221,7 +221,7 @@
           </div>
         </div>
       </div>
-      <div class="referrals_button" :class="totalRewards < 1.00 ? '!border-none !bg-gray-600 !drop-shadow-none' : ''" @click="() => totalRewards < 1.00 ? '' : claimRewards(rewardsData)">{{ $t('claim_rewards') }}</div>
+      <div class="referrals_button" :class="totalRewards < 0 ? '!border-none !bg-gray-600 !drop-shadow-none' : ''" @click="() => totalRewards < 0 ? '' : claimRewards(rewardsData)">{{ $t('claim_rewards') }}</div>
     </div>
   </div>
 </template>
