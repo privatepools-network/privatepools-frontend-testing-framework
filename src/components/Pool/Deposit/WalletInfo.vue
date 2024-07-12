@@ -20,7 +20,7 @@
           class="p-1 w-6"
         />
         <div class="font-['Roboto_Mono',_monospace]">
-          {{ parseFloat(balances[token.address]).toFixed(2) }}
+          {{ parseFloat(balances[token.address]).toFixed(6) }}
           ({{
             (balances[token.address] * lastTokenPrices[token.address]).toFixed(
               2,

@@ -105,7 +105,7 @@
             class="d-flex flex-column align-items-end text-black dark:!text-white"
           >
             <div>
-              {{ parseFloat(token.balance).toFixed(3) }} {{ token.symbol }}
+              {{ parseFloat(token.balance).toFixed(6) }} {{ token.symbol }}
             </div>
             <div>${{ parseFloat(token.balance * token.price).toFixed(3) }}</div>
           </div>

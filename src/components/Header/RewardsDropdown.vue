@@ -155,7 +155,7 @@
         </div> -->
         <div
           class="rewards_button_dropdown"
-          :class="totalRewards < 0 ? '!bg-gray-600 !drop-shadow-none' : ''"
+          :class="totalRewards <= 0 ? '!bg-gray-600 !drop-shadow-none' : ''"
           @click="() => totalRewards <= 0 ? '' : claimRewards(rewardsData)"
         >
           {{ $t('Claim rewards') }}
