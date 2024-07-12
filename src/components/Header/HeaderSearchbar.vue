@@ -1,10 +1,19 @@
 <template>
   <div style="position: relative; cursor: text">
     {{ console.log('selectOptions', selectOptions) }}
+    {{ console.log('checkArray', isArrayOnlyFirstTokenAndFirstPool(selectOptions)) }}
+    {{ console.log('searchInput', searchInput) }}
     <vue-select :options="selectOptions" label-by="id" searchable @search:input="handleInput" :search-placeholder="''"
       :placeholder="''" :clear-on-select="true">
       <template #dropdown-item="{ option }">
-        <div>
+        <div v-if="isArrayOnlyFirstTokenAndFirstPool(selectOptions)">
+          
+          <div v-if="option.firstToken" class="p-10 text-center !text-black dark:!text-white font-semibold">
+         
+            No results with: {{ searchInput }}
+        </div>
+        </div>
+        <div v-else>
         <div v-if="option.firstToken" class="search_groups !text-black dark:!text-[#7d7d7d]">
           <svg width="18" height="8" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 7L5.92308 2.2L10.8462 7L17 1M17 1H13.0615M17 1V4.84" stroke="#686868" stroke-width="2"
@@ -181,7 +190,21 @@ function goToFilteredPools(token) {
 }
 
 
+function isArrayOnlyFirstTokenAndFirstPool(array) {
+    let count = 0;
+    for (let obj of array) {
+        // Check if the object has either 'firstToken' or 'firstPool' set to true
+        if ((obj.firstToken === true || obj.firstPool === true)) {
+            count++;
+        } else {
+            // If not, break out of the loop since we don't need to check further
+            break;
+        }
+    }
 
+    // Compare the count with the length of the array
+    return count === array.length;
+}
 
 
 </script>

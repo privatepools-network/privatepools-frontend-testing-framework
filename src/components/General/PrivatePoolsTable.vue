@@ -377,17 +377,19 @@
         class="text-black dark:!text-white"
         style="font-size: 14px; text-align: center"
       >
-        {{activitiesSelectedMode === 'Withdraw' ? 'No Activity yet' : ''}}
+      {{console.log('activitiesSelectedMode', activitiesSelectedMode)}}
+        {{activitiesSelectedMode === 'Withdraw' ? 'No results' : 'No Activity yet'}}
       </div>
       <div
+        
         class="text-black dark:!text-white"
         style="font-size: 12px; text-align: center"
       >
-        Choose a pool to invest or create a pool to get started.
+      {{activitiesSelectedMode === 'Withdraw' ? '' : 'Choose a pool to invest or create a pool to get started'}}
       </div>
-      <div class="add_liq_btn_pools">
+      <!-- <div class="add_liq_btn_pools" v-if="activitiesSelectedMode !== 'Withdraw'">
         <div class="d-flex gap-1">+ Add liquidity</div>
-      </div>
+      </div> -->
     </div>
   </CRow>
 

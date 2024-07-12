@@ -113,14 +113,14 @@
           </a> -->
           <div class="popup_headers">Protocol</div>
           <a
-            href="https://medium.com/@D3_Innovations"
+            href="https://medium.com/@privatepoolnetwork"
             target="_blank"
             :class="'navigation_text  !text-black dark:!text-[#868686] hover:!text-[#00e0ff]'"
           >
             {{ $t('Blog') }}
           </a>
           <a
-            href="https://medium.com/@D3_Innovations"
+            href="https://medium.com/@privatepoolnetwork"
             target="_blank"
             :class="'navigation_text  !text-black dark:!text-[#868686] hover:!text-[#00e0ff]'"
           >
@@ -128,7 +128,7 @@
           </a>
           <div class="popup_headers">Need help?</div>
           <a
-            href="mailto:team@d3vs.xyz?subject=Contact"
+            href="mailto:team@privatepools.network?subject=Contact"
             target="_blank"
             :class="'navigation_text  !text-black dark:!text-[#868686] hover:!text-[#00e0ff]'"
           >
@@ -136,7 +136,7 @@
           </a>
           <hr style="border: 1px solid #ffffff14" class="mx-3" />
           <div class="flex items-center gap-3 w-100">
-            <a href="https://twitter.com/D3_firm" target="_blank">
+            <a href="https://x.com/PrivatePoolDeFi" target="_blank">
               <div>
                 <img :src="twitterIcon" />
               </div>
@@ -146,7 +146,7 @@
                 <img :src="discordIcon" />
               </div>
             </a>
-            <a href="https://medium.com/@D3_Innovations" target="_blank">
+            <a href="https://medium.com/@privatepoolnetwork" target="_blank">
               <div>
                 <img :src="mediumIcon" />
               </div>

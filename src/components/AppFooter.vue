@@ -20,7 +20,7 @@
               <img :src="discordIcon" />
             </div>
           </a>
-          <a href="https://medium.com/@D3_Innovations" target="_blank">
+          <a href="https://medium.com/@privatepoolnetwork" target="_blank">
             <div class="link_logo">
               <img :src="mediumIcon" />
             </div>

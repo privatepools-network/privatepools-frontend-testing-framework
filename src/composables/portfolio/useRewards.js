@@ -101,6 +101,7 @@ export async function claimRewards(rewards) {
           type: 'success',
           isLoading: false,
         })
+        window.location.reload()
       }
     }
   } catch (e) {

@@ -419,10 +419,12 @@ const selectOptions = computed(() =>
   visibleOptions.value ? visibleOptions.value : tokensOptions.value,
 )
 
-watch(visibleOptionsComputed, () => {
-  if (visibleOptionsComputed.value)
-    visibleOptions.value = [...visibleOptionsComputed.value]
-})
+watchEffect(() => {
+  const visibleOptionsComputedValue = visibleOptionsComputed.value;
+  console.log('visibleOptionsComputed.value', visibleOptionsComputedValue);
+  if (visibleOptionsComputedValue)
+    visibleOptions.value = [...visibleOptionsComputedValue];
+});
 
 watchEffect(() => {
   console.log('signatureState', signatureState.value)
@@ -460,6 +462,9 @@ const searchInput = ref('')
 function handleInput(event) {
   searchInput.value = event.target.value
   let _search = searchInput.value.toLowerCase()
+  // console.log('visibleOptions.value', visibleOptions.value)
+  // console.log('event.target.value', event.target.value)
+  // console.log('_search', _search)
   visibleOptions.value = searchInput.value
     ? [
         ...tokensOptions.value.filter((item) =>

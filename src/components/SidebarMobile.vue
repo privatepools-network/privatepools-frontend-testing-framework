@@ -117,7 +117,7 @@
             Need help?
             </li>
             <li class="sidemenu__item">
-              <a target="_blank" href="mailto:team@d3vs.xyz?subject=Contact"
+              <a target="_blank" href="mailto:team@privatepools.network?subject=Contact"
                 >Contact us</a
               >
             </li>
@@ -134,7 +134,7 @@
               <img :src="discordIcon" />
             </div>
           </a>
-          <a href="https://medium.com/@D3_Innovations" target="_blank">
+          <a href="https://medium.com/@privatepoolnetwork" target="_blank">
             <div class="link_logo">
               <img :src="mediumIcon" />
             </div>
