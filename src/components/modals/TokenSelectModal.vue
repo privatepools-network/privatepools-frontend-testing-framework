@@ -64,14 +64,20 @@
           </div>
         </div>
       </div>
-      {{ console.log('filteredPossibleTokens', filteredPossibleTokens) }}
-      {{ console.log('filterName', filterName) }}
+      <!-- {{ console.log('filteredPossibleTokens', filteredPossibleTokens) }} -->
+      <!-- {{ console.log('possibleComposeTokens', possibleComposeTokens) }} -->
       <div class="mt-3 tokens_container">
         <div
           class="flex items-center justify-center h-full"
-          v-if="filteredPossibleTokens.length === 0"
+          v-if="possibleComposeTokens.length === 0"
         >
           <LoaderPulse />
+        </div>
+        <div
+          class="flex items-center justify-center h-full text-white font-semibold"
+          v-else-if="filteredPossibleTokens.length === 0"
+        >
+          No result
         </div>
         <div
           v-else
@@ -118,7 +124,7 @@ import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import { COMMON_TOKENS } from '@/composables/poolActions/compose/usePossibleComposeTokens'
 
-const props = defineProps(['isOpen', 'possibleTokens'])
+const props = defineProps(['isOpen', 'possibleTokens', 'possibleComposeTokens'])
 const { possibleTokens } = toRefs(props)
 
 const emit = defineEmits(['updateToken', 'close'])

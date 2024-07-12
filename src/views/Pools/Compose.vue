@@ -9,6 +9,7 @@
           :pairIndex="pairIndex"
           @updateToken="(token) => onUpdateTokenPriceSet(token)"
           :possibleTokens="notSelectedPossibleComposeTokens"
+          :possibleComposeTokens="possibleComposeTokens"
           @addToken="onAddToken"
         />
       </template>
@@ -203,7 +204,7 @@
                 <input
                   type="number"
                   class="compose_text dark:!text-white text-black weight_input"
-                  style="font-size: 14px; text-align: right; width: 50px"
+                  style="font-size: 14px; text-align: right; width: 80px"
                   v-model="token.weight"
                 /><span style="color: white">%</span>
                 <div
@@ -706,7 +707,7 @@
           >
             {{
               mmActive
-                ? 'Depositing liquidity'
+                ? !tokensApproved ? 'Approving...' : 'Depositing liquidity'
                 : $t('approve_tokens_for_adding')
             }}
             <span v-if="mmActive" class="button_loader pl-2"></span>

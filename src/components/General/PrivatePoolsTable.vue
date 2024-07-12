@@ -19,9 +19,9 @@
     </Tabs>
   </div>
   <CRow id="pool-activity-row" class="table-wrapper !mx-0">
-    {{console.log('activities', activities)}}
+    <!-- {{console.log('activities', activities)}} -->
     <div
-      v-if="!activities"
+      v-if="loader"
       class="!bg-[white] dark:!bg-[#fff0] backdrop-blur-md h-[500px]"
     >
       <LoaderPulse />
@@ -377,7 +377,7 @@
         class="text-black dark:!text-white"
         style="font-size: 14px; text-align: center"
       >
-        No Activity yet
+        {{activitiesSelectedMode === 'Withdraw' ? 'No Activity yet' : ''}}
       </div>
       <div
         class="text-black dark:!text-white"
@@ -425,7 +425,7 @@ const currencyDecimals = computed(() =>
 )
 const isDark = useDark()
 
-const props = defineProps(['clActivity', 'wpActivity', 'all_activities'])
+const props = defineProps(['clActivity', 'wpActivity', 'all_activities', 'loader'])
 const sliceNumber = ref(10)
 
 

@@ -1,8 +1,10 @@
 <template>
   <div style="position: relative; cursor: text">
+    {{ console.log('selectOptions', selectOptions) }}
     <vue-select :options="selectOptions" label-by="id" searchable @search:input="handleInput" :search-placeholder="''"
       :placeholder="''" :clear-on-select="true">
       <template #dropdown-item="{ option }">
+        <div>
         <div v-if="option.firstToken" class="search_groups !text-black dark:!text-[#7d7d7d]">
           <svg width="18" height="8" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 7L5.92308 2.2L10.8462 7L17 1M17 1H13.0615M17 1V4.84" stroke="#686868" stroke-width="2"
@@ -100,6 +102,8 @@
             </div>
           </div>
         </template>
+      </div>
+      
       </template>
     </vue-select>
     <div v-if="!searchInput" style="position: absolute; left: 36px; top: 7px; pointer-events: none">
@@ -162,8 +166,6 @@ function goToPool(poolId, chainId, type) {
       }/${poolId}/${DisplayChain[chainId]}/info`,
     )
   }
-
-
 }
 
 function goToFilteredPools(token) {
@@ -177,6 +179,9 @@ function goToFilteredPools(token) {
     router.push({ path: `/pools`, query: { token } })
   }
 }
+
+
+
 
 
 </script>

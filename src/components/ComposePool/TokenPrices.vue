@@ -18,7 +18,7 @@
           <div class="d-flex justify-content-between w-100 compose_text dark:!text-white text-black" v-for="token in tokenPrices" :key="token.symbol">
             {{ console.log('token.symbol', token.symbol) }}
             <div class="flex items-center gap-1">{{ token.symbol }} <img :src="computedTokenImage(token)" class="h-3 w-3"/></div>
-            <div>${{ parseFloat(token.price).toFixed(3) }}</div>
+            <div>${{ parseFloat(token.price).toFixed(6) }}</div>
           </div>
 
         </div>

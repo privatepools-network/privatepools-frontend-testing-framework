@@ -787,7 +787,7 @@ function RemainingBalance(token, index) {
   let value1 = balances.value[token.address] * 1000
   let value2 = parseFloat(lineNumbers.value[index])
   let diff = (value1 - value2) / 1000
-  return diff < 0 && diff > -1 ? 0 : diff.toFixed(4)
+  return diff < 0 && diff > -1 ? 0 : diff.toFixed(6)
 }
 
 function onCurrencyInput(e) {

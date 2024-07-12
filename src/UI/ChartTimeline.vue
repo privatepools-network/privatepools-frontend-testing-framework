@@ -2,7 +2,7 @@
   <div class="timeline_container">
     <div class="flex items-center gap-2">
       <VTooltip :distance="0" :placement="'left'">
-        <div style="cursor: help" v-if="$router.currentRoute.value.path.includes('/pool') && chartData.every(obj => obj.Trades === 0)">
+        <div style="cursor: help" v-if="$router.currentRoute.value.path.includes('/pool') && chartData.every(obj => obj.Trades === 0) || $router.currentRoute.value.path.includes('/portfolio')">
           <svg
             width="16"
             height="16"
@@ -20,7 +20,11 @@
           <div class="tooltip_container">
             
             <div class="tooltip_container_text">
-              The pool chart is currently displaying only the Total Value Locked (TVL) data. Additional data, including trading metrics, will become available after the first trade is executed. Please check back later for a complete data set.
+              {{ $router.currentRoute.value.path.includes('/portfolio') ? 
+            'The displayed data is based on the historical performance of the liquidity pools in which you have invested.'
+            : 'The pool chart is currently displaying only the Total Value Locked (TVL) data. Additional data, including trading metrics, will become available after the first trade is executed. Please check back later for a complete data set.'  
+            }}
+              
             </div>
           </div>
         </template>

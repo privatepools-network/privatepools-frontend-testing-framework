@@ -43,7 +43,9 @@
       </div>
     </div>
     {{ console.log('all_pools!!!', all_pools) }}
-    <LoaderPulse v-if="!all_pools" />
+    <div v-if="loader" class="my-5">
+        <LoaderPulse />
+      </div>
     <InvestmentsPoolRow v-else-if="all_pools && all_pools.length > 0"
       v-for="(pool, index) in sortedPools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
       :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw"
@@ -125,7 +127,7 @@ function changePerPage(v1) {
   perPage.value = Number(v1)
   currentPage.value = 1
 }
-const props = defineProps(['all_pools', 'user_staked_pools', 'rewardsData'])
+const props = defineProps(['all_pools', 'user_staked_pools', 'rewardsData', 'loader'])
 const { all_pools } = toRefs(props)
 
 const sortedPools = computed(() => all_pools.value.toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy]))

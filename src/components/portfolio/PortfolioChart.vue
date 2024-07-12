@@ -446,12 +446,14 @@ function seriesInstance(name, type, data, yAxisIndex, color) {
     xAxisIndex: 0,
     yAxisIndex: yAxisIndex,
     smooth: true,
-    showSymbol: false,
+    showSymbol: true,
     itemStyle: {
       borderRadius: [10, 10, 0, 0],
       shadowColor: color,
       shadowBlur: 10,
       color: color,
+      symbol: 'circle', 
+      symbolSize: 8
     },
     emphasis: {
       focus: 'series',

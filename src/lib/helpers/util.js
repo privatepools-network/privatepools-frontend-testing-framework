@@ -124,6 +124,8 @@ import GMRX from '@/assets/images/tokens/GMRX.png'
 import UNI from '@/assets/images/tokens/UNI.png'
 import NEAR from '@/assets/images/tokens/NEAR.png'
 import FTM from '@/assets/images/tokens/FTM.png'
+
+
 import FDUSD from '@/assets/images/tokens/FDUSD.png'
 import SANTOS from '@/assets/images/tokens/SANTOS.png'
 import BCH from '@/assets/images/tokens/BCH.png'
@@ -411,6 +413,12 @@ const tokenHT = [
     icon: WBNB,
   },
   {
+    key: 'WBNB',
+    name: 'WBNB',
+    short: 'WBNB',
+    icon: WBNB,
+  },
+  {
     key: 'BETH',
     name: 'BETH',
     short: 'BETH',
@@ -612,6 +620,7 @@ const tokenHT = [
     short: 'FTM',
     icon: FTM,
   },
+
   {
     key: 'FDUSD',
     name: 'FDUSD',
@@ -905,7 +914,7 @@ const tokenHT = [
     name: 'GFTO',
     short: 'GFTO',
     icon: GFTO,
-  }, 
+  },
   {
     key: 'PROM',
     name: 'PROM',
@@ -965,7 +974,7 @@ const tokenHT = [
     name: 'ZIL',
     short: 'ZIL',
     icon: ZIL,
-  },  
+  },
   {
     key: 'BIDR',
     name: 'BIDR',
@@ -1420,187 +1429,187 @@ const tokenHT = [
     key: 'TUSDOLD',
     name: 'TUSDOLD',
     short: 'TUSDOLD',
-    icon: TUSDOLD
+    icon: TUSDOLD,
   },
   {
     key: 'AUCTION',
     name: 'AUCTION',
     short: 'AUCTION',
-    icon: AUCTION
+    icon: AUCTION,
   },
   {
     key: 'OGN',
     name: 'OGN',
     short: 'OGN',
-    icon: OGN
+    icon: OGN,
   },
   {
     key: 'CELR',
     name: 'CELR',
     short: 'CELR',
-    icon: CELR
+    icon: CELR,
   },
   {
     key: 'ETC',
     name: 'ETC',
     short: 'ETC',
-    icon: ETC
+    icon: ETC,
   },
   {
     key: 'GLMR',
     name: 'GLMR',
     short: 'GLMR',
-    icon: GLMR
+    icon: GLMR,
   },
   {
     key: 'QKC',
     name: 'QKC',
     short: 'QKC',
-    icon: QKC
+    icon: QKC,
   },
   {
     key: 'COS',
     name: 'COS',
     short: 'COS',
-    icon: COS
+    icon: COS,
   },
   {
     key: 'SNX',
     name: 'SNX',
     short: 'SNX',
-    icon: SNX
+    icon: SNX,
   },
   {
     key: 'MBL',
     name: 'MBL',
     short: 'MBL',
-    icon: MBL
+    icon: MBL,
   },
   {
     key: 'BLZ',
     name: 'BLZ',
     short: 'BLZ',
-    icon: BLZ
+    icon: BLZ,
   },
   {
     key: 'ATOM',
     name: 'ATOM',
     short: 'ATOM',
-    icon: ATOM
+    icon: ATOM,
   },
   {
     key: 'PHB',
     name: 'PHB',
     short: 'PHB',
-    icon: PHB
+    icon: PHB,
   },
   {
     key: 'BEAMX',
     name: 'BEAMX',
     short: 'BEAMX',
-    icon: BEAMX
+    icon: BEAMX,
   },
   {
     key: 'PHA',
     name: 'PHA',
     short: 'PHA',
-    icon: PHA
+    icon: PHA,
   },
   {
     key: 'MAV',
     name: 'MAV',
     short: 'MAV',
-    icon: MAV
+    icon: MAV,
   },
   {
     key: 'UNFI',
     name: 'UNFI',
     short: 'UNFI',
-    icon: UNFI
+    icon: UNFI,
   },
   {
     key: 'DEGO',
     name: 'DEGO',
     short: 'DEGO',
-    icon: DEGO
+    icon: DEGO,
   },
   {
     key: 'CHESS',
     name: 'CHESS',
     short: 'CHESS',
-    icon: CHESS
+    icon: CHESS,
   },
   {
     key: 'LAZIO',
     name: 'LAZIO',
     short: 'LAZIO',
-    icon: LAZIO
+    icon: LAZIO,
   },
   {
     key: 'ID',
     name: 'ID',
     short: 'ID',
-    icon: ID
+    icon: ID,
   },
   {
     key: 'VRT',
     name: 'VRT',
     short: 'VRT',
-    icon: VRT
+    icon: VRT,
   },
   {
     key: 'SLP',
     name: 'SLP',
     short: 'SLP',
-    icon: SLP
+    icon: SLP,
   },
   {
     key: 'XVS',
     name: 'XVS',
     short: 'XVS',
-    icon: XVS
+    icon: XVS,
   },
   {
     key: 'FLOW',
     name: 'FLOW',
     short: 'FLOW',
-    icon: FLOW
+    icon: FLOW,
   },
   {
     key: 'EPX',
     name: 'EPX',
     short: 'EPX',
-    icon: EPX
+    icon: EPX,
   },
   {
     key: 'CLV',
     name: 'CLV',
     short: 'CLV',
-    icon: CLV
+    icon: CLV,
   },
   {
     key: 'HOOK',
     name: 'HOOK',
     short: 'HOOK',
-    icon: HOOK
+    icon: HOOK,
   },
   {
     key: 'BURGER',
     name: 'BURGER',
     short: 'BURGER',
-    icon: BURGER
+    icon: BURGER,
   },
   {
     key: 'SOLO',
     name: 'SOLO',
     short: 'SOLO',
-    icon: SOLO
+    icon: SOLO,
   },
   {
     key: 'EOS',
     name: 'EOS',
     short: 'EOS',
-    icon: EOS
+    icon: EOS,
   },
 ]
 
