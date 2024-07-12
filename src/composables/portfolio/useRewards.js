@@ -27,7 +27,7 @@ export async function claimRewards(rewards) {
         data: {
           header_text: 'Claim rewards',
           toast_text: `Claiming your rewards is not currently possible due to recent trade. Last trade happened at ${getShortHourString(
-            trades[trades.length - 1],
+            trades[trades.length - 1].timestamp,
           )}`,
           tx_link: '',
           speedUp: '/',
