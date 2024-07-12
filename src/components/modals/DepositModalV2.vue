@@ -274,6 +274,7 @@ const props = defineProps([
   'weeklyYield',
   'approveStep',
   'depositMethod',
+  'wbnbSelected'
 ])
 const emit = defineEmits([
   'zapperModalOpen',
@@ -294,7 +295,13 @@ async function OnPreviewClick() {
   if (props.approveStep === 1) {
     // props.approveStep = 2
     emit('changeApproveStep', 2)
-    let tokenAddresses = props.tokens.map((t) => t.address)
+    let tokenAddresses = props.tokens.map((t) => t.address.toLowerCase())
+    if(!props.wbnbSelected){
+      let index = tokenAddresses.indexOf('0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c')
+      if(index != -1){
+        tokenAddresses[index] = '0x0000000000000000000000000000000000000000'
+      }
+    }
     mmActive.value = true
     let success = await useApproveTokens(
       tokenAddresses,
