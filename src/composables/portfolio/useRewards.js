@@ -19,15 +19,15 @@ export async function claimRewards(rewards) {
   let ConfirmToastPending = null
   try {
     const trades = await axios.get(`${BACKEND_URL[56]}/output`)
-    trades.filter(
+    let _trades = trades.filter(
       (item) => parseFloat(item.timestamp) >= Date.now() / 1000 - 5 * 60,
     )
-    if (trades.length > 0) {
+    if (_trades.length > 0) {
       ConfirmToastPending = toast.warn(Toast, {
         data: {
           header_text: 'Claim rewards',
           toast_text: `Claiming your rewards is not currently possible due to recent trade. Last trade happened at ${getShortHourString(
-            trades[trades.length - 1].timestamp,
+            _trades[_trades.length - 1].timestamp,
           )}`,
           tx_link: '',
           speedUp: '/',
