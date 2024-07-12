@@ -49,9 +49,9 @@
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
             {{ $t('investments') }}
           </div>
-
+          {{ console.log('loader', loader) }}
           <InvestmentsTable :user_staked_pools="selectedInvestmentData" :all_pools="selectedInvestmentData"
-            :rewardsData="rewardsData" />
+            :rewardsData="rewardsData" :loader="loader"/>
         </div>
 
         <div class="portfolio-table mt-5" v-if="activeTab == t('investments')">
@@ -59,12 +59,13 @@
             {{ $t('portfolio_activity') }}
           </div>
 
-          <PrivatePoolsTable :all_activities="portfolioData.activity ? portfolioData.activity.slice(0, 25) : []
+          <PrivatePoolsTable :loader="loader" :all_activities="portfolioData.activity ? portfolioData.activity.slice(0, 25) : []
             " />
         </div>
       </div>
     </CRow>
   </MainCard>
+  
 </template>
 <script setup>
 import { CRow } from '@coreui/vue'
@@ -135,6 +136,7 @@ const pools = ref(null)
 const pairs = ref(null)
 const activities = ref(null)
 const hideSmallerThan10Pools = ref(false)
+const loader = ref(false)
 
 const investementModes = ['Pools']
 
@@ -360,49 +362,49 @@ watch(networkId, async () => {
   //account.value = '0xb51027d05ffbf77b38be6e66978b2c5b6467f615'
 })
 
-function onDatatableHeaderClick(caption) {
-  let data = investmentDataMap[selectedInvestmentsMode.value]
-  let sortedAsc = [...data.value].sort(function (a, b) {
-    var response = 0
-    if (a[caption].amount > b[caption].amount) {
-      response = 1
-    }
-    if (a[caption].amount < b[caption].amount) {
-      response = -1
-    }
-    if (a[caption].amount == b[caption].amount) {
-      response = 0
-    }
-    return response
-  })
-  let sortedDesc = [...data.value].sort(function (a, b) {
-    var response = 0
-    if (a[caption].amount > b[caption].amount) {
-      response = -1
-    }
-    if (a[caption].amount < b[caption].amount) {
-      response = 1
-    }
-    if (a[caption].amount == b[caption].amount) {
-      response = 0
-    }
-    return response
-  })
+// function onDatatableHeaderClick(caption) {
+//   let data = investmentDataMap[selectedInvestmentsMode.value]
+//   let sortedAsc = [...data.value].sort(function (a, b) {
+//     var response = 0
+//     if (a[caption].amount > b[caption].amount) {
+//       response = 1
+//     }
+//     if (a[caption].amount < b[caption].amount) {
+//       response = -1
+//     }
+//     if (a[caption].amount == b[caption].amount) {
+//       response = 0
+//     }
+//     return response
+//   })
+//   let sortedDesc = [...data.value].sort(function (a, b) {
+//     var response = 0
+//     if (a[caption].amount > b[caption].amount) {
+//       response = -1
+//     }
+//     if (a[caption].amount < b[caption].amount) {
+//       response = 1
+//     }
+//     if (a[caption].amount == b[caption].amount) {
+//       response = 0
+//     }
+//     return response
+//   })
 
-  if (
-    JSON.stringify(sortedDesc) == JSON.stringify(data.value) &&
-    !(
-      sortedHeader.value.caption == caption &&
-      sortedHeader.value.direction == 'asc'
-    )
-  ) {
-    data.value = sortedAsc
-    sortedHeader.value = { caption, direction: 'asc' }
-  } else {
-    data.value = sortedDesc
-    sortedHeader.value = { caption, direction: 'desc' }
-  }
-}
+//   if (
+//     JSON.stringify(sortedDesc) == JSON.stringify(data.value) &&
+//     !(
+//       sortedHeader.value.caption == caption &&
+//       sortedHeader.value.direction == 'asc'
+//     )
+//   ) {
+//     data.value = sortedAsc
+//     sortedHeader.value = { caption, direction: 'asc' }
+//   } else {
+//     data.value = sortedDesc
+//     sortedHeader.value = { caption, direction: 'desc' }
+//   }
+// }
 
 const activeTab = ref(t('investments'))
 
@@ -456,6 +458,7 @@ const portfolioData = ref({})
 const balanceData = ref({})
 const rewardsData = ref([])
 onMounted(async () => {
+  loader.value = true
   //InitTreasuryYields()
   if (window.ethereum !== undefined) {
     let provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -482,6 +485,7 @@ onMounted(async () => {
     NetworkUnsupported.value = true
   }
   await InitPortfolio();
+  loader.value = false
   //await InitInvestments()
 })
 

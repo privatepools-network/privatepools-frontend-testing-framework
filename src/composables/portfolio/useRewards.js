@@ -97,10 +97,11 @@ export async function claimRewards(rewards) {
           },
           autoClose: 7000,
           closeOnClick: false,
-          closeButton: false,
+          closeButton: true,
           type: 'success',
           isLoading: false,
         })
+        window.location.reload()
       }
     }
   } catch (e) {
@@ -115,7 +116,7 @@ export async function claimRewards(rewards) {
         },
         autoClose: 7000,
         closeOnClick: false,
-        closeButton: false,
+        closeButton: true,
         type: 'error',
         isLoading: false,
       })

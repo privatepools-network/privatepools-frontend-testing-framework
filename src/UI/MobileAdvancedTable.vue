@@ -258,7 +258,7 @@
             :class="
               pool['LiquidityType'] === 'CL'
                 ? 'liquidity_button_LP'
-                : 'liquidity_button_WP'
+                : 'liquidity_button_WP mb-3'
             "
           >
             {{ $t('add_liquidity') }}
@@ -570,7 +570,7 @@ const props = defineProps({
 const { pool, index, inactive, isActions, userPools, filters } = toRefs(props)
 
 const userStakedPool = computed(() =>
-  userPools.value.find((item) => item.id == pool.value.id),
+  userPools?.value?.find((item) => item.id == pool.value.id),
 )
 const lp_name = computed(() => pool.value['Pool Name'][0].join('-'))
 const etherscan_link = computed(() => {

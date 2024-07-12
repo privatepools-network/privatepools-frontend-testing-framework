@@ -9,6 +9,7 @@
           :pairIndex="pairIndex"
           @updateToken="(token) => onUpdateTokenPriceSet(token)"
           :possibleTokens="notSelectedPossibleComposeTokens"
+          :possibleComposeTokens="possibleComposeTokens"
           @addToken="onAddToken"
         />
       </template>
@@ -203,7 +204,7 @@
                 <input
                   type="number"
                   class="compose_text dark:!text-white text-black weight_input"
-                  style="font-size: 14px; text-align: right; width: 50px"
+                  style="font-size: 14px; text-align: right; width: 80px"
                   v-model="token.weight"
                 /><span style="color: white">%</span>
                 <div
@@ -706,7 +707,7 @@
           >
             {{
               mmActive
-                ? 'Depositing liquidity'
+                ? !tokensApproved ? 'Approving...' : 'Depositing liquidity'
                 : $t('approve_tokens_for_adding')
             }}
             <span v-if="mmActive" class="button_loader pl-2"></span>
@@ -989,7 +990,7 @@ const notify = () => {
     theme: 'dark',
     type: popupType.value,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     position: toast.POSITION.TOP_RIGHT,
     data: {
       header_text: popupText.value,
@@ -1249,7 +1250,7 @@ async function onStep1Click() {
       theme: 'dark',
       type: 'info',
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       position: toast.POSITION.TOP_RIGHT,
       data: {
         header_text: 'BNB will be Wrapped to WBNB!',
@@ -1266,7 +1267,7 @@ async function onStep1Click() {
       theme: 'dark',
       type: 'warning',
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       position: toast.POSITION.TOP_RIGHT,
       data: {
         header_text: 'Impossible to Create Pool!',
@@ -1281,7 +1282,7 @@ async function onStep1Click() {
       theme: 'dark',
       type: 'warning',
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       position: toast.POSITION.TOP_RIGHT,
       data: {
         header_text: 'You have zero token weight!',
@@ -1357,7 +1358,7 @@ async function CreateNewPool() {
 
       closeOnClick: false,
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       type: 'success',
       isLoading: false,
     })
@@ -1377,7 +1378,7 @@ async function CreateNewPool() {
       },
       autoClose: 7000,
       closeOnClick: false,
-      closeButton: false,
+      closeButton: true,
       type: 'error',
       isLoading: false,
     })
@@ -1437,7 +1438,7 @@ async function JoinNewPool() {
 
       closeOnClick: false,
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       type: 'error',
       isLoading: false,
     })
@@ -1458,7 +1459,7 @@ async function JoinNewPool() {
 
     closeOnClick: false,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     type: 'success',
     isLoading: false,
   })

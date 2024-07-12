@@ -347,7 +347,7 @@ const emit = defineEmits(['toggleSidebar', 'setAddress'])
 const props = defineProps(['address'])
 const topTradedTokens = ref([])
 const topPools = ref([])
-const visibleOptions = ref(null)
+const visibleOptions = ref([]);
 
 const signatureState = ref(localStorage.getItem('signature') ? false : true)
 const signatureInProcess = ref(false)
@@ -363,66 +363,67 @@ function toggleSearhbarMobile() {
 }
 
 const tokensOptions = computed(() => {
-  let result = []
-  result.push({
-    firstToken: true,
-    id: 'a b c d e f g h i j k l m n o p q r s t u v w x y z',
-  })
-  result.push(
-    ...topTradedTokens.value.map((item) => ({
-      id: `${item.name} ${item.symbol} ${item.address}`,
-      label: item.name,
-      img: item.symbol,
-      price: `${item.price.toFixed(2)}$`,
-      price_ETH: `${item.price_ETH.toFixed(5)} ETH`,
-      price_BTC: `${item.price_BTC.toFixed(5)} BTC`,
-      percentChange: `${item.priceChange.toFixed(2)}%`,
-      tokens: true,
-    })),
-  )
-  result.push({
-    firstPool: true,
-    id: 'a b c d e f g h i j k l m n o p q r s t u v w x y z',
-  })
-  result.push(
-    ...topPools.value.map((item) => ({
-      id: `${item.tokens.map((token) => token.symbol).join('/')} ${item.type} ${
-        item.address
-      }`,
-      poolId: item.id,
-      chainId: item.chainId,
-      type: item.type,
-      label: item.type,
-      img: item.tokens.map((token) => token.symbol),
-      desc: item.tokens.map((token) => token.symbol).join('/'),
-      percentChange: '0%',
-      price: `${parseFloat(item.totalLiquidity).toFixed(2)}$`,
-      price_ETH: `${parseFloat(item.totalLiquidity_ETH).toFixed(5)} ETH`,
-      price_BTC: `${parseFloat(item.totalLiquidity_BTC).toFixed(5)} BTC`,
-      pools: true,
-    })),
-  )
-  return result
-})
+      let result = [];
+      result.push({
+        firstToken: true,
+        id: 'a b c d e f g h i j k l m n o p q r s t u v w x y z',
+      });
+      result.push(
+        ...topTradedTokens.value.map((item) => ({
+          id: `${item.name} ${item.symbol} ${item.address}`,
+          label: item.name,
+          img: item.symbol,
+          price: `${item.price.toFixed(2)}$`,
+          price_ETH: `${item.price_ETH.toFixed(5)} ETH`,
+          price_BTC: `${item.price_BTC.toFixed(5)} BTC`,
+          percentChange: `${item.priceChange.toFixed(2)}%`,
+          tokens: true,
+        }))
+      );
+      result.push({
+        firstPool: true,
+        id: 'a b c d e f g h i j k l m n o p q r s t u v w x y z',
+      });
+      result.push(
+        ...topPools.value.map((item) => ({
+          id: `${item.tokens.map((token) => token.symbol).join('/')} ${item.type} ${
+            item.address
+          }`,
+          poolId: item.id,
+          chainId: item.chainId,
+          type: item.type,
+          label: item.type,
+          img: item.tokens.map((token) => token.symbol),
+          desc: item.tokens.map((token) => token.symbol).join('/'),
+          percentChange: '0%',
+          price: `${parseFloat(item.totalLiquidity).toFixed(2)}$`,
+          price_ETH: `${parseFloat(item.totalLiquidity_ETH).toFixed(5)} ETH`,
+          price_BTC: `${parseFloat(item.totalLiquidity_BTC).toFixed(5)} BTC`,
+          pools: true,
+        }))
+      );
+      return result;
+    });
 
-const visibleOptionsComputed = computed(() => {
-  if (tokensOptions.value.length <= 2) {
-    return []
-  }
-  let result = tokensOptions.value.slice(0, 3)
-  let index = tokensOptions.value.findIndex((item) => item.firstPool)
-  result.push(...tokensOptions.value.slice(index, index + 3))
-  return result
-})
+    const visibleOptionsComputed = computed(() => {
+      if (tokensOptions.value.length <= 2) {
+        return [];
+      }
+      let result = tokensOptions.value.slice(0, 3);
+      let index = tokensOptions.value.findIndex((item) => item.firstPool);
+      result.push(...tokensOptions.value.slice(index, index + 3));
+      return result;
+    });
 
-const selectOptions = computed(() =>
-  visibleOptions.value ? visibleOptions.value : tokensOptions.value,
-)
+    const selectOptions = computed(() =>
+      visibleOptions.value.length ? visibleOptions.value : tokensOptions.value
+    );
 
-watch(visibleOptionsComputed, () => {
-  if (visibleOptionsComputed.value)
-    visibleOptions.value = [...visibleOptionsComputed.value]
-})
+    watchEffect(() => {
+      const visibleOptionsComputedValue = visibleOptionsComputed.value;
+      if (visibleOptionsComputedValue)
+        visibleOptions.value = [...visibleOptionsComputedValue];
+    });
 
 watchEffect(() => {
   console.log('signatureState', signatureState.value)
@@ -458,26 +459,24 @@ onMounted(async () => {
 
 const searchInput = ref('')
 function handleInput(event) {
-  searchInput.value = event.target.value
-  let _search = searchInput.value.toLowerCase()
-  visibleOptions.value = searchInput.value
-    ? [
-        ...tokensOptions.value.filter((item) =>
-          checkInputSearchItem(_search, item),
-        ),
-      ]
-    : [...visibleOptionsComputed.value]
-}
+      searchInput.value = event.target.value;
+      let _search = searchInput.value.toLowerCase();
+      visibleOptions.value = searchInput.value
+        ? tokensOptions.value.filter((item) =>
+            checkInputSearchItem(_search, item)
+          )
+        : [...visibleOptionsComputed.value];
+    }
 
-function checkInputSearchItem(_search, item) {
-  if (item.firstPool || item.firstToken) return true
+    function checkInputSearchItem(_search, item) {
+      if (item.firstPool || item.firstToken) return true;
 
-  let result =
-    (item.desc && item.desc.toLowerCase().includes(_search)) ||
-    (item.label && item.label.toLowerCase().includes(_search)) ||
-    (item.id && item.id.toLowerCase().includes(_search))
-  return result
-}
+      return (
+        (item.desc && item.desc.toLowerCase().includes(_search)) ||
+        (item.label && item.label.toLowerCase().includes(_search)) ||
+        (item.id && item.id.toLowerCase().includes(_search))
+      );
+    }
 
 const notify = (popupType, popupText, popupSubText) => {
   toast(Toast, {
@@ -485,7 +484,7 @@ const notify = (popupType, popupText, popupSubText) => {
     theme: 'dark',
     type: popupType,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     position: toast.POSITION.TOP_RIGHT,
     data: {
       header_text: popupText,

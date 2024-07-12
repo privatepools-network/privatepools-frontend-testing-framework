@@ -54,13 +54,13 @@
               >
             </li>
 
-            <li class="sidemenu__item">
+            <!-- <li class="sidemenu__item">
               <a
                 href="/buy"
                 :class="route.name === 'Buy' ? 'sidemenu__item__active' : ''"
                 >Buy PPN</a
               >
-            </li>
+            </li> -->
             <li class="sidemenu__item">
               <a
                 href="/general"
@@ -70,7 +70,7 @@
                 >General Analytics</a
               >
             </li>
-            <li class="sidemenu__item">
+            <!-- <li class="sidemenu__item">
               <a
                 href="/user_analytics"
                 :class="
@@ -78,8 +78,8 @@
                 "
                 >User Analytics</a
               >
-            </li>
-            <li class="sidemenu__item">
+            </li> -->
+            <!-- <li class="sidemenu__item">
               <a
                 href="/referrals"
                 :class="
@@ -87,7 +87,7 @@
                 "
                 >Referrals</a
               >
-            </li>
+            </li> -->
           </ul>
 
           <div class="d-flex my-3 gap-2 sidemenu__line"></div>
@@ -117,7 +117,7 @@
             Need help?
             </li>
             <li class="sidemenu__item">
-              <a target="_blank" href="mailto:team@d3vs.xyz?subject=Contact"
+              <a target="_blank" href="mailto:team@privatepools.network?subject=Contact"
                 >Contact us</a
               >
             </li>
@@ -134,7 +134,7 @@
               <img :src="discordIcon" />
             </div>
           </a>
-          <a href="https://medium.com/@D3_Innovations" target="_blank">
+          <a href="https://medium.com/@privatepoolnetwork" target="_blank">
             <div class="link_logo">
               <img :src="mediumIcon" />
             </div>

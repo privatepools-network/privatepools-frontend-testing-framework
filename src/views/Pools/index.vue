@@ -136,8 +136,8 @@
       </div>
      
       {{ console.log('all_pools', all_pools) }}
-      <PoolRow v-for="(pool, index) in all_pools
-
+      <PoolRow 
+      v-for="(pool, index) in all_pools
         .slice(0, sliceNumber)
         .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
         .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))" :key="pool.name" :pool="pool"
@@ -158,22 +158,23 @@
       </div>
     </div>
     <div v-else>
-      <div v-if="user_staked_pools.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
+      <div v-if="user_staked_pools?.length === 0 && hidePools" class="my-5 text-center text-black dark:!text-white">
         <div>{{ $t('no_results') }}</div>
         <div>{{ $t('choose_a_pool') }}</div>
       </div>
-      <div v-else-if="all_pools.length === 0" class="my-5">
+      <div v-if="all_pools?.length === 0" class="my-5">
         <LoaderPulse />
       </div>
-      <div v-else class="mobile_table_container">
+      <div  class="mobile_table_container">
         <MobileAdvancedTable v-for="(pool, index) in all_pools
-          .slice(0, sliceNumber)
-          .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
-          .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))" :key="pool.name" :pool="pool"
-          :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }" :userPools="user_staked_pools"
-          :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
-          @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"
-          :isActions="true" />
+        .slice(0, sliceNumber)
+        .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+        .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))" :key="pool.name" :pool="pool"
+        :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }" :userPools="user_staked_pools"
+        :inactive="isPoolInactive(pool)" :index="index" @goToPoolWithdraw="goToPoolWithdraw"
+        :rewardsData="rewardsData"
+        @goToPoolCompound="goToPoolCompound" @goToCLPool="goToCLPool" @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
         <div v-if="
           sliceNumber <
           all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)

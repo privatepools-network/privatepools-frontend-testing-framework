@@ -55,7 +55,7 @@
             </svg>
           </div> -->
           {{ console.log('rewardsData', rewardsData) }}
-          <div class="rewards_button" :class="rewardsData?.formatted_rewards.length === 0 ? '!border-none !bg-gray-600 !drop-shadow-none' : ''" @click="rewardsData?.formatted_rewards.length === 0 ? '' : claimRewards(rewardsData)">
+          <div class="rewards_button" :class="rewardsData?.formatted_rewards.length === 0 || rewardsData === null ? '!border-none !bg-gray-600 !drop-shadow-none' : ''" @click="rewardsData?.formatted_rewards.length === 0 || rewardsData === null ? '' : claimRewards(rewardsData)">
             {{ $t('rewards') }}
           </div>
         </div>
@@ -484,7 +484,7 @@
         </div>
       </CRow>
       <Title :title="t('pool_activity')"></Title>
-      <PrivatePoolsTable :all_activities="poolActivity" />
+      <PrivatePoolsTable :loader="loader" :all_activities="poolActivity" />
     </div>
 
     <PoolDetailsFinancialStatement v-else-if="
@@ -673,6 +673,7 @@ const historicalData = ref([])
 const poolActivity = ref(null)
 const tokenPrices = ref(null)
 const historical_tvl = ref([])
+const loader = ref(false)
 
 const scannerLink = computed(() => {
   return `${process.env.VUE_APP_EXPLORER_BINANCE
@@ -686,6 +687,7 @@ const poolStatistics = ref(null)
 const poolChartData = ref(null)
 const rewardsData = ref(null)
 onMounted(async () => {
+  loader.value = true
   if (!process.env.VUE_APP_LOCAL_API) {
     pool.value = await GetSinglePool(
       chainSelected.value.chain,
@@ -705,11 +707,13 @@ onMounted(async () => {
     poolActivity.value = data.general.activities
     historical_tvl.value = data.statistics.tvls
     const provider = await InitializeMetamask()
+    loader.value = false
     if (provider) {
       const address = await provider.getSigner().getAddress()
       rewardsData.value = await getRewards(address, pool.value.address)
     }
     historicalPrices.value = data.historical_prices
+    
   }
 })
 const unformattedPoolActivity = ref(null)

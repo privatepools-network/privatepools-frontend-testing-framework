@@ -411,8 +411,8 @@
           <div class="text-black dark:!text-white text-[12px] text-center">
             {{ $t('open_position_to_get_started') }}
           </div>
-          <div @click="router.push('/pools')" class="add_liq_btn_pools">
-            <div class="d-flex gap-1">+ {{ $t('add_liquidity') }}</div>
+          <div @click="router.push('/pools/compose')" class="add_liq_btn_pools">
+            <div class="d-flex gap-1">+ {{ $t('Create Pool') }}</div>
           </div>
         </div>
       </div>
