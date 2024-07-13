@@ -135,6 +135,7 @@ export async function claimRewards(rewards) {
     }
     playError.play()
     console.error(e)
+    return
   }
   window.location.reload()
 }

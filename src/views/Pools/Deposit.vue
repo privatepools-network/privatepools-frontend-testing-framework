@@ -95,10 +95,10 @@
                         font-weight: 500;
                         text-align: right;
                       " :value="zapToken.value" @input="(e) =>
-                        (zapToken.value =
-                          e.target.value > zapToken.balance
-                            ? zapToken.balance
-                            : e.target.value)
+                      (zapToken.value =
+                        e.target.value > zapToken.balance
+                          ? zapToken.balance
+                          : e.target.value)
                         " type="number" />
                   </div>
                   <div>
@@ -145,12 +145,15 @@
                         <img :src="getTokenEntity(token.symbol, 'short').icon" width="20" />
                         {{ token.symbol.includes('BNB') ? (wbnbSelected ? 'WBNB' : 'BNB') : token.symbol }}
                         {{ (token.weight * 100).toFixed(0) }}%
-                        <div v-if="token.symbol == 'WBNB'">
-                          <svg @click="wbnbSelected = !wbnbSelected" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13 8H18V3" stroke="#F8F8F8" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M18 8C15.163 4.667 12.33 3 9.5 3C6.67 3 4.17 4 2 6M6.5 11.5H1.5V16.5" stroke="#F8F8F8" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M1.5 11.5C4.337 14.833 7.17 16.5 10 16.5C12.83 16.5 15.33 15.5 17.5 13.5" stroke="#F8F8F8" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                        <div v-if="token.symbol == 'WBNB' || token.symbol == 'BNB'">
+                          <svg @click="() => onWbnbUpdate()" width="21" height="21" viewBox="0 0 21 21" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13 8H18V3" stroke="#F8F8F8" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M18 8C15.163 4.667 12.33 3 9.5 3C6.67 3 4.17 4 2 6M6.5 11.5H1.5V16.5"
+                              stroke="#F8F8F8" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M1.5 11.5C4.337 14.833 7.17 16.5 10 16.5C12.83 16.5 15.33 15.5 17.5 13.5"
+                              stroke="#F8F8F8" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
 
                         </div>
                       </div>
@@ -159,8 +162,8 @@
                           font-weight: 500;
                           text-align: right;
                         " :value="lineNumbers[tokenIndex] > 0
-                            ? lineNumbers[tokenIndex] / 1000
-                            : lineNumbers[tokenIndex]
+                          ? lineNumbers[tokenIndex] / 1000
+                          : lineNumbers[tokenIndex]
                           " @input="(e) => onTokenInput(e, tokenIndex)" type="number" />
                     </div>
                     <div class="modal_balance_slider dark:!text-white text-black">
@@ -215,21 +218,21 @@
                     sum + (current / 1000) * lastTokenPrices[tokens[index]],
                   0,
                 )
-                  " :wbnbSelected="wbnbSelected" :account="account" :valueLoss="priceImpactFormatted" :bptOut="bptOut" :weeklyYield="totalWeeklyYield"
-                :fiatTotal="fiatTotal" :tokens="depositMethod === 'zap'
-                    ? [
-                      {
-                        ...zapToken,
-                        depositAmount: parseFloat(zapToken.value),
-                        usdAmount: zapToken.value * zapToken.price,
-                      },
-                    ]
-                    : pool?.tokens?.map((t, i) => ({
-                      ...t,
-                      depositAmount: formattedLineNumbers[i],
-                      usdAmount:
-                        formattedLineNumbers[i] * lastTokenPrices[t.address],
-                    }))
+                  " :wbnbSelected="wbnbSelected" :account="account" :valueLoss="priceImpactFormatted" :bptOut="bptOut"
+                :weeklyYield="totalWeeklyYield" :fiatTotal="fiatTotal" :tokens="depositMethod === 'zap'
+                  ? [
+                    {
+                      ...zapToken,
+                      depositAmount: parseFloat(zapToken.value),
+                      usdAmount: zapToken.value * zapToken.price,
+                    },
+                  ]
+                  : pool?.tokens?.map((t, i) => ({
+                    ...t,
+                    depositAmount: formattedLineNumbers[i],
+                    usdAmount:
+                      formattedLineNumbers[i] * lastTokenPrices[t.address],
+                  }))
                   " :approveStep="approveStep" :depositMethod="depositMethod" @changeApproveStep="changeApproveStep"
                 @explode="explode" @addedTXHash="addedTXHash" />
             </div>
@@ -322,7 +325,8 @@ import {
   useZapper,
 } from '@/composables/poolActions/deposit/useZapper'
 import { useFetchTokens } from '@/composables/tokens/useFetchTokens'
-
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import { ethers } from 'ethers'
 const isZapperModalOpen = ref(false)
 const tradeTokens = ref([])
 const tradeDatas = ref([])
@@ -452,6 +456,22 @@ const { priceImpact, fullAmounts, bptOut } = useInvestFormMath(
   formattedLineNumbers,
   true,
 )
+const oldWbnbBalance = ref(0)
+
+async function onWbnbUpdate() {
+  if (wbnbSelected.value == true) {
+    oldWbnbBalance.value = balances.value['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c']
+    const provider = await InitializeMetamask()
+    const account = await provider.getSigner().getAddress()
+    balances.value['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'] = ethers.utils.formatEther(await provider.getBalance(account))
+  }
+  else {
+    balances.value['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'] = oldWbnbBalance.value
+  }
+  wbnbSelected.value = !wbnbSelected.value
+  const wbnbIndex = pool.value.tokens.findIndex((item) => item.address == '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c')
+  pool.value.tokens[wbnbIndex].symbol = wbnbSelected.value ? "WBNB" : "BNB"
+}
 
 function tokenSelectModalOpen() {
   window.scrollTo({

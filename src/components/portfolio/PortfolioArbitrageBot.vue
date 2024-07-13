@@ -221,7 +221,7 @@
           </div>
         </div>
       </div>
-      <!-- <div class="referrals_button" :class="totalRewards <= 0 ? '!border-none !bg-gray-600 !drop-shadow-none' : ''" @click="() => totalRewards <= 0 ? '' : claimRewards(rewardsData)">{{ $t('claim_rewards') }}</div> -->
+      <div class="referrals_button" :class="totalRewards <= 0 ? '!border-none !bg-gray-600 !drop-shadow-none' : ''" @click="() => totalRewards <= 0 ? '' : claimRewards(rewardsData)">{{ $t('claim_rewards') }}</div>
     </div>
   </div>
 </template>
@@ -264,7 +264,7 @@ const currencyDecimals = computed(() =>
 )
 const props = defineProps(['networks_data', 'chainSelected', 'rewardsData'])
 const { networks_data, chainSelected, rewardsData } = toRefs(props)
-const totalRewards = computed(() => rewardsData.value && rewardsData.value ? rewardsData.value.filter((item) => item.pool != "0x0000000000000000000000000000000000000000").reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value) : 0)
+const totalRewards = computed(() => rewardsData.value && rewardsData.value ? Object.values(rewardsData.value).flatMap((item) => item.formatted_rewards).filter((item) => item.pool != "0x0000000000000000000000000000000000000000").reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value) : 0)
 const isNetworkDataReady = computed(
   () =>
     networks_data.value.length && networks_data.value.length > 0 &&
