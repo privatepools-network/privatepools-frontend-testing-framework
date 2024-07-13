@@ -249,7 +249,7 @@ const headers = [
 
 const route = useRoute()
 
-const minimalTVL = ref(1000)
+const minimalTVL = ref(900)
 const hideSmallPools = ref(true)
 
 const optionsTokens = ref([])
