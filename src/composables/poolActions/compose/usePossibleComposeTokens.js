@@ -45,7 +45,7 @@ export async function GetPossibleComposeTokens(network, enablePrices = false) {
     t.price = t.usdAmount / t.amount
     t.value = 0
     t.img = icon
-    t.balance = parseFloat(t.amount.toFixed(3))
+    t.balance = parseFloat(t.amount.toFixed(8))
     t.userBalance = t.amount
     if (t.address == 'bsc') {
       t.address = ethers.constants.AddressZero

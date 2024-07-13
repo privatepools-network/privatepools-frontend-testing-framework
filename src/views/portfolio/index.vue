@@ -10,7 +10,7 @@
         <div class="portfolio-chart">
           <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
             :tokensData="tokensData" :chainSelected="chainSelected.name"
-            :rewardsData="rewardsData ? Object.values(rewardsData).flatMap((item) => item.formatted_rewards) : []" />
+            :rewardsData="rewardsData" />
         </div>
 
         <SectionsTabs :filterEye="true" style="margin-bottom: 44px" :tabsOptions="currentVersion === 'pro'
