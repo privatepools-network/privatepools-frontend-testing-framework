@@ -70,7 +70,7 @@ jobs:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           DISPLAY: :0.0
         with:
-          serve: pnpm serve
+          start: pnpm serve
 
       - name: Archive e2e artifacts
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
