@@ -59,6 +59,9 @@ jobs:
           fluxbox \
           xvfb
 
+      - name: Run website
+        run: |
+          pnpm serve
       - name: Run e2e tests (headful)
         run: |
           Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
@@ -69,8 +72,6 @@ jobs:
           GH_PAT: ${{ secrets.GH_PAT }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           DISPLAY: :0.0
-        with:
-          start: pnpm serve
 
       - name: Archive e2e artifacts
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
