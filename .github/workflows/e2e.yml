@@ -2,6 +2,7 @@ name: E2E (headful)
 
 on:
   push:
+    branches: [github-actions-test]
   pull_request:
     branches: [master]
 
