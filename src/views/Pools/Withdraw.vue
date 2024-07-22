@@ -17,7 +17,7 @@
             <div class="caption dark:!text-white text-black"
               style="font-size: clamp(10px, 0.9vw, 16px); font-weight: 700">
               {{
-              pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/')
+                pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/')
               }}
             </div>
             <div class="flex flex-wrap">
@@ -74,9 +74,9 @@
                       </svg>
 
                       {{
-                      pool?.tokens
-                      .map((t) => `${(t.weight * 100).toFixed(0)}${t.symbol}`)
-                      .join('-')
+                        pool?.tokens
+                          .map((t) => `${(t.weight * 100).toFixed(0)}${t.symbol}`)
+                          .join('-')
                       }}
                     </div>
 
@@ -96,10 +96,10 @@
                         {{ $t('balance') }}:
                         <span class="fw-bold font-['Roboto_Mono',_monospace]">{{
                           parseFloat(
-                          poolShare.balance -
-                          (poolShare.balance / 100) * lineNumberPercent,
+                            poolShare.balance -
+                            (poolShare.balance / 100) * lineNumberPercent,
                           ).toFixed(4)
-                          }}</span><span class="fw-bold bg-transparent font-['Roboto_Mono',_monospace] pl-1"
+                        }}</span><span class="fw-bold bg-transparent font-['Roboto_Mono',_monospace] pl-1"
                           style="cursor: pointer" @click="() => {
                             lineNumberPercent = 100
                             usdPoolShareValue =
@@ -110,10 +110,10 @@
                       </div>
                       <div class="font-['Roboto_Mono',_monospace]">
                         ${{
-                        (
-                        ((poolShare.balance * pool.lpPrice) / 100) *
-                        lineNumberPercent
-                        ).toFixed(4)
+                          (
+                            ((poolShare.balance * pool.lpPrice) / 100) *
+                            lineNumberPercent
+                          ).toFixed(4)
                         }}
                       </div>
                     </div>
@@ -224,9 +224,7 @@
             </div>
             <!-- :disabled="!poolShare || !poolShare.balance" -->
             {{ console.log('poolShare', poolShare) }}
-            <button class="compose_pool_connect_wallet" 
-           
-              @click="changeVisibleDeposit">
+            <button class="compose_pool_connect_wallet" @click="changeVisibleDeposit">
               {{ $t('preview') }}
             </button>
           </div>
@@ -236,7 +234,7 @@
               :usdSummary="pool ? (
                 ((poolShare.balance * pool.lpPrice) / 100) *
                 lineNumberPercent
-              ).toFixed(4) : 0"  :priceImpact=" ((priceImpact ?? 0) * 100).toFixed(1)" :bptIn="bptIn"
+              ).toFixed(4) : 0" :priceImpact="((priceImpact ?? 0) * 100).toFixed(1)" :bptIn="bptIn"
               :bptBalance="bptBalance" :allPossibleTokens="allSelectedTokensDisplay"
               :allSelectedTokens="allSelectedTokens" :account="account" :lineNumberPercent="lineNumberPercent"
               :exactOut="exactOut" :poolShare="poolShare" :getTokenWithdrawAmount="getTokenWithdrawAmount"
@@ -452,7 +450,7 @@ function getUsdAmount(token) {
 function onShareInput(e) {
   usdPoolShareValue.value = parseFloat(e.target.value)
   let percent =
-    e.target.value / ((poolShare.value.balance * pool.value?.lpPrice) / 100)
+    (e.target.value / ((poolShare.value.balance * pool.value?.lpPrice) / 100)).toFixed(0)
   if (percent > 100) lineNumberPercent.value = 100
   else lineNumberPercent.value = percent
 }
