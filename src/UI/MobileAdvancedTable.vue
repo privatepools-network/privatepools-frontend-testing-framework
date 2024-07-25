@@ -539,7 +539,7 @@ function wrongChainCall() {
     params: [
       {
         chainId: '0x38',
-        rpcUrls: ['https://bsc-dataseed.binance.org/'],
+        rpcUrls: [process.env.VUE_APP_RPC_BINANCE],
         chainName: 'BNB Chain',
         nativeCurrency: {
           name: 'BNB',
