@@ -1,415 +1,375 @@
 <template>
   <div class="card_view">
-    <div v-if="!flippedCard" class="flex justify-between flex-col h-full">
-      <div>
-        <div class="flex justify-between items-center mb-5">
-          <img
-            @click="flippedCard = true"
-            v-if="!flippedCard"
-            :src="cardInfoIcon"
-            class="card_icon"
-          />
-          <!-- <img
-            @click="flippedCard = false"
-            v-else
-            :src="cardInfoBackIcon"
-            class="card_icon"
-          /> -->
-          <div class="card_type">
-            <img :src="logoImage" width="15" />
-            <div>
-              {{ pool['Pool Name'][0].length === 2 ? 'PAIR' : 'INDEX' }}
-            </div>
-          </div>
-        </div>
-
-        <div class="flex justify-center flex-col items-center mb-5">
-          <div class="text-[16px] text-[#E6E6E6] font-semibold mb-2">
-            {{ pool['Pool Name'][0].join('/') }}
-          </div>
-          <DataTableCellTokenNamePaired :value="pool['Pool Name']" />
-          <div class="flex flex-wrap justify-center mt-1 gap-2">
-            <div
-              v-for="(item, i) in pool['Pool Weight'][0]"
-              :key="`${i}-tokens`"
-            >
-              <div
-                class="flex gap-1 items-center text-[#8D8D9E] font-bold text-xs"
-              >
-                <div class="">
-                  {{ item.token }}
-                </div>
-                <div class="flex items-center">
-                  <CounterAnimation
-                    :currency="true"
-                    :value="parseFloat(item?.weight).toFixed(0)"
-                  />%
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flex justify-center flex-col items-center mb-3">
-          <div class="text-[#8D8D9E] text-[16px]">Total Value Lock</div>
-          <div class="text-white font-bold text-[16px] font-['Roboto_Mono']">
-            <CounterAnimation
-              :currency="''"
-              :value="Number(pool.TVL).toFixed(0)"
-            />
-          </div>
-        </div>
-        <div class="flex justify-center flex-col items-center mb-3">
-          <div class="text-[#8D8D9E] text-[16px]">APR</div>
-          <div
-            class="text-white flex items-center font-bold text-[16px] font-['Roboto_Mono']"
-          >
-            <CounterAnimation
-              :currency="'%'"
-              :value="Number(pool.APR).toFixed(0)"
-            />%
-          </div>
-        </div>
-        <div class="flex justify-center flex-col items-center mb-3">
-          <div class="text-[#8D8D9E] text-[16px]">Profits</div>
-          <div class="text-white font-bold text-[16px] font-['Roboto_Mono']">
-            <CounterAnimation
-              :currency="''"
-              :value="Number(pool.Profit).toFixed(0)"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div
-          v-if="!userStakedPool"
-          class="liquidity_button_container text-black dark:!text-white"
-        >
-          <div
-            class="uppercase flex justify-center mt-5 mb-2 items-center text-xs gap-1 !text-[#f0f0f0]"
-          >
-            <svg
-              width="14"
-              height="13"
-              viewBox="0 0 18 17"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10.915 1.38066C10.0825 -0.125586 7.9175 -0.125586 7.085 1.38066L0.526874 13.255C-0.278126 14.7125 0.776874 16.5 2.44187 16.5H15.5587C17.2237 16.5 18.2787 14.7125 17.4731 13.255L10.915 1.38066ZM9.78125 12.75C9.78125 12.9572 9.69894 13.156 9.55243 13.3025C9.40591 13.449 9.2072 13.5313 9 13.5313C8.7928 13.5313 8.59408 13.449 8.44757 13.3025C8.30106 13.156 8.21875 12.9572 8.21875 12.75C8.21875 12.5428 8.30106 12.3441 8.44757 12.1976C8.59408 12.0511 8.7928 11.9688 9 11.9688C9.2072 11.9688 9.40591 12.0511 9.55243 12.1976C9.69894 12.3441 9.78125 12.5428 9.78125 12.75ZM9 4.62504C9.16576 4.62504 9.32473 4.69089 9.44194 4.8081C9.55915 4.92531 9.625 5.08428 9.625 5.25004V10.25C9.625 10.4158 9.55915 10.5748 9.44194 10.692C9.32473 10.8092 9.16576 10.875 9 10.875C8.83424 10.875 8.67527 10.8092 8.55806 10.692C8.44085 10.5748 8.375 10.4158 8.375 10.25V5.25004C8.375 5.08428 8.44085 4.92531 8.55806 4.8081C8.67527 4.69089 8.83424 4.62504 9 4.62504Z"
-                fill="#F8F8F8"
+    <div :class="['card', { flipped: flippedCard }]">
+      <div class="card__face card__face--front">
+        <div class="flex justify-between flex-col h-full">
+          <div>
+            <div class="flex justify-between items-center mb-5">
+              <img
+                @click="flippedCard = true"
+                v-if="!flippedCard"
+                :src="cardInfoIcon"
+                class="card_icon"
               />
-            </svg>
-            {{ $t('no_liquidity_deposited') }}
-          </div>
-          <div
-            @click="
-              currentChainId === 56
-                ? pool['LiquidityType'] === 'CL'
-                  ? $emit('goToCL', { index })
-                  : $emit('goToPoolDeposit', {
-                      index,
-                      onMountedActivity: 'deposit',
-                    })
-                : wrongChainCall()
-            "
-            class="liquidity_button !text-white uppercase"
-            :class="
-              pool['LiquidityType'] === 'CL'
-                ? 'liquidity_button_LP'
-                : 'liquidity_button_WP'
-            "
-          >
-            {{ $t('add_liquidity') }}
-          </div>
-        </div>
-        <div
-          v-else
-          class="flex justify-between w-full items-start gap-1 md:flex-row flex-col liquidity_button_container text-black dark:!text-white"
-        >
-          <div
-            class="details-el__col !flex items-center flex-col justify-center"
-          >
-            <div
-              v-if="pool['LiquidityType'] === 'CL'"
-              class="details-el__title d-flex gap-1 align-items-center orange w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
-            >
-              {{ $t('concentrated_liquidity_pool') }}
-            </div>
-            <div
-              v-else
-              class="details-el__title d-flex mb-2 gap-1 align-items-center blue w-fit px-2 py-1 xl:!text-[12px] text-[8px] rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
-            >
-              {{ $t('weighted_pool') }}
-              <!-- <div class="details-el__circle"></div> -->
-            </div>
-
-            <div class="flex items-center flex-col justify-between">
-              <div
-                v-if="pool['LiquidityType'] === 'WP'"
-                style="font-size: 9px; font-weight: 700"
-                class="flex items-center gap-1"
-              >
-                <div class="xl:!text-[12px] text-[8px] font-[700]">
-                  {{ lp_name }}
+              <div class="card_type">
+                <img :src="logoImage" width="15" />
+                <div>
+                  {{ pool['Pool Name'][0].length === 2 ? 'PAIR' : 'INDEX' }}
                 </div>
               </div>
-              <div v-else class="d-flex flex-column gap-2">
-                <div class="xl:!text-[12px] text-[8px] font-[700]">
-                  {{ lp_name }}
-                </div>
-              </div>
-              <div
-                class="actions_button text-black dark:!text-white"
-                @click="
-                  currentChainId === 56
-                    ? $emit('goToPoolManage', {
-                        index,
-                        onMountedActivity: 'deposit',
-                      })
-                    : wrongChainCall()
-                "
-              >
-                {{
-                  pool['LiquidityType'] === 'CL'
-                    ? 'Manage Position'
-                    : 'Add liquidity'
-                }}
-              </div>
             </div>
-          </div>
-
-          <div
-            class="details-el__col !flex items-center flex-col justify-center"
-          >
-            <div
-              :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'blue'"
-              class="details-el__title d-flex mb-2 gap-1 align-items-center w-fit px-2 xl:!text-[12px] text-[8px] py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
-            >
-              {{ $t('liquidity_added') }}
-            </div>
-
-            <div class="flex items-center flex-col justify-between">
-              <div class="d-flex flex-column gap-2">
+            <div class="flex justify-center flex-col items-center mb-5">
+              <div class="text-[16px] text-[#E6E6E6] font-semibold mb-2">
+                {{ pool['Pool Name'][0].join('/') }}
+              </div>
+              <DataTableCellTokenNamePaired :value="pool['Pool Name']" />
+              <div class="flex flex-wrap justify-center mt-1 gap-2">
                 <div
-                  class="flex items-center xl:!text-[12px] text-[8px] font-[700] font-['Roboto_Mono',_monospace]"
+                  v-for="(item, i) in pool['Pool Weight'][0]"
+                  :key="`${i}-tokens`"
                 >
-                  <CounterAnimation
-                    :currency="''"
-                    :value="
-                      userStakedPool[
-                        `shareBalance${
-                          currentCurrency == 'USD' ? 'Usd' : currentCurrency
-                        }`
-                      ]
-                    "
-                    :decimalPlaces="currencyDecimals"
-                  />
+                  <div
+                    class="flex gap-1 items-center text-[#8D8D9E] font-bold text-xs"
+                  >
+                    <div class="">
+                      {{ item.token }}
+                    </div>
+                    <div class="flex items-center">
+                      <CounterAnimation
+                        :currency="true"
+                        :value="parseFloat(item?.weight).toFixed(0)"
+                      />%
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
+            <div class="flex justify-center flex-col items-center mb-3">
+              <div class="text-[#8D8D9E] text-[16px]">Total Value Lock</div>
               <div
-                class="actions_button"
+                class="text-white font-bold text-[16px] font-['Roboto_Mono']"
+              >
+                <CounterAnimation
+                  :currency="''"
+                  :value="Number(pool.TVL).toFixed(0)"
+                />
+              </div>
+            </div>
+            <div class="flex justify-center flex-col items-center mb-3">
+              <div class="text-[#8D8D9E] text-[16px]">APR</div>
+              <div
+                class="text-white flex items-center font-bold text-[16px] font-['Roboto_Mono']"
+              >
+                <CounterAnimation
+                  :currency="'%'"
+                  :value="Number(pool.APR).toFixed(0)"
+                />%
+              </div>
+            </div>
+            <div class="flex justify-center flex-col items-center mb-3">
+              <div class="text-[#8D8D9E] text-[16px]">Profits</div>
+              <div
+                class="text-white font-bold text-[16px] font-['Roboto_Mono']"
+              >
+                <CounterAnimation
+                  :currency="''"
+                  :value="Number(pool.Profit).toFixed(0)"
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              v-if="!userStakedPool"
+              class="liquidity_button_container text-black dark:!text-white"
+            >
+              <div
+                class="uppercase flex justify-center mt-5 mb-2 items-center text-xs gap-1 !text-[#f0f0f0]"
+              >
+                <svg
+                  width="14"
+                  height="13"
+                  viewBox="0 0 18 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.915 1.38066C10.0825 -0.125586 7.9175 -0.125586 7.085 1.38066L0.526874 13.255C-0.278126 14.7125 0.776874 16.5 2.44187 16.5H15.5587C17.2237 16.5 18.2787 14.7125 17.4731 13.255L10.915 1.38066ZM9.78125 12.75C9.78125 12.9572 9.69894 13.156 9.55243 13.3025C9.40591 13.449 9.2072 13.5313 9 13.5313C8.7928 13.5313 8.59408 13.449 8.44757 13.3025C8.30106 13.156 8.21875 12.9572 8.21875 12.75C8.21875 12.5428 8.30106 12.3441 8.44757 12.1976C8.59408 12.0511 8.7928 11.9688 9 11.9688C9.2072 11.9688 9.40591 12.0511 9.55243 12.1976C9.69894 12.3441 9.78125 12.5428 9.78125 12.75ZM9 4.62504C9.16576 4.62504 9.32473 4.69089 9.44194 4.8081C9.55915 4.92531 9.625 5.08428 9.625 5.25004V10.25C9.625 10.4158 9.55915 10.5748 9.44194 10.692C9.32473 10.8092 9.16576 10.875 9 10.875C8.83424 10.875 8.67527 10.8092 8.55806 10.692C8.44085 10.5748 8.375 10.4158 8.375 10.25V5.25004C8.375 5.08428 8.44085 4.92531 8.55806 4.8081C8.67527 4.69089 8.83424 4.62504 9 4.62504Z"
+                    fill="#F8F8F8"
+                  />
+                </svg>
+                {{ $t('no_liquidity_deposited') }}
+              </div>
+              <div
                 @click="
                   currentChainId === 56
                     ? pool['LiquidityType'] === 'CL'
-                      ? $emit('goToCL', {
+                      ? $emit('goToCL', { index })
+                      : $emit('goToPoolDeposit', {
                           index,
-                          onMountedActivity: 'withdraw',
-                        })
-                      : $emit('goToPoolWithdraw', {
-                          index,
-                          onMountedActivity: 'withdraw',
+                          onMountedActivity: 'deposit',
                         })
                     : wrongChainCall()
                 "
-              >
-                {{
+                class="liquidity_button !text-white uppercase"
+                :class="
                   pool['LiquidityType'] === 'CL'
-                    ? t('add_new_position')
-                    : t('withdraw')
-                }}
+                    ? 'liquidity_button_LP'
+                    : 'liquidity_button_WP'
+                "
+              >
+                {{ $t('add_liquidity') }}
               </div>
             </div>
-          </div>
-
-          <div
-            class="details-el__col !flex items-center flex-col justify-center"
-          >
             <div
-              class="details-el__title d-flex mb-2 gap-1 align-items-center blue w-fit px-2 py-1 xl:!text-[12px] text-[8px] rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
+              v-else
+              class="flex justify-between w-full items-start gap-1 md:flex-row flex-col liquidity_button_container text-black dark:!text-white"
             >
-              {{ $t('rewards') }}
-            </div>
-
-            <div class="flex items-center flex-col justify-between">
-              <div class="d-flex flex-column gap-2">
-                <div class="xl:!text-[12px] text-[8px] font-[700]">
-                  ${{ total_rewards.toFixed(5) }}
+              <div
+                class="details-el__col !flex items-center flex-col justify-center"
+              >
+                <div
+                  v-if="pool['LiquidityType'] === 'CL'"
+                  class="details-el__title d-flex gap-1 align-items-center orange w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
+                >
+                  {{ $t('concentrated_liquidity_pool') }}
+                </div>
+                <div
+                  v-else
+                  class="details-el__title d-flex mb-2 gap-1 align-items-center blue w-fit px-2 py-1 xl:!text-[12px] text-[8px] rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
+                >
+                  {{ $t('weighted_pool') }}
+                  <!-- <div class="details-el__circle"></div> -->
+                </div>
+                <div class="flex items-center flex-col justify-between">
+                  <div
+                    v-if="pool['LiquidityType'] === 'WP'"
+                    style="font-size: 9px; font-weight: 700"
+                    class="flex items-center gap-1"
+                  >
+                    <div class="xl:!text-[12px] text-[8px] font-[700]">
+                      {{ lp_name }}
+                    </div>
+                  </div>
+                  <div v-else class="d-flex flex-column gap-2">
+                    <div class="xl:!text-[12px] text-[8px] font-[700]">
+                      {{ lp_name }}
+                    </div>
+                  </div>
+                  <div
+                    class="actions_button text-black dark:!text-white"
+                    @click="
+                      currentChainId === 56
+                        ? $emit('goToPoolManage', {
+                            index,
+                            onMountedActivity: 'deposit',
+                          })
+                        : wrongChainCall()
+                    "
+                  >
+                    {{
+                      pool['LiquidityType'] === 'CL'
+                        ? 'Manage Position'
+                        : 'Add liquidity'
+                    }}
+                  </div>
                 </div>
               </div>
-              {{
-                console.log(
-                  'rewardsData[pool.address]',
-                  rewardsData[pool.address],
-                )
-              }}
               <div
-                v-if="rewardsData[pool.address] != null"
-                class="actions_button text-black dark:!text-[#00E0FF]"
-                @click="claimRewards(rewardsData[pool.address])"
+                class="details-el__col !flex items-center flex-col justify-center"
               >
-                {{ $t('Claim') }}
+                <div
+                  :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'blue'"
+                  class="details-el__title d-flex mb-2 gap-1 align-items-center w-fit px-2 xl:!text-[12px] text-[8px] py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
+                >
+                  {{ $t('liquidity_added') }}
+                </div>
+                <div class="flex items-center flex-col justify-between">
+                  <div class="d-flex flex-column gap-2">
+                    <div
+                      class="flex items-center xl:!text-[12px] text-[8px] font-[700] font-['Roboto_Mono',_monospace]"
+                    >
+                      <CounterAnimation
+                        :currency="''"
+                        :value="
+                          userStakedPool[
+                            `shareBalance${
+                              currentCurrency == 'USD' ? 'Usd' : currentCurrency
+                            }`
+                          ]
+                        "
+                        :decimalPlaces="currencyDecimals"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="actions_button"
+                    @click="
+                      currentChainId === 56
+                        ? pool['LiquidityType'] === 'CL'
+                          ? $emit('goToCL', {
+                              index,
+                              onMountedActivity: 'withdraw',
+                            })
+                          : $emit('goToPoolWithdraw', {
+                              index,
+                              onMountedActivity: 'withdraw',
+                            })
+                        : wrongChainCall()
+                    "
+                  >
+                    {{
+                      pool['LiquidityType'] === 'CL'
+                        ? t('add_new_position')
+                        : t('withdraw')
+                    }}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="details-el__col !flex items-center flex-col justify-center"
+              >
+                <div
+                  class="details-el__title d-flex mb-2 gap-1 align-items-center blue w-fit px-2 py-1 xl:!text-[12px] text-[8px] rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
+                >
+                  {{ $t('rewards') }}
+                </div>
+                <div class="flex items-center flex-col justify-between">
+                  <div class="d-flex flex-column gap-2">
+                    <div class="xl:!text-[12px] text-[8px] font-[700]">
+                      ${{ total_rewards.toFixed(5) }}
+                    </div>
+                  </div>
+                  <div
+                    v-if="rewardsData[pool.address] != null"
+                    class="actions_button text-black dark:!text-[#00E0FF]"
+                    @click="claimRewards(rewardsData[pool.address])"
+                  >
+                    {{ $t('Claim') }}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <!-- <div class="details-el__col !flex items-center flex-col justify-center">
-            <div
-              class="details-el__title d-flex mb-2 gap-1 align-items-center blue xl:!text-[12px] text-[8px] w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
-            >
-              {{ $t('Compounder') }}
-              <div class="details-el__circle"></div>
-            </div>
-
-            <div
-              class="flex items-center flex-col justify-between"
-            >
-              <div class="d-flex flex-column gap-2">
-                <div class="xl:!text-[12px] text-[8px] font-[700]">$253.45</div>
-              </div>
-              <div
-                class="actions_button text-black dark:!text-white"
-                @click="
-                  currentChainId === 56
-                    ? $emit('goToPoolCompound', {
-                        index,
-                        onMountedActivity: 'compound',
-                      })
-                    : wrongChainCall()
-                "
-              >
-                {{ $t('Compound') }}
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
-    </div>
-    <div v-else-if="flippedCard" class="flex justify-between flex-col h-full">
-      <div>
-        <div class="flex justify-between items-center mb-5">
-          <img
-            @click="flippedCard = false"
-            :src="cardInfoBackIcon"
-            class="card_icon"
-          />
-          <div class="card_type">
-            <img :src="logoImage" width="15" />
-            <div>
-              {{ pool['Pool Name'][0].length === 2 ? 'PAIR' : 'INDEX' }}
+      <div class="card__face card__face--back">
+        <div class="flex justify-between flex-col h-full">
+          <div>
+            <div class="flex justify-between items-center mb-5">
+              <img
+                @click="flippedCard = false"
+                :src="cardInfoBackIcon"
+                class="card_icon"
+              />
+              <!-- <div class="card_type">
+                <img :src="logoImage" width="15" />
+                <div>
+                  {{ pool['Pool Name'][0].length === 2 ? 'PAIR' : 'INDEX' }}
+                </div>
+              </div> -->
             </div>
-          </div>
-        </div>
-
-        <div class="text-[#DCEEF6] font-medium text-lg my-2">Analytics</div>
-        <div class="flex justify-between text-white text-[14px]">
-          <div>Profits</div>
-          <div>
-            <CounterAnimation
-              :currency="''"
-              :value="Number(pool.Profit).toFixed(0)"
-            />
-          </div>
-        </div>
-        <div class="flex justify-between text-white text-[14px]">
-          <div>Revenue</div>
-          <div>
-            <CounterAnimation
-              :currency="''"
-              :value="Number(pool.Revenue).toFixed(0)"
-            />
-          </div>
-        </div>
-        <div class="flex justify-between text-white text-[14px]">
-          <div>Number of Trades</div>
-          <div>
-            <CounterAnimation
-              :currency="'1'"
-              :value="Number(pool.Trades).toFixed(0)"
-            />
-          </div>
-        </div>
-        <div class="flex justify-between text-white text-[14px]">
-          <div>Gas Fees</div>
-          <div>
-            <!-- <CounterAnimation
-              :currency="''"
-              :value="Number(pool.Trades).toFixed(0)"
-            /> -->
-            -
-          </div>
-        </div>
-        <div class="flex justify-between text-white text-[14px]">
-          <div>Volatility Index</div>
-          <div>
-            <!-- <CounterAnimation
-              :currency="''"
-              :value="Number(pool.Trades).toFixed(0)"
-            /> -->
-            -
-          </div>
-        </div>
-        <div class="flex justify-between text-white text-[14px]">
-          <div>Impermanent Loss</div>
-          <div>
-            <!-- <CounterAnimation
-              :currency="''"
-              :value="Number(pool.Trades).toFixed(0)"
-            /> -->
-            -
-          </div>
-        </div>
-
-        <div class="text-[#DCEEF6] font-medium text-lg mt-4 mb-2">
-          Addresses
-        </div>
-        <div class="flex justify-between text-white text-[14px]">
-          <div>Factory Conctract</div>
-          <div class="flex items-center gap-2">
-            -
-            <a
-              :href="`https://bscscan.com/address/${pool?.address}`"
-              target="_blank"
-            >
-              <img :src="linkWhite"
-            /></a>
-          </div>
-        </div>
-        <div class="flex justify-between text-white text-[14px]">
-          <div>Pool Contract</div>
-          <div class="flex items-center gap-2">
-            {{
-              pool?.address.substring(0, 6) +
-              '....' +
-              pool?.address.substring(pool?.address.length - 4)
-            }}
-            <a
-              :href="`https://bscscan.com/address/${pool?.address}`"
-              target="_blank"
-            >
-              <img :src="linkWhite"
-            /></a>
-          </div>
-        </div>
-        <div class="flex justify-between text-white text-[14px]">
-          <div>Vault</div>
-          <div class="flex items-center gap-2">
-            -
-            <a
-              :href="`https://bscscan.com/address/${pool?.address}`"
-              target="_blank"
-            >
-              <img :src="linkWhite"
-            /></a>
+            <div class="text-[#DCEEF6] font-medium text-lg my-2">Analytics</div>
+            <div class="flex justify-between text-white text-[14px]">
+              <div>Profits</div>
+              <div>
+                <CounterAnimation
+                  :currency="''"
+                  :value="Number(pool.Profit).toFixed(0)"
+                />
+              </div>
+            </div>
+            <div class="flex justify-between text-white text-[14px]">
+              <div>Revenue</div>
+              <div>
+                <CounterAnimation
+                  :currency="''"
+                  :value="Number(pool.Revenue).toFixed(0)"
+                />
+              </div>
+            </div>
+            <div class="flex justify-between text-white text-[14px]">
+              <div>Number of Trades</div>
+              <div>
+                <CounterAnimation
+                  :currency="'1'"
+                  :value="Number(pool.Trades).toFixed(0)"
+                />
+              </div>
+            </div>
+            <div class="flex justify-between text-white text-[14px]">
+              <div>Gas Fees</div>
+              <div>
+                <!-- <CounterAnimation
+                  :currency="''"
+                  :value="Number(pool.Trades).toFixed(0)"
+                /> -->
+                -
+              </div>
+            </div>
+            <div class="flex justify-between text-white text-[14px]">
+              <div>Volatility Index</div>
+              <div>
+                <!-- <CounterAnimation
+                  :currency="''"
+                  :value="Number(pool.Trades).toFixed(0)"
+                /> -->
+                -
+              </div>
+            </div>
+            <div class="flex justify-between text-white text-[14px]">
+              <div>Impermanent Loss</div>
+              <div>
+                <!-- <CounterAnimation
+                  :currency="''"
+                  :value="Number(pool.Trades).toFixed(0)"
+                /> -->
+                -
+              </div>
+            </div>
+            <div class="text-[#DCEEF6] font-medium text-lg mt-4 mb-2">
+              Addresses
+            </div>
+            <div class="flex justify-between text-white text-[14px]">
+              <div>Factory Conctract</div>
+              <div class="flex items-center gap-2">
+                -
+                <a
+                  :href="`https://bscscan.com/address/${pool?.address}`"
+                  target="_blank"
+                >
+                  <img :src="linkWhite"
+                /></a>
+              </div>
+            </div>
+            <div class="flex justify-between text-white text-[14px]">
+              <div>Pool Contract</div>
+              <div class="flex items-center gap-2">
+                {{
+                  pool?.address.substring(0, 6) +
+                  '....' +
+                  pool?.address.substring(pool?.address.length - 4)
+                }}
+                <a
+                  :href="`https://bscscan.com/address/${pool?.address}`"
+                  target="_blank"
+                >
+                  <img :src="linkWhite"
+                /></a>
+              </div>
+            </div>
+            <div class="flex justify-between text-white text-[14px]">
+              <div>Vault</div>
+              <div class="flex items-center gap-2">
+                -
+                <a
+                  :href="`https://bscscan.com/address/${pool?.address}`"
+                  target="_blank"
+                >
+                  <img :src="linkWhite"
+                /></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -511,19 +471,51 @@ console.log(pool)
 
 const visibleDetails = ref(false)
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/_variables.scss';
 
 .card_view {
-  background: #00000024;
-  border: 1px solid rgba(0, 224, 255, 0.38);
-  box-shadow: 0px 4px 8.9px 0px #000000b5;
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
   width: 24%;
-  padding: 20px;
+
   @media (max-width: 1400px) {
     width: 32%;
+  }
+
+  .card {
+    width: 100%;
+    height: 600px;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+    border-color: rgba(255, 255, 255, 0) !important;
+    --cui-card-border-color: unset !important;
+    --cui-card-bg: none !important;
+    &.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card__face {
+      position: absolute;
+      width: 100%;
+      backface-visibility: hidden;
+      background: #00000024;
+      border: 1px solid rgba(0, 224, 255, 0.38);
+      box-shadow: 0px 4px 8.9px 0px #000000b5;
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 20px;
+      perspective: 1000px;
+      height: 600px;
+      -webkit-backface-visibility: hidden; /* Safari */
+      -moz-backface-visibility: hidden; /* Firefox */
+    }
+
+    .card__face--front {
+      transform: rotateY(0deg);
+    }
+    .card__face--back {
+      transform: rotateY(180deg);
+    }
   }
 }
 
@@ -557,7 +549,6 @@ const visibleDetails = ref(false)
   font-size: 12px;
   font-weight: 400;
   line-height: 21px;
-  // color: #f0f0f0;
   text-transform: uppercase;
   margin-bottom: 10px;
 }
@@ -603,7 +594,6 @@ const visibleDetails = ref(false)
   font-size: 8px;
   font-weight: 600;
   line-height: 21px;
-  // color: #ffffff;
   box-shadow: 0px 4px 8.9px 0px #79797933;
   margin-left: 0px;
   padding: 6px 12px;
@@ -639,7 +629,6 @@ const visibleDetails = ref(false)
 
   &_LP {
     background: #00e0ff;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
 
     &:hover {
       cursor: pointer;
@@ -649,7 +638,6 @@ const visibleDetails = ref(false)
 
   &_WP {
     background: #00e0ff;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
 
     &:hover {
       cursor: pointer;
@@ -659,7 +647,6 @@ const visibleDetails = ref(false)
 }
 
 .liquidity_button_container {
-  // background: #171717;
   padding: 0px 0px !important;
   border-radius: 20px;
   @media all and (max-width: $md) {

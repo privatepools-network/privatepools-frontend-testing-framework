@@ -335,7 +335,7 @@
       <div class="flex flex-wrap gap-3">
         <PoolCard 
         v-for="(pool, index) in all_pools
-            .slice(0, sliceNumber)
+            // .slice(0, sliceNumber)
             .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
             .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
           :key="pool.name"
@@ -356,6 +356,7 @@
         />
 
       </div>
+      <div class="mt-[5%]"></div>
     </div>
   </MainCard>
 </template>
