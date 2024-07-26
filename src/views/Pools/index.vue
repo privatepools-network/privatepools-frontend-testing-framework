@@ -333,8 +333,8 @@
     </div>
     <div v-else-if="selectedView === 'Cards'">
       <div class="flex flex-wrap gap-3">
-        <PoolCard 
-        v-for="(pool, index) in all_pools
+        <PoolCard
+          v-for="(pool, index) in poolsForCard
             // .slice(0, sliceNumber)
             .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
             .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
@@ -354,9 +354,17 @@
           @goToCL="goToCL"
           :isActions="true"
         />
-
       </div>
-      <div class="mt-[5%]"></div>
+      <div class="mt-[5%]">
+        <Pagination
+          :perPage="perPage"
+          :pools="all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)"
+          :currentPage="currentPage"
+          @changePage="changePage"
+          @changePerPage="changePerPage"
+          :perPageOptions="[6, 12, 24]"
+        ></Pagination>
+      </div>
     </div>
   </MainCard>
 </template>
@@ -400,7 +408,7 @@ import { t } from 'i18next'
 import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
 import { useDevice } from '@/composables/adaptive/useDevice'
 import { getPoolsRewards } from '@/composables/data/rewardsData'
-
+import Pagination from '@/components/Pool/Pagination.vue'
 
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 const { width } = useDevice()
@@ -428,13 +436,34 @@ const minimalTVL = ref(900)
 const hideSmallPools = ref(true)
 const selectedView = ref('Table')
 
-
 const optionsTokens = ref([])
 const optionsPoolType = ref([
   { name: 'WP', selected: false },
   //{ name: 'CLP', selected: false },
 ])
 const optionsPoolAttribute = ref([{ name: t('new'), selected: false }])
+
+const perPage = ref(6)
+const currentPage = ref(1)
+
+const poolsForCard = computed(() => {
+  const start = (currentPage.value - 1) * perPage.value;
+  const end = start + perPage.value;
+  return all_pools?.value.slice(start, end);
+});
+
+function changePage(args) {
+  if (args.isEquating == false) {
+    currentPage.value = currentPage.value + args.num
+  } else {
+    currentPage.value = args.num
+  }
+}
+
+function changePerPage(v1) {
+  perPage.value = Number(v1)
+  currentPage.value = 1
+}
 
 const hidePools = ref(false)
 
@@ -780,5 +809,4 @@ const all_pools = computed(() => {
     }
   }
 }
-
 </style>
