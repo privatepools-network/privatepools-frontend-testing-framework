@@ -334,7 +334,7 @@
                 </div>
               </div> -->
             </div>
-            <!-- <div class="text-[#DCEEF6] font-medium text-lg my-2">
+            <div class="text-[#DCEEF6] font-medium text-lg my-2">
               Pool Composition
             </div>
             <div
@@ -366,7 +366,7 @@
                   />
                 </div>
               </div>
-            </div> -->
+            </div>
 
             <div class="text-[#DCEEF6] font-medium text-lg my-2">Analytics</div>
             
@@ -640,7 +640,7 @@ const visibleDetails = ref(false)
 
   .card {
     width: 100%;
-    height: 600px;
+    height: 650px;
     transition: transform 0.6s;
     transform-style: preserve-3d;
     position: relative;
@@ -662,7 +662,7 @@ const visibleDetails = ref(false)
       border-radius: 16px;
       padding: 20px;
       perspective: 1000px;
-      height: 600px;
+      height: 650px;
       -webkit-backface-visibility: hidden; /* Safari */
       -moz-backface-visibility: hidden; /* Firefox */
     }
