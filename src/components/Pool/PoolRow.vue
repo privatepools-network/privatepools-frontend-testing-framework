@@ -44,14 +44,10 @@
               </span>
             </div>
           </div>
-          <div
-            class="pool_type text-white"
-            :class="
-              pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
-            "
-          >
+          <!-- <div class="pool_type text-white" :class="pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
+            ">
             {{ pool['LiquidityType'] === 'CL' ? 'CLP' : 'WLP' }}
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -186,12 +182,13 @@
         <div
           class="details-el__col flex-column gap-3 font-['Syne',_sans-serif]"
         >
-          <div
+          {{ console.log('pool!!!', pool.tokens) }}
+      <!--    <div
             class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]"
-            @click="addTokenToMetamask(pool.address, lp_name)"
+            @click="iterationByTokensForMetamask(pool.tokens)"
           >
             {{ $t('add') }} {{ lp_name }}
-          </div>
+          </div> -->
           <div
             class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]"
             @click="
@@ -235,6 +232,7 @@
             /></a>
           </div>
         </div>
+        
         <div
           v-if="!userStakedPool"
           class="liquidity_button_container text-black dark:!text-white"
@@ -292,10 +290,10 @@
             </div>
             <div
               v-else
-              class="details-el__title d-flex gap-1 align-items-center green w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
+              class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
             >
               {{ $t('weighted_pool') }}
-              <div class="details-el__circle"></div>
+              <!-- <div class="details-el__circle"></div> -->
             </div>
 
             <div class="d-flex align-items-end justify-content-between mt-4">
@@ -369,7 +367,7 @@
           </svg>
           <div class="details-el__col">
             <div
-              :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'green'"
+              :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'blue'"
               class="details-el__title d-flex gap-1 align-items-center w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
             >
               {{ $t('liquidity_added') }}
@@ -454,27 +452,33 @@
               </linearGradient>
             </defs>
           </svg>
-          <!-- <div class="details-el__col">
+          <div class="details-el__col">
             <div
-              class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D] ">
+              class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
+            >
               {{ $t('rewards') }}
               <div class="details-el__circle"></div>
             </div>
 
-
-            <div class="d-flex align-items-end justify-content-between mt-4 gap-3">
+            <div
+              class="d-flex align-items-end justify-content-between mt-4 gap-3"
+            >
               <div class="d-flex flex-column gap-2">
                 <div class="text-[18px] font-[700]">
-                  $-
-
+                  ${{ total_rewards.toFixed(5) }}
                 </div>
               </div>
-              <div class="actions_button text-black dark:!text-white">
-                {{ $t('harvest') }}
+              {{ console.log('rewardsData[pool.address]', rewardsData[pool.address]) }}
+              <div
+                v-if="rewardsData[pool.address] != null"
+                class="actions_button text-black dark:!text-[#00E0FF]"
+                @click="claimRewards(rewardsData[pool.address])"
+              >
+                {{ $t('Claim') }}
               </div>
             </div>
-          </div> -->
-          <div class="details-el__col">
+          </div>
+          <!-- <div class="details-el__col">
             <div
               class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
             >
@@ -502,7 +506,7 @@
                 {{ $t('Compound') }}
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </CCollapse>
@@ -513,24 +517,19 @@ import { toRefs, defineProps, ref, computed } from 'vue'
 import DataTableCellTokenNamePaired from '@/components/DataTable/Cell/TokenNamePaired.vue'
 import { configService } from '@/services/config/config.service'
 import { ReversedDisplayNetwork } from '@/composables/useNetwork'
-import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import etherscan from '@/assets/icons/etherscan.svg'
-import router from '@/router'
 import APRIcon from '@/assets/icons/sidebarIcons/rewards_icon.svg'
-
-import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
-import { addTokenToMetamask } from '@/lib/utils/metamask'
+import { iterationByTokensForMetamask } from '@/lib/utils/metamask'
 import { useDark } from '@vueuse/core'
 import binanceScanLight from '@/assets/icons/binanceScanLight.svg'
 import { t } from 'i18next'
 import { notify } from '@/composables/notify'
-
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import CounterAnimation from '@/UI/CounterAnimation.vue'
 import { useDevice } from '@/composables/adaptive/useDevice'
-
+import { claimRewards } from '@/composables/portfolio/useRewards'
 const { width } = useDevice()
 const settingsStore = useSettings()
 const currentChainId = JSON.parse(
@@ -573,13 +572,24 @@ const props = defineProps({
   inactive: Boolean,
   isActions: Boolean,
   userPools: [],
+  rewardsData: Object,
   filters: Object,
 })
 
-const { pool, index, inactive, isActions, userPools, filters } = toRefs(props)
+const { pool, index, inactive, isActions, userPools, filters, rewardsData } =
+  toRefs(props)
 
 const userStakedPool = computed(() =>
   userPools.value.find((item) => item.id == pool.value.id),
+)
+
+const total_rewards = computed(() =>
+  rewardsData.value && rewardsData.value[pool.value.address]
+    ? rewardsData.value[pool.value.address].formatted_rewards.reduce(
+        (sum, value) => sum + value.rewardUsd,
+        0,
+      )
+    : 0,
 )
 const lp_name = computed(() => pool.value['Pool Name'][0].join('-'))
 const etherscan_link = computed(() => {
@@ -605,7 +615,7 @@ const visibleDetails = ref(false)
 
   .pair_avatars {
     @media (max-width: $xxl) {
-      width: 20px;
+      width: 35px;
     }
 
     &:not(:first-child) {
@@ -630,13 +640,7 @@ const visibleDetails = ref(false)
       min-width: 300%;
     }
 
-    &:hover {
-      // background: linear-gradient(
-      //   0deg,
-      //   rgba(43, 43, 43, 0.33),
-      //   rgba(43, 43, 43, 0.115)
-      // );
-    }
+ 
 
     &__col {
       display: flex;
@@ -718,18 +722,10 @@ const visibleDetails = ref(false)
         }
       }
 
-      &__inactive {
-        // opacity: 0.5;
-      }
+     
     }
 
-    &:first-child {
-      // .pools-row__value {
-      //   @media (max-width: $xxl) {
-      //     font-size: 12px;
-      //   }
-      // }
-    }
+    
   }
 }
 
@@ -755,42 +751,6 @@ const visibleDetails = ref(false)
     font-weight: 400;
     line-height: 16px;
     // color: #8f8f8f;
-  }
-}
-
-.liquidity_button {
-  border-radius: 100px;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 21px;
-  font-family: 'Syne', sans-serif;
-  color: #ffffff;
-  width: 60vw;
-  padding: 10px;
-  text-align: center;
-
-  @media (min-width: 1950px) {
-    width: 40vw;
-  }
-
-  &_LP {
-    background: #fb800f;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #fb800f);
-    }
-  }
-
-  &_WP {
-    background: #00dc3e;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #00dc3e);
-    }
   }
 }
 
@@ -822,11 +782,11 @@ const visibleDetails = ref(false)
 }
 
 .blue {
-  color: #03a6e9;
+  color: #00e0ff;
 
   .details-el__circle {
-    background: #03a6e9;
-    box-shadow: 0px 0px 10px 0px rgba(0, 209, 255, 0.5);
+    background: #00e0ff;
+    box-shadow: 0px 0px 10px 0px #00e0ff;
   }
 }
 
@@ -846,9 +806,9 @@ const visibleDetails = ref(false)
   // color: #ffffff;
   box-shadow: 0px 4px 8.9px 0px #79797933;
   margin-left: 20px;
-  padding: 6px 10px;
+  padding: 6px 20px;
   border-radius: 20px;
-  border: 1px solid #dceef6;
+  border: 1px solid white;
   text-transform: uppercase;
 
   &:hover {

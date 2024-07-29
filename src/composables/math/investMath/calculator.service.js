@@ -130,7 +130,7 @@ export default class CalculatorService {
         if (i !== index || type !== types[ratioType]) {
           const tokenAddress = this.tokenOf(types[ratioType], i)
           let token = lowercaseKeys(this.allTokens.value)[tokenAddress]
-          if (token.length) {
+          if(token.length){
             token = token[0]
           }
           amounts[types[ratioType]][i] = formatUnits(

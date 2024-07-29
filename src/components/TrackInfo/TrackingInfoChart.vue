@@ -70,7 +70,7 @@ import { useDevice } from '@/composables/adaptive/useDevice'
 const settingsStore = useSettings()
 const { width } = useDevice()
 
-const { currentCurrency } = storeToRefs(settingsStore)
+const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
 
 const postfix = computed(() =>
   currentCurrency.value == 'USD' ? '' : `_${currentCurrency.value}`,
@@ -112,25 +112,46 @@ const ChainRelatedFields = [
 const chainsMap = ref(getDefaultChainsMapValue())
 
 const preFiltersList = ref([
+{
+    title: 'TVL',
+    code: 'TVL',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+  {
+    title: 'TVL',
+    code: 'TVL_ETH',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
+  {
+    title: 'TVL',
+    code: 'TVL_BTC',
+    isSolo: true,
+    selected: true,
+    cumulable: false,
+  },
   {
     title: 'Revenue',
     code: 'Revenue',
     isSolo: true,
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
   },
   {
     title: 'Revenue',
     code: 'Revenue_ETH',
     isSolo: true,
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
   },
   {
     title: 'Revenue',
     code: 'Revenue_BTC',
     isSolo: true,
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
   },
   {
@@ -182,27 +203,7 @@ const preFiltersList = ref([
     selected: true,
     cumulable: true,
   },
-  {
-    title: 'TVL',
-    code: 'TVL',
-    isSolo: true,
-    selected: true,
-    cumulable: false,
-  },
-  {
-    title: 'TVL',
-    code: 'TVL_ETH',
-    isSolo: true,
-    selected: true,
-    cumulable: false,
-  },
-  {
-    title: 'TVL',
-    code: 'TVL_BTC',
-    isSolo: true,
-    selected: true,
-    cumulable: false,
-  },
+ 
 
   {
     title: 'Average APR',
@@ -237,21 +238,21 @@ const preFiltersList = ref([
     title: 'Token Incentives',
     code: 'Token Incentives',
     isSolo: true,
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
   },
   {
     title: 'Volatility Index',
     code: 'Volatility Index',
     isSolo: true,
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
   },
   {
     title: 'Impermanent Loss',
     code: 'Impermanent Loss',
     isSolo: true,
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
   },
 ])
@@ -286,7 +287,7 @@ const dataTrades = computed(() => {
     return filteredData.value.map((v) => v['Trades'])
   return []
 })
-
+console.log('filteredData!!!', filteredData)
 const dataAvgApr = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Average APR').selected)
     return filteredData.value.map((v) => v['Average APR'])
@@ -335,16 +336,24 @@ function changeTimeline(tl) {
   currentTimeline.value = tl
 }
 
-const filters = ref({
-  Revenue: true,
-  ['Gas Fees']: false,
-  ['Trades']: true,
-  Volume: true,
+const filters = ref(currentVersion.value === 'pro' ? {
   TVL: true,
   ['Average APR']: true,
-  ['Profits']: false,
+  ['Profits']: true,
+  ['Trades']: true,
+  Revenue: false,
+  ['Gas Fees']: false,
+  Volume: false,
   ['Volatility Index']: false,
   ['Impermanent Loss']: false,
+} : {
+  TVL: true,
+  ['Trades']: true,
+  ['Average APR']: true,
+  ['Profits']: true,
+  ['Gas Fees']: false,
+  Volume: false,
+
 })
 
 // const yAxisOffset = ref({
@@ -354,9 +363,9 @@ const filters = ref({
 //   APRVolatility: 180,
 // })
 
-const currentGridToRight = ref(240)
+const currentGridToRight = ref(currentVersion.value === 'pro' ? 240 : 180)
 
-const showVolume = ref(true)
+const showVolume = ref(false)
 const showRevenueProfits = ref(true)
 const showTradesGasFees = ref(true)
 const showAPRVolatility = ref(true)
@@ -420,12 +429,14 @@ function seriesInstance(name, type, data, yAxisIndex, color) {
     xAxisIndex: 0,
     yAxisIndex: yAxisIndex,
     smooth: true,
-    showSymbol: false,
+    showSymbol: true,
     itemStyle: {
       borderRadius: [10, 10, 0, 0],
       shadowColor: color,
       shadowBlur: 10,
       color: color,
+      symbol: 'circle', 
+      symbolSize: 8
     },
     emphasis: {
       focus: 'series',
@@ -452,7 +463,13 @@ function legendSelectedChange(e) {
   }
 
   if (e.name === 'Revenue' || e.name === 'Profits') {
-    if (e.selected.Revenue === false && e.selected.Profits === false) {
+    if (
+      currentVersion.value === 'pro' ?
+      e.selected.Revenue === false &&
+      e.selected.Profits === false
+      : 
+      e.selected.Profits === false
+      ) {
       showRevenueProfits.value = false
     } else if (e.selected.Revenue === true || e.selected.Profits === true) {
       showRevenueProfits.value = true
@@ -469,9 +486,12 @@ function legendSelectedChange(e) {
 
   if (e.name === 'Average APR' || e.name === 'Volatility Index' || e.name === 'Impermanent Loss') {
     if (
+      currentVersion.value === 'pro' ?
       e.selected['Average APR'] === false &&
-      e.selected['Volatility Index'] === false&&
+      e.selected['Volatility Index'] === false &&
       e.selected['Impermanent Loss'] === false
+      :
+      e.selected['Average APR'] === false
     ) {
       showAPRVolatility.value = false
     } else if (
@@ -610,10 +630,10 @@ const optionObj = ref({
         },
       },
     },
-    yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
-    yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
+    yAxisInstance('Volume', width.value > 768 ? showVolume : false,  0, '#FA5173'),
+    yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, currentVersion.value === 'pro' ? 60 : 0, '#01B47E'),
     yAxisInstance('Trades / Gas Fees', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance('APR / Volatility Index / Impermanent Loss', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
+    yAxisInstance(currentVersion.value === 'pro' ? 'APR / Volatility Index / Impermanent Loss' : 'APR', width.value > 768 ? showAPRVolatility : false, currentVersion.value === 'pro' ? 180 : 60, '#FFD700'),
   ],
   grid: [
     {
@@ -743,7 +763,12 @@ function getFilteredData() {
           }
         }
         if (filter_code == 'Average APR') {
-         
+        //   console.log('result_item[filter_code]', result_item[filter_code])
+        //  if(result_item[filter_code] === undefined) {
+        //   result_item[filter_code] = 0
+        //  }else {
+        //   result_item[filter_code] = result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
+        //  }
           result_item[filter_code] = result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
 
         }

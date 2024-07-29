@@ -65,7 +65,13 @@
       </div>
     </div>
     {{ console.log('filterByStatus', filterByStatus) }}
-
+    <div v-if="all_pools.length === 0 && user_staked_pools === null" class="my-5">
+        <LoaderPulse />
+      </div>
+      <div v-else-if="user_staked_pools.length === 0" class="my-5 text-center text-black dark:!text-white">
+        <div>{{ $t('no_results') }}</div>
+        <div>{{ $t('choose_a_pool') }}</div>
+      </div>
     <PoolRow v-for="(pool, index) in portfolio_pools.slice(0, 20)" :key="pool.name" :pool="pool"
       :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToCLPool="goToCLPool"
       @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL"

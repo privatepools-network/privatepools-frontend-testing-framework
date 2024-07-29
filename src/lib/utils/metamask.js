@@ -30,21 +30,27 @@ export async function selectNetwork(chainId) {
   }
 }
 
-export async function addTokenToMetamask(address, symbol) {
+export async function iterationByTokensForMetamask(tokensToWatch) {
+  tokensToWatch.forEach((token) => {
+    addTokenToMetamask(token.address, token.symbol, token.decimals).catch(
+      console.error,
+    )
+  })
+}
+
+export async function addTokenToMetamask(address, symbol, decimals) {
   try {
-    // wasAdded is a boolean. Like any RPC method, an error may be thrown.
     const wasAdded = await window.ethereum.request({
       method: 'wallet_watchAsset',
       params: {
-        type: 'ERC20', // Initially only supports ERC20, but eventually more!
+        type: 'ERC20',
         options: {
-          address: address, // The address that the token is at.
-          symbol: address.slice(0, 10), // A ticker symbol or shorthand, up to 5 chars.
-          decimals: 18, // The number of decimals in the token
+          address: address,
+          symbol: symbol,
+          decimals: decimals,
         },
       },
     })
-
   } catch (error) {
     console.log(error)
   }

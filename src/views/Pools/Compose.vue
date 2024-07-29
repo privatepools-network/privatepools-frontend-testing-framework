@@ -2,13 +2,10 @@
   <MainCard>
     <Modal v-if="tokenSelectModal" @close="tokenSelectModalClose" size="xl">
       <template #body>
-        <TokenSelectModal :tokenSelectModal="tokenSelectModal" @tokenSelectModalClose="tokenSelectModalClose"
-          :pairIndex="pairIndex" @updateToken="(token) =>
-          (tokensData[tokenSelectIndex] = {
-            ...token,
-            weight: tokensData[tokenSelectIndex].weight,
-          })
-            " :possibleComposeTokens="notSelectedPossibleComposeTokens" @addToken="onAddToken" />
+        <TokenSelectModal :isOpen="tokenSelectModal" :tokenSelectModal="tokenSelectModal" @close="tokenSelectModalClose"
+          :pairIndex="pairIndex" @updateToken="(token) => onUpdateTokenPriceSet(token)"
+          :possibleTokens="notSelectedPossibleComposeTokens" :possibleComposeTokens="possibleComposeTokens"
+          @addToken="onAddToken" />
       </template>
     </Modal>
 
@@ -93,7 +90,7 @@
 
             {{ $t('swap') }}
           </div> -->
-
+          {{ console.log('tokensData', tokensData) }}
           <div v-if="activeStep === 1" class="compose_choose_inner_container dark:!bg-[#DCEEF605] bg-white">
             <div class="d-flex justify-content-between">
               <div class="compose_text dark:!text-white text-black">
@@ -119,7 +116,7 @@
               </div>
               <div class="d-flex align-items-center gap-2">
                 <input type="number" class="compose_text dark:!text-white text-black weight_input"
-                  style="font-size: 14px; text-align: right; width: 50px" v-model="token.weight" /><span
+                  style="font-size: 14px; text-align: right; width: 80px" v-model="token.weight" /><span
                   style="color: white">%</span>
                 <div class="delete_token" style="cursor: pointer"
                   @click="tokensData = tokensData.filter((t) => t != token)">
@@ -162,12 +159,7 @@
             </div>
 
             <div class="mt-3">
-              <button class="add_token_btn" @click="
-                tokensData.push({
-                  ...notSelectedPossibleComposeTokens[0],
-                  weight: 0,
-                })
-                ">
+              <button class="add_token_btn" @click="() => onAddTokenPriceSet()">
                 {{ $t('add_token') }}
               </button>
             </div>
@@ -228,8 +220,8 @@
                       font-weight: 500;
                       text-align: right;
                     " :value="lineNumbers[tokenIndex] > 0
-                      ? lineNumbers[tokenIndex] / 1000
-                      : lineNumbers[tokenIndex]
+                        ? (lineNumbers[tokenIndex] / 1000).toFixed(2)
+                        : lineNumbers[tokenIndex].toFixed(2)
                       " @input="(e) => onTokenInput(e, tokenIndex)" type="number" />
                 </div>
                 <div>
@@ -238,7 +230,7 @@
                       {{ $t('balance') }}:
                       <span class="fw-bold" v-if="lineNumbers.length > 0">{{
                         RemainingBalance(token, tokenIndex)
-                      }}</span><span @click="() => OnMaxClick(tokenIndex)" class="fw-bold bg-transparent"
+                        }}</span><span @click="() => OnMaxClick(tokenIndex)" class="fw-bold bg-transparent"
                         style="cursor: pointer">
                         {{ $t('max') }}</span>
                     </div>
@@ -417,10 +409,10 @@
                 <ProgressLoader v-if="mmActive && activeStep === 2" />
                 <span v-else class="progress_loader_still"></span>
               </div>
-              <Step :activeStep="activeStep - 1" :displayedActiveStep="2" :mmActive="mmActive" :stepText="'Approve'"
-                v-if="!tokensApproved" />
-              <Step :activeStep="activeStep - 1" :displayedActiveStep="1" :mmActive="mmActive" :stepText="'Approve'"
-                v-else />
+              <Step :activeStep="activeStep - 1" :displayedActiveStep="2" :mmActive="mmActive"
+                :stepText="hasBNB ? 'Approve & Wrap' : 'Approve'" v-if="!tokensApproved" />
+              <Step :activeStep="activeStep - 1" :displayedActiveStep="1" :mmActive="mmActive"
+                :stepText="hasBNB ? 'Approve & Wrap' : 'Approve'" v-else />
               <div class="w-12 mt-1">
                 <ProgressLoader v-if="mmActive && activeStep === 3" />
                 <span v-else class="progress_loader_still"></span>
@@ -439,7 +431,7 @@
           <div class="compose_pool_connect_wallet" v-else-if="activeStep === 3" @click="JoinNewPool">
             {{
               mmActive
-                ? 'Depositing liquidity'
+                ? !tokensApproved ? 'Approving...' : 'Depositing liquidity'
                 : $t('approve_tokens_for_adding')
             }}
             <span v-if="mmActive" class="button_loader pl-2"></span>
@@ -472,41 +464,60 @@
           </div>
         </div>
 
-        <div class="compose_chart dark:!bg-[#DCEEF605] bg-white">
+        <!-- Commenting out the pool summary box -->
+        <!-- <div class="compose_chart dark:!bg-[#DCEEF605] bg-white">
           <div class="compose_text dark:!text-white text-black">
             {{ $t('pool_summary') }}
           </div>
           <hr class="compose_hr" />
           <div class="chart_container">
-            <!-- <LoaderPulse v-if="data.series.length === 0" /> -->
-            {{ console.log('dynamicDonut.series', dynamicDonut.series[0]) }}
             <div v-if="dynamicDonut.series[0] !== 0">
-              <apexchart v-if="
-                tokensData && tokensData.length > 0 && tokensData[0].symbol
-              " :series="dynamicDonut.series" :options="dynamicDonut" />
+              <apexchart
+                v-if="
+                  tokensData && tokensData.length > 0 && tokensData[0].symbol
+                "
+                :series="dynamicDonut.series"
+                :options="dynamicDonut"
+              />
             </div>
-            <div v-else
-              class="d-flex flex-column dark:!text-white text-black align-items-center justify-content-center">
-              <svg style="filter: drop-shadow(0 0 0.7rem #00c9ff)" fill="#00C9FF" version="1.1" id="Capa_1"
-                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70px" height="70px"
-                viewBox="0 0 869.959 869.958" xml:space="preserve">
+            <div
+              v-else
+              class="d-flex flex-column dark:!text-white text-black align-items-center justify-content-center"
+            >
+              <svg
+                style="filter: drop-shadow(0 0 0.7rem #00c9ff)"
+                fill="#00C9FF"
+                version="1.1"
+                id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                width="70px"
+                height="70px"
+                viewBox="0 0 869.959 869.958"
+                xml:space="preserve"
+              >
                 <g>
-                  <path d="M146.838,484.584c10.271,10.395,23.804,15.6,37.347,15.6c13.329,0,26.667-5.046,36.897-15.155
-		c20.625-20.379,20.825-53.62,0.445-74.245l-41.688-42.191h423.78c88.963,0,161.34,72.376,161.34,161.339v4.32
-		c0,43.096-16.782,83.61-47.255,114.084c-20.503,20.502-20.503,53.744,0,74.246c10.251,10.251,23.688,15.377,37.123,15.377
-		c13.435,0,26.872-5.125,37.123-15.377c50.305-50.306,78.009-117.188,78.009-188.331v-4.32c0-71.142-27.704-138.026-78.009-188.331
-		c-50.306-50.305-117.189-78.009-188.331-78.009h-424.99l42.25-41.747c20.625-20.379,20.825-53.62,0.445-74.245
-		c-20.376-20.624-53.618-20.825-74.244-0.445L15.601,277.068c-9.905,9.787-15.517,23.107-15.6,37.03
-		c-0.084,13.924,5.367,27.31,15.154,37.215L146.838,484.584z" />
+                  <path
+                    d="M146.838,484.584c10.271,10.395,23.804,15.6,37.347,15.6c13.329,0,26.667-5.046,36.897-15.155
+                    c20.625-20.379,20.825-53.62,0.445-74.245l-41.688-42.191h423.78c88.963,0,161.34,72.376,161.34,161.339v4.32
+                    c0,43.096-16.782,83.61-47.255,114.084c-20.503,20.502-20.503,53.744,0,74.246c10.251,10.251,23.688,15.377,37.123,15.377
+                    c13.435,0,26.872-5.125,37.123-15.377c50.305-50.306,78.009-117.188,78.009-188.331v-4.32c0-71.142-27.704-138.026-78.009-188.331
+                    c-50.306-50.305-117.189-78.009-188.331-78.009h-424.99l42.25-41.747c20.625-20.379,20.825-53.62,0.445-74.245
+                    c-20.376-20.624-53.618-20.825-74.244-0.445L15.601,277.068c-9.905,9.787-15.517,23.107-15.6,37.03
+                    c-0.084,13.924,5.367,27.31,15.154,37.215L146.838,484.584z"
+                  />
                 </g>
               </svg>
               {{ $t('add_some_weight') }}
             </div>
           </div>
-          <div class="d-flex justify-content-center flex-column align-items-center">
-            <div class="compose_text dark:!text-white text-black flex items-center gap-1">
+          <div
+            class="d-flex justify-content-center flex-column align-items-center"
+          >
+            <div
+              class="compose_text dark:!text-white text-black flex items-center gap-1"
+            >
               {{ $t('in_your_wallet') }}
-
               <VTooltip :distance="0" :placement="'bottom'">
                 <img :src="info" class="info_icon" />
                 <template #popper>
@@ -521,7 +532,10 @@
                 </template>
               </VTooltip>
             </div>
-            <div v-if="tokensData.length > 0 && tokensData[0].symbol" class="compose_text dark:!text-white text-black">
+            <div
+              v-if="tokensData.length > 0 && tokensData[0].symbol"
+              class="compose_text dark:!text-white text-black"
+            >
               ${{
                 removeDuplicates(tokensData, 'symbol')
                   .map((t) => t.balance * t.price)
@@ -530,7 +544,7 @@
               }}
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </MainCard>
@@ -564,9 +578,11 @@ import { configService } from '@/services/config/config.service'
 import { ethers } from 'ethers'
 import { useApproveTokens } from '@/composables/poolActions/deposit/useApproveTokens'
 import useBalance from '@/composables/useBalance'
+import useBalanceInfo from '@/composables/useBalanceInfo'
 import erc20abi from '@/lib/abi/ERC20.json'
 import { GetFilteredTokenPrices } from '@/composables/useTokenPrices'
 import { SingleSwap } from '@/composables/admin/swap/useSingleSwap'
+import { getSinglePrice } from '@/composables/data/pricesData'
 import {
   generatePairCombinations,
   stringToColor,
@@ -640,7 +656,7 @@ const leastBalanceValue = computed(() => {
 const maxBalances = computed(() => {
   const result = {}
   for (let i = 0; i < tokensData.value.length; i++) {
-    if(tokensData.value[i].price == 0){
+    if (tokensData.value[i].price == 0) {
       result[tokensData.value[i].address] = tokensData.value[i].balance
       continue
     }
@@ -649,11 +665,13 @@ const maxBalances = computed(() => {
         (leastBalanceValue.value /
           tokensData.value[leastBalanceIndex.value].weight) *
         tokensData.value[i].weight
-      result[tokensData.value[i].address] =
-        tokensData.value[i].price ? toOptimizeUsdAmount / tokensData.value[i].price : toOptimizeUsdAmount
+      result[tokensData.value[i].address] = tokensData.value[i].price
+        ? toOptimizeUsdAmount / tokensData.value[i].price
+        : toOptimizeUsdAmount
     } else {
-      result[tokensData.value[i].address] =
-        tokensData.value[i].price ? leastBalanceValue.value / tokensData.value[i].price : leastBalanceValue.value
+      result[tokensData.value[i].address] = tokensData.value[i].price
+        ? leastBalanceValue.value / tokensData.value[i].price
+        : leastBalanceValue.value
     }
   }
   return result
@@ -671,7 +689,7 @@ const notify = () => {
     theme: 'dark',
     type: popupType.value,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     position: toast.POSITION.TOP_RIGHT,
     data: {
       header_text: popupText.value,
@@ -680,6 +698,42 @@ const notify = () => {
     },
   })
 }
+
+async function onUpdateTokenPriceSet(token) {
+  tokensData.value[tokenSelectIndex.value] = {
+    ...token,
+    weight: tokensData.value[tokenSelectIndex.value].weight,
+    price:
+      token.price > 0 ? token.price : await getSinglePrice(56, token.symbol),
+  }
+  let provider = await InitializeMetamask()
+  let account = await provider.getSigner().getAddress()
+  let address = token.address
+  let { balance, decimals } = await useBalanceInfo(address, provider, account)
+  tokensData.value[tokenSelectIndex.value].balance = balance
+  tokensData.value[tokenSelectIndex.value].decimals = decimals
+}
+
+async function onAddTokenPriceSet() {
+
+  tokensData.value.push({
+    ...notSelectedPossibleComposeTokens.value[0],
+    weight: 0,
+    price:
+      notSelectedPossibleComposeTokens.value[0].price > 0
+        ? notSelectedPossibleComposeTokens.value[0].price
+        : await getSinglePrice(56,
+          notSelectedPossibleComposeTokens.value[0].symbol,
+        ),
+  })
+  let provider = await InitializeMetamask()
+  let account = await provider.getSigner().getAddress()
+  let address = notSelectedPossibleComposeTokens.value[0].address
+  let { balance, decimals } = await useBalanceInfo(address, provider, account)
+  tokensData.value[tokensData.value.length - 1].balance = balance
+  tokensData.value[tokensData.value.length - 1].decimals = decimals
+}
+
 function SetErrorTxPopup(subtext) {
   popupType.value = 'error'
   popupText.value = 'Error happened!'
@@ -699,7 +753,7 @@ function OnLineNumberChange(index) {
     return
   }
   lastDepositChanged.value = index
-  if (autoOptimizeLiq.value && tokensData.value.every(t => t.price > 0)) {
+  if (autoOptimizeLiq.value && tokensData.value.every((t) => t.price > 0)) {
     OptimizeValue()
   }
   isOptimizeChanging.value = false
@@ -709,14 +763,17 @@ function OptimizeValue() {
   if (lastDepositChanged.value == -1) return
   let token = tokensData.value[lastDepositChanged.value]
   let usdAmount =
-    (lineNumbers.value[lastDepositChanged.value] / 1000) * (token.price > 0 ? token.price : 1)
+    (lineNumbers.value[lastDepositChanged.value] / 1000) *
+    (token.price > 0 ? token.price : 1)
   usdAmount = Math.min(usdAmount, leastBalanceValue.value)
 
   for (let i = 0; i < lineNumbers.value.length; i++) {
     let toOptimizeUsdAmount =
       (usdAmount / tokensData.value[lastDepositChanged.value].weight) *
       tokensData.value[i].weight
-    let newValue = toOptimizeUsdAmount / (tokensData.value[i].price ?tokensData.value[i].price :  1)
+    let newValue =
+      toOptimizeUsdAmount /
+      (tokensData.value[i].price ? tokensData.value[i].price : 1)
     lineNumbers.value[i] = newValue * 1000
   }
 }
@@ -739,7 +796,9 @@ function OnMaxClick(index) {
 function OnAllMaxClick() {
   if (autoOptimizeLiq.value) {
     let sorted = [...tokensData.value].sort(
-      (a, b) => a.balance * (a.price > 0 ? a.price : 1) - b.balance * (b.price > 0 ? b.price : 1),
+      (a, b) =>
+        a.balance * (a.price > 0 ? a.price : 1) -
+        b.balance * (b.price > 0 ? b.price : 1),
     )
     OnMaxClick(tokensData.value.findIndex((t) => t.symbol == sorted[0].symbol))
   } else {
@@ -797,7 +856,9 @@ const tokensData = ref(
 const totalFiat = computed(() =>
   lineNumbers.value.reduce(
     (sum, current, index) =>
-      sum + (current / 1000) * (tokensData.value[index].price > 0 ? tokensData.value[index].price:  0),
+      sum +
+      (current / 1000) *
+      (tokensData.value[index].price > 0 ? tokensData.value[index].price : 0),
     0,
   ),
 )
@@ -886,31 +947,71 @@ function RemainingBalance(token, index) {
   return diff < 0 && diff > -1 ? 0 : diff.toFixed(4)
 }
 
+const hasBNB = ref(false)
+
+
 async function onStep1Click() {
   console.log('areWeightSmallerThanZero', areWeightSmallerThanZero.value)
 
-  if (!isPoolReady.value) {
+  hasBNB.value = tokensData.value.some((asset) => asset.symbol === 'BNB')
+  console.log('hasBNB', hasBNB.value)
+
+  if (hasBNB.value) {
     toast(Toast, {
       closeOnClick: true,
       theme: 'dark',
-      type: 'warning',
+      type: 'info',
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       position: toast.POSITION.TOP_RIGHT,
       data: {
-        header_text: 'Impossible to Create Pool!',
-        toast_text: 'Please add tokens and weights',
+        header_text: 'BNB will be Wrapped to WBNB!',
+        toast_text: 'You choose BNB as one of pool tokens to add this we will wrapped needed amount to WBNB on approve step',
         tx_link: '',
         speedUp: '',
       },
     })
+  }
+
+  if (!isPoolReady.value) {
+    if (summarizedWeight.value !== 100) {
+      toast(Toast, {
+        closeOnClick: true,
+        theme: 'dark',
+        type: 'warning',
+        autoClose: 5000,
+        closeButton: true,
+        position: toast.POSITION.TOP_RIGHT,
+        data: {
+          header_text: 'Weights not summing to 100%',
+          toast_text: 'The weights of all tokens must sum to 100%',
+          tx_link: '',
+          speedUp: '',
+        },
+      })
+    } else {
+      toast(Toast, {
+        closeOnClick: true,
+        theme: 'dark',
+        type: 'warning',
+        autoClose: 5000,
+        closeButton: true,
+        position: toast.POSITION.TOP_RIGHT,
+        data: {
+          header_text: 'Impossible to Create Pool!',
+          toast_text: 'Please add tokens and weights',
+          tx_link: '',
+          speedUp: '',
+        },
+      })
+    }
   } else if (areWeightSmallerThanZero.value) {
     toast(Toast, {
       closeOnClick: true,
       theme: 'dark',
       type: 'warning',
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       position: toast.POSITION.TOP_RIGHT,
       data: {
         header_text: 'You have zero token weight!',
@@ -928,6 +1029,10 @@ async function onStep1Click() {
       activeStep.value = 2
     }
   }
+}
+
+function checkBNBToken(symbol) {
+  return symbol == 'BNB' ? 'WBNB' : symbol
 }
 
 async function CreateNewPool() {
@@ -950,8 +1055,12 @@ async function CreateNewPool() {
   account.value = await provider.getSigner().getAddress()
   let tx = await poolCreateService.createWeightedPool(
     provider,
-    tokensData.value.map((t) => `WLP-${t.weight}${t.symbol}`).join('-'),
-    tokensData.value.map((t) => `${t.weight}${t.symbol}`).join('-'),
+    tokensData.value
+      .map((t) => `WLP-${t.weight}${checkBNBToken(t.symbol)}`)
+      .join('-'),
+    tokensData.value
+      .map((t) => `${t.weight}${checkBNBToken(t.symbol)}`)
+      .join('-'),
     '0',
     tokensData.value,
   )
@@ -964,7 +1073,7 @@ async function CreateNewPool() {
     poolCreationLink.value = `${configService.getNetworkConfig(networkId.value).explorer
       }/tx/${tx.hash}`
     lineNumbers.value = tokensData.value.map(() => 0)
-
+    console.log('CREATED POOL', _poolId)
     playSuccess.play()
     toast.update(CreateNewPoolPending, {
       render: Toast,
@@ -977,7 +1086,7 @@ async function CreateNewPool() {
 
       closeOnClick: false,
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       type: 'success',
       isLoading: false,
     })
@@ -997,7 +1106,7 @@ async function CreateNewPool() {
       },
       autoClose: 7000,
       closeOnClick: false,
-      closeButton: false,
+      closeButton: true,
       type: 'error',
       isLoading: false,
     })
@@ -1057,7 +1166,7 @@ async function JoinNewPool() {
 
       closeOnClick: false,
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       type: 'error',
       isLoading: false,
     })
@@ -1078,7 +1187,7 @@ async function JoinNewPool() {
 
     closeOnClick: false,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     type: 'success',
     isLoading: false,
   })
@@ -1100,7 +1209,35 @@ watch(activeStep, async () => {
       addresses,
     )
   }
+  if (activeStep.value === 3) {
+    //let addresses = tokensData.value.map((t) => t.address)
+    let provider = await InitializeMetamask()
+    const topicSets = [
+      ethers.utils.id('Transfer(address,address,uint256)'),
+      null,
+      [ethers.utils.hexZeroPad(account.value, 32), null],
+      [null, ethers.utils.hexZeroPad(account.value, 32)],
+    ]
+    provider.on(topicSets, handleBalanceChange)
+  }
 })
+
+async function handleBalanceChange() {
+  console.log('BALANCE CHANGE')
+  let provider = await InitializeMetamask()
+  for (let i = 0; i < tokensData.value.length; i++) {
+    let token_contract = new ethers.Contract(
+      tokensData.value[i].address,
+      erc20abi,
+      provider,
+    )
+    const balance = await token_contract.balanceOf(account.value)
+    tokensData.value[i] = {
+      ...tokensData.value[i],
+      balance: ethers.utils.formatUnits(balance, tokensData.value[i].decimals),
+    }
+  }
+}
 
 const MIN_USD_SWAP = 0.01
 const swaps = computed(() => {
@@ -1286,16 +1423,17 @@ const dynamicDonut = computed(() => {
 
 <style lang="scss" scoped>
 .center_container {
-  // background: #15151524;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
-  margin: 1% 10% 10% 10%;
+  margin: auto;
   padding: 2.5%;
   border-radius: 16px;
   backdrop-filter: blur(10px);
+  max-width: 900px;
 
   @media (max-width: 768px) {
     margin: 0%;
+    padding: 5%;
   }
 }
 

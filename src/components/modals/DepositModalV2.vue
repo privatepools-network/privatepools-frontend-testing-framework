@@ -131,7 +131,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('potential_weekly_yield') }}</div>
           <div class="d-flex gap-1 font-['Roboto_Mono',_monospace] text-[13px]">
-            %{{ weeklyYield }}
+            {{ parseFloat(weeklyYield).toFixed(2) }}%
           </div>
         </div>
       </div>
@@ -144,7 +144,7 @@
           :activeStep="approveStep - 1"
           :displayedActiveStep="1"
           :mmActive="mmActive"
-          :stepText="'Approve'"
+          :stepText="wbnbSelected ? 'Wrap &\n Approve' : 'Approve'"
         />
 
         <div class="w-12 mt-1">
@@ -234,7 +234,7 @@ const mmActive = ref(false)
 //     theme: "dark",
 //     type: popupType.value,
 //     autoClose: 5000,
-//     closeButton: false,
+//     closeButton: true,
 //     position: toast.POSITION.TOP_RIGHT,
 //     data: {
 //       header_text: popupText.value,
@@ -274,6 +274,7 @@ const props = defineProps([
   'weeklyYield',
   'approveStep',
   'depositMethod',
+  'wbnbSelected'
 ])
 const emit = defineEmits([
   'zapperModalOpen',
@@ -294,7 +295,13 @@ async function OnPreviewClick() {
   if (props.approveStep === 1) {
     // props.approveStep = 2
     emit('changeApproveStep', 2)
-    let tokenAddresses = props.tokens.map((t) => t.address)
+    let tokenAddresses = props.tokens.map((t) => t.address.toLowerCase())
+    if(!props.wbnbSelected){
+      let index = tokenAddresses.indexOf('0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c')
+      if(index != -1){
+        tokenAddresses[index] = '0x0000000000000000000000000000000000000000'
+      }
+    }
     mmActive.value = true
     let success = await useApproveTokens(
       tokenAddresses,
@@ -358,7 +365,7 @@ async function OnPreviewClick() {
           },
           autoClose: 7000,
           closeOnClick: false,
-          closeButton: false,
+          closeButton: true,
           type: 'error',
           isLoading: false,
         })
@@ -373,7 +380,7 @@ async function OnPreviewClick() {
     toast.update(ConfirmToastPending, {
       render: Toast,
       data: {
-        header_text: 'Approve confirmed',
+        header_text: 'Deposit confirmed',
         toast_text: `${parseFloat(props.fiatTotal).toFixed(
           4,
         )} USD - ${formatNotificationDate(new Date().getTime())}`,
@@ -383,7 +390,7 @@ async function OnPreviewClick() {
 
       closeOnClick: false,
       autoClose: 10000,
-      closeButton: false,
+      closeButton: true,
       type: 'success',
       isLoading: false,
     })

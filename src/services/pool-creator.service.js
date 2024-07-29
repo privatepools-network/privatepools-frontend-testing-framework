@@ -56,6 +56,16 @@ export class PoolCreatorService {
     console.log('swapFeePercentage', swapFeePercentage)
     console.log('tokens', tokens)
     tokens = tokens.filter((t) => t && t != {} && t.address)
+    const bnbToken_index = tokens.findIndex(
+      (t) => t.address == ethers.constants.AddressZero,
+    )
+    if (bnbToken_index != -1) {
+      tokens[bnbToken_index] = {
+        ...tokens[bnbToken_index],
+        symbol: 'WBNB',
+        address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+      }
+    }
     console.log(tokens)
     if (tokens.length == 0) return false
     const sorted = this.sortTokens(tokens)

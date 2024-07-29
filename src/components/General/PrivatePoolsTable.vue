@@ -19,8 +19,9 @@
     </Tabs>
   </div>
   <CRow id="pool-activity-row" class="table-wrapper !mx-0">
+    <!-- {{console.log('activities', activities)}} -->
     <div
-      v-if="activities.length === 0"
+      v-if="loader"
       class="!bg-[white] dark:!bg-[#fff0] backdrop-blur-md h-[500px]"
     >
       <LoaderPulse />
@@ -376,17 +377,19 @@
         class="text-black dark:!text-white"
         style="font-size: 14px; text-align: center"
       >
-        No Activity yet
+      {{console.log('activitiesSelectedMode', activitiesSelectedMode)}}
+        {{activitiesSelectedMode === 'Withdraw' ? 'No results' : 'No Activity yet'}}
       </div>
       <div
+        
         class="text-black dark:!text-white"
         style="font-size: 12px; text-align: center"
       >
-        Choose a pool to invest or create a pool to get started.
+      {{activitiesSelectedMode === 'Withdraw' ? '' : 'Choose a pool to invest or create a pool to get started'}}
       </div>
-      <div class="add_liq_btn_pools">
+      <!-- <div class="add_liq_btn_pools" v-if="activitiesSelectedMode !== 'Withdraw'">
         <div class="d-flex gap-1">+ Add liquidity</div>
-      </div>
+      </div> -->
     </div>
   </CRow>
 
@@ -424,8 +427,10 @@ const currencyDecimals = computed(() =>
 )
 const isDark = useDark()
 
-const props = defineProps(['clActivity', 'wpActivity', 'all_activities'])
+const props = defineProps(['clActivity', 'wpActivity', 'all_activities', 'loader'])
 const sliceNumber = ref(10)
+
+
 const activities = computed(() => {
   let result = props.all_activities ?? []
   console.log('HERE', props.all_activities)
@@ -442,21 +447,21 @@ const activities = computed(() => {
     .sort((a, b) => b.timestamp - a.timestamp)
 })
 
-const perPage = ref(25)
-const currentPage = ref(1)
+// const perPage = ref(25)
+// const currentPage = ref(1)
 
-function changePage(args) {
-  if (args.isEquating == false) {
-    currentPage.value = currentPage.value + args.num
-  } else {
-    currentPage.value = args.num
-  }
-}
+// function changePage(args) {
+//   if (args.isEquating == false) {
+//     currentPage.value = currentPage.value + args.num
+//   } else {
+//     currentPage.value = args.num
+//   }
+// }
 
-function changePerPage(v1) {
-  perPage.value = Number(v1)
-  currentPage.value = 1
-}
+// function changePerPage(v1) {
+//   perPage.value = Number(v1)
+//   currentPage.value = 1
+// }
 
 const periodsOfData = [
   {

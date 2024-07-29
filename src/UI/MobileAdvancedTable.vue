@@ -24,14 +24,14 @@
               flex-wrap: wrap;
             "
           >
-            <div
+            <!-- <div
               class="pool_type text-white"
               :class="
                 pool['LiquidityType'] === 'CL' ? 'pool_type_CL' : 'pool_type_WP'
               "
             >
               {{ pool['LiquidityType'] === 'CL' ? 'CLP' : 'WLP' }}
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -173,12 +173,12 @@
         <div
           class="details-el__col flex-column gap-3 font-['Syne',_sans-serif]"
         >
-          <div
+          <!--<div
             class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]"
             @click="addTokenToMetamask(pool.address, lp_name)"
           >
             {{ $t('add') }} {{ lp_name }}
-          </div>
+          </div>-->
           <div
             class="details-el__activity text-black dark:!text-white hover:!text-[#03a6e9]"
             @click="
@@ -258,7 +258,7 @@
             :class="
               pool['LiquidityType'] === 'CL'
                 ? 'liquidity_button_LP'
-                : 'liquidity_button_WP'
+                : 'liquidity_button_WP mb-3'
             "
           >
             {{ $t('add_liquidity') }}
@@ -312,7 +312,7 @@
             </div>
             <div
               v-else
-              class="details-el__title d-flex gap-1 align-items-center green w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
+              class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
             >
               {{ $t('weighted_pool') }}
               <div class="details-el__circle"></div>
@@ -389,7 +389,7 @@
         </div>
           <div class="details-el__col">
             <div
-              :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'green'"
+              :class="pool['LiquidityType'] === 'CL' ? 'orange' : 'blue'"
               class="details-el__title d-flex gap-1 align-items-center w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
             >
               {{ $t('liquidity_added') }}
@@ -570,7 +570,7 @@ const props = defineProps({
 const { pool, index, inactive, isActions, userPools, filters } = toRefs(props)
 
 const userStakedPool = computed(() =>
-  userPools.value.find((item) => item.id == pool.value.id),
+  userPools?.value?.find((item) => item.id == pool.value.id),
 )
 const lp_name = computed(() => pool.value['Pool Name'][0].join('-'))
 const etherscan_link = computed(() => {
@@ -716,41 +716,7 @@ const visibleDetails = ref(false)
   }
 }
 
-.liquidity_button {
-  border-radius: 100px;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 21px;
-  font-family: 'Syne', sans-serif;
-  color: #ffffff;
-  width: 100%;
-  padding: 10px;
-  text-align: center;
 
-  // @media (min-width: 1950px) {
-  //   width: 40vw;
-  // }
-
-  &_LP {
-    background: #fb800f;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #fb800f);
-    }
-  }
-
-  &_WP {
-    background: #00dc3e;
-    // box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #00dc3e);
-    }
-  }
-}
 
 .liquidity_button_text {
   font-size: 12px;

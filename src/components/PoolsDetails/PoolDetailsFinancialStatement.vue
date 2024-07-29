@@ -904,7 +904,7 @@ onBeforeMount(async () => {
   gap: 40px;
   // color: rgba(243, 244, 246, 1);
   font-size: clamp(10px, 0.8vw, 14px);
-
+  background-color: rgba(0, 1, 23, 0.356) !important;
   font-weight: 300;
 }
 

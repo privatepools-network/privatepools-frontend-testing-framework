@@ -606,7 +606,7 @@ export async function MintPosition(
 
     closeOnClick: false,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     type: 'success',
     isLoading: false,
   })
@@ -720,7 +720,7 @@ async function ApproveToken(
 
       closeOnClick: false,
       autoClose: 5000,
-      closeButton: false,
+      closeButton: true,
       type: 'error',
       isLoading: false,
     })
@@ -863,7 +863,7 @@ async function mintPosition(order, signer, pool) {
       },
       autoClose: 7000,
       closeOnClick: false,
-      closeButton: false,
+      closeButton: true,
       type: 'error',
       isLoading: false,
     })
@@ -883,7 +883,7 @@ async function mintPosition(order, signer, pool) {
 
     closeOnClick: false,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     type: 'success',
     isLoading: false,
   })

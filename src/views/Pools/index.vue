@@ -1,7 +1,7 @@
 <template>
   <MainCard>
     <!-- <div class="flex items-center gap-2">
-      <img :src="walletPoolsImg" />
+      <img :src="logoImage" />
       <Title :title="'Private Pools'" />
     </div> -->
 
@@ -18,6 +18,37 @@
         />
 
         <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <svg
+              @click="selectedView = 'Table'"
+              class="cursor-pointer"
+              width="28"
+              height="22"
+              viewBox="0 0 28 22"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.43815 14.0835H5.52148C6.3694 14.0835 7.06315 13.3897 7.06315 12.5418V9.4585C7.06315 8.61058 6.3694 7.91683 5.52148 7.91683H2.43815C1.59023 7.91683 0.896484 8.61058 0.896484 9.4585V12.5418C0.896484 13.3897 1.59023 14.0835 2.43815 14.0835ZM2.43815 21.7918H5.52148C6.3694 21.7918 7.06315 21.0981 7.06315 20.2502V17.1668C7.06315 16.3189 6.3694 15.6252 5.52148 15.6252H2.43815C1.59023 15.6252 0.896484 16.3189 0.896484 17.1668V20.2502C0.896484 21.0981 1.59023 21.7918 2.43815 21.7918ZM2.43815 6.37516H5.52148C6.3694 6.37516 7.06315 5.68141 7.06315 4.8335V1.75016C7.06315 0.902246 6.3694 0.208496 5.52148 0.208496H2.43815C1.59023 0.208496 0.896484 0.902246 0.896484 1.75016V4.8335C0.896484 5.68141 1.59023 6.37516 2.43815 6.37516ZM10.1465 14.0835H25.5632C26.4111 14.0835 27.1048 13.3897 27.1048 12.5418V9.4585C27.1048 8.61058 26.4111 7.91683 25.5632 7.91683H10.1465C9.29857 7.91683 8.60482 8.61058 8.60482 9.4585V12.5418C8.60482 13.3897 9.29857 14.0835 10.1465 14.0835ZM10.1465 21.7918H25.5632C26.4111 21.7918 27.1048 21.0981 27.1048 20.2502V17.1668C27.1048 16.3189 26.4111 15.6252 25.5632 15.6252H10.1465C9.29857 15.6252 8.60482 16.3189 8.60482 17.1668V20.2502C8.60482 21.0981 9.29857 21.7918 10.1465 21.7918ZM8.60482 1.75016V4.8335C8.60482 5.68141 9.29857 6.37516 10.1465 6.37516H25.5632C26.4111 6.37516 27.1048 5.68141 27.1048 4.8335V1.75016C27.1048 0.902246 26.4111 0.208496 25.5632 0.208496H10.1465C9.29857 0.208496 8.60482 0.902246 8.60482 1.75016Z"
+                :fill="selectedView === 'Table' ? '#00E0FF' : 'white'"
+              />
+            </svg>
+            <svg
+              @click="selectedView = 'Cards'"
+              class="cursor-pointer"
+              width="28"
+              height="22"
+              viewBox="0 0 28 22"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.64706 10.1538H6.58824C7.49412 10.1538 8.23529 9.39231 8.23529 8.46154V1.69231C8.23529 0.761538 7.49412 0 6.58824 0H1.64706C0.741176 0 0 0.761538 0 1.69231V8.46154C0 9.39231 0.741176 10.1538 1.64706 10.1538ZM1.64706 22H6.58824C7.49412 22 8.23529 21.2385 8.23529 20.3077V13.5385C8.23529 12.6077 7.49412 11.8462 6.58824 11.8462H1.64706C0.741176 11.8462 0 12.6077 0 13.5385V20.3077C0 21.2385 0.741176 22 1.64706 22ZM11.5294 22H16.4706C17.3765 22 18.1176 21.2385 18.1176 20.3077V13.5385C18.1176 12.6077 17.3765 11.8462 16.4706 11.8462H11.5294C10.6235 11.8462 9.88235 12.6077 9.88235 13.5385V20.3077C9.88235 21.2385 10.6235 22 11.5294 22ZM21.4118 22H26.3529C27.2588 22 28 21.2385 28 20.3077V13.5385C28 12.6077 27.2588 11.8462 26.3529 11.8462H21.4118C20.5059 11.8462 19.7647 12.6077 19.7647 13.5385V20.3077C19.7647 21.2385 20.5059 22 21.4118 22ZM11.5294 10.1538H16.4706C17.3765 10.1538 18.1176 9.39231 18.1176 8.46154V1.69231C18.1176 0.761538 17.3765 0 16.4706 0H11.5294C10.6235 0 9.88235 0.761538 9.88235 1.69231V8.46154C9.88235 9.39231 10.6235 10.1538 11.5294 10.1538ZM19.7647 1.69231V8.46154C19.7647 9.39231 20.5059 10.1538 21.4118 10.1538H26.3529C27.2588 10.1538 28 9.39231 28 8.46154V1.69231C28 0.761538 27.2588 0 26.3529 0H21.4118C20.5059 0 19.7647 0.761538 19.7647 1.69231Z"
+                :fill="selectedView === 'Cards' ? '#00E0FF' : 'white'"
+              />
+            </svg>
+          </div>
+
           <div class="flex items-center gap-2">
             <label class="inline-flex items-center cursor-pointer">
               <input
@@ -61,237 +92,278 @@
       <!-- {{ console.log('hidePools', hidePools) }} -->
     </div>
 
-    <!-- v-if="width > 768"  -->
-    <div 
-      v-if="width > 768"
-      class="pools-rows"
-      >
-      <!-- Headers Desktop -->
-      <div class="pools-row pools-row_header">
-        <div
-          class="pools-row__col"
-          :class="
-            // Table headers positioning by header names
-            headCaptionIndex === 0 || headCaptionIndex === 1
-              ? 'justify-content-start'
-              : 'justify-content-center'
-          "
-          v-for="(headCaption, headCaptionIndex) in headers"
-          :key="headCaption"
-        >
-          <div class="file-table-header-cell">
-            <div
-              class="d-flex align-items-center gap-1"
-              :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
-              style="cursor: pointer; height: 20px"
-            >
+    <div v-if="selectedView === 'Table'">
+      <div v-if="width > 768" class="pools-rows">
+        <!-- Headers Desktop -->
+        <div class="pools-row pools-row_header">
+          <div
+            class="pools-row__col"
+            :class="
+              // Table headers positioning by header names
+              headCaptionIndex === 0 || headCaptionIndex === 1
+                ? 'justify-content-start'
+                : 'justify-content-center'
+            "
+            v-for="(headCaption, headCaptionIndex) in headers"
+            :key="headCaption"
+          >
+            <div class="file-table-header-cell">
               <div
-                v-if="headCaption === t('tokens')"
-                :class="'head_caption_text text-black dark:!text-white'"
-              >
-                <svg
-                  width="24"
-                  height="15"
-                  viewBox="0 0 24 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g clip-path="url(#clip0_1_2449)">
-                    <path
-                      d="M7.5 14.5C11.366 14.5 14.5 11.366 14.5 7.5C14.5 3.63401 11.366 0.5 7.5 0.5C3.63401 0.5 0.5 3.63401 0.5 7.5C0.5 11.366 3.63401 14.5 7.5 14.5Z"
-                      stroke="white"
-                    />
-                    <path
-                      d="M16.5 14.5C20.366 14.5 23.5 11.366 23.5 7.5C23.5 3.63401 20.366 0.5 16.5 0.5C12.634 0.5 9.5 3.63401 9.5 7.5C9.5 11.366 12.634 14.5 16.5 14.5Z"
-                      stroke="white"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_1_2449">
-                      <rect width="24" height="15" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-              </div>
-              <div
-                v-else-if="headCaption === t('volume')"
-                :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'"
+                class="d-flex align-items-center gap-1"
+                :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
+                style="cursor: pointer; height: 20px"
               >
                 <div
-                  class="flex items-center gap-1"
-                  @click="
-                    ascendFilterBy = `${t('volume')}_${filterByTimeVolume}`
-                  "
+                  v-if="headCaption === t('tokens')"
+                  :class="'head_caption_text text-black dark:!text-white'"
                 >
-                  <img
-                    :src="filterArrow"
-                    :class="
-                      ascendFilterBy === `${t('volume')}_${filterByTimeVolume}`
-                        ? 'rotate-180'
-                        : ''
-                    "
-                  />
-                  {{ headCaption }} ({{ filterByTimeVolume }})
+                  <svg
+                    width="24"
+                    height="15"
+                    viewBox="0 0 24 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_1_2449)">
+                      <path
+                        d="M7.5 14.5C11.366 14.5 14.5 11.366 14.5 7.5C14.5 3.63401 11.366 0.5 7.5 0.5C3.63401 0.5 0.5 3.63401 0.5 7.5C0.5 11.366 3.63401 14.5 7.5 14.5Z"
+                        stroke="white"
+                      />
+                      <path
+                        d="M16.5 14.5C20.366 14.5 23.5 11.366 23.5 7.5C23.5 3.63401 20.366 0.5 16.5 0.5C12.634 0.5 9.5 3.63401 9.5 7.5C9.5 11.366 12.634 14.5 16.5 14.5Z"
+                        stroke="white"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_1_2449">
+                        <rect width="24" height="15" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
                 </div>
-                <img
-                  :src="filterSVG"
-                  @click="
-                    filterByTimeVolume === '24H'
-                      ? (filterByTimeVolume = '7D')
-                      : filterByTimeVolume === '7D'
-                      ? (filterByTimeVolume = '30D')
-                      : filterByTimeVolume === '30D'
-                      ? (filterByTimeVolume = 'ALL')
-                      : filterByTimeVolume === 'ALL'
-                      ? (filterByTimeVolume = '24H')
-                      : (filterByTimeVolume = '24H')
-                  "
-                />
-              </div>
-              <div
-                v-else-if="headCaption === 'APR'"
-                :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'"
-              >
                 <div
-                  class="flex items-center gap-1"
-                  @click="ascendFilterBy = `APR ${filterByTimeAPR}`"
+                  v-else-if="headCaption === t('volume')"
+                  :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'"
                 >
+                  <div
+                    class="flex items-center gap-1"
+                    @click="
+                      ascendFilterBy = `${t('volume')}_${filterByTimeVolume}`
+                    "
+                  >
+                    <img
+                      :src="filterArrow"
+                      :class="
+                        ascendFilterBy ===
+                        `${t('volume')}_${filterByTimeVolume}`
+                          ? 'rotate-180'
+                          : ''
+                      "
+                    />
+                    {{ headCaption }} ({{ filterByTimeVolume }})
+                  </div>
                   <img
-                    :src="filterArrow"
-                    :class="
-                      ascendFilterBy === `APR ${filterByTimeAPR}`
-                        ? 'rotate-180'
-                        : ''
+                    :src="filterSVG"
+                    @click="
+                      filterByTimeVolume === '24H'
+                        ? (filterByTimeVolume = '7D')
+                        : filterByTimeVolume === '7D'
+                        ? (filterByTimeVolume = '30D')
+                        : filterByTimeVolume === '30D'
+                        ? (filterByTimeVolume = 'ALL')
+                        : filterByTimeVolume === 'ALL'
+                        ? (filterByTimeVolume = '24H')
+                        : (filterByTimeVolume = '24H')
                     "
                   />
-                  {{ headCaption }} ({{ filterByTimeAPR }})
                 </div>
-                <img
-                  :src="filterSVG"
-                  @click="
-                    filterByTimeAPR === '24H'
-                      ? (filterByTimeAPR = '7D')
-                      : filterByTimeAPR === '7D'
-                      ? (filterByTimeAPR = '30D')
-                      : filterByTimeAPR === '30D'
-                      ? (filterByTimeAPR = 'ALL')
-                      : filterByTimeAPR === 'ALL'
-                      ? (filterByTimeAPR = '24H')
-                      : (filterByTimeAPR = '24H')
-                  "
-                />
-              </div>
-              <div
-                v-else
-                :class="'head_caption_text flex items-center gap-1 text-black dark:!text-white'"
-                @click="ascendFilterBy = headCaption"
-              >
-                <img
-                  :class="ascendFilterBy === headCaption ? 'rotate-180' : ''"
-                  v-if="
-                    !headCaption.includes(t('composition')) &&
-                    !headCaption.includes(t('actions'))
-                  "
-                  :src="filterArrow"
-                />
-                {{ headCaption }}
+                <div
+                  v-else-if="headCaption === 'APR'"
+                  :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'"
+                >
+                  <div
+                    class="flex items-center gap-1"
+                    @click="ascendFilterBy = `APR ${filterByTimeAPR}`"
+                  >
+                    <img
+                      :src="filterArrow"
+                      :class="
+                        ascendFilterBy === `APR ${filterByTimeAPR}`
+                          ? 'rotate-180'
+                          : ''
+                      "
+                    />
+                    {{ headCaption }} ({{ filterByTimeAPR }})
+                  </div>
+                  <img
+                    :src="filterSVG"
+                    @click="
+                      filterByTimeAPR === '24H'
+                        ? (filterByTimeAPR = '7D')
+                        : filterByTimeAPR === '7D'
+                        ? (filterByTimeAPR = '30D')
+                        : filterByTimeAPR === '30D'
+                        ? (filterByTimeAPR = 'ALL')
+                        : filterByTimeAPR === 'ALL'
+                        ? (filterByTimeAPR = '24H')
+                        : (filterByTimeAPR = '24H')
+                    "
+                  />
+                </div>
+                <div
+                  v-else
+                  :class="'head_caption_text flex items-center gap-1 text-black dark:!text-white'"
+                  @click="ascendFilterBy = headCaption"
+                >
+                  <img
+                    :class="ascendFilterBy === headCaption ? 'rotate-180' : ''"
+                    v-if="
+                      !headCaption.includes(t('composition')) &&
+                      !headCaption.includes(t('actions'))
+                    "
+                    :src="filterArrow"
+                  />
+                  {{ headCaption }}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <div
+          v-if="all_pools.length === 0 && user_staked_pools === null"
+          class="my-5"
+        >
+          <LoaderPulse />
+        </div>
+        <div
+          v-else-if="user_staked_pools.length === 0 && hidePools"
+          class="my-5 text-center text-black dark:!text-white"
+        >
+          <div>{{ $t('no_results') }}</div>
+          <div>{{ $t('choose_a_pool') }}</div>
+        </div>
 
-      <div
-        v-if="user_staked_pools.length === 0 && hidePools"
-        class="my-5 text-center text-black dark:!text-white"
-      >
-        <div>{{ $t('no_results') }}</div>
-        <div>{{ $t('choose_a_pool') }}</div>
-      </div>
-      <div v-else-if="all_pools.length === 0" class="my-5">
-        <LoaderPulse />
-      </div>
-      {{ console.log('all_pools', all_pools) }}
-      <PoolRow
-        v-for="(pool, index) in all_pools
+        {{ console.log('all_pools', all_pools) }}
+        <PoolRow
+          v-for="(pool, index) in all_pools
+            .slice(0, sliceNumber)
+            .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+            .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
+          :key="pool.name"
+          :pool="pool"
+          :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
+          :userPools="user_staked_pools"
+          :inactive="isPoolInactive(pool)"
+          :index="index"
+          @goToPoolWithdraw="goToPoolWithdraw"
+          :rewardsData="rewardsData"
+          @goToPoolCompound="goToPoolCompound"
+          @goToCLPool="goToCLPool"
+          @goToPool="goToPool"
+          @goToPoolDeposit="goToPoolDeposit"
+          @goToPoolManage="goToPoolManage"
+          @goToCL="goToCL"
+          :isActions="true"
+        />
+        <!-- <PoolsMobileTable v-else/> -->
 
-          .slice(0, sliceNumber)
-          .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
-          .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
-        :key="pool.name"
-        :pool="pool"
-        :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
-        :userPools="user_staked_pools"
-        :inactive="isPoolInactive(pool)"
-        :index="index"
-        @goToPoolWithdraw="goToPoolWithdraw"
-        @goToPoolCompound="goToPoolCompound"
-        @goToCLPool="goToCLPool"
-        @goToPool="goToPool"
-        @goToPoolDeposit="goToPoolDeposit"
-        @goToPoolManage="goToPoolManage"
-        @goToCL="goToCL"
-        :isActions="true"
-      />
-      <!-- <PoolsMobileTable v-else/> -->
-
-      <div
-        v-if="
-          sliceNumber <
-          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
-            .length
-        "
-        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
-        class="load_more text-black dark:!text-white"
-      >
-        {{ $t('load_more') }}
-        <img :src="arrow_bottom" />
+        <div
+          v-if="
+            sliceNumber <
+            all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+              .length
+          "
+          @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+          class="load_more text-black dark:!text-white"
+        >
+          {{ $t('load_more') }}
+          <img :src="arrow_bottom" />
+        </div>
+      </div>
+      <div v-else>
+        <div
+          v-if="user_staked_pools?.length === 0 && hidePools"
+          class="my-5 text-center text-black dark:!text-white"
+        >
+          <div>{{ $t('no_results') }}</div>
+          <div>{{ $t('choose_a_pool') }}</div>
+        </div>
+        <div v-if="all_pools?.length === 0" class="my-5">
+          <LoaderPulse />
+        </div>
+        <div class="mobile_table_container">
+          <MobileAdvancedTable
+            v-for="(pool, index) in all_pools
+              .slice(0, sliceNumber)
+              .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+              .toSorted((a, b) =>
+                Number(b[ascendFilterBy] - a[ascendFilterBy]),
+              )"
+            :key="pool.name"
+            :pool="pool"
+            :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
+            :userPools="user_staked_pools"
+            :inactive="isPoolInactive(pool)"
+            :index="index"
+            @goToPoolWithdraw="goToPoolWithdraw"
+            :rewardsData="rewardsData"
+            @goToPoolCompound="goToPoolCompound"
+            @goToCLPool="goToCLPool"
+            @goToPool="goToPool"
+            @goToPoolDeposit="goToPoolDeposit"
+            @goToPoolManage="goToPoolManage"
+            @goToCL="goToCL"
+            :isActions="true"
+          />
+          <div
+            v-if="
+              sliceNumber <
+              all_pools.filter(
+                (item) => !hideSmallPools || item.TVL > minimalTVL,
+              ).length
+            "
+            @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
+            class="load_more text-black dark:!text-white"
+          >
+            {{ $t('load_more') }}
+            <img :src="arrow_bottom" />
+          </div>
+        </div>
       </div>
     </div>
-    <div v-else>
-      <div
-        v-if="user_staked_pools.length === 0 && hidePools"
-        class="my-5 text-center text-black dark:!text-white"
-      >
-        <div>{{ $t('no_results') }}</div>
-        <div>{{ $t('choose_a_pool') }}</div>
+    <div v-else-if="selectedView === 'Cards'">
+      <div class="flex flex-wrap gap-3">
+        <PoolCard
+          v-for="(pool, index) in poolsForCard
+            // .slice(0, sliceNumber)
+            .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+            .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
+          :key="pool.name"
+          :pool="pool"
+          :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
+          :userPools="user_staked_pools"
+          :inactive="isPoolInactive(pool)"
+          :index="index"
+          @goToPoolWithdraw="goToPoolWithdraw"
+          :rewardsData="rewardsData"
+          @goToPoolCompound="goToPoolCompound"
+          @goToCLPool="goToCLPool"
+          @goToPool="goToPool"
+          @goToPoolDeposit="goToPoolDeposit"
+          @goToPoolManage="goToPoolManage"
+          @goToCL="goToCL"
+          :isActions="true"
+        />
       </div>
-      <div v-else-if="all_pools.length === 0" class="my-5">
-        <LoaderPulse />
-      </div>
-      <div v-else class="mobile_table_container">
-      <MobileAdvancedTable
-        
-        v-for="(pool, index) in all_pools
-          .slice(0, sliceNumber)
-          .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
-          .toSorted((a, b) => Number(b[ascendFilterBy] - a[ascendFilterBy]))"
-        :key="pool.name"
-        :pool="pool"
-        :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
-        :userPools="user_staked_pools"
-        :inactive="isPoolInactive(pool)"
-        :index="index"
-        @goToPoolWithdraw="goToPoolWithdraw"
-        @goToCLPool="goToCLPool"
-        @goToPool="goToPool"
-        @goToPoolDeposit="goToPoolDeposit"
-        @goToPoolManage="goToPoolManage"
-        @goToCL="goToCL"
-        :isActions="true"
-      />
-      <div
-        v-if="
-          sliceNumber <
-          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
-            .length
-        "
-        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
-        class="load_more text-black dark:!text-white"
-      >
-        {{ $t('load_more') }}
-        <img :src="arrow_bottom" />
-      </div>
+      <div class="mt-[5%]">
+        <Pagination
+          :perPage="perPage"
+          :pools="all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)"
+          :currentPage="currentPage"
+          @changePage="changePage"
+          @changePerPage="changePerPage"
+          :perPageOptions="[6, 12, 24]"
+        ></Pagination>
       </div>
     </div>
   </MainCard>
@@ -311,6 +383,7 @@ import { ethers } from 'ethers'
 import { GetPoolSwapsData } from '@/composables/pools/charts/usePoolSwapsData'
 import { GetPoolHistoricValues } from '@/composables/pools/charts/usePoolHistoricValues'
 import PoolRow from '@/components/Pool/PoolRow.vue'
+import PoolCard from '@/components/Pool/PoolCard.vue'
 import MobileAdvancedTable from '@/UI/MobileAdvancedTable.vue'
 import MainCard from '@/UI/MainCard.vue'
 import filterSVG from '@/assets/icons/filter.svg'
@@ -330,11 +403,12 @@ import { CalculateCLAPR } from '@/composables/math/chartMath/trackingInfoMath'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import PoolFilters from '@/components/Pool/PoolFilters.vue'
 import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
-import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
 import { getPoolsData } from '@/composables/data/poolsData'
 import { t } from 'i18next'
 import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
 import { useDevice } from '@/composables/adaptive/useDevice'
+import { getPoolsRewards } from '@/composables/data/rewardsData'
+import Pagination from '@/components/Pool/Pagination.vue'
 
 const chainSelected = ref({ name: 'All Chains', code: 'ALL', img: '' })
 const { width } = useDevice()
@@ -342,7 +416,7 @@ const { width } = useDevice()
 const sliceNumber = ref(10)
 
 const filterByTimeAPR = ref('24H')
-const filterByTimeVolume = ref('24H')
+const filterByTimeVolume = ref('30D')
 
 const ascendFilterBy = ref('TVL')
 
@@ -358,8 +432,9 @@ const headers = [
 
 const route = useRoute()
 
-const minimalTVL = ref(5)
+const minimalTVL = ref(900)
 const hideSmallPools = ref(true)
+const selectedView = ref('Table')
 
 const optionsTokens = ref([])
 const optionsPoolType = ref([
@@ -367,6 +442,28 @@ const optionsPoolType = ref([
   //{ name: 'CLP', selected: false },
 ])
 const optionsPoolAttribute = ref([{ name: t('new'), selected: false }])
+
+const perPage = ref(6)
+const currentPage = ref(1)
+
+const poolsForCard = computed(() => {
+  const start = (currentPage.value - 1) * perPage.value;
+  const end = start + perPage.value;
+  return all_pools?.value.slice(start, end);
+});
+
+function changePage(args) {
+  if (args.isEquating == false) {
+    currentPage.value = currentPage.value + args.num
+  } else {
+    currentPage.value = args.num
+  }
+}
+
+function changePerPage(v1) {
+  perPage.value = Number(v1)
+  currentPage.value = 1
+}
 
 const hidePools = ref(false)
 
@@ -377,12 +474,14 @@ watch(chainSelected, () => {
 watch(networkId, async () => {
   await InitUserStakedPools()
 })
-
+const rewardsData = ref([])
 async function InitUserStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
-    let address = await mmProvider.getSigner().getAddress() //'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
+    let address = await mmProvider.getSigner().getAddress() //'0x759eE62a73A8A0690a0E20Fc489D3F462B4385c0' //' //
     user_staked_pools.value = await useWalletPools(address, 56, false)
+    rewardsData.value = await getPoolsRewards(address)
+    console.log('POOLS REWARDS DATA ', rewardsData.value)
     console.log(all_pools.value)
     console.log(user_staked_pools.value)
     console.log(
@@ -401,7 +500,7 @@ const poolSwapsData = ref([])
 const historicTvl = ref([])
 
 const pools = ref([])
-const user_staked_pools = ref([])
+const user_staked_pools = ref(null)
 const defaultPools = ref([])
 const cl_pools = ref([])
 const cl_snapshots = ref([])
@@ -468,7 +567,6 @@ function goToPoolManage(args) {
     })
   }
 }
-
 
 function goToPoolWithdraw(args) {
   router.push({
@@ -705,6 +803,7 @@ const all_pools = computed(() => {
     @media all and (max-width: $lg) {
       overflow-x: auto;
     }
+
     @media (max-width: 768px) {
       border: 0px;
     }

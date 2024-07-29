@@ -1,14 +1,18 @@
 import axios from 'axios'
 export async function getStatus() {
-  const url = `${process.env.VUE_APP_REWARDS_BACKEND_BINANCE}/status`
+  let lastStatusFetched = localStorage.getItem('lastStatusFetched')
+  let lastStatus = localStorage.getItem('lastStatus')
+  const url = `${process.env.VUE_APP_STATUS_LINK}`
   try {
     const response = await axios.get(url)
-    return response.data.status
+    const status = response.data.every((item) => item.status == 'Success')
+    localStorage.setItem('lastStatusFetched', Date.now())
+    localStorage.setItem('lastStatus', status)
+    return status
   } catch (e) {
+    // localStorage.setItem('lastStatusFetched', Date.now())
+    // localStorage.setItem('lastStatus', false)
     console.error('[SERVER ERROR]', e)
+    return false
   }
-  const response = await axios.get(
-    `${process.env.VUE_APP_REDUNDANT_REWARDS_BACKEND_BINANCE}/status`,
-  )
-  return response.data.status
 }

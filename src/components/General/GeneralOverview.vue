@@ -1,6 +1,6 @@
 <template>
-  <div class="flex md:gap-1 gap-4  justify-between md:overflow-hidden overflow-y-auto">
-    <div class="flex gap-4 ">
+  <div class="flex md:gap-1 gap-4 justify-between md:overflow-hidden overflow-y-auto">
+    <div class="flex gap-4 lg:!w-[80%] w-auto">
       <div class="overview_big_container bg-[#FFFFFF24] dark:!bg-[#22222224]" v-for="(item, i) in bigContainerMock"
         :key="`${i}-big-container`">
         {{ console.log('generalOverviewLoader', generalOverviewLoader) }}
@@ -15,7 +15,9 @@
                 {{
                   item.name.includes('APR')
                     ? `${parseFloat(item.value).toFixed(3)}%`
-                    : parseFloat(item.value).toFixed(3)
+                    : item.name.includes('Total Trades')
+                      ? parseFloat(item.value).toFixed(0)
+                      : parseFloat(item.value).toFixed(3)
                 }}
               </div>
             </div>
@@ -30,21 +32,19 @@
             </div>
             <div class="text_value text-black dark:!text-white flex items-center gap-1">
               {{
-                item.name.includes('APR')
+                item.description.includes('APR')
                   ? `${parseFloat(item.value_2).toFixed(3)}%`
-                  : parseFloat(item.value_2).toFixed(3)
+                  : item.description.includes('24h Trades')
+                    ? parseFloat(item.value_2).toFixed(0)
+                    : parseFloat(item.value_2).toFixed(3)
               }}
               <div class="flex items-center text-[8px] text-[#8E8E8E]">
-                <svg :class="parseFloat(item.value_2) > 0
-                  ? ''
-                  : 'rotate-180'" width="7" height="7" viewBox="0 0 7 7" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
+                <svg :class="parseFloat(item.value_2) > 0 ? '' : 'rotate-180'" width="7" height="7" viewBox="0 0 7 7"
+                  fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_323_7059)">
                     <path
                       d="M5.443 3.82153C5.75076 4.35499 5.36579 5.02177 4.74993 5.02197L1.60356 5.02381C0.987104 5.0244 0.601444 4.35685 0.909706 3.82292L2.48448 1.09532C2.79275 0.561397 3.56369 0.561612 3.87141 1.09578L5.443 3.82153Z"
-                      :fill="parseFloat(item.value_2) > 0
-                        ? '#40B66B'
-                        : '#D22B2B'
+                      :fill="parseFloat(item.value_2) > 0 ? '#40B66B' : '#D22B2B'
                         " />
                   </g>
                   <defs>
@@ -58,51 +58,63 @@
               </div>
             </div>
           </div>
-          <div class="mt-5">
-            <CChart type="line" style="height: 70px; filter: drop-shadow(0 0 0.5rem #00c9ff)" :data="{
-              labels: item.chartLabels,
-              datasets: [
-                {
-                  label: 'Profit',
-                  backgroundColor: '#03F5AE00',
-                  borderColor: '#03ACF599',
-                  data: item.chartData,
-                  fill: true,
-                  pointRadius: 1,
-                  pointHitRadius: 2,
-                },
-              ],
-            }" :options="{
-              plugins: {
-                legend: {
-                  display: false,
-                },
-                tooltip: {
-                  enabled: true,
-                },
-              },
+          <!-- <div class="mt-5 flex justify-center">
+            {{ console.log('item', item) }}
+            <CChart type="line" style="
+                height: 70px;
 
-              maintainAspectRatio: false,
-              scales: {
-                x: {
-                  display: false,
+                filter: drop-shadow(0 0 0.5rem #00c9ff);
+              " class="lg:w-[12svw] w-full" :data="{
+                // labels: moment
+                //   .unix(item.chartLabels * 1000)
+                //   .format('MMMM Do YYYY, h:mm:ss a'),
+                labels: item.chartLabels,
+
+                datasets: [
+                  {
+                    label: 'Profit',
+                    backgroundColor: '#03F5AE00',
+                    borderColor: '#03ACF599',
+                    data: item.chartData,
+                    fill: true,
+                    pointRadius: 1,
+                    pointHitRadius: 2,
+                    pointStyle: 'circle',
+                  },
+                ],
+              }" :options="{
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                  tooltip: {
+                    enabled: false,
+                    usePointStyle: true,
+                  },
                 },
-                y: {
-                  display: false,
+
+                scales: {
+                  x: {
+                    display: false,
+                  },
+                  y: {
+                    display: false,
+                  },
                 },
-              },
-              elements: {
-                line: {
-                  borderWidth: 2,
-                  tension: 0.4,
+                elements: {
+                  line: {
+                    borderWidth: 2,
+                    tension: 0.4,
+                  },
                 },
-              },
-            }" />
-          </div>
+              }" />
+          </div> -->
         </div>
       </div>
     </div>
-    <div class="flex gap-3 flex-col">
+    <div class="flex gap-3 flex-col lg:w-[20%] w-full">
       <div class="overview_small_container bg-[#FFFFFF24] dark:!bg-[#22222224]" v-for="(item, i) in smallContainerMock"
         :key="`${i}-small`">
         <LoaderPulse v-if="generalOverviewLoader" />
@@ -111,7 +123,8 @@
             <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">
               {{ item.name }}
             </div>
-            <div class="text_value text-black dark:!text-white">
+            <div class="text_value flex items-center text-black dark:!text-white">
+              <span>{{ item.name !== 'Total users' ? '$' : '' }}</span>
               {{
                 parseFloat(item.value)
                   .toFixed(3)
@@ -131,11 +144,11 @@
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 
 import { CChart } from '@coreui/vue-chartjs'
-import walletPoolsImg from '@/assets/icons/sidebarIcons/walletPoolsImage.svg'
+import PPNTVL from '@/assets/icons/generalIcons/PPNTVL.svg'
 import totalUsers from '@/assets/icons/generalIcons/totalUsers.svg'
 import DepositedLiquidity from '@/assets/icons/generalIcons/DepositedLiquidity.svg'
 import FeesIcon from '@/assets/icons/generalIcons/Fees.svg'
-import RealizedProfit from '@/assets/icons/generalIcons/realizedProfit.svg'
+// import RealizedProfit from '@/assets/icons/generalIcons/realizedProfit.svg'
 import TotalProfitsIcon from '@/assets/icons/generalIcons/TotalProfits.svg'
 import averageAPRIcon from '@/assets/icons/generalIcons/averageAPR.svg'
 import totalVolumeIcon from '@/assets/icons/generalIcons/totalVolume.svg'
@@ -147,11 +160,12 @@ import { t } from 'i18next'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 
-
-const settingsStore = useSettings();
+const settingsStore = useSettings()
 
 const { currentCurrency } = storeToRefs(settingsStore)
-const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
+const postfix = computed(() =>
+  currentCurrency.value == 'USD' ? '' : `_${currentCurrency.value}`,
+)
 const isDark = useDark()
 
 const props = defineProps(['overview', 'generalOverviewLoader'])
@@ -164,8 +178,10 @@ const bigContainerMock = computed(() =>
         value: props.overview[`totalProfits${postfix.value}`],
         description: `24H ${t('profits')}`,
         value_2: props.overview[`profits24H${postfix.value}`],
-        chartLabels: props.overview.profitChart.timestamps,
-        chartData: props.overview.profitChart.data,
+        chartLabels: [0, 0, 0, 0, 0, 0, 0],
+        // chartLabels: props.overview.profitChart.timestamps,
+        // chartData: props.overview.profitChart.data,
+        chartData: [0, 0, 0, 0, 0, 0, 0],
         percentage: props.overview.profitPercentage,
       },
       {
@@ -179,11 +195,11 @@ const bigContainerMock = computed(() =>
         percentage: props.overview.APRPercentage,
       },
       {
-        icon: d3logo,
-        name: 'PPN TVL',
-        value: props.overview[`PPNTVL${postfix.value}`] ?? 0,
-        description: `PPN ${t('price')}`,
-        value_2: props.overview[`PPNPrice${postfix.value}`] ?? 0,
+        icon: PPNTVL,
+        name: 'Total Trades',
+        value: props.overview.totalTrades ?? 0,
+        description: `24h Trades`,
+        value_2: props.overview.trades24H ?? 0,
         chartLabels: props.overview.ppnChart.timestamps,
         chartData: props.overview.ppnChart.data,
         percentage: props.overview.PPNPricePercentage ?? 0,
@@ -194,8 +210,10 @@ const bigContainerMock = computed(() =>
         value: props.overview[`totalVolume${postfix.value}`],
         description: `24h ${t('volume')}`,
         value_2: props.overview[`volume24H${postfix.value}`],
-        chartLabels: props.overview.volumeChart.timestamps,
-        chartData: props.overview.volumeChart.data,
+        // chartLabels: props.overview.volumeChart.timestamps,
+        chartLabels: [0, 0, 0, 0, 0, 0, 0],
+        // chartData: props.overview.volumeChart.data,
+        chartData: [0, 0, 0, 0, 0, 0, 0],
         percentage: props.overview.volumePercentage,
       },
     ]
@@ -215,16 +233,16 @@ const smallContainerMock = computed(() =>
         name: 'TVL',
         value: props.overview[`TVL${postfix.value}`],
       },
-      {
-        icon: FeesIcon,
-        name: `24H ${t('trades')}`,
-        value: props.overview.trades24H,
-      },
-      {
-        icon: RealizedProfit,
-        name: `24H ${t('volume')}`,
-        value: props.overview[`volume24H${postfix.value}`],
-      },
+      // {
+      //   icon: FeesIcon,
+      //   name: `Gas Fees`,
+      //   value: props.overview[`totalGasFee${postfix.value}`],
+      // },
+      // {
+      //   icon: totalVolumeIcon,
+      //   name: `24H ${t('volume')}`,
+      //   value: props.overview[`volume24H${postfix.value}`],
+      // },
     ]
     : [],
 )
@@ -235,14 +253,16 @@ const smallContainerMock = computed(() =>
   border: 1px solid #00e0ff61;
   border-radius: 30px;
   padding: 20px 30px;
-  width: 16.5vw;
+  width: 100%;
   box-shadow: 0px 4px 4px 0px #00000040;
+  margin-bottom: 5px;
 
   @media (min-width: 1950px) {
     width: 10.5vw;
   }
+
   @media (max-width: 768px) {
-    width: 100%;
+    width: 250px;
   }
 }
 
@@ -250,14 +270,15 @@ const smallContainerMock = computed(() =>
   backdrop-filter: blur(10px);
   border: 1px solid #00e0ff61;
   border-radius: 30px;
-  padding: 10px 30px;
-  width: 14vw;
+  padding: 20px 30px;
+  width: 100%;
   height: fit-content;
   box-shadow: 0px 4px 4px 0px #00000040;
-
+  margin-bottom: 5px;
   @media (min-width: 1950px) {
     width: 10.5vw;
   }
+
   @media (max-width: 768px) {
     width: 100%;
   }

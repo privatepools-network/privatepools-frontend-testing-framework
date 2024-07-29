@@ -23,7 +23,7 @@
       {{ $t('pools') }}
     </div>
 
-    <div
+    <!-- <div
     v-if="width > 768"
       @click="router.push('/buy')"
       :class="
@@ -33,18 +33,6 @@
       "
     >
       {{ $t('buy') }}
-    </div>
-
-    <!-- <div
-      v-if="width > 768"
-      @click="router.push('/general')"
-      :class="
-        router.currentRoute.value.path === '/general'
-          ? 'navigation_text_selected navigation_text'
-          : 'navigation_text'
-      "
-    >
-      {{ $t('Analytics') }}
     </div> -->
 
     <div
@@ -58,7 +46,21 @@
     >
       {{ $t('portfolio') }}
     </div>
-    <Dropdown :distance="10" v-if="width > 768">
+
+    <div
+      v-if="width > 768"
+      @click="router.push('/general')"
+      :class="
+        router.currentRoute.value.path === '/general'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+      "
+    >
+      {{ $t('Analytics') }}
+    </div>
+
+  
+    <!-- <Dropdown :distance="10" v-if="width > 768">
       <div class="arrow_header">
         <svg
           width="9"
@@ -76,9 +78,10 @@
           />
         </svg>
       </div>
-      <template #popper>
+ <template #popper>
         <div class="popup bg-white dark:!bg-[#02031C]" style="width: 200px">
-          <div class="popup_headers">App</div>
+          
+         <div class="popup_headers">App</div>
           <a
             href="/general"
             :class="
@@ -108,17 +111,17 @@
             "
           >
             {{ $t('referrals') }}
-          </a>
+          </a> 
           <div class="popup_headers">Protocol</div>
           <a
-            href="https://medium.com/@D3_Innovations"
+            href="https://medium.com/@privatepoolnetwork"
             target="_blank"
             :class="'navigation_text  !text-black dark:!text-[#868686] hover:!text-[#00e0ff]'"
           >
             {{ $t('Blog') }}
           </a>
           <a
-            href="https://medium.com/@D3_Innovations"
+            href="https://medium.com/@privatepoolnetwork"
             target="_blank"
             :class="'navigation_text  !text-black dark:!text-[#868686] hover:!text-[#00e0ff]'"
           >
@@ -126,7 +129,7 @@
           </a>
           <div class="popup_headers">Need help?</div>
           <a
-            href="mailto:team@d3vs.xyz?subject=Contact"
+            href="mailto:team@privatepools.network?subject=Contact"
             target="_blank"
             :class="'navigation_text  !text-black dark:!text-[#868686] hover:!text-[#00e0ff]'"
           >
@@ -134,7 +137,7 @@
           </a>
           <hr style="border: 1px solid #ffffff14" class="mx-3" />
           <div class="flex items-center gap-3 w-100">
-            <a href="https://twitter.com/D3_firm" target="_blank">
+            <a href="https://x.com/PrivatePoolDeFi" target="_blank">
               <div>
                 <img :src="twitterIcon" />
               </div>
@@ -144,7 +147,7 @@
                 <img :src="discordIcon" />
               </div>
             </a>
-            <a href="https://medium.com/@D3_Innovations" target="_blank">
+            <a href="https://medium.com/@privatepoolnetwork" target="_blank">
               <div>
                 <img :src="mediumIcon" />
               </div>
@@ -156,8 +159,8 @@
             </a>
           </div>
         </div>
-      </template>
-    </Dropdown>
+      </template> 
+    </Dropdown>-->
 
     <!-- <div @click="router.push('/referrals')" :class="router.currentRoute.value.path === '/referrals'
           ? 'navigation_text_selected navigation_text'

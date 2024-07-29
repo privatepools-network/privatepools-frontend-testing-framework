@@ -347,37 +347,7 @@ const visibleDetails = ref(false)
 
 
 
-.liquidity_button {
-  border-radius: 12px;
 
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 21px;
-  color: #ffffff;
-  width: 60vw;
-  padding: 10px;
-  text-align: center;
-
-  &_LP {
-    background: linear-gradient(45deg, #f7931a 0%, #40b66b 100%);
-    box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #40b66b);
-    }
-  }
-
-  &_WP {
-    background: linear-gradient(45deg, #00e0ff 0%, #0e3e9b 100%);
-    box-shadow: 0px 4px 8.899999618530273px 0px #5eb05e3b;
-
-    &:hover {
-      cursor: pointer;
-      filter: drop-shadow(0 0 0.4rem #00e0ff);
-    }
-  }
-}
 
 .liquidity_button_text {
 

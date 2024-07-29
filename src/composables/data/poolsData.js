@@ -3,7 +3,7 @@ import { BACKEND_URL, REDUNDANT_BACKEND_URL } from '../pools/mappings'
 export async function getPoolsData(network) {
   let base_url = BACKEND_URL[network]
   try {
-    return getPoolsDataByUrl(base_url)
+    return await getPoolsDataByUrl(base_url)
   } catch (e) {
     console.error('[SERVER ERROR]', e)
   }

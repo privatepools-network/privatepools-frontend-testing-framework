@@ -252,7 +252,7 @@ const notify = () => {
     theme: 'dark',
     type: popupType.value,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     position: toast.POSITION.TOP_RIGHT,
     data: {
       header_text: popupText.value,
@@ -361,7 +361,7 @@ async function OnWithdrawClick() {
         },
         autoClose: 7000,
         closeOnClick: false,
-        closeButton: false,
+        closeButton: true,
         type: 'error',
         isLoading: false,
       })
@@ -390,7 +390,7 @@ async function OnWithdrawClick() {
 
       closeOnClick: false,
       autoClose: 10000,
-      closeButton: false,
+      closeButton: true,
       type: 'success',
       isLoading: false,
     })

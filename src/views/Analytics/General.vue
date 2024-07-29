@@ -40,11 +40,11 @@
     </div>
     {{ console.log('user_staked_pools!!!', user_staked_pools) }}
     <GeneralPerformanceTable :user_staked_pools="user_staked_pools" :all_pools="selectedTopPerformanceFilter === t('all')
-        ? allData?.topPerformancePools
-        : allData?.topPerformancePools?.filter(
-          (el) => el.LiquidityType === selectedTopPerformanceFilter,
-        )
-      " />
+      ? allData?.topPerformancePools
+      : allData?.topPerformancePools?.filter(
+        (el) => el.LiquidityType === selectedTopPerformanceFilter,
+      )
+      " :rewardsData="rewardsData" />
     <div class="mt-5 mb-3 title text-black dark:!text-white">
       {{ $t('top_trading_tokens') }}
     </div>
@@ -110,7 +110,7 @@ import { sumFields } from '@/lib/utils'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import router from '@/router'
-
+import { getPoolsRewards } from "@/composables/data/rewardsData"
 const settingsStore = useSettings()
 
 const { currentCurrency } = storeToRefs(settingsStore)
@@ -678,6 +678,8 @@ function getFilteredData() {
   return result
 }
 
+const rewardsData = ref(null)
+
 onBeforeMount(async () => {
   generalOverviewLoader.value = true
   if (!process.env.VUE_APP_LOCAL_API) {
@@ -688,18 +690,23 @@ onBeforeMount(async () => {
     generalOverviewLoader.value = false
     // historicalPrices.value = await GetHistoricalTokenPrices(allData.value.topTradingTokens.map((item) => item.symbol), true, 500, currency.value)
     console.log(allData.value)
+    await initStakedPools()
   }
 })
 watch(networkId, async () => {
+  await initStakedPools();
+})
+
+async function initStakedPools() {
   if (networkId.value) {
     let mmProvider = await InitializeMetamask()
     if (mmProvider) {
       let address = await mmProvider.getSigner().getAddress() //'0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54' //
-
+      rewardsData.value = await getPoolsRewards(address)
       user_staked_pools.value = await useWalletPools(address, 56, false)
     }
   }
-})
+}
 
 watch(currency, async () => {
   allPoolsTableData.value = []

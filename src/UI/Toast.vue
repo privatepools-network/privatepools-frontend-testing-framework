@@ -8,7 +8,7 @@ defineProps(['closeToast', 'toastProps'])
     <div class="d-flex align-items-center justify-content-between">
       <div class="toast_header">{{ toastProps.data.header_text }}</div>
       <div class="d-flex align-items-center gap-3" style="z-index: 9999">
-        <a
+        <!-- <a
           v-if="toastProps.data.tx_link != ''"
           :href="toastProps.data.tx_link"
           target="_blank"
@@ -47,8 +47,8 @@ defineProps(['closeToast', 'toastProps'])
               fill="#666666"
             />
           </svg>
-        </a>
-        <div
+        </a> -->
+        <!-- <div
           @click="
             ($event) => {
               closeToast && closeToast($event)
@@ -69,7 +69,7 @@ defineProps(['closeToast', 'toastProps'])
               stroke-linejoin="round"
             />
           </svg>
-        </div>
+        </div> -->
       </div>
     </div>
 

@@ -9,7 +9,8 @@ import { GetTokens } from '@/composables/tokens/useTokenSymbols'
 import { GetTokenPriceUsd } from '@/composables/balances/cryptocompare'
 import { getTokensData } from '@/composables/data/tokensData'
 import { getPortfolioBalance } from '@/composables/data/portfolioData'
-
+import wl_tokens from '../../../assets/wl/tokenslist.json'
+import {ethers} from 'ethers'
 /**
  * Replace W char in token symbol (W stands for wrapped usually)
  * @function replaceFirstCharIfW
@@ -44,10 +45,29 @@ export async function GetPossibleComposeTokens(network, enablePrices = false) {
     t.price = t.usdAmount / t.amount
     t.value = 0
     t.img = icon
-    t.balance = parseFloat(t.amount.toFixed(3))
+    t.balance = parseFloat(t.amount.toFixed(8))
     t.userBalance = t.amount
+    if (t.address == 'bsc') {
+      t.address = ethers.constants.AddressZero
+    }
   })
-  return account_balances.tokens
+  const symbols = account_balances.tokens.map((item) => item.symbol)
+  const wl_values = Object.entries(wl_tokens)
+  return [
+    ...account_balances.tokens,
+    ...wl_values
+      .filter((item) => !symbols.includes(item[1]))
+      .map((item) => ({
+        symbol: item[1],
+        address: item[0],
+        id: item[0],
+        balance: 0,
+        userBalance: 0,
+        value: 0,
+        price: 0,
+        img: getTokenEntity(item[1], 'short').icon,
+      })),
+  ]
 }
 // export async function GetPossibleComposeTokens(network, enablePrices = false) {
 //   if (!networkId.value) return {}

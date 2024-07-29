@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import ABI_ERC20 from '@/lib/abi/ERC20.json'
+import ABI_WBNB from '@/lib/abi/WBNB.json'
 import { configService } from '@/services/config/config.service'
 import { networkId } from '../../useNetwork'
 import { InitializeMetamask } from '@/lib/utils/metamask'
@@ -46,6 +47,37 @@ export async function useApproveTokens(
   let to_addr =
     depositMethod === 'zap' ? config.addresses.zapper : config.addresses.vault
   for (let i = 0; i < tokens.length; i++) {
+    if (tokens[i] == ethers.constants.AddressZero) {
+      const wbnb = new ethers.Contract(
+        '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+        ABI_WBNB,
+        provider.getSigner(),
+      )
+      try {
+        toast.info(Toast, {
+          data: {
+            header_text: 'BNB will be wrapped to WBNB!',
+            toast_text: `In order to deposit BNB instead of WBNB you need to wrap it first.`,
+            tx_link: '',
+            speedUp: '/',
+          },
+          position: toast.POSITION.TOP_RIGHT,
+          theme: 'dark',
+          closeOnClick: true,
+        })
+        const tx = await wbnb.deposit({
+          value: rawAmount
+            ? amounts[i]
+            : ethers.utils.parseUnits(amounts[i].toFixed(18), 18),
+        })
+        console.log('DEPOSIT TO WBNB')
+        await tx.wait()
+        tokens[i] = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
+      } catch (e) {
+        console.error('ERROR DURING WBNB DEPOSIT')
+        return false
+      }
+    }
     const tokenContract = new ethers.Contract(
       tokens[i],
       ABI_ERC20,
@@ -77,7 +109,7 @@ export async function useApproveTokens(
 
         closeOnClick: false,
         autoClose: 5000,
-        closeButton: false,
+        closeButton: true,
         type: 'error',
         isLoading: false,
       })
@@ -98,7 +130,7 @@ export async function useApproveTokens(
 
     closeOnClick: false,
     autoClose: 5000,
-    closeButton: false,
+    closeButton: true,
     type: 'success',
     isLoading: false,
   })

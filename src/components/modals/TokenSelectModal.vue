@@ -1,11 +1,13 @@
 <template>
-  <div
-    class="modal_body_header d-flex justify-content-between align-items-start mb-1"
-  >
-    <p style="font-size: 20px" class="dark:!text-white text-black">
-      {{ $t('token_search') }}
-    </p>
-  </div>
+  <div class="modal_body_inside">
+    <div>
+      <div
+        class="modal_body_header d-flex justify-content-between align-items-start mb-1"
+      >
+        <p style="font-size: 20px" class="dark:!text-white text-black">
+          {{ $t('token_search') }}
+        </p>
+      </div>
 
   <label
     for="search"
@@ -93,16 +95,54 @@
           <div class="modal_body_header text-black dark:!text-white">
             {{ token.symbol }}
           </div>
-          <div class="modal_body_header text-black dark:!text-white">
-            {{ token.name }}
-          </div>
         </div>
       </div>
-      <div
-        class="d-flex flex-column align-items-end text-black dark:!text-white"
-      >
-        <div>{{ parseFloat(token.balance).toFixed(3) }} {{ token.symbol }}</div>
-        <div>${{ parseFloat(token.balance * token.price).toFixed(3) }}</div>
+      <!-- {{ console.log('filteredPossibleTokens', filteredPossibleTokens) }} -->
+      <!-- {{ console.log('possibleComposeTokens', possibleComposeTokens) }} -->
+      <div class="mt-3 tokens_container">
+        <div
+          class="flex items-center justify-center h-full"
+          v-if="possibleComposeTokens.length === 0"
+        >
+          <LoaderPulse />
+        </div>
+        <div
+          class="flex items-center justify-center h-full text-white font-semibold"
+          v-else-if="filteredPossibleTokens.length === 0"
+        >
+          No result
+        </div>
+        <div
+          v-else
+          v-for="(token, index) in filterName === '' ? filteredPossibleTokens.filter((el) => el.img !== '') : filteredPossibleTokens"
+          :key="`tokens-key-${index}`"
+          class="flex items-center justify-between p-3 gap-3 token_card"
+          @click="$emit('updateToken', token), $emit('close')"
+        >
+          <div class="d-flex align-items-center">
+            <img
+              :src="token.logoURI || getTokenEntity(token.symbol, 'short').icon"
+              width="60"
+              class="p-2"
+            />
+            <div class="d-flex flex-column">
+              <div class="modal_body_header text-black dark:!text-white">
+                {{ token.symbol }}
+              </div>
+              <div class="modal_body_header text-black dark:!text-white">
+                {{ token.name }}
+              </div>
+            </div>
+          </div>
+          <div
+            class="d-flex flex-column align-items-end text-black dark:!text-white"
+          >
+            <div>
+              {{ parseFloat(token.balance).toFixed(6) }} {{ token.symbol }}
+            </div>
+            <div>${{ parseFloat(token.balance * token.price).toFixed(3) }}</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -112,15 +152,12 @@
 import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import { COMMON_TOKENS } from '@/composables/poolActions/compose/usePossibleComposeTokens'
-import { t } from 'i18next'
-import LoaderPulse from '../loaders/LoaderPulse.vue'
-const props = defineProps([
-  'tokenSelectModal',
-  'possibleComposeTokens',
-  'pairIndex',
-])
-const { possibleComposeTokens } = toRefs(props)
-const emit = defineEmits(['updateToken', 'addToken', 'tokenSelectModalClose'])
+
+const props = defineProps(['isOpen', 'possibleTokens', 'possibleComposeTokens'])
+const { possibleTokens } = toRefs(props)
+
+const emit = defineEmits(['updateToken', 'close'])
+
 const filterName = ref('')
 
 const filteredPossibleTokens = computed(() =>

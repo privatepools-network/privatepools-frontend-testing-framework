@@ -10,7 +10,9 @@ export const useSettings = defineStore('settings', {
 
     currentLanguage: useLocalStorage('language', 'English'),
 
-    currentParticles: useLocalStorage('particles', 'on'),
+    currentParticles: useLocalStorage('particles', 'off'),
+
+    currentVersion: useLocalStorage('version', 'lite'),
   }),
   actions: {
     updateCurrency(newCurrency) {
@@ -21,6 +23,9 @@ export const useSettings = defineStore('settings', {
     },
     updateParticles(newProp) {
       this.currentParticles = newProp
+    },
+    updateVersion(newProp) {
+      this.currentVersion = newProp
     },
   },
   getters: {},

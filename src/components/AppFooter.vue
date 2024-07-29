@@ -15,12 +15,12 @@
               <img :src="twitterIcon" />
             </div>
           </a>
-          <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
+       <!--   <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
             <div class="link_logo">
               <img :src="discordIcon" />
             </div>
           </a>
-          <a href="https://medium.com/@D3_Innovations" target="_blank">
+          <a href="https://medium.com/@privatepoolnetwork" target="_blank">
             <div class="link_logo">
               <img :src="mediumIcon" />
             </div>
@@ -29,7 +29,7 @@
             <div class="link_logo">
               <img :src="telegramIcon" />
             </div>
-          </a>
+          </a> -->
         </div>
       </div>
 

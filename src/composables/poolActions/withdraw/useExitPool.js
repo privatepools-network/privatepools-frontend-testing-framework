@@ -71,7 +71,7 @@ export async function useExitPool(
     //   },
     //   autoClose: 7000,
     //   closeOnClick: false,
-    //   closeButton: false,
+    //   closeButton: true,
     //   type: 'error',
     //   isLoading: false,
     // })

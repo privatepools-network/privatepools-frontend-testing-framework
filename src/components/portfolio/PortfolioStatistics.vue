@@ -479,7 +479,7 @@
         </div>
       </div>
 
-      <div class="stats_column_inside">
+      <div class="stats_column_inside"  v-if="$router.currentRoute.value.path.includes('/pool')">
         <div class="d-flex align-items-center justify-content-between dark:!bg-[#02031C] !bg-[white] p-2">
           <div class="d-flex align-items-center gap-2">
             <div class="d-flex gap-2 items-center align-items-baseline">

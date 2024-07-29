@@ -35,7 +35,7 @@
             <div :class="'head_caption_text flex items-center'" @click="ascendFilterBy = headCaption">
               <img v-if="!headCaption.includes('Tokens') &&
                 !headCaption.includes('Actions')" :src="filterArrow"
-                :class="ascendFilterBy === headCaption ? 'rotate-180' : ''"  /> {{
+                :class="ascendFilterBy === headCaption ? 'rotate-180' : ''" /> {{
                   headCaption }}
             </div>
           </div>
@@ -43,15 +43,15 @@
       </div>
     </div>
     {{ console.log('all_pools!!!', all_pools) }}
-    <LoaderPulse v-if="!all_pools" />
+    <div v-if="loader" class="my-5">
+        <LoaderPulse />
+      </div>
     <InvestmentsPoolRow v-else-if="all_pools && all_pools.length > 0"
-      v-for="(pool, index) in sortedPools.slice(0, sliceNumber)"
-      :key="pool.name" :pool="pool" :userPools="user_staked_pools" :index="index" 
-      @goToPoolWithdraw="goToPoolWithdraw" 
-      @goToPoolCompound="goToPoolCompound" 
-      @goToCLPool="goToCLPool" 
-      @goToPool="goToPool"
-      @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
+      v-for="(pool, index) in sortedPools.slice(0, sliceNumber)" :key="pool.name" :pool="pool"
+      :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw"
+      @goToPoolCompound="goToPoolCompound" @goToCLPool="goToCLPool" @goToPool="goToPool"
+      @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true"
+      :rewardsData="rewardsData" />
     <div v-else class="p-10 flex justify-center items-center dark:!text-white text-black">
       No pools of this type
     </div>
@@ -61,30 +61,16 @@
       <LoaderPulse />
     </div>
     <div v-else-if="all_pools && all_pools.length > 0" class="mobile_table_container">
-      <MobileAdvancedTable
-      v-for="(pool, index) in all_pools
+      <MobileAdvancedTable v-for="(pool, index) in all_pools
         .slice(0, sliceNumber)
-        .toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy])"
-      :key="pool.name"
-      :pool="pool"
-      :userPools="user_staked_pools"
-      :index="index"
-      @goToPoolWithdraw="goToPoolWithdraw"
-      @goToPool="goToPool"
-      @goToPoolDeposit="goToPoolDeposit"
-      @goToPoolManage="goToPoolManage"
-      @goToCL="goToCL"
-      :isActions="true"
-      />
-      <div
-        v-if="
-          sliceNumber <
-          all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
-            .length
-        "
-        @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))"
-        class="load_more text-black dark:!text-white"
-      >
+        .toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy])" :key="pool.name" :pool="pool"
+        :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToPool="goToPool"
+        @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
+      <div v-if="
+        sliceNumber <
+        all_pools.filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+          .length
+      " @click="all_pools.slice(0, (sliceNumber = sliceNumber + 5))" class="load_more text-black dark:!text-white">
         {{ $t('load_more') }}
         <img :src="arrow_bottom" />
       </div>
@@ -109,7 +95,7 @@
 import { t } from 'i18next'
 import Pagination from '../Pool/Pagination.vue'
 import InvestmentsPoolRow from '../Pool/InvestmentsPoolRow.vue'
-import { defineProps, ref, toRefs,computed } from 'vue'
+import { defineProps, ref, toRefs, computed } from 'vue'
 import LoaderPulse from '../loaders/LoaderPulse.vue'
 import filterArrow from '@/assets/icons/arrow/filterArrow.svg'
 import {
@@ -141,7 +127,7 @@ function changePerPage(v1) {
   perPage.value = Number(v1)
   currentPage.value = 1
 }
-const props = defineProps(['all_pools', 'user_staked_pools'])
+const props = defineProps(['all_pools', 'user_staked_pools', 'rewardsData', 'loader'])
 const { all_pools } = toRefs(props)
 
 const sortedPools = computed(() => all_pools.value.toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy]))

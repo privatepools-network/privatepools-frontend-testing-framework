@@ -595,7 +595,7 @@ export function groupTimestampsByDayWithIndexes(timestamps, dates) {
 
     if (
       !groupedIndexes[dayKey] ||
-      timestamps[i] > timestamps[groupedIndexes[dayKey]]
+      timestamps[i] >= timestamps[groupedIndexes[dayKey]]
     ) {
       groupedIndexes[dayKey] = i
     }
@@ -618,7 +618,7 @@ export function groupTimestampsByWeekWithIndexes(timestamps, dates=null) {
 
     if (
       !groupedIndexes[weekKey] ||
-      timestamps[i] > timestamps[groupedIndexes[weekKey]]
+      timestamps[i] >= timestamps[groupedIndexes[weekKey]]
     ) {
       groupedIndexes[weekKey] = i
     }
@@ -640,7 +640,7 @@ export function groupTimestampsByMonthWithIndexes(timestamps, dates=null) {
 
     if (
       !groupedIndexes[monthKey] ||
-      timestamps[i] > timestamps[groupedIndexes[monthKey]]
+      timestamps[i] >= timestamps[groupedIndexes[monthKey]]
     ) {
       groupedIndexes[monthKey] = i
     }
@@ -658,6 +658,9 @@ export function calculateAverage(array) {
 }
 
 export function stringToColor(str) {
+  if(!str){
+    return "#FFFFFF"
+  }
   let hash = 0
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash)

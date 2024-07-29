@@ -112,7 +112,7 @@ export async function getPortfolioData(network, address) {
       'APR 24H': aprs['24H'].APR,
       'APR 7D': aprs['7D'].APR,
       'APR 30D': aprs['1M'].APR,
-      APR: aprs['1Y'].APR,
+      APR: ((aprs['24H'].APR + aprs['7D'].APR + aprs['1M'].APR) / 3).toFixed(3),
       rewards: '-',
       portfolioBalance: data[0].data.reduce(
         (sum, value) => sum + value.shareBalanceUsd,

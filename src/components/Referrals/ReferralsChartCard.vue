@@ -261,7 +261,7 @@ const currencyDecimals = computed(() =>
 )
 const props = defineProps(['networks_data'])
 const { networks_data, rewardsData } = toRefs(props)
-const totalRewards = computed(() => rewardsData.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
+const totalRewards = computed(() => rewardsData.value.filter((item) => item.pool != "0x0000000000000000000000000000000000000000").reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
 const isNetworkDataReady = computed(
   () =>
     networks_data.value.length && networks_data.value.length > 0 &&

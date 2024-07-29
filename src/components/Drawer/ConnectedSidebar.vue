@@ -178,8 +178,23 @@
         v-if="sidebarTab === 'Tokens'"
         class="flex flex-col gap-2 overflow-auto h-full activity_container"
       >
+      <div
+          class="flex justify-center items-center pt-24"
+          v-if="sidebarData?.userBalance?.tokens === null"
+        >
+          <LoaderPulse />
+        </div>
+      <div
+          v-else-if="sidebarData?.userBalance?.tokens.length === 0"
+          class="d-flex flex-column gap-2 justify-content-center align-items-center h-[100vh]"
+        >
+      
+          <div class="text-black dark:!text-white">
+            You don't have any tokens yet
+          </div>
+        </div>
         <div
-          v-if="sidebarData?.userBalance?.tokens != null"
+          v-else-if="sidebarData?.userBalance?.tokens != null"
           v-for="(item, i) in sidebarData?.userBalance?.tokens.filter(
             (item) => item.usdAmount !== 0 && item.symbol !== 'BOOM',
           )"
@@ -240,12 +255,19 @@
             </div>
           </div>
         </div>
-        <div v-else class="flex justify-center items-center pt-24">
-          <LoaderPulse />
-        </div>
+       
       </div>
       <div v-else-if="sidebarTab === 'Pools'" class="h-100">
-        <div class="d-flex flex-column gap-2" v-if="addressPools.length > 0">
+        <div
+          class="flex justify-center items-center pt-24"
+          v-if="addressPools === null"
+        >
+          <LoaderPulse />
+        </div>
+        <div
+          class="d-flex flex-column gap-2"
+          v-else-if="addressPools.length > 0"
+        >
           {{ console.log('addressPools', addressPools) }}
           <div
             v-for="(item, i) in addressPools"
@@ -361,7 +383,7 @@
           </div>
         </div>
         <div
-          v-else
+          v-else-if="addressPools.length === 0"
           class="d-flex flex-column gap-2 justify-content-center align-items-center h-100"
         >
           <svg
@@ -389,8 +411,8 @@
           <div class="text-black dark:!text-white text-[12px] text-center">
             {{ $t('open_position_to_get_started') }}
           </div>
-          <div @click="router.push('/pools')" class="add_liq_btn_pools">
-            <div class="d-flex gap-1">+ {{ $t('add_liquidity') }}</div>
+          <div @click="router.push('/pools/compose')" class="add_liq_btn_pools">
+            <div class="d-flex gap-1">+ {{ $t('Create Pool') }}</div>
           </div>
         </div>
       </div>
@@ -398,123 +420,143 @@
         v-else-if="sidebarTab === 'Activity'"
         class="d-flex flex-column gap-2 overflow-auto activity_container"
       >
-        <div>
-          {{ console.log('addressActivity', addressActivity) }}
-          <div class="tab my-2" style="font-size: 12px">{{ $t('today') }}</div>
-          <div class="d-flex flex-column gap-2">
-            <a
-              :href="`${configService.getNetworkConfig(56).explorer}/tx/${
-                item.hash
-              }`"
-              target="_blank"
-              v-for="(item, i) in addressActivity.filter(
-                (el) => el.type == 'today',
-              )"
-              :key="`${i}-token`"
-              class="p-2 d-flex align-items-center justify-content-between gap-2"
-              style="text-decoration: none"
-            >
-              <div class="d-flex align-items-center gap-2">
-                <img :src="item.img" width="38" />
-                <div class="d-flex flex-column">
-                  <div class="text-black dark:!text-white text-[12px]">
-                    {{ item.label }}
-                  </div>
-                  <div class="text-black dark:!text-[#8e8e8e] text-[12px]">
-                    {{ item.desc }}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="d-flex flex-column align-items-end">
-                  <div
-                    class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
-                  >
-                    {{ item.time }}
-                  </div>
-                </div>
-              </div>
-            </a>
+        <div
+          class="flex justify-center items-center pt-24"
+          v-if="addressActivity === null"
+        >
+          <LoaderPulse />
+        </div>
+        <div
+          v-else-if="addressActivity.length === 0"
+          class="d-flex flex-column gap-2 justify-content-center align-items-center h-[100vh]"
+        >
+      
+          <div class="text-black dark:!text-white">
+            {{ $t('No Activity yet') }}
           </div>
         </div>
-        <div>
-          <div class="tab my-2" style="font-size: 12px">
-            {{ $t('this_week') }}
+        <div v-else>
+          <div>
+            <!-- {{ console.log('addressActivity', addressActivity) }} -->
+
+            <div class="tab my-2" style="font-size: 12px">
+              {{ $t('today') }}
+            </div>
+            <div class="d-flex flex-column gap-2">
+              <a
+                :href="`${configService.getNetworkConfig(56).explorer}/tx/${
+                  item.hash
+                }`"
+                target="_blank"
+                v-for="(item, i) in addressActivity.filter(
+                  (el) => el.type == 'today',
+                )"
+                :key="`${i}-token`"
+                class="p-2 d-flex align-items-center justify-content-between gap-2"
+                style="text-decoration: none"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <img :src="item.img" width="38" />
+                  <div class="d-flex flex-column">
+                    <div class="text-black dark:!text-white text-[12px]">
+                      {{ item.label }}
+                    </div>
+                    <div class="text-black dark:!text-[#8e8e8e] text-[12px]">
+                      {{ item.desc }}
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="d-flex flex-column align-items-end">
+                    <div
+                      class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
+                    >
+                      {{ item.time }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
-          <div class="d-flex flex-column gap-2">
-            <a
-              :href="`${configService.getNetworkConfig(56).explorer}/tx/${
-                item.hash
-              }`"
-              target="_blank"
-              v-for="(item, i) in addressActivity.filter(
-                (el) => el.type == 'week',
-              )"
-              :key="`${i}-token`"
-              class="p-2 d-flex align-items-center justify-content-between gap-2"
-              style="text-decoration: none"
-            >
-              <div class="d-flex align-items-center gap-2">
-                <img :src="item.img" width="38" />
-                <div class="d-flex flex-column">
-                  <div class="text-black dark:!text-white text-[12px]">
-                    {{ item.label }}
-                  </div>
-                  <div class="text-black dark:!text-[#8e8e8e] text-[10px]">
-                    {{ item.desc }}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="d-flex flex-column align-items-end">
-                  <div
-                    class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
-                  >
-                    {{ item.time }}
+          <div>
+            <div class="tab my-2" style="font-size: 12px">
+              {{ $t('this_week') }}
+            </div>
+            <div class="d-flex flex-column gap-2">
+              <a
+                :href="`${configService.getNetworkConfig(56).explorer}/tx/${
+                  item.hash
+                }`"
+                target="_blank"
+                v-for="(item, i) in addressActivity.filter(
+                  (el) => el.type == 'week',
+                )"
+                :key="`${i}-token`"
+                class="p-2 d-flex align-items-center justify-content-between gap-2"
+                style="text-decoration: none"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <img :src="item.img" width="38" />
+                  <div class="d-flex flex-column">
+                    <div class="text-black dark:!text-white text-[12px]">
+                      {{ item.label }}
+                    </div>
+                    <div class="text-black dark:!text-[#8e8e8e] text-[10px]">
+                      {{ item.desc }}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
+                <div>
+                  <div class="d-flex flex-column align-items-end">
+                    <div
+                      class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
+                    >
+                      {{ item.time }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
-        </div>
-        <div>
-          <div class="tab my-2" style="font-size: 12px">
-            {{ $t('this_month') }}
-          </div>
-          <div class="d-flex flex-column gap-2">
-            <a
-              v-for="(item, i) in addressActivity.filter(
-                (el) => el.type == 'month',
-              )"
-              :key="`${i}-token`"
-              target="_blank"
-              :href="`${configService.getNetworkConfig(56).explorer}/tx/${
-                item.hash
-              }`"
-              class="p-2 d-flex align-items-center justify-content-between gap-2"
-              style="text-decoration: none"
-            >
-              <div class="d-flex align-items-center gap-2">
-                <img :src="item.img" width="38" />
-                <div class="d-flex flex-column">
-                  <div class="text-black dark:!text-white text-[12px]">
-                    {{ item.label }}
-                  </div>
-                  <div class="text-black dark:!text-[#8e8e8e] text-[10px]">
-                    {{ item.desc }}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="d-flex flex-column align-items-end">
-                  <div
-                    class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
-                  >
-                    {{ item.time }}
+          <div>
+            <div class="tab my-2" style="font-size: 12px">
+              {{ $t('this_month') }}
+            </div>
+            <div class="d-flex flex-column gap-2">
+              <a
+                v-for="(item, i) in addressActivity.filter(
+                  (el) => el.type == 'month',
+                )"
+                :key="`${i}-token`"
+                target="_blank"
+                :href="`${configService.getNetworkConfig(56).explorer}/tx/${
+                  item.hash
+                }`"
+                class="p-2 d-flex align-items-center justify-content-between gap-2"
+                style="text-decoration: none"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <img :src="item.img" width="38" />
+                  <div class="d-flex flex-column">
+                    <div class="text-black dark:!text-white text-[12px]">
+                      {{ item.label }}
+                    </div>
+                    <div class="text-black dark:!text-[#8e8e8e] text-[10px]">
+                      {{ item.desc }}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
+                <div>
+                  <div class="d-flex flex-column align-items-end">
+                    <div
+                      class="text-black dark:!text-white text-[12px] whitespace-nowrap overflow-hidden text-ellipsis"
+                    >
+                      {{ item.time }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -568,8 +610,8 @@ const sidebarData = ref({})
 
 const tokensOptions = ref([])
 const mockPools = ref([])
-const addressActivity = ref([])
-const addressPools = ref([])
+const addressActivity = ref(null)
+const addressPools = ref(null)
 
 const computedAddress = computed(() =>
   props.address

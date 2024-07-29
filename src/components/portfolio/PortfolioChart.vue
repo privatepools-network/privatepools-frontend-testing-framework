@@ -1,27 +1,52 @@
 <template>
   <div class="pools_chart_container">
-    <PortfolioArbitrageBot :networks_data="networks_data" :chainSelected="chainSelected" :rewardsData="rewardsData" />
+    <PortfolioArbitrageBot
+      :networks_data="networks_data"
+      :chainSelected="chainSelected"
+      :rewardsData="rewardsData"
+    />
 
     <div class="track_chart_card bg-[white] dark:!bg-[#22222224]">
-      {{ console.log('all_chart_data', all_chart_data) }}
       <div v-if="all_chart_data === undefined" class="chart_inside">
         <LoaderPulse />
       </div>
-      <div v-else-if="filteredData.length === 0"
-        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100">
-        <svg width="42" height="44" viewBox="0 0 42 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div
+        v-else-if="filteredData.length === 0"
+        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100"
+      >
+        <svg
+          width="42"
+          height="44"
+          viewBox="0 0 42 44"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             d="M31.2356 42.9592L36.0985 38.0985M36.0985 38.0985L40.9591 33.2356M36.0985 38.0985L31.2333 33.2333M36.0962 38.0963L40.9568 42.9569M1.16663 7.75V21.5C1.16663 21.5 1.16663 28.375 17.2083 28.375C33.25 28.375 33.25 21.5 33.25 21.5V7.75"
-            stroke="#F8F8F8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            stroke="#F8F8F8"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
           <path
             d="M17.2083 42.125C1.16663 42.125 1.16663 35.25 1.16663 35.25V21.5M17.2083 0.875C33.25 0.875 33.25 7.75 33.25 7.75C33.25 7.75 33.25 14.625 17.2083 14.625C1.16663 14.625 1.16663 7.75 1.16663 7.75C1.16663 7.75 1.16663 0.875 17.2083 0.875Z"
-            stroke="#F8F8F8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            stroke="#F8F8F8"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
 
-        <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
+        <div
+          class="text-black dark:!text-white"
+          style="font-size: 14px; text-align: center"
+        >
           {{ $t('no_data_available') }}
         </div>
-        <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
+        <div
+          class="text-black dark:!text-white"
+          style="font-size: 12px; text-align: center"
+        >
           {{ $t('invest_to_start_pool') }}
         </div>
         <div class="add_liq_btn_pools">
@@ -29,10 +54,20 @@
         </div>
       </div>
       <div v-else class="chart_inside">
-        <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
-          @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
+        <ChartTimeline
+          :isCumulativeMode="isCumulativeMode"
+          :currentTimeline="currentTimeline"
+          :timelines="timelines"
+          @changeCumulativeMode="changeCumulativeMode"
+          @changeTimeline="changeTimeline"
+        />
         <img :src="logo" alt="D3" class="chart-logo" height="40px" />
-        <VChart class="chart mt-4" :option="optionObj" @legendselectchanged="legendSelectedChange" :autoresize="true" />
+        <VChart
+          class="chart mt-4"
+          :option="optionObj"
+          @legendselectchanged="legendSelectedChange"
+          :autoresize="true"
+        />
       </div>
     </div>
   </div>
@@ -90,30 +125,44 @@ import { strictCheckChartOffsetConditions } from '@/composables/chartLogic/stric
 import { checkGridByKeys } from '@/composables/chartLogic/checkGridByKeys'
 import { useDevice } from '@/composables/adaptive/useDevice'
 
-const settingsStore = useSettings();
+const settingsStore = useSettings()
 const { width } = useDevice()
 
-const { currentCurrency } = storeToRefs(settingsStore)
+const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
 
-const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
+const postfix = computed(() =>
+  currentCurrency.value == 'USD' ? '' : `_${currentCurrency.value}`,
+)
 
-const props = defineProps(['networks_data', 'chainSelected', 'all_chart_data', 'rewardsData'])
+const props = defineProps([
+  'networks_data',
+  'chainSelected',
+  'all_chart_data',
+  'rewardsData',
+])
 const { networks_data, chainSelected, rewardsData } = toRefs(props)
 
 const allChartData = ref([])
 const filteredData = computed(() => getFilteredData())
-console.log('filteredData', filteredData)
-const filters = ref({
-  TVL: true,
-  PNL: true,
-  Rewards: true,
-  'Average APR': true,
-  ROI: true,
-  'Staked Liquidity': true,
-  Volume: true,
-  'Trades': true,
-  'Capital Gains': true,
-})
+const filters = ref(
+  currentVersion.value === 'pro'
+    ? {
+        'Staked Liquidity': true,
+        'Average APR': true,
+        Trades: true,
+        PNL: false,
+        Volume: false,
+        ROI: false,
+        Rewards: false,
+        'Capital Gains': false,
+      }
+    : {
+        'Staked Liquidity': true,
+        'Average APR': true,
+        Trades: true,
+        Volume: false,
+      },
+)
 const preFiltersList = ref([
   {
     title: 'Staked Liquidity',
@@ -139,21 +188,21 @@ const preFiltersList = ref([
   {
     title: 'PNL',
     code: 'PNL',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
   {
     title: 'PNL',
     code: 'PNL_ETH',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
   {
     title: 'PNL',
     code: 'PNL_BTC',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
@@ -167,7 +216,7 @@ const preFiltersList = ref([
   {
     title: 'Rewards',
     code: 'Rewards',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: true,
     isSolo: true,
   },
@@ -202,28 +251,28 @@ const preFiltersList = ref([
   {
     title: 'ROI',
     code: 'ROI',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
     isSolo: true,
   },
   {
     title: 'Capital Gains',
     code: 'Capital Gains',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
     isSolo: true,
   },
   {
     title: 'Capital Gains',
     code: 'Capital Gains_ETH',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
     isSolo: true,
   },
   {
     title: 'Capital Gains',
     code: 'Capital Gains_BTC',
-    selected: true,
+    selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
     isSolo: true,
   },
@@ -248,9 +297,9 @@ const timelines = [
 const isCumulativeMode = ref(false)
 
 const days_count = {
-  [t('daily')]:1,
-  [t('weekly')]:7,
-  [t('monthly')]:30,
+  [t('daily')]: 1,
+  [t('weekly')]: 7,
+  [t('monthly')]: 30,
 }
 
 const currentTimeline = ref(timelines[0])
@@ -303,9 +352,12 @@ const dataTrades = computed(() => {
     return filteredData.value.map((v) => v['Trades'])
   return []
 })
+
 const dataTVL = computed(() => {
   if (filteredData.value.length > 0 && filteredData.value[0].TVL)
-    return filteredData.value.map((v) => v[`TVL${postfix.value}`]['User Liquidity'])
+    return filteredData.value.map(
+      (v) => v[`TVL${postfix.value}`]['User Liquidity'],
+    )
   return []
 })
 
@@ -328,12 +380,10 @@ const convertFromNumber = (str) => {
   return result
 }
 
+const currentGridToRight = ref(180)
 
-
-const currentGridToRight = ref(240)
-
-const showVolume = ref(true)
-const showRevenueProfits = ref(true)
+const showVolume = ref(false)
+const showRevenueProfits = ref(false)
 const showTradesGasFees = ref(true)
 const showAPRVolatility = ref(true)
 
@@ -396,12 +446,14 @@ function seriesInstance(name, type, data, yAxisIndex, color) {
     xAxisIndex: 0,
     yAxisIndex: yAxisIndex,
     smooth: true,
-    showSymbol: false,
+    showSymbol: true,
     itemStyle: {
       borderRadius: [10, 10, 0, 0],
       shadowColor: color,
       shadowBlur: 10,
       color: color,
+      symbol: 'circle', 
+      symbolSize: 8
     },
     emphasis: {
       focus: 'series',
@@ -411,9 +463,6 @@ function seriesInstance(name, type, data, yAxisIndex, color) {
 }
 
 function legendSelectedChange(e) {
-  console.log('EEEE', e)
-  console.log('currentGridToRight', currentGridToRight.value)
-  console.log('optionObj.value.yAxis', optionObj.value.yAxis)
   for (const [key, value] of Object.entries(e.selected)) {
     filters.value[key] = value
   }
@@ -430,13 +479,20 @@ function legendSelectedChange(e) {
   if (e.name === 'Capital Gains' || e.name === 'ROI') {
     if (e.selected['Capital Gains'] === false && e.selected.ROI === false) {
       showRevenueProfits.value = false
-    } else if (e.selected['Capital Gains'] === true || e.selected.ROI === true) {
+    } else if (
+      e.selected['Capital Gains'] === true ||
+      e.selected.ROI === true
+    ) {
       showRevenueProfits.value = true
     }
   }
 
   if (e.name === 'PNL' || e.name === 'Trades') {
-    if (e.selected['PNL'] === false && e.selected.Trades === false) {
+    if (
+      currentVersion.value === 'pro'
+        ? e.selected['PNL'] === false && e.selected.Trades === false
+        : e.selected.Trades === false
+    ) {
       showTradesGasFees.value = false
     } else if (e.selected['PNL'] === true || e.selected.Trades === true) {
       showTradesGasFees.value = true
@@ -445,8 +501,9 @@ function legendSelectedChange(e) {
 
   if (e.name === 'Average APR' || e.name === 'Rewards') {
     if (
-      e.selected['Average APR'] === false &&
-      e.selected['Rewards'] === false
+      currentVersion.value === 'pro'
+        ? e.selected['Average APR'] === false && e.selected['Rewards'] === false
+        : e.selected['Average APR'] === false
     ) {
       showAPRVolatility.value = false
     } else if (
@@ -482,7 +539,6 @@ function legendSelectedChange(e) {
   ///////
 }
 
-
 const series = computed(() => [
   seriesInstance('Capital Gains', 'bar', dataCapitalGains.value, 2, '#01B47E'),
   seriesInstance('PNL', 'bar', dataPNL.value, 3, '#87F1FF'),
@@ -494,9 +550,6 @@ const series = computed(() => [
   seriesInstance('Staked Liquidity', 'line', dataTVL.value, 0, '#F07E07'),
 ])
 
-
-
-
 const optionObj = ref({
   legend: {
     data: filterKeys,
@@ -505,7 +558,7 @@ const optionObj = ref({
     top: -5,
     left: 10,
     bottom: 30,
-    width:  width.value > 768 ? '50%' : '100%',
+    width: width.value > 768 ? '50%' : '100%',
     inactiveColor: '#777',
     textStyle: {
       color: '#ccc',
@@ -547,7 +600,6 @@ const optionObj = ref({
       axisLabel: {
         fontFamily: 'Roboto mono',
         fontWeight: '700',
-
       },
     },
   ],
@@ -574,10 +626,30 @@ const optionObj = ref({
         },
       },
     },
-    yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
-    yAxisInstance('Capital Gains / ROI', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
-    yAxisInstance('Trades / PNL', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance('APR / Rewards', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
+    yAxisInstance(
+      'Volume',
+      width.value > 768 ? showVolume : false,
+      0,
+      '#FA5173',
+    ),
+    yAxisInstance(
+      'Capital Gains / ROI',
+      width.value > 768 ? showRevenueProfits : false,
+      60,
+      '#01B47E',
+    ),
+    yAxisInstance(
+      currentVersion.value === 'pro' ? 'Trades / PNL' : 'Trades',
+      width.value > 768 ? showTradesGasFees : false,
+      currentVersion.value === 'pro' ? 60 : 60,
+      '#77aaff',
+    ),
+    yAxisInstance(
+      currentVersion.value === 'pro' ? 'APR / Rewards' : 'APR',
+      width.value > 768 ? showAPRVolatility : false,
+      currentVersion.value === 'pro' ? 120 : 120,
+      '#FFD700',
+    ),
   ],
   grid: [
     {
@@ -598,7 +670,7 @@ const optionObj = ref({
       show: true,
       xAxisIndex: 0,
       type: 'slider',
-      bottom:  width.value > 768 ? 70 : 90,
+      bottom: width.value > 768 ? 70 : 90,
       start: 0,
       end: 100,
       selectedDataBackground: {
@@ -654,19 +726,18 @@ const TimelineFilters = {
   [t('monthly')]: groupTimestampsByMonthWithIndexes,
 }
 
-
-
 function getFilteredData() {
   let result = []
   let chart_data = []
-  console.log("BEFORE - ", props.all_chart_data)
-  if (!process.env.VUE_APP_LOCAL_API)
-    chart_data = [...allChartData.value]
-  else if (props.all_chart_data)
-    chart_data = [...props.all_chart_data]
+  // console.log("BEFORE - ", props.all_chart_data)
+  if (!process.env.VUE_APP_LOCAL_API) chart_data = [...allChartData.value]
+  else if (props.all_chart_data) chart_data = [...props.all_chart_data]
   if (chart_data.length == 0) return []
   let timestamps = chart_data.map((v) => v.timestamp)
-  let indexes = TimelineFilters[currentTimeline.value.name](timestamps, chart_data.map((v) => v.Date))
+  let indexes = TimelineFilters[currentTimeline.value.name](
+    timestamps,
+    chart_data.map((v) => v.Date),
+  )
   indexes = indexes.sort((a, b) => a - b)
   let selectedFilters = preFiltersList.value.filter((v) => v.selected)
   let selectedCumulableCodes = selectedFilters
@@ -705,11 +776,12 @@ function getFilteredData() {
         result_item['Avg Profit per Trade'] = avg_profit
       } else if (filter_code == 'Avg Gas Fee per Trade') {
         result_item['Avg Gas Fee per Trade'] = avg_fee
-      }
-      else if (filter_code == "Average APR") {
-            result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
-
-
+      } else if (filter_code == 'Average APR') {
+        result_item[filter_code] = result_item[filter_code] =
+          (item[`Profits${postfix.value}`] /
+            item[`TVL${postfix.value}`]['All Chains']) *
+          (365 / days_count[currentTimeline.value.name]) *
+          100
       }
     }
 
@@ -944,11 +1016,8 @@ function getFilteredData() {
     display: flex;
     justify-content: center;
     align-items: center;
-
-
   }
 }
-
 
 .track_chart_card {
   backdrop-filter: blur(10px);

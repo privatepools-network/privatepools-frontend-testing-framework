@@ -36,7 +36,7 @@
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between"
                 v-for="pool in networks_data.breakdown" :key="pool.id">
                 <div class="text-[13px] font-normal font-['Syne',_sans-serif] flex items-center gap-1">{{ pool.id }}
-                  <div class="flex items-center gap-1"><img :src="computedTokenImage(token)" class="w-3 h-3"
+                  <div class="flex items-center gap-1 flex-wrap"><img :src="computedTokenImage(token)" class="w-3 h-3"
                       :key="`token-${i}`" v-for="token, i in pool.id.split('-')" /></div>
                 </div>
                 <div
@@ -159,7 +159,8 @@
             ">
             <div class="d-flex flex-column gap-1">
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 24 {{ $t('hours') }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 24 {{ $t('hours') }}
+                </div>
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
@@ -169,7 +170,8 @@
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 7 {{ $t('days') }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 7 {{ $t('days') }}
+                </div>
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
@@ -179,7 +181,8 @@
                 </div>
               </div>
               <div class="dark:!text-white text-black d-flex align-items-center justify-content-between">
-                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 30 {{ $t('days') }}</div>
+                <div class="text-[13px] font-normal font-['Syne',_sans-serif]">{{ $t('profit') }} 30 {{ $t('days') }}
+                </div>
                 <!-- <div v-if="!networks_data" class="totals_loader">
                   <ThreeDots />
                 </div> -->
@@ -218,7 +221,7 @@
           </div>
         </div>
       </div>
-      <div class="referrals_button" @click="() => claimRewards(rewardsData)">{{ $t('claim_rewards') }}</div>
+      <div class="referrals_button" :class="totalRewards <= 0 ? '!border-none !bg-gray-600 !drop-shadow-none' : ''" @click="() => totalRewards <= 0 ? '' : claimRewards(rewardsData)">{{ $t('claim_rewards') }}</div>
     </div>
   </div>
 </template>
@@ -261,7 +264,7 @@ const currencyDecimals = computed(() =>
 )
 const props = defineProps(['networks_data', 'chainSelected', 'rewardsData'])
 const { networks_data, chainSelected, rewardsData } = toRefs(props)
-const totalRewards = computed(() => rewardsData.value.reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value))
+const totalRewards = computed(() => rewardsData.value && rewardsData.value ? Object.values(rewardsData.value).flatMap((item) => item.formatted_rewards).filter((item) => item.pool != "0x0000000000000000000000000000000000000000").reduce((sum, value) => sum + value[`reward${postfix_raw.value}`], 0).toFixed(currencyDecimals.value) : 0)
 const isNetworkDataReady = computed(
   () =>
     networks_data.value.length && networks_data.value.length > 0 &&
@@ -360,9 +363,11 @@ const visibleTotalGas = ref(true)
     margin-top: 0;
     margin-bottom: 20px;
   }
+
   .track_chart_card {
-    border-radius: 0px 0px 20px 20px  !important;
+    border-radius: 0px 0px 20px 20px !important;
   }
+
   .arbitrage_bot_card {
     width: 100%;
     font-size: 12px;

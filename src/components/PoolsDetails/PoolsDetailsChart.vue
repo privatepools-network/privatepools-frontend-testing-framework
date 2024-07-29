@@ -4,7 +4,7 @@
       :chart_data="all_chart_data" :tokenPrices="poolTokenPrices" :currencySelected="currencySelected"
       :cryptocomparePrices="tokenPrices" :swapsData="swapsData" :pool="pool"
       :historical_tvl="FormatHistoricalTvl(historical_tvl)" :chainSelected="chainSelectedName"
-      :userBalance="userBalance" />
+      :userBalance="userBalance" :rewardsData="rewardsData"/>
 
     <div class="track_chart_card bg-white dark:!bg-[#22222224]">
       <div v-if="dataRevenues.length == 0" class="chart_inside">
@@ -13,7 +13,7 @@
       <div v-else-if="
         dataRevenues.length > 0 && selectedOverallTab === t('overall_view')
       " class="chart_inside">
-        <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
+        <ChartTimeline :chartData="filteredData" :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
           @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
         <img :src="logo" alt="D3" class="chart-logo" height="40px" />
         <VChart ref="chart" class="chart mt-4" :option="optionObj" @legendselectchanged="legendSelectedChange"
@@ -95,7 +95,7 @@ import { useDevice } from '@/composables/adaptive/useDevice'
 const settingsStore = useSettings()
 const { width } = useDevice()
 
-const { currentCurrency } = storeToRefs(settingsStore)
+const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
 use([
   CanvasRenderer,
   CandlestickChart,
@@ -124,6 +124,7 @@ const props = defineProps([
   'currencySelected',
   'selectedOverallTab',
   'userBalance',
+  'rewardsData'
 ])
 const {
   historical_tvl,
@@ -134,6 +135,7 @@ const {
   chainSelected,
   all_chart_data,
   userBalance,
+  rewardsData
 } = toRefs(props)
 const chainSelectedName = computed(() => DisplayNetwork[chainSelected.value])
 
@@ -146,6 +148,27 @@ const filteredData = computed(() =>
 const preFiltersList = computed(() =>
   props.selectedOverallTab === t('overall_view')
     ? [
+    {
+        title: 'TVL',
+        code: 'TVL',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'TVL',
+        code: 'TVL_ETH',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
+      {
+        title: 'TVL',
+        code: 'TVL_BTC',
+        isSolo: true,
+        selected: true,
+        cumulable: false,
+      },
       {
         title: 'Revenue',
         code: 'Revenue',
@@ -216,27 +239,7 @@ const preFiltersList = computed(() =>
         selected: true,
         cumulable: true,
       },
-      {
-        title: 'TVL',
-        code: 'TVL',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
-        title: 'TVL',
-        code: 'TVL_ETH',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
-        title: 'TVL',
-        code: 'TVL_BTC',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
+   
 
       {
         title: 'Average APR',
@@ -268,31 +271,17 @@ const preFiltersList = computed(() =>
         cumulable: true,
       },
       {
-        title: 'Capital Gains',
-        code: 'Capital Gains',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
-        title: 'PNL',
-        code: 'PNL',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
         title: 'Volatility Index',
         code: 'Volatility Index',
         isSolo: true,
-        selected: true,
+        selected: currentVersion.value === 'pro' ? true : false,
         cumulable: false,
       },
       {
         title: 'Impermanent Loss',
         code: 'Impermanent Loss',
         isSolo: true,
-        selected: true,
+        selected: currentVersion.value === 'pro' ? true : false,
         cumulable: false,
       },
     ]
@@ -418,75 +407,54 @@ const preFiltersList = computed(() =>
         selected: true,
         cumulable: false,
       },
-      {
-        title: 'Capital Gains',
-        code: 'Capital Gains',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
-        title: 'PNL',
-        code: 'PNL',
-        isSolo: true,
-        selected: true,
-        cumulable: false,
-      },
-      {
-        title: 'ROI',
-        code: 'ROI',
-        isSolo: true,
-        selected: true,
-        cumulable: true,
-      },
-      {
-        title: 'Token Incentives',
-        code: 'Token Incentives',
-        isSolo: true,
-        selected: true,
-        cumulable: true,
-      },
+     
       {
         title: 'Volatility Index',
         code: 'Volatility Index',
         isSolo: true,
-        selected: true,
+        selected: currentVersion.value === 'pro' ? true : false,
         cumulable: false,
       },
       {
         title: 'Impermanent Loss',
         code: 'Impermanent Loss',
         isSolo: true,
-        selected: true,
+        selected: currentVersion.value === 'pro' ? true : false,
         cumulable: false,
       },
-      {
-        title: 'Pool percentage',
-        code: 'Pool percentage',
-        isSolo: true,
-        selected: true,
-        cumulable: true,
-      },
+      
     ],
 )
-const filters = ref({
-  Revenue: true,
-  ['Gas Fees']: true,
-  ['Trades']: true,
-  Volume: true,
+console.log('currentVersion', currentVersion.value)
+const filters = ref(currentVersion.value === 'pro' ? {
   TVL: true,
   ['Average APR']: true,
   ['Profits']: true,
-  ['Capital Gains']: true,
-  ['Volatility Index']: true,
-  ['Impermanent Loss']: true,
+  ['Trades']: true,
+  Revenue: false,
+  ['Gas Fees']: false,
+  Volume: false,
+  ['Capital Gains']: false,
+  ['Volatility Index']: false,
+  ['Impermanent Loss']: false,
   // ['PNL']: true,
   // ['ROI']: true,
   // ['Token Incentives']: true,
   // ['Pool Percentage']: true,
   // ['Rewards']: true,
   // ['Staked Liquidity']: true,
-})
+} :
+{
+  TVL: true,
+  ['Average APR']: true,
+  ['Profits']: true,
+  ['Trades']: true,
+  Revenue: false,
+  ['Gas Fees']: false,
+  Volume: false,
+
+}
+)
 // const assets = computed(() =>
 //   pool.value ? Array.from(new Set(pool.value.tokens.map((t) => t.symbol))) : [],
 // )
@@ -602,7 +570,7 @@ const convertFromNumber = (str) => {
 
 const currentGridToRight = ref(240)
 
-const showVolume = ref(true)
+const showVolume = ref(false)
 const showRevenueProfits = ref(true)
 const showTradesGasFees = ref(true)
 const showAPRVolatility = ref(true)
@@ -666,12 +634,14 @@ function seriesInstance(name, type, data, yAxisIndex, color) {
     xAxisIndex: 0,
     yAxisIndex: yAxisIndex,
     smooth: true,
-    showSymbol: false,
+    showSymbol: true,
     itemStyle: {
       borderRadius: [10, 10, 0, 0],
       shadowColor: color,
       shadowBlur: 10,
       color: color,
+      symbol: 'circle', 
+      symbolSize: 8
     },
     emphasis: {
       focus: 'series',
@@ -715,8 +685,8 @@ function legendSelectedChange(e) {
 
   if (e.name === 'Average APR' || e.name === 'Volatility Index' || e.name === "Impermanent Loss") {
     if (
-      e.selected['Average APR'] === false &&
-      e.selected['Volatility Index'] === false && e.selected['Impermanent Loss'] === false
+      currentVersion.value === 'pro' ? e.selected['Average APR'] === false &&
+      e.selected['Volatility Index'] === false && e.selected['Impermanent Loss'] === false : e.selected['Average APR'] === false
     ) {
       showAPRVolatility.value = false
     } else if (
@@ -859,7 +829,7 @@ const optionObj = ref({
     yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
     yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
     yAxisInstance('Trades / Gas Fees', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance('APR / Volatility Index / Impermanent Loss', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
+    yAxisInstance(currentVersion.value === 'pro' ? 'APR / Volatility Index / Impermanent Loss' : 'APR', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
   ],
   grid: [
     {
@@ -929,16 +899,16 @@ const optionObj = ref({
   ],
 })
 
-watch(props, () => {
-  console.log('props.selectedOverallTab', props.selectedOverallTab)
+// watch(props, () => {
+//   console.log('props.selectedOverallTab', props.selectedOverallTab)
 
-  // item.value = props.selectedOverallTab
-  if (chart.value) {
-    chart.value.setOption(optionObj.value, {
-      replaceMerge: ['series'],
-    })
-  }
-})
+//   // item.value = props.selectedOverallTab
+//   if (chart.value) {
+//     chart.value.setOption(optionObj.value, {
+//       replaceMerge: ['series'],
+//     })
+//   }
+// })
 
 const TimelineFilters = {
   // 'All-time': groupTimestampsByDayWithIndexes,
