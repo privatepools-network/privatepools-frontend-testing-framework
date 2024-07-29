@@ -1,35 +1,5 @@
 <template>
   <MainCard>
-<<<<<<< HEAD
-    <ZapperModal
-      :is-open="isZapperModalOpen"
-      :from-amounts="fromAmounts"
-      :to-amounts="toAmounts"
-      :trade-tokens="
-        pool?.tokens?.filter((token) => token.address !== zapToken.address)
-      "
-      :slippage-selected="slippageSelected"
-      :zap-token="zapToken"
-      @on-close="isZapperModalOpen = false"
-      @on-accept-trade="onAcceptTrade"
-    />
-
-    <Modal
-      v-if="isTokenSelectModalOpen"
-      @close="isTokenSelectModalOpen = false"
-      size="lg"
-    >
-      <template #body>
-        <TokenSelectModal
-          :tokenSelectModal="isTokenSelectModalOpen"
-          @tokenSelectModalClose="isTokenSelectModalOpen = false"
-          :pairIndex="pairIndex"
-          @updateToken="
-            (token, index) => ((zapToken = token), (pairIndex = index))
-          "
-          :possibleComposeTokens="possibleTokens"
-        />
-=======
     <ZapperModal :is-open="isZapperModalOpen" :from-amounts="fromAmounts" :to-amounts="toAmounts" :trade-tokens="pool?.tokens?.filter((token) => token.address !== zapToken.address)
       " :slippage-selected="slippageSelected" :zap-token="zapToken" @on-close="isZapperModalOpen = false"
       @on-accept-trade="onAcceptTrade" />
@@ -37,7 +7,6 @@
       <template #body>
         <TokenSelectModal :is-open="isTokenSelectModalOpen" :possible-tokens="possibleTokens"
           @close="isTokenSelectModalOpen = false" @update-token="(token) => (zapToken = token)" />
->>>>>>> 23c2f24b7b9a9daec9b6f9046dcd66cfb7549f3f
       </template>
     </Modal>
 
@@ -105,34 +74,6 @@
               </div>
             </div>
             <div v-if="approveStep === 0">
-<<<<<<< HEAD
-              <div
-                class="d-flex flex-column gap-2"
-                v-if="
-                  balances != {} &&
-                  lastTokenPrices != {} &&
-                  lineNumbers.length > 0
-                "
-              >
-                <div
-                  v-if="depositMethod == 'zap'"
-                  class="modal_stake_token dark:!bg-[#15151524] bg-white mb-4"
-                >
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <div
-                      @click="onTokenSelectModalOpen"
-                      class="d-flex flex-column gap-2 cursor-pointer"
-                    >
-                      <div
-                        class="text-[14px] mb-0 dark:!text-white text-black flex items-center gap-1"
-                      >
-                        <img
-                          :src="getTokenEntity(zapToken.symbol, 'short').icon"
-                          width="18"
-                        />
-=======
               <div class="d-flex flex-column gap-2" v-if="
                 balances != {} &&
                 lastTokenPrices != {} &&
@@ -143,7 +84,6 @@
                     <div @click="() => tokenSelectModalOpen()" class="d-flex flex-column gap-2">
                       <div class="text-[14px] mb-0 dark:!text-white text-black flex items-center gap-1">
                         <img :src="getTokenEntity(zapToken.symbol, 'short').icon" width="18" />
->>>>>>> 23c2f24b7b9a9daec9b6f9046dcd66cfb7549f3f
                         <span style="margin-left: 5px">
                           {{ zapToken.symbol }}
                         </span>

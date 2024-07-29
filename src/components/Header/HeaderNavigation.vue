@@ -23,7 +23,7 @@
       {{ $t('pools') }}
     </div>
 
-    <!-- <div
+    <div
     v-if="width > 768"
       @click="router.push('/buy')"
       :class="
@@ -33,7 +33,7 @@
       "
     >
       {{ $t('buy') }}
-    </div> -->
+    </div>
 
     <div
       v-if="address && width > 768"
@@ -47,20 +47,10 @@
       {{ $t('portfolio') }}
     </div>
 
-    <div
-      v-if="width > 768"
-      @click="router.push('/general')"
-      :class="
-        router.currentRoute.value.path === '/general'
-          ? 'navigation_text_selected navigation_text'
-          : 'navigation_text'
-      "
-    >
-      {{ $t('Analytics') }}
-    </div>
+
 
   
-    <!-- <Dropdown :distance="10" v-if="width > 768">
+    <Dropdown :distance="10" v-if="width > 768">
       <div class="arrow_header">
         <svg
           width="9"
@@ -142,7 +132,7 @@
                 <img :src="twitterIcon" />
               </div>
             </a>
-            <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
+            <a href="https://discord.gg/AFEcPPW5bM" target="_blank">
               <div>
                 <img :src="discordIcon" />
               </div>
@@ -160,20 +150,9 @@
           </div>
         </div>
       </template> 
-    </Dropdown>-->
+    </Dropdown>
 
-    <!-- <div @click="router.push('/referrals')" :class="router.currentRoute.value.path === '/referrals'
-          ? 'navigation_text_selected navigation_text'
-          : 'navigation_text'
-          ">
-          {{ $t('referrals') }}
-        </div>
-        <div @click="router.push('/buy')" :class="router.currentRoute.value.path === '/buy'
-          ? 'navigation_text_selected navigation_text'
-          : 'navigation_text'
-          ">
-          {{ $t('buy') }}
-        </div> -->
+    
   </div>
 </template>
 <script setup>

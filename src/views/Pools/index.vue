@@ -332,6 +332,19 @@
       </div>
     </div>
     <div v-else-if="selectedView === 'Cards'">
+      <div
+          v-if="all_pools.length === 0 && user_staked_pools === null"
+          class="my-72"
+        >
+          <LoaderPulse />
+        </div>
+        <div
+          v-else-if="user_staked_pools.length === 0 && hidePools"
+          class="my-5 text-center text-black dark:!text-white"
+        >
+          <div>{{ $t('no_results') }}</div>
+          <div>{{ $t('choose_a_pool') }}</div>
+        </div>
       <div class="flex flex-wrap gap-3">
         <PoolCard
           v-for="(pool, index) in poolsForCard
@@ -434,7 +447,7 @@ const route = useRoute()
 
 const minimalTVL = ref(900)
 const hideSmallPools = ref(true)
-const selectedView = ref('Table')
+const selectedView = ref('Cards')
 
 const optionsTokens = ref([])
 const optionsPoolType = ref([

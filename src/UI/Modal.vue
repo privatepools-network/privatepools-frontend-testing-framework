@@ -12,7 +12,7 @@
       <div :class="`${modalSizeClasses[size]}`" class="fixed p-4 w-full">
         <!-- Modal content -->
         <div
-          class="relative bg-white rounded-lg shadow dark:!bg-[#02031c] z-[1000] modal_scale"
+          class="relative bg-white rounded-lg shadow dark:!bg-[#02031c] z-[100000] modal_scale"
         >
           <!-- Modal header -->
           <div

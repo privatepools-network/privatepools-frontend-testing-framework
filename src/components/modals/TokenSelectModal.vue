@@ -9,90 +9,57 @@
         </p>
       </div>
 
-  <label
-    for="search"
-    class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-  >
-    {{ $t('search') }}
-  </label>
-  <div class="relative">
-    <div
-      class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-    >
-      <svg
-        class="w-4 h-4 text-gray-500 dark:text-gray-400"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 20 20"
+      <label
+        for="search"
+        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
       >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+        {{ $t('search') }}
+      </label>
+      <div class="relative">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
+        </div>
+        <input
+          type="search"
+          id="search"
+          class="block w-full ps-10 text-sm text-gray-900 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-[#02031c] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          :placeholder="t('search_by_name_symbol_address')"
+          aria-label="Search by name, symbol or address"
+          v-model="filterName"
         />
-      </svg>
-    </div>
-    <input
-      type="search"
-      id="search"
-      class="block w-full ps-10 text-sm text-gray-900 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-[#02031c] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-      :placeholder="t('search_by_name_symbol_address')"
-      aria-label="Search by name, symbol or address"
-      v-model="filterName"
-      v-on:keyup.enter="emit('addToken', filterName)"
-    />
-  </div>
-
-  <div class="mt-3">
-    <div class="dark:!text-white text-black text-base">
-      {{ $t('common_tokens') }}
-    </div>
-    <div class="d-flex flex-wrap gap-3">
-      <div
-        class="common_token text-black dark:!text-white d-flex gap-2"
-        v-for="token in commonTokens"
-        :key="token.symbol"
-        @click="
-          emit('updateToken', { ...token }, props.pairIndex),
-            emit('tokenSelectModalClose')
-        "
-      >
-        <img
-          :src="getTokenEntity(token.symbol, 'short').icon || token.logoURI"
-          width="30"
-        />
-        {{ token.symbol }}
       </div>
-    </div>
-  </div>
-  <div class="mt-3 tokens_container">
-    <div
-      class="flex items-center justify-center h-full"
-      v-if="filteredPossibleTokens.length === 0"
-    >
-      <LoaderPulse />
-    </div>
-    <div
-      v-else
-      v-for="(token, index) in filteredPossibleTokens"
-      :key="`tokens-key-${index}`"
-      class="flex items-center justify-between p-3 gap-3 token_card"
-      @click="
-        emit('updateToken', { ...token }, props.pairIndex),
-        $router.currentRoute.value.path.includes('buy') ? '' : emit('tokenSelectModalClose')
-      "
-    >
-      <div class="d-flex align-items-center">
-        <img
-          :src="token.logoURI || getTokenEntity(token.symbol, 'short').icon"
-          width="60"
-          class="p-2"
-        />
-        <div class="d-flex flex-column">
-          <div class="modal_body_header text-black dark:!text-white">
+
+      <div class="mt-3">
+        <div class="dark:!text-white text-black text-base">
+          {{ $t('common_tokens') }}
+        </div>
+        <div class="d-flex flex-wrap gap-3">
+          <div
+            class="common_token text-black dark:!text-white d-flex gap-2"
+            v-for="token in commonTokens"
+            :key="token.symbol"
+            @click="$emit('updateToken', { ...token }), $emit('close')"
+          >
+            <img
+              :src="getTokenEntity(token.symbol, 'short').icon || token.logoURI"
+              width="30"
+            />
             {{ token.symbol }}
           </div>
         </div>
@@ -150,6 +117,10 @@
 
 <script setup>
 import { ref, defineProps, defineEmits, computed, toRefs } from 'vue'
+import { t } from 'i18next'
+
+import Modal from '@/UI/Modal.vue'
+import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import { getTokenEntity } from '@/lib/helpers/util'
 import { COMMON_TOKENS } from '@/composables/poolActions/compose/usePossibleComposeTokens'
 
@@ -161,7 +132,7 @@ const emit = defineEmits(['updateToken', 'close'])
 const filterName = ref('')
 
 const filteredPossibleTokens = computed(() =>
-  possibleComposeTokens.value
+  possibleTokens.value
     .filter(
       (t) =>
         filterName.value == '' ||
@@ -172,12 +143,12 @@ const filteredPossibleTokens = computed(() =>
 )
 
 const commonTokens = computed(() => {
-  console.log('POSSIBLE TOKENS - ', possibleComposeTokens.value)
-  return possibleComposeTokens.value
+  return possibleTokens.value
     .filter((item) => COMMON_TOKENS.includes(item.name))
     .slice(0, 8)
 })
 </script>
+
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
 

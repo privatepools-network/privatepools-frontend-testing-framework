@@ -34,7 +34,7 @@
         </div>
       </CRow>
       <div class="flex justify-around md:flex-row flex-col">
-        <div class="flex flex-col gap-4 md:w-[25%] w-full">
+        <div class="flex flex-col gap-4 md:w-[35%] w-full">
           <ComposePoolSteps :activeStep="activeStep" />
           <TokenPrices :tokenPrices="removeDuplicates(tokensData, 'symbol')" :activeStep="activeStep" />
         </div>
@@ -1440,7 +1440,7 @@ const dynamicDonut = computed(() => {
 .compose_choose {
   height: fit-content;
   padding: 10px;
-  width: 35%;
+  width: 40%;
   border-radius: 16px;
   // background: #DCEEF605;
   border: 1px solid #ffffff0d;

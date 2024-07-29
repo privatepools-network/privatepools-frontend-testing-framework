@@ -706,7 +706,11 @@ const computedAddress = computed(() =>
 .right_sidebar {
   display: flex;
 }
-
+.header.header-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 999 !important; 
+}
 .header {
   border-bottom: none;
   padding: 16px 33px 16px 33px;
