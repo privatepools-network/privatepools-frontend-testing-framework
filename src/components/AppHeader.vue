@@ -16,53 +16,67 @@
           class="bg-[#4545451F] rounded-[35px] text-[#C6C6C6] xl:text-[13px] text-[10px] p-6"
         >
           <div class="terms_text pr-2">
+            <p>On-Chain Disclaimer for Early Users and Testers</p>
             <p>
-              This platform is provided on an "as is" and "as available" basis.
-              It has not undergone any formal security audit. You are solely
-              responsible for any risks associated with using this platform,
-              including but not limited to the risk of loss of funds.
+              By interacting with this platform, you acknowledge and agree to
+              the following terms and conditions:
             </p>
             <p>
-              The developers, contributors, and affiliated parties of this
-              platform shall not be held liable for any direct, indirect,
-              incidental, special, consequential, or punitive damages, including
-              but not limited to loss of funds, data, use, or other intangibles,
-              arising out of or in connection with your use of the platform.
+              Use at Your Own Risk: This platform is provided on an "as is" and
+              "as available" basis. It has not undergone any formal security
+              audit. You are solely responsible for any risks associated with
+              using this platform, including but not limited to the risk of loss
+              of funds.
             </p>
             <p>
-              By using this platform, you agree that you understand the
-              experimental nature of the software and that you are fully aware
-              of the risks involved. You accept full responsibility for any and
-              all outcomes resulting from your use of the platform.
+              No Liability: The developers, contributors, and affiliated parties
+              of this platform shall not be held liable for any direct,
+              indirect, incidental, special, consequential, or punitive damages,
+              including but not limited to loss of funds, data, use, or other
+              intangibles, arising out of or in connection with your use of the
+              platform.
             </p>
             <p>
-              There are no warranties or guarantees provided with this platform,
-              either express or implied, including but not limited to warranties
-              of merchantability, fitness for a particular purpose, or
-              non-infringement.
+              No licensed activities or services. The platform allows you to
+              interact with decentralized technologies under your own volition
+              and at your own risk. The use of the platform is made outside any
+              financial services or advice.
             </p>
             <p>
-              You acknowledge that there is a possibility of significant
-              financial loss when using this platform. You agree to hold
-              harmless and indemnify the developers, contributors, and
+              Acceptance of Risk: By using this platform, you agree that you
+              understand the experimental nature of the software and that you
+              are fully aware of the risks involved. You accept full
+              responsibility for any and all outcomes resulting from your use of
+              the platform.
+            </p>
+            <p>
+              No Warranties: There are no warranties or guarantees provided with
+              this platform, either express or implied, including but not
+              limited to warranties of merchantability, fitness for a particular
+              purpose, or non-infringement.
+            </p>
+            <p>
+              Assumption of Loss: You acknowledge that there is a possibility of
+              significant financial loss when using this platform. You agree to
+              hold harmless and indemnify the developers, contributors, and
               affiliated parties from any claims or damages resulting from your
               use of the platform.
             </p>
             <p>
-              You are responsible for conducting your own due diligence and
-              understanding the risks before interacting with the platform. You
-              should not use this platform unless you can afford to lose your
-              entire investment.
+              User Responsibility: You are responsible for conducting your own
+              due diligence and understanding the risks before interacting with
+              the platform. You should not use this platform unless you can
+              afford to lose your entire investment.
+            </p>
+            <p>
+              By proceeding to use this platform, you indicate that you have
+              read, understood, and agreed to these terms and conditions.
             </p>
           </div>
         </div>
         <div
           class="referrals_button"
-          @click="
-            address
-              ? signatureStart(address)
-              : connectWallet()
-          "
+          @click="address ? signatureStart(address) : connectWallet()"
         >
           {{ address ? 'Sign and proceed' : 'Connect your wallet' }}
         </div>
@@ -344,7 +358,7 @@ const emit = defineEmits(['toggleSidebar', 'setAddress'])
 const props = defineProps(['address'])
 const topTradedTokens = ref([])
 const topPools = ref([])
-const visibleOptions = ref([]);
+const visibleOptions = ref([])
 
 const signatureState = ref(localStorage.getItem('signature') ? false : true)
 const signatureInProcess = ref(false)
@@ -360,67 +374,67 @@ function toggleSearhbarMobile() {
 }
 
 const tokensOptions = computed(() => {
-      let result = [];
-      result.push({
-        firstToken: true,
-        id: 'a b c d e f g h i j k l m n o p q r s t u v w x y z',
-      });
-      result.push(
-        ...topTradedTokens.value.map((item) => ({
-          id: `${item.name} ${item.symbol} ${item.address}`,
-          label: item.name,
-          img: item.symbol,
-          price: `${item.price.toFixed(2)}$`,
-          price_ETH: `${item.price_ETH.toFixed(5)} ETH`,
-          price_BTC: `${item.price_BTC.toFixed(5)} BTC`,
-          percentChange: `${item.priceChange.toFixed(2)}%`,
-          tokens: true,
-        }))
-      );
-      result.push({
-        firstPool: true,
-        id: 'a b c d e f g h i j k l m n o p q r s t u v w x y z',
-      });
-      result.push(
-        ...topPools.value.map((item) => ({
-          id: `${item.tokens.map((token) => token.symbol).join('/')} ${item.type} ${
-            item.address
-          }`,
-          poolId: item.id,
-          chainId: item.chainId,
-          type: item.type,
-          label: item.type,
-          img: item.tokens.map((token) => token.symbol),
-          desc: item.tokens.map((token) => token.symbol).join('/'),
-          percentChange: '0%',
-          price: `${parseFloat(item.totalLiquidity).toFixed(2)}$`,
-          price_ETH: `${parseFloat(item.totalLiquidity_ETH).toFixed(5)} ETH`,
-          price_BTC: `${parseFloat(item.totalLiquidity_BTC).toFixed(5)} BTC`,
-          pools: true,
-        }))
-      );
-      return result;
-    });
+  let result = []
+  result.push({
+    firstToken: true,
+    id: 'a b c d e f g h i j k l m n o p q r s t u v w x y z',
+  })
+  result.push(
+    ...topTradedTokens.value.map((item) => ({
+      id: `${item.name} ${item.symbol} ${item.address}`,
+      label: item.name,
+      img: item.symbol,
+      price: `${item.price.toFixed(2)}$`,
+      price_ETH: `${item.price_ETH.toFixed(5)} ETH`,
+      price_BTC: `${item.price_BTC.toFixed(5)} BTC`,
+      percentChange: `${item.priceChange.toFixed(2)}%`,
+      tokens: true,
+    })),
+  )
+  result.push({
+    firstPool: true,
+    id: 'a b c d e f g h i j k l m n o p q r s t u v w x y z',
+  })
+  result.push(
+    ...topPools.value.map((item) => ({
+      id: `${item.tokens.map((token) => token.symbol).join('/')} ${item.type} ${
+        item.address
+      }`,
+      poolId: item.id,
+      chainId: item.chainId,
+      type: item.type,
+      label: item.type,
+      img: item.tokens.map((token) => token.symbol),
+      desc: item.tokens.map((token) => token.symbol).join('/'),
+      percentChange: '0%',
+      price: `${parseFloat(item.totalLiquidity).toFixed(2)}$`,
+      price_ETH: `${parseFloat(item.totalLiquidity_ETH).toFixed(5)} ETH`,
+      price_BTC: `${parseFloat(item.totalLiquidity_BTC).toFixed(5)} BTC`,
+      pools: true,
+    })),
+  )
+  return result
+})
 
-    const visibleOptionsComputed = computed(() => {
-      if (tokensOptions.value.length <= 2) {
-        return [];
-      }
-      let result = tokensOptions.value.slice(0, 3);
-      let index = tokensOptions.value.findIndex((item) => item.firstPool);
-      result.push(...tokensOptions.value.slice(index, index + 3));
-      return result;
-    });
+const visibleOptionsComputed = computed(() => {
+  if (tokensOptions.value.length <= 2) {
+    return []
+  }
+  let result = tokensOptions.value.slice(0, 3)
+  let index = tokensOptions.value.findIndex((item) => item.firstPool)
+  result.push(...tokensOptions.value.slice(index, index + 3))
+  return result
+})
 
-    const selectOptions = computed(() =>
-      visibleOptions.value.length ? visibleOptions.value : tokensOptions.value
-    );
+const selectOptions = computed(() =>
+  visibleOptions.value.length ? visibleOptions.value : tokensOptions.value,
+)
 
-    watchEffect(() => {
-      const visibleOptionsComputedValue = visibleOptionsComputed.value;
-      if (visibleOptionsComputedValue)
-        visibleOptions.value = [...visibleOptionsComputedValue];
-    });
+watchEffect(() => {
+  const visibleOptionsComputedValue = visibleOptionsComputed.value
+  if (visibleOptionsComputedValue)
+    visibleOptions.value = [...visibleOptionsComputedValue]
+})
 
 watchEffect(() => {
   console.log('signatureState', signatureState.value)
@@ -456,24 +470,22 @@ onMounted(async () => {
 
 const searchInput = ref('')
 function handleInput(event) {
-      searchInput.value = event.target.value;
-      let _search = searchInput.value.toLowerCase();
-      visibleOptions.value = searchInput.value
-        ? tokensOptions.value.filter((item) =>
-            checkInputSearchItem(_search, item)
-          )
-        : [...visibleOptionsComputed.value];
-    }
+  searchInput.value = event.target.value
+  let _search = searchInput.value.toLowerCase()
+  visibleOptions.value = searchInput.value
+    ? tokensOptions.value.filter((item) => checkInputSearchItem(_search, item))
+    : [...visibleOptionsComputed.value]
+}
 
-    function checkInputSearchItem(_search, item) {
-      if (item.firstPool || item.firstToken) return true;
+function checkInputSearchItem(_search, item) {
+  if (item.firstPool || item.firstToken) return true
 
-      return (
-        (item.desc && item.desc.toLowerCase().includes(_search)) ||
-        (item.label && item.label.toLowerCase().includes(_search)) ||
-        (item.id && item.id.toLowerCase().includes(_search))
-      );
-    }
+  return (
+    (item.desc && item.desc.toLowerCase().includes(_search)) ||
+    (item.label && item.label.toLowerCase().includes(_search)) ||
+    (item.id && item.id.toLowerCase().includes(_search))
+  )
+}
 
 const notify = (popupType, popupText, popupSubText) => {
   toast(Toast, {
@@ -634,11 +646,7 @@ async function connectWallet() {
       )
       setNetworkId(network.chainId)
       window.ethereum.on('chainChanged', handleChainChanged)
-      window.ethereum.on('accountsChanged', function (accounts) {
-        emit('setAddress', accounts[0])
-        localStorage.setItem('account', accounts[0])
-        window.location.reload()
-      })
+      window.ethereum.on('accountsChanged', handleAccountsChanged)
     })
     .catch((err) => {
       console.error(err)
@@ -648,6 +656,15 @@ async function connectWallet() {
         'Please connect your wallet via Metamask',
       )
     })
+}
+
+function handleAccountsChanged(accounts) {
+  emit('setAddress', accounts[0])
+  localStorage.setItem('account', accounts[0])
+
+  // Trigger new signature request
+  requestSignature(accounts[0])
+  window.location.reload()
 }
 
 async function handleChainChanged() {
@@ -707,9 +724,9 @@ const computedAddress = computed(() =>
   display: flex;
 }
 .header.header-sticky {
-    position: sticky;
-    top: 0;
-    z-index: 999 !important; 
+  position: sticky;
+  top: 0;
+  z-index: 999 !important;
 }
 .header {
   border-bottom: none;

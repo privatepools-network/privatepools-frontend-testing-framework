@@ -372,18 +372,44 @@
             
            
             <div class="flex justify-between text-white text-[14px]">
-              <div>APR 30d</div>
-              <div>
+              <div>APR 24h/7d/30d</div>
+              <div class="flex items-center">
+                <CounterAnimation
+                  :currency="'1'"
+                  :value="Number(pool['APR 24H']).toFixed(0)"
+                />%/
+                <CounterAnimation
+                  :currency="'1'"
+                  :value="Number(pool['APR 7D']).toFixed(0)"
+                />%/
                 <CounterAnimation
                   :currency="'1'"
                   :value="Number(pool['APR 30D']).toFixed(0)"
-                />
+                />%
               </div>
             </div>
           
             <div class="flex justify-between text-white text-[14px]">
-              <div>Profits 30d</div>
-              <div>
+              <div>Profits 24h/7d/30d</div>
+              <div class="flex items-center">
+                <CounterAnimation
+                  :currency="''"
+                  :decimal-places="currencyDecimals"
+                  :value="
+                    Number(pool[`profit24H${currency_underline}`]).toFixed(
+                      currencyDecimals,
+                    )
+                  "
+                />/
+                <CounterAnimation
+                  :currency="''"
+                  :decimal-places="currencyDecimals"
+                  :value="
+                    Number(pool[`profit7D${currency_underline}`]).toFixed(
+                      currencyDecimals,
+                    )
+                  "
+                />/
                 <CounterAnimation
                   :currency="''"
                   :decimal-places="currencyDecimals"
@@ -397,8 +423,26 @@
             </div>
          
             <div class="flex justify-between text-white text-[14px]">
-              <div>Revenue 30d</div>
-              <div>
+              <div>Revenue 24h/7d/30d</div>
+              <div class="flex items-center">
+                <CounterAnimation
+                  :currency="''"
+                  :decimal-places="currencyDecimals"
+                  :value="
+                    Number(pool[`revenue24H${currency_underline}`]).toFixed(
+                      currencyDecimals,
+                    )
+                  "
+                />/
+                <CounterAnimation
+                  :currency="''"
+                  :decimal-places="currencyDecimals"
+                  :value="
+                    Number(pool[`revenue7D${currency_underline}`]).toFixed(
+                      currencyDecimals,
+                    )
+                  "
+                />/
                 <CounterAnimation
                   :currency="''"
                   :decimal-places="currencyDecimals"
@@ -412,8 +456,26 @@
             </div>
         
             <div class="flex justify-between text-white text-[14px]">
-              <div>Volume 30d</div>
-              <div>
+              <div>Volume 24h/7d/30d</div>
+              <div class="flex items-center">
+                <CounterAnimation
+                  :currency="''"
+                  :decimal-places="currencyDecimals"
+                  :value="
+                    Number(pool[`Volume_24H${currency_underline}`]).toFixed(
+                      currencyDecimals,
+                    )
+                  "
+                /> {{" / "}}
+                <CounterAnimation
+                  :currency="''"
+                  :decimal-places="currencyDecimals"
+                  :value="
+                    Number(pool[`Volume_7D${currency_underline}`]).toFixed(
+                      currencyDecimals,
+                    )
+                  "
+                /> {{" / "}}
                 <CounterAnimation
                   :currency="''"
                   :decimal-places="currencyDecimals"

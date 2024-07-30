@@ -132,7 +132,7 @@
                 <img :src="twitterIcon" />
               </div>
             </a>
-            <a href="https://discord.gg/AFEcPPW5bM" target="_blank">
+            <a href="https://discord.gg/EZJh3a5vDP" target="_blank">
               <div>
                 <img :src="discordIcon" />
               </div>
