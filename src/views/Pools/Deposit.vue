@@ -162,7 +162,7 @@
                           font-weight: 500;
                           text-align: right;
                         " :value="lineNumbers[tokenIndex] > 0
-                          ? lineNumbers[tokenIndex] / 1000
+                          ? lineNumbers[tokenIndex] / 100000
                           : lineNumbers[tokenIndex]
                           " @input="(e) => onTokenInput(e, tokenIndex)" type="number" />
                     </div>
@@ -181,14 +181,14 @@
                         {{ currencySelected.symbol }}
                         {{
                           (
-                            (lineNumbers[tokenIndex] / 1000) *
+                            (lineNumbers[tokenIndex] / 100000) *
                             lastTokenPrices[token.address]
                           ).toFixed(3)
                         }}
                       </div>
                     </div>
                     <Slider class="mt-2" @change="(value) => OnSliderValueChange(tokenIndex, value)
-                      " :tooltips="false" :min="0" :max="maxBalances[token.address] * 1000" :step="1" :lazy="false"
+                      " :tooltips="false" :min="0" :max="maxBalances[token.address] * 100000" :step="1" :lazy="false"
                       v-model="lineNumbers[tokenIndex]" />
                   </div>
 
@@ -215,7 +215,7 @@
               <DepositModalV2 @zapperModalOpen="zapperModalOpen" :pool="pool" :visibleDepositModal="visibleDepositModal"
                 @changeVisibleDepositOpen="changeVisibleDepositClose" :total="lineNumbers.reduce(
                   (sum, current, index) =>
-                    sum + (current / 1000) * lastTokenPrices[tokens[index]],
+                    sum + (current / 100000) * lastTokenPrices[tokens[index]],
                   0,
                 )
                   " :wbnbSelected="wbnbSelected" :account="account" :valueLoss="priceImpactFormatted" :bptOut="bptOut"
@@ -411,7 +411,7 @@ const maxBalances = computed(() => {
 })
 
 const formattedLineNumbers = computed(() =>
-  lineNumbers.value.map((ln) => ln / 1000),
+  lineNumbers.value.map((ln) => ln / 100000),
 )
 
 const amountMap = computed(() => {
@@ -438,7 +438,7 @@ const fiatTotal = computed(() =>
   parseFloat(
     lineNumbers.value.reduce(
       (sum, current, index) =>
-        sum + (current / 1000) * lastTokenPrices.value[tokens.value[index]],
+        sum + (current / 100000) * lastTokenPrices.value[tokens.value[index]],
       0,
     ),
   ).toFixed(3),
@@ -549,11 +549,13 @@ function addedTXHash(hash) {
 // }
 
 function OnSliderValueChange(index, value) {
-  if (balances.value[tokens.value[index].address] * 1000 < value) {
+  if (balances.value[tokens.value[index].address] * 100000 < value) {
     lineNumbers.value[index] =
-      balances.value[tokens.value[index].address] * 1000
+      balances.value[tokens.value[index].address] * 100000
   }
-  lineNumbers.value[index] = value
+  else {
+    lineNumbers.value[index] = value
+  }
   if (value > 0) lastDepositChanged.value = index
   OnOptimizeClick()
 }
@@ -565,13 +567,13 @@ function OnAllMaxClick() {
 }
 
 function OnMaxClick(index, address) {
-  OnSliderValueChange(index, balances.value[address] * 1000)
+  OnSliderValueChange(index, balances.value[address] * 100000)
 }
 
 // WETH-60/USDT-40
 
 // 600$ worth of WETH
-// 1000$ / 100 * 40
+// 100000$ / 100 * 40
 
 // 60-40 = +20%
 
@@ -579,7 +581,7 @@ function OnOptimizeClick() {
   if (lastDepositChanged.value == -1) return
   let token = tokens.value[lastDepositChanged.value]
   let usdAmount =
-    (lineNumbers.value[lastDepositChanged.value] / 1000) *
+    (lineNumbers.value[lastDepositChanged.value] / 100000) *
     lastTokenPrices.value[token]
   usdAmount = Math.min(usdAmount, leastBalanceValue.value)
   for (let i = 0; i < lineNumbers.value.length; i++) {
@@ -593,14 +595,14 @@ function OnOptimizeClick() {
       pool.value.tokens[i].weight
     let newValue =
       toOptimizeUsdAmount / lastTokenPrices.value[pool.value.tokens[i].address]
-    lineNumbers.value[i] = newValue * 1000
+    lineNumbers.value[i] = newValue * 100000
   }
 }
 
 function onTokenInput(event, tokenIndex) {
   let result_value = event.target.value
   if (parseFloat(result_value) != 0) {
-    result_value = parseFloat(event.target.value) * 1000
+    result_value = parseFloat(event.target.value) * 100000
   }
   if (isNaN(parseFloat(result_value))) {
     result_value = 0
@@ -641,9 +643,9 @@ function changeVisibleDepositClose() {
 }
 
 function RemainingBalance(token, index) {
-  let value1 = balances.value[token.address] * 1000
+  let value1 = balances.value[token.address] * 100000
   let value2 = parseFloat(lineNumbers.value[index])
-  let diff = (value1 - value2) / 1000
+  let diff = (value1 - value2) / 100000
   return diff < 0 && diff > -1 ? 0 : diff.toFixed(6)
 }
 
@@ -652,13 +654,29 @@ function onCurrencyInput(e) {
     (e.target.value /
       lastTokenPrices.value[tokens.value[leastBalanceIndex.value]]) *
     pool.value.tokens[leastBalanceIndex.value].weight
-  lineNumbers.value[leastBalanceIndex.value] =
-    parseFloat(
-      balances.value[pool.value.tokens[leastBalanceIndex.value].address],
-    ) >= possibleAmount
-      ? possibleAmount * 1000
-      : balances.value[pool.value.tokens[leastBalanceIndex.value].address] *
-      1000
+  if (parseFloat(
+    balances.value[pool.value.tokens[leastBalanceIndex.value].address],
+  ) >= possibleAmount) {
+    lineNumbers.value[leastBalanceIndex.value] = possibleAmount * 100000
+  }
+  else {
+    lineNumbers.value[leastBalanceIndex.value] = balances.value[pool.value.tokens[leastBalanceIndex.value].address] * 100000
+    toast(Toast, {
+      closeOnClick: true,
+      theme: 'dark',
+      type: 'warning',
+      autoClose: 5000,
+      closeButton: true,
+      position: toast.POSITION.TOP_RIGHT,
+      data: {
+        header_text: 'Amount was adjusted because input is bigger than your smallest token balance!',
+        toast_text:
+          '',
+        tx_link: '',
+        speedUp: '',
+      },
+    })
+  }
   lastDepositChanged.value = leastBalanceIndex.value
   OnOptimizeClick()
 }
