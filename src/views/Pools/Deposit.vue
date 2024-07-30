@@ -545,7 +545,7 @@ function OnSliderValueChange(index, value) {
     lineNumbers.value[index] =
       balances.value[tokens.value[index].address] * 100000
   }
-  else{
+  else {
     lineNumbers.value[index] = value
   }
   if (value > 0) lastDepositChanged.value = index
@@ -646,13 +646,29 @@ function onCurrencyInput(e) {
     (e.target.value /
       lastTokenPrices.value[tokens.value[leastBalanceIndex.value]]) *
     pool.value.tokens[leastBalanceIndex.value].weight
-  lineNumbers.value[leastBalanceIndex.value] =
-    parseFloat(
-      balances.value[pool.value.tokens[leastBalanceIndex.value].address],
-    ) >= possibleAmount
-      ? possibleAmount * 100000
-      : balances.value[pool.value.tokens[leastBalanceIndex.value].address] *
-      100000
+  if (parseFloat(
+    balances.value[pool.value.tokens[leastBalanceIndex.value].address],
+  ) >= possibleAmount) {
+    lineNumbers.value[leastBalanceIndex.value] = possibleAmount * 100000
+  }
+  else {
+    lineNumbers.value[leastBalanceIndex.value] = balances.value[pool.value.tokens[leastBalanceIndex.value].address] * 100000
+    toast(Toast, {
+      closeOnClick: true,
+      theme: 'dark',
+      type: 'warning',
+      autoClose: 5000,
+      closeButton: true,
+      position: toast.POSITION.TOP_RIGHT,
+      data: {
+        header_text: 'Amount was adjusted because input is bigger than your smallest token balance!',
+        toast_text:
+          '',
+        tx_link: '',
+        speedUp: '',
+      },
+    })
+  }
   lastDepositChanged.value = leastBalanceIndex.value
   OnOptimizeClick()
 }
