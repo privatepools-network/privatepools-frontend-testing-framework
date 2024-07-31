@@ -25,7 +25,7 @@
               <img :src="mediumIcon" />
             </div>
           </a>
-          <a href="https://linktr.ee/privatepoolsnetwork" target="_blank">
+          <a href="https://t.me/+qPJyj3PhQrM0ZTY0" target="_blank">
             <div class="link_logo">
               <img :src="telegramIcon" />
             </div>

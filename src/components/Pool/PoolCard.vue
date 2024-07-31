@@ -1,5 +1,6 @@
 <template>
   <div class="card_view">
+    <div class="card_blur"> 
     <div :class="['card', { flipped: flippedCard }]">
       <div class="card__face card__face--front">
         <div class="flex justify-between flex-col h-full">
@@ -578,6 +579,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 <script setup>
 import { toRefs, defineProps, ref, computed } from 'vue'
@@ -695,17 +697,22 @@ const visibleDetails = ref(false)
 
 .card_view {
   width: 24%;
-
+  
   @media (max-width: 1400px) {
     width: 32%;
   }
 
+  .card_blur {
+    backdrop-filter: blur(10px);
+  }
   .card {
     width: 100%;
     height: 650px;
     transition: transform 0.6s;
     transform-style: preserve-3d;
+    
     position: relative;
+    z-index: 1;
     border-color: rgba(255, 255, 255, 0) !important;
     --cui-card-border-color: unset !important;
     --cui-card-bg: none !important;
@@ -720,13 +727,12 @@ const visibleDetails = ref(false)
       background: #00000024;
       border: 1px solid rgba(0, 224, 255, 0.38);
       box-shadow: 0px 4px 8.9px 0px #000000b5;
-      backdrop-filter: blur(10px);
+      
       border-radius: 16px;
       padding: 20px;
       perspective: 1000px;
       height: 650px;
       -webkit-backface-visibility: hidden; /* Safari */
-      -moz-backface-visibility: hidden; /* Firefox */
     }
 
     .card__face--front {
