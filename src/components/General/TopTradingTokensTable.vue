@@ -12,70 +12,32 @@
             :class="headCaptionIndex !== 0 ? header_cells_inside : ''"
             style="cursor: pointer; height: 20px"
           >
-            <div
-              style=""
-              v-if="
-                !['pool composition', 'actions', 'tokens'].includes(
-                  headCaption.toLowerCase(),
-                )
-              "
-            ></div>
-            <div
-              style="width: 20px; display: flex; align-items: center; gap: 6px"
-              v-if="['tokens'].includes(headCaption.toLowerCase())"
-            >
-              <svg
-                width="24"
-                height="16"
-                viewBox="0 0 24 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g clip-path="url(#clip0_156_47)">
-                  <g clip-path="url(#clip1_156_47)">
-                    <path
-                      d="M7.5 15C11.366 15 14.5 11.866 14.5 8C14.5 4.13401 11.366 1 7.5 1C3.63401 1 0.5 4.13401 0.5 8C0.5 11.866 3.63401 15 7.5 15Z"
-                      stroke="white"
-                    />
-                    <path
-                      d="M16.5 15C20.366 15 23.5 11.866 23.5 8C23.5 4.13401 20.366 1 16.5 1C12.634 1 9.5 4.13401 9.5 8C9.5 11.866 12.634 15 16.5 15Z"
-                      stroke="white"
-                    />
-                  </g>
-                </g>
-                <defs>
-                  <clipPath id="clip0_156_47">
-                    <rect
-                      width="24"
-                      height="15"
-                      fill="white"
-                      transform="translate(0 0.5)"
-                    />
-                  </clipPath>
-                  <clipPath id="clip1_156_47">
-                    <rect
-                      width="24"
-                      height="15"
-                      fill="white"
-                      transform="translate(0 0.5)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-            </div>
+
+         
 
             <div
               :class="'head_caption_text flex items-center'"
-              @click="ascendFilterBy = headCaption"
+              @click="
+                 !headCaption.includes('#') &&
+                 !headCaption.includes('Tokens name')
+                  ? (ascendFilterBy = headCaption)
+                  : '';
+                toggleSort()
+              "
             >
               <img
                 v-if="
                   !headCaption.includes('#') &&
-                  !headCaption.includes(t('tokens_name'))
+                  !headCaption.includes('Tokens name')
                 "
                 :src="filterArrow"
-                :class="ascendFilterBy === headCaption ? 'rotate-180' : ''"
-                
+                :class="
+                  ascendFilterBy === headCaption && isReverseSorting
+                    ? 'rotate-180 shadow-white'
+                    : ascendFilterBy === headCaption
+                    ? 'shadow-white'
+                    : ''
+                "
               />
               {{ headCaption }}
             </div>
@@ -87,7 +49,12 @@
     <LoaderPulse v-if="!all_tokens" />
     <TopTradingTokensPoolRow
       v-else-if="all_tokens && all_tokens.length > 0"
-      v-for="(pool, index) in all_tokens.toSorted((a, b) => b[ascendFilterBy.toLowerCase()] - a[ascendFilterBy.toLowerCase()])"
+      v-for="(pool, index) in all_tokens.toSorted((a, b) =>
+          isReverseSorting
+            ? b[ascendFilterBy.toLowerCase()] - a[ascendFilterBy.toLowerCase()]
+            : a[ascendFilterBy.toLowerCase()] - b[ascendFilterBy.toLowerCase()],
+       
+      )"
       :poolsLength="all_tokens.length"
       :key="pool.name"
       :pool="pool"
@@ -97,16 +64,24 @@
   </div>
   <div v-else>
     <LoaderPulse v-if="!all_tokens" />
-    <div v-else-if="all_tokens && all_tokens.length > 0" class="mobile_table_container">
-    <MobileTable
-      v-for="(pool, index) in all_tokens.toSorted((a, b) => b[ascendFilterBy.toLowerCase()] - a[ascendFilterBy.toLowerCase()])"
-      :poolsLength="all_tokens.length"
-      :key="pool.name"
-      :pool="pool"
-      :index="index"
-      :isActions="true"
-    />
-  </div>
+    <div
+      v-else-if="all_tokens && all_tokens.length > 0"
+      class="mobile_table_container"
+    >
+      <MobileTable
+      v-for="(pool, index) in all_tokens.toSorted((a, b) =>
+          isReverseSorting
+            ? b[ascendFilterBy.toLowerCase()] - a[ascendFilterBy.toLowerCase()]
+            : a[ascendFilterBy.toLowerCase()] - b[ascendFilterBy.toLowerCase()],
+       
+      )"
+        :poolsLength="all_tokens.length"
+        :key="pool.name"
+        :pool="pool"
+        :index="index"
+        :isActions="true"
+      />
+    </div>
   </div>
 </template>
 <script setup>
@@ -121,7 +96,11 @@ import MobileTable from '@/UI/MobileTable.vue'
 const { width } = useDevice()
 
 const ascendFilterBy = ref('TVL')
+let isReverseSorting = ref(true);
 
+function toggleSort() {
+  isReverseSorting.value = !isReverseSorting.value;
+}
 // const perPage = ref(25)
 // const currentPage = ref(1)
 

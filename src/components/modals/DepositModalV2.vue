@@ -1,19 +1,13 @@
 <template>
   <div class="px-1" v-if="!depositFinished">
     <div class="my-2 bg-[#22222224] shadow-md rounded-2xl text-white">
-      <div
-        class="text-[13px] font-normal p-2"
-        style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
-      >
+      <div class="text-[13px] font-normal p-2" style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)">
         {{ $t('you_providing') }}
       </div>
 
       <div class="mt-3">
-        <div
-          v-for="(token, index) in tokens"
-          :key="`tokens-key-${index}`"
-          class="d-flex align-items-center justify-content-between px-3 gap-3"
-        >
+        <div v-for="(token, index) in tokens" :key="`tokens-key-${index}`"
+          class="d-flex align-items-center justify-content-between px-3 gap-3">
           <div class="d-flex flex-column align-items-start text-white">
             <div class="font-['Roboto_Mono',_monospace] text-[13px]">
               {{ token.depositAmount.toFixed(4) }} {{ token.symbol }}
@@ -23,11 +17,7 @@
             </div>
           </div>
           <div class="d-flex align-items-center">
-            <img
-              :src="getTokenEntity(token.symbol, 'short').icon"
-              width="60"
-              class="p-2"
-            />
+            <img :src="getTokenEntity(token.symbol, 'short').icon" width="60" class="p-2" />
             <!-- <div class="d-flex flex-column ">
                 <div class="modal_body_header">{{ token.symbol }}</div>
                 <div class="modal_body_header">{{ token.name }}</div>
@@ -38,30 +28,24 @@
     </div>
 
     <div class="my-4 bg-[#22222224] shadow-md rounded-2xl text-white">
-      <div
-        class="text-[13px] font-normal p-2"
-        style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
-      >
+      <div class="text-[13px] font-normal p-2" style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)">
         {{ $t('you_expected_to_receive') }}
       </div>
 
       <div class="my-3">
-        <div
-          class="d-flex align-items-center justify-content-between px-3 gap-3"
-        >
-          <div
-            class="d-flex flex-column align-items-start text-white font-['Roboto_Mono',_monospace] text-[13px]"
-          >
+        <div class="d-flex align-items-center justify-content-between px-3 gap-3">
+          <div class="d-flex flex-column align-items-start text-white font-['Roboto_Mono',_monospace] text-[13px]">
             <div class="font-['Roboto_Mono',_monospace] text-[13px]">
               {{ (total / pool.lpPrice).toFixed(2) }}
-              {{
+              {{ pool['display_name'] }}
+              <!-- {{
                 pool.tokens
                   .map(
                     (t) =>
                       `${parseFloat(t.weight * 100).toFixed(0)}%${t.symbol}`,
                   )
                   .join('/')
-              }}
+              }} -->
             </div>
             <!-- <div class="font-['Roboto_Mono',_monospace] text-[13px]">
               ${{ total.toFixed(2) }} ({{
@@ -70,52 +54,17 @@
             </div> -->
           </div>
           <div v-if="width > 768">
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="20" cy="20" r="20" fill="#CFB428" />
-              <mask
-                id="mask0_5891_7647"
-                style="mask-type: alpha"
-                maskUnits="userSpaceOnUse"
-                x="0"
-                y="0"
-                width="40"
-                height="40"
-              >
-                <circle cx="20" cy="20" r="20" fill="#3E3E3E" />
-              </mask>
-              <g mask="url(#mask0_5891_7647)">
-                <rect
-                  x="-12.6309"
-                  y="7.43506"
-                  width="33.8175"
-                  height="33.8175"
-                  transform="rotate(-30 -12.6309 7.43506)"
-                  fill="#2A5CA9"
-                />
-              </g>
-            </svg>
+            <img :src="defaultIcon" class="w-[35px]" />
           </div>
         </div>
       </div>
     </div>
 
     <div class="my-4 bg-[#22222224] shadow-md rounded-2xl text-white">
-      <div
-        class="text-[13px] font-normal p-2"
-        style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)"
-      >
+      <div class="text-[13px] font-normal p-2" style="border-bottom: 1px solid rgba(163, 164, 165, 0.2)">
         {{ $t('summary') }}
       </div>
-      <div
-        class="d-flex flex-column p-2"
-        style="font-size: 14px; color: rgba(221, 221, 221, 1)"
-      >
+      <div class="d-flex flex-column p-2" style="font-size: 14px; color: rgba(221, 221, 221, 1)">
         <div class="d-flex justify-content-between align-items-center">
           <div>{{ $t('total') }}</div>
           <div class="d-flex gap-1 font-['Roboto_Mono',_monospace] text-[13px]">
@@ -140,57 +89,37 @@
     <div class="my-3 d-flex justify-content-center position-relative">
       <!-- There should be iteration by length of every token that need approve - ApproveStep I guess will be index -->
       <div class="d-flex gap-1">
-        <Step
-          :activeStep="approveStep - 1"
-          :displayedActiveStep="1"
-          :mmActive="mmActive"
-          :stepText="!wbnbSelected ? 'Wrap &\n Approve' : 'Approve'"
-        />
+        <Step :activeStep="approveStep - 1" :displayedActiveStep="1" :mmActive="mmActive"
+          :stepText="!wbnbSelected ? 'Wrap &\n Approve' : 'Approve'" />
 
         <div class="w-12 mt-1">
-          <ProgressLoader
-            v-if="(mmActive && approveStep === 4) || approveStep === 2"
-          />
+          <ProgressLoader v-if="(mmActive && approveStep === 4) || approveStep === 2" />
           <span v-else class="progress_loader_still"></span>
         </div>
 
-        <Step
-          :activeStep="approveStep - 2"
-          :displayedActiveStep="2"
-          :mmActive="mmActive"
-          :stepText="'Deposit'"
-        />
+        <Step :activeStep="approveStep - 2" :displayedActiveStep="2" :mmActive="mmActive" :stepText="'Deposit'" />
       </div>
     </div>
 
-    <div
-      class="compose_pool_connect_wallet"
-      @click="OnPreviewClick()"
-      v-if="approveStep === 1"
-    >
+    <div class="compose_pool_connect_wallet" @click="OnPreviewClick()" v-if="approveStep === 1">
       {{ $t('approve_tokens_for_adding') }}
     </div>
     <div class="compose_pool_connect_wallet" v-if="approveStep === 2">
       {{ $t('approving_tokens') }}... <span class="button_loader pl-2"></span>
     </div>
-    <div
-      class="compose_pool_connect_wallet"
-      @click="
-        depositMethod === 'zap' ? $emit('zapperModalOpen') : OnPreviewClick(),
-          $emit('changeApproveStep', 4)
-      "
-      v-else-if="approveStep === 3"
-    >
-      {{ $t('add_liquidity') }}
+    <div class="compose_pool_connect_wallet" @click="
+      depositMethod === 'zap' ? $emit('zapperModalOpen') : OnPreviewClick(),
+      $emit('changeApproveStep', 4)
+      " v-else-if="approveStep === 3">
+      Adding Liquidty
     </div>
-    <div class="compose_pool_connect_wallet" v-else-if="approveStep === 4">
-      Adding Liquidty <span v-if="mmActive" class="button_loader pl-2"></span>
+    <div class="compose_pool_connect_wallet" v-else-if="approveStep === 4" 
+    @click="
+      depositMethod === 'zap' ? $emit('zapperModalOpen') : OnPreviewClick()"
+      >
+      {{fetchingZapTrades ? 'Fetching Trades' : 'Adding Liquidty'}} <span v-if="mmActive || fetchingZapTrades" class="button_loader pl-2"></span>
     </div>
-    <div
-      class="compose_pool_connect_wallet"
-      @click="OnPreviewClick()"
-      v-else-if="approveStep === 5"
-    >
+    <div class="compose_pool_connect_wallet flex items-center gap-1 justify-center" @click="OnPreviewClick()" v-else-if="approveStep === 5">
       {{ $t('confirming') }} <span class="button_loader pl-2"></span>
     </div>
   </div>
@@ -198,6 +127,7 @@
         <ConfirmationReceipt :link="txLink" :header_text="'Deposit has settled'"
           :header_subtext="'Successfully deposit your tokens'" />
       </div> -->
+      {{console.log('fetchingZapTrades!!!', fetchingZapTrades)}}
 </template>
 
 <script setup>
@@ -209,7 +139,7 @@ import 'vue3-toastify/dist/index.css'
 import Toast from '@/UI/Toast.vue'
 import Step from '@/UI/Step.vue'
 import ProgressLoader from '@/UI/ProgressLoader.vue'
-import { useJoinPool } from '@/composables/poolActions/deposit/useJoinPool'
+import { useJoinPool, getMaxBalance } from '@/composables/poolActions/deposit/useJoinPool'
 import { useApproveTokens } from '@/composables/poolActions/deposit/useApproveTokens'
 import { useDevice } from '@/composables/adaptive/useDevice'
 import { networkId } from '@/composables/useNetwork'
@@ -218,6 +148,7 @@ import { getTokenEntity } from '@/lib/helpers/util'
 import { formatNotificationDate } from '@/lib/utils'
 import successSound from '@/assets/sounds/success_sound.mp3'
 import errorSound from '@/assets/sounds/error_sound.mp3'
+import defaultIcon from '@/assets/images/tokens/DEFAULT.png'
 
 const playSuccess = useSound(successSound, { volume: 1 })
 const playError = useSound(errorSound, { volume: 1 })
@@ -262,6 +193,7 @@ let conf = configService.getNetworkConfig(networkId.value)
 // }
 
 const props = defineProps([
+  'fetchingZapTrades',
   'visibleDepositModal',
   'changeVisibleDepositClose',
   'tokens',
@@ -274,7 +206,8 @@ const props = defineProps([
   'weeklyYield',
   'approveStep',
   'depositMethod',
-  'wbnbSelected'
+  'wbnbSelected',
+  
 ])
 const emit = defineEmits([
   'zapperModalOpen',
@@ -283,6 +216,7 @@ const emit = defineEmits([
   'explode',
   'addedTXHash',
 ])
+
 
 watch([props.tokens], () => {
   console.log('props.tokens', props.tokens)
@@ -296,18 +230,19 @@ async function OnPreviewClick() {
     // props.approveStep = 2
     emit('changeApproveStep', 2)
     let tokenAddresses = props.tokens.map((t) => t.address.toLowerCase())
-    if(!props.wbnbSelected){
+    if (!props.wbnbSelected) {
       let index = tokenAddresses.indexOf('0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c')
-      if(index != -1){
+      if (index != -1) {
         tokenAddresses[index] = '0x0000000000000000000000000000000000000000'
       }
     }
     mmActive.value = true
     let success = await useApproveTokens(
       tokenAddresses,
-      props.tokens.map((t) => t.depositAmount),
+      props.tokens.map((t) => getMaxBalance({ ...t, amount: t.depositAmount })),
       props.account,
       props.depositMethod,
+      true
     )
     if (!success) {
       emit('changeApproveStep', 1)
@@ -341,9 +276,8 @@ async function OnPreviewClick() {
 
     emit('addedTXHash', tx.hash)
 
-    txLink.value = `${
-      configService.getNetworkConfig(networkId.value).explorer
-    }/tx/${tx.hash}`
+    txLink.value = `${configService.getNetworkConfig(networkId.value).explorer
+      }/tx/${tx.hash}`
 
     // props.approveStep = 5
 
@@ -423,6 +357,7 @@ async function OnPreviewClick() {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

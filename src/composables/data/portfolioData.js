@@ -62,51 +62,51 @@ export async function getPortfolioData(network, address) {
     financialStatement: data[5].data,
     cardStats: {
       Profit: data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['Profit']),
+        (sum, item) => sum + parseFloat(item['Profit']) / 100 * item.percentage,
         0,
       ),
       Profit_ETH: data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['Profit_ETH']),
+        (sum, item) => sum + parseFloat(item['Profit_ETH']) / 100 * item.percentage,
         0,
       ),
       Profit_BTC: data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['Profit_BTC']),
+        (sum, item) => sum + parseFloat(item['Profit_BTC']) / 100 * item.percentage,
         0,
       ),
       'Profit 24H': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit24H']),
+        (sum, item) => sum + parseFloat(item['profit24H']) / 100 * item.percentage,
         0,
       ),
       'Profit 7D': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit7D']),
+        (sum, item) => sum + parseFloat(item['profit7D']) / 100 * item.percentage,
         0,
       ),
       'Profit 30D': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit30D']),
+        (sum, item) => sum + parseFloat(item['profit30D']) / 100 * item.percentage,
         0,
       ),
       'Profit 24H_ETH': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit24H_ETH']),
+        (sum, item) => sum + parseFloat(item['profit24H_ETH']) / 100 * item.percentage,
         0,
       ),
       'Profit 7D_ETH': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit7D_ETH']),
+        (sum, item) => sum + parseFloat(item['profit7D_ETH']) / 100 * item.percentage,
         0,
       ),
       'Profit 30D_ETH': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit30D_ETH']),
+        (sum, item) => sum + parseFloat(item['profit30D_ETH']) / 100 * item.percentage,
         0,
       ),
       'Profit 24H_BTC': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit24H_BTC']),
+        (sum, item) => sum + parseFloat(item['profit24H_BTC']) / 100 * item.percentage,
         0,
       ),
       'Profit 7D_BTC': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit7D_BTC']),
+        (sum, item) => sum + parseFloat(item['profit7D_BTC']) / 100 * item.percentage,
         0,
       ),
       'Profit 30D_BTC': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit30D_BTC']),
+        (sum, item) => sum + parseFloat(item['profit30D_BTC']) / 100 * item.percentage,
         0,
       ),
       'APR 24H': aprs['24H'].APR,
@@ -171,6 +171,8 @@ export async function getPortfolioBalance(network, userAddress) {
 }
 
 export async function getUserPools(network, userAddress) {
+ 
+
   try {
     const response = await axios.get(
       `${BACKEND_URL[network]}/data/portfolio/${userAddress}/pools`,

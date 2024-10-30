@@ -19,7 +19,7 @@
     </Tabs>
   </div>
   <CRow id="pool-activity-row" class="table-wrapper !mx-0">
-    <!-- {{console.log('activities', activities)}} -->
+    {{ console.log('activities', activities) }}
     <div
       v-if="loader"
       class="!bg-[white] dark:!bg-[#fff0] backdrop-blur-md h-[500px]"
@@ -30,7 +30,9 @@
       <Table
         v-if="width > 768"
         :headers="
-          activitiesSelectedMode === 'Trade' || activitiesSelectedMode === 'All'
+          activitiesSelectedMode === 'Trade'
+            ? [t('actions'), t('details'), 'Route', t('profits'), t('time')]
+            : activitiesSelectedMode === 'All'
             ? [t('actions'), t('details'), t('value'), t('profits'), t('time')]
             : [t('actions'), t('details'), t('value'), t('time')]
         "
@@ -51,6 +53,7 @@
             >
               <div class="actions-cell">
                 <img v-if="item['Actions'] === 'Deposit'" :src="DepositIcon" />
+                <img v-if="item['Actions'] === 'Harvest'" :src="HarvestIcon" />
                 <img
                   v-if="item['Actions'] === 'Withdraw'"
                   :src="WithdrawIcon"
@@ -61,11 +64,157 @@
                 </div>
               </div>
             </CTableDataCell>
+
             <CTableDataCell
+              v-if="activitiesSelectedMode === 'Trade'"
               scope="row"
               class="text-black dark:!text-white table-cell"
             >
               <div class="details-cell">
+                <div
+                  class="font-['Roboto_Mono',_monospace] flex items-start flex-col gap-1 flex-wrap"
+                >
+                  <VTooltip :distance="0" :placement="'bottom'">
+                    <div style="cursor: help">
+                      <div class="flex items-center gap-1">
+                        <img
+                          :src="
+                            getTokenEntity(item.PathDetails.in.symbol, 'short')
+                              .icon
+                          "
+                          class="w-6"
+                        />
+                        {{ parseFloat(item.PathDetails.in.amount).toFixed(3) }}
+                        (${{
+                          parseFloat(item.PathDetails.in.amountUsd).toFixed(3)
+                        }})
+                        <svg
+                          width="25"
+                          height="24"
+                          viewBox="0 0 25 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M14.3804 12L10.3804 8V11H2.38037V13H10.3804V16M20.3804 18V6C20.3804 5.46957 20.1697 4.96086 19.7946 4.58579C19.4195 4.21071 18.9108 4 18.3804 4H6.38037C5.84994 4 5.34123 4.21071 4.96616 4.58579C4.59108 4.96086 4.38037 5.46957 4.38037 6V9H6.38037V6H18.3804V18H6.38037V15H4.38037V18C4.38037 18.5304 4.59108 19.0391 4.96616 19.4142C5.34123 19.7893 5.84994 20 6.38037 20H18.3804C18.9108 20 19.4195 19.7893 19.7946 19.4142C20.1697 19.0391 20.3804 18.5304 20.3804 18Z"
+                            fill="#00E0FF"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <template #popper>
+                      <div class="tooltip_container !w-fit">
+                        <div class="flex items-center gap-1">
+                          <img :src="info" />
+                          <div class="tooltip_container_text">Input token</div>
+                        </div>
+                      </div>
+                    </template>
+                  </VTooltip>
+
+                  <VTooltip :distance="0" :placement="'bottom'">
+                    <div style="cursor: help">
+                      <div class="flex items-center gap-1">
+                        <img
+                          :src="
+                            getTokenEntity(
+                              item.PathDetails.traded.symbol,
+                              'short',
+                            ).icon
+                          "
+                          class="w-6"
+                        />
+                        {{
+                          parseFloat(item.PathDetails.traded.amount).toFixed(3)
+                        }}
+                        (${{
+                          parseFloat(item.PathDetails.traded.amountUsd).toFixed(
+                            3,
+                          )
+                        }})
+                        <svg
+                          width="21"
+                          height="20"
+                          viewBox="0 0 21 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clip-path="url(#clip0_2294_614)">
+                            <path
+                              d="M20.3804 3.8V13.16C20.3804 13.6374 20.1907 14.0952 19.8532 14.4328C19.5156 14.7704 19.0578 14.96 18.5804 14.96H10.0232C10.2064 15.1701 10.3013 15.4429 10.288 15.7213C10.2747 15.9997 10.1543 16.2623 9.95189 16.454C9.74951 16.6456 9.48085 16.7517 9.2021 16.7498C8.92335 16.748 8.65611 16.6384 8.45627 16.4441L6.65627 14.6441C6.55559 14.5438 6.4757 14.4245 6.42119 14.2933C6.36668 14.162 6.33862 14.0212 6.33862 13.8791C6.33862 13.737 6.36668 13.5962 6.42119 13.4649C6.4757 13.3337 6.55559 13.2144 6.65627 13.1141L8.45627 11.3141C8.65508 11.114 8.9243 10.9996 9.20635 10.9954C9.4884 10.9912 9.7609 11.0975 9.96558 11.2916C10.1703 11.4857 10.2909 11.7522 10.3016 12.0341C10.3124 12.316 10.2125 12.5909 10.0232 12.8H18.2204V4.16H8.86037C8.86037 4.44643 8.74659 4.72114 8.54405 4.92368C8.34151 5.12621 8.0668 5.24 7.78037 5.24C7.49394 5.24 7.21923 5.12621 7.0167 4.92368C6.81416 4.72114 6.70037 4.44643 6.70037 4.16V3.8C6.70037 3.32261 6.89001 2.86477 7.22758 2.52721C7.56514 2.18964 8.02298 2 8.50037 2H18.5804C19.0578 2 19.5156 2.18964 19.8532 2.52721C20.1907 2.86477 20.3804 3.32261 20.3804 3.8ZM14.9804 16.76C14.6939 16.76 14.4192 16.8738 14.2167 17.0763C14.0142 17.2789 13.9004 17.5536 13.9004 17.84H4.54037V9.2H12.7376C12.5544 9.41009 12.4595 9.68288 12.4728 9.96131C12.486 10.2397 12.6065 10.5023 12.8088 10.694C13.0112 10.8856 13.2799 10.9917 13.5586 10.9898C13.8374 10.988 14.1046 10.8784 14.3045 10.6841L16.1045 8.8841C16.2052 8.78376 16.285 8.66454 16.3396 8.53326C16.3941 8.40199 16.4221 8.26124 16.4221 8.1191C16.4221 7.97696 16.3941 7.83621 16.3396 7.70494C16.285 7.57366 16.2052 7.45443 16.1045 7.3541L14.3045 5.5541C14.1057 5.35399 13.8364 5.2396 13.5544 5.2354C13.2723 5.2312 12.9998 5.33752 12.7952 5.53162C12.5905 5.72572 12.4699 5.9922 12.4591 6.27408C12.4483 6.55596 12.5483 6.83086 12.7376 7.04H4.18037C3.70298 7.04 3.24514 7.22964 2.90758 7.56721C2.57001 7.90477 2.38037 8.36261 2.38037 8.84V18.2C2.38037 18.6774 2.57001 19.1352 2.90758 19.4728C3.24514 19.8104 3.70298 20 4.18037 20H14.2604C14.7378 20 15.1956 19.8104 15.5332 19.4728C15.8707 19.1352 16.0604 18.6774 16.0604 18.2V17.84C16.0604 17.5536 15.9466 17.2789 15.744 17.0763C15.5415 16.8738 15.2668 16.76 14.9804 16.76Z"
+                              fill="#00E0FF"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_2294_614">
+                              <rect
+                                width="20"
+                                height="20"
+                                fill="white"
+                                transform="translate(0.380371)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </div>
+                    </div>
+                    <template #popper>
+                      <div class="tooltip_container !w-fit">
+                        <div class="flex items-center gap-1">
+                          <img :src="info" />
+                          <div class="tooltip_container_text">Traded token</div>
+                        </div>
+                      </div>
+                    </template>
+                  </VTooltip>
+
+                  <VTooltip :distance="0" :placement="'bottom'">
+                    <div style="cursor: help">
+                      <div class="flex items-center gap-1">
+                        <img
+                          :src="
+                            getTokenEntity(item.PathDetails.out.symbol, 'short')
+                              .icon
+                          "
+                          class="w-6"
+                        />
+                        {{ parseFloat(item.PathDetails.out.amount).toFixed(3) }}
+                        (${{
+                          parseFloat(item.PathDetails.out.amountUsd).toFixed(3)
+                        }})
+                        <svg
+                          width="20"
+                          height="19"
+                          viewBox="0 0 20 19"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M16.3158 17C16.7789 17 17.1753 16.8369 17.5048 16.5108C17.8344 16.1847 17.9994 15.7922 18 15.3333V3.66667C18 3.20833 17.8349 2.81611 17.5048 2.49C17.1747 2.16389 16.7784 2.00056 16.3158 2H4.52632C4.06316 2 3.66653 2.16333 3.33642 2.49C3.00632 2.81667 2.84154 3.20889 2.8421 3.66667V5.33333H4.52632V3.66667H16.3158V15.3333H4.52632V13.6667H2.8421V15.3333C2.8421 15.7917 3.00688 16.1842 3.33642 16.5108C3.66597 16.8375 4.0626 17.0006 4.52632 17H16.3158ZM6.21053 13.6667L7.38947 12.5L5.22105 10.3333H12.9474V8.66667H5.22105L7.38947 6.5L6.21053 5.33333L2 9.5L6.21053 13.6667Z"
+                            fill="#00E0FF"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <template #popper>
+                      <div class="tooltip_container !w-fit">
+                        <div class="flex items-center gap-1">
+                          <img :src="info" />
+                          <div class="tooltip_container_text">Output token</div>
+                        </div>
+                      </div>
+                    </template>
+                  </VTooltip>
+                </div>
+              </div>
+            </CTableDataCell>
+
+            <CTableDataCell
+              v-if="activitiesSelectedMode != 'Trade'"
+              scope="row"
+              class="text-black dark:!text-white table-cell"
+            >
+              <div class="details-cell" v-if="item['Actions'] !== 'Trade'">
                 <div
                   v-for="(tokenEntry, tokenIndex) in item['Details']"
                   class="details-cell__token-entity"
@@ -78,7 +227,7 @@
                     :class="
                       tokenInfo[0] !== 'action'
                         ? 'details-cell__token-entity'
-                        : ''
+                        : 'hidden'
                     "
                     :key="`activity-token-info-key-${tokenInfoIndex}`"
                   >
@@ -95,21 +244,152 @@
                       >
                         {{ trimZeros(tokenInfo[1]) }}
                       </div>
-                      <div
-                        v-if="
-                          tokenEntry.action === 'Swap' && tokenInfoIndex === 1
-                        "
-                        style="margin-left: 10px"
-                      >
-                        <img :src="swapArrowIcon" />
-                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
+           
+              <div class="details-cell" v-else-if="item['Actions'] === 'Trade'">
+                <div
+                  class="font-['Roboto_Mono',_monospace] flex items-start flex-col gap-1 flex-wrap"
+                >
+                  <VTooltip :distance="0" :placement="'bottom'">
+                    <div style="cursor: help">
+                      <div class="flex items-center gap-1">
+                        <img
+                          :src="
+                            getTokenEntity(item.PathDetails.in.symbol, 'short')
+                              .icon
+                          "
+                          class="w-6"
+                        />
+                        {{ parseFloat(item.PathDetails.in.amount).toFixed(3) }}
+                        (${{
+                          parseFloat(item.PathDetails.in.amountUsd).toFixed(3)
+                        }})
+                        <svg
+                          width="25"
+                          height="24"
+                          viewBox="0 0 25 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M14.3804 12L10.3804 8V11H2.38037V13H10.3804V16M20.3804 18V6C20.3804 5.46957 20.1697 4.96086 19.7946 4.58579C19.4195 4.21071 18.9108 4 18.3804 4H6.38037C5.84994 4 5.34123 4.21071 4.96616 4.58579C4.59108 4.96086 4.38037 5.46957 4.38037 6V9H6.38037V6H18.3804V18H6.38037V15H4.38037V18C4.38037 18.5304 4.59108 19.0391 4.96616 19.4142C5.34123 19.7893 5.84994 20 6.38037 20H18.3804C18.9108 20 19.4195 19.7893 19.7946 19.4142C20.1697 19.0391 20.3804 18.5304 20.3804 18Z"
+                            fill="#00E0FF"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <template #popper>
+                      <div class="tooltip_container !w-fit">
+                        <div class="flex items-center gap-1">
+                          <img :src="info" />
+                          <div class="tooltip_container_text">Input token</div>
+                        </div>
+                      </div>
+                    </template>
+                  </VTooltip>
+
+                  <VTooltip :distance="0" :placement="'bottom'">
+                    <div style="cursor: help">
+                      <div class="flex items-center gap-1">
+                        <img
+                          :src="
+                            getTokenEntity(
+                              item.PathDetails.traded.symbol,
+                              'short',
+                            ).icon
+                          "
+                          class="w-6"
+                        />
+                        {{
+                          parseFloat(item.PathDetails.traded.amount).toFixed(3)
+                        }}
+                        (${{
+                          parseFloat(item.PathDetails.traded.amountUsd).toFixed(
+                            3,
+                          )
+                        }})
+                        <svg
+                          width="21"
+                          height="20"
+                          viewBox="0 0 21 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clip-path="url(#clip0_2294_614)">
+                            <path
+                              d="M20.3804 3.8V13.16C20.3804 13.6374 20.1907 14.0952 19.8532 14.4328C19.5156 14.7704 19.0578 14.96 18.5804 14.96H10.0232C10.2064 15.1701 10.3013 15.4429 10.288 15.7213C10.2747 15.9997 10.1543 16.2623 9.95189 16.454C9.74951 16.6456 9.48085 16.7517 9.2021 16.7498C8.92335 16.748 8.65611 16.6384 8.45627 16.4441L6.65627 14.6441C6.55559 14.5438 6.4757 14.4245 6.42119 14.2933C6.36668 14.162 6.33862 14.0212 6.33862 13.8791C6.33862 13.737 6.36668 13.5962 6.42119 13.4649C6.4757 13.3337 6.55559 13.2144 6.65627 13.1141L8.45627 11.3141C8.65508 11.114 8.9243 10.9996 9.20635 10.9954C9.4884 10.9912 9.7609 11.0975 9.96558 11.2916C10.1703 11.4857 10.2909 11.7522 10.3016 12.0341C10.3124 12.316 10.2125 12.5909 10.0232 12.8H18.2204V4.16H8.86037C8.86037 4.44643 8.74659 4.72114 8.54405 4.92368C8.34151 5.12621 8.0668 5.24 7.78037 5.24C7.49394 5.24 7.21923 5.12621 7.0167 4.92368C6.81416 4.72114 6.70037 4.44643 6.70037 4.16V3.8C6.70037 3.32261 6.89001 2.86477 7.22758 2.52721C7.56514 2.18964 8.02298 2 8.50037 2H18.5804C19.0578 2 19.5156 2.18964 19.8532 2.52721C20.1907 2.86477 20.3804 3.32261 20.3804 3.8ZM14.9804 16.76C14.6939 16.76 14.4192 16.8738 14.2167 17.0763C14.0142 17.2789 13.9004 17.5536 13.9004 17.84H4.54037V9.2H12.7376C12.5544 9.41009 12.4595 9.68288 12.4728 9.96131C12.486 10.2397 12.6065 10.5023 12.8088 10.694C13.0112 10.8856 13.2799 10.9917 13.5586 10.9898C13.8374 10.988 14.1046 10.8784 14.3045 10.6841L16.1045 8.8841C16.2052 8.78376 16.285 8.66454 16.3396 8.53326C16.3941 8.40199 16.4221 8.26124 16.4221 8.1191C16.4221 7.97696 16.3941 7.83621 16.3396 7.70494C16.285 7.57366 16.2052 7.45443 16.1045 7.3541L14.3045 5.5541C14.1057 5.35399 13.8364 5.2396 13.5544 5.2354C13.2723 5.2312 12.9998 5.33752 12.7952 5.53162C12.5905 5.72572 12.4699 5.9922 12.4591 6.27408C12.4483 6.55596 12.5483 6.83086 12.7376 7.04H4.18037C3.70298 7.04 3.24514 7.22964 2.90758 7.56721C2.57001 7.90477 2.38037 8.36261 2.38037 8.84V18.2C2.38037 18.6774 2.57001 19.1352 2.90758 19.4728C3.24514 19.8104 3.70298 20 4.18037 20H14.2604C14.7378 20 15.1956 19.8104 15.5332 19.4728C15.8707 19.1352 16.0604 18.6774 16.0604 18.2V17.84C16.0604 17.5536 15.9466 17.2789 15.744 17.0763C15.5415 16.8738 15.2668 16.76 14.9804 16.76Z"
+                              fill="#00E0FF"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_2294_614">
+                              <rect
+                                width="20"
+                                height="20"
+                                fill="white"
+                                transform="translate(0.380371)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </div>
+                    </div>
+                    <template #popper>
+                      <div class="tooltip_container !w-fit">
+                        <div class="flex items-center gap-1">
+                          <img :src="info" />
+                          <div class="tooltip_container_text">Traded token</div>
+                        </div>
+                      </div>
+                    </template>
+                  </VTooltip>
+
+                  <VTooltip :distance="0" :placement="'bottom'">
+                    <div style="cursor: help">
+                      <div class="flex items-center gap-1">
+                        <img
+                          :src="
+                            getTokenEntity(item.PathDetails.out.symbol, 'short')
+                              .icon
+                          "
+                          class="w-6"
+                        />
+                        {{ parseFloat(item.PathDetails.out.amount).toFixed(3) }}
+                        (${{
+                          parseFloat(item.PathDetails.out.amountUsd).toFixed(3)
+                        }})
+                        <svg
+                          width="20"
+                          height="19"
+                          viewBox="0 0 20 19"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M16.3158 17C16.7789 17 17.1753 16.8369 17.5048 16.5108C17.8344 16.1847 17.9994 15.7922 18 15.3333V3.66667C18 3.20833 17.8349 2.81611 17.5048 2.49C17.1747 2.16389 16.7784 2.00056 16.3158 2H4.52632C4.06316 2 3.66653 2.16333 3.33642 2.49C3.00632 2.81667 2.84154 3.20889 2.8421 3.66667V5.33333H4.52632V3.66667H16.3158V15.3333H4.52632V13.6667H2.8421V15.3333C2.8421 15.7917 3.00688 16.1842 3.33642 16.5108C3.66597 16.8375 4.0626 17.0006 4.52632 17H16.3158ZM6.21053 13.6667L7.38947 12.5L5.22105 10.3333H12.9474V8.66667H5.22105L7.38947 6.5L6.21053 5.33333L2 9.5L6.21053 13.6667Z"
+                            fill="#00E0FF"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <template #popper>
+                      <div class="tooltip_container !w-fit">
+                        <div class="flex items-center gap-1">
+                          <img :src="info" />
+                          <div class="tooltip_container_text">Output token</div>
+                        </div>
+                      </div>
+                    </template>
+                  </VTooltip>
                 </div>
               </div>
             </CTableDataCell>
 
             <CTableDataCell
+              v-if="activitiesSelectedMode != 'Trade'"
               scope="row"
               class="text-black dark:!text-white table-cell"
             >
@@ -136,6 +416,48 @@
             </CTableDataCell>
 
             <CTableDataCell
+              v-if="activitiesSelectedMode === 'Trade'"
+              scope="row"
+              class="text-black dark:!text-white table-cell"
+            >
+              <div
+                class="font-['Roboto_Mono',_monospace] flex items-center flex-col gap-1 flex-wrap"
+              >
+                <div class="flex items-center gap-1">
+                  <img
+                    :src="
+                      item.PathDetails.buyPath === 'Private Pools'
+                        ? d3logo
+                        : binanceCEX
+                    "
+                    :class="
+                      item.PathDetails.buyPath === 'Private Pools'
+                        ? 'w-4'
+                        : 'w-6'
+                    "
+                  />
+                  {{ item.PathDetails.buyPath }}
+                </div>
+                <img :src="swapArrowIcon" class="rotate-90" />
+                <div class="flex items-center gap-1">
+                  <img
+                    :src="
+                      item.PathDetails.sellPath === 'Private Pools'
+                        ? d3logo
+                        : binanceCEX
+                    "
+                    :class="
+                      item.PathDetails.sellPath === 'Private Pools'
+                        ? 'w-4'
+                        : 'w-6'
+                    "
+                  />
+                  {{ item.PathDetails.sellPath }}
+                </div>
+              </div>
+            </CTableDataCell>
+
+            <CTableDataCell
               v-if="
                 activitiesSelectedMode === 'Trade' ||
                 activitiesSelectedMode === 'All'
@@ -143,7 +465,54 @@
               scope="row"
               class="text-black dark:!text-white table-cell"
             >
-              <div class="font-['Roboto_Mono',_monospace] flex items-center">
+              <div
+                class="font-['Roboto_Mono',_monospace] flex items-center"
+                v-if="activitiesSelectedMode === 'Trade'"
+              >
+                <VTooltip :distance="0" :placement="'bottom'">
+                  <div style="cursor: help">
+                    <CurrencySymbol />{{
+                      item[
+                        `Profits${
+                          currentCurrency == 'USD' ? '' : '_' + currentCurrency
+                        }`
+                      ] === undefined
+                        ? '-'
+                        : trimZeros(
+                            parseFloat(
+                              item[
+                                `Profits${
+                                  currentCurrency == 'USD'
+                                    ? ''
+                                    : '_' + currentCurrency
+                                }`
+                              ],
+                            ).toFixed(currencyDecimals),
+                          )
+                    }}
+                  </div>
+                  <template #popper>
+                    <div class="tooltip_container !w-fit">
+                      <div class="flex items-center gap-1">
+                        <img
+                          :src="
+                            getTokenEntity(item.PathDetails.in.symbol, 'short')
+                              .icon
+                          "
+                          class="w-4"
+                        />
+                        <div class="tooltip_container_text">
+                          {{ item.Profits_tokens.toFixed(8) }}
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </VTooltip>
+              </div>
+              <div
+                v-else
+                class="font-['Roboto_Mono',_monospace] flex items-center"
+              >
                 <CurrencySymbol />{{
                   item[
                     `Profits${
@@ -231,6 +600,7 @@
             <div class="flex justify-between">
               <div class="flex items-center">
                 <img v-if="item['Actions'] === 'Deposit'" :src="DepositIcon" />
+                <img v-if="item['Actions'] === 'Harvest'" :src="HarvestIcon" />
                 <img
                   v-if="item['Actions'] === 'Withdraw'"
                   :src="WithdrawIcon"
@@ -377,15 +747,22 @@
         class="text-black dark:!text-white"
         style="font-size: 14px; text-align: center"
       >
-      {{console.log('activitiesSelectedMode', activitiesSelectedMode)}}
-        {{activitiesSelectedMode === 'Withdraw' ? 'No results' : 'No Activity yet'}}
+        {{ console.log('activitiesSelectedMode', activitiesSelectedMode) }}
+        {{
+          activitiesSelectedMode === 'Withdraw'
+            ? 'No results'
+            : 'No Activity yet'
+        }}
       </div>
       <div
-        
         class="text-black dark:!text-white"
         style="font-size: 12px; text-align: center"
       >
-      {{activitiesSelectedMode === 'Withdraw' ? '' : 'Choose a pool to invest or create a pool to get started'}}
+        {{
+          activitiesSelectedMode === 'Withdraw'
+            ? ''
+            : 'Choose a pool to invest or create a pool to get started'
+        }}
       </div>
       <!-- <div class="add_liq_btn_pools" v-if="activitiesSelectedMode !== 'Withdraw'">
         <div class="d-flex gap-1">+ Add liquidity</div>
@@ -405,9 +782,11 @@ import { getTokenEntity } from '@/lib/helpers/util'
 import { generateTimeAgoString, trimZeros } from '@/lib/utils'
 import { configService } from '@/services/config/config.service'
 import DepositIcon from '@/assets/icons/TableAction/DepositIcon.svg'
+import HarvestIcon from '@/assets/icons/TableAction/harvestIcon.svg'
 import WithdrawIcon from '@/assets/icons/TableAction/WithdrawIcon.svg'
 import SwapIcon from '@/assets/icons/TableAction/SwapIcon.svg'
 import swapArrowIcon from '@/assets/icons/TableAction/swapArrowIcon.svg'
+import binanceCEX from '@/assets/icons/networks/binanceCEX.svg'
 import { useDark } from '@vueuse/core'
 import Pagination from '../Pool/Pagination.vue'
 import { t } from 'i18next'
@@ -415,7 +794,12 @@ import arrow_bottom from '@/assets/icons/arrow/arrow_loadmore.svg'
 import moment from 'moment'
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
+import d3logo from '@/assets/images/d3v.png'
+import Btc from '@/assets/images/tokens/btc.png'
+import Ether from '@/assets/images/tokens/ETH.png'
+import info from '@/assets/images/info.svg'
 import router from '@/router'
+
 import CurrencySymbol from '@/components/TrackInfo/CurrencySymbol.vue'
 import { useDevice } from '@/composables/adaptive/useDevice'
 const settingsStore = useSettings()
@@ -427,17 +811,23 @@ const currencyDecimals = computed(() =>
 )
 const isDark = useDark()
 
-const props = defineProps(['clActivity', 'wpActivity', 'all_activities', 'loader'])
+const props = defineProps([
+  'clActivity',
+  'wpActivity',
+  'all_activities',
+  'loader',
+])
 const sliceNumber = ref(10)
-
 
 const activities = computed(() => {
   let result = props.all_activities ?? []
   console.log('HERE', props.all_activities)
 
+  const combinedActivities = [...result]
+
   let now = Date.now() / 1000
   let filtered_time_ago = now - actSelectedPeriodOfData.value.number
-  return result
+  return combinedActivities
     .filter(
       (item) =>
         activitiesSelectedMode.value == 'All' ||
@@ -488,11 +878,11 @@ const periodsOfData = [
 
 const english_names =
   router.currentRoute.value.path === '/portfolio'
-    ? ['All', 'Deposit', 'Withdraw']
+    ? ['All', 'Deposit', 'Trade', 'Harvest', 'Withdraw']
     : ['All', 'Deposit', 'Trade', 'Withdraw']
 const activitiesModes =
   router.currentRoute.value.path === '/portfolio'
-    ? [t('all'), t('deposit'), t('withdraw')]
+    ? [t('all'), t('deposit'), t('trade'), 'Harvest', t('withdraw')]
     : [t('all'), t('deposit'), t('trade'), t('withdraw')]
 
 const activitiesSelectedMode = ref(english_names[0])
@@ -525,7 +915,7 @@ function changeActPeriodOfData(_new) {
   }
 
   &:nth-child(2) {
-    width: 300px !important;
+    width: 200px !important;
 
     @media (max-width: $xxl) {
       width: 200px !important;
@@ -534,7 +924,7 @@ function changeActPeriodOfData(_new) {
 }
 
 :deep(.table-header-font-folder) {
-  text-align: left !important;
+  text-align: left;
   @include cells-widths;
 }
 
@@ -684,6 +1074,8 @@ function changeActPeriodOfData(_new) {
 
   &__token-entity {
     display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 
     &:not(:last-child) {
       margin-right: 12px;

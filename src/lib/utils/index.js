@@ -71,9 +71,9 @@ export function bnSum(amounts) {
   return amounts.reduce((a, b) => bnum(a).plus(b), bnum(0))
 }
 
-export function formatBigNumber(number, decimals = 2) {
+export function formatBigNumber(number, decimals = 1) {
   if (isNaN(number)) return 0
-  number = parseFloat(parseFloat(number).toFixed(decimals))
+  number = parseFloat(parseFloat(number)).toFixed(decimals)
   if (Math.abs(number) >= 1000000000) {
     return (number / 1000000000).toFixed(decimals) + 'B'
   } else if (Math.abs(number) >= 1000000) {
@@ -604,30 +604,41 @@ export function groupTimestampsByDayWithIndexes(timestamps, dates) {
   return Object.values(groupedIndexes)
 }
 
-export function groupTimestampsByWeekWithIndexes(timestamps, dates=null) {
-  const groupedIndexes = {}
-
+export function groupTimestampsByWeekWithIndexes(timestamps, dates = null) {
+  const weekIndexes = []
+  let weekCounter = -1
   for (let i = 0; i < timestamps.length; i++) {
-    const date = new Date(timestamps[i])
-    const startOfWeek = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate() - date.getDay(),
-    )
-    const weekKey = startOfWeek.toDateString()
-
-    if (
-      !groupedIndexes[weekKey] ||
-      timestamps[i] >= timestamps[groupedIndexes[weekKey]]
-    ) {
-      groupedIndexes[weekKey] = i
+    const weekNumber = getWeekNumber(timestamps[i])
+    if (weekCounter == -1) {
+      weekCounter = weekNumber
+    }
+    if (weekNumber != weekCounter) {
+      weekIndexes.push(i - 1)
+      weekCounter = weekNumber
     }
   }
-
-  return Object.values(groupedIndexes)
+  if (!weekIndexes.includes(timestamps.length - 1))
+    weekIndexes.push(timestamps.length - 1)
+  return weekIndexes
 }
 
-export function groupTimestampsByMonthWithIndexes(timestamps, dates=null) {
+function getWeekNumber(date) {
+  const currentDate = new Date(date)
+  // Set date to the nearest Thursday (for ISO 8601)
+  currentDate.setUTCDate(
+    currentDate.getUTCDate() + 4 - (currentDate.getUTCDay() || 7),
+  )
+
+  // Get the first day of the year
+  const yearStart = new Date(Date.UTC(currentDate.getUTCFullYear(), 0, 1))
+
+  // Calculate the difference in days, then divide by 7 to get the week number
+  const weekNumber = Math.ceil(((currentDate - yearStart) / 86400000 + 1) / 7)
+
+  return weekNumber
+}
+
+export function groupTimestampsByMonthWithIndexes(timestamps, dates = null) {
   const groupedIndexes = {}
 
   for (let i = 0; i < timestamps.length; i++) {
@@ -658,8 +669,8 @@ export function calculateAverage(array) {
 }
 
 export function stringToColor(str) {
-  if(!str){
-    return "#FFFFFF"
+  if (!str) {
+    return '#FFFFFF'
   }
   let hash = 0
   for (let i = 0; i < str.length; i++) {
@@ -1125,7 +1136,7 @@ export function removeDuplicates(arr, key) {
   })
 }
 
-export function trim_decimal_overflow(n, decimals=18) {
+export function trim_decimal_overflow(n, decimals = 18) {
   n += ''
 
   if (n.indexOf('.') === -1) return n
@@ -1133,4 +1144,19 @@ export function trim_decimal_overflow(n, decimals=18) {
   const arr = n.split('.')
   const fraction = arr[1].substr(0, decimals)
   return arr[0] + '.' + fraction
+}
+
+export function getPriceForTimestamp(symbol, historicalPrices, timestamp) {
+  if (!historicalPrices || historicalPrices.length == 0) return 0
+  let symbol_prices = historicalPrices.filter((h) => h.symbol == symbol)[0]
+  if (!symbol_prices || !symbol_prices.Daily) return 0
+  let sorted = [...symbol_prices.Daily].sort((a, b) => b.time - a.time)
+  let found = sorted.find((item) => item.time <= timestamp)
+  if (!found) return 0
+  return CalculateTokenOrderPrice(found)
+}
+
+export function CalculateTokenOrderPrice(token_info) {
+  if (!token_info) return 0
+  return (token_info.high + token_info.low + token_info.close) / 3
 }

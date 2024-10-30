@@ -15,10 +15,12 @@ export async function getDetailsData(network, poolId) {
 async function getDetailsDataByUrl(base_url, poolId) {
   const urls = [
     `${base_url}/data/details/${poolId}/general/`,
-    `${base_url}/data/details/${poolId}/financialStatement/`,
     `${base_url}/data/details/${poolId}/statistics/`,
     `${base_url}/data/details/${poolId}/pairsTokens/`,
-    `${base_url}/data/details/${poolId}/diagrams/`,
+    `${base_url}/data/details/${poolId}/raw0/`,
+    `${base_url}/data/details/${poolId}/raw1/`,
+    `${base_url}/data/details/${poolId}/financialStatement_raw0/`,
+    `${base_url}/data/details/${poolId}/financialStatement_raw1/`,
     `${base_url}/historical_prices/${poolId}`,
   ]
 
@@ -26,11 +28,13 @@ async function getDetailsDataByUrl(base_url, poolId) {
   const data = await Promise.all(promises)
   return {
     general: data[0].data,
-    financialStatement: data[1].data,
-    statistics: data[2].data,
-    pairsTokens: data[3].data,
-    diagrams: data[4].data,
-    historical_prices: data[5].data,
+    statistics: data[1].data,
+    pairsTokens: data[2].data,
+    raw0: data[3].data,
+    raw1: data[4].data,
+    financialStatement_raw0: data[5].data,
+    financialStatement_raw1: data[6].data,
+    historical_prices: data[7].data,
   }
 }
 
@@ -71,6 +75,8 @@ export async function getSinglePoolDetails(
   enableOnchain = false,
 ) {
   let base_url = BACKEND_URL[network]
+  const names = (await axios.get(`${base_url}/pools/names`)).data
+
   try {
     const response = await axios.get(
       `${base_url}/data/details/${poolId}/general/`,
@@ -85,8 +91,10 @@ export async function getSinglePoolDetails(
         network,
       )
     }
+
     return {
       ...response.data,
+      display_name: names[poolId.slice(0, 42)] ?? `Pool #1`,
       onchain: { ...response.data.onchain, ...poolData },
     }
   } catch (e) {

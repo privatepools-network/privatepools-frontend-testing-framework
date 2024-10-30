@@ -5,12 +5,11 @@
       <div class="portfolio mt-4">
         <PortfolioBalance :account="account" :performers="performers" :balanceUsd="balanceData.total ?? 0"
           :balance_ETH="balanceData.total_ETH ?? 0" :balance_BTC="balanceData.total_BTC ?? 0"
-          :rewardsData="rewardsData ? Object.values(rewardsData).flatMap((item) => item.formatted_rewards): []" />
+          :rewardsData="rewardsData ? Object.values(rewardsData).flatMap((item) => item.formatted_rewards) : []" />
 
         <div class="portfolio-chart">
           <PortfolioChart :all_chart_data="portfolioData.chart" :networks_data="portfolioData.cardStats"
-            :tokensData="tokensData" :chainSelected="chainSelected.name"
-            :rewardsData="rewardsData" />
+            :tokensData="tokensData" :chainSelected="chainSelected.name" :rewardsData="rewardsData" />
         </div>
 
         <SectionsTabs :filterEye="true" style="margin-bottom: 44px" :tabsOptions="currentVersion === 'pro'
@@ -51,7 +50,7 @@
           </div>
           {{ console.log('loader', loader) }}
           <InvestmentsTable :user_staked_pools="selectedInvestmentData" :all_pools="selectedInvestmentData"
-            :rewardsData="rewardsData" :loader="loader"/>
+            :rewardsData="rewardsData" :loader="loader" />
         </div>
 
         <div class="portfolio-table mt-5" v-if="activeTab == t('investments')">
@@ -65,7 +64,7 @@
       </div>
     </CRow>
   </MainCard>
-  
+
 </template>
 <script setup>
 import { CRow } from '@coreui/vue'
@@ -293,51 +292,6 @@ const periodsOfData = [
 ]
 const activitiesModes = ['All', 'Deposit', 'Swap', 'Harvest', 'Withdraw']
 const selectedInvestmentsMode = ref(investementModes[0])
-const activitiesSelectedMode = ref(activitiesModes[0])
-const actSelectedPeriodOfData = ref(periodsOfData[4])
-
-const investmentHeadCaptions = computed(() => {
-  {
-    if (selectedInvestmentsMode.value == 'Pools') {
-      return [
-        'Name',
-        'AVG APR',
-        'Liquidity Deposited',
-        '% Of Pool',
-        'Returns Harvested',
-        'TVL',
-        'Volume',
-        'Fees',
-        'AVG Profit Per Trade',
-        'Number Of Trades',
-      ]
-    } else {
-      return [
-        'Name',
-        'Liquidity Deposited',
-        '% Of Pair',
-        'TVL',
-        'Volume',
-        'Fees',
-        'AVG Profit Per Trade',
-        'Number Of Trades',
-      ]
-    }
-  }
-})
-
-// function changeActivitiesMode(_new) {
-//   activitiesSelectedMode.value = _new
-// }
-
-// function changeActPeriodOfData(_new) {
-//   actSelectedPeriodOfData.value = _new
-// }
-
-function changeInvestmentMode(_new) {
-  selectedInvestmentsMode.value = _new
-  sortedHeader.value = {}
-}
 
 const sortedHeader = ref({})
 
@@ -350,7 +304,7 @@ const account = ref('')
 watch(networkId, async () => {
   const mmProvider = await InitializeMetamask()
   let previous_account = account.value
-  account.value = '' //'0xb51027d05ffbf77b38be6e66978b2c5b6467f615'
+  account.value = '' //'0x75e89d5979e4f6fba9f97c104c2f0afb3f1dcb88'
   if (!mmProvider) {
     return
   }
@@ -619,7 +573,7 @@ async function InitPortfolio() {
 }
 
 .table-header-font-folder {
-  text-align: left !important;
+  text-align: left;
   @include cells-widths;
 }
 

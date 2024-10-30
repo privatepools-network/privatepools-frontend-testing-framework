@@ -242,7 +242,7 @@
     "you_receive": "You receive",
     "price_impact": "Price Impact",
     "add_liquidity_preview": "Add liquidity preview",
-    "potential_weekly_yield": "Potential weekly yield",
+    "potential_weekly_yield": "Potential weekly APR",
     "you_must_approve_all_tokens_tooltip": "You must approve all tokens to add liquidity for this token on Dark Pool. Approvals are required once per token, per wallet.",
     "approving_tokens": "Approving Tokens",
     "confirm_approval_in_wallet": "Confirm approval in wallet",

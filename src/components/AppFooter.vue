@@ -20,7 +20,7 @@
               <img :src="discordIcon" />
             </div>
           </a>
-          <a href="https://medium.com/@privatepoolnetwork" target="_blank">
+          <a href="https://medium.com/@privatepoolsnetwork" target="_blank">
             <div class="link_logo">
               <img :src="mediumIcon" />
             </div>
@@ -46,7 +46,7 @@
         <div
           class="font-['Syne',_sans-serif] text-[12px] md:text-[14px] text-black dark:!text-white flex gap-1"
         >
-          Powered by D3
+          Build by D3
           <svg
             width="34"
             height="29"
@@ -124,8 +124,8 @@ import discordIcon from '@/assets/icons/Footer/discord.svg'
 import githubIcon from '@/assets/icons/Footer/github.svg'
 import mediumIcon from '@/assets/icons/Footer/medium.svg'
 import twitterIcon from '@/assets/icons/Footer/twitter.svg'
-import { useDevice } from '@/composables/adaptive/useDevice'
 import ExternalLinks from '@/components/Footer/ExternalLinks.vue'
+import { useDevice } from '@/composables/adaptive/useDevice'
 
 const { width } = useDevice()
 

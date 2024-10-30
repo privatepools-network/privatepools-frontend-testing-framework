@@ -17,7 +17,7 @@
           <div class="d-flex flex-column align-items-start text-white">
             <div class="text-[13px]">
               {{ (poolShare.balance * lineNumberPercent).toFixed(2) }}
-              {{ pool.tokens.map((t) => `${parseFloat(t.weight * 100).toFixed(0)}%${t.symbol}`).join('/') }}
+              {{ pool['display_name'] }}
             </div>
             <div class="font-['Roboto_Mono',_monospace] text-[13px]">
               ${{ usdSummary }} ({{
@@ -29,17 +29,7 @@
             </div>
           </div>
           <div>
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="20" cy="20" r="20" fill="#CFB428" />
-              <mask id="mask0_5891_7647" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="40"
-                height="40">
-                <circle cx="20" cy="20" r="20" fill="#3E3E3E" />
-              </mask>
-              <g mask="url(#mask0_5891_7647)">
-                <rect x="-12.6309" y="7.43506" width="33.8175" height="33.8175" transform="rotate(-30 -12.6309 7.43506)"
-                  fill="#2A5CA9" />
-              </g>
-            </svg>
+            <img :src="defaultIcon" class="w-[35px]"/>
           </div>
         </div>
       </div>
@@ -183,6 +173,7 @@ import ConfettiExplosion from "vue-confetti-explosion";
 import { useSound } from '@vueuse/sound'
 import successSound from '@/assets/sounds/success_sound.mp3'
 import errorSound from '@/assets/sounds/error_sound.mp3'
+import defaultIcon from '@/assets/images/tokens/DEFAULT.png'
 
 
 const playSuccess = useSound(successSound, { volume: 1 })

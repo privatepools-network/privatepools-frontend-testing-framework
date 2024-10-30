@@ -14,9 +14,9 @@
               <div class="text_value text-black dark:!text-white">
                 {{
                   typeof item.value === 'string' ? item.value :
-                  item.name.includes('Referral Tier')
-                    ? `${parseFloat(item.value).toFixed(1)}%`
-                    : `$${parseFloat(item.value)}`
+                    item.name.includes('Referral Tier')
+                      ? `${parseFloat(item.value).toFixed(1)}%`
+                      : `$${parseFloat(item.value)}`
                 }}
               </div>
             </div>
@@ -32,9 +32,9 @@
             <div class="text_value text-black dark:!text-white flex items-center gap-1">
               {{
                 typeof item.value_2 === 'string' ? item.value_2 :
-                item.name.includes('Referral Tier')
-                  ? `${parseFloat(item.value_2).toFixed(1)}%`
-                  : `$${parseFloat(item.value_2)}`
+                  item.name.includes('Referral Tier')
+                    ? `${parseFloat(item.value_2).toFixed(1)}%`
+                    : `$${parseFloat(item.value_2)}`
               }}
               <div class="flex items-center text-[8px] text-[#8E8E8E]">
                 <svg :class="parseFloat(item.value_2) > 0
@@ -60,7 +60,7 @@
               </div>
             </div>
           </div>
-     
+
         </div>
       </div>
     </div>
@@ -76,9 +76,9 @@
             <div class="text_value text-black dark:!text-white">
               {{
                 typeof item.value === 'string' ? item.value :
-                parseFloat(item.value)
-                  .toFixed(3)
-                  .replace(/(\.0+|0+)$/, '')
+                  parseFloat(item.value)
+                    .toFixed(3)
+                    .replace(/(\.0+|0+)$/, '')
               }}
             </div>
           </div>
@@ -110,67 +110,68 @@ import { useSettings } from '@/store/settings'
 const settingsStore = useSettings();
 
 const { currentCurrency } = storeToRefs(settingsStore)
+const props = defineProps(['referralCode'])
 // const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
 // const isDark = useDark()
 
 // const props = defineProps(['overview'])
 const bigContainerMock = computed(() =>
- [
-      {
-        icon: TotalProfitsIcon,
-        name: 'Referral Tier',
-        value: 'Tier 1',
-        description: `Revenue Share`,
-        value_2: 0.1,
+  [
+    {
+      icon: TotalProfitsIcon,
+      name: 'Referral Tier',
+      value: 'Tier 1',
+      description: `Revenue Share`,
+      value_2: 0.1,
 
-      },
-      {
-        icon: averageAPRIcon,
-        name: 'TVL Referred',
-        value: 2545,
-        description: `TVL 24H`,
-        value_2: 545,
-        percentage: 5.15
+    },
+    {
+      icon: averageAPRIcon,
+      name: 'TVL Referred',
+      value: 2545,
+      description: `TVL 24H`,
+      value_2: 545,
+      percentage: 5.15
 
-      },
-      {
-        icon: moneyIcon,
-        name: 'Total Returns',
-        value: 235.56,
-        description: `Returns 24H `,
-        value_2: 35.5,
-        percentage: 5.15
+    },
+    {
+      icon: moneyIcon,
+      name: 'Total Returns',
+      value: 235.56,
+      description: `Returns 24H `,
+      value_2: 35.5,
+      percentage: 5.15
 
-      },
-      {
-        icon: walletIcon,
-        name: 'Total Referred Wallets',
-        value: '14',
-        description: `Returns 24H `,
-        value_2: '7',
-        percentage: 50.15
+    },
+    {
+      icon: walletIcon,
+      name: 'Total Referred Wallets',
+      value: '14',
+      description: `Returns 24H `,
+      value_2: '7',
+      percentage: 50.15
 
-      },
+    },
 
-    ]
-   
+  ]
+
 )
 
 const smallContainerMock = computed(() =>
- [
-      {
-        icon: myCodeIcon,
-        name: 'My Code',
-        value: 'Code2',
-      },
-      {
-        icon: poolsIcon,
-        name: 'Number of Pools',
-        value: 20,
-      },
+  [
+    {
+      icon: myCodeIcon,
+      name: 'My Code',
+      value: props.referralCode,
+    },
+    {
+      icon: poolsIcon,
+      name: 'Number of Pools',
+      value: 20,
+    },
 
-    ]
-    
+  ]
+
 )
 </script>
 <style lang="scss" scoped>
@@ -185,6 +186,7 @@ const smallContainerMock = computed(() =>
   @media (min-width: 1950px) {
     width: 10.5vw;
   }
+
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -202,6 +204,7 @@ const smallContainerMock = computed(() =>
   @media (min-width: 1950px) {
     width: 10.5vw;
   }
+
   @media (max-width: 768px) {
     width: 100%;
   }

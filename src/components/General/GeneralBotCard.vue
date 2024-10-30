@@ -16,7 +16,7 @@
             </div> -->
             <div class="visible_head text-black dark:!text-white">
               <div class="d-flex align-items-center font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
-                <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data[`tvl${postfix}`] : 0" />
+                <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`tvl${postfix}`] : 0" />
               </div>
             </div>
           </div>
@@ -42,7 +42,7 @@
                 </div> -->
                 <div
                   class="text-black flex items-center dark:!text-white font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data[`totalVolume${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`totalVolume${postfix}`] : 0" />
                 </div>
               </div>
             </div>
@@ -64,7 +64,7 @@
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
 
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data[`volume24H${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`volume24H${postfix}`] : 0" />
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -75,7 +75,7 @@
                   <ThreeDots />
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data[`volume7D${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`volume7D${postfix}`] : 0" />
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -86,7 +86,7 @@
                   <ThreeDots />
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data[`volume30D${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`volume30D${postfix}`] : 0" />
                 </div>
               </div>
             </div>
@@ -116,7 +116,7 @@
                   <ThreeDots />
                 </div> -->
                 <div class="text-black dark:!text-white font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data[`totalProfits${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`totalProfits${postfix}`] : 0" />
 
                 </div>
               </div>
@@ -139,7 +139,7 @@
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
 
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data[`profit24H${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`profit24H${postfix}`] : 0" />
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -151,7 +151,7 @@
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
 
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data[`profit7D${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`profit7D${postfix}`] : 0" />
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -163,7 +163,7 @@
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
 
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data[`profit30D${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`profit30D${postfix}`] : 0" />
                 </div>
               </div>
             </div>
@@ -293,7 +293,7 @@
                 <div
                   class="text-black dark:!text-white flex items-center font-normal text-[12px] font-['Roboto_Mono',_monospace]">
 
-                  <CounterAnimation :currency="true" :value="chains_data?.APR24H" />%
+                  <CounterAnimation :currency="true" :value="chains_data?.APR24H.toFixed(2)" />%
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -341,7 +341,7 @@
                 }}
               </div>
               <div class="text-black dark:!text-white font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
-                {{ chains_data ? chains_data.poolsNumber : 0 }}
+                {{ chains_data ? chains_data?.poolsNumber : 0 }}
               </div>
               <!-- <div v-else>
                 <ThreeDots></ThreeDots>
@@ -375,7 +375,7 @@ const currencyDecimals = computed(() =>
   currentCurrency.value == 'USD' ? 2 : 5,
 )
 const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
-const props = defineProps(['chains_data', 'currencySelected', 'chainSelected'])
+const props = defineProps(['chains_data', 'currencySelected', 'chainSelected', 'chartData'])
 
 const { chainSelected, currencySelected } = toRefs(props)
 const visibleTVL = ref(true)

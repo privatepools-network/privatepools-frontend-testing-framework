@@ -229,27 +229,8 @@
 import arrow_up from '@/assets/icons/arrow/arrow_up.svg'
 import { ref, defineProps, toRefs, computed } from 'vue'
 import { claimRewards } from "@/composables/portfolio/useRewards"
-import ThreeDots from '@/components/loaders/ThreeDots.vue'
-import { formatBigNumber } from '@/lib/utils'
-import { Network, DisplayNetwork } from '@/composables/useNetwork'
 import computedTokenImage from '@/composables/useComputedTokenImage'
 import CounterAnimation from '@/UI/CounterAnimation.vue'
-import {
-  usePool24hProfit,
-  usePool7dProfit,
-  usePool30dProfit,
-  usePoolAllTimeProfit,
-  usePool24hRevenue,
-  usePool7dRevenue,
-  usePool30dRevenue,
-  usePoolAllTimeRevenue,
-  usePool24hGasFee,
-  usePool7dGasFee,
-  usePool30dGasFee,
-  usePoolAllTimeGasFee,
-  isRightChainName,
-} from '@/composables/pools/usePoolSwapsStats'
-import CurrencySymbol from '../TrackInfo/CurrencySymbol.vue';
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 

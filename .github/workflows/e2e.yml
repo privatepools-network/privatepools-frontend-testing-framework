@@ -1,84 +1,259 @@
-name: E2E (headful)
+name: 🧑‍🔧 Tests Private Pools
 
 on:
+  schedule:
+    - cron: '0 7 * * *' # 8:00 AM CET (UTC+1) / 7:00 AM UTC
+    - cron: '0 12 * * *' # 1:00 PM CET (UTC+1) / 12:00 PM UTC
+    - cron: '0 20 * * *' # 9:00 PM CET (UTC+1) / 8:00 PM UTC
   push:
-    branches: [github-actions-test]
+    branches:
+      # - master
+      # - main
+      - shared-version-sign
   pull_request:
-    branches: [master]
-
-concurrency:
-  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label ||
-    github.head_ref || github.ref }}'
-  cancel-in-progress: true
+    paths:
+      - '.github/actions/**/*.yml'
+      - '.github/workflows/**/*.yml'
+      - 'packages/**'
+      - 'wallets/**'
 
 jobs:
-  e2e:
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' ||
-      github.event_name == 'pull_request'
+  # test-unit:
+  #   name: Run unit tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Setup Node & Install dependencies
+  #       uses: ./.github/actions/setup
+
+  #     - name: Playwright install
+  #       run: xvfb-run pnpm exec playwright install
+  #     - name: Build project
+  #       run: pnpm run build
+
+  #     - name: Run tests
+  #       run: pnpm run test
+
+  test-e2e-headful:
+    name: Run E2E tests (headful)
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # pin@v2
+      - uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@d882d12c64e032187b2edb46d3a0d003b7a43598 # pin@v2.4.0
+      - name: Setup Node & Install dependencies
+        uses: ./.github/actions/setup
 
-      - name: Setup node
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # pin@v3.8.1
-        with:
-          node-version: 18.16
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
 
-      - name: Run anvil
+      # For now, we only need Chromium.
+      - name: Install Playwright Browsers
+        run: yarn playwright install chromium
+      - name: Install browsers for Playwright 1
+        run: pnpm dlx playwright@1.45.2 install chromium
+      # - name: Install cypress
+      #   run: ./node_modules/.bin/cypress install --force
+
+      # - name: Install linux dependencies
+      #   run: |
+      #     sudo apt-get install --no-install-recommends -y \
+      #     xvfb libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0
+      # - name: Xvfb
+      #   run: |
+      #     sudo /usr/bin/Xvfb $DISPLAY -screen 0 1280x1024x24 &
+      #   env:
+      #     CI: true
+
+      - name: Install linux dependencies
         run: |
-          docker-compose -f docker-compose.ci.yml --profile foundry up --build --detach
+          sudo apt-get install  -y xvfb libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libatspi2.0-0   libxcomposite1  libxdamage1     libxrandr2     libgbm1 libxkbcommon0 libpango-1.0-0 libcairo2 libasound2
+      
+      - name: Build cache
+        run: xvfb-run pnpm run build:cache
         env:
-          ANVIL_FORK_URL: ${{ secrets.ANVIL_FORK_URL }}
+          RANDOM_PARAMETER: 'HEEEEEEERE!'
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          SEED_PHRASE: ${{ secrets.SEED_PHRASE }}
+      
+      - name: Run E2E tests (headful)
+        run: |
+          xvfb-run pnpm run test:e2e:headful
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          SEED_PHRASE: ${{ secrets.SEED_PHRASE }}
+          # Created by Vercel CLI
+          NODE_ENV: 'development'
+          NX_DAEMON: ''
+          VERCEL: '1'
+          VERCEL_ENV: 'development'
+          VERCEL_GIT_COMMIT_AUTHOR_LOGIN: ''
+          VERCEL_GIT_COMMIT_AUTHOR_NAME: ''
+          VERCEL_GIT_COMMIT_MESSAGE: ''
+          VERCEL_GIT_COMMIT_REF: ''
+          VERCEL_GIT_COMMIT_SHA: ''
+          VERCEL_GIT_PREVIOUS_SHA: ''
+          VERCEL_GIT_PROVIDER: ''
+          VERCEL_GIT_PULL_REQUEST_ID: ''
+          VERCEL_GIT_REPO_ID: ''
+          VERCEL_GIT_REPO_OWNER: ''
+          VERCEL_GIT_REPO_SLUG: ''
+          VERCEL_URL: ''
+          VUE_APP_1INCHEXECUTOR_CONTRACT_BINANCE: '0xE37e799D5077682FA0a244D46E5649F71457BD09'
+          VUE_APP_ARBITRAGE_WALLET: '0x759ee62a73a8a0690a0e20fc489d3f462b4385c0'
+          VUE_APP_AUSD_BINANCE: ''
+          VUE_APP_AUTHORIZER_BINANCE: '0xfA4C2131b5D6eAda23e3Fdd9AAe0ccDf0C023fAc'
+          VUE_APP_BACKEND_URL_BINANCE: 'https://privatepools-sharedversion-backend.xyz/graphql'
+          VUE_APP_BALANCER_HELPERS_BINANCE: '0x6514480Dc1dd11a6aFDB947ae8C8984d5Eb139d0'
+          VUE_APP_BATCH_RELAYER_BINANCE: '0x22104fF0a67145a47930a91765439a5A6ea2C03C'
+          VUE_APP_BLOCK_SUBGRAPH_BINANCE: 'https://gateway-arbitrum.network.thegraph.com/api/0e9d32fcbe3162436d16a8f8c0fd8130/subgraphs/id/4TbTp1twn8San8Tti1S3kUoiJXPVXzRN5YDaTBnFXw2G'
+          VUE_APP_BOT_BINANCE: 'https://binancerunbotdoprimocosta.xyz'
+          VUE_APP_BOT_LOGS_BINANCE: 'wss://binancerunbotdoprimocosta.xyz'
+          VUE_APP_B_ACTIONS_BINANCE: ''
+          VUE_APP_B_FACTORY_BINANCE: ''
+          VUE_APP_CHAIN_ID_BINANCE: '56'
+          VUE_APP_CHAIN_NAME_BINANCE: 'Binance'
+          VUE_APP_COINGECKO_API_KEY: 'CG-qqNp78ZKFnQaMGEmffWQDZhj'
+          VUE_APP_CONFIG_SANITY_URL_BINANCE: 'https://raw.githubusercontent.com/chimpytuts/darkpools-vault-subgraph/binance/assets/pairList.json'
+          VUE_APP_COPPER_PROXY_BINANCE: ''
+          VUE_APP_CRYPTOCOMPARE_API_KEY: '7bc014616d8317f5673fd01ecc70fea87d121f083bd965e54421c3a47dd55622'
+          VUE_APP_CRYPTOCOMPARE_BY_DEFAULT: 'true'
+          VUE_APP_DEFAULT_POOL_OWNER_BINANCE: ''
+          VUE_APP_DS_PROXY_REGISTRY_BINANCE: ''
+          VUE_APP_EARLY_LUDWIG_NFT_BINANCE: ''
+          VUE_APP_EMBR_BINANCE: ''
+          VUE_APP_EMBR_TOKEN_BINANCE: ''
+          VUE_APP_EMBR_USDC_REFERENCE_PRICE_POOL_BINANCE: ''
+          VUE_APP_ETHERSCAN_API_KEY_BINANCE: ''
+          VUE_APP_ETHERSCAN_API_URL_BINANCE: ''
+          VUE_APP_EXCHANGE_PROXY_BINANCE: ''
+          VUE_APP_EXPLORER_BINANCE: 'https://bscscan.com'
+          VUE_APP_EXPLORER_NAME_BINANCE: 'Binance Explorer'
+          VUE_APP_FARM_SUBGRAPH_BINANCE: 'https://api.thegraph.com/subgraphs/name/chimpytuts/darkpools-masterchef-binance'
+          VUE_APP_HND_BINANCE: ''
+          VUE_APP_HND_REWARDER_BINANCE: ''
+          VUE_APP_KEY_BINANCE: '56'
+          VUE_APP_LIDO_RELAYER_BINANCE: ''
+          VUE_APP_LOCAL_API: 'true'
+          VUE_APP_LOGGING_RPC_BINANCE: ''
+          VUE_APP_MASTER_CHEF_BINANCE: '0xE2CbAa8922fBBF2BA829E97a657E917B59C343C0'
+          VUE_APP_MERKLE_ORCHARD_BINANCE: ''
+          VUE_APP_MERKLE_REDEEM_BINANCE: ''
+          VUE_APP_MULTICALL_BINANCE: '0x1C0Edc82c0583870e180c95CBC241ad53a79EC5E'
+          VUE_APP_NAME_BINANCE: 'Binance'
+          VUE_APP_NETWORK_BINANCE: 'binance-smart-chain'
+          VUE_APP_OPPORTUNITIES_BINANCE: 'https://client1-csv-binanced3.xyz/files'
+          VUE_APP_OPPORTUNITIES_PASSWORD: 'Matchomen321@'
+          VUE_APP_OPPORTUNITIES_USER: 'd3'
+          VUE_APP_OUTPUT_LINK_BINANCE: 'https://privatepools-sharedversion-api.xyz	'
+          VUE_APP_POOLS_URL_V1_BINANCE: ''
+          VUE_APP_POOLS_URL_V2_BINANCE: 'https://privatepools-sharedversion-backend.xyz/graphql'
+          VUE_APP_REDUNDANT_OUTPUT_LINK_BINANCE: 'https://privatepools-sharedversion-api-backup.xyz/'
+          VUE_APP_REDUNDANT_REWARDS_BACKEND_BINANCE: 'https://privatepools-sharedversion-profitdistribution.xyz'
+          VUE_APP_REWARDS_BACKEND_BINANCE: 'https://privatepools-sharedversion-profitdistribution.xyz'
+          VUE_APP_REWARDS_CONTRACT_BINANCE: '0x2FcA8ADCE09BAcDc45aF36e2E2f39b71AE1D2800'
+          VUE_APP_RPC_BINANCE: 'https://bsc-dataseed.binance.org/'
+          VUE_APP_SHORT_NAME_BINANCE: 'Binance'
+          VUE_APP_STABLE_POOL_FACTORY_BINANCE: ''
+          VUE_APP_STATUS_LINK: 'https://privatepools-check-status.vercel.app/fetch'
+          VUE_APP_STETH_BINANCE: ''
+          VUE_APP_SUBGRAPH_BINANCE: 'https://gateway-arbitrum.network.thegraph.com/api/0e9d32fcbe3162436d16a8f8c0fd8130/subgraphs/id/7uviMWGvyj1BqAi7iPNyoiwcm8GwtgBpHopyDBp2Ee1f'
+          VUE_APP_SUPPORTS_EIP1559_BINANCE: 'false'
+          VUE_APP_SUPPORTS_ELEMENT_POOLS_BINANCE: 'false'
+          VUE_APP_TOKEN_FACTORY_BINANCE: ''
+          VUE_APP_TOKEN_LIST_SANITY_URL_BINANCE: 'https://raw.githubusercontent.com/chimpytuts/darkpools-vault-subgraph/binance/assets/tokenList.json'
+          VUE_APP_USDC_BINANCE: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d'
+          VUE_APP_VAULT_BINANCE: '0x43223001aA561673807444df4A13c79156180d43'
+          VUE_APP_WEIGHTED_POOL_FACTORY_BINANCE: '0xAD976743f2f5Ef40FFD55477209D61258ef27Cb4'
+          VUE_APP_WETH_BINANCE: '0xbb4CdB9CBd36b01bD1cBaEBF2De08d9173bc095c'
+          VUE_APP_WSTETH_BINANCE: ''
+          VUE_APP_WS_BINANCE: 'wss://ws-api.binance.com:443/ws-api/v3'
+          VUE_APP_XEMBR_ADDRESS_BINANCE: ''
+          VUE_APP_XEMBR_POOL_ADDRESS_BINANCE: ''
+          VUE_APP_XEMBR_POOL_ID_BINANCE: ''
+          VUE_APP_XEMBR_SUBGRAPH_BINANCE: ''
+          VUE_APP_XEMBR_TOKEN_BINANCE: ''
+          VUE_APP_XEMBR_VESTING_TOKEN_BINANCE: ''
+          VUE_APP_ZAP_CONTRACT_BINANCE: '0xf31f24194f01d865cbb68ce2324e0af1e3bc932a'
+          WAVELENGTH_SDK_SOURCE: 'github:chimpytuts/balancer-sdk-main#client1'
+          WAVELENGTH_SOR2_SOURCE: 'github:chimpytuts/balancer-sor#client1'
 
-      - name: Set pnpm cache directory
-        run: pnpm config set store-dir .pnpm-store
-        continue-on-error: true
+      # - name: Archive Playwright report
+      #   uses: actions/upload-artifact@v3
+      #   if: success() || failure()
+      #   with:
+      #     name: playwright-report-headful
+      #     path: |
+      #       wallets/metamask/playwright-report-headful/
+      #     if-no-files-found: error
 
-      - name: Setup cache
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # pin@v2
+
+  success-notification:
+    name: Notify success on Telegram
+    needs: test-e2e-headful
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          path: |
-            .pnpm-store
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-pnpm-v1-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-v1-
-        continue-on-error: true
-
+          node-version: '18'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline
-
-      - name: Install linux deps
-        run: |
-          sudo apt-get install --no-install-recommends -y \
-          fluxbox \
-          xvfb
-
-      - name: Run e2e tests (headful)
-        run: |
-          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
-          fluxbox &
-          pnpm test:synpress
+        run: npm install axios -f
+      - name: Send Telegram notification on success
         env:
-          CYPRESS_PRIVATE_KEY_WITH_FUNDS: ${{ secrets.CYPRESS_PRIVATE_KEY_WITH_FUNDS }}
-          GH_PAT: ${{ secrets.GH_PAT }}
-          GH_USERNAME: ${{ secrets.GH_USERNAME }}
-          DISPLAY: :0.0
-        with:
-          serve: pnpm serve
+          TELEGRAM_SERVER_URL: https://privatepools-telegram-bot.vercel.app/send
+        run: |
+          node sendNotification.mjs --group "d3" --message "Tests passed successfully!"
 
-      - name: Archive e2e artifacts
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # pin@v2
-        if: always()
-        with:
-          name: e2e-artifacts
-          path: |
-            tests/e2e/videos
-            tests/e2e/screenshots
-        continue-on-error: true
+  # failure-notification:
+  #   name: Notify failure on Telegram
+  #   needs: test-e2e-headful
+  #   if: ${{ failure() }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18'
+  #     - name: Install dependencies
+  #       run: npm install axios -f
+  #     - name: Send Telegram notification
+  #       env:
+  #         TELEGRAM_SERVER_URL: https://privatepools-telegram-bot.vercel.app/send
+  #       run: |
+  #         node sendNotification.mjs --group "d3" --message "Tests failed! Please check the logs."
+
+  # success-notification:
+  #   name: Notify success on Telegram
+  #   needs: test-e2e-headful
+  #   if: ${{ success() }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Send Telegram notification on success
+  #       env:
+  #         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  #         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+  #       run: |
+  #         curl -X POST \
+  #         https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage \
+  #         -H 'Content-Type: application/json' \
+  #         -d '{"chat_id":"'${TELEGRAM_CHAT_ID}'","text":"Tests passed successfully!"}'
+
+  # notify-failure:
+  #   name: Notify failure on Telegram
+  #   needs: test-e2e-headful
+  #   if: ${{ failure() }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Send Telegram notification
+  #       env:
+  #         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  #         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+  #       run: |
+  #         curl -X POST \
+  #         https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage \
+  #         -H 'Content-Type: application/json' \
+  #         -d '{"chat_id":"'${TELEGRAM_CHAT_ID}'","text":"Tests failed! Please check the logs."}'

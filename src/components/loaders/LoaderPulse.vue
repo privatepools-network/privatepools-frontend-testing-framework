@@ -10,7 +10,6 @@
   </div>
 </template>
 <script setup>
-// import spinner from '@/assets/images/loader.svg'
 import ppnLoader from '@/assets/icons/loader/PPNLoader.svg'
 </script>
 <style scoped lang="scss">

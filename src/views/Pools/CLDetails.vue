@@ -702,7 +702,7 @@ import { stringToColor, formatSimpleTimestamp } from '@/lib/utils/index'
 import ThreeDots from '@/components/loaders/ThreeDots'
 import { GetPoolHistoricalBalances } from '@/composables/pools/usePoolHistoricalBalances'
 import { UseCLDiagramsData } from '@/composables/pools/charts/diagrams/useDiagramsData'
-import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
+import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementUtils'
 import { GetTokenPricesBySymbols } from '@/composables/balances/cryptocompare'
 import {
   GetTokenPairs,
@@ -1161,39 +1161,7 @@ const periodsOfData = [
   },
 ]
 
-const activitiesModes = ['All', 'Deposit', 'Trade', 'Harvest', 'Withdraw']
 
-const activitiesSelectedMode = ref(activitiesModes[0])
-const actSelectedPeriodOfData = ref(periodsOfData[4])
-
-function changeActivitiesMode(_new) {
-  activitiesSelectedMode.value = _new
-}
-
-function changeActPeriodOfData(_new) {
-  actSelectedPeriodOfData.value = _new
-}
-
-const filteredActivities = computed(() => {
-  if (poolActivityData.value.length == 0) return []
-  if (activitiesSelectedMode.value == 'All') {
-    let activities = poolActivityData.value.filter(function (item) {
-      return (
-        new Date() - actSelectedPeriodOfData.value.number <=
-        item.timestamp * 1000
-      )
-    })
-    return activities
-  } else {
-    let activities = poolActivityData.value.filter(function (item) {
-      return (
-        new Date() - actSelectedPeriodOfData.value.number <=
-          item.timestamp * 1000 && item.Actions == activitiesSelectedMode.value
-      )
-    })
-    return activities
-  }
-})
 
 const tokens = computed(() =>
   pool.value && pool.value.id == poolId && pool.value.tokens
@@ -1583,7 +1551,7 @@ watch(visibleWithdrawModal, (newValue) => {
 }
 
 :deep(.table-header-font-folder) {
-  text-align: left !important;
+  text-align: left;
   @include cells-widths;
 }
 

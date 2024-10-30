@@ -427,7 +427,7 @@ function changePerPage(v1) {
 }
 
 :deep(.table-header-font-folder) {
-  text-align: left !important;
+  text-align: left;
   @include cells-widths;
 }
 

@@ -10,7 +10,7 @@
         <ThreeDots v-else style="margin-left: 20px" />
       </div>
     </div> -->
-
+{{console.log("chart_data", chartData)}}
     <div class="px-2">
       <div class="text-black dark:!text-white mt-[5%] arbitrage_bot_header">{{ $t('TVL') }}</div>
       <div class="mb-2">
@@ -107,7 +107,9 @@
                   class="text-black flex items-center dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
 
 
-                  <CounterAnimation :currency="true" :value="pool?.['24hAPR'].toFixed(2)" />%
+                  <CounterAnimation :currency="true"
+                    :value="pool?.['24hAPR'].toFixed(2)" />
+                  %
                 </div>
                 <!-- <div v-else style="margin-right: 15px">
                   <ThreeDots></ThreeDots>
@@ -214,7 +216,7 @@
           </div>
         </CCollapse>
       </div>
-        <div style="cursor: pointer" class="visible_head h-24 text-black dark:!text-white mt-4">
+      <div style="cursor: pointer" class="visible_head h-24 text-black dark:!text-white mt-4">
         <div class="d-flex align-items-center gap-2" style="margin-left: -10px">
           <div></div>
           <div class="text-black dark:!text-white font-bold w-full">
@@ -305,7 +307,8 @@ const props = defineProps([
   'chainSelected',
   'currencySelected',
   'userBalance',
-  'rewardsData'
+  'rewardsData',
+  'chartData'
 ])
 const {
   tokenPrices,

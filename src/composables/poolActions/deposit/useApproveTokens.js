@@ -45,7 +45,7 @@ export async function useApproveTokens(
   if (!provider) return
   let config = configService.getNetworkConfig(networkId.value)
   let to_addr =
-    depositMethod === 'zap' ? config.addresses.zapper : config.addresses.vault
+    depositMethod === 'zap' ? config.addresses.zapper : depositMethod == 'compound' ? config.addresses.compounder : config.addresses.vault
   for (let i = 0; i < tokens.length; i++) {
     if (tokens[i] == ethers.constants.AddressZero) {
       const wbnb = new ethers.Contract(

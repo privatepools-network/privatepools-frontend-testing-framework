@@ -3,7 +3,7 @@ import { getHeaderData } from './headerData'
 import { ethers } from 'ethers'
 
 export async function getPoolsRewards(user) {
-  //user = '0x759ee62a73a8a0690a0e20fc489d3f462b4385c0'
+  //user = '0x0a97304d95f014db2cb98cab7e7457960c6d8386'
   const url = `${
     process.env.VUE_APP_REWARDS_BACKEND_BINANCE
   }/rewards/${user.toLowerCase()}`
@@ -44,8 +44,9 @@ export async function getRewards(
   user,
   poolAddress = ethers.constants.AddressZero,
 ) {
+  //user = '0x0a97304d95f014db2cb98cab7e7457960c6d8386'
+
   // DELETE LATER
-  //user = '0x12a9a27665dc60b4cf736e4a51f53263a58eb5cb'
   const url = `${
     process.env.VUE_APP_REWARDS_BACKEND_BINANCE
   }/rewards/${user.toLowerCase()}/${poolAddress}`
@@ -244,7 +245,9 @@ function formatRewards(rewards, search_tokens) {
       BTCValue: displayAmount * tokenInfo.price_BTC,
       rewardBTC: displayAmount * tokenInfo.price_BTC,
       symbol: tokenInfo.symbol,
+      address:tokenInfo.address,
       value: displayAmount,
+      decimals:tokenInfo.decimals,
       pool: rewards.value[1],
     })
   }

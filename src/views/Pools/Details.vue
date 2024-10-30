@@ -39,7 +39,7 @@
         </div>
         <!-- <CurrencySelector @updateCurrency="(newCurrency) => (currencySelected = newCurrency)" /> -->
         <div class="flex justify-between items-center gap-2">
-          <!-- <div class="rewards_button" @click="changeToCompoundView">
+          <div class="rewards_button" @click="changeToCompoundView">
             {{ $t('Compounder') }}
             <svg
               width="16"
@@ -53,9 +53,11 @@
                 fill="#02031C"
               />
             </svg>
-          </div> -->
+          </div>
           {{ console.log('rewardsData', rewardsData) }}
-          <div class="rewards_button" :class="rewardsData?.formatted_rewards.length === 0 || rewardsData === null ? '!border-none !bg-gray-600 !drop-shadow-none' : ''" @click="rewardsData?.formatted_rewards.length === 0 || rewardsData === null ? '' : claimRewards(rewardsData)">
+          <div class="rewards_button"
+            :class="rewardsData?.formatted_rewards.length === 0 || rewardsData === null ? '!border-none !bg-gray-600 !drop-shadow-none' : ''"
+            @click="rewardsData?.formatted_rewards.length === 0 || rewardsData === null ? '' : claimRewards(rewardsData)">
             {{ $t('rewards') }}
           </div>
         </div>
@@ -70,25 +72,19 @@
         :changeToWithdrawView="changeToWithdrawView" :poolTokenPrices="tokenPrices" :tokenPrices="historicalPrices"
         :pool="pool" :swapsData="poolSwapsData" :chainSelected="chainSelected.chain" :all_chart_data="poolChartData"
         :historical_tvl="historical_tvl" :symbol="currencySymbol" :currencySelected="currencySelected"
-        :userBalance="balance" :rewardsData="rewardsData"/>
+        :userBalance="balance" :rewardsData="rewardsData" />
     </CRow>
 
     <div style="display: inline-block; margin-bottom: 24px">
-      <SectionsTabs
-        :filterEye="true"
-        :selectedTab="selectedTab"
-        :tabsOptions="
-          currentVersion === 'pro'
-            ? [
-                t('pool_info'),
-                t('financial_statement'),
-                t('statistics'),
-                // 'Pairs & Tokens',
-              ]
-            : [t('pool_info')]
-        "
-        @changeTab="changeSelectedTab"
-      />
+      <SectionsTabs :filterEye="true" :selectedTab="selectedTab" :tabsOptions="currentVersion === 'pro'
+        ? [
+          t('pool_info'),
+          t('financial_statement'),
+          t('statistics'),
+          // 'Pairs & Tokens',
+        ]
+        : [t('pool_info')]
+        " @changeTab="changeSelectedTab" />
     </div>
     <div style="display: flex; flex-direction: column" v-if="selectedTab == t('pool_info')">
       <!--      <div class="mb-2" style="-->
@@ -468,17 +464,17 @@
           (assetsPerformance && poolTradesData && poolProfitsData)
         " :tradesData="diagrams_data.trades.tradesData ?? poolTradesData.tradesData
           " :tradesTimestamps="diagrams_data.trades.tradesTimestamps ??
-              poolTradesData.tradesTimestamps
-              " :profitsData="diagrams_data.profits[`profitsData${postfix}`] ??
+            poolTradesData.tradesTimestamps
+            " :profitsData="diagrams_data.profits[`profitsData${postfix}`] ??
               poolProfitsData.profitsData
               " :profitsTimestamps="diagrams_data.profits.profitsTimestamps ??
-              poolProfitsData.profitsTimestamps
-              " :symbol="currencySymbol" :decimals="currencyDecimals" :assetsPerformanceData="diagrams_data.assetsPerformance[
-              `assetsPerformanceData${postfix}`
-            ] ?? assetsPerformance.assetsPerformanceData
-              " :assetsPerformanceTimestamps="diagrams_data.assetsPerformance.assetsPerformanceTimestamps ??
-              assetsPerformance.assetsPerformanceTimestamps
-              " :tokens="pool.tokens" />
+                  poolProfitsData.profitsTimestamps
+                  " :symbol="currencySymbol" :decimals="currencyDecimals" :assetsPerformanceData="diagrams_data.assetsPerformance[
+                  `assetsPerformanceData${postfix}`
+                ] ?? assetsPerformance.assetsPerformanceData
+                  " :assetsPerformanceTimestamps="diagrams_data.assetsPerformance.assetsPerformanceTimestamps ??
+                  assetsPerformance.assetsPerformanceTimestamps
+                  " :tokens="pool.tokens" />
         <div class="pool-section dark:!bg-[#22222224] !bg-[white]" v-else style="height: 330px; width: 70%">
           <LoaderPulse></LoaderPulse>
         </div>
@@ -562,7 +558,7 @@ import { stringToColor, formatSimpleTimestamp } from '@/lib/utils/index'
 import ThreeDots from '@/components/loaders/ThreeDots'
 import { GetPoolHistoricalBalances } from '@/composables/pools/usePoolHistoricalBalances'
 import { UseDiagramsData } from '@/composables/pools/charts/diagrams/useDiagramsData'
-import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
+import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementUtils'
 import { GetTokenPricesBySymbols } from '@/composables/balances/cryptocompare'
 import {
   GetTokenPairs,
@@ -587,6 +583,7 @@ import { useSettings } from '@/store/settings'
 import PoolsDetailsDiagrams from '@/components/PoolsDetailsDiagrams/index.vue'
 import { getRewards } from "@/composables/data/rewardsData"
 import { claimRewards } from "@/composables/portfolio/useRewards"
+import { FormatFinancialStatement } from "@/lib/formatter/financialStatement/financialStatementFormatter"
 const settingsStore = useSettings()
 
 const { currentCurrency, currentVersion } = storeToRefs(settingsStore)
@@ -699,8 +696,17 @@ onMounted(async () => {
     console.log('done 2')
   } else {
     const data = await getDetailsData(56, poolId)
-    diagrams_data.value = data.diagrams
-    financialStatementData.value = data.financialStatement
+    diagrams_data.value = UseDiagramsData(data.raw0.poolSwaps, data.raw0.historicalBalances, data.raw1.tokens, data.raw1.historicalPrices)
+    financialStatementData.value = FormatFinancialStatement(
+      data.financialStatement_raw0.swaps,
+      data.financialStatement_raw0.tvls,
+      data.financialStatement_raw1.activeUsers,
+      data.financialStatement_raw1.formatted_historical_tokens,
+      data.historical_prices,
+      data.financialStatement_raw1.joinExits,
+      'Binance',
+      null,
+      data.financialStatement_raw0.market_caps)
     poolStatistics.value = data.statistics
     poolChartData.value = data.general.chart
     pool.value = data.general
@@ -713,7 +719,7 @@ onMounted(async () => {
       rewardsData.value = await getRewards(address, pool.value.address)
     }
     historicalPrices.value = data.historical_prices
-    
+
   }
 })
 const unformattedPoolActivity = ref(null)
@@ -1402,7 +1408,7 @@ function changeToDepositView() {
 }
 
 :deep(.table-header-font-folder) {
-  text-align: left !important;
+  text-align: left;
   @include cells-widths;
 }
 

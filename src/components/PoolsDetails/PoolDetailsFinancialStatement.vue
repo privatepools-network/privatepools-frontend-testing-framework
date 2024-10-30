@@ -634,7 +634,7 @@
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.CirculatingSupplyInfo"
                 :key="asset.symbol">
-                <div class="flex items-center gap-1">{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd", "")}`],
+                <div class="flex items-center gap-1 font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd", "")}`],
                   decimals) }} {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /></div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
@@ -654,7 +654,7 @@
           <div>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.MarketCapInfo" :key="asset.symbol">
-                <div>{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd","")}`], decimals) }}</div>
+                <div class=" font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd","")}`], decimals) }}</div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
                   {{ computedPercent(asset.percent) }}
                 </div>
@@ -684,7 +684,7 @@
           </div>
         </CCollapse>
 
-        <div class="flex justify-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
+        <div class="flex justify-end gap-2 items-center collapsed_margin font-['Roboto_Mono',_monospace]" style="margin-top: 1.5vw">
           <!-- {{ formatBigNumber(item.Pools, 1) }} -->
           <div :class="item.PoolsPercent < 0 ? 'text-danger' : 'text-success'">
             <!-- {{ computedPercent(item.PoolsPercent) }} -->
@@ -707,7 +707,7 @@
           </div>
         </CCollapse> -->
 
-        <div class="flex justify-end gap-2 items-center collapsed_margin" style="margin-top: 1.5vw">
+        <div class="flex justify-end gap-2 items-center collapsed_margin font-['Roboto_Mono',_monospace]" style="margin-top: 1.5vw">
           <!-- {{ formatBigNumber(item.Pools, 1) }} -->
           <div :class="item.PoolsPercent < 0 ? 'text-danger' : 'text-success'">
             <!-- {{ computedPercent(item.PoolsPercent) }} -->
@@ -798,7 +798,7 @@ const data = computed(() =>
 const timelines = [t('weekly'), t('monthly'), t('quarterly'), t('yearly')]
 
 function computedPercent(number) {
-  let formatted_number = formatBigNumber(number, 3)
+  let formatted_number = formatBigNumber(number, 0)
   return (number < 0 ? '' : '+') + formatted_number + '%'
 }
 
@@ -885,9 +885,9 @@ onBeforeMount(async () => {
 }
 
 .financial_header_text {
-  font-size: clamp(10px, 0.9vw, 16px);
+  font-size: clamp(10px, 0.8vw, 14px);
   // color: rgba(243, 244, 246, 1);
-  font-weight: 500;
+  font-weight: 300;
   margin-bottom: 20px;
 }
 

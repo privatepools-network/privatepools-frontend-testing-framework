@@ -98,7 +98,7 @@
               Protocol
             </li>
             <li class="sidemenu__item">
-              <a target="_blank" href="https://medium.com/@privatepoolnetwork"
+              <a target="_blank" href="https://medium.com/@privatepoolsnetwork"
                 >Blog</a
               >
             </li>
@@ -134,7 +134,7 @@
               <img :src="discordIcon" />
             </div>
           </a>
-          <a href="https://medium.com/@privatepoolnetwork" target="_blank">
+          <a href="https://medium.com/@privatepoolsnetwork" target="_blank">
             <div class="link_logo">
               <img :src="mediumIcon" />
             </div>

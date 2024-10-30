@@ -9,6 +9,13 @@ import { orderBy } from 'lodash'
 
 //Join Pool (bytes32, address, address, address[], uint256[], bytes, bool)
 
+function roundDown(number, decimals) {
+  decimals = decimals || 0
+  return (
+    Math.floor(number * Math.pow(10, decimals)) / Math.pow(10, decimals)
+  ).toString()
+}
+
 /**
  * Join pool.
  * @function useJoinPool
@@ -74,12 +81,22 @@ export async function useJoinPool(
   return tx
 }
 
-function getMaxBalance(token) {
+export function getMaxBalance(token) {
   let balance = token.userBalance
     ? parseUnits(token.userBalance.toString(), token.decimals)
     : parseUnits('0', token.decimals)
   let slippage = parseUnits('0.001', token.decimals)
-  let amount = parseUnits(token.amount.toFixed(token.decimals), token.decimals)
+  let amount = token.amount.toString().includes('e')
+    ? parseUnits(
+        parseFloat(
+          roundDown(
+            parseFloat(token.amount).toFixed(token.decimals),
+            token.decimals,
+          ),
+        ).toFixed(token.decimals),
+        token.decimals,
+      )
+    : parseUnits(roundDown(token.amount, token.decimals), token.decimals)
   if (token.userBalance && amount.gt(balance)) {
     if (amount.sub(balance).gt(slippage)) {
       throw new Error('BAL#406')

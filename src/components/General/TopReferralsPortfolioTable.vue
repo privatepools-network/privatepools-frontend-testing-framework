@@ -412,7 +412,7 @@ function computedAddress(address) {
   }
 }
 :deep(.table-header-font-folder) {
-  text-align: left !important;
+  text-align: left;
   @include cells-widths;
 }
 .table {

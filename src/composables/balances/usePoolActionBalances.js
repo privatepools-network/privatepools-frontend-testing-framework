@@ -30,8 +30,8 @@ export async function usePoolActionBalances(tokens, tokensInfo, network) {
     )
     let balance = 0
     if (found_balance) {
-      balance = found_balance.amount
-      balances[token] = roundDown(parseFloat(balance), 8)
+      balance = roundDown(parseFloat(found_balance.amount), 8)
+      balances[token] = balance
       let found_token = tokensInfo.find((t) => t.address == token)
       if (found_token) {
         const usdPrice = found_balance.usdAmount / found_balance.amount

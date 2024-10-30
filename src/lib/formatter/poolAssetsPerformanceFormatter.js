@@ -4,7 +4,7 @@ import {
   isTimestampWithinCurrentHour,
   addDaysToDate,
 } from '../utils'
-import { getTokensPricesForTimestamp } from './financialStatement/financialStatementFormatter'
+import { getTokensPricesForTimestamp } from './financialStatement/financialStatementUtils'
 /**
  * Format assets performance for the time type. Used on pool details page.
  * @function FormatPoolsAssetsPerformanceTimeType

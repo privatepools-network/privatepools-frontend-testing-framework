@@ -1,8 +1,8 @@
 import { addDaysToDate, countOccurrences } from '@/lib/utils'
-import { TIME_TYPES } from '../../../admin/mappings'
+import { TIME_TYPES } from '@/composables/admin/mappings'
 
 export function usePoolTradesTimeType(filtered, time_type, result) {
-  let dates = filtered.map((t) => time_type.method(t.timestamp))
+  let dates = filtered.map((t) => time_type.method(parseFloat(t.timestamp)))
   let start_date = new Date(time_type.start_date)
   let end_date = new Date()
   result['tradesTimestamps'][time_type.name] = []
