@@ -1,9 +1,10 @@
 <template>
   <div class="h-[100vh] w-[100vw] terms_bg" v-if="signatureState">
     <div
-      class="bg-[#02031C] rounded-[50px] text-[white] p-8 md:w-[40%] w-[50%]"
+      class="bg-[#02031C] rounded-[50px] text-[white] p-8 md:w-[40%] w-[100%]"
     >
       <div v-if="!signatureInProcess">
+        <div @click="signatureState = false" class="w-full flex justify-end cursor-pointer"><img :src="close_modal_icon"></div>
         <div class="xl:text-[18px] text-[14px] font-semibold text-center mb-4">
           Terms & Conditions
         </div>
@@ -276,6 +277,8 @@
           </VTooltip>
 
           {{ computedAddress }}
+
+          <img :src="binance_network"/>
         </div>
         <div
           v-else
@@ -333,7 +336,7 @@ import HeaderNavigation from '@/components/Header/HeaderNavigation.vue'
 import HeaderSearchbar from '@/components/Header/HeaderSearchbar.vue'
 import RewardsDropdown from '@/components/Header/RewardsDropdown.vue'
 import TokenDropdown from '@/components/Header/TokenDropdown.vue'
-import binance_network from '@/assets/icons/networks/binance.svg'
+import binance_network from '@/assets/images/networks/binance.svg'
 import arbitrum_network from '@/assets/icons/networks/arbitrum.svg'
 import polygon_network from '@/assets/icons/networks/polygon.svg'
 import connectWalletIcon from '@/assets/icons/sidebarIcons/connectWalletIcon.svg'
@@ -350,6 +353,7 @@ import { useDevice } from '@/composables/adaptive/useDevice'
 import MobileNavigation from '@/components/Header/MobileNavigation.vue'
 import SidebarMobile from './SidebarMobile.vue'
 import SearchbarMobile from './SearchbarMobile.vue'
+import close_modal_icon from '@/assets/icons/arrow/close_modal_icon.svg'
 
 const isDark = useDark()
 const { width } = useDevice()
@@ -699,7 +703,9 @@ const computedAddress = computed(() =>
   margin-bottom: 10px;
   background: #0c0c0cbe;
   backdrop-filter: blur(10px);
-
+  @media (min-width: 2000px) {
+        padding: 1.3rem 15% !important;
+}
   &_bg {
     background: #0c0c0c3d;
     backdrop-filter: blur(10px);

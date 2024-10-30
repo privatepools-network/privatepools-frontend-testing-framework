@@ -9,10 +9,10 @@
 
   <MainCard>
     <div v-if="affiliateSteps !== 5" class="flex justify-center flex-col items-center mb-12">
-    <div class="my-1 title !text-black dark:!text-white">Referrals</div>
-    <div class="my-1 description !text-black dark:!text-white text-center">
-      Get fee discounts and earn rebates through the referral program. For more
-      information, please read the <a href="">referral program details.</a></div>
+      <div class="my-1 title !text-black dark:!text-white">Referrals</div>
+      <div class="my-1 description !text-black dark:!text-white text-center">
+        Get fee discounts and earn rebates through the referral program. For more
+        information, please read the <a href="">referral program details.</a></div>
     </div>
     <div class="d-flex justify-content-center">
       <Tabs :filterEye="false" :selectedTab="selectedTab" :tabsOptions="['Investors', 'Affiliates']"
@@ -23,7 +23,8 @@
       <Investors />
     </div>
     <div class="mt-5" v-else>
-      <Affiliates :referralCode="referralCode" :affiliateSteps="affiliateSteps" @codeEditModalOpen="codeEditModalOpen"  @affiliateStepsChange="affiliateStepsChange"/>
+      <Affiliates :referralCode="referralCode" :affiliateSteps="affiliateSteps" @codeEditModalOpen="codeEditModalOpen"
+        @affiliateStepsChange="affiliateStepsChange" />
     </div>
   </MainCard>
 </template>
@@ -52,6 +53,9 @@ onMounted(async () => {
   if (mmProvider) {
     const address = await mmProvider.getSigner().getAddress()
     referralCode.value = await getReferralCode(address)
+    if (referralCode.value) {
+      affiliateSteps.value = 6;
+    }
   }
 })
 
@@ -71,7 +75,7 @@ function codeEditModalOpen() {
 
 
 </script>
-<style lang="scss" >
+<style lang="scss">
 @import '@/styles/_variables.scss';
 
 .title {
@@ -97,7 +101,7 @@ function codeEditModalOpen() {
   cursor: pointer;
   margin-top: 5px;
   border-radius: 16px;
-  
+
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;

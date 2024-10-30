@@ -30,12 +30,13 @@
               <div v-else-if="headCaption === t('volume')"
                 :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'">
                 <div class="flex items-center gap-1" @click="
-                  ascendFilterBy = `${t('volume')}_${filterByTimeVolume}`
+                  ascendFilterBy = `${t('volume')}_${filterByTimeVolume}`; toggleSort()
                   ">
-                  <img :src="filterArrow" :class="ascendFilterBy === `${t('volume')}_${filterByTimeVolume}`
-                      ? 'rotate-180'
-                      : ''
-                    " />
+                  <img :src="filterArrow" :class="
+                        ascendFilterBy === `${t('volume')}_${filterByTimeVolume}` && isReverseSorting
+                        ? 'rotate-180 shadow-white' : (ascendFilterBy === `${t('volume')}_${filterByTimeVolume}` ? 'shadow-white' : '')
+                      "
+                    />
                   {{ headCaption }} ({{ filterByTimeVolume }})
                 </div>
                 <img :src="filterSVG" @click="
@@ -52,11 +53,11 @@
               </div>
               <div v-else-if="headCaption === 'APR'"
                 :class="'head_caption_text text-black dark:!text-white flex items-center gap-1'">
-                <div class="flex items-center gap-1" @click="ascendFilterBy = `APR ${filterByTimeAPR}`">
-                  <img :src="filterArrow" :class="ascendFilterBy === `APR ${filterByTimeAPR}`
-                      ? 'rotate-180'
-                      : ''
-                    " />
+                <div class="flex items-center gap-1" @click="ascendFilterBy = `APR ${filterByTimeAPR}`; toggleSort()">
+                  <img :src="filterArrow" :class="
+                        ascendFilterBy === `APR ${filterByTimeAPR}` && isReverseSorting
+                        ? 'rotate-180 shadow-white' : (ascendFilterBy === `APR ${filterByTimeAPR}` ? 'shadow-white' : '')
+                      " />
                   {{ headCaption }} ({{ filterByTimeAPR }})
                 </div>
                 <img :src="filterSVG" @click="
@@ -71,14 +72,22 @@
                           : (filterByTimeAPR = '24H')
                   " />
               </div>
-              <div v-else :class="'head_caption_text flex items-center gap-1 text-black dark:!text-white'"
-                @click="ascendFilterBy = headCaption">
-                <img :class="ascendFilterBy === headCaption ? 'rotate-180' : ''" v-if="
-                  !headCaption.includes(t('composition')) &&
-                  !headCaption.includes(t('actions'))
-                " :src="filterArrow" />
-                {{ headCaption }}
-              </div>
+              <div
+                  v-else
+                  :class="'head_caption_text flex items-center gap-1 text-black dark:!text-white'"
+                  @click="!headCaption.includes(t('composition')) &&
+                      !headCaption.includes(t('actions')) ? ascendFilterBy = headCaption : ''; toggleSort()"
+                >
+                  <img
+                    :class="ascendFilterBy === headCaption && isReverseSorting ? 'rotate-180 shadow-white' : (ascendFilterBy === headCaption ? 'shadow-white' : '')"
+                    v-if="
+                      !headCaption.includes(t('composition')) &&
+                      !headCaption.includes(t('actions'))
+                    "
+                    :src="filterArrow"
+                  />
+                  {{ headCaption }}
+                </div>
             </div>
           </div>
         </div>
@@ -89,11 +98,14 @@
         <LoaderPulse />
       </div>
  
-    <PoolRow v-else-if="all_pools && all_pools.length > 0" v-for="(pool, index) in all_pools
-      .slice(0, sliceNumber)
-      .toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy])" :key="pool.name" :pool="pool"
+    <PoolRow v-else-if="all_pools && all_pools.length > 0" 
+      v-for="(pool) in all_pools
+            .slice(0, sliceNumber)
+            .filter((item) => !hideSmallPools || item.TVL > minimalTVL)
+            .toSorted((a, b) => Number(isReverseSorting ? b[ascendFilterBy] - a[ascendFilterBy] : a[ascendFilterBy] - b[ascendFilterBy]))"
+      :key="pool.name" :pool="pool"  :index="pool?.id"
       :filters="{ APR: filterByTimeAPR, Volume: filterByTimeVolume }"
-      :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw" :rewardsData="rewardsData"
+      :userPools="user_staked_pools"  @goToPoolWithdraw="goToPoolWithdraw" :rewardsData="rewardsData"
       @goToCLPool="goToCLPool" @goToPool="goToPool" @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage"
       @goToCL="goToCL" :isActions="true" />
     <div v-else class="p-10 flex justify-center items-center dark:!text-white text-black">
@@ -105,10 +117,10 @@
       <LoaderPulse />
     </div>
     <div v-else-if="all_pools && all_pools.length > 0" class="mobile_table_container">
-      <MobileAdvancedTable v-for="(pool, index) in all_pools
+      <MobileAdvancedTable v-for="(pool) in all_pools
         .slice(0, sliceNumber)
         .toSorted((a, b) => b[ascendFilterBy] - a[ascendFilterBy])" :key="pool.name" :pool="pool"
-        :userPools="user_staked_pools" :index="index" @goToPoolWithdraw="goToPoolWithdraw" @goToPool="goToPool"
+        :userPools="user_staked_pools" :index="pool?.id" @goToPoolWithdraw="goToPoolWithdraw" @goToPool="goToPool"
         @goToPoolDeposit="goToPoolDeposit" @goToPoolManage="goToPoolManage" @goToCL="goToCL" :isActions="true" />
       <div v-if="
         sliceNumber <
@@ -154,6 +166,12 @@ const { width } = useDevice()
 const ascendFilterBy = ref('TVL')
 const filterByTimeAPR = ref('24H')
 const filterByTimeVolume = ref('30D')
+
+let isReverseSorting = ref(true);
+
+function toggleSort() {
+  isReverseSorting.value = !isReverseSorting.value;
+}
 // function changePage(args) {
 //   if (args.isEquating == false) {
 //     currentPage.value = currentPage.value + args.num
@@ -178,68 +196,36 @@ const headers = [
   t('actions'),
 ]
 
-function goToPool(args) {
 
-  router.push({
-    name: 'Pool Details',
-    params: {
-      id: props.all_pools[args.index].id,
-      onMountedActivity: args.onMountedActivity,
-      chainSelected: DisplayChain[networkId.value],
-    },
-  })
-}
 
 function goToPoolDeposit(args) {
-  if (props.all_pools[args.index].LiquidityType != 'CL') {
     router.push({
       name: 'Pool Deposit',
       params: {
-        id: props.all_pools[args.index].id,
+        id: args.index,
         onMountedActivity: args.onMountedActivity,
         chainSelected: DisplayChain[networkId.value],
       },
     })
-  } else {
-    router.push({
-      name: 'Concentrated liquidity',
-      query: {
-        tokens: props.all_pools[args.index].tokens.map((t) => t.id),
-        fee: props.all_pools[args.index].fee,
-      },
-    })
-  }
-}
-function goToPoolManage(args) {
-  console.log('args', args)
-  console.log('props.all_pools', props.all_pools)
-  console.log('props.DisplayChain[networkId.value]', DisplayChain[networkId.value])
-  if (props.all_pools[args.index].LiquidityType == 'WP') {
-    router.push({
-      name: 'Pool Deposit',
-      params: {
-        id: props.all_pools[args.index].id,
-        onMountedActivity: args.onMountedActivity,
-        chainSelected: DisplayChain[networkId.value],
-      },
-    })
-  } else {
-    router.push({
-      name: 'Concentrated liquidity Add',
-      params: {
-        onMountedActivity: 'deposit',
-        poolId: props.all_pools[args.index].id,
-      },
-    })
-  }
-}
+  } 
 
+function goToPoolManage(args) {
+    router.push({
+      name: 'Pool Deposit',
+      params: {
+        id: args.index,
+        onMountedActivity: args.onMountedActivity,
+        chainSelected: DisplayChain[networkId.value],
+      },
+    })
+ 
+}
 
 function goToPoolWithdraw(args) {
   router.push({
     name: 'Pool Withdraw',
     params: {
-      id: props.all_pools[args.index].id,
+      id: args.index,
       onMountedActivity: args.onMountedActivity,
       chainSelected: DisplayChain[networkId.value],
     },
@@ -250,34 +236,45 @@ function goToPoolCompound(args) {
   router.push({
     name: 'Pool Compound',
     params: {
-      id: props.all_pools[args.index].id,
+      id: args.index,
       onMountedActivity: args.onMountedActivity,
       chainSelected: DisplayChain[networkId.value],
     },
   })
 }
 
-
-// function goToCLPool(args) {
-//   router.push({
-//     name: 'Pool CL Details',
-//     params: {
-//       id: props.all_pools[args.index].id,
-//       onMountedActivity: args.onMountedActivity,
-//       chainSelected: DisplayChain[networkId.value],
-//     },
-//   })
-// }
+function goToPool(args) {
+  router.push({
+    name: 'Pool Details',
+    params: {
+      id: args.index,
+      onMountedActivity: args.onMountedActivity,
+      chainSelected: DisplayChain[networkId.value],
+    },
+  })
+}
+function goToCLPool(args) {
+  router.push({
+    name: 'Pool CL Details',
+    params: {
+      id: args.index,
+      onMountedActivity: args.onMountedActivity,
+      chainSelected: DisplayChain[networkId.value],
+    },
+  })
+}
 
 // function goToCL(args) {
 //   router.push({
 //     name: 'Concentrated liquidity',
 //     query: {
-//       tokens: props.all_pools[args.index].tokens.map((t) => t.id),
-//       fee: props.all_pools[args.index].fee,
+//       tokens: props.all_pools.value[args.index].tokens.map((t) => t.id),
+//       fee: props.all_pools.value[args.index].fee,
 //     },
 //   })
 // }
+
+
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';

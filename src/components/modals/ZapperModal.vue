@@ -37,14 +37,14 @@
                       :src="getTokenEntity(zapToken.symbol, 'short').icon"
                     />
                     <div class="!mr-1 dark:!text-white text-black">
-                      {{ parseFloat(fromAmounts[index]).toFixed(5) }}
+                      {{ parseFloat(fromAmounts?.[index]).toFixed(8) }}
                     </div>
                     <img :src="ArrowLongRightIcon" />
                     <CAvatar
                       :src="getTokenEntity(token.symbol, 'short').icon"
                     />
                     <div class="dark:!text-white text-black">
-                      {{ parseFloat(toAmounts[index]).toFixed(5) }}
+                      {{ parseFloat(toAmounts?.[index]).toFixed(8) }}
                     </div>
                   </div>
                 </div>
@@ -57,8 +57,8 @@
             </div>
           </div>
 
-          <div class="zapper_button" @click="$emit('onAcceptTrade')">
-            Accept Trade
+          <div class="zapper_button flex items-center gap-1 justify-center" @click="$emit('onAcceptTrade')">
+            {{fetchingZapTrades ? 'Accepting' : 'Accept Trade'}} <span v-if="fetchingZapTrades" class="button_loader pl-2"></span>
           </div>
         </div>
       </div>
@@ -74,6 +74,7 @@ import ArrowLongRightIcon from '@/assets/icons/arrow/arrow_long_right.svg'
 import { getTokenEntity } from '@/lib/helpers/util'
 
 const props = defineProps([
+  'fetchingZapTrades',
   'isOpen',
   'zapToken',
   'slippageSelected',

@@ -11,7 +11,7 @@
     <div class="track_info_container">
       <GeneralBotCard :currencySelected="currencySelected" :chainSelected="chainSelected"
         :allTableData="allPoolsTableData" :tokensData="tokensData" :poolSwapsData="poolSwapsData"
-        :chains_data="allData.analytics" />
+        :chains_data="allData.analytics" :chartData="filteredData" />
 
       {{ console.log('filteredData', filteredData) }}
       <!-- Test chart -->
@@ -82,7 +82,7 @@ import { FormatAllTokensData } from '@/lib/formatter/trackTokensFormatter'
 import { GetHistoricalTokenPrices } from '@/composables/balances/useHistoricalTokenPrices'
 import { addEmptyDays } from '@/lib/formatter/chart/chartFormatter'
 import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
-import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
+import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementUtils'
 import {
   formatSimpleTimestamp,
   groupTimestampsByDayWithIndexes,
@@ -154,7 +154,7 @@ const timelines = [
   },
 ]
 
-const currentTimeline = ref(timelines[2])
+const currentTimeline = ref(timelines[0])
 const isCumulativeMode = ref(false)
 
 const TimelineFilters = {
@@ -597,6 +597,13 @@ const ChainRelatedFields = [
 
 const chainsMap = ref(getDefaultChainsMapValue())
 
+const days_count = {
+  [t('daily')]:1,
+  [t('weekly')]:7,
+  [t('monthly')]:30,
+}
+
+
 function getDefaultChainsMapValue() {
   return ChainRelatedFields.reduce(
     (acc, currentValue) => ({
@@ -627,6 +634,7 @@ function getFilteredData() {
     let start_index = i == 0 ? 0 : indexes[i - 1] + 1
     let end_index = indexes[i] + 1
     let previousItems = chart_data.slice(start_index, end_index)
+    let notFilterdPreviousItems = [...previousItems]
 
     previousItems = previousItems.filter(
       (p) =>
@@ -659,9 +667,16 @@ function getFilteredData() {
           }
         }
         if (filter_code == 'Average APR') {
-          result_item[filter_code] = item[filter_code]
+          //   console.log('result_item[filter_code]', result_item[filter_code])
+          //  if(result_item[filter_code] === undefined) {
+          //   result_item[filter_code] = 0
+          //  }else {
+          //   result_item[filter_code] = result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
+          //  }
+          result_item[filter_code] = result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
+
         }
-        if (filter_code == 'Volatility Index') {
+        if (filter_code == 'Volatility Index' || filter_code == 'Impermanent Loss') {
           result_item[filter_code] = item[filter_code]
         }
       } else {

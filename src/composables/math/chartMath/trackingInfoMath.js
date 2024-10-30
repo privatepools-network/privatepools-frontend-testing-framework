@@ -671,3 +671,11 @@ export function CalculateCLAPR(poolSnapshots, trades, poolId) {
     'All Chains',
   )
 }
+
+export function CalculateAPR(profits, tvl, days_count) {
+  let apr = (profits / tvl) * (365 / days_count) * 100
+  if (!isFinite(apr) || isNaN(apr) || apr < 0) {
+    return 0
+  }
+  return apr
+}

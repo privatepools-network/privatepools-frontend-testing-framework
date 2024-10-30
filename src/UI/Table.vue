@@ -1,9 +1,19 @@
 <template>
-  <CTable style="table-layout: fixed" class="!bg-[white] dark:!bg-[#fff0]  backdrop-blur-md">
+  <CTable
+    style="table-layout: fixed"
+    class="!bg-[white] dark:!bg-[#fff0] backdrop-blur-md"
+  >
     <CTableHead color="transparent">
       <CTableRow class="table-row text-black dark:!text-white">
-        <CTableHeaderCell class="text-left table-header-font-folder text-black dark:!text-white" v-for="header in headers" :key="header">
-          <span v-if="header.toUpperCase() == 'BESTOUTFIRSTSWAPAMOUNT'">Bestoutamount</span>
+        <CTableHeaderCell
+          class="text-left table-header-font-folder text-black dark:!text-white"
+          :class="header === 'Route' ? '!text-center' : '!text-left'"
+          v-for="header in headers"
+          :key="header"
+        >
+          <span v-if="header.toUpperCase() == 'BESTOUTFIRSTSWAPAMOUNT'"
+            >Bestoutamount</span
+          >
           <span v-else>{{ header }}</span>
         </CTableHeaderCell>
       </CTableRow>
@@ -13,7 +23,7 @@
 </template>
 
 <script setup>
-import { defineProps, toRefs } from "vue"
+import { defineProps, toRefs } from 'vue'
 
 const props = defineProps({
   headers: Array,
@@ -23,7 +33,6 @@ const { headers } = toRefs(props)
 </script>
 <style scoped lang="scss">
 .table {
-  
   &-wrapper {
     padding: 0;
   }

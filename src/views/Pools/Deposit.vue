@@ -1,23 +1,25 @@
 <template>
   <MainCard>
-    <ZapperModal :is-open="isZapperModalOpen" :from-amounts="fromAmounts" :to-amounts="toAmounts" :trade-tokens="pool?.tokens?.filter((token) => token.address !== zapToken.address)
-      " :slippage-selected="slippageSelected" :zap-token="zapToken" @on-close="isZapperModalOpen = false"
+    <ZapperModal :fetchingZapTrades="fetchingZapTrades" :is-open="isZapperModalOpen" :from-amounts="fromAmounts"
+      :to-amounts="toAmounts" :trade-tokens="pool?.tokens?.filter((token) => token.address !== zapToken.address)
+        " :slippage-selected="slippageSelected" :zap-token="zapToken" @on-close="isZapperModalOpen = false"
       @on-accept-trade="onAcceptTrade" />
     <Modal v-if="isTokenSelectModalOpen" @close="isTokenSelectModalOpen = false" size="xl">
       <template #body>
         <TokenSelectModal :is-open="isTokenSelectModalOpen" :possible-tokens="possibleTokens"
-          @close="isTokenSelectModalOpen = false" @update-token="(token) => (zapToken = token)" />
+          :possibleComposeTokens="possibleTokens" @close="isTokenSelectModalOpen = false"
+          @update-token="(token) => (zapToken = token)" />
       </template>
     </Modal>
-
+    {{ console.log('possibleTokens', possibleTokens) }}
     <div class="center_container dark:!bg-[#15151524] bg-white">
       <CRow class="mb-4">
         <div class="flex md:items-center items-start justify-between">
           <div class="caption-row">
-            <div class="caption dark:!text-white text-black"
+            <!-- <div class="caption dark:!text-white text-black"
               style="font-size: clamp(10px, 0.9vw, 16px); font-weight: 700">
               {{ pool?.tokens?.map((item) => item.symbol).join('/') }}
-            </div>
+            </div> -->
 
             <div class="flex flex-wrap">
               <div v-for="(token, index) in pool?.tokens" :key="`pool-token-${index}`"
@@ -53,23 +55,16 @@
                   <div class="text-[14px] text-white">Add Liquidity</div>
                 </div>
                 <div v-if="approveStep === 0" class="flex items-center gap-2">
-                  <!-- <DepositMethodToggle
-                    :deposit-method="depositMethod"
-                    @toggle="(value) => (depositMethod = value)"
-                  /> -->
+                  <DepositMethodToggle :deposit-method="depositMethod" @toggle="(value) => (depositMethod = value)" />
 
-                  <!-- <DepositSlippageDropdown
-                    :slippage-text="slippageSelected"
-                    :slippage-value="slippage"
-                    @change-slippage="
-                      (text, value) => (
-                        (slippageSelected = text),
-                        value !== '-'
-                          ? (slippage = value)
-                          : (slippage = undefined)
-                      )
-                    "
-                  /> -->
+                  <DepositSlippageDropdown :slippage-text="slippageSelected" :slippage-value="slippage"
+                    @change-slippage="(text, value) => (
+                      (slippageSelected = text),
+                      value !== '-'
+                        ? (slippage = value)
+                        : (slippage = undefined)
+                    )
+                      " />
                 </div>
               </div>
             </div>
@@ -81,7 +76,7 @@
               ">
                 <div v-if="depositMethod == 'zap'" class="modal_stake_token dark:!bg-[#15151524] bg-white mb-4">
                   <div class="d-flex justify-content-between align-items-center">
-                    <div @click="() => tokenSelectModalOpen()" class="d-flex flex-column gap-2">
+                    <div @click="() => onTokenSelectModalOpen()" class="d-flex flex-column gap-2">
                       <div class="text-[14px] mb-0 dark:!text-white text-black flex items-center gap-1">
                         <img :src="getTokenEntity(zapToken.symbol, 'short').icon" width="18" />
                         <span style="margin-left: 5px">
@@ -94,11 +89,11 @@
                         font-size: clamp(10px, 0.8vw, 14px);
                         font-weight: 500;
                         text-align: right;
-                      " :value="zapToken.value" @input="(e) =>
+                      " :value="zapToken.value / 10000000" @input="(e) =>
                       (zapToken.value =
-                        e.target.value > zapToken.balance
+                        (e.target.value > zapToken.balance
                           ? zapToken.balance
-                          : e.target.value)
+                          : e.target.value) * 10000000)
                         " type="number" />
                   </div>
                   <div>
@@ -107,23 +102,23 @@
                         {{ $t('balance') }}:
                         <span class="fw-bold font-['Roboto_Mono',_monospace]">
                           {{
-                            zapToken.value >= zapToken.balance
+                            zapToken.value / 10000000 >= zapToken.balance
                               ? 0
-                              : zapToken.balance - zapToken.value
+                              : zapToken.balance - zapToken.value / 10000000
                           }}
                         </span>
-                        <span @click="() => (zapToken.value = zapToken.balance)"
+                        <span @click="() => (zapToken.value = zapToken.balance * 10000000)"
                           class="fw-bold bg-transparent pl-1 cursor-pointer">
                           {{ $t('max') }}
                         </span>
                       </div>
                       <div class="font-['Roboto_Mono',_monospace]">
                         {{ currencySelected.symbol }}
-                        {{ (zapToken.value * zapToken.price).toFixed(3) }}
+                        {{ (zapToken.value / 10000000 * zapToken.price).toFixed(3) }}
                       </div>
                     </div>
-                    <Slider class="mt-2" :tooltips="false" :min="0" :max="zapToken.balance"
-                      :step="zapToken.balance / 100" :lazy="false" v-model="zapToken.value" />
+                    <Slider class="mt-2" :tooltips="false" :min="0" :step="1" :max="zapToken.balance * 10000000"
+                      :lazy="false" v-model="zapToken.value" />
                   </div>
                 </div>
                 <div v-else>
@@ -162,7 +157,7 @@
                           font-weight: 500;
                           text-align: right;
                         " :value="lineNumbers[tokenIndex] > 0
-                          ? lineNumbers[tokenIndex] / 100000
+                          ? lineNumbers[tokenIndex] / 10000000
                           : lineNumbers[tokenIndex]
                           " @input="(e) => onTokenInput(e, tokenIndex)" type="number" />
                     </div>
@@ -181,14 +176,14 @@
                         {{ currencySelected.symbol }}
                         {{
                           (
-                            (lineNumbers[tokenIndex] / 100000) *
+                            (lineNumbers[tokenIndex] / 10000000) *
                             lastTokenPrices[token.address]
                           ).toFixed(3)
                         }}
                       </div>
                     </div>
                     <Slider class="mt-2" @change="(value) => OnSliderValueChange(tokenIndex, value)
-                      " :tooltips="false" :min="0" :max="maxBalances[token.address] * 100000" :step="1" :lazy="false"
+                      " :tooltips="false" :min="0" :max="maxBalances[token.address] * 10000000" :step="1" :lazy="false"
                       v-model="lineNumbers[tokenIndex]" />
                   </div>
 
@@ -212,10 +207,10 @@
               </div>
             </div>
             <div v-else-if="approveStep > 0 && approveStep < 5">
-              <DepositModalV2 @zapperModalOpen="zapperModalOpen" :pool="pool" :visibleDepositModal="visibleDepositModal"
-                @changeVisibleDepositOpen="changeVisibleDepositClose" :total="lineNumbers.reduce(
+              <DepositModalV2 :fetchingZapTrades="fetchingZapTrades" @zapperModalOpen="zapperModalOpen" :pool="pool"
+                :visibleDepositModal="visibleDepositModal" @changeVisibleDepositOpen="changeVisibleDepositClose" :total="lineNumbers.reduce(
                   (sum, current, index) =>
-                    sum + (current / 100000) * lastTokenPrices[tokens[index]],
+                    sum + (current / 10000000) * lastTokenPrices[tokens[index]],
                   0,
                 )
                   " :wbnbSelected="wbnbSelected" :account="account" :valueLoss="priceImpactFormatted" :bptOut="bptOut"
@@ -223,8 +218,8 @@
                   ? [
                     {
                       ...zapToken,
-                      depositAmount: parseFloat(zapToken.value),
-                      usdAmount: zapToken.value * zapToken.price,
+                      depositAmount: parseFloat(zapToken.value / 10000000),
+                      usdAmount: zapToken.value / 10000000 * zapToken.price,
                     },
                   ]
                   : pool?.tokens?.map((t, i) => ({
@@ -282,7 +277,7 @@
               </div>
             </div>
 
-            <div class="compose_pool_connect_wallet" v-if="approveStep === 0" @click="approveStep = 1">
+            <div class="compose_pool_connect_wallet" v-if="approveStep === 0" @click="validateAndGoToStep1()">
               {{ $t('preview') }}
             </div>
           </div>
@@ -292,6 +287,7 @@
         </div>
       </div>
     </div>
+
   </MainCard>
 </template>
 <script setup>
@@ -303,7 +299,6 @@ import 'vue3-toastify/dist/index.css'
 
 import MainCard from '@/UI/MainCard.vue'
 import CurrencySelector from '@/UI/CurrencySelector.vue'
-import Toast from '@/UI/Toast.vue'
 import Modal from '@/UI/Modal.vue'
 import ZapperModal from '@/components/modals/ZapperModal.vue'
 import DepositModalV2 from '@/components/modals/DepositModalV2.vue'
@@ -328,9 +323,11 @@ import {
 import { useFetchTokens } from '@/composables/tokens/useFetchTokens'
 import { InitializeMetamask } from '@/lib/utils/metamask'
 import { ethers } from 'ethers'
+import Toast from '@/UI/Toast.vue'
 const isZapperModalOpen = ref(false)
 const tradeTokens = ref([])
 const tradeDatas = ref([])
+const aggregatorName = ref('1inch')
 const fromAmounts = ref([])
 const toAmounts = ref([])
 const amounts = ref([])
@@ -353,6 +350,7 @@ const wbnbSelected = ref(true)
 const account = ref('')
 
 const zapToken = ref({ symbol: 'WBNB', depositAmount: 0, value: 0 })
+const fetchingZapTrades = ref(false)
 
 // hardcoded tx
 const txHash = ref('')
@@ -411,7 +409,7 @@ const maxBalances = computed(() => {
 })
 
 const formattedLineNumbers = computed(() =>
-  lineNumbers.value.map((ln) => ln / 100000),
+  lineNumbers.value.map((ln) => ln / 10000000),
 )
 
 const amountMap = computed(() => {
@@ -438,7 +436,7 @@ const fiatTotal = computed(() =>
   parseFloat(
     lineNumbers.value.reduce(
       (sum, current, index) =>
-        sum + (current / 100000) * lastTokenPrices.value[tokens.value[index]],
+        sum + (current / 10000000) * lastTokenPrices.value[tokens.value[index]],
       0,
     ),
   ).toFixed(3),
@@ -448,7 +446,7 @@ const priceImpactFormatted = computed(() =>
   priceImpact.value ? (priceImpact.value * 100).toFixed(1) : 0,
 )
 
-const totalWeeklyYield = computed(() => pool.value['30dAPR'])
+const totalWeeklyYield = computed(() => pool.value['7dAPR'])
 
 const { tokens: possibleTokens } = useFetchTokens(56)
 
@@ -460,6 +458,30 @@ const { priceImpact, fullAmounts, bptOut } = useInvestFormMath(
   true,
 )
 const oldWbnbBalance = ref(0)
+
+
+function validateAndGoToStep1() {
+  // console.log('zapToken.value!!!', zapToken.value)
+  if (lineNumbers.value.some(num => num > 0) || zapToken.value.value > 0) {
+    approveStep.value = 1
+  } else {
+    toast(Toast, {
+      closeOnClick: true,
+      theme: 'dark',
+      type: 'warning',
+      autoClose: 5000,
+      closeButton: true,
+      position: toast.POSITION.TOP_RIGHT,
+      data: {
+        header_text: 'Impossible to Deposit!',
+        toast_text:
+          `Deposit values can't be zero, provide some values before continue!`,
+        tx_link: '',
+        speedUp: '',
+      },
+    })
+  }
+}
 
 async function onWbnbUpdate() {
   if (wbnbSelected.value == true) {
@@ -476,44 +498,145 @@ async function onWbnbUpdate() {
   pool.value.tokens[wbnbIndex].symbol = wbnbSelected.value ? "WBNB" : "BNB"
 }
 
+
 async function zapperModalOpen() {
+
+  fetchingZapTrades.value = true
+
   const {
-    oneInchDatas,
-    oneInchDescs,
+    datas,
+    descs,
     fromAmounts: amountsIn,
     toAmounts: amountsOut,
     amounts: amountsForLPT,
+    aggregator
   } = await useTrades(
     pool.value,
     zapToken.value.address,
-    zapToken.value.value,
+    zapToken.value.value / 10000000,
     slippage.value,
-  )
 
-  tradeDatas.value = oneInchDatas
-  tradeTokens.value = oneInchDescs
+  )
+  aggregatorName.value = aggregator
+  tradeDatas.value = datas
+  tradeTokens.value = descs
   fromAmounts.value = amountsIn
   toAmounts.value = amountsOut
   amounts.value = amountsForLPT
+
+
 
   window.scrollTo({
     top: 0,
     left: 0,
     behavior: 'smooth',
   })
-
+  fetchingZapTrades.value = false
   isZapperModalOpen.value = true
 }
 
 async function onAcceptTrade() {
-  await useZapper(
-    pool.value,
-    zapToken.value.address,
-    zapToken.value.value,
-    amounts.value,
-    tradeDatas.value,
-    tradeTokens.value,
-  )
+  fetchingZapTrades.value = true
+  const ConfirmZapToastPending = toast.loading(Toast, {
+    data: {
+      header_text: 'Trades accepting',
+      toast_text: `Wait while trades are accepting`,
+      tx_link: '',
+      speedUp: '/',
+    },
+    position: toast.POSITION.TOP_RIGHT,
+    theme: 'dark',
+    closeOnClick: false,
+  })
+
+  try {
+    const tx = await useZapper(
+      pool.value,
+      zapToken.value.address,
+      zapToken.value.value / 10000000,
+      amounts.value,
+      tradeDatas.value,
+      tradeTokens.value,
+      false,
+      ConfirmZapToastPending,
+      aggregatorName.value
+    );
+
+    if (tx) {
+      await tx.wait();
+      txHash.value = tx.hash
+      setTimeout(() => {
+        toast.update(ConfirmZapToastPending, {
+          render: Toast,
+          data: {
+            header_text: 'Trades Accepted',
+            toast_text: `All trades have been accepted`,
+            tx_link: `https://etherscan.io/tx/${tx.hash}`,
+            speedUp: '',
+          },
+          closeOnClick: false,
+          autoClose: 10000,
+          closeButton: true,
+          type: 'success',
+          isLoading: false,
+        });
+        fetchingZapTrades.value = false;
+        isZapperModalOpen.value = false;
+        approveStep.value = 5;
+        explode();
+        toast(Toast, {
+          closeOnClick: true,
+          theme: 'dark',
+          type: 'success',
+          autoClose: 5000,
+          closeButton: true,
+          position: toast.POSITION.TOP_RIGHT,
+          data: {
+            header_text: 'Add Liquidity Confirmed!',
+            toast_text: 'You successfully added liquidity in pool',
+            tx_link: `https://etherscan.io/tx/${tx.hash}`,
+            speedUp: '',
+          },
+        });
+      }, 7000);
+    } else {
+      fetchingZapTrades.value = false;
+      isZapperModalOpen.value = false;
+      toast.update(ConfirmZapToastPending, {
+        render: Toast,
+        data: {
+          header_text: 'Transaction Failed',
+          toast_text: 'The transaction was rejected or failed.',
+          tx_link: '',
+          speedUp: '',
+        },
+        autoClose: 7000,
+        closeOnClick: false,
+        closeButton: true,
+        type: 'error',
+        isLoading: false,
+      });
+    }
+  } catch (error) {
+    fetchingZapTrades.value = false;
+    isZapperModalOpen.value = false;
+    console.error('Unexpected error:', error);
+    toast.update(ConfirmZapToastPending, {
+      render: Toast,
+      data: {
+        header_text: 'Unexpected Error',
+        toast_text: 'An unexpected error occurred during the zapping process.',
+        tx_link: '',
+        speedUp: '',
+      },
+      autoClose: 7000,
+      closeOnClick: false,
+      closeButton: true,
+      type: 'error',
+      isLoading: false,
+    });
+  }
+
 }
 
 function onTokenSelectModalOpen() {
@@ -549,9 +672,9 @@ function addedTXHash(hash) {
 // }
 
 function OnSliderValueChange(index, value) {
-  if (balances.value[tokens.value[index].address] * 100000 < value) {
+  if (balances.value[tokens.value[index].address] * 10000000 < value) {
     lineNumbers.value[index] =
-      balances.value[tokens.value[index].address] * 100000
+      balances.value[tokens.value[index].address] * 10000000
   }
   else {
     lineNumbers.value[index] = value
@@ -567,13 +690,13 @@ function OnAllMaxClick() {
 }
 
 function OnMaxClick(index, address) {
-  OnSliderValueChange(index, balances.value[address] * 100000)
+  OnSliderValueChange(index, balances.value[address] * 10000000)
 }
 
 // WETH-60/USDT-40
 
 // 600$ worth of WETH
-// 100000$ / 100 * 40
+// 10000000$ / 100 * 40
 
 // 60-40 = +20%
 
@@ -581,7 +704,7 @@ function OnOptimizeClick() {
   if (lastDepositChanged.value == -1) return
   let token = tokens.value[lastDepositChanged.value]
   let usdAmount =
-    (lineNumbers.value[lastDepositChanged.value] / 100000) *
+    (lineNumbers.value[lastDepositChanged.value] / 10000000) *
     lastTokenPrices.value[token]
   usdAmount = Math.min(usdAmount, leastBalanceValue.value)
   for (let i = 0; i < lineNumbers.value.length; i++) {
@@ -595,14 +718,14 @@ function OnOptimizeClick() {
       pool.value.tokens[i].weight
     let newValue =
       toOptimizeUsdAmount / lastTokenPrices.value[pool.value.tokens[i].address]
-    lineNumbers.value[i] = newValue * 100000
+    lineNumbers.value[i] = newValue * 10000000
   }
 }
 
 function onTokenInput(event, tokenIndex) {
   let result_value = event.target.value
   if (parseFloat(result_value) != 0) {
-    result_value = parseFloat(event.target.value) * 100000
+    result_value = parseFloat(event.target.value) * 10000000
   }
   if (isNaN(parseFloat(result_value))) {
     result_value = 0
@@ -643,9 +766,9 @@ function changeVisibleDepositClose() {
 }
 
 function RemainingBalance(token, index) {
-  let value1 = balances.value[token.address] * 100000
+  let value1 = balances.value[token.address] * 10000000
   let value2 = parseFloat(lineNumbers.value[index])
-  let diff = (value1 - value2) / 100000
+  let diff = (value1 - value2) / 10000000
   return diff < 0 && diff > -1 ? 0 : diff.toFixed(6)
 }
 
@@ -657,10 +780,10 @@ function onCurrencyInput(e) {
   if (parseFloat(
     balances.value[pool.value.tokens[leastBalanceIndex.value].address],
   ) >= possibleAmount) {
-    lineNumbers.value[leastBalanceIndex.value] = possibleAmount * 100000
+    lineNumbers.value[leastBalanceIndex.value] = possibleAmount * 10000000
   }
   else {
-    lineNumbers.value[leastBalanceIndex.value] = balances.value[pool.value.tokens[leastBalanceIndex.value].address] * 100000
+    lineNumbers.value[leastBalanceIndex.value] = balances.value[pool.value.tokens[leastBalanceIndex.value].address] * 10000000
     toast(Toast, {
       closeOnClick: true,
       theme: 'dark',

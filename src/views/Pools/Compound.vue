@@ -4,47 +4,26 @@
       <CRow class="mb-5">
         <div class="flex md:items-center items-start justify-between">
           <div class="md:w-auto w-[80%]">
-            <div
-              style="
+            <div style="
                 font-size: 20px;
 
                 font-weight: 700;
                 text-transform: uppercase;
-              "
-              class="dark:!text-white text-black"
-            >
+              " class="dark:!text-white text-black">
               {{ $t('Compounder') }}
             </div>
             <div style="font-size: 15px; color: #858c90; font-weight: 400">
               {{
                 $t(
-                  'The compounder is a feature designed to maximize your earnings by  reinvesting your rewards.',
+                  'The compounder is a feature designed to maximize your earnings by reinvesting your rewards.',
                 )
               }}
             </div>
           </div>
           <div class="back_button" @click="router.go(-1)">
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 6L6 18"
-                stroke="#FFFFFF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M6 6L18 18"
-                stroke="#FFFFFF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6 6L18 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </div>
         </div>
@@ -52,7 +31,7 @@
       <div class="flex justify-center gap-24 md:flex-row flex-col">
         <div class="flex flex-col gap-4 md:w-[25%] w-full">
           <ConfettiExplosion v-if="confettiVisible" :particleSize="8" :duration="5000"
-          :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']" />
+            :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']" />
           <ComposePoolSteps :activeStep="activeStep" :isCompounder="true" />
         </div>
         <div class="compose_choose dark:!bg-[#DCEEF605] bg-white">
@@ -68,111 +47,88 @@
             <div class="compose_third_step my-6 dark:!bg-[#DCEEF605] bg-white">
               <div class="compose_text dark:!text-white text-black">
                 {{ $t('Compoundable Tokens') }}
+                <div v-if="activeStep === 2" class="text-xs dark:!text-white text-black">
+                  (Choose tokens to approve)
+                </div>
               </div>
               <hr class="compose_hr" />
               <div>
                 <div>
                   <!-- TokensData to actual pool tokens -->
-                  <div
-                    v-for="(token, index) in tokensData"
-                    :key="`tokens-key-${index}`"
-                    class="d-flex align-items-center justify-content-between pt-3 p-1 gap-2 compose_text dark:!text-white text-black"
-                  >
+                  <div v-for="(token, index) in tokensData" :key="`tokens-key-${index}`"
+                    class="d-flex align-items-center justify-content-between pt-3 p-1 gap-2 compose_text dark:!text-white text-black">
                     <div class="d-flex align-items-center">
-                      <img
-                        :src="getTokenEntity(token.symbol, 'short').icon"
-                        width="40"
-                        class="p-1"
-                      />
+                      <div v-if="activeStep === 2" class="flex items-center">
+                        <!-- Add some boolean param with approve key in tokensData -->
+                        <input @click="token.selected = !token.selected" :checked="token.selected" id="default-checkbox"
+                          type="checkbox"
+                          class="w-4 h-4 text-[#00e0ff] bg-gray-100 border-gray-300 rounded focus:ring-[#00e0ff] dark:focus:ring-[#00e0ff] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                      </div>
+                      <img :src="getTokenEntity(token.symbol, 'short').icon" width="40" class="p-1" />
                       <div class="d-flex flex-column">
-                        <div>0.0024 {{ token.symbol }}</div>
+                        <div>
+                          {{ parseFloat(token.value).toFixed(8) }}
+                          {{ token.symbol }}
+                        </div>
                       </div>
                     </div>
-                    <div
-                      class="d-flex flex-column align-items-end dark:!text-white text-black"
-                    >
-                      <div>$123,67</div>
-                      <!-- <div>${{ token.usdAmount }}</div> -->
+                    <div class="d-flex flex-column align-items-end dark:!text-white text-black">
+                      <div>${{ parseFloat(token.usdValue).toFixed(5) }}</div>
                     </div>
                   </div>
                 </div>
-                <!-- <hr class="compose_hr" /> -->
+                <div v-if="activeStep > 1">
+                  <hr class="compose_hr" />
+                  <div
+                    class="d-flex align-items-center justify-content-between pt-3 p-1 gap-2 compose_text dark:!text-white text-black">
+                    <div class="d-flex align-items-center">
+                      <div class="d-flex flex-column">
+                        <div>LPT ({{ (summarizedTokensUSD / pool.totalShares).toFixed(5) }})</div>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-column align-items-end dark:!text-white text-black">
+                      <div>${{ summarizedTokensUSD.toFixed(5) }}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div
-            class="my-3 d-flex justify-content-center position-relative"
-          >
+          <div class="my-3 d-flex justify-content-center position-relative">
             <div class="flex gap-1">
-              <Step
-                :activeStep="activeStep"
-                :displayedActiveStep="1"
-                :mmActive="mmActive"
-                :stepText="'Claim'"
-              />
+              <Step :activeStep="activeStep" :displayedActiveStep="1" :mmActive="mmActive" :stepText="'Claim'" />
 
               <div class="w-12 mt-1">
                 <ProgressLoader v-if="mmActive && activeStep === 2" />
                 <span v-else class="progress_loader_still"></span>
               </div>
-              <Step
-                :activeStep="activeStep"
-                :displayedActiveStep="2"
-                :mmActive="mmActive"
-                :stepText="'Approve'"
-                v-if="!tokensApproved"
-              />
-              <Step
-                :activeStep="activeStep"
-                :displayedActiveStep="1"
-                :mmActive="mmActive"
-                :stepText="'Approve'"
-                v-else
-              />
+              <Step :activeStep="activeStep" :displayedActiveStep="2" :mmActive="mmActive" :stepText="'Approve'"
+                v-if="!tokensApproved" />
+              <Step :activeStep="activeStep" :displayedActiveStep="1" :mmActive="mmActive" :stepText="'Approve'"
+                v-else />
               <div class="w-12 mt-1">
                 <ProgressLoader v-if="mmActive && activeStep === 3" />
                 <span v-else class="progress_loader_still"></span>
               </div>
-              <Step
-                :activeStep="activeStep"
-                :displayedActiveStep="3"
-                :mmActive="mmActive"
-                :stepText="'Deposit'"
-              />
+              <Step :activeStep="activeStep" :displayedActiveStep="3" :mmActive="mmActive" :stepText="'Deposit'" />
             </div>
           </div>
 
-          <button
-            class="compose_pool_connect_wallet"
-            v-if="activeStep === 1"
-            @click="onStep1Click"
-          >
-           {{mmActive ? 'Claiming...' : 'Claim'}} <span v-if="mmActive" class="button_loader pl-2"></span>
+          <button class="compose_pool_connect_wallet" v-if="activeStep === 1" @click="onStep1Click">
+            {{ mmActive ? 'Claiming...' : 'Claim' }}
+            <span v-if="mmActive" class="button_loader pl-2"></span>
           </button>
-          <div
-            class="compose_pool_connect_wallet"
-            v-else-if="activeStep === 2"
-            @click="onStep2Click"
-          >
+          <div class="compose_pool_connect_wallet" v-else-if="activeStep === 2" @click="onStep2Click">
             {{ mmActive ? 'Approving...' : $t('Approve Tokens') }}
             <span v-if="mmActive" class="button_loader pl-2"></span>
           </div>
-          <div
-            class="compose_pool_connect_wallet"
-            v-else-if="activeStep === 3"
-            @click="onStep3Click"
-          >
-            {{
-              mmActive
-                ?  $t('Depositing...')
-                :'Deposit Tokens'
-            }}
+          <div class="compose_pool_connect_wallet" v-else-if="activeStep === 3" @click="onStep3Click">
+            {{ mmActive ? $t('Depositing...') : 'Deposit Tokens' }}
             <span v-if="mmActive" class="button_loader pl-2"></span>
           </div>
           <ConfettiExplosion v-if="confettiVisible" :particleSize="8" :duration="5000"
-          :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']" />
-        
+            :colors="['#00E0FF', '#00c9ff', '#2E3191', '#41BBC7']" />
         </div>
       </div>
     </div>
@@ -224,11 +180,14 @@ import Toast from '@/UI/Toast.vue'
 import 'vue3-toastify/dist/index.css'
 import Modal from '@/UI/Modal.vue'
 import { t } from 'i18next'
+import { useCompoundRewards } from '@/composables/poolActions/deposit/useCompounder'
+import { getSinglePoolDetails } from '@/composables/data/detailsData'
 import ConfettiExplosion from 'vue-confetti-explosion'
 import { useSound } from '@vueuse/sound'
 import successSound from '@/assets/sounds/success_sound.mp3'
 import errorSound from '@/assets/sounds/error_sound.mp3'
-
+import { getRewards } from '@/composables/data/rewardsData'
+import { claimRewards } from '../../composables/portfolio/useRewards'
 const playSuccess = useSound(successSound, { volume: 1 })
 const playError = useSound(errorSound, { volume: 1 })
 //import { InitBalancer } from '@/composables/math/withdrawMath/balancer.sdk';
@@ -392,20 +351,23 @@ onMounted(async () => {
   await InitTokens()
   account.value = await (await InitializeMetamask()).getSigner().getAddress()
 })
-
+const pool = ref(null)
+const poolId = router.currentRoute.value.params['id']
+const poolAddress = router.currentRoute.value.params['id'].slice(0, 42)
+const rewards = ref([])
 const createdPoolId = ref('')
 
 const poolCreationLink = ref('')
 
 const tokensData = ref(
-  possibleComposeTokens.value.length > 0
-    ? [possibleComposeTokens.value[0]]
-    : [],
+  possibleComposeTokens.value.length > 0 ? possibleComposeTokens.value : [],
 )
-
 
 const summarizedWeight = computed(() =>
   tokensData.value.reduce((sum, value) => sum + parseFloat(value.weight), 0),
+)
+const summarizedTokensUSD = computed(() =>
+  tokensData.value.filter(item => item.selected).reduce((sum, value) => sum + parseFloat(value.usdValue), 0),
 )
 const isPoolReady = computed(
   () =>
@@ -426,35 +388,65 @@ watch(networkId, async () => {
 })
 
 async function InitTokens() {
-  possibleComposeTokens.value = await GetPossibleComposeTokens(56)
-  tokensData.value = [{ weight: 0, ...possibleComposeTokens.value[0] }]
-  console.log('TOKENS DATA ', tokensData.value)
+  pool.value = await getSinglePoolDetails(56, poolId, true)
+
+  const signer = (await InitializeMetamask()).getSigner()
+  rewards.value = await getRewards(await signer.getAddress(), poolAddress)
+  possibleComposeTokens.value = rewards.value.formatted_rewards
+  tokensData.value = rewards.value.formatted_rewards.map((item) => ({ ...item, selected: false }))
 }
 
 async function onStep1Click() {
-  mmActive.value = true
-  setTimeout(() => {
-    mmActive.value = false
+  try {
+    mmActive.value = true
+    await claimRewards(rewards.value, false)
     activeStep.value = 2
-  }, 1500);
+  } catch (e) {
+    console.error(e)
+  }
+  mmActive.value = false
 }
+
+
+
 async function onStep2Click() {
-  mmActive.value = true
-  setTimeout(() => {
-    mmActive.value = false
+  try {
+    const walletAddr = await (await InitializeMetamask())
+      .getSigner()
+      .getAddress()
+    mmActive.value = true
+    let tokens_filtered = tokensData.value.filter(
+      (item) => item.usdValue > 0.0001 && item.selected,
+    )
+    await useApproveTokens(
+      tokens_filtered.map((t) => t.address),
+      tokens_filtered.map((t) => parseFloat(t.value)),
+      walletAddr,
+      'compound',
+    )
     activeStep.value = 3
-  }, 1500);
+  } catch (e) {
+    console.error(e)
+  }
+  mmActive.value = false
 }
 async function onStep3Click() {
-  mmActive.value = true
-  setTimeout(() => {
+  try {
+    mmActive.value = true
+    let tokens_filtered = tokensData.value.filter(
+      (item) => item.usdValue > 0.0001 && item.selected
+    )
+    await useCompoundRewards(
+      pool.value,
+      tokens_filtered,
+      tokens_filtered.map((item) => item.value),
+    )
     mmActive.value = false
-    explode()
     activeStep.value = 4
-  }, 1500);
+  } catch (e) {
+    console.error(e)
+  }
 }
-
-
 
 const existingTokenPrices = ref([])
 
@@ -532,6 +524,10 @@ function setTxError(e) {
   // background: #DCEEF605;
   border: 1px solid #ffffff0d;
   box-shadow: 0px 4px 8.899999618530273px 0px #000000b5;
+
+  @media (max-width: 1400px) {
+    width: 45%;
+  }
 
   @media (max-width: 768px) {
     margin-top: 24px;

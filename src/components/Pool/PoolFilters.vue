@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-items-center gap-3">
+  <div class="flex items-center gap-3 flex-wrap">
     <div v-click-away="onClickAway">
       <div
         class="filter_button bg-white dark:!bg-[#02031C] text-black dark:!text-white w-[190px]"
@@ -46,7 +46,7 @@
                 "
               >
                 <svg
-                class="pointer-events-none"
+                  class="pointer-events-none"
                   v-if="item.selected === true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="8"
@@ -66,7 +66,8 @@
         </div>
       </div>
     </div>
-    <!-- <div v-click-away="onClickAwayFilters">
+
+    <div v-click-away="onClickAwayFilters">
       <div
         class="filter_button bg-white dark:!bg-[#02031C] text-black dark:!text-white w-[190px]"
         :style="
@@ -89,7 +90,6 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             class="stroke-black dark:!stroke-[#F8F8F8]"
-
           />
         </svg>
 
@@ -104,10 +104,10 @@
         </div>
         <div v-for="(item, i) in optionsPoolType" :key="`${i}-pooltype-search`">
           <div
-            @click="item.selected = !item.selected"
+            @click.stop="item.selected = !item.selected"
             class="select_token_dropdown_text d-flex justify-content-between align-items-center"
           >
-            <div  class="flex gap-1 items-center">
+            <div class="flex gap-1 items-center">
               {{ item.name }}
             </div>
             <div>
@@ -144,10 +144,10 @@
           :key="`${i}-pooltype-search`"
         >
           <div
-            @click="item.selected = !item.selected"
+            @click.stop="item.selected = !item.selected"
             class="select_token_dropdown_text d-flex justify-content-between align-items-center"
           >
-            <div  class="flex gap-1 items-center">
+            <div class="flex gap-1 items-center">
               {{ item.name }}
             </div>
             <div>
@@ -177,23 +177,20 @@
           </div>
         </div>
       </div>
-    </div> -->
-     <!-- <div class="flex items-center gap-2">
-        <Toggler :toggle="hidePools"  :label="''" />
-        <div class="dark:!text-white text-black" style="font-size: clamp(12px, 0.8vw, 16px)">
-          Staked only
-        </div>
-      </div> -->
+    </div>
+
   </div>
 </template>
 <script setup>
-import { getTokenEntity } from '@/lib/helpers/util';
-import {ref, defineProps, defineEmits} from 'vue'
-// import Toggler from '@/UI/Toggler.vue'
+import { getTokenEntity } from '@/lib/helpers/util'
+import { ref, defineProps, defineEmits } from 'vue'
 
-
-defineProps(['hidePools', 'optionsPoolType', 'optionsPoolAttribute', 'optionsTokens'])
-
+defineProps([
+  'hidePools',
+  'optionsPoolType',
+  'optionsPoolAttribute',
+  'optionsTokens',
+])
 
 const selectTokenDropdownOpen = ref(false)
 const moreFiltersDropdownOpen = ref(false)
@@ -206,8 +203,6 @@ const onClickAwayFilters = (event) => {
 }
 </script>
 <style lang="scss" scoped>
-
-
 .checkbox_custom {
   width: 10px;
   height: 10px;
@@ -222,13 +217,12 @@ const onClickAwayFilters = (event) => {
 }
 
 .filter_button {
-
   border-radius: 100px;
-  border: 1px solid  #DCEEF6;
+  border: 1px solid #dceef6;
   // background:#02031C;
   cursor: pointer;
   padding: 8px 12px;
-  
+
   font-size: 14px;
   font-weight: 400;
   display: flex;
@@ -256,7 +250,7 @@ const onClickAwayFilters = (event) => {
   // color: #ffffff;
   border-radius: 0px 0px 16px 16px;
   // border: 1px solid #3737374a;
-  border: 1px solid  #dceef63a;
+  border: 1px solid #dceef63a;
   box-shadow: 0px 4px 4px 0px #15151540;
 
   &_text {

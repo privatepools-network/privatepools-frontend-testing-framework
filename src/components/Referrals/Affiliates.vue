@@ -1,61 +1,30 @@
 <template>
-  <SpecificTopPortfolio
-    v-if="specificTopPortfolioOpen"
-    @changeToSpecificPortfolio="changeToSpecificPortfolio"
-    :allPortfolios="allRefs"
-    :selectedAddress="selectedAddress"
-  />
+  <SpecificTopPortfolio v-if="specificTopPortfolioOpen" @changeToSpecificPortfolio="changeToSpecificPortfolio"
+    :allPortfolios="allRefs" :selectedAddress="selectedAddress" />
   <div v-else>
-    <div
-      class="center_container bg-white dark:!bg-[#15151524] mt-5"
-      v-if="affiliateSteps < 5"
-    >
+    <div class="center_container bg-white dark:!bg-[#15151524] mt-5" v-if="affiliateSteps < 5">
       <div class="d-flex justify-content-center flex-column align-items-center">
-        <div
-          class="text-black dark:!text-white text-base font-bold font-['Syne',_sans-serif]"
-        >
+        <div class="text-black dark:!text-white text-base font-bold font-['Syne',_sans-serif]">
           Generate Referral Code
         </div>
-        <div
-          class="my-3 text-black dark:!text-white text-sm font-medium text-center font-['Syne',_sans-serif]"
-        >
+        <div class="my-3 text-black dark:!text-white text-sm font-medium text-center font-['Syne',_sans-serif]">
           Looks like you don't have a referral code to share. Create one now and
           start earning rebates!
         </div>
         <div class="w-100 my-3">
-          <input
-            type="text"
-            placeholder="Enter Code..."
-            aria-label="Search by name, symbol or address"
-            class="search-input dark:!text-white text-black"
-          />
+          <input type="text" placeholder="Enter Code..." aria-label="Search by name, symbol or address"
+            class="search-input dark:!text-white text-black" />
         </div>
-        <div
-          class="referrals_button"
-          v-if="affiliateSteps === 1"
-          @click="$emit('affiliateStepsChange', 2)"
-        >
+        <div class="referrals_button" v-if="affiliateSteps === 1" @click="$emit('affiliateStepsChange', 2)">
           Enter code
         </div>
-        <div
-          class="referrals_button"
-          v-else-if="affiliateSteps === 2"
-          @click="$emit('affiliateStepsChange', 3)"
-        >
+        <div class="referrals_button" v-else-if="affiliateSteps === 2" @click="$emit('affiliateStepsChange', 3)">
           Checking code...
         </div>
-        <div
-          class="referrals_button"
-          v-else-if="affiliateSteps === 3"
-          @click="$emit('affiliateStepsChange', 4)"
-        >
+        <div class="referrals_button" v-else-if="affiliateSteps === 3" @click="$emit('affiliateStepsChange', 4)">
           Create
         </div>
-        <div
-          class="referrals_button"
-          v-else-if="affiliateSteps === 4"
-          @click="$emit('affiliateStepsChange', 5)"
-        >
+        <div class="referrals_button" v-else-if="affiliateSteps === 4" @click="$emit('affiliateStepsChange', 5)">
           Creating...
         </div>
       </div>
@@ -64,24 +33,18 @@
       <div class="text-[18px] font-bold text-black dark:!text-white mb-3 mt-14">
         My Code Overview
       </div>
-      <CodeOverview />
+      <CodeOverview :referralCode="referralCode" />
       <div class="text-[18px] font-bold text-black dark:!text-white mb-3 mt-14">
         My Referral Analytics
       </div>
       <div class="w-full mb-[50px]">
-        <ReferralsChart
-          :all_chart_data="refChartMOCKdata"
-          :networks_data="refCardMOCKdata"
-        />
+        <ReferralsChart :all_chart_data="refChartMOCKdata" :networks_data="refCardMOCKdata" />
       </div>
       <div class="text-[18px] font-bold text-black dark:!text-white mb-3 mt-14">
         Referred Wallets Performance
       </div>
-      <ReferralsTable
-        :allRefs="allRefs"
-        @changeToSpecificPortfolio="changeToSpecificPortfolio"
-        :changeToSpecificPortfolio="changeToSpecificPortfolio"
-      />
+      <ReferralsTable :allRefs="allRefs" :referralCode="referralCode"
+        @changeToSpecificPortfolio="changeToSpecificPortfolio" :changeToSpecificPortfolio="changeToSpecificPortfolio" />
     </div>
   </div>
 </template>
@@ -2879,6 +2842,7 @@ const specificPortfolioStats = ref([
 </script>
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
+
 .center_container {
   // background: #15151524;
   border: 1px solid #ffffff0d;
@@ -2887,10 +2851,12 @@ const specificPortfolioStats = ref([
   padding: 2.5%;
   border-radius: 16px;
   backdrop-filter: blur(10px);
+
   @media (max-width: $md) {
     margin: 0%;
   }
 }
+
 .search-input {
   width: 100%;
   font-size: 12px;
@@ -2898,6 +2864,7 @@ const specificPortfolioStats = ref([
   border: 1px solid #00e0ff;
   border-radius: 16px;
   padding: 8px 12px;
+
   @media (max-width: $xxl) {
     font-size: 10px;
     // padding: 0px 12px;
@@ -2920,6 +2887,7 @@ const specificPortfolioStats = ref([
   border-radius: 16px;
   width: 23%;
   backdrop-filter: blur(10px);
+
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -2934,6 +2902,7 @@ const specificPortfolioStats = ref([
   letter-spacing: 0em;
   text-align: center;
 }
+
 .text_value {
   margin-top: 5px;
 

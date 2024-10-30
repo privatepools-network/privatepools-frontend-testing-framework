@@ -7,20 +7,10 @@
       <LoaderPulse />
     </div>
     <div v-else class="chart_inside">
-      <ChartTimeline
-        :isCumulativeMode="isCumulativeMode"
-        :currentTimeline="currentTimeline"
-        :timelines="timelines"
-        @changeCumulativeMode="changeCumulativeMode"
-        @changeTimeline="changeTimeline"
-      />
+      <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
+        @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
       <img :src="logo" alt="D3" class="chart-logo" height="40px" />
-      <VChart
-        class="chart mt-4"
-        :option="optionObj"
-        @legendselectchanged="legendSelectedChange"
-        :autoresize="true"
-      />
+      <VChart class="chart mt-4" :option="optionObj" @legendselectchanged="legendSelectedChange" :autoresize="true" />
     </div>
   </div>
 </template>
@@ -39,7 +29,6 @@ import {
   groupTimestampsByMonthWithIndexes,
 } from '@/lib/utils'
 import { addEmptyDays } from '@/lib/formatter/chart/chartFormatter'
-// import Search from '@/assets/images/search.png'
 import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 
 import {
@@ -66,7 +55,9 @@ import { useSettings } from '@/store/settings'
 import { strictCheckChartOffsetConditions } from '@/composables/chartLogic/strictCheckChartOffsetConditions'
 import { checkGridByKeys } from '@/composables/chartLogic/checkGridByKeys'
 import { useDevice } from '@/composables/adaptive/useDevice'
-
+import {
+  CalculateAPR
+} from '@/composables/math/chartMath/trackingInfoMath.js'
 const settingsStore = useSettings()
 const { width } = useDevice()
 
@@ -112,7 +103,7 @@ const ChainRelatedFields = [
 const chainsMap = ref(getDefaultChainsMapValue())
 
 const preFiltersList = ref([
-{
+  {
     title: 'TVL',
     code: 'TVL',
     isSolo: true,
@@ -203,7 +194,7 @@ const preFiltersList = ref([
     selected: true,
     cumulable: true,
   },
- 
+
 
   {
     title: 'Average APR',
@@ -248,13 +239,13 @@ const preFiltersList = ref([
     selected: currentVersion.value === 'pro' ? true : false,
     cumulable: false,
   },
-  {
-    title: 'Impermanent Loss',
-    code: 'Impermanent Loss',
-    isSolo: true,
-    selected: currentVersion.value === 'pro' ? true : false,
-    cumulable: false,
-  },
+  // {
+  //   title: 'Impermanent Loss',
+  //   code: 'Impermanent Loss',
+  //   isSolo: true,
+  //   selected: currentVersion.value === 'pro' ? true : false,
+  //   cumulable: false,
+  // },
 ])
 
 const dates = computed(() => {
@@ -299,11 +290,11 @@ const dataVolatilityIndexes = computed(() => {
     return filteredData.value.map((v) => v['Volatility Index'])
   return []
 })
-const dataImpermanentLosses = computed(() => {
-  if (preFiltersList.value.find((f) => f.code == 'Impermanent Loss').selected)
-    return filteredData.value.map((v) => v['Impermanent Loss'])
-  return []
-})
+// const dataImpermanentLosses = computed(() => {
+//   if (preFiltersList.value.find((f) => f.code == 'Impermanent Loss').selected)
+//     return filteredData.value.map((v) => v['Impermanent Loss'])
+//   return []
+// })
 const dataProfits = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Profits').selected)
     return filteredData.value.map((v) => v[`Profits${postfix.value}`])
@@ -325,9 +316,9 @@ const timelines = [
   },
 ]
 const days_count = {
-  [t('daily')]:1,
-  [t('weekly')]:7,
-  [t('monthly')]:30,
+  [t('daily')]: 1,
+  [t('weekly')]: 7,
+  [t('monthly')]: 30,
 }
 
 const currentTimeline = ref(timelines[0])
@@ -345,7 +336,7 @@ const filters = ref(currentVersion.value === 'pro' ? {
   ['Gas Fees']: false,
   Volume: false,
   ['Volatility Index']: false,
-  ['Impermanent Loss']: false,
+  // ['Impermanent Loss']: false,
 } : {
   TVL: true,
   ['Trades']: true,
@@ -435,7 +426,7 @@ function seriesInstance(name, type, data, yAxisIndex, color) {
       shadowColor: color,
       shadowBlur: 10,
       color: color,
-      symbol: 'circle', 
+      symbol: 'circle',
       symbolSize: 8
     },
     emphasis: {
@@ -465,11 +456,11 @@ function legendSelectedChange(e) {
   if (e.name === 'Revenue' || e.name === 'Profits') {
     if (
       currentVersion.value === 'pro' ?
-      e.selected.Revenue === false &&
-      e.selected.Profits === false
-      : 
-      e.selected.Profits === false
-      ) {
+        e.selected.Revenue === false &&
+        e.selected.Profits === false
+        :
+        e.selected.Profits === false
+    ) {
       showRevenueProfits.value = false
     } else if (e.selected.Revenue === true || e.selected.Profits === true) {
       showRevenueProfits.value = true
@@ -487,11 +478,11 @@ function legendSelectedChange(e) {
   if (e.name === 'Average APR' || e.name === 'Volatility Index' || e.name === 'Impermanent Loss') {
     if (
       currentVersion.value === 'pro' ?
-      e.selected['Average APR'] === false &&
-      e.selected['Volatility Index'] === false &&
-      e.selected['Impermanent Loss'] === false
-      :
-      e.selected['Average APR'] === false
+        e.selected['Average APR'] === false &&
+        e.selected['Volatility Index'] === false &&
+        e.selected['Impermanent Loss'] === false
+        :
+        e.selected['Average APR'] === false
     ) {
       showAPRVolatility.value = false
     } else if (
@@ -543,13 +534,13 @@ const series = computed(() => [
     4,
     '#FFC374',
   ),
-  seriesInstance(
-    'Impermanent Loss',
-    'line',
-    dataImpermanentLosses.value,
-    4,
-    'red',
-  ),
+  // seriesInstance(
+  //   'Impermanent Loss',
+  //   'line',
+  //   dataImpermanentLosses.value,
+  //   4,
+  //   'red',
+  // ),
   seriesInstance('Profits', 'bar', dataProfits.value, 2, '#00FF75'),
   seriesInstance('TVL', 'line', dataTVL.value, 0, '#F07E07'),
 ])
@@ -630,10 +621,10 @@ const optionObj = ref({
         },
       },
     },
-    yAxisInstance('Volume', width.value > 768 ? showVolume : false,  0, '#FA5173'),
+    yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
     yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, currentVersion.value === 'pro' ? 60 : 0, '#01B47E'),
     yAxisInstance('Trades / Gas Fees', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance(currentVersion.value === 'pro' ? 'APR / Volatility Index / Impermanent Loss' : 'APR', width.value > 768 ? showAPRVolatility : false, currentVersion.value === 'pro' ? 180 : 60, '#FFD700'),
+    yAxisInstance(currentVersion.value === 'pro' ? 'APR / Volatility Index' : 'APR', width.value > 768 ? showAPRVolatility : false, currentVersion.value === 'pro' ? 180 : 60, '#FFD700'),
   ],
   grid: [
     {
@@ -654,7 +645,7 @@ const optionObj = ref({
       show: true,
       xAxisIndex: 0,
       type: 'slider',
-      bottom:  width.value > 768 ? 70 : 90,
+      bottom: width.value > 768 ? 70 : 90,
       start: 0,
       end: 100,
       selectedDataBackground: {
@@ -718,7 +709,7 @@ function getFilteredData() {
       d.Blockchain == '',
   )
   let timestamps = chart_data.map((v) => v.timestamp)
-  let indexes = TimelineFilters[currentTimeline.value.name](timestamps,chart_data.map((v) => v.Date))
+  let indexes = TimelineFilters[currentTimeline.value.name](timestamps, chart_data.map((v) => v.Date))
   indexes = indexes.sort((a, b) => a - b)
   let selectedFilters = preFiltersList.value.filter((v) => v.selected)
   let selectedCumulableCodes = selectedFilters
@@ -763,13 +754,13 @@ function getFilteredData() {
           }
         }
         if (filter_code == 'Average APR') {
-        //   console.log('result_item[filter_code]', result_item[filter_code])
-        //  if(result_item[filter_code] === undefined) {
-        //   result_item[filter_code] = 0
-        //  }else {
-        //   result_item[filter_code] = result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
-        //  }
-          result_item[filter_code] = result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
+          //   console.log('result_item[filter_code]', result_item[filter_code])
+          //  if(result_item[filter_code] === undefined) {
+          //   result_item[filter_code] = 0
+          //  }else {
+          //   result_item[filter_code] = result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
+          //  }
+          result_item[filter_code] = CalculateAPR(item[`Profits${postfix.value}`], item[`TVL${postfix.value}`]['All Chains'], days_count[currentTimeline.value.name])
 
         }
         if (filter_code == 'Volatility Index' || filter_code == 'Impermanent Loss') {

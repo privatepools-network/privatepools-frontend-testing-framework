@@ -286,7 +286,7 @@
               </div>
             </div>
           </div>
-          <!-- <div class="details-el__col">
+          <div class="details-el__col">
             <div
               class="details-el__title d-flex gap-1 align-items-center blue w-fit px-2 py-1 rounded font-['Syne',_sans-serif] bg-[#DCEEF60D]"
             >
@@ -298,7 +298,7 @@
               class="d-flex align-items-end justify-content-between mt-4 gap-3"
             >
               <div class="d-flex flex-column gap-2">
-                <div class="text-[18px] font-[700]">$253.45</div>
+                <div class="text-[18px] font-[700]">${{ total_rewards.toFixed(5) }}</div>
               </div>
               <div
                 class="actions_button text-black dark:!text-white"
@@ -313,7 +313,7 @@
                 {{ $t('Compound') }}
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </CCollapse>
@@ -354,7 +354,7 @@ const isDark = useDark()
 
 const props = defineProps({
   pool: Object,
-  index: Number,
+  index: String,
   inactive: Boolean,
   isActions: Boolean,
   userPools: [],

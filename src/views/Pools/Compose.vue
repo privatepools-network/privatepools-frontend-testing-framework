@@ -184,6 +184,36 @@
               )
                 " />
             </CProgress>
+            <hr class="my-3" />
+            <div>
+              <div class="compose_text dark:!text-white text-black mb-1 flex gap-1 items-center">
+                Choose Pool Name
+                <VTooltip :distance="0" :placement="'top'">
+                  <div style="cursor: help">
+                    <svg width="12" height="12" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M4.95 8.25H6.05V4.95H4.95V8.25ZM5.5 3.85C5.65583 3.85 5.78655 3.7972 5.89215 3.6916C5.99775 3.586 6.05036 3.45547 6.05 3.3C6.04963 3.14453 5.99683 3.014 5.8916 2.9084C5.78636 2.8028 5.65583 2.75 5.5 2.75C5.34416 2.75 5.21363 2.8028 5.1084 2.9084C5.00316 3.014 4.95036 3.14453 4.95 3.3C4.94963 3.45547 5.00243 3.58618 5.1084 3.69215C5.21436 3.79812 5.3449 3.85073 5.5 3.85ZM5.5 11C4.73916 11 4.02417 10.8555 3.355 10.5666C2.68583 10.2777 2.10375 9.88588 1.60875 9.39125C1.11375 8.89661 0.721967 8.31453 0.4334 7.645C0.144834 6.97546 0.000367363 6.26046 6.96202e-07 5.5C-0.00036597 4.73953 0.144101 4.02453 0.4334 3.355C0.7227 2.68547 1.11448 2.10338 1.60875 1.60875C2.10302 1.11412 2.6851 0.722333 3.355 0.4334C4.0249 0.144467 4.7399 0 5.5 0C6.2601 0 6.9751 0.144467 7.645 0.4334C8.31489 0.722333 8.89698 1.11412 9.39125 1.60875C9.88551 2.10338 10.2775 2.68547 10.5671 3.355C10.8568 4.02453 11.0011 4.73953 11 5.5C10.9989 6.26046 10.8544 6.97546 10.5666 7.645C10.2788 8.31453 9.88698 8.89661 9.39125 9.39125C8.89551 9.88588 8.31343 10.2778 7.645 10.5671C6.97656 10.8564 6.26156 11.0007 5.5 11ZM5.5 9.9C6.72833 9.9 7.76875 9.47375 8.62124 8.62125C9.47374 7.76875 9.89999 6.72833 9.89999 5.5C9.89999 4.27167 9.47374 3.23125 8.62124 2.37875C7.76875 1.52625 6.72833 1.1 5.5 1.1C4.27166 1.1 3.23125 1.52625 2.37875 2.37875C1.52625 3.23125 1.1 4.27167 1.1 5.5C1.1 6.72833 1.52625 7.76875 2.37875 8.62125C3.23125 9.47375 4.27166 9.9 5.5 9.9Z"
+                        fill="#F8F8F8" />
+                    </svg>
+                  </div>
+                  <template #popper>
+                    <div class="tooltip_container">
+                      <div style="font-size: clamp(10px, 0.9vw, 16px)">
+                        {{ $t('information') }}
+                      </div>
+                      <div class="tooltip_container_text">
+                        When creating a pool, please choose a name that does not
+                        include offensive language. Pools with inappropriate
+                        names may be blacklisted.
+                      </div>
+                    </div>
+                  </template>
+                </VTooltip>
+              </div>
+              <input placeholder="My pool name"
+                class="compose_text !outline-none compose_choose_inner_container bg-[#DCEEF605] focus:ring-blue-500 text-white focus:border-blue-500"
+                v-model="poolName" />
+            </div>
           </div>
 
           <div v-if="activeStep === 4"
@@ -352,9 +382,10 @@
                     </div>
                     <div class="d-flex gap-1">
                       {{
-                        tokensData
-                          .map((t) => `${t.weight}${t.symbol}`)
-                          .join('-')
+                        // tokensData
+                        // .map((t) => `${t.weight}${t.symbol}`)
+                        // .join('-')
+                        poolName
                       }}
                     </div>
                   </div>
@@ -398,9 +429,9 @@
               <VTooltip :distance="0" :placement="'top'">
                 <Step :activeStep="activeStep - 1" :displayedActiveStep="1" :mmActive="mmActive" :stepText="'Create'" />
                 <template #popper>
-                  <div class="tooltip_container">
+                  <div class="tooltip_container !w-[300px]">
                     <div class="tooltip_container_text">
-                      {{ $t('you_must_approve_to_add_tokens') }}
+                      {{ $t('Sign a transaction to authorize the creation of a new liquidity pool') }}
                     </div>
                   </div>
                 </template>
@@ -409,15 +440,50 @@
                 <ProgressLoader v-if="mmActive && activeStep === 2" />
                 <span v-else class="progress_loader_still"></span>
               </div>
-              <Step :activeStep="activeStep - 1" :displayedActiveStep="2" :mmActive="mmActive"
-                :stepText="hasBNB ? 'Approve & Wrap' : 'Approve'" v-if="!tokensApproved" />
-              <Step :activeStep="activeStep - 1" :displayedActiveStep="1" :mmActive="mmActive"
-                :stepText="hasBNB ? 'Approve & Wrap' : 'Approve'" v-else />
+
+              <VTooltip v-if="!tokensApproved" :distance="0" :placement="'top'">
+                <Step :activeStep="activeStep - 1" :displayedActiveStep="2" :mmActive="mmActive"
+                  :stepText="hasBNB ? 'Approve & Wrap' : 'Approve'" />
+                <template #popper>
+                  <div class="tooltip_container !w-fit">
+                    <div class="tooltip_container_text">
+                      {{
+                        $t('Approve the use of all desired tokens in the pool')
+                      }}
+                    </div>
+                  </div>
+                </template>
+              </VTooltip>
+
+              <VTooltip v-else :distance="0" :placement="'top'">
+                <Step :activeStep="activeStep - 1" :displayedActiveStep="1" :mmActive="mmActive"
+                  :stepText="hasBNB ? 'Approve & Wrap' : 'Approve'" />
+                <template #popper>
+                  <div class="tooltip_container !w-fit">
+                    <div class="tooltip_container_text">
+                      {{
+                        $t('Approve the use of all desired tokens in the pool')
+                      }}
+                    </div>
+                  </div>
+                </template>
+              </VTooltip>
               <div class="w-12 mt-1">
                 <ProgressLoader v-if="mmActive && activeStep === 3" />
                 <span v-else class="progress_loader_still"></span>
               </div>
-              <Step :activeStep="activeStep - 1" :displayedActiveStep="3" :mmActive="mmActive" :stepText="'Deposit'" />
+
+              <VTooltip :distance="0" :placement="'top'">
+                <Step :activeStep="activeStep - 1" :displayedActiveStep="3" :mmActive="mmActive"
+                  :stepText="'Deposit'" />
+                <template #popper>
+                  <div class="tooltip_container !w-fit">
+                    <div class="tooltip_container_text">
+                      {{ $t('Confirm the amount of liquidity to add.') }}
+                    </div>
+                  </div>
+                </template>
+              </VTooltip>
             </div>
           </div>
 
@@ -431,7 +497,9 @@
           <div class="compose_pool_connect_wallet" v-else-if="activeStep === 3" @click="JoinNewPool">
             {{
               mmActive
-                ? !tokensApproved ? 'Approving...' : 'Depositing liquidity'
+                ? !tokensApproved
+                  ? 'Approving...'
+                  : 'Depositing liquidity'
                 : $t('approve_tokens_for_adding')
             }}
             <span v-if="mmActive" class="button_loader pl-2"></span>
@@ -601,7 +669,7 @@ import ConfettiExplosion from 'vue-confetti-explosion'
 import { useSound } from '@vueuse/sound'
 import successSound from '@/assets/sounds/success_sound.mp3'
 import errorSound from '@/assets/sounds/error_sound.mp3'
-
+import { addPoolName } from "@/composables/pools/usePoolName"
 const playSuccess = useSound(successSound, { volume: 1 })
 const playError = useSound(errorSound, { volume: 1 })
 //import { InitBalancer } from '@/composables/math/withdrawMath/balancer.sdk';
@@ -619,6 +687,7 @@ const autoOptimizeLiq = ref(true)
 const mmActive = ref(false)
 const visibleNetworkModal = ref(false)
 const activeStep = ref(1)
+const poolName = ref('')
 
 const tokensApproved = ref(false)
 
@@ -706,32 +775,32 @@ async function onUpdateTokenPriceSet(token) {
     price:
       token.price > 0 ? token.price : await getSinglePrice(56, token.symbol),
   }
-  let provider = await InitializeMetamask()
-  let account = await provider.getSigner().getAddress()
-  let address = token.address
-  let { balance, decimals } = await useBalanceInfo(address, provider, account)
-  tokensData.value[tokenSelectIndex.value].balance = balance
-  tokensData.value[tokenSelectIndex.value].decimals = decimals
+  //  let provider = await InitializeMetamask()
+  // let account = await provider.getSigner().getAddress()
+  //let address = token.address
+  //let { balance, decimals } = await useBalanceInfo(address, provider, account)
+  //tokensData.value[tokenSelectIndex.value].balance = balance
+  // tokensData.value[tokenSelectIndex.value].decimals = decimals
 }
 
 async function onAddTokenPriceSet() {
-
   tokensData.value.push({
     ...notSelectedPossibleComposeTokens.value[0],
     weight: 0,
     price:
       notSelectedPossibleComposeTokens.value[0].price > 0
         ? notSelectedPossibleComposeTokens.value[0].price
-        : await getSinglePrice(56,
+        : await getSinglePrice(
+          56,
           notSelectedPossibleComposeTokens.value[0].symbol,
         ),
   })
-  let provider = await InitializeMetamask()
-  let account = await provider.getSigner().getAddress()
-  let address = notSelectedPossibleComposeTokens.value[0].address
-  let { balance, decimals } = await useBalanceInfo(address, provider, account)
-  tokensData.value[tokensData.value.length - 1].balance = balance
-  tokensData.value[tokensData.value.length - 1].decimals = decimals
+  // let provider = await InitializeMetamask()
+  // let account = await provider.getSigner().getAddress()
+  // let address = notSelectedPossibleComposeTokens.value[0].address
+  // let { balance, decimals } = await useBalanceInfo(address, provider, account)
+  // tokensData.value[tokensData.value.length - 1].balance = balance
+  // tokensData.value[tokensData.value.length - 1].decimals = decimals
 }
 
 function SetErrorTxPopup(subtext) {
@@ -949,29 +1018,11 @@ function RemainingBalance(token, index) {
 
 const hasBNB = ref(false)
 
-
 async function onStep1Click() {
   console.log('areWeightSmallerThanZero', areWeightSmallerThanZero.value)
 
   hasBNB.value = tokensData.value.some((asset) => asset.symbol === 'BNB')
   console.log('hasBNB', hasBNB.value)
-
-  if (hasBNB.value) {
-    toast(Toast, {
-      closeOnClick: true,
-      theme: 'dark',
-      type: 'info',
-      autoClose: 5000,
-      closeButton: true,
-      position: toast.POSITION.TOP_RIGHT,
-      data: {
-        header_text: 'BNB will be Wrapped to WBNB!',
-        toast_text: 'You choose BNB as one of pool tokens to add this we will wrapped needed amount to WBNB on approve step',
-        tx_link: '',
-        speedUp: '',
-      },
-    })
-  }
 
   if (!isPoolReady.value) {
     if (summarizedWeight.value !== 100) {
@@ -1020,12 +1071,59 @@ async function onStep1Click() {
         speedUp: '',
       },
     })
+  } else if (poolName.value === '') {
+    toast(Toast, {
+      closeOnClick: true,
+      theme: 'dark',
+      type: 'warning',
+      autoClose: 5000,
+      closeButton: true,
+      position: toast.POSITION.TOP_RIGHT,
+      data: {
+        header_text: 'Missing Pool Name',
+        toast_text: 'Pool name missing...',
+        tx_link: '',
+        speedUp: '',
+      },
+    })
+  } else if (poolName.value.length > 16) {
+    toast(Toast, {
+      closeOnClick: true,
+      theme: 'dark',
+      type: 'warning',
+      autoClose: 5000,
+      closeButton: true,
+      position: toast.POSITION.TOP_RIGHT,
+      data: {
+        header_text: 'Pool Name too big',
+        toast_text: `Pool name can't be more than 16 symbols`,
+        tx_link: '',
+        speedUp: '',
+      },
+    })
   } else {
     if (account.value == '') {
       account.value = await (await InitializeMetamask())
         .getSigner()
         .getAddress()
     } else {
+      if (hasBNB.value) {
+        toast(Toast, {
+          closeOnClick: true,
+          theme: 'dark',
+          type: 'info',
+          autoClose: 5000,
+          closeButton: true,
+          position: toast.POSITION.TOP_RIGHT,
+          data: {
+            header_text: 'BNB will be Wrapped to WBNB!',
+            toast_text:
+              'You choose BNB as one of pool tokens to add this we will wrapped needed amount to WBNB on approve step',
+            tx_link: '',
+            speedUp: '',
+          },
+        })
+      }
       activeStep.value = 2
     }
   }
@@ -1068,12 +1166,14 @@ async function CreateNewPool() {
     let receipt = await provider.getTransactionReceipt(tx.hash)
     const { poolId: _poolId } =
       await poolCreateService.getPoolDataFromTransaction(provider, receipt)
+    await addPoolName(networkId.value, _poolId, account.value, poolName.value)
     SetSuccessTxPopup(tx.hash, 'Pool successfully created')
     createdPoolId.value = _poolId
     poolCreationLink.value = `${configService.getNetworkConfig(networkId.value).explorer
       }/tx/${tx.hash}`
     lineNumbers.value = tokensData.value.map(() => 0)
     console.log('CREATED POOL', _poolId)
+
     playSuccess.play()
     toast.update(CreateNewPoolPending, {
       render: Toast,
@@ -1116,6 +1216,11 @@ async function CreateNewPool() {
   console.log('CREATE RESULT - ', tx)
   mmActive.value = false
 }
+
+async function nameNewPool() {
+
+}
+
 
 async function JoinNewPool() {
   mmActive.value = true

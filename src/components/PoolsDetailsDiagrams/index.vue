@@ -2,30 +2,19 @@
   <CContainer class="diagrams-container">
     <CRow class="diagram-row !mx-0">
       <CCol xl="4" class="md:mb-0 mb-4">
-        <div
-          v-if="
-            assetsPerformanceData[assetsPerformanceRangeOption] &&
-            assetsPerformanceTimestamps[assetsPerformanceRangeOption]
-          "
-          class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
-        >
-          <div
-            class="d-flex justify-content-between text-black dark:!text-white"
-          >
+        <div v-if="
+          assetsPerformanceData[assetsPerformanceRangeOption] &&
+          assetsPerformanceTimestamps[assetsPerformanceRangeOption]
+        " class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]">
+          <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">
                 {{ $t('Assets Performance') }}
               </div>
               <VTooltip :distance="0" :placement="'top'">
                 <div style="cursor: help">
-                  <svg
-                    class="info_icon"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                  <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -36,9 +25,7 @@
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                      class="dark:!fill-white fill-black"
-                    />
+        12 20Z" class="dark:!fill-white fill-black" />
                   </svg>
                 </div>
                 <template #popper>
@@ -59,36 +46,24 @@
               </VTooltip>
             </div>
             <div class="d-flex gap-2">
-              <div
-                style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)"
-                class="text-black dark:!text-white"
+              <div style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)" class="text-black dark:!text-white"
                 :style="{
                   color:
                     opt == assetsPerformanceRangeOption
                       ? '#00C9FF !important'
                       : '',
-                }"
-                v-for="opt in advancedRangeOptions"
-                :key="`trade-${opt}-range-option`"
-                @click="assetsPerformanceRangeOption = opt"
-              >
+                }" v-for="opt in advancedRangeOptions" :key="`trade-${opt}-range-option`"
+                @click="assetsPerformanceRangeOption = opt">
                 {{ opt }}
               </div>
             </div>
           </div>
 
           <div>
-            <apexchart
-              :options="chartOptions0"
-              :series="assetsPerformanceData[assetsPerformanceRangeOption]"
-            />
+            <apexchart :options="chartOptions0" :series="assetsPerformanceData[assetsPerformanceRangeOption]" />
           </div>
         </div>
-        <div
-          v-else
-          style="height: 350px"
-          class="chart_card dark:!bg-[#22222224] !bg-[white]"
-        >
+        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
           <LoaderPulse />
         </div>
       </CCol>
@@ -199,27 +174,16 @@ class="tooltip_container"
         </div>
       </CCol> -->
       <CCol xl="4" class="md:mb-0 mb-4">
-        <div
-          v-if="
-            tradesData[tradeRangeOption] && tradesTimestamps[tradeRangeOption]
-          "
-          class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
-        >
-          <div
-            class="d-flex justify-content-between text-black dark:!text-white"
-          >
+        <div v-if="
+          tradesData[tradeRangeOption] && tradesTimestamps[tradeRangeOption]
+        " class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]">
+          <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">{{ $t('trades') }}</div>
               <VTooltip :distance="0" :placement="'top'">
                 <div style="cursor: help">
-                  <svg
-                    class="info_icon"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                  <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -230,9 +194,7 @@ class="tooltip_container"
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                      class="dark:!fill-white fill-black"
-                    />
+        12 20Z" class="dark:!fill-white fill-black" />
                   </svg>
                 </div>
                 <template #popper>
@@ -254,16 +216,10 @@ class="tooltip_container"
             </div>
             <div class="d-flex gap-3">
               <div class="d-flex gap-2">
-                <div
-                  style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)"
-                  class="text-black dark:!text-white"
+                <div style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)" class="text-black dark:!text-white"
                   :style="{
                     color: opt == tradeRangeOption ? '#00C9FF !important' : '',
-                  }"
-                  v-for="opt in rangeOptions"
-                  :key="`trade-${opt}-range-option`"
-                  @click="tradeRangeOption = opt"
-                >
+                  }" v-for="opt in rangeOptions" :key="`trade-${opt}-range-option`" @click="tradeRangeOption = opt">
                   {{ opt }}
                 </div>
               </div>
@@ -301,54 +257,32 @@ class="tooltip_container"
           </div>
 
           <div>
-            <apexchart
-              :options="chartOptions1"
-              :series="[
-                {
-                  name: 'Trades',
-                  data: tradesData[tradeRangeOption],
-                },
-              ]"
-            />
+            <apexchart :options="chartOptions1" :series="[
+              {
+                name: 'Trades',
+                data: tradesData[tradeRangeOption],
+              },
+            ]" />
           </div>
         </div>
-        <div
-          v-else
-          style="height: 350px"
-          class="chart_card dark:!bg-[#22222224] !bg-[white]"
-        >
+        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
           <LoaderPulse />
         </div>
       </CCol>
 
-      <CCol
-        xl="4"
-        class="md:mb-0 mb-4"
-        v-if="router.currentRoute.value.path.includes('CLdetails')"
-      >
-        <div
-          v-if="
-            profitsData[profitRangeOption] &&
-            profitsTimestamps[profitRangeOption]
-          "
-          class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
-        >
-          <div
-            class="d-flex justify-content-between text-black dark:!text-white"
-          >
+      <CCol xl="4" class="md:mb-0 mb-4" v-if="router.currentRoute.value.path.includes('CLdetails')">
+        <div v-if="
+          profitsData[profitRangeOption] &&
+          profitsTimestamps[profitRangeOption]
+        " class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]">
+          <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">{{ $t('ranges_traded') }}</div>
 
               <VTooltip :distance="0" :placement="'top'">
                 <div style="cursor: help">
-                  <svg
-                    class="info_icon"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                  <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -359,9 +293,7 @@ class="tooltip_container"
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                      class="dark:!fill-white fill-black"
-                    />
+        12 20Z" class="dark:!fill-white fill-black" />
                   </svg>
                 </div>
                 <template #popper>
@@ -382,65 +314,41 @@ class="tooltip_container"
               </VTooltip>
             </div>
             <div class="d-flex gap-3">
-              <div
-                style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)"
-                class="text-black dark:!text-white"
+              <div style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)" class="text-black dark:!text-white"
                 :style="{
                   color: opt == profitRangeOption ? '#00C9FF !important' : '',
-                }"
-                v-for="opt in rangeOptions"
-                :key="`trade-${opt}-range-option`"
-                @click="profitRangeOption = opt"
-              >
+                }" v-for="opt in rangeOptions" :key="`trade-${opt}-range-option`" @click="profitRangeOption = opt">
                 {{ opt }}
               </div>
             </div>
           </div>
 
           <div>
-            <apexchart
-              :options="chartOptionsCLPool2"
-              :series="[
-                {
-                  name: 'Range',
-                  data: [1, 2, 3, 4, 5, 4],
-                },
-              ]"
-            />
+            <apexchart :options="chartOptionsCLPool2" :series="[
+              {
+                name: 'Range',
+                data: [1, 2, 3, 4, 5, 4],
+              },
+            ]" />
           </div>
         </div>
-        <div
-          v-else
-          style="height: 350px"
-          class="chart_card dark:!bg-[#22222224] !bg-[white]"
-        >
+        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
           <LoaderPulse />
         </div>
       </CCol>
       <CCol v-else class="md:mb-0 mb-4" xl="4">
-        <div
-          v-if="
-            profitsData[profitRangeOption] &&
-            profitsTimestamps[profitRangeOption]
-          "
-          class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]"
-        >
-          <div
-            class="d-flex justify-content-between text-black dark:!text-white"
-          >
+        <div v-if="
+          profitsData[profitRangeOption] &&
+          profitsTimestamps[profitRangeOption]
+        " class="d-flex flex-column gap-2 chart_card dark:!bg-[#22222224] !bg-[white]">
+          <div class="d-flex justify-content-between text-black dark:!text-white">
             <div class="d-flex align-items-center gap-2">
               <div class="diagrams_title">{{ $t('profit_generated') }}</div>
 
               <VTooltip :distance="0" :placement="'top'">
                 <div style="cursor: help">
-                  <svg
-                    class="info_icon"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
+                  <svg class="info_icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C13 7.71667
         12.904 7.479 12.712 7.287C12.52 7.095 12.2827 6.99933 12 7C11.7167 7 11.479 7.096 11.287 7.288C11.095 7.48
         10.9993 7.71733 11 8C11 8.28333 11.096 8.521 11.288 8.713C11.48 8.905 11.7173 9.00067 12 9ZM12 22C10.6167 22
         9.31667 21.7373 8.1 21.212C6.88333 20.6867 5.825 19.9743 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788
@@ -451,9 +359,7 @@ class="tooltip_container"
         19.975 17.1167 20.6877 15.9 21.213C14.6833 21.7383 13.3833 22.0007 12 22ZM12 20C14.2333 20 16.125 19.225 17.675
         17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4
         7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20
-        12 20Z"
-                      class="dark:!fill-white fill-black"
-                    />
+        12 20Z" class="dark:!fill-white fill-black" />
                   </svg>
                 </div>
                 <template #popper>
@@ -474,38 +380,25 @@ class="tooltip_container"
               </VTooltip>
             </div>
             <div class="d-flex gap-3">
-              <div
-                style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)"
-                class="text-black dark:!text-white"
+              <div style="cursor: pointer; font-size: clamp(10px, 0.8vw, 14px)" class="text-black dark:!text-white"
                 :style="{
                   color: opt == profitRangeOption ? '#00C9FF !important' : '',
-                }"
-                v-for="opt in rangeOptions"
-                :key="`trade-${opt}-range-option`"
-                @click="profitRangeOption = opt"
-              >
+                }" v-for="opt in rangeOptions" :key="`trade-${opt}-range-option`" @click="profitRangeOption = opt">
                 {{ opt }}
               </div>
             </div>
           </div>
 
           <div>
-            <apexchart
-              :options="chartOptions2"
-              :series="[
-                {
-                  name: 'Net Profit',
-                  data: profitsData[profitRangeOption],
-                },
-              ]"
-            />
+            <apexchart :options="chartOptions2" :series="[
+              {
+                name: 'Net Profit',
+                data: profitsData[profitRangeOption],
+              },
+            ]" />
           </div>
         </div>
-        <div
-          v-else
-          style="height: 350px"
-          class="chart_card dark:!bg-[#22222224] !bg-[white]"
-        >
+        <div v-else style="height: 350px" class="chart_card dark:!bg-[#22222224] !bg-[white]">
           <LoaderPulse />
         </div>
       </CCol>
@@ -519,6 +412,7 @@ import LoaderPulse from '@/components/loaders/LoaderPulse.vue'
 import { formatBigNumber } from '@/lib/utils/index'
 import { getTokenEntity } from '@/lib/helpers/util'
 import router from '@/router'
+import wl_tokens from '../../assets/wl/tokenslist.json'
 
 const props = defineProps([
   'tradesData',
@@ -628,10 +522,9 @@ const chartOptions0 = computed(() => {
       tooltipHoverFormatter: function (val, opts) {
         return (
           val +
-          ` ${
-            assetsPerformanceData.value[
-              `${assetsPerformanceRangeOption.value}_tokens`
-            ][opts.seriesIndex].data[opts.dataPointIndex]
+          ` ${assetsPerformanceData.value[
+            `${assetsPerformanceRangeOption.value}_tokens`
+          ][opts.seriesIndex].data[opts.dataPointIndex]
           } ` +
           ' - ' +
           opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
@@ -686,11 +579,10 @@ const chartOptions0 = computed(() => {
       confine: true,
       y: {
         formatter: (val, opt) => {
-          return `${props.symbol}${val} (${
-            assetsPerformanceData.value[
-              `${assetsPerformanceRangeOption.value}_tokens`
-            ][opt.seriesIndex].data[opt.dataPointIndex]
-          }  )`
+          return `${props.symbol}${val} (${assetsPerformanceData.value[
+            `${assetsPerformanceRangeOption.value}_tokens`
+          ][opt.seriesIndex].data[opt.dataPointIndex]
+            }  )`
 
           // <img src="${
           //   getTokenEntity(
@@ -947,23 +839,25 @@ const chartOptions2 = computed(() => {
         formatter: (val, opt) => {
           let items =
             profitsData.value[`${profitRangeOption.value}_tokens`][
-              opt.dataPointIndex
+            opt.dataPointIndex
             ]
           let result_str = ''
           console.log(items)
           let results = {}
           for (let i = 0; i < items.length; i++) {
             let item = items[i]
-            let symbol = tokens.value.find(
-              (t) => t.address == item.token.toLowerCase(),
-            ).symbol
-            if (!results[symbol]) results[symbol] = 0
-            results[symbol] += item.value
+            let symbol = wl_tokens[item.token.toLowerCase()]
+            if (symbol) {
+              if (!results[symbol]) {
+                results[symbol] = 0
+              }
+              results[symbol] += item.value
+            }
           }
           for (const [key, value] of Object.entries(results)) {
             result_str += `<div style="display:flex; gap:5px">${key} 
               <img src=${getTokenEntity(key, 'short').icon} width="20" height="20"/> 
-            ${formatBigNumber(value, 3)}</div> <br>`
+            ${formatBigNumber(value, 5)}</div> <br>`
           }
           return `<div style="margin-left:-60px;">${result_str}</div> <br> ${props.symbol}${val}`
         },

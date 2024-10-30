@@ -4,7 +4,7 @@
       :chart_data="all_chart_data" :tokenPrices="poolTokenPrices" :currencySelected="currencySelected"
       :cryptocomparePrices="tokenPrices" :swapsData="swapsData" :pool="pool"
       :historical_tvl="FormatHistoricalTvl(historical_tvl)" :chainSelected="chainSelectedName"
-      :userBalance="userBalance" :rewardsData="rewardsData"/>
+      :userBalance="userBalance" :rewardsData="rewardsData" :chartData="filteredData" />
 
     <div class="track_chart_card bg-white dark:!bg-[#22222224]">
       <div v-if="dataRevenues.length == 0" class="chart_inside">
@@ -13,8 +13,8 @@
       <div v-else-if="
         dataRevenues.length > 0 && selectedOverallTab === t('overall_view')
       " class="chart_inside">
-        <ChartTimeline :chartData="filteredData" :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
-          @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
+        <ChartTimeline :chartData="filteredData" :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline"
+          :timelines="timelines" @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
         <img :src="logo" alt="D3" class="chart-logo" height="40px" />
         <VChart ref="chart" class="chart mt-4" :option="optionObj" @legendselectchanged="legendSelectedChange"
           :autoresize="true" :notMerge="true" :lazyUpdate="true" :silent="true" />
@@ -76,10 +76,7 @@ import {
   stringToColor,
 } from '@/lib/utils'
 import {
-  CalculateAvgApr,
-  CalculateVolatilityIndex,
-  CalculateSharpeRatio,
-  CalculateSortinoRatio,
+  CalculateAPR
 } from '@/composables/math/chartMath/trackingInfoMath.js'
 import { InitTreasuryYields } from '@/composables/api/useTreasuryYields'
 import { addEmptyDays } from '@/lib/formatter/chart/chartFormatter'
@@ -148,7 +145,7 @@ const filteredData = computed(() =>
 const preFiltersList = computed(() =>
   props.selectedOverallTab === t('overall_view')
     ? [
-    {
+      {
         title: 'TVL',
         code: 'TVL',
         isSolo: true,
@@ -239,7 +236,7 @@ const preFiltersList = computed(() =>
         selected: true,
         cumulable: true,
       },
-   
+
 
       {
         title: 'Average APR',
@@ -277,13 +274,13 @@ const preFiltersList = computed(() =>
         selected: currentVersion.value === 'pro' ? true : false,
         cumulable: false,
       },
-      {
-        title: 'Impermanent Loss',
-        code: 'Impermanent Loss',
-        isSolo: true,
-        selected: currentVersion.value === 'pro' ? true : false,
-        cumulable: false,
-      },
+      // {
+      //   title: 'Impermanent Loss',
+      //   code: 'Impermanent Loss',
+      //   isSolo: true,
+      //   selected: currentVersion.value === 'pro' ? true : false,
+      //   cumulable: false,
+      // },
     ]
     : [
       {
@@ -407,7 +404,7 @@ const preFiltersList = computed(() =>
         selected: true,
         cumulable: false,
       },
-     
+
       {
         title: 'Volatility Index',
         code: 'Volatility Index',
@@ -415,14 +412,14 @@ const preFiltersList = computed(() =>
         selected: currentVersion.value === 'pro' ? true : false,
         cumulable: false,
       },
-      {
-        title: 'Impermanent Loss',
-        code: 'Impermanent Loss',
-        isSolo: true,
-        selected: currentVersion.value === 'pro' ? true : false,
-        cumulable: false,
-      },
-      
+      // {
+      //   title: 'Impermanent Loss',
+      //   code: 'Impermanent Loss',
+      //   isSolo: true,
+      //   selected: currentVersion.value === 'pro' ? true : false,
+      //   cumulable: false,
+      // },
+
     ],
 )
 console.log('currentVersion', currentVersion.value)
@@ -436,7 +433,7 @@ const filters = ref(currentVersion.value === 'pro' ? {
   Volume: false,
   ['Capital Gains']: false,
   ['Volatility Index']: false,
-  ['Impermanent Loss']: false,
+  // ['Impermanent Loss']: false,
   // ['PNL']: true,
   // ['ROI']: true,
   // ['Token Incentives']: true,
@@ -444,16 +441,16 @@ const filters = ref(currentVersion.value === 'pro' ? {
   // ['Rewards']: true,
   // ['Staked Liquidity']: true,
 } :
-{
-  TVL: true,
-  ['Average APR']: true,
-  ['Profits']: true,
-  ['Trades']: true,
-  Revenue: false,
-  ['Gas Fees']: false,
-  Volume: false,
+  {
+    TVL: true,
+    ['Average APR']: true,
+    ['Profits']: true,
+    ['Trades']: true,
+    Revenue: false,
+    ['Gas Fees']: false,
+    Volume: false,
 
-}
+  }
 )
 // const assets = computed(() =>
 //   pool.value ? Array.from(new Set(pool.value.tokens.map((t) => t.symbol))) : [],
@@ -461,9 +458,9 @@ const filters = ref(currentVersion.value === 'pro' ? {
 
 
 const days_count = {
-  [t('daily')]:1,
-  [t('weekly')]:7,
-  [t('monthly')]:30,
+  [t('daily')]: 1,
+  [t('weekly')]: 7,
+  [t('monthly')]: 30,
 }
 
 const timelines = [
@@ -529,11 +526,11 @@ const dataVolatilityIndexes = computed(() => {
     return filteredData.value.map((v) => v['Volatility Index'])
   return []
 })
-const dataImpermanentLosses = computed(() => {
-  if (preFiltersList.value.find((f) => f.code == 'Impermanent Loss').selected)
-    return filteredData.value.map((v) => v['Impermanent Loss'])
-  return []
-})
+// const dataImpermanentLosses = computed(() => {
+//   if (preFiltersList.value.find((f) => f.code == 'Impermanent Loss').selected)
+//     return filteredData.value.map((v) => v['Impermanent Loss'])
+//   return []
+// })
 
 const dataTVL = computed(() => {
   if (filteredData.value.length > 0 && filteredData.value[0].TVL)
@@ -640,7 +637,7 @@ function seriesInstance(name, type, data, yAxisIndex, color) {
       shadowColor: color,
       shadowBlur: 10,
       color: color,
-      symbol: 'circle', 
+      symbol: 'circle',
       symbolSize: 8
     },
     emphasis: {
@@ -686,7 +683,7 @@ function legendSelectedChange(e) {
   if (e.name === 'Average APR' || e.name === 'Volatility Index' || e.name === "Impermanent Loss") {
     if (
       currentVersion.value === 'pro' ? e.selected['Average APR'] === false &&
-      e.selected['Volatility Index'] === false && e.selected['Impermanent Loss'] === false : e.selected['Average APR'] === false
+        e.selected['Volatility Index'] === false && e.selected['Impermanent Loss'] === false : e.selected['Average APR'] === false
     ) {
       showAPRVolatility.value = false
     } else if (
@@ -738,13 +735,13 @@ const series = computed(() => [
     4,
     '#FFC374',
   ),
-  seriesInstance(
-    'Impermanent Loss',
-    'line',
-    dataImpermanentLosses.value,
-    4,
-    'red',
-  ),
+  // seriesInstance(
+  //   'Impermanent Loss',
+  //   'line',
+  //   dataImpermanentLosses.value,
+  //   4,
+  //   'red',
+  // ),
   seriesInstance('Profits', 'bar', dataProfits.value, 2, '#00FF75'),
   seriesInstance('TVL', 'line', dataTVL.value, 0, '#F07E07'),
 ])
@@ -829,7 +826,7 @@ const optionObj = ref({
     yAxisInstance('Volume', width.value > 768 ? showVolume : false, 0, '#FA5173'),
     yAxisInstance('Revenue / Profits', width.value > 768 ? showRevenueProfits : false, 60, '#01B47E'),
     yAxisInstance('Trades / Gas Fees', width.value > 768 ? showTradesGasFees : false, 120, '#77aaff'),
-    yAxisInstance(currentVersion.value === 'pro' ? 'APR / Volatility Index / Impermanent Loss' : 'APR', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
+    yAxisInstance(currentVersion.value === 'pro' ? 'APR / Volatility Index' : 'APR', width.value > 768 ? showAPRVolatility : false, 180, '#FFD700'),
   ],
   grid: [
     {
@@ -979,7 +976,7 @@ function getFilteredData() {
         }
       }
       if (filter_code == 'Average APR') {
-        result_item[filter_code] = result_item[filter_code] = ((item[`Profits${postfix.value}`] / item[`TVL${postfix.value}`]['All Chains']) * (365 / days_count[currentTimeline.value.name])) * 100
+        result_item[filter_code] = CalculateAPR(item[`Profits${postfix.value}`], item[`TVL${postfix.value}`]['All Chains'], days_count[currentTimeline.value.name])
       }
       if (filter_code == 'Volatility Index' || filter_code == "Impermanent Loss") {
         result_item[filter_code] = item[filter_code]

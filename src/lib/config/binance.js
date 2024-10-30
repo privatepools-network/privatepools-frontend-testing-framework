@@ -67,6 +67,7 @@ export default {
     copperProxy: process.env.VUE_APP_COPPER_PROXY_BINANCE,
     rewards: process.env.VUE_APP_REWARDS_CONTRACT_BINANCE,
     zapper: process.env.VUE_APP_ZAP_CONTRACT_BINANCE,
+    compounder: process.env.VUE_APP_COMPOUNDER_CONTRACT_BINANCE,
     oneInchRouter: process.env.VUE_APP_1INCHROUTER_CONTRACT_BINANCE,
     oneInchExecutor: process.env.VUE_APP_1INCHEXECUTOR_CONTRACT_BINANCE,
   },

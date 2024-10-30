@@ -8,7 +8,7 @@ import { UNISWAP_PPN_HISTORY } from '../queries/external/uniswapPPNHistory'
 import useGraphQLQuery from '../useQuery'
 import { UNISWAP_SUBGRAPHS } from './constants'
 import { GetHistoricalTokenPrices } from '@/composables/balances/useHistoricalTokenPrices'
-import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
+import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementUtils'
 
 const PPN_POOLS = {
   56: '0x37db09f292929bcd05a50825bf91f64a26f36f1d',

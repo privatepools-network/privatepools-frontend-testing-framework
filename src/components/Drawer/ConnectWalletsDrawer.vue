@@ -22,76 +22,43 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import metamask from '@/assets/images/metamask.png'
-import { defineEmits, ref, onMounted } from 'vue'
+import { defineEmits, ref } from 'vue'
 import { setMetamaskProvider } from '@/composables/useMetamaskProvider'
 import { ethers } from "ethers";
 import { setNetworkId } from '@/composables/useNetwork';
-import { toast } from 'vue3-toastify'
-import Toast from '@/UI/Toast.vue'
 
-import 'vue3-toastify/dist/index.css'
 const emit = defineEmits(['toggleSettings', "toggleSidebar", 'setAddress'])
 
-
-const notify = (popupType, popupText, popupSubText) => {
-  toast(Toast, {
-    closeOnClick: true,
-    theme: 'dark',
-    type: popupType,
-    autoClose: 5000,
-    closeButton: true,
-    position: toast.POSITION.TOP_RIGHT,
-    data: {
-      header_text: popupText,
-      toast_text: popupSubText,
-    },
-  })
-}
-
 const address = ref(null)
+
 async function connectWallet(called_by_user = false) {
   window.ethereum
     .request({ method: 'eth_requestAccounts' })
     .then(async (res) => {
-      // Request MetaMask to connect
       await window.ethereum.enable()
       let provider = new ethers.providers.Web3Provider(window.ethereum)
       setMetamaskProvider(provider)
       const network = await provider.getNetwork()
       localStorage.setItem('isConnectedToWeb3', true)
       localStorage.setItem('address', res[0])
-      // isConnectedToWeb3LocalStorage = true
-
       localStorage.setItem('ethereumNetwork', JSON.stringify(network))
-      console.log(res[0])
-      console.log(
-        window.ethereum.networkVersion,
-        'window.ethereum.networkVersion',
-      )
       emit("setAddress", res[0])
-      console.log("HERE")
       setNetworkId(network.chainId)
       window.ethereum.on('chainChanged', handleChainChanged)
       window.ethereum.on('accountsChanged', function (accounts) {
         address.value = accounts[0]
         localStorage.setItem("account", address.value)
       })
-      if (called_by_user)
-        emit('toggleSidebar')
+      if (called_by_user) emit('toggleSidebar')
     })
     .catch((err) => {
       localStorage.removeItem("account")
       console.error(err)
-      notify(
-        'warning',
-        'Wallet is not connected',
-        'Please connect your wallet via Metamask',
-      )
     })
 }
-
 
 async function handleChainChanged() {
   let provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -99,16 +66,13 @@ async function handleChainChanged() {
   setNetworkId(newNetwork.chainId)
 }
 
-
 </script>
+
 <style lang="scss" scoped>
 .sidebar_header {
-  
   font-size: 14px;
   font-weight: 600;
   line-height: 44px;
-  letter-spacing: 0px;
-  // color: #ffffff;
 }
 
 .sidebar_settings_icon {
@@ -120,7 +84,6 @@ async function handleChainChanged() {
 }
 
 .wallet_container_sidebar {
-  // background: #10101099;
   border-radius: 100px;
   border: 0.5px solid #FFFFFF;
   display: flex;
@@ -131,12 +94,10 @@ async function handleChainChanged() {
   &:hover {
     cursor: pointer;
     background: #00c8ff31;
-
   }
 }
 
 .wallet_text {
-  
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;
@@ -144,11 +105,9 @@ async function handleChainChanged() {
 }
 
 .wallet_bottom_text {
-  
   font-size: 13px;
   font-weight: 400;
   line-height: 24px;
-  letter-spacing: 0em;
   color: #747474;
 }
 
@@ -156,6 +115,5 @@ async function handleChainChanged() {
   cursor: pointer;
   text-decoration: underline;
   color: #00E0FF;
-
 }
 </style>

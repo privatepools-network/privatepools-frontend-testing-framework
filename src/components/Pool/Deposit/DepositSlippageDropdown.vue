@@ -76,9 +76,9 @@ import DivideIcon from '@/assets/icons/divide.svg'
 
 const SLIPPAGE_SETTINGS = [
   { text: 'Auto', value: '-' },
-  { text: 'High', value: 2 },
-  { text: 'Medium', value: 0.5 },
-  { text: 'Low', value: 0.1 },
+  { text: '2%', value: 2 },
+  { text: '0.5%', value: 0.5 },
+  { text: '0.1%', value: 0.1 },
 ]
 
 const props = defineProps(['slippageText', 'slippageValue'])

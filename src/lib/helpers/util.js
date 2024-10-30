@@ -289,6 +289,7 @@ import BURGER from '@/assets/images/tokens/BURGER.png'
 import SOLO from '@/assets/images/tokens/SOLO.png'
 
 import EOS from '@/assets/images/tokens/EOS.png'
+import PEPE from '@/assets/images/tokens/PEPE.png'
 
 const tokenHT = [
   {
@@ -365,7 +366,7 @@ const tokenHT = [
     icon: PENDLE,
   },
   {
-    key: 'Tether (ETH)',
+    key: 'Tether (USDT)',
     name: 'Tether USD',
     short: 'USDT',
     icon: USDT,
@@ -1610,6 +1611,12 @@ const tokenHT = [
     name: 'EOS',
     short: 'EOS',
     icon: EOS,
+  },
+  {
+    key: 'PEPE',
+    name: 'PEPE',
+    short: 'PEPE',
+    icon: PEPE,
   },
 ]
 

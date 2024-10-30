@@ -2,8 +2,13 @@
   <Dropdown :distance="4" :placement="'bottom-center'">
     <div class="button_drop text-black dark:!text-white p-2 flex">
       <img :src="rewards_icon" />
+      {{ console.log('rewards!', rewards) }}
       <div v-if="width > 768" class="flex items-center">
-        <CurrencySymbol />{{ totalRewards }}
+        <CurrencySymbol />
+        <div v-if="rewards.length === 0" class="scale-50 px-3"><LoaderPulse /></div>
+        <div v-else>
+          {{ totalRewards }}
+        </div>
       </div>
     </div>
     <template #popper>
@@ -179,6 +184,7 @@ import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
 import { useDevice } from '@/composables/adaptive/useDevice'
 // import info from '@/assets/images/info.svg'
+import LoaderPulse from '../loaders/ThreeDots.vue'
 
 const autoCompounderState = ref(false)
 

@@ -14,12 +14,12 @@
       <CRow class="mb-4">
         <div class="flex md:items-center items-start justify-between">
           <div class="caption-row">
-            <div class="caption dark:!text-white text-black"
+            <!-- <div class="caption dark:!text-white text-black"
               style="font-size: clamp(10px, 0.9vw, 16px); font-weight: 700">
               {{
                 pool?.tokens?.map((tokenEntity) => tokenEntity.symbol).join('/')
               }}
-            </div>
+            </div> -->
             <div class="flex flex-wrap">
               <div v-for="(poolToken, poolTokenIndex) in allSelectedTokensDisplay" :key="`pool-token-${poolTokenIndex}`"
                 class="big-chip dark:!bg-[#00000024] bg-white">
@@ -61,24 +61,16 @@
                 <div>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="modal_stake_token_inner_name dark:!text-white text-black">
-                      <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="11.5" cy="11.5" r="11.5" fill="#CFB428" />
-                        <mask id="mask0_5890_7370" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                          width="23" height="23">
-                          <circle cx="11.5" cy="11.5" r="11.5" fill="#3E3E3E" />
-                        </mask>
-                        <g mask="url(#mask0_5890_7370)">
-                          <rect x="-7.2627" y="4.27515" width="19.4451" height="19.4451"
-                            transform="rotate(-30 -7.2627 4.27515)" fill="#2A5CA9" />
-                        </g>
-                      </svg>
+                      <img :src="defaultIcon" class="w-[25px]"/>
 
-                      {{
+
+                      <!-- {{
                         pool?.tokens
                           .map((t) => `${(t.weight * 100).toFixed(0)}${t.symbol}`)
                           .join('-')
-                      }}
+                      }} --> {{ pool['display_name'] }}
                     </div>
+                    {{ console.log('pool', pool) }}
 
                     <input v-if="
                       pool && poolShare.balance && !isNaN(poolShare.balance)
@@ -269,6 +261,7 @@ import router from '@/router'
 import { getSinglePoolDetails } from '@/composables/data/detailsData'
 import Modal from '@/UI/Modal.vue'
 import BigLogoLoader from '@/components/loaders/BigLogoLoader.vue'
+import defaultIcon from '@/assets/images/tokens/DEFAULT.png'
 
 const poolId = router.currentRoute.value.params['id']
 const pool = ref(null)

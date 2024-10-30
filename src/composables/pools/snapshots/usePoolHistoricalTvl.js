@@ -6,7 +6,7 @@ import { GetHistoricalTokens } from '@/composables/balances/useHistoricalTokens'
 // } from '@/composables/queries/historicalTvlQuery'
 import { DisplayNetwork } from '@/composables/useNetwork'
 //import useGraphQLQuery from '@/composables/useQuery'
-import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementFormatter'
+import { getTokensPricesForTimestamp } from '@/lib/formatter/financialStatement/financialStatementUtils'
 //import { configService } from '@/services/config/config.service'
 
 /**

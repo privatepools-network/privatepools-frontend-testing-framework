@@ -188,6 +188,7 @@ import CLV from '@/assets/images/tokens/CLV.png'
 import HOOK from '@/assets/images/tokens/HOOK.png'
 import BURGER from '@/assets/images/tokens/BURGER.png'
 import SOLO from '@/assets/images/tokens/SOLO.png'
+import PEPE from '@/assets/images/tokens/PEPE.png'
 
 import EOS from '@/assets/images/tokens/EOS.png'
 
@@ -789,6 +790,9 @@ export default function computedTokenImage(token) {
   }
   if (token.symbol === 'EOS' || token === 'EOS') {
     return EOS
+  }
+  if (token.symbol === 'PEPE' || token === 'PEPE') {
+    return PEPE
   }
 
 

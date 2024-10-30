@@ -22,7 +22,7 @@
             <div class="tooltip_container_text">
               {{ $router.currentRoute.value.path.includes('/portfolio') ? 
             'The displayed data is based on the historical performance of the liquidity pools in which you have invested.'
-            : 'The pool chart is currently displaying only the Total Value Locked (TVL) data. Additional data, including trading metrics, will become available after the first trade is executed. Please check back later for a complete data set.'  
+            : 'The pool chart is currently displaying only the Total Value Lock (TVL) data. Additional data, including trading metrics, will become available after the first trade is executed. Please check back later for a complete data set.'  
             }}
               
             </div>

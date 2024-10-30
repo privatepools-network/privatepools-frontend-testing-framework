@@ -611,7 +611,7 @@ function dynamicDonut(labels, arrayOfColors, data) {
     chart: {
       type: 'donut',
     },
-    colors: ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
+    colors: ['#FA5173', '#01B47E', '#77aaff', '#FFD700', '#00E0FF', '#FAC898', '#063971', '#316650', '#84C3BE', '#57A639', '#E1CC4F'],
     data: data,
     labels: labels,
     legend: {
@@ -624,7 +624,7 @@ function dynamicDonut(labels, arrayOfColors, data) {
         useSeriesColors: true,
       },
       markers: {
-        fillColors: ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
+        fillColors: ['#FA5173', '#01B47E', '#77aaff', '#FFD700', '#00E0FF', '#FAC898', '#063971', '#316650', '#84C3BE', '#57A639', '#E1CC4F'],
       },
     },
     dataLabels: {
@@ -632,7 +632,7 @@ function dynamicDonut(labels, arrayOfColors, data) {
     },
     fill: {
       opacity: 1,
-      colors: ['#FA5173', '#01B47E', '#77aaff', '#FFD700'],
+      colors: ['#FA5173', '#01B47E', '#77aaff', '#FFD700', '#00E0FF', '#FAC898', '#063971', '#316650', '#84C3BE', '#57A639', '#E1CC4F'],
     },
     plotOptions: {
       pie: {
@@ -652,7 +652,7 @@ function dynamicDonut(labels, arrayOfColors, data) {
       // eslint-disable-next-line
       custom({ series, seriesIndex, dataPointIndex, w }) {
         return (
-          '<div style="background: linear-gradient(rgba(89, 89, 89, 1), rgba(73, 73, 73, 0.45)); padding: 10px;">' +
+          '<div ">' +
           '<h6 style="opacity:50%">' +
           w.config.labels[seriesIndex] +
           '</h6>' +
@@ -867,7 +867,7 @@ let marketData = ref({})
 
 .stats_value {
   color: white;
-  margin-right: 15px;
+  // margin-right: 15px;
   font-family: 'Roboto Mono', monospace;
 
   font-size: clamp(10px, 0.8vw, 13px);

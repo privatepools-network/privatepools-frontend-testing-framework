@@ -11,14 +11,17 @@
               <div class="text_header dark:!text-[#ffffffb2] text-[#000000B2]">
                 {{ item.name }}
               </div>
-              <div class="text_value text-black dark:!text-white">
-                {{
-                  item.name.includes('APR')
-                    ? `${parseFloat(item.value).toFixed(3)}%`
-                    : item.name.includes('Total Trades')
-                      ? parseFloat(item.value).toFixed(0)
-                      : parseFloat(item.value).toFixed(3)
-                }}
+              <div class="text_value flex items-center text-black dark:!text-white">
+                <CounterAnimation
+                    :currency="item.name.includes('APR') || item.name.includes('Trades') ? '%' : ''"
+                    :decimal-places="currencyDecimals"
+                    :value="
+                      parseFloat(item.value).toFixed(
+                        item.description.includes('Total Trades') || item.description.includes('APR') ? 0 : currencyDecimals,
+                      )
+                    "
+                  />{{ item.name.includes('APR') ? '%' : '' }}
+              
               </div>
             </div>
             <div class="icon_container bg-white dark:!bg-[#22222224]">
@@ -31,13 +34,16 @@
               {{ item.description }}
             </div>
             <div class="text_value text-black dark:!text-white flex items-center gap-1">
-              {{
-                item.description.includes('APR')
-                  ? `${parseFloat(item.value_2).toFixed(3)}%`
-                  : item.description.includes('24h Trades')
-                    ? parseFloat(item.value_2).toFixed(0)
-                    : parseFloat(item.value_2).toFixed(3)
-              }}
+              <CounterAnimation
+                    :currency="item.name.includes('APR') || item.name.includes('Trades') ? '%' : ''"
+                    :decimal-places="currencyDecimals"
+                    :value="
+                      parseFloat(item.value_2).toFixed(
+                        item.description.includes('24h Trades')  || item.description.includes('APR') ? 0 : currencyDecimals,
+                      )
+                    "
+                  />{{ item.name.includes('APR') ? '%' : '' }}
+            
               <div class="flex items-center text-[8px] text-[#8E8E8E]">
                 <svg :class="parseFloat(item.value_2) > 0 ? '' : 'rotate-180'" width="7" height="7" viewBox="0 0 7 7"
                   fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,12 +130,20 @@
               {{ item.name }}
             </div>
             <div class="text_value flex items-center text-black dark:!text-white">
-              <span>{{ item.name !== 'Total users' ? '$' : '' }}</span>
-              {{
+              <CounterAnimation
+                    :currency="item.name !== 'Total users' ? '' : '1'"
+                    :decimal-places="currencyDecimals"
+                    :value="
+                      parseFloat(item.value).toFixed(
+                        currencyDecimals,
+                      )
+                    "
+                  />
+              <!-- {{
                 parseFloat(item.value)
                   .toFixed(3)
                   .replace(/(\.0+|0+)$/, '')
-              }}
+              }} -->
             </div>
           </div>
           <div class="icon_container bg-white dark:!bg-[#22222224]">
@@ -156,6 +170,7 @@ import { useDark } from '@vueuse/core'
 import d3logo from '@/assets/images/d3v.png'
 import { defineProps, computed } from 'vue'
 import { t } from 'i18next'
+import CounterAnimation from '@/UI/CounterAnimation.vue'
 
 import { storeToRefs } from 'pinia'
 import { useSettings } from '@/store/settings'
@@ -163,6 +178,12 @@ import { useSettings } from '@/store/settings'
 const settingsStore = useSettings()
 
 const { currentCurrency } = storeToRefs(settingsStore)
+
+
+const currencyDecimals = computed(() =>
+  currentCurrency.value == 'USD' ? 0 : 3,
+)
+
 const postfix = computed(() =>
   currentCurrency.value == 'USD' ? '' : `_${currentCurrency.value}`,
 )

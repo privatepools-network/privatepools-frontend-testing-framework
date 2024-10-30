@@ -13,7 +13,7 @@ import 'vue3-toastify/dist/index.css'
 import { BACKEND_URL } from '../pools/mappings'
 import axios from 'axios'
 
-export async function claimRewards(rewards) {
+export async function claimRewards(rewards, reload = true) {
   const playSuccess = new Audio(successSound)
   const playError = new Audio(errorSound)
   let ConfirmToastPending = null
@@ -101,7 +101,7 @@ export async function claimRewards(rewards) {
           type: 'success',
           isLoading: false,
         })
-        window.location.reload()
+        if (reload) window.location.reload()
       }
     }
   } catch (e) {
@@ -137,7 +137,7 @@ export async function claimRewards(rewards) {
     console.error(e)
     return
   }
-  window.location.reload()
+  if (reload) window.location.reload()
 }
 // export async function claimRewards(rewards) {
 //   try {

@@ -1,73 +1,37 @@
 <template>
   <div class="pools_chart_container">
-    <PortfolioArbitrageBot
-      :networks_data="networks_data"
-      :chainSelected="chainSelected"
-      :rewardsData="rewardsData"
-    />
+    <PortfolioArbitrageBot :networks_data="networks_data" :chainSelected="chainSelected" :rewardsData="rewardsData" />
 
     <div class="track_chart_card bg-[white] dark:!bg-[#22222224]">
       <div v-if="all_chart_data === undefined" class="chart_inside">
         <LoaderPulse />
       </div>
-      <div
-        v-else-if="filteredData.length === 0"
-        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100"
-      >
-        <svg
-          width="42"
-          height="44"
-          viewBox="0 0 42 44"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+      <div v-else-if="filteredData.length === 0 || networks_data[`portfolioBalance`] < 1"
+        class="d-flex flex-column gap-2 justify-content-center align-items-center h-100">
+        <svg width="42" height="44" viewBox="0 0 42 44" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M31.2356 42.9592L36.0985 38.0985M36.0985 38.0985L40.9591 33.2356M36.0985 38.0985L31.2333 33.2333M36.0962 38.0963L40.9568 42.9569M1.16663 7.75V21.5C1.16663 21.5 1.16663 28.375 17.2083 28.375C33.25 28.375 33.25 21.5 33.25 21.5V7.75"
-            stroke="#F8F8F8"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+            stroke="#F8F8F8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           <path
             d="M17.2083 42.125C1.16663 42.125 1.16663 35.25 1.16663 35.25V21.5M17.2083 0.875C33.25 0.875 33.25 7.75 33.25 7.75C33.25 7.75 33.25 14.625 17.2083 14.625C1.16663 14.625 1.16663 7.75 1.16663 7.75C1.16663 7.75 1.16663 0.875 17.2083 0.875Z"
-            stroke="#F8F8F8"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+            stroke="#F8F8F8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
 
-        <div
-          class="text-black dark:!text-white"
-          style="font-size: 14px; text-align: center"
-        >
+        <div class="text-black dark:!text-white" style="font-size: 14px; text-align: center">
           {{ $t('no_data_available') }}
         </div>
-        <div
-          class="text-black dark:!text-white"
-          style="font-size: 12px; text-align: center"
-        >
+        <div class="text-black dark:!text-white" style="font-size: 12px; text-align: center">
           {{ $t('invest_to_start_pool') }}
         </div>
-        <div class="add_liq_btn_pools">
+        <div class="add_liq_btn_pools" @click="$router.push('/pools/compose')">
           <div class="d-flex gap-1">+ {{ $t('add_liquidity') }}</div>
         </div>
       </div>
       <div v-else class="chart_inside">
-        <ChartTimeline
-          :isCumulativeMode="isCumulativeMode"
-          :currentTimeline="currentTimeline"
-          :timelines="timelines"
-          @changeCumulativeMode="changeCumulativeMode"
-          @changeTimeline="changeTimeline"
-        />
+        <ChartTimeline :isCumulativeMode="isCumulativeMode" :currentTimeline="currentTimeline" :timelines="timelines"
+          @changeCumulativeMode="changeCumulativeMode" @changeTimeline="changeTimeline" />
         <img :src="logo" alt="D3" class="chart-logo" height="40px" />
-        <VChart
-          class="chart mt-4"
-          :option="optionObj"
-          @legendselectchanged="legendSelectedChange"
-          :autoresize="true"
-        />
+        <VChart class="chart mt-4" :option="optionObj" @legendselectchanged="legendSelectedChange" :autoresize="true" />
       </div>
     </div>
   </div>
@@ -124,7 +88,9 @@ import { useSettings } from '@/store/settings'
 import { strictCheckChartOffsetConditions } from '@/composables/chartLogic/strictCheckChartOffsetConditions'
 import { checkGridByKeys } from '@/composables/chartLogic/checkGridByKeys'
 import { useDevice } from '@/composables/adaptive/useDevice'
-
+import {
+  CalculateAPR
+} from '@/composables/math/chartMath/trackingInfoMath.js'
 const settingsStore = useSettings()
 const { width } = useDevice()
 
@@ -147,21 +113,21 @@ const filteredData = computed(() => getFilteredData())
 const filters = ref(
   currentVersion.value === 'pro'
     ? {
-        'Staked Liquidity': true,
-        'Average APR': true,
-        Trades: true,
-        PNL: false,
-        Volume: false,
-        ROI: false,
-        Rewards: false,
-        'Capital Gains': false,
-      }
+      'Staked Liquidity': true,
+      'Average APR': true,
+      Trades: true,
+      PNL: false,
+      Volume: false,
+      ROI: false,
+      Rewards: false,
+      'Capital Gains': false,
+    }
     : {
-        'Staked Liquidity': true,
-        'Average APR': true,
-        Trades: true,
-        Volume: false,
-      },
+      'Staked Liquidity': true,
+      'Average APR': true,
+      Trades: true,
+      Volume: false,
+    },
 )
 const preFiltersList = ref([
   {
@@ -452,7 +418,7 @@ function seriesInstance(name, type, data, yAxisIndex, color) {
       shadowColor: color,
       shadowBlur: 10,
       color: color,
-      symbol: 'circle', 
+      symbol: 'circle',
       symbolSize: 8
     },
     emphasis: {
@@ -777,11 +743,7 @@ function getFilteredData() {
       } else if (filter_code == 'Avg Gas Fee per Trade') {
         result_item['Avg Gas Fee per Trade'] = avg_fee
       } else if (filter_code == 'Average APR') {
-        result_item[filter_code] = result_item[filter_code] =
-          (item[`Profits${postfix.value}`] /
-            item[`TVL${postfix.value}`]['All Chains']) *
-          (365 / days_count[currentTimeline.value.name]) *
-          100
+        result_item[filter_code] = CalculateAPR(item[`Profits${postfix.value}`], item[`TVL${postfix.value}`]['All Chains'], days_count[currentTimeline.value.name])
       }
     }
 
