@@ -76,22 +76,22 @@ async function updateNotifications(window, all_notifications) {
  * @function fetchData
  */
 async function fetchData() {
-  let links = [
-    process.env.VUE_APP_OUTPUT_LINK_ARBITRUM,
-    process.env.VUE_APP_OUTPUT_LINK_BINANCE,
-    process.env.VUE_APP_OUTPUT_LINK_POLYGON,
-  ]
-  await Promise.all(
-    links.map((l) =>
-      l != undefined
-        ? axios.get(`${l}/fetch-data`, {
-            timeout: 120000,
-          })
-        : new Promise((resolve) => {
-            resolve({ data: [] })
-          }),
-    ),
-  )
+  // let links = [
+  //   process.env.VUE_APP_OUTPUT_LINK_ARBITRUM,
+  //   process.env.VUE_APP_OUTPUT_LINK_BINANCE,
+  //   process.env.VUE_APP_OUTPUT_LINK_POLYGON,
+  // ]
+  // await Promise.all(
+  //   links.map((l) =>
+  //     l != undefined
+  //       ? axios.get(`${l}/fetch-data`, {
+  //           timeout: 120000,
+  //         })
+  //       : new Promise((resolve) => {
+  //           resolve({ data: [] })
+  //         }),
+  //   ),
+  // )
 }
 
 /**
