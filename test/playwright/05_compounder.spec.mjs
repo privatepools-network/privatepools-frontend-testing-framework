@@ -32,6 +32,9 @@ test('Deposit', async ({
   await page.waitForTimeout(15000)
   console.log('comp4')
 
+  await page.locator('#select-all-checkbox').click()
+  await page.waitForTimeout(3000)
+
   await page.locator('.compose_pool_connect_wallet').click()
   console.log('comp5')
 
