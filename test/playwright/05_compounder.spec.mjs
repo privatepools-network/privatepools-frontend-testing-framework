@@ -30,7 +30,7 @@ test('Deposit', async ({
   console.log('comp3')
 
   await page.waitForTimeout(15000)
-  console.log('comp4')
+  console.log('comp4 select')
 
   await page.locator('#select-all-checkbox').click()
   await page.waitForTimeout(3000)

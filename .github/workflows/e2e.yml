@@ -9,7 +9,7 @@ on:
     branches:
       # - master
       # - main
-      - shared-version-sign
+      - ivan-dev
   pull_request:
     paths:
       - '.github/actions/**/*.yml'
