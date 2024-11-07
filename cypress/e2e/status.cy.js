@@ -73,7 +73,7 @@ describe("Privatepools tests", () => {
   });
   it("Withdraw", () => {
     cy.visit(
-      "/pools/0xc6d780cc3b3cd74c9b4f3228cb1224310cf71a80000200000000000000000001/BNB/withdraw"
+      "/pools/0x7ba6cb6380f1dfb363bfbe3e86d42248e93036b8000100000000000000000001/BNB/withdraw"
     );
     cy.wait(10_000);
     cy.acceptMetamaskAccess();
@@ -93,7 +93,7 @@ describe("Privatepools tests", () => {
   });
   it("Deposit", () => {
     cy.visit(
-      "/pools/0xc6d780cc3b3cd74c9b4f3228cb1224310cf71a80000200000000000000000001/BNB/deposit"
+      "/pools/0x7ba6cb6380f1dfb363bfbe3e86d42248e93036b8000100000000000000000001/BNB/deposit"
     );
     cy.wait(10_000);
     cy.acceptMetamaskAccess();

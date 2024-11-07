@@ -22,7 +22,7 @@ test('Deposit', async ({
   await signMessage(metamask, createAnvilNode, page, metamaskPage)
   console.log('d1')
   await page.goto(
-    '/pools/0xc6d780cc3b3cd74c9b4f3228cb1224310cf71a80000200000000000000000001/BNB/deposit',
+    '/pools/0x7ba6cb6380f1dfb363bfbe3e86d42248e93036b8000100000000000000000001/BNB/deposit',
   )
   console.log('d2')
   const tokenInput = page.locator('.currency_container .token-input')
