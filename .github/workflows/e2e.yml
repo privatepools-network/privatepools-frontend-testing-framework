@@ -72,7 +72,7 @@ jobs:
       - name: Build cache
         run: xvfb-run pnpm run build:cache
         env:
-          RANDOM_PARAMETER: 'HEEEEEEERE!'
+          RANDOM_PARAMETER: 'HEEEEEEERE!1'
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           SEED_PHRASE: ${{ secrets.SEED_PHRASE }}
       
