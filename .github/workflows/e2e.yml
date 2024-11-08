@@ -106,7 +106,7 @@ jobs:
           VUE_APP_BACKEND_URL_BINANCE: ''
           VUE_APP_BALANCER_HELPERS_BINANCE: '0x6D498379211811F9b8090709efE10af7f6A1F0AF'
           VUE_APP_BATCH_RELAYER_BINANCE: '0xD98056C33c1Ab67F6Dc1C7487AfB99824a7F464E'
-          VUE_APP_BLOCK_SUBGRAPH_BINANCE: ''
+          VUE_APP_BLOCK_SUBGRAPH_BINANCE: 'https://gateway.thegraph.com/api/c4373604f01ecf5f72cfe13743bd2329/subgraphs/id/E1RLMz7rnB8YHjUqeAvA962HrJPuyn3iLHS6MLxBn9GW'
           VUE_APP_BOT_BINANCE: 'https://binancerunbotdoprimocosta.xyz'
           VUE_APP_BOT_LOGS_BINANCE: 'wss://binancerunbotdoprimocosta.xyz'
           VUE_APP_B_ACTIONS_BINANCE: ''
