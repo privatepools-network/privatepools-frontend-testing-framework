@@ -70,7 +70,7 @@ jobs:
           sudo apt-get install  -y xvfb libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libatspi2.0-0   libxcomposite1  libxdamage1     libxrandr2     libgbm1 libxkbcommon0 libpango-1.0-0 libcairo2 libasound2
       
       - name: Build cache
-        run: xvfb-run pnpm run build
+        run: xvfb-run pnpm run build:cache
         env:
           RANDOM_PARAMETER: 'HEEEEEEERE!1'
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
