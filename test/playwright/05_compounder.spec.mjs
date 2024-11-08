@@ -22,7 +22,7 @@ test('Deposit', async ({
   await signMessage(metamask, createAnvilNode, page, metamaskPage)
   console.log('comp1')
   await page.goto(
-    '/pools/0xc6d780cc3b3cd74c9b4f3228cb1224310cf71a80000200000000000000000001/BNB/compound',
+    '/pools/0x7ba6cb6380f1dfb363bfbe3e86d42248e93036b8000100000000000000000001/BNB/compound',
   )
   console.log('comp2')
 
@@ -30,7 +30,10 @@ test('Deposit', async ({
   console.log('comp3')
 
   await page.waitForTimeout(15000)
-  console.log('comp4')
+  console.log('comp4 select')
+
+  await page.locator('#select-all-checkbox').click()
+  await page.waitForTimeout(3000)
 
   await page.locator('.compose_pool_connect_wallet').click()
   console.log('comp5')
