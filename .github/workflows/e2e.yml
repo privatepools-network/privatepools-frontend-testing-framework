@@ -158,7 +158,7 @@ jobs:
           VUE_APP_STABLE_POOL_FACTORY_BINANCE: ''
           VUE_APP_STATUS_LINK: 'https://privatepools-check-status.vercel.app/fetch'
           VUE_APP_STETH_BINANCE: ''
-          VUE_APP_SUBGRAPH_BINANCE: ''
+          VUE_APP_SUBGRAPH_BINANCE: 'https://gateway-arbitrum.network.thegraph.com/api/0e9d32fcbe3162436d16a8f8c0fd8130/subgraphs/id/7uviMWGvyj1BqAi7iPNyoiwcm8GwtgBpHopyDBp2Ee1f'
           VUE_APP_SUPPORTS_EIP1559_BINANCE: 'false'
           VUE_APP_SUPPORTS_ELEMENT_POOLS_BINANCE: 'false'
           VUE_APP_TOKEN_FACTORY_BINANCE: ''
