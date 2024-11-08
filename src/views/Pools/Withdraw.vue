@@ -385,6 +385,8 @@ async function init() {
   account.value = _account//"0x282a2dfee159aa78ef4e28d2f9fdc9bd92a19b54" //
   lineNumbers.value = _lineNumbers
   lastTokenPrices.value = _lastTokenPrices['USD']
+  console.log('pool.value.id', pool.value.id)
+  console.log('account.value', account.value)
   poolShare.value = await GetPoolShares(pool.value.id, account.value)
   usdPoolShareValue.value = poolShare.value.balance * pool.value.lpPrice
 
