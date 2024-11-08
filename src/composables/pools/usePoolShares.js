@@ -6,7 +6,7 @@ import { AllPoolSharesQuery, PoolSharesQuery } from '../queries/poolSharesQuery'
 
 export async function GetPoolShares(poolId, account) {
   let config = configService.getNetworkConfig(networkId.value)
-  if (!config.poolsUrlV2) return []
+  // if (!config.poolsUrlV2) return []
   let data = await useGraphQLQuery(
     config.subgraph,
     PoolSharesQuery(
