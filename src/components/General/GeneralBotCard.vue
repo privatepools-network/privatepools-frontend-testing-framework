@@ -16,7 +16,8 @@
             </div> -->
             <div class="visible_head text-black dark:!text-white">
               <div class="d-flex align-items-center font-semibold text-[18px] font-['Roboto_Mono',_monospace]">
-                <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`tvl${postfix}`] : 0" />
+                <CounterAnimation :decimalPlaces="currencyDecimals"
+                  :value="chains_data ? chains_data?.[`tvl${postfix}`] : 0" />
               </div>
             </div>
           </div>
@@ -42,7 +43,8 @@
                 </div> -->
                 <div
                   class="text-black flex items-center dark:!text-white font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`totalVolume${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals"
+                    :value="chains_data ? chains_data?.[`totalVolume${postfix}`] : 0" />
                 </div>
               </div>
             </div>
@@ -64,7 +66,8 @@
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
 
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`volume24H${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals"
+                    :value="chains_data ? chains_data?.[`volume24H${postfix}`] : 0" />
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -75,7 +78,8 @@
                   <ThreeDots />
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`volume7D${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals"
+                    :value="chains_data ? chains_data?.[`volume7D${postfix}`] : 0" />
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -86,7 +90,8 @@
                   <ThreeDots />
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`volume30D${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals"
+                    :value="chains_data ? chains_data?.[`volume30D${postfix}`] : 0" />
                 </div>
               </div>
             </div>
@@ -104,7 +109,6 @@
             </div>
             <div style="
                 font-weight: 700;
-
                 color: white;
                 width: 100%;
               ">
@@ -116,7 +120,8 @@
                   <ThreeDots />
                 </div> -->
                 <div class="text-black dark:!text-white font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`totalProfits${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals"
+                    :value="chains_data ? chains_data?.[`totalProfits${postfix}`] : 0" />
 
                 </div>
               </div>
@@ -139,7 +144,8 @@
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
 
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`profit24H${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals"
+                    :value="chains_data ? chains_data?.[`profit24H${postfix}`] : 0" />
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -151,7 +157,8 @@
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
 
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`profit7D${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals"
+                    :value="chains_data ? chains_data?.[`profit7D${postfix}`] : 0" />
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between text-black dark:!text-white">
@@ -163,7 +170,8 @@
                 </div> -->
                 <div class="text-black dark:!text-white font-normal text-[12px] font-['Roboto_Mono',_monospace]">
 
-                  <CounterAnimation :decimalPlaces="currencyDecimals" :value="chains_data ? chains_data?.[`profit30D${postfix}`] : 0" />
+                  <CounterAnimation :decimalPlaces="currencyDecimals"
+                    :value="chains_data ? chains_data?.[`profit30D${postfix}`] : 0" />
                 </div>
               </div>
             </div>
@@ -270,7 +278,7 @@
                 <div
                   class="text-black dark:!text-white font-extrabold flex items-center text-[12px] font-['Roboto_Mono',_monospace]">
 
-                  <CounterAnimation :currency="true" :value="chains_data?.avgAPR" />%
+                  <CounterAnimation :currency="true" :value="avgAPR" :decimalPlaces="2" />%
                 </div>
               </div>
             </div>
@@ -335,9 +343,9 @@
               class="d-flex align-items-center justify-content-between text-black dark:!text-white visible_head mt-3">
               <div class="text-[13px] mt-[10px] mb-[5px] font-['Syne',_sans-serif] font-semibold">
                 {{
-                  router.currentRoute.value.path === '/user_analytics'
-                    ? 'Number of Users'
-                    : t('number_of_index_pools')
+                router.currentRoute.value.path === '/user_analytics'
+                ? 'Number of Users'
+                : t('number_of_index_pools')
                 }}
               </div>
               <div class="text-black dark:!text-white font-extrabold text-[12px] font-['Roboto_Mono',_monospace]">
@@ -346,6 +354,7 @@
               <!-- <div v-else>
                 <ThreeDots></ThreeDots>
               </div> -->
+              {{console.log(chartData)}}
             </div>
           </div>
         </div>
@@ -359,7 +368,7 @@ import { ref, defineProps, toRefs, computed, onMounted } from 'vue'
 import ThreeDots from '@/components/loaders/ThreeDots.vue'
 import numberToAposthrophe from '@/lib/formatter/numberToAposthrophe'
 import router from '@/router'
-import { formatBigNumber } from '@/lib/utils/index'
+import { formatBigNumber, calculateAverage } from '@/lib/utils/index'
 import CurrencySymbol from '../TrackInfo/CurrencySymbol.vue'
 import { t } from 'i18next'
 import CounterAnimation from '@/UI/CounterAnimation.vue'
@@ -377,7 +386,7 @@ const currencyDecimals = computed(() =>
 const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
 const props = defineProps(['chains_data', 'currencySelected', 'chainSelected', 'chartData'])
 
-const { chainSelected, currencySelected } = toRefs(props)
+const { chainSelected, currencySelected, chartData, chains_data } = toRefs(props)
 const visibleTVL = ref(true)
 const visibleTotalRevenue = ref(true)
 const visibleTotalProfit = ref(true)
@@ -385,6 +394,10 @@ const visibleTotalGas = ref(true)
 const visibleTotalTrades = ref(true)
 
 const dropdownChildrenVisibility = ref({})
+
+const avgAPR = computed(() => chartData.value.length > 0 ? (chains_data.value[`totalProfits${postfix.value}`] / calculateAverage(chartData.value.map((item) => item[`TVL${postfix.value}`]['All Chains']))) * 100 : 0)
+
+
 
 function closeAllDropdowns() {
   Object.keys(dropdownChildrenVisibility.value).forEach(
@@ -520,9 +533,11 @@ onMounted(() => {
     margin-top: 0;
     margin-bottom: 20px;
   }
+
   .track_chart_card {
     border-radius: 0px 0px 20px 20px !important;
   }
+
   .arbitrage_bot_card {
     width: 100%;
     font-size: 12px;

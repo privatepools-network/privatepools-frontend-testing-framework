@@ -85,3 +85,6 @@ cases.txt
 .vercel
 
 .vercel
+
+.vercel
+.env*.local

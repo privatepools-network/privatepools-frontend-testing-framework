@@ -3,22 +3,22 @@ import useGraphQLQuery from '../useQuery'
 import { configService } from '@/services/config/config.service'
 import { networkId } from '../useNetwork'
 import { AllPoolSharesQuery, PoolSharesQuery } from '../queries/poolSharesQuery'
-
+import { ethers } from 'ethers'
+import { InitializeMetamask } from '@/lib/utils/metamask'
+import erc20Abi from '@/lib/abi/ERC20.json'
 export async function GetPoolShares(poolId, account) {
-  let config = configService.getNetworkConfig(networkId.value)
-  // if (!config.poolsUrlV2) return []
-  let data = await useGraphQLQuery(
-    config.subgraph,
-    PoolSharesQuery(
-      account,
-      poolId,
-    ),
+  const mmProvider = await InitializeMetamask()
+  const poolContract = new ethers.Contract(
+    poolId.slice(0, 42),
+    erc20Abi,
+    mmProvider,
   )
-  if (data['poolShares']) {
-    let shares = data['poolShares']
-    return shares.length > 0 ? shares[0] : {}
+  const balance = await poolContract.balanceOf(account)
+
+  return {
+    balanceRaw: balance,
+    balance: ethers.utils.formatEther(balance),
   }
-  return {}
 }
 
 export function usePoolShares(poolId, account, options = {}) {
@@ -33,18 +33,4 @@ export function usePoolShares(poolId, account, options = {}) {
       onSuccess: () => {},
     },
   )
-}
-
-export async function GetAllUserShares(account) {
-  let config = configService.getNetworkConfig(networkId.value)
-  if (!config.poolsUrlV2) return []
-  let data = await useGraphQLQuery(
-    config.subgraph,
-    AllPoolSharesQuery(account && typeof account == 'string' ? account : ''),
-  )
-  if (data['poolShares']) {
-    let shares = data['poolShares']
-    return shares
-  }
-  return {}
 }
