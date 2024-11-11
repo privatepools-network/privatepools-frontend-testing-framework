@@ -57,8 +57,7 @@
           <div class="text-black dark:!text-white fw-medium fs-6 mb-3">
             {{ $t('portfolio_activity') }}
           </div>
-
-          <PrivatePoolsTable :loader="loader" :all_activities="portfolioData.activity ? portfolioData.activity.slice(0, 25) : []
+          <PrivatePoolsTable :loader="loader" :all_activities="portfolioData.activity ? portfolioData.activity : []
             " />
         </div>
       </div>
