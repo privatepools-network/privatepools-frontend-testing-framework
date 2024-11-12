@@ -156,6 +156,7 @@
             Available in 2 pool(s)
           </div>
         </div> -->
+        {{ console.log('rewardsData', rewardsData) }}
         <div
           class="rewards_button_dropdown"
           :class="totalRewards <= 0 ? '!bg-gray-600 !drop-shadow-none' : ''"
