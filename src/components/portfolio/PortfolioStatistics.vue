@@ -581,7 +581,7 @@ const settingsStore = useSettings();
 
 const { currentCurrency } = storeToRefs(settingsStore)
 const currencySymbol = computed(() => currentCurrency.value == "USD" ? "$" : currentCurrency.value)
-const currencyDecimals = computed(() => currentCurrency.value == "USD" ? 2 : 5)
+const currencyDecimals = computed(() => currentCurrency.value == "USD" ? 5 : 8)
 const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
 const props = defineProps([
   'chainSelected',
@@ -816,7 +816,7 @@ const drawDownData = computed(() =>
   chartData.value.length > 0
     ? AnalyzeDrawdowns(
       chartData.value,
-      chainSelected.value.name,
+      'User Liquidity',
       ...datePickerDrawdown.value,
       currencySymbol.value,
       postfix.value

@@ -743,7 +743,7 @@ function getFilteredData() {
       } else if (filter_code == 'Avg Gas Fee per Trade') {
         result_item['Avg Gas Fee per Trade'] = avg_fee
       } else if (filter_code == 'Average APR') {
-        result_item[filter_code] = CalculateAPR(item[`Profits${postfix.value}`], item[`TVL${postfix.value}`]['All Chains'], days_count[currentTimeline.value.name])
+        result_item[filter_code] = CalculateAPR(item[`Profits${postfix.value}`], item[`TVL${postfix.value}`]['User Liquidity'], days_count[currentTimeline.value.name])
       }
     }
 
