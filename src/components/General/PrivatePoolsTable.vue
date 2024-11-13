@@ -84,9 +84,9 @@
                           "
                           class="w-6"
                         />
-                        {{ parseFloat(item.PathDetails.in.amount).toFixed(3) }}
+                        {{ parseFloat(item.PathDetails.in.amount).toFixed(5) }}
                         (${{
-                          parseFloat(item.PathDetails.in.amountUsd).toFixed(3)
+                          parseFloat(item.PathDetails.in.amountUsd).toFixed(5)
                         }})
                         <svg
                           width="25"
@@ -125,11 +125,11 @@
                           class="w-6"
                         />
                         {{
-                          parseFloat(item.PathDetails.traded.amount).toFixed(3)
+                          parseFloat(item.PathDetails.traded.amount).toFixed(5)
                         }}
                         (${{
                           parseFloat(item.PathDetails.traded.amountUsd).toFixed(
-                            3,
+                            5,
                           )
                         }})
                         <svg
@@ -178,9 +178,9 @@
                           "
                           class="w-6"
                         />
-                        {{ parseFloat(item.PathDetails.out.amount).toFixed(3) }}
+                        {{ parseFloat(item.PathDetails.out.amount).toFixed(5) }}
                         (${{
-                          parseFloat(item.PathDetails.out.amountUsd).toFixed(3)
+                          parseFloat(item.PathDetails.out.amountUsd).toFixed(5)
                         }})
                         <svg
                           width="20"
@@ -263,9 +263,9 @@
                           "
                           class="w-6"
                         />
-                        {{ parseFloat(item.PathDetails.in.amount).toFixed(3) }}
+                        {{ parseFloat(item.PathDetails.in.amount).toFixed(5) }}
                         (${{
-                          parseFloat(item.PathDetails.in.amountUsd).toFixed(3)
+                          parseFloat(item.PathDetails.in.amountUsd).toFixed(5)
                         }})
                         <svg
                           width="25"
@@ -304,11 +304,11 @@
                           class="w-6"
                         />
                         {{
-                          parseFloat(item.PathDetails.traded.amount).toFixed(3)
+                          parseFloat(item.PathDetails.traded.amount).toFixed(5)
                         }}
                         (${{
                           parseFloat(item.PathDetails.traded.amountUsd).toFixed(
-                            3,
+                            5,
                           )
                         }})
                         <svg
@@ -357,9 +357,9 @@
                           "
                           class="w-6"
                         />
-                        {{ parseFloat(item.PathDetails.out.amount).toFixed(3) }}
+                        {{ parseFloat(item.PathDetails.out.amount).toFixed(5) }}
                         (${{
-                          parseFloat(item.PathDetails.out.amountUsd).toFixed(3)
+                          parseFloat(item.PathDetails.out.amountUsd).toFixed(5)
                         }})
                         <svg
                           width="20"
@@ -807,7 +807,7 @@ const { width } = useDevice()
 
 const { currentCurrency } = storeToRefs(settingsStore)
 const currencyDecimals = computed(() =>
-  currentCurrency.value == 'USD' ? 3 : 5,
+  currentCurrency.value == 'USD' ? 5 : 8,
 )
 const isDark = useDark()
 
