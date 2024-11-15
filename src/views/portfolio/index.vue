@@ -31,7 +31,9 @@
               })),
             )
             : []
-            " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :chartData="portfolioData.chart"
+            " 
+            :drawdownKey="'User Liquidity'"
+            :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :chartData="portfolioData.chart"
             :historicalPrices="historicalPrices" :userFirstTimestamp="historical_tvl.length > 0
               ? historical_tvl[historical_tvl.length - 1].timestamp * 1000
               : Date.now()
