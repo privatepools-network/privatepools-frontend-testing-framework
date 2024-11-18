@@ -38,7 +38,7 @@
       <div class="pools-row__col text-black dark:!text-white">
         <div class="pools-row__info">
           <div class="pools-row__value">
-            {{ pool['% of Pool'].toFixed(1) }}%
+            {{ pool['% of Pool'].toFixed(3) }}%
           </div>
         </div>
       </div>

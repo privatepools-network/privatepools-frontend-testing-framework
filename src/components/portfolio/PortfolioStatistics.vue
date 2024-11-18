@@ -25,8 +25,7 @@
                 </svg>
               </div>
               <template #popper>
-                <div class="tooltip_container"
-                  >
+                <div class="tooltip_container">
                   <div style="font-size: clamp(10px, 0.9vw, 16px)">ROI</div>
                   <div class="tooltip_container_text">
                     <div><b>Average ROI:</b> Mean Return on Investment.</div>
@@ -479,7 +478,7 @@
         </div>
       </div>
 
-      <div class="stats_column_inside"  v-if="$router.currentRoute.value.path.includes('/pool')">
+      <div class="stats_column_inside" v-if="$router.currentRoute.value.path.includes('/pool')">
         <div class="d-flex align-items-center justify-content-between dark:!bg-[#02031C] !bg-[white] p-2">
           <div class="d-flex align-items-center gap-2">
             <div class="d-flex gap-2 items-center align-items-baseline">
@@ -581,11 +580,12 @@ const settingsStore = useSettings();
 
 const { currentCurrency } = storeToRefs(settingsStore)
 const currencySymbol = computed(() => currentCurrency.value == "USD" ? "$" : currentCurrency.value)
-const currencyDecimals = computed(() => currentCurrency.value == "USD" ? 2 : 5)
+const currencyDecimals = computed(() => currentCurrency.value == "USD" ? 5 : 8)
 const postfix = computed(() => currentCurrency.value == "USD" ? "" : `_${currentCurrency.value}`)
 const props = defineProps([
   'chainSelected',
   'poolSwapsData',
+  'drawdownKey',
   'tokensData',
   'historical_tvl',
   'chartData',
@@ -596,6 +596,7 @@ const props = defineProps([
 ])
 const {
   chainSelected,
+  drawdownKey,
   poolSwapsData,
   tokensData,
   historical_tvl,
@@ -816,7 +817,7 @@ const drawDownData = computed(() =>
   chartData.value.length > 0
     ? AnalyzeDrawdowns(
       chartData.value,
-      chainSelected.value.name,
+      drawdownKey.value,
       ...datePickerDrawdown.value,
       currencySymbol.value,
       postfix.value

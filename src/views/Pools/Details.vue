@@ -491,6 +491,7 @@
     </PoolDetailsFinancialStatement>
 
     <PortfolioStatistics v-else-if="selectedTab == t('statistics') && pool" :historical_tvl="historical_tvl"
+       :drawdownKey="'All Chains'"
       :tokensData="pool.tokens.map((t) => ({ ...t, Blockchain: chainSelected.name }))
         " :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :historicalPrices="historicalPrices"
       :userFirstTimestamp="historical_tvl.length > 0
