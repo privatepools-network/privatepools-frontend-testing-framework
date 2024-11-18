@@ -261,6 +261,7 @@ async function zap0x(
   }
 }
 
+
 export async function useTrades(
   pool,
   srcToken,
@@ -276,6 +277,10 @@ export async function useTrades(
     slippage,
     rawAmount,
   )
+  // temporary WBNB fix
+  if (srcToken === '0x0000000000000000000000000000000000000000') {
+    srcToken = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+  }
   if (!trades) {
     aggregator = '0x'
     trades = await fetch0xTrades(pool, srcToken, srcAmount, slippage, rawAmount)
@@ -290,6 +295,11 @@ async function fetch1InchTrades(
   slippage = 2,
   rawAmount = false,
 ) {
+  console.log('srcToken', srcToken)
+  console.log('srcAmount', srcAmount)
+
+
+
   try {
     const provider = await InitializeMetamask()
     if (!provider) return
@@ -383,6 +393,7 @@ async function fetch1InchTrades(
       }
     }
     if (containsSrcToken) {
+
       const index = descs.findIndex((item) => item.dstToken == srcToken)
       const remainingAmount = ethers.BigNumber.from(decimalsAmount).sub(
         ethers.BigNumber.from(spent),
