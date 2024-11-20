@@ -118,6 +118,7 @@ const filters = ref(
       Trades: true,
       PNL: false,
       Volume: false,
+      Profits: false,
       ROI: false,
       Rewards: false,
       'Capital Gains': false,
@@ -127,6 +128,7 @@ const filters = ref(
       'Average APR': true,
       Trades: true,
       Volume: false,
+      Profits: false,
     },
 )
 const preFiltersList = ref([
@@ -203,6 +205,27 @@ const preFiltersList = ref([
   {
     title: 'Volume',
     code: 'Volume_BTC',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'Profits',
+    code: 'Profits',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'Profits',
+    code: 'Profits_ETH',
+    selected: true,
+    cumulable: true,
+    isSolo: true,
+  },
+  {
+    title: 'Profits',
+    code: 'Profits_BTC',
     selected: true,
     cumulable: true,
     isSolo: true,
@@ -310,6 +333,11 @@ const dataROI = computed(() => {
 const dataVolumes = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Volume').selected)
     return filteredData.value.map((v) => v[`Volume${postfix.value}`])
+  return []
+})
+const dataProfits = computed(() => {
+  if (preFiltersList.value.find((f) => f.code == 'Profits').selected)
+    return filteredData.value.map((v) => v[`Profits${postfix.value}`])
   return []
 })
 
@@ -510,6 +538,7 @@ const series = computed(() => [
   seriesInstance('PNL', 'bar', dataPNL.value, 3, '#87F1FF'),
   seriesInstance('Average APR', 'line', dataAvgApr.value, 4, '#FFD700'),
   seriesInstance('Volume', 'bar', dataVolumes.value, 1, '#FA5173'),
+  seriesInstance('Profits', 'bar', dataProfits.value, 1, 'red'),
   seriesInstance('Trades', 'bar', dataTrades.value, 3, '#77aaff'),
   seriesInstance('Rewards', 'line', dataRewards.value, 4, '#FFC374'),
   seriesInstance('ROI', 'bar', dataROI.value, 2, '#00FF75'),
