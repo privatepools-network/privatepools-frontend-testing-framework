@@ -31,10 +31,8 @@
               })),
             )
             : []
-            " 
-            :drawdownKey="'User Liquidity'"
-            :poolSwapsData="poolSwapsData" :chainSelected="chainSelected" :chartData="portfolioData.chart"
-            :historicalPrices="historicalPrices" :userFirstTimestamp="historical_tvl.length > 0
+            " :drawdownKey="'User Liquidity'" :poolSwapsData="poolSwapsData" :chainSelected="chainSelected"
+            :chartData="portfolioData.chart" :historicalPrices="historicalPrices" :userFirstTimestamp="historical_tvl.length > 0
               ? historical_tvl[historical_tvl.length - 1].timestamp * 1000
               : Date.now()
               " :tokenPairs="chainPairs" :statistics="portfolioData.statistics">
@@ -224,28 +222,28 @@ const performers = computed(() => {
       worst,
     }
   } else {
-    const pools = portfolioData.value.all_pools
+    const pools = portfolioData.value.pools
     console.log('POOLS ', pools)
     if (!pools || pools.length == 0) {
       return {}
     }
-    const median_profit = median(pools.map((item) => item.Profit))
-    pools.sort((a, b) => b.Profit - a.Profit)
+    const median_profit = median(pools.map((item) => item['User Profits']))
+    pools.sort((a, b) => b['User Profits'] - a['User Profits'])
     const last_index = pools.length - 1
     let best = {
-      diff: pools[0].Profit - median_profit,
+      diff: pools[0]['User Profits'] - median_profit,
       percent_diff: calculatePercentageDifference(
         median_profit,
-        pools[0].Profit,
+        pools[0]['User Profits'],
       ),
       id: pools[0].id,
       tokens: pools[0]['Pool Name'][0],
     }
     let worst = {
-      diff: pools[last_index].Profit - median_profit,
+      diff: pools[last_index]['User Profits'] - median_profit,
       percent_diff: calculatePercentageDifference(
         median_profit,
-        pools[last_index].Profit,
+        pools[last_index]['User Profits'],
       ),
       id: pools[last_index].id,
       tokens: pools[last_index]['Pool Name'][0],
@@ -314,7 +312,7 @@ watch(networkId, async () => {
     account.value = await mmProvider.getSigner().getAddress()
 
   // hardcoded for testing
-  //account.value = '0xb51027d05ffbf77b38be6e66978b2c5b6467f615'
+  //account.value = '0x67B27D5D938eE384917cfE5e2F1faee530468475'
 })
 
 // function onDatatableHeaderClick(caption) {

@@ -272,7 +272,7 @@ export async function useTrades(
   rawAmount = false,
 ) {
   let aggregator = '1inch'
-  let trades= await fetch1InchTrades(
+  let trades = await fetch1InchTrades(
     pool,
     srcToken,
     srcAmount,
@@ -580,7 +580,7 @@ export const fetch0xData = async (
   dstToken,
   amount,
   from,
-  slippage = 100,
+  slippage = 500,
 ) => {
   try {
     const params = {
@@ -590,7 +590,7 @@ export const fetch0xData = async (
       sellAmount: amount,
       taker: from,
       slippage,
-      excludedSources:'ApeSwap',
+      excludedSources: 'ApeSwap',
     }
     let data = null
     try {

@@ -575,7 +575,7 @@ const optionObj = ref({
       fontSize: 10,
       fontFamily: 'Roboto mono',
     },
-    valueFormatter: (value) => (value ? Number(value).toFixed(3) : '-'),
+    valueFormatter: (value) => (value ? Number(value).toFixed(6) : '-'),
     trigger: 'axis',
     confine: true,
     axisPointer: {
