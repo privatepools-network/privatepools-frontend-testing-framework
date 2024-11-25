@@ -116,19 +116,18 @@ const filters = ref(
       'Staked Liquidity': true,
       'Average APR': true,
       Trades: true,
+      'Profits': true,
       PNL: false,
       Volume: false,
-      Profits: false,
       ROI: false,
       Rewards: false,
-      'Capital Gains': false,
+
     }
     : {
       'Staked Liquidity': true,
       'Average APR': true,
       Trades: true,
       Volume: false,
-      Profits: false,
     },
 )
 const preFiltersList = ref([
@@ -210,27 +209,6 @@ const preFiltersList = ref([
     isSolo: true,
   },
   {
-    title: 'Profits',
-    code: 'Profits',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
-    title: 'Profits',
-    code: 'Profits_ETH',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
-    title: 'Profits',
-    code: 'Profits_BTC',
-    selected: true,
-    cumulable: true,
-    isSolo: true,
-  },
-  {
     title: 'Number of Trades',
     code: 'Trades',
     selected: true,
@@ -245,23 +223,23 @@ const preFiltersList = ref([
     isSolo: true,
   },
   {
-    title: 'Capital Gains',
-    code: 'Capital Gains',
-    selected: currentVersion.value === 'pro' ? true : false,
+    title: 'Profits',
+    code: 'Profits',
+    selected: currentVersion.value === 'pro' ? true : true,
     cumulable: false,
     isSolo: true,
   },
   {
-    title: 'Capital Gains',
-    code: 'Capital Gains_ETH',
-    selected: currentVersion.value === 'pro' ? true : false,
+    title: 'Profits',
+    code: 'Profits_ETH',
+    selected: currentVersion.value === 'pro' ? true : true,
     cumulable: false,
     isSolo: true,
   },
   {
-    title: 'Capital Gains',
-    code: 'Capital Gains_BTC',
-    selected: currentVersion.value === 'pro' ? true : false,
+    title: 'Profits',
+    code: 'Profits_BTC',
+    selected: currentVersion.value === 'pro' ? true : true,
     cumulable: false,
     isSolo: true,
   },
@@ -310,8 +288,8 @@ const dataPNL = computed(() => {
   return []
 })
 const dataCapitalGains = computed(() => {
-  if (preFiltersList.value.find((f) => f.code == 'Capital Gains').selected)
-    return filteredData.value.map((v) => v[`Capital Gains${postfix.value}`])
+  if (preFiltersList.value.find((f) => f.code == 'Profits').selected)
+    return filteredData.value.map((v) => v[`Profits${postfix.value}`])
   return []
 })
 const dataRewards = computed(() => {
@@ -333,11 +311,6 @@ const dataROI = computed(() => {
 const dataVolumes = computed(() => {
   if (preFiltersList.value.find((f) => f.code == 'Volume').selected)
     return filteredData.value.map((v) => v[`Volume${postfix.value}`])
-  return []
-})
-const dataProfits = computed(() => {
-  if (preFiltersList.value.find((f) => f.code == 'Profits').selected)
-    return filteredData.value.map((v) => v[`Profits${postfix.value}`])
   return []
 })
 
@@ -377,7 +350,7 @@ const convertFromNumber = (str) => {
 const currentGridToRight = ref(180)
 
 const showVolume = ref(false)
-const showRevenueProfits = ref(false)
+const showRevenueProfits = ref(true)
 const showTradesGasFees = ref(true)
 const showAPRVolatility = ref(true)
 
@@ -470,11 +443,11 @@ function legendSelectedChange(e) {
     // }
   }
 
-  if (e.name === 'Capital Gains' || e.name === 'ROI') {
-    if (e.selected['Capital Gains'] === false && e.selected.ROI === false) {
+  if (e.name === 'Profits' || e.name === 'ROI') {
+    if (e.selected['Profits'] === false && e.selected.ROI === false) {
       showRevenueProfits.value = false
     } else if (
-      e.selected['Capital Gains'] === true ||
+      e.selected['Profits'] === true ||
       e.selected.ROI === true
     ) {
       showRevenueProfits.value = true
@@ -534,11 +507,10 @@ function legendSelectedChange(e) {
 }
 
 const series = computed(() => [
-  seriesInstance('Capital Gains', 'bar', dataCapitalGains.value, 2, '#01B47E'),
+  seriesInstance('Profits', 'bar', dataCapitalGains.value, 2, '#01B47E'),
   seriesInstance('PNL', 'bar', dataPNL.value, 3, '#87F1FF'),
   seriesInstance('Average APR', 'line', dataAvgApr.value, 4, '#FFD700'),
   seriesInstance('Volume', 'bar', dataVolumes.value, 1, '#FA5173'),
-  seriesInstance('Profits', 'bar', dataProfits.value, 1, 'red'),
   seriesInstance('Trades', 'bar', dataTrades.value, 3, '#77aaff'),
   seriesInstance('Rewards', 'line', dataRewards.value, 4, '#FFC374'),
   seriesInstance('ROI', 'bar', dataROI.value, 2, '#00FF75'),
@@ -575,7 +547,7 @@ const optionObj = ref({
       fontSize: 10,
       fontFamily: 'Roboto mono',
     },
-    valueFormatter: (value) => (value ? Number(value).toFixed(6) : '-'),
+    valueFormatter: (value) => (value ? Number(value).toFixed(3) : '-'),
     trigger: 'axis',
     confine: true,
     axisPointer: {
@@ -628,7 +600,7 @@ const optionObj = ref({
       '#FA5173',
     ),
     yAxisInstance(
-      'Capital Gains / ROI',
+      'Profits / ROI',
       width.value > 768 ? showRevenueProfits : false,
       60,
       '#01B47E',
@@ -636,7 +608,7 @@ const optionObj = ref({
     yAxisInstance(
       currentVersion.value === 'pro' ? 'Trades / PNL' : 'Trades',
       width.value > 768 ? showTradesGasFees : false,
-      currentVersion.value === 'pro' ? 60 : 60,
+      currentVersion.value === 'pro' ? 0 : 0,
       '#77aaff',
     ),
     yAxisInstance(

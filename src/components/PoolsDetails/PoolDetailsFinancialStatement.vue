@@ -55,7 +55,7 @@
           </div>
           <div :class="item.profitLossPercents < 0 ? 'text-danger' : 'text-success'
             ">
-            {{ computedPercent(item.profitLossPercents) }}
+            <!-- {{ computedPercent(item.profitLossPercents) }} -->
           </div>
           )
         </div>
@@ -69,7 +69,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], currentCurrency === 'USD' ? 2 : decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -141,7 +141,7 @@
             ? 'text-danger'
             : 'text-success'
             ">
-            {{ computedPercent(item.LiquidityDepositedPercent) }}
+            <!-- {{ computedPercent(item.LiquidityDepositedPercent) }} -->
           </div>
         </div>
         <div v-if="visibleLiquidity" class="d-flex gap-1 justify-content-end">
@@ -149,7 +149,7 @@
             <CurrencySymbol />{{ formatBigNumber(item[`Deposits${postfix}`], currentCurrency === 'USD' ? 2 : decimals) }}
           </div>
           <div :class="item.DepositsPercent < 0 ? 'text-danger' : 'text-success'">
-            {{ computedPercent(item.DepositsPercent) }}
+            <!-- {{ computedPercent(item.DepositsPercent) }} -->
           </div>
         </div>
         <CCollapse :visible="visibleLiquidity">
@@ -162,7 +162,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], currentCurrency === 'USD' ? 2 : decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -173,7 +173,7 @@
             <CurrencySymbol />{{ formatBigNumber(item[`Withdraws${postfix}`], currentCurrency === 'USD' ? 2 : decimals) }}
           </div>
           <div :class="item.WithdrawsPercent < 0 ? 'text-danger' : 'text-success'">
-            {{ computedPercent(item.WithdrawsPercent) }}
+            <!-- {{ computedPercent(item.WithdrawsPercent) }} -->
           </div>
         </div>
         <CCollapse :visible="visibleLiquidity">
@@ -187,7 +187,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], currentCurrency === 'USD' ? 2 : decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -197,7 +197,7 @@
           <CurrencySymbol />{{ formatBigNumber(item[`TradingVolume${postfix}`]) }}
           <div :class="item.TradingVolumePercents < 0 ? 'text-danger' : 'text-success'
             ">
-            {{ computedPercent(item.TradingVolumePercents) }}
+            <!-- {{ computedPercent(item.TradingVolumePercents) }} -->
           </div>
         </div>
         <CCollapse :visible="visibleVolume">
@@ -209,7 +209,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], currentCurrency === 'USD' ? 2 : decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -283,7 +283,7 @@
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol />{{ formatBigNumber(item[`Revenue${postfix}`], 2) }}
           <div :class="item.RevenuePercent < 0 ? 'text-danger' : 'text-success'">
-            {{ computedPercent(item.RevenuePercent) }}
+            <!-- {{ computedPercent(item.RevenuePercent) }} -->
           </div>
         </div>
         <CCollapse :visible="visibleRevenue">
@@ -295,7 +295,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -304,7 +304,7 @@
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol />{{ formatBigNumber(item[`Fees${postfix}`], 2) }}
           <div :class="item.FeesPercent < 0 ? 'text-danger' : 'text-success'">
-            {{ computedPercent(item.FeesPercent) }}
+            <!-- {{ computedPercent(item.FeesPercent) }} -->
           </div>
         </div>
         <CCollapse :visible="visibleGasFee">
@@ -316,7 +316,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -326,7 +326,7 @@
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol />{{ formatBigNumber(item[`Profit${postfix}`], 2) }}
           <div :class="item.ProfitPercent < 0 ? 'text-danger' : 'text-success'">
-            {{ computedPercent(item.ProfitPercent) }}
+            <!-- {{ computedPercent(item.ProfitPercent) }} -->
           </div>
         </div>
         <CCollapse :visible="visibleProfits">
@@ -338,7 +338,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], 2) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -419,7 +419,7 @@
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol />{{ formatBigNumber(item[`InitialLiquidity${postfix.replace("_","")}`], currentCurrency === 'USD' ? 2 : decimals) }}
           <div :class="item.InitialLiquidityPercent < 0 ? 'text-danger' : 'text-success'">
-            {{ computedPercent(item.InitialLiquidityPercent) }}
+            <!-- {{ computedPercent(item.InitialLiquidityPercent) }} -->
           </div>
         </div>
         <CCollapse :visible="visibleInitialLiquidity">
@@ -432,7 +432,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], currentCurrency === 'USD' ? 2 : decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -442,7 +442,7 @@
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol />{{ formatBigNumber(item[`FinalLiquidity${postfix.replace("_", "")}`], currentCurrency === 'USD' ? 2 : decimals) }}
           <div :class="item.FinalLiquidityPercent < 0 ? 'text-danger' : 'text-success'">
-            {{ computedPercent(item.FinalLiquidityPercent) }}
+            <!-- {{ computedPercent(item.FinalLiquidityPercent) }} -->
           </div>
         </div>
 
@@ -456,7 +456,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw}`], currentCurrency === 'USD' ? 2 : decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -466,7 +466,7 @@
         <div class="flex justify-end gap-2 items-center font-['Roboto_Mono',_monospace]">
           <CurrencySymbol />{{ formatBigNumber(item.Assets, currentCurrency === 'USD' ? 2 : decimals) }}
           <div :class="item.AssetsPercent < 0 ? 'text-danger' : 'text-success'">
-            {{ computedPercent(item.AssetsPercent) }}
+            <!-- {{ computedPercent(item.AssetsPercent) }} -->
           </div>
         </div>
         <CCollapse :visible="visibleAssets">
@@ -478,7 +478,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset.value, currentCurrency === 'USD' ? 2 : decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -489,7 +489,7 @@
           <CurrencySymbol />{{ formatBigNumber(item[`CapitalGains${postfix.replace("_", "")}`], currentCurrency === 'USD' ? 2 : decimals) }}
           <div :class="item.CapitalGainsPercent < 0 ? 'text-danger' : 'text-success'
             ">
-            {{ computedPercent(item.CapitalGainsPercent) }}
+            <!-- {{ computedPercent(item.CapitalGainsPercent) }} -->
           </div>
         </div>
       </div>
@@ -616,7 +616,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd", "")}`], currentCurrency === 'USD' ? 2 : decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -637,7 +637,7 @@
                 <div class="flex items-center gap-1 font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd", "")}`],
                   currentCurrency === 'USD' ? 2 : decimals) }} {{ asset.symbol }} <img :src="computedTokenImage(asset.symbol)" class="h-3 w-3" /></div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -656,7 +656,7 @@
               <div class="d-flex gap-1 justify-content-end" v-for="asset in item.MarketCapInfo" :key="asset.symbol">
                 <div class=" font-['Roboto_Mono',_monospace]">{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd","")}`], currentCurrency === 'USD' ? 2 : decimals) }}</div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
@@ -677,7 +677,7 @@
                   <CurrencySymbol />{{ formatBigNumber(asset[`value${postfix_raw.replace("Usd", "")}`], currentCurrency === 'USD' ? 2 : decimals) }}
                 </div>
                 <div :class="asset.percent < 0 ? 'text-danger' : 'text-success'">
-                  {{ computedPercent(asset.percent) }}
+                  <!-- {{ computedPercent(asset.percent) }} -->
                 </div>
               </div>
             </div>
