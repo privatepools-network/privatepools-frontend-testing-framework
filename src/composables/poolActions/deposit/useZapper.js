@@ -20,7 +20,10 @@ const ONE_INCH_SLIPPAGE = 0.1
 
 export function denormAmounts(amounts, decimals) {
   return amounts.map((a, i) =>
-    ethers.utils.parseUnits(parseFloat(a).toFixed(decimals[i]), decimals[i]),
+    ethers.utils.parseUnits(
+      roundDown(parseFloat(a).toFixed(decimals[i]), decimals[i]),
+      decimals[i],
+    ),
   )
 }
 
@@ -261,12 +264,11 @@ async function zap0x(
   }
 }
 
-
 export async function useTrades(
   pool,
   srcToken,
   srcAmount,
-  slippage = 2,
+  slippage = 5,
   rawAmount = false,
 ) {
   let aggregator = '1inch'
@@ -297,8 +299,6 @@ async function fetch1InchTrades(
 ) {
   console.log('srcToken', srcToken)
   console.log('srcAmount', srcAmount)
-
-
 
   try {
     const provider = await InitializeMetamask()
@@ -335,7 +335,7 @@ async function fetch1InchTrades(
     let containsSrcToken = false
     let spent = ethers.BigNumber.from(0)
     for (let i = 0; i < pool.tokens.length; i++) {
-      const amount = pool.tokens[i].weight * decimalsAmount
+      const amount = (pool.tokens[i].weight * decimalsAmount).toFixed(0)
       if (pool.tokens[i].address !== srcToken) {
         fromAmounts.push(
           ethers.utils.formatUnits(
@@ -393,7 +393,6 @@ async function fetch1InchTrades(
       }
     }
     if (containsSrcToken) {
-
       const index = descs.findIndex((item) => item.dstToken == srcToken)
       const remainingAmount = ethers.BigNumber.from(decimalsAmount).sub(
         ethers.BigNumber.from(spent),
@@ -423,7 +422,7 @@ async function fetch0xTrades(
   pool,
   srcToken,
   srcAmount,
-  slippage = 2,
+  slippage = 5,
   rawAmount = false,
 ) {
   try {
@@ -460,7 +459,7 @@ async function fetch0xTrades(
     let containsSrcToken = false
     let spent = ethers.BigNumber.from(0)
     for (let i = 0; i < pool.tokens.length; i++) {
-      const amount = pool.tokens[i].weight * decimalsAmount
+      const amount = (pool.tokens[i].weight * decimalsAmount).toFixed(0)
       if (pool.tokens[i].address !== srcToken) {
         fromAmounts.push(
           ethers.utils.formatUnits(
@@ -581,7 +580,7 @@ export const fetch0xData = async (
   dstToken,
   amount,
   from,
-  slippage = 100,
+  slippage = 500,
 ) => {
   try {
     const params = {
@@ -591,6 +590,7 @@ export const fetch0xData = async (
       sellAmount: amount,
       taker: from,
       slippage,
+      excludedSources: 'ApeSwap',
     }
     let data = null
     try {

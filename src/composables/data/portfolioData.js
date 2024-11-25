@@ -17,6 +17,11 @@ export async function getPortfolioData(network, address) {
       '1Y': { APR: 0 },
     }
   }
+  const day_ago_ts = Date.now() - 1000 * 60 * 60 * 24
+  const week_ago_ts = Date.now() - 1000 * 60 * 60 * 24 * 7
+  const month_ago_ts = Date.now() - 1000 * 60 * 60 * 24 * 30
+  console.log('CHART - ', data[3].data)
+  const trades = data[1].data.filter((item) => item.Actions == 'Trade')
   return {
     pools: data[0].data.map((item) => ({
       ...item,
@@ -42,6 +47,15 @@ export async function getPortfolioData(network, address) {
       'AVG Profit Per Trade_BTC':
         item.Trades > 0 ? item.Profit_BTC / item.Trades : 0,
       'Number Of Trades': item.Trades,
+      'User Profits': trades
+        .filter((t) => t.poolId == item.id)
+        .reduce((sum, value) => sum + value.Profits, 0),
+      'User Profits_ETH': trades
+        .filter((t) => t.poolId == item.id)
+        .reduce((sum, value) => sum + value.Profits_ETH, 0),
+      'User Profits_BTC': trades
+        .filter((t) => t.poolId == item.id)
+        .reduce((sum, value) => sum + value.Profits_ETH, 0),
     })),
     all_pools: data[0].data,
     activity: data[1].data,
@@ -61,54 +75,45 @@ export async function getPortfolioData(network, address) {
     statistics: data[4].data,
     financialStatement: data[5].data,
     cardStats: {
-      Profit: data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['Profit']) / 100 * item.percentage,
+      Profit: data[3].data.reduce(
+        (sum, item) => sum + parseFloat(item['Profits']),
         0,
       ),
-      Profit_ETH: data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['Profit_ETH']) / 100 * item.percentage,
+      Profit_ETH: data[3].data.reduce(
+        (sum, item) => sum + parseFloat(item['Profits_ETH']),
         0,
       ),
-      Profit_BTC: data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['Profit_BTC']) / 100 * item.percentage,
+      Profit_BTC: data[3].data.reduce(
+        (sum, item) => sum + parseFloat(item['Profits_BTC']),
         0,
       ),
-      'Profit 24H': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit24H']) / 100 * item.percentage,
-        0,
-      ),
-      'Profit 7D': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit7D']) / 100 * item.percentage,
-        0,
-      ),
-      'Profit 30D': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit30D']) / 100 * item.percentage,
-        0,
-      ),
-      'Profit 24H_ETH': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit24H_ETH']) / 100 * item.percentage,
-        0,
-      ),
-      'Profit 7D_ETH': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit7D_ETH']) / 100 * item.percentage,
-        0,
-      ),
-      'Profit 30D_ETH': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit30D_ETH']) / 100 * item.percentage,
-        0,
-      ),
-      'Profit 24H_BTC': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit24H_BTC']) / 100 * item.percentage,
-        0,
-      ),
-      'Profit 7D_BTC': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit7D_BTC']) / 100 * item.percentage,
-        0,
-      ),
-      'Profit 30D_BTC': data[0].data.reduce(
-        (sum, item) => sum + parseFloat(item['profit30D_BTC']) / 100 * item.percentage,
-        0,
-      ),
+      'Profit 24H': data[3].data
+        .filter((item) => item.timestamp >= day_ago_ts)
+        .reduce((sum, item) => sum + parseFloat(item['Profits']), 0),
+      'Profit 7D': data[3].data
+        .filter((item) => item.timestamp >= week_ago_ts)
+        .reduce((sum, item) => sum + parseFloat(item['Profits']), 0),
+      'Profit 30D': data[3].data
+        .filter((item) => item.timestamp >= month_ago_ts)
+        .reduce((sum, item) => sum + parseFloat(item['Profits']), 0),
+      'Profit 24H_ETH': data[3].data
+        .filter((item) => item.timestamp >= day_ago_ts)
+        .reduce((sum, item) => sum + parseFloat(item['Profits_ETH']), 0),
+      'Profit 7D_ETH': data[3].data
+        .filter((item) => item.timestamp >= week_ago_ts)
+        .reduce((sum, item) => sum + parseFloat(item['Profits_ETH']), 0),
+      'Profit 30D_ETH': data[3].data
+        .filter((item) => item.timestamp >= month_ago_ts)
+        .reduce((sum, item) => sum + parseFloat(item['Profits_ETH']), 0),
+      'Profit 24H_BTC': data[3].data
+        .filter((item) => item.timestamp >= day_ago_ts)
+        .reduce((sum, item) => sum + parseFloat(item['Profits_BTC']), 0),
+      'Profit 7D_BTC': data[3].data
+        .filter((item) => item.timestamp >= week_ago_ts)
+        .reduce((sum, item) => sum + parseFloat(item['Profits_BTC']), 0),
+      'Profit 30D_BTC': data[3].data
+        .filter((item) => item.timestamp >= month_ago_ts)
+        .reduce((sum, item) => sum + parseFloat(item['Profits_BTC']), 0),
       'APR 24H': aprs['24H'].APR,
       'APR 7D': aprs['7D'].APR,
       'APR 30D': aprs['1M'].APR,
@@ -171,8 +176,6 @@ export async function getPortfolioBalance(network, userAddress) {
 }
 
 export async function getUserPools(network, userAddress) {
- 
-
   try {
     const response = await axios.get(
       `${BACKEND_URL[network]}/data/portfolio/${userAddress}/pools`,
