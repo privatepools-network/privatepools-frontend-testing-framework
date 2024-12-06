@@ -96,7 +96,13 @@ export function getMaxBalance(token) {
         ).toFixed(token.decimals),
         token.decimals,
       )
-    : parseUnits(roundDown(token.amount, token.decimals), token.decimals)
+    : parseUnits(
+        roundDown(
+          parseFloat(token.amount).toFixed(token.decimals),
+          token.decimals,
+        ),
+        token.decimals,
+      )
   if (token.userBalance && amount.gt(balance)) {
     if (amount.sub(balance).gt(slippage)) {
       throw new Error('BAL#406')
@@ -115,7 +121,7 @@ export function getMaxBalance(token) {
  * @returns {any} formatted tx data for balancer
  */
 function txData(pool, amountsIn, minimumBPT) {
-  if (pool.onchain.totalSupply === '0') {
+  if (parseFloat(pool.onchain.totalSupply).toString() == '0') {
     return encodeJoinWeightedPool({ kind: 'Init', amountsIn })
   } else {
     if (pool.poolType == 'Investment' && !pool.onchain.swapEnabled) {

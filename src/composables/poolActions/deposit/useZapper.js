@@ -44,6 +44,9 @@ export async function useZapper(
   ConfirmZapToastPending,
   aggregatorName = '1inch',
 ) {
+  if (srcToken === '0x0000000000000000000000000000000000000000') {
+    srcToken = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+  }
   if (aggregatorName == '1inch') {
     return await zap1inch(
       pool,
@@ -272,6 +275,10 @@ export async function useTrades(
   rawAmount = false,
 ) {
   let aggregator = '1inch'
+  // temporary WBNB fix
+  if (srcToken === '0x0000000000000000000000000000000000000000') {
+    srcToken = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+  }
   let trades = await fetch1InchTrades(
     pool,
     srcToken,
@@ -279,10 +286,7 @@ export async function useTrades(
     slippage,
     rawAmount,
   )
-  // temporary WBNB fix
-  if (srcToken === '0x0000000000000000000000000000000000000000') {
-    srcToken = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
-  }
+
   if (!trades) {
     aggregator = '0x'
     trades = await fetch0xTrades(pool, srcToken, srcAmount, slippage, rawAmount)
