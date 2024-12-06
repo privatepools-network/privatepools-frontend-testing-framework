@@ -577,19 +577,26 @@ async function signatureStart(accountData) {
 }
 
 onMounted(async () => {
-  isMetamaskSupported.value = window.ethereum !== undefined
-  console.log('MM SUPPORTED - ', isMetamaskSupported)
-  // console.log('localStorageSignature', localStorage.getItem('signature'))
-  if (isMetamaskSupported.value) {
-    await connectWallet()
-    // await requestSignature()
+  // isMetamaskSupported.value = window.ethereum !== undefined
+  // console.log('MM SUPPORTED - ', isMetamaskSupported)
+  onMounted(async () => {
+  const hasRabby = window.ethereum && window.ethereum.isRabby;
+  const hasMetamask = window.ethereum && !window.ethereum.isRabby;
+
+  if (hasRabby) {
+    console.log('Rabby Wallet detected');
+    await connectRabbyWallet();
+  } else if (hasMetamask) {
+    console.log('MetaMask detected');
+    await connectWallet();
   } else {
     notify(
       'error',
-      'Metamask is not installed!',
-      'Please install Metamask browser extension.',
-    )
+      'No Wallet Detected!',
+      'Please install Rabby Wallet or MetaMask.',
+    );
   }
+});
 })
 
 // Create a message to be signed
@@ -661,6 +668,30 @@ async function connectWallet() {
       )
     })
 }
+
+async function connectRabbyWallet() {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+    const network = await provider.getNetwork();
+
+    isConnectedToWeb3.value = true;
+    localStorage.setItem('isConnectedToWeb3', true);
+
+    setMetamaskProvider(provider);
+    accountData.value = accounts;
+    emit('setAddress', accounts[0]);
+    ethereumNetwork.value = network;
+    setNetworkId(network.chainId);
+
+    notify('success', 'Rabby Wallet Connected!', `Connected account: ${accounts[0]}`);
+  } catch (err) {
+    console.error('Failed to connect Rabby Wallet', err);
+    notify('error', 'Connection Failed', 'Unable to connect Rabby Wallet.');
+  }
+}
+
 
 function handleAccountsChanged(accounts) {
   emit('setAddress', accounts[0])
