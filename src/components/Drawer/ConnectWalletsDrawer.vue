@@ -20,6 +20,14 @@
         <div><img :src="'https://img.cryptorank.io/coins/rabby_wallet1682490223501.png'" width="40" /></div>
         <div class="wallet_text">Rabby Wallet</div>
       </div>
+      <div class="wallet_container_sidebar " @click="connectWallet(true)">
+        <div><img :src="'https://static-00.iconduck.com/assets.00/brave-browser-icon-2048x2048-2d3r96ai.png'" width="40" /></div>
+        <div class="wallet_text">Brave Wallet</div>
+      </div>
+      <!-- <div class="wallet_container_sidebar " @click="connectWalletConnect()">
+        <div><img :src="'https://cryptnox.com/directory/content/uploads/2024/01/image-27-2.svg'" width="40" /></div>
+        <div class="wallet_text">Wallet connect</div>
+      </div> -->
     </div>
       <div class="wallet_bottom_text text-white">
         By connecting a wallet, you acknowledge that you have read and understand the Private Pools Network
@@ -66,6 +74,8 @@ async function connectWallet(called_by_user = false) {
       console.error(err)
     })
 }
+
+
 
 async function handleChainChanged() {
   let provider = new ethers.providers.Web3Provider(window.ethereum)

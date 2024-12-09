@@ -11,6 +11,7 @@ import { inject } from '@vercel/analytics'
 import VueClickAway from 'vue3-click-away'
 import { createPinia } from 'pinia'
 import i18n from '../i18n'
+import { Chains, createWeb3Auth } from '@kolirt/vue-web3-auth'
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -24,6 +25,14 @@ app.use(VueApexCharts)
 app.component('CIcon', CIcon)
 app.component('apexchart', VueApexCharts)
 app.use(FloatingVue)
+app.use(createWeb3Auth({
+    projectId: 'c028041a7b7cb50cd2eab4fd1bb982a3', // generate here https://cloud.walletconnect.com/ and turn on 'Supports Sign v2'
+    chains: [
+      Chains.bsc,
+    //   Chains.mainnet,
+    //   Chains.polygon
+    ]
+  }))
 
 // TODO Fix for sidebar 
 app.use(VueClickAway)

@@ -43,6 +43,7 @@
     "@ethersproject/units": "^5.7.0",
     "@fireworks-js/vue": "^2.10.7",
     "@georgeroman/balancer-v2-pools": "^0.0.14",
+    "@kolirt/vue-web3-auth": "^2.3.4",
     "@playwright/test": "1.44.1",
     "@synthetixio/synpress": "4.0.0-alpha.9",
     "@synthetixio/synpress-cache": "0.0.1-alpha.9",
