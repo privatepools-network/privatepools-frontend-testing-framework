@@ -28,10 +28,11 @@
         <div><img :src="'https://help.coinbase.com/public-assets/favicons/apple-icon-180x180.png'" width="40" /></div>
         <div class="wallet_text">Coinbase Wallet</div>
       </div>
-      <!-- <div class="wallet_container_sidebar " @click="connectWalletConnect()">
+      <div class="wallet_container_sidebar " @click="connect()">
         <div><img :src="'https://cryptnox.com/directory/content/uploads/2024/01/image-27-2.svg'" width="40" /></div>
-        <div class="wallet_text">Wallet connect</div>
-      </div> -->
+        <div class="wallet_text">{{ loading.connecting ? 'Connecting...' : 'Wallet connect' }}</div>
+      </div>
+
     </div>
       <div class="wallet_bottom_text text-white">
         By connecting a wallet, you acknowledge that you have read and understand the Private Pools Network
@@ -44,14 +45,33 @@
 
 <script setup>
 import metamask from '@/assets/images/metamask.png'
-import { defineEmits, ref } from 'vue'
+import { defineEmits, reactive, ref } from 'vue'
 import { setMetamaskProvider } from '@/composables/useMetamaskProvider'
 import { ethers } from "ethers";
 import { setNetworkId } from '@/composables/useNetwork';
-
+import {
+  $off,
+  $on,
+  Events,
+  account,
+  accountDetails,
+  chain,
+  getAvailableChains,
+  connect as masterConnect,
+  disconnect as masterDisconnect,
+  switchChain as masterSwitchChain,
+  selectChain
+} from '@kolirt/vue-web3-auth'
 const emit = defineEmits(['toggleSettings', "toggleSidebar", 'setAddress'])
 
 const address = ref(null)
+
+const loading = reactive({
+  connecting: false,
+  connectingTo: {},
+  switchingTo: {},
+  logouting: false
+})
 
 async function connectWallet(called_by_user = false) {
   window.ethereum
@@ -80,13 +100,38 @@ async function connectWallet(called_by_user = false) {
 }
 
 
-
-
-
 async function handleChainChanged() {
   let provider = new ethers.providers.Web3Provider(window.ethereum)
   const newNetwork = await provider.getNetwork()
   setNetworkId(newNetwork.chainId)
+}
+
+
+
+async function connect(newChain) {
+  const handler = (state) => {
+    if (!state) {
+      if (newChain) {
+        loading.connectingTo[newChain.id] = false
+      } else {
+        loading.connecting = false
+      }
+
+      $off(Events.ModalStateChanged, handler)
+    }
+  }
+
+  $on(Events.ModalStateChanged, handler)
+
+  if (newChain) {
+    loading.connectingTo[newChain.id] = true
+  } else {
+    loading.connecting = true
+  }
+
+
+  await masterConnect(newChain)
+  connectWallet(true)
 }
 
 </script>
