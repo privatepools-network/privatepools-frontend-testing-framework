@@ -65,10 +65,10 @@
       </div>
     </div>
     {{ console.log('filterByStatus', filterByStatus) }}
-    <div v-if="all_pools.length === 0 && user_staked_pools === null" class="my-5">
+    <div v-if="all_pools?.length === 0 && user_staked_pools === null" class="my-5">
         <LoaderPulse />
       </div>
-      <div v-else-if="user_staked_pools.length === 0" class="my-5 text-center text-black dark:!text-white">
+      <div v-else-if="user_staked_pools?.length === 0" class="my-5 text-center text-black dark:!text-white">
         <div>{{ $t('no_results') }}</div>
         <div>{{ $t('choose_a_pool') }}</div>
       </div>

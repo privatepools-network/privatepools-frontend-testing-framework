@@ -59,7 +59,21 @@
       {{ $t('Analytics') }}
     </div>
 
+    <div
+      v-if="width > 768"
+      @click="router.push('/referrals')"
+      :class="
+        router.currentRoute.value.path === '/referrals'
+          ? 'navigation_text_selected navigation_text'
+          : 'navigation_text'
+      "
+    >
+      {{ $t('Referrals') }}
+    </div>
+
   
+ 
+
     <!-- <Dropdown :distance="10" v-if="width > 768">
       <div class="arrow_header">
         <svg
