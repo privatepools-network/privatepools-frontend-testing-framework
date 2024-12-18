@@ -582,12 +582,8 @@ onMounted(async () => {
   onMounted(async () => {
   const hasRabby = window.ethereum && window.ethereum.isRabby;
   const hasMetamask = window.ethereum && !window.ethereum.isRabby;
-  const hasBrave = window.ethereum && window.ethereum.isBraveWallet; 
-  
-  if (hasBrave) {
-    console.log('Brave Wallet detected');
-    await connectBraveWallet();
-  } else if (hasRabby) {
+
+  if (hasRabby) {
     console.log('Rabby Wallet detected');
     await connectRabbyWallet();
   } else if (hasMetamask) {
@@ -597,7 +593,7 @@ onMounted(async () => {
     notify(
       'error',
       'No Wallet Detected!',
-      'Please install Brave Wallet, Rabby Wallet, or MetaMask.',
+      'Please install Rabby Wallet or MetaMask.',
     );
   }
 });
@@ -693,30 +689,6 @@ async function connectRabbyWallet() {
   } catch (err) {
     console.error('Failed to connect Rabby Wallet', err);
     notify('error', 'Connection Failed', 'Unable to connect Rabby Wallet.');
-  }
-}
-
-
-async function connectBraveWallet() {
-  try {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-    const network = await provider.getNetwork();
-
-    isConnectedToWeb3.value = true;
-    localStorage.setItem('isConnectedToWeb3', true);
-
-    setMetamaskProvider(provider); // Use the same logic as MetaMask to set the provider
-    accountData.value = accounts;
-    emit('setAddress', accounts[0]);
-    ethereumNetwork.value = network;
-    setNetworkId(network.chainId);
-
-    notify('success', 'Brave Wallet Connected!', `Connected account: ${accounts[0]}`);
-  } catch (err) {
-    console.error('Failed to connect Brave Wallet', err);
-    notify('error', 'Connection Failed', 'Unable to connect Brave Wallet.');
   }
 }
 
