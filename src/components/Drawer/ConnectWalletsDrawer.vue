@@ -11,22 +11,15 @@
       </div>
     </div>
     <div class="d-flex flex-column justify-content-between h-100 gap-3 mt-3">
-      <div class="flex flex-col gap-3">
       <div class="wallet_container_sidebar " @click="connectWallet(true)">
         <div><img :src="metamask" width="40" /></div>
         <div class="wallet_text">MetaMask</div>
       </div>
-      <div class="wallet_container_sidebar " @click="connectWallet(true)">
-        <div><img :src="'https://img.cryptorank.io/coins/rabby_wallet1682490223501.png'" width="40" /></div>
-        <div class="wallet_text">Rabby Wallet</div>
-      </div>
-    </div>
       <div class="wallet_bottom_text text-white">
         By connecting a wallet, you acknowledge that you have read and understand the Private Pools Network
         <a class="wallet_link" href="/protocol_disclaimer">{{ $t('Protocol Disclaimer') }}</a>.
       </div>
     </div>
-
   </div>
 </template>
 
