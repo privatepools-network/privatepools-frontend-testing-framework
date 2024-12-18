@@ -14,9 +14,7 @@ export default function useInvestFormMath(
   /**
    * STATE
    */
-  const tokens = computed(() =>
-    _tokens.length > 0 ? _tokens : pool.value ? pool.value.tokens : [],
-  )
+  const tokens = computed(() => _tokens.length > 0 ? _tokens : (pool.value ? pool.value.tokens : []))
   const batchSwap = ref({})
   const { minusSlippageScaled } = useSlippage()
   /**
@@ -59,11 +57,7 @@ export default function useInvestFormMath(
   )
   const priceImpact = computed(() => {
     console.log(hasAmounts)
-    if (
-      (!hasAmounts.value && !pool.value.onchain) ||
-      parseFloat(pool.value.onchain.totalSupply).toString() == '0'
-    )
-      return 0
+    if (!hasAmounts.value && !pool.value.onchain) return 0
     return (
       poolCalculator
         .priceImpact(fullAmounts.value, {
@@ -75,11 +69,7 @@ export default function useInvestFormMath(
 
   const fullBPTOut = computed(() => {
     let _bptOut
-    if (
-      !pool.value.onchain ||
-      parseFloat(pool.value.onchain.totalSupply).toString() == '0'
-    )
-      return '0'
+    if (!pool.value.onchain) return '0'
     if (isStablePhantomPool.value) {
       _bptOut = batchSwap.value
         ? bnum(batchSwap.value.amountTokenOut).abs().toFixed()

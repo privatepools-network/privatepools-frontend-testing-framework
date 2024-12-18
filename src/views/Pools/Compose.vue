@@ -250,7 +250,7 @@
                       font-weight: 500;
                       text-align: right;
                     " :value="lineNumbers[tokenIndex] > 0
-                        ? (lineNumbers[tokenIndex] / 10000000).toFixed(2)
+                        ? (lineNumbers[tokenIndex] / 1000).toFixed(2)
                         : lineNumbers[tokenIndex].toFixed(2)
                       " @input="(e) => onTokenInput(e, tokenIndex)" type="number" />
                 </div>
@@ -267,7 +267,7 @@
                     <div>
                       ${{
                         (
-                          (lineNumbers[tokenIndex] / 10000000) *
+                          (lineNumbers[tokenIndex] / 1000) *
                           token.price
                         ).toFixed(2)
                       }}
@@ -275,7 +275,7 @@
                   </div>
                   <div class="mt-2">
                     <Slider v-if="lineNumbers.length > 0" @change="(value) => OnSliderValueChange(tokenIndex, value)
-                      " :tooltips="false" :min="0" :max="maxBalances[token.address] * 10000000" :step="1"
+                      " :tooltips="false" :min="0" :max="maxBalances[token.address] * 1000" :step="1"
                       v-model="lineNumbers[tokenIndex]" />
                   </div>
                 </div>
@@ -699,7 +699,7 @@ function changeVisibleNetworkModal() {
 
 const lineNumbers = ref([])
 const formattedLineNumbers = computed(() =>
-  lineNumbers.value.map((ln) => ln / 10000000),
+  lineNumbers.value.map((ln) => ln / 1000),
 )
 
 let lastDepositChanged = ref(0)
@@ -832,7 +832,7 @@ function OptimizeValue() {
   if (lastDepositChanged.value == -1) return
   let token = tokensData.value[lastDepositChanged.value]
   let usdAmount =
-    (lineNumbers.value[lastDepositChanged.value] / 10000000) *
+    (lineNumbers.value[lastDepositChanged.value] / 1000) *
     (token.price > 0 ? token.price : 1)
   usdAmount = Math.min(usdAmount, leastBalanceValue.value)
 
@@ -843,13 +843,13 @@ function OptimizeValue() {
     let newValue =
       toOptimizeUsdAmount /
       (tokensData.value[i].price ? tokensData.value[i].price : 1)
-    lineNumbers.value[i] = newValue * 10000000
+    lineNumbers.value[i] = newValue * 1000
   }
 }
 
 function OnSliderValueChange(index, value) {
   console.log(value)
-  let balance = tokensData.value[index].balance * 10000000
+  let balance = tokensData.value[index].balance * 1000
   if (balance < value) {
     lineNumbers.value[index] = balance
   } else {
@@ -859,7 +859,7 @@ function OnSliderValueChange(index, value) {
   OnLineNumberChange(index)
 }
 function OnMaxClick(index) {
-  OnSliderValueChange(index, tokensData.value[index].balance * 10000000)
+  OnSliderValueChange(index, tokensData.value[index].balance * 1000)
 }
 
 function OnAllMaxClick() {
@@ -926,7 +926,7 @@ const totalFiat = computed(() =>
   lineNumbers.value.reduce(
     (sum, current, index) =>
       sum +
-      (current / 10000000) *
+      (current / 1000) *
       (tokensData.value[index].price > 0 ? tokensData.value[index].price : 0),
     0,
   ),
@@ -1010,9 +1010,9 @@ async function onAddToken(value) {
 }
 
 function RemainingBalance(token, index) {
-  let value1 = parseFloat(token.balance * 10000000)
+  let value1 = parseFloat(token.balance * 1000)
   let value2 = parseFloat(lineNumbers.value[index])
-  let diff = (value1 - value2) / 10000000
+  let diff = (value1 - value2) / 1000
   return diff < 0 && diff > -1 ? 0 : diff.toFixed(4)
 }
 
@@ -1427,7 +1427,7 @@ function onTokenInput(event, tokenIndex) {
   let result_value = event.target.value
   console.log(result_value)
   if (parseFloat(result_value) != 0) {
-    result_value = parseFloat(event.target.value) * 10000000
+    result_value = parseFloat(event.target.value) * 1000
   }
   if (isNaN(parseFloat(result_value))) {
     result_value = 0
