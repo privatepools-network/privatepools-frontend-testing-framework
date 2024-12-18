@@ -106,10 +106,7 @@ const props = defineProps(['selectedAddress', 'allPortfolios'])
 const { selectedAddress, allPortfolios } = toRefs(props)
 defineEmits(['changeToSpecificPortfolio'])
 
-const user_info = computed(() => allPortfolios.value.find((item) => item['Wallet'].toLowerCase() == selectedAddress.value.toLowerCase()) ?? { Wallet: selectedAddress.value, Place: allPortfolios?.value?.length + 1, Profit: 0, 'Number of Pools': 0, 'Gas Fees': 0, 'Traded Volume': 0, 'Total Deposited': 0, "PNL": 0 })
-
-console.log('user_info', user_info)
-
+const user_info = computed(() => allPortfolios.value.find((item) => item['Wallet'].toLowerCase() == selectedAddress.value.toLowerCase()) ?? { Wallet: selectedAddress.value, Place: allPortfolios.value.length + 1, Profit: 0, 'Number of Pools': 0, 'Gas Fees': 0, 'Traded Volume': 0, 'Total Deposited': 0, "PNL": 0 })
 const user_staked_pools = ref(null)
 const portfolio_pools = ref([])
 const specificPortfolioStats = computed(() => [

@@ -29,7 +29,7 @@ export async function GetUserUniswapPools(address, networkId) {
 function formatCLPools(positions) {
   let formatted = []
   let unique_pools = Array.from(new Set(positions.map((item) => item.pool.id)))
-  for (let i = 0; i < unique_pools?.length; i++) {
+  for (let i = 0; i < unique_pools.length; i++) {
     let pool_positions = positions.filter(
       (item) => item.pool.id == unique_pools[i],
     )
@@ -37,7 +37,7 @@ function formatCLPools(positions) {
     let deposited1 = 0
     let symbol0 = null
     let symbol1 = null
-    for (let k = 0; k < pool_positions?.length; k++) {
+    for (let k = 0; k < pool_positions.length; k++) {
       if (!symbol0) {
         symbol0 = pool_positions[k].token0.symbol
         symbol1 = pool_positions[k].token1.symbol
