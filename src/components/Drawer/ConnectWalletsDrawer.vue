@@ -24,10 +24,6 @@
         <div><img :src="'https://static-00.iconduck.com/assets.00/brave-browser-icon-2048x2048-2d3r96ai.png'" width="40" /></div>
         <div class="wallet_text">Brave Wallet</div>
       </div>
-      <div class="wallet_container_sidebar " @click="connectWallet(true)">
-        <div><img :src="'https://help.coinbase.com/public-assets/favicons/apple-icon-180x180.png'" width="40" /></div>
-        <div class="wallet_text">Coinbase Wallet</div>
-      </div>
       <!-- <div class="wallet_container_sidebar " @click="connectWalletConnect()">
         <div><img :src="'https://cryptnox.com/directory/content/uploads/2024/01/image-27-2.svg'" width="40" /></div>
         <div class="wallet_text">Wallet connect</div>
@@ -78,8 +74,6 @@ async function connectWallet(called_by_user = false) {
       console.error(err)
     })
 }
-
-
 
 
 

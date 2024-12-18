@@ -577,19 +577,14 @@ async function signatureStart(accountData) {
 }
 
 onMounted(async () => {
-  isMetamaskSupported.value = window.ethereum !== undefined
-  console.log('MM SUPPORTED - ', isMetamaskSupported)
-
+  // isMetamaskSupported.value = window.ethereum !== undefined
+  // console.log('MM SUPPORTED - ', isMetamaskSupported)
+  onMounted(async () => {
   const hasRabby = window.ethereum && window.ethereum.isRabby;
   const hasMetamask = window.ethereum && !window.ethereum.isRabby;
   const hasBrave = window.ethereum && window.ethereum.isBraveWallet; 
-  const hasCoinbaseWallet = window.ethereum && window.ethereum.isCoinbaseWallet;
-
-  if (hasCoinbaseWallet) {
-    console.log('Coinbase Wallet detected');
-    await connectCoinbaseWallet();
-  }
-  else if (hasBrave) {
+  
+  if (hasBrave) {
     console.log('Brave Wallet detected');
     await connectBraveWallet();
   } else if (hasRabby) {
@@ -602,10 +597,11 @@ onMounted(async () => {
     notify(
       'error',
       'No Wallet Detected!',
-      'Please install Brave Wallet, Rabby Wallet, Coinbase Wallet or MetaMask.',
+      'Please install Brave Wallet, Rabby Wallet, or MetaMask.',
     );
   }
 });
+})
 
 // Create a message to be signed
 function createMessage(userAddress) {
@@ -721,32 +717,6 @@ async function connectBraveWallet() {
   } catch (err) {
     console.error('Failed to connect Brave Wallet', err);
     notify('error', 'Connection Failed', 'Unable to connect Brave Wallet.');
-  }
-}
-
-
-async function connectCoinbaseWallet() {
-  try {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-    const network = await provider.getNetwork();
-
-    isConnectedToWeb3.value = true;
-    localStorage.setItem('isConnectedToWeb3', true);
-
-    setMetamaskProvider(provider);  
-    accountData.value = accounts;
-    emit('setAddress', accounts[0]);
-    ethereumNetwork.value = network;
-    
-    localStorage.setItem('ethereumNetwork', JSON.stringify(network));
-    console.log('Coinbase Wallet connected:', accounts[0]);
-
-    notify('success', 'Coinbase Wallet Connected!', `Connected account: ${accounts[0]}`);
-  } catch (err) {
-    console.error('Failed to connect Coinbase Wallet', err);
-    notify('error', 'Connection Failed', 'Unable to connect Coinbase Wallet.');
   }
 }
 
