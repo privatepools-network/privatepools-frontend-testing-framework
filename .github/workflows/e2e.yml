@@ -7,9 +7,9 @@ on:
     - cron: '0 20 * * *' # 9:00 PM CET (UTC+1) / 8:00 PM UTC
   push:
     branches:
-      # - master
+      - master
       # - main
-      - ivan-dev
+      # - ivan-dev
   pull_request:
     paths:
       - '.github/actions/**/*.yml'

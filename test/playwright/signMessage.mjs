@@ -47,7 +47,7 @@ export async function signMessage(
   }
 
   console.log('s8')
-  await page.goto('http://localhost:8080/pools')
+  await page.goto('https://beta.privatepools.network//pools')
 
   console.log('s9')
   await page.waitForSelector(

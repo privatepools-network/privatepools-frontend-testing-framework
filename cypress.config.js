@@ -36,7 +36,7 @@ module.exports = defineConfig({
     taskTimeout: 9999999,
     responseTimeout: 9999999,
     requestTimeout: 9999999,
-    baseUrl: 'http://localhost:8080',
+    baseUrl: 'https://beta.privatepools.network/',
     testIsolation: true,
     supportFile: 'cypress/support/e2e.js',
     env: {

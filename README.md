@@ -46,7 +46,7 @@ bashCopy code
 
 `npm run serve`
 
-This will start a development server, and you can view the app by navigating to [http://localhost:8080](http://localhost:8080/) in your browser.
+This will start a development server, and you can view the app by navigating to [https://beta.privatepools.network/](https://beta.privatepools.network//) in your browser.
 
 To build the project for production:
 

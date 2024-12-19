@@ -17,7 +17,7 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
   const page = await context.newPage()
 
   // Go to a locally hosted MetaMask Test Dapp.
-  await page.goto('http://localhost:8080')
+  await page.goto('https://beta.privatepools.network/')
 
   await page.locator('#connectButton').click()
 

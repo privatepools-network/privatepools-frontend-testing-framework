@@ -14,7 +14,7 @@ export default defineConfig({
   workers: 1,
 
   use: {
-    baseURL: 'http://localhost:8080/',
+    baseURL: 'https://beta.privatepools.network//',
     trace: 'on',
   },
 
@@ -28,7 +28,7 @@ export default defineConfig({
   retries: 1,
   webServer: {
     command: 'pnpm run serve',
-    url: 'http://localhost:8080/',
+    url: 'https://beta.privatepools.network//',
     reuseExistingServer: false,
     timeout: 1200_000,
   },

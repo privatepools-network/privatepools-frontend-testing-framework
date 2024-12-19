@@ -26,7 +26,7 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
   // const page = await context.newPage()
 
-  // await page.goto('http://localhost:8080/pools')
+  // await page.goto('https://beta.privatepools.network//pools')
 
   // try {
   //   const anvil = createAnvil({
