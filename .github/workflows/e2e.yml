@@ -71,9 +71,9 @@ jobs:
 
       - name: Build cache
         run: xvfb-run pnpm run build:cache
-        # run: xvfb-run pnpm run build:cache
         env:
-          RANDOM_PARAMETER: 'HEEEEEEERE!1'
+          DEBUG: 'pw:api,synpress:*'
+          PLAYWRIGHT_HEADLESS: 'false'
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           SEED_PHRASE: ${{ secrets.SEED_PHRASE }}
 
