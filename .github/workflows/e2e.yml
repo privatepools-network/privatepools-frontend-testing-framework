@@ -190,7 +190,7 @@ jobs:
 
 
   success-notification:
-    name: Notify success on Telegram!
+    name: Notify success on Telegram
     needs: test-e2e-headful
     if: ${{ success() }}
     runs-on: ubuntu-latest
