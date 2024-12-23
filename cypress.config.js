@@ -36,7 +36,7 @@ module.exports = defineConfig({
     taskTimeout: 9999999,
     responseTimeout: 9999999,
     requestTimeout: 9999999,
-    baseUrl: 'https://privatepools-frontend-git-dev-dark-pools-team.vercel.app',
+    baseUrl: 'https://beta.privatepools.network/',
     testIsolation: true,
     supportFile: 'cypress/support/e2e.js',
     env: {

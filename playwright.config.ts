@@ -10,7 +10,7 @@ export default defineConfig({
   workers: 1,
 
   use: {
-    baseURL: 'https://privatepools-frontend-git-dev-dark-pools-team.vercel.app', 
+    baseURL: 'https://beta.privatepools.network/', 
     trace: 'on',
   },
 

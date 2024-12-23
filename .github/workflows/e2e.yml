@@ -226,35 +226,3 @@ jobs:
   #         TELEGRAM_SERVER_URL: https://privatepools-telegram-bot.vercel.app/send
   #       run: |
   #         node sendNotification.mjs --group "d3" --message "Tests failed! Please check the logs."
-
-  # success-notification:
-  #   name: Notify success on Telegram
-  #   needs: test-e2e-headful
-  #   if: ${{ success() }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Send Telegram notification on success
-  #       env:
-  #         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-  #         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-  #       run: |
-  #         curl -X POST \
-  #         https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage \
-  #         -H 'Content-Type: application/json' \
-  #         -d '{"chat_id":"'${TELEGRAM_CHAT_ID}'","text":"Tests passed successfully!"}'
-
-  # notify-failure:
-  #   name: Notify failure on Telegram
-  #   needs: test-e2e-headful
-  #   if: ${{ failure() }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Send Telegram notification
-  #       env:
-  #         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-  #         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-  #       run: |
-  #         curl -X POST \
-  #         https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage \
-  #         -H 'Content-Type: application/json' \
-  #         -d '{"chat_id":"'${TELEGRAM_CHAT_ID}'","text":"Tests failed! Please check the logs."}'

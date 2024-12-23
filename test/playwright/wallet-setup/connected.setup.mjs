@@ -17,7 +17,7 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
   const page = await context.newPage()
 
   // Go to a locally hosted MetaMask Test Dapp.
-  await page.goto('https://privatepools-frontend-git-dev-dark-pools-team.vercel.app')
+  await page.goto('https://beta.privatepools.network/')
 
   await page.locator('#connectButton').click()
 
