@@ -13,7 +13,7 @@
     "pretest:e2e": "npm pkg set 'type'='module'",
     "test:e2e:headful": "playwright test",
     "test:cypress": "Xvfb -screen 0 1920x1080x24 :99 & export DISPLAY=:99 &&cypress run --browser chrome --headed",
-    "starttest": "start-server-and-test start-server https://beta.privatepools.network/ test:cypress",
+    "starttest": "start-server-and-test start-server https://privatepools-frontend-git-dev-dark-pools-team.vercel.app test:cypress",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "build:cache": "synpress --debug --force",

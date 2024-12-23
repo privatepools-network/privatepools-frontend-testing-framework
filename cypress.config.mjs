@@ -4,7 +4,7 @@ import { defineConfig } from 'cypress'
 export default defineConfig({
   chromeWebSecurity: false,
   e2e: {
-    baseUrl: 'https://beta.privatepools.network/',
+    baseUrl: 'https://privatepools-frontend-git-dev-dark-pools-team.vercel.app',
     specPattern: 'test/cypress/**/*.cy.{js,jsx,ts,tsx,,mjs}',
     supportFile: 'test/cypress/support/e2e.{js,jsx,ts,tsx,mjs}',
     testIsolation: false,

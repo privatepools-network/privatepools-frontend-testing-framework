@@ -26,7 +26,7 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
   // const page = await context.newPage()
 
-  // await page.goto('https://beta.privatepools.network//pools')
+  // await page.goto('https://privatepools-frontend-git-dev-dark-pools-team.vercel.app/pools')
 
   // try {
   //   const anvil = createAnvil({
