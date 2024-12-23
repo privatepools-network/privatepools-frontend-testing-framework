@@ -67,15 +67,15 @@ jobs:
 
       - name: Install linux dependencies
         run: |
-          sudo apt-get install  -y xvfb libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libatspi2.0-0   libxcomposite1  libxdamage1     libxrandr2     libgbm1 libxkbcommon0 libpango-1.0-0 libcairo2 libasound2
-      
+          sudo apt-get install  -y xvfb libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libatspi2.0-0   libxcomposite1  libxdamage1     libxrandr2     libgbm1 libxkbcommon0 libpango-1.0-0 libcairo2
+
       - name: Build cache
         run: xvfb-run pnpm run build:cache
         env:
           RANDOM_PARAMETER: 'HEEEEEEERE!1'
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           SEED_PHRASE: ${{ secrets.SEED_PHRASE }}
-      
+
       - name: Run E2E tests (headful)
         run: |
           xvfb-run pnpm run test:e2e:headful
@@ -187,7 +187,6 @@ jobs:
       #     path: |
       #       wallets/metamask/playwright-report-headful/
       #     if-no-files-found: error
-
 
   success-notification:
     name: Notify success on Telegram
