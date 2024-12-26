@@ -52,18 +52,6 @@ jobs:
         run: yarn playwright install chromium
       - name: Install browsers for Playwright 1
         run: pnpm dlx playwright@1.45.2 install chromium
-      # - name: Install cypress
-      #   run: ./node_modules/.bin/cypress install --force
-
-      # - name: Install linux dependencies
-      #   run: |
-      #     sudo apt-get install --no-install-recommends -y \
-      #     xvfb libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0
-      # - name: Xvfb
-      #   run: |
-      #     sudo /usr/bin/Xvfb $DISPLAY -screen 0 1280x1024x24 &
-      #   env:
-      #     CI: true
 
       - name: Install linux dependencies
         run: |
